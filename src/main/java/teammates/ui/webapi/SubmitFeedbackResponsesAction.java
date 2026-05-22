@@ -64,13 +64,12 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
-        verifyNotPreview();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
@@ -79,7 +78,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -112,7 +111,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                     ? new ResponseGiver(student.getTeam())
                     : new ResponseGiver(student);
@@ -120,7 +119,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             responseGiver = new ResponseGiver(instructor);
             existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);

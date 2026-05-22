@@ -51,7 +51,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, false);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -59,7 +59,6 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session, student);
             verifyInstructorCanSeeQuestionIfInModeration(question);
-            verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
             gateKeeper.verifyOwnership(feedbackResponseComment,
@@ -68,7 +67,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                             : new ResponseGiver(student));
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId, false);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -76,7 +75,6 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
             verifyInstructorCanSeeQuestionIfInModeration(question);
-            verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             gateKeeper.verifyOwnership(feedbackResponseComment, new ResponseGiver(instructorAsFeedbackParticipant));
@@ -120,14 +118,14 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, false);
             FeedbackQuestion question = feedbackResponseComment.getFeedbackResponse().getFeedbackQuestion();
             updater = question.getGiverType() == QuestionGiverType.TEAMS
                     ? new ResponseGiver(student.getTeam())
                     : new ResponseGiver(student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId, false);
             updater = new ResponseGiver(instructorAsFeedbackParticipant);
             break;
         case INSTRUCTOR_RESULT:

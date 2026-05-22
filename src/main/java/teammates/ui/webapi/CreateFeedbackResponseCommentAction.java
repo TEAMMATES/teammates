@@ -52,7 +52,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, false);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -60,13 +60,12 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             verifySessionOpenExceptForModeration(session, student);
             verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
-            verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
             verifyResponseOwnershipForStudent(student, feedbackResponse);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId, false);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -74,7 +73,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
             verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
-            verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, feedbackResponse);
@@ -128,7 +126,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         switch (intent) {
         case STUDENT_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, false);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -140,7 +138,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId, false);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }

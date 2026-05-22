@@ -43,11 +43,10 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, false);
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifyInstructorCanSeeQuestionIfInModeration(question);
-            verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
             verifySessionOpenExceptForModeration(session, student);
@@ -57,11 +56,10 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
                             : new ResponseGiver(student));
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId, false);
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifyInstructorCanSeeQuestionIfInModeration(question);
-            verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);

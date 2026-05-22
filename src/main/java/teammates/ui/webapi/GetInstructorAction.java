@@ -27,7 +27,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
             if (instructor == null) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
@@ -62,7 +62,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
-            instructor = getInstructorOfCourseForSubmission(courseId);
+            instructor = getInstructorOfCourseForSubmission(courseId, true);
             break;
         case INSTRUCTOR_RESULT:
             instructor = getInstructorOfCourseForResult(courseId);

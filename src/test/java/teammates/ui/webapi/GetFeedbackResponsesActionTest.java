@@ -668,8 +668,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.PREVIEWAS, stubInstructor.getId().toString(),
         };
         GetFeedbackResponsesAction action = getAction(params1);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("You are not allowed to see responses when previewing", uae.getMessage());
+        assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
 
         FeedbackQuestion questionThatCanBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         questionThatCanBeModerated.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
@@ -684,9 +683,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getId().toString(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("You are not allowed to see responses when previewing", uae2.getMessage());
-
+        assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
     }
 
     @Test

@@ -48,13 +48,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      *
      * <p>This includes the student being moderated or previewed, if applicable.
      */
-    Student getStudentOfCourseForSubmission(String courseId) {
+    Student getStudentOfCourseForSubmission(String courseId, boolean isPreviewAllowed) {
         UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (moderatedPerson != null) {
             return logic.getStudentOfCourse(courseId, moderatedPerson);
-        } else if (previewAsPerson != null) {
+        } else if (previewAsPerson != null && isPreviewAllowed) {
             return logic.getStudentOfCourse(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredStudent(courseId);
@@ -66,13 +66,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      *
      * <p>This includes the instructor being moderated or previewed, if applicable.
      */
-    Instructor getInstructorOfCourseForSubmission(String courseId) {
+    Instructor getInstructorOfCourseForSubmission(String courseId, boolean isPreviewAllowed) {
         UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (moderatedPerson != null) {
             return logic.getInstructorOfCourse(courseId, moderatedPerson);
-        } else if (previewAsPerson != null) {
+        } else if (previewAsPerson != null && isPreviewAllowed) {
             return logic.getInstructorOfCourse(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredInstructor(courseId);
@@ -241,17 +241,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         gateKeeper.verifyAccessible(
                 logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
-    }
-
-    /**
-     * Verifies that it is not a preview request.
-     */
-    void verifyNotPreview() throws UnauthorizedAccessException {
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
-        if (!StringHelper.isEmpty(previewAsPerson)) {
-            // should not view response under preview mode
-            throw new UnauthorizedAccessException("You are not allowed to see responses when previewing", true);
-        }
     }
 
     /**

@@ -42,7 +42,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, true);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case FULL_DETAIL:
@@ -51,7 +51,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                     feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
@@ -82,14 +82,14 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             questions = logic.getFeedbackQuestionsForStudents(feedbackSession);
-            Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), true);
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, student);
                 dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), true);
             questions = logic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, null);

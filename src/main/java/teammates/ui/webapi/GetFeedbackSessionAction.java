@@ -36,7 +36,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, true);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case STUDENT_RESULT:
@@ -44,7 +44,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
@@ -75,7 +75,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, true);
             Instant studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
             response = new FeedbackSessionData(feedbackSession, studentDeadline);
             response.hideInformation();
@@ -87,7 +87,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             response.hideInformation();
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorSubmission = getInstructorOfCourseForSubmission(courseId);
+            Instructor instructorSubmission = getInstructorOfCourseForSubmission(courseId, true);
             response = new FeedbackSessionData(feedbackSession,
                     logic.getDeadlineForUser(feedbackSession,
                     instructorSubmission));
