@@ -2,20 +2,20 @@ package teammates.ui.output;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * The API output format of {@link FeedbackResponseComment}.
  */
 public class FeedbackResponseCommentData extends ApiOutput {
-
-    String commentGiver;
-    String lastEditorEmail;
-
     private UUID feedbackResponseCommentId;
+
+    private String commentGiverName;
+    private String lastEditorName;
+
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
@@ -29,16 +29,23 @@ public class FeedbackResponseCommentData extends ApiOutput {
     }
 
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
-        // TODO: combine with CommentOutput to simplify output classes
+        this.commentGiverName = frc.getGiver().getDisplayName();
+        this.lastEditorName = frc.getLastEditedBy().getDisplayName();
         this.feedbackResponseCommentId = frc.getId();
         this.commentText = frc.getCommentText();
-        this.commentGiver = frc.getGiver().getIdentifier();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
         this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
         this.createdAt = frc.getCreatedAt().toEpochMilli();
         this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
-        this.lastEditorEmail = frc.getLastEditedBy().getIdentifier();
         this.isVisibilityFollowingFeedbackQuestion = frc.getIsVisibilityFollowingFeedbackQuestion();
+    }
+
+    public FeedbackResponseCommentData(FeedbackResponseComment frc, boolean isGiverVisible) {
+        this(frc);
+        if (!isGiverVisible) {
+            this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+            this.lastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+        }
     }
 
     /**
@@ -65,7 +72,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
                 break;
             }
             return null;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     public String getCommentText() {
@@ -76,8 +83,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return feedbackResponseCommentId;
     }
 
-    public String getCommentGiver() {
-        return commentGiver;
+    public String getCommentGiverName() {
+        return commentGiverName;
     }
 
     public List<CommentVisibilityType> getShowGiverNameTo() {
@@ -92,8 +99,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return createdAt;
     }
 
-    public String getLastEditorEmail() {
-        return lastEditorEmail;
+    public String getLastEditorName() {
+        return lastEditorName;
     }
 
     public long getLastEditedAt() {

@@ -3,9 +3,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommentEditFormComponent } from './comment-edit-form.component';
 import {
-  CommentOutput,
   CommentVisibilityType,
   FeedbackQuestionType,
+  FeedbackResponseComment,
   FeedbackResponseDetails,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
@@ -38,7 +38,7 @@ describe('CommentEditFormComponent', () => {
       const feedbackResponseDetails: FeedbackResponseDetails = {
         questionType: FeedbackQuestionType.CONSTSUM,
       };
-      const commentOutputs: CommentOutput[] = [];
+      const commentOutputs: FeedbackResponseComment[] = [];
       component.response = {
         isMissingResponse: true,
         responseId: 'string',

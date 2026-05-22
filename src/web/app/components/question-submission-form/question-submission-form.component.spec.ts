@@ -157,12 +157,12 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   const feedbackResponseCommentBuilder = createBuilder<FeedbackResponseComment>({
-    commentGiver: 'comment-giver',
+    commentGiverName: 'test-giver-name',
+    lastEditorName: 'test-editor-name',
     commentText: 'comment-text',
     showCommentTo: [],
     showGiverNameTo: [],
     lastEditedAt: 0,
-    lastEditorEmail: 'last-editor@gmail.com',
     feedbackResponseCommentId: '00000000-0000-4000-8000-000000000000',
     createdAt: 0,
     isVisibilityFollowingFeedbackQuestion: true,

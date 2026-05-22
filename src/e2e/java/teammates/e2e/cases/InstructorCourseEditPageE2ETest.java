@@ -121,6 +121,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(2, instructors[0]);
+        editPage.waitForPageToLoad();
         editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         editPage.toggleCustomSectionLevelPrivilege(2, 1, "Section 2",

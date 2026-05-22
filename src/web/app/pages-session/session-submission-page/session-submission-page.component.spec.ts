@@ -107,8 +107,8 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const testComment: FeedbackResponseComment = {
-    commentGiver: 'comment giver',
-    lastEditorEmail: 'last-editor@email.com',
+    commentGiverName: 'Comment Giver',
+    lastEditorName: 'Comment Editor',
     feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
     commentText: 'comment text',
     createdAt: 10000000,

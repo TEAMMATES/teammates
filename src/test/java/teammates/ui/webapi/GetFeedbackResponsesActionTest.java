@@ -415,9 +415,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         FeedbackResponseCommentData actualComment = actual.getGiverComment();
         assert expectedComment != null;
         assert actualComment != null;
-        assertEquals(expectedComment.getCommentGiver(), actualComment.getCommentGiver());
+        assertEquals(expectedComment.getCommentGiverName(), actualComment.getCommentGiverName());
         assertEquals(expectedComment.getCommentText(), actualComment.getCommentText());
-        assertEquals(expectedComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
+        assertEquals(expectedComment.getLastEditorName(), actualComment.getLastEditorName());
     }
 
     @Test
