@@ -45,8 +45,7 @@
                   style="margin-right: 0.25rem"
                   class="ngb-tooltip-class"
                   [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!"
-                  >edited by
-                  {{ model.originalComment.lastEditorName || 'Anonymous' }}</span
+                  >edited by {{ model.originalComment.lastEditorName || 'Anonymous' }}</span
                 >
               }
             </ng-container>
