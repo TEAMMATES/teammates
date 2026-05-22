@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
-import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;

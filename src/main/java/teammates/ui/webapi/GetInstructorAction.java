@@ -32,7 +32,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
             break;
-        case INSTRUCTOR_RESULT:            
+        case INSTRUCTOR_RESULT:
             instructor = getInstructorOfCourseForResult(courseId);
             if (instructor == null) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
