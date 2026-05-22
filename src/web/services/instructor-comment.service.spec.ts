@@ -25,6 +25,8 @@ describe('InstructorCommentService', () => {
   const createComment = (overrides: Partial<FeedbackResponseComment> = {}): FeedbackResponseComment => ({
     commentGiver: 'instructor@example.com',
     lastEditorEmail: 'instructor@example.com',
+    commentGiverName: 'Original Instructor',
+    lastEditorName: 'Original Instructor',
     feedbackResponseCommentId: 'comment-id',
     commentText: 'comment text',
     createdAt: 1000,
@@ -38,8 +40,6 @@ describe('InstructorCommentService', () => {
   const createCommentRow = (comment: FeedbackResponseComment = createComment()): CommentRowModel => ({
     timezone,
     originalComment: comment,
-    commentGiverName: 'Original Instructor',
-    lastEditorName: 'Original Instructor',
     commentEditFormModel: {
       commentText: comment.commentText,
       isUsingCustomVisibilities: false,
