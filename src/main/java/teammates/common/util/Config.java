@@ -80,11 +80,11 @@ public final class Config {
     /** Value of {@code app.auth.type}. */
     public static final String AUTH_TYPE;
 
-    /** Value of {@code app.oauth2.client.id}. */
-    public static final String OAUTH2_CLIENT_ID;
+    /** Value of {@code app.google.oauth2.client.id}. */
+    public static final String GOOGLE_OAUTH2_CLIENT_ID;
 
-    /** Value of {@code app.oauth2.client.secret}. */
-    public static final String OAUTH2_CLIENT_SECRET;
+    /** Value of {@code app.google.oauth2.client.secret}. */
+    public static final String GOOGLE_OAUTH2_CLIENT_SECRET;
 
     /** Value of {@code app.captcha.secretkey}. */
     public static final String CAPTCHA_SECRET_KEY;
@@ -209,8 +209,8 @@ public final class Config {
         ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
         HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.oauth2.client.id");
-        OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.oauth2.client.secret");
+        GOOGLE_OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.google.oauth2.client.id");
+        GOOGLE_OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.google.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         RECAPTCHA_SERVICE = getProperty(properties, devProperties, "app.recaptcha.service",
                 IS_DEV_SERVER ? "local" : "google");

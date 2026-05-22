@@ -1,9 +1,7 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
+import java.security.GeneralSecurityException;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
-import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
@@ -20,7 +20,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -28,7 +27,6 @@ import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
 
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.type.TypeReference;
 
 /**
  * Servlet that handles the OAuth2 callback.
@@ -135,24 +133,24 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         String redirectUri = getRedirectUri(req);
-        TokenResponse token = getAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
-        String email = null;
-        try {
-            String userInfoResponse = HttpRequest.executeGetRequest(
-                    new URI("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="
-                            + token.getAccessToken()));
+        GoogleTokenResponse token = (GoogleTokenResponse) getGoogleAuthorizationFlow()
+                .newTokenRequest(code).setRedirectUri(redirectUri).execute();
 
-            Map<String, Object> parsedResponse =
-                    JsonUtils.fromJson(userInfoResponse, new TypeReference<>(){});
-            if (parsedResponse.containsKey("email")) {
-                email = String.valueOf(parsedResponse.get("email"));
+        Payload payload;
+        try {
+            GoogleIdToken idToken = getGoogleIdTokenVerifier().verify(token.getIdToken());
+            if (idToken == null) {
+                logAndPrintError(req, resp, HttpStatus.SC_UNAUTHORIZED, "Invalid ID token");
+                return null;
             }
-        } catch (URISyntaxException | IOException | JacksonException e) {
-            // if any of the operation fail, email is kept at null
-            log.warning("Failed to get Google email", e);
+            payload = idToken.getPayload();
+        } catch (GeneralSecurityException | IOException e) {
+            log.warning("Failed to verify ID token", e);
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to verify ID token");
+            return null;
         }
-        // TODO: Obtain issuer and subject from ID token.
-        return new AuthResult(Const.OidcIssuers.GOOGLE, email, email, nextUrl);
+
+        return new AuthResult(payload.getIssuer(), payload.getSubject(), payload.getEmail(), nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
@@ -177,9 +175,10 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         public boolean isValid() {
-            boolean isEmail = email != null;
+            boolean hasEmail = email != null;
+            boolean hasSubject = subject != null;
             boolean isOidcIssuerValid = FieldValidator.getInvalidityInfoForOidcIssuer(issuer).isEmpty();
-            return isEmail && isOidcIssuerValid;
+            return hasEmail && hasSubject && isOidcIssuerValid;
         }
     }
 

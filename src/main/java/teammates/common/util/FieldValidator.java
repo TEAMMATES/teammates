@@ -84,9 +84,9 @@ public final class FieldValidator {
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
-    public static final List<String> OIDC_ISSUER_ACCEPTED_VALUES =
-            Collections.unmodifiableList(
-                    Arrays.asList(Const.OidcIssuers.DEV_SERVER, Const.OidcIssuers.GOOGLE));
+    public static final Set<String> OIDC_ISSUER_ACCEPTED_VALUES =
+            Collections.unmodifiableSet(
+                    Set.of(Const.OidcIssuers.DEV_SERVER, Const.OidcIssuers.GOOGLE, Const.OidcIssuers.GOOGLE_LEGACY));
 
     /*
      * =======================================================================

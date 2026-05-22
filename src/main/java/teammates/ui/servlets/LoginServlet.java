@@ -51,7 +51,7 @@ public class LoginServlet extends AuthServlet {
         }
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId());
-        AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
+        AuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
         authorizationUrl.setRedirectUri(getRedirectUri(req));
         authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
 
