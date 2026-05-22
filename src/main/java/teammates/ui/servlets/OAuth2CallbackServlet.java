@@ -178,8 +178,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         public boolean isValid() {
             boolean hasEmail = email != null;
             boolean hasSubject = subject != null;
-            boolean isOidcIssuerValid = FieldValidator.getInvalidityInfoForOidcIssuer(
-                    issuer, Config.isDevServerLoginEnabled()).isEmpty();
+            boolean isOidcIssuerValid = FieldValidator.getInvalidityInfoForOidcIssuer(issuer).isEmpty();
             return hasEmail && hasSubject && isOidcIssuerValid;
         }
     }

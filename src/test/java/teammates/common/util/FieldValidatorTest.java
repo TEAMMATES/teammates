@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mockStatic;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -11,6 +12,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mockito.Answers;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -814,23 +818,33 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForOidcIssuer_valid_returnEmptyString() {
-        assertEquals("", FieldValidator.getInvalidityInfoForOidcIssuer("https://accounts.google.com", false));
-        assertEquals("", FieldValidator.getInvalidityInfoForOidcIssuer("teammates-dev", true));
+        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
+            mockConfig.when(() -> Config.isDevServerLoginEnabled()).thenReturn(false);
+            assertEquals("", FieldValidator.getInvalidityInfoForOidcIssuer("https://accounts.google.com"));
+
+            mockConfig.when(() -> Config.isDevServerLoginEnabled()).thenReturn(true);
+            assertEquals("", FieldValidator.getInvalidityInfoForOidcIssuer("teammates-dev"));
+        }
     }
 
     @Test
     public void testGetInvalidityInfoForOidcIssuer_inValid_returnErrorString() {
-        String emptyIssuer = "";
-        assertEquals("\"" + emptyIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
-                FieldValidator.getInvalidityInfoForOidcIssuer(emptyIssuer, false));
+        try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
+                Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
+            mockConfig.when(() -> Config.isDevServerLoginEnabled()).thenReturn(false);
+            String emptyIssuer = "";
+            assertEquals("\"" + emptyIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
+                    FieldValidator.getInvalidityInfoForOidcIssuer(emptyIssuer));
 
-        String maliciousIssuer = "https://attacker.accounts.google.com";
-        assertEquals("\"" + maliciousIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
-                FieldValidator.getInvalidityInfoForOidcIssuer(maliciousIssuer, false));
+            String maliciousIssuer = "https://attacker.accounts.google.com";
+            assertEquals("\"" + maliciousIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
+                    FieldValidator.getInvalidityInfoForOidcIssuer(maliciousIssuer));
 
-        String devServerIssuer = "teammates-dev";
-        assertEquals("\"" + devServerIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
-                FieldValidator.getInvalidityInfoForOidcIssuer(devServerIssuer, false));
+            String devServerIssuer = "teammates-dev";
+            assertEquals("\"" + devServerIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
+                    FieldValidator.getInvalidityInfoForOidcIssuer(devServerIssuer));
+        }
     }
 
     @Test
