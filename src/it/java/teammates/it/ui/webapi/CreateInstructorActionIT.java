@@ -34,7 +34,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
         // Ensure the admin account exists for email sending
         String adminEmail = Config.APP_ADMINS.get(0);
-        logic.createAccount("testIssuer", "validAdminSubject", adminEmail, adminEmail);
+        logic.createAccount("teammates-test", "validAdminSubject", adminEmail, adminEmail);
 
         HibernateUtil.flushSession();
     }

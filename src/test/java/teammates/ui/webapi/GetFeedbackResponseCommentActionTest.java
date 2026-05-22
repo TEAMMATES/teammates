@@ -298,7 +298,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         String email = id + "@gmail.com";
         String name = id;
         String googleId = id;
-        String issuer = "testIssuer";
+        String issuer = "teammates-test";
         String subject = "validStudentSubject";
         Student s = new Student(course, name, email, "comment for " + id);
         s.setAccount(new Account(googleId, issuer, subject, name, email));

@@ -53,7 +53,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         section.addTeam(team);
 
         Account instructorAccount = new Account(
-                "instructor-account", "testIssuer", "validInstructorSubject",
+                "instructor-account", "teammates-test", "validInstructorSubject",
                 "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
         instructor = getTypicalInstructor();
@@ -62,7 +62,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         instructor.setAccount(instructorAccount);
 
         Account studentAccount = new Account(
-                "student-account", "testIssuer", "validStudentSubject",
+                "student-account", "teammates-test", "validStudentSubject",
                 "student-name", "valid-student@email.tmt");
         accountsDb.createAccount(studentAccount);
         student = getTypicalStudent();
@@ -135,7 +135,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetAllUsersByGoogleId() {
         ______TS("success: gets all instructors and students by googleId");
         Account userSharedAccount = new Account(
-                "user-account", "testIssuer", "valid-user@email.com", "user-name", "valid-user@email.tmt");
+                "user-account", "teammates-test", "valid-user@email.com", "user-name", "valid-user@email.tmt");
         accountsDb.createAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
@@ -278,7 +278,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student2 = getTypicalStudent();
         Account account = new Account(
-                "google-id", "testIssuer", "typicalStudentSubject", student.getName(), student.getEmail());
+                "google-id", "teammates-test", "typicalStudentSubject", student.getName(), student.getEmail());
 
         team.addUser(student2);
         accountsDb.createAccount(account);

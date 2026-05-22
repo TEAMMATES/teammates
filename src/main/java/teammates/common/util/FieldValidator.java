@@ -90,7 +90,7 @@ public final class FieldValidator {
 
     public static final Set<String> DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES =
             Collections.unmodifiableSet(
-                    Set.of(Const.OidcIssuers.DEV_SERVER));
+                    Set.of(Const.OidcIssuers.DEVELOPMENT, Const.OidcIssuers.TEST));
 
     /*
      * =======================================================================
@@ -975,12 +975,13 @@ public final class FieldValidator {
      * Development server OIDC issuers are in {@link #DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES}.
      *
      * @param oidcIssuer The OIDC issuer to be checked.
+     * @param isDevServerLoginEnabled Whether the development server login is enabled.
      * @return Error string if the {@code oidcIssuer} is not in the list of trusted OIDC issuers, otherwise empty string.
      */
-    public static String getInvalidityInfoForOidcIssuer(String oidcIssuer) {
+    public static String getInvalidityInfoForOidcIssuer(String oidcIssuer, boolean isDevServerLoginEnabled) {
         assert oidcIssuer != null;
 
-        boolean isValidOidcIssuer = Config.isDevServerLoginEnabled()
+        boolean isValidOidcIssuer = isDevServerLoginEnabled
                 ? DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer)
                 : PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer);
         return isValidOidcIssuer ? "" : String.format(INVALID_OIDC_ISSUER_ERROR_MESSAGE, oidcIssuer);

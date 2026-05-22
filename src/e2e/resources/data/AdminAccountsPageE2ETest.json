@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.AAccounts.instr2",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.AAccounts.instr2"
     },
     "AAccounts.instr3": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.AAccounts.instr3",
       "name": "Teammates Instr3",
       "email": "aaccounts.instr3@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.AAccounts.instr3"
     }
   },

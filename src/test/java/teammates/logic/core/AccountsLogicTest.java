@@ -88,7 +88,7 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
         String email = "nonexistent@example.com";
-        String issuer = "testIssuer";
+        String issuer = "teammates-test";
         String subject = "nonexistentSubject";
 
         when(accountsDb.getAccountByGoogleId(email)).thenReturn(null);

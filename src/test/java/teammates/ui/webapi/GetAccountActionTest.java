@@ -32,7 +32,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     void testExecute_validParams_success() {
         loginAsAdmin();
         Account account = new Account(
-                googleId, "testIssuer", "testSubject", "name", "email");
+                googleId, "teammates-test", "testSubject", "name", "email");
         when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(account);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,

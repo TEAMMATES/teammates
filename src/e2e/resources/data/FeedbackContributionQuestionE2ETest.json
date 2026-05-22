@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FContrQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.FContrQn.instructor"
     },
     "tm.e2e.FContrQn.alice.tmms": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.FCContrQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.FCContrQn.alice.tmms"
     },
     "tm.e2e.FContrQn.benny.tmms": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.FCContrQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.c.tmms@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.FCContrQn.benny.tmms"
     },
     "tm.e2e.FContrQn.charlie.tmms": {
@@ -29,7 +29,7 @@
       "googleId": "tm.e2e.FCContrQn.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.d.tmms@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.FCContrQn.charlie.tmms"
     },
     "tm.e2e.FContrQn.danny.tmms": {
@@ -37,7 +37,7 @@
       "googleId": "tm.e2e.FCContrQn.danny.tmms",
       "name": "Danny Engrid",
       "email": "danny.e.tmms@gmail.tmt",
-      "issuer": "testIssuer",
+      "issuer": "teammates-test",
       "subject": "tm.e2e.FCContrQn.danny.tmms"
     }
   },

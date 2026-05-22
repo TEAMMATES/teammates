@@ -17,6 +17,7 @@ import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -160,7 +161,7 @@ public class Account extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcIssuer(issuer), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcIssuer(issuer, Config.isDevServerLoginEnabled()), errors);
 
         return errors;
     }
