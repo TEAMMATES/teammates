@@ -11,8 +11,8 @@ import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
@@ -51,35 +51,35 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         Cookie cookie;
-        if (!authResult.isValid()) {
-            // invalid email
-            req.getSession().invalidate();
-
-            cookie = getLoginInvalidationCookie();
-        } else {
-            Account account;
+        String logMessage;
+        if (authResult.isValid()) {
             try {
                 HibernateUtil.beginTransaction();
-                account = accountsLogic.createOrGetAccount(authResult.issuer, authResult.subject, authResult.email);
+                Account account = accountsLogic.createOrGetAccount(
+                        authResult.issuer, authResult.subject, authResult.email);
                 HibernateUtil.commitTransaction();
+
+                UserInfoCookie uic = new UserInfoCookie(account.getId());
+                cookie = getLoginCookie(uic);
+                logMessage = "Login successful";
             } catch (Exception e) {
                 HibernateUtil.rollbackTransaction();
                 log.warning("Failed to create or get account for " + authResult.email, e);
                 req.getSession().invalidate();
 
                 cookie = getLoginInvalidationCookie();
-                resp.addCookie(cookie);
-                resp.sendRedirect(authResult.nextUrl);
-                return;
+                logMessage = "Login failed";
             }
+        } else {
+            req.getSession().invalidate();
 
-            UserInfoCookie uic = new UserInfoCookie(account.getId());
-            cookie = getLoginCookie(uic);
+            cookie = getLoginInvalidationCookie();
+            logMessage = "Login failed";
         }
 
         log.info("Going to redirect to: " + authResult.nextUrl);
 
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
+        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
 
         resp.addCookie(cookie);
         resp.sendRedirect(authResult.nextUrl);

@@ -965,6 +965,12 @@ public final class FieldValidator {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
+    /**
+     * Checks if the given {@code oidcIssuer} is one of the trusted OIDC issuers {@link #OIDC_ISSUER_ACCEPTED_VALUES}.
+     *
+     * @param oidcIssuer The OIDC issuer to be checked.
+     * @return Error string if the {@code oidcIssuer} is not in the list of trusted OIDC issuers, otherwise empty string.
+     */
     public static String getInvalidityInfoForOidcIssuer(String oidcIssuer) {
         assert oidcIssuer != null;
 
