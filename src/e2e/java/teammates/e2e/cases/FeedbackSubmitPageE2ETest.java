@@ -155,7 +155,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withParam("previewas", instructor.getId().toString());
+                .withPreviewAs(instructor.getId().toString());
         submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         submitPage.verifyFeedbackSessionDetails(openSession, course);
@@ -166,7 +166,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("preview as student");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withParam("previewas", student.getId().toString());
+                .withPreviewAs(student.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
         submitPage.verifyFeedbackSessionDetails(openSession, course);

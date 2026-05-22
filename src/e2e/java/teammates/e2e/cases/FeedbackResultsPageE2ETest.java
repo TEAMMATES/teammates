@@ -119,7 +119,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("preview results as student: can access results");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withParam("previewas", student.getId().toString());
+                .withPreviewAs(student.getId().toString());
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
@@ -145,7 +145,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("preview results as instructor: can access results");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withParam("previewas", instructor.getId().toString());
+                .withPreviewAs(instructor.getId().toString());
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
