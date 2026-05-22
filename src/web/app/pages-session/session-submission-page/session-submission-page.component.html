@@ -175,7 +175,7 @@
           <h2 class="my-4">{{ getRecipientName(entry.key) }}</h2>
           @for (
             questionSubmissionForm of questionSubmissionForms;
-            track trackQuestionSubmissionFormByFn(i, questionSubmissionForm);
+            track questionSubmissionForm.feedbackQuestionId;
             let i = $index
           ) {
             @if (entry.value.has(questionSubmissionForm.questionNumber)) {
@@ -223,7 +223,7 @@
       }
       @for (
         questionSubmissionForm of questionSubmissionForms;
-        track trackQuestionSubmissionFormByFn(i, questionSubmissionForm);
+        track questionSubmissionForm.feedbackQuestionId;
         let i = $index
       ) {
         @if (ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)) {
@@ -246,7 +246,7 @@
     @if (currentSelectedSessionView === allSessionViews.DEFAULT) {
       @for (
         questionSubmissionForm of questionSubmissionForms;
-        track trackQuestionSubmissionFormByFn(i, questionSubmissionForm);
+        track questionSubmissionForm.feedbackQuestionId;
         let i = $index
       ) {
         <tm-question-submission-form

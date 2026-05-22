@@ -34,7 +34,7 @@
   <div *tmIsLoading="isLoadingFeedbackQuestions">
     @for (
       questionEditFormModel of questionEditFormModels;
-      track trackQuestionEditFormByFn(i, questionEditFormModel);
+      track questionEditFormModel.feedbackQuestionId;
       let i = $index
     ) {
       <div>
