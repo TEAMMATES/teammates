@@ -84,6 +84,10 @@ public final class FieldValidator {
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
+    public static final List<String> OIDC_ISSUER_ACCEPTED_VALUES =
+            Collections.unmodifiableList(
+                    Arrays.asList(Const.OidcIssuers.DEV_SERVER, Const.OidcIssuers.GOOGLE));
+
     /*
      * =======================================================================
      * Field: Course ID
@@ -238,6 +242,9 @@ public final class FieldValidator {
             + "Did you mean to use \"Self\" instead?";
 
     public static final String NOT_EXACT_HOUR_ERROR_MESSAGE = "The %s for this feedback session must be at exact hour mark.";
+
+    public static final String INVALID_OIDC_ISSUER_ERROR_MESSAGE =
+            "\"%s\" is not an accepted OIDC issuer to TEAMMATES. ";
 
     ///////////////////////////////////////
     // VALIDATION REGEX FOR INTERNAL USE //
@@ -956,6 +963,15 @@ public final class FieldValidator {
      */
     public static String getValidityInfoForNonNullField(String fieldName, Object value) {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
+    }
+
+    public static String getInvalidityInfoForOidcIssuer(String oidcIssuer) {
+        assert oidcIssuer != null;
+
+        if (OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer)) {
+            return "";
+        }
+        return String.format(INVALID_OIDC_ISSUER_ERROR_MESSAGE, oidcIssuer);
     }
 
     private static boolean isUntrimmed(String value) {

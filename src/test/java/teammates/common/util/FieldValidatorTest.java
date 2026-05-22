@@ -813,6 +813,19 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetInvalidityInfoForOidcIssuer_valid_returnEmptyString() {
+        assertEquals("", FieldValidator.getInvalidityInfoForOidcIssuer("https://accounts.google.com"));
+        assertEquals("", FieldValidator.getInvalidityInfoForOidcIssuer("teammates-dev"));
+    }
+
+    @Test
+    public void testGetInvalidityInfoForOidcIssuer_inValid_returnErrorString() {
+        String invalidIssuer = "invalid issuer";
+        assertEquals("\"" + invalidIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForOidcIssuer(invalidIssuer));
+    }
+
+    @Test
     public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";

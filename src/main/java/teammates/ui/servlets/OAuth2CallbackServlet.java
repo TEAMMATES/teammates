@@ -17,6 +17,8 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
@@ -51,7 +53,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         Cookie cookie;
-        if (authResult.email == null) {
+        if (!authResult.isValid()) {
             // invalid email
             req.getSession().invalidate();
 
@@ -91,7 +93,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult("teammates-dev", email, email, nextUrl);
+        return new AuthResult(Const.OidcIssuers.DEV_SERVER, email, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -150,7 +152,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             log.warning("Failed to get Google email", e);
         }
         // TODO: Obtain issuer and subject from ID token.
-        return new AuthResult("GoogleIssuer", email, email, nextUrl);
+        return new AuthResult(Const.OidcIssuers.GOOGLE, email, email, nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
@@ -172,6 +174,12 @@ public class OAuth2CallbackServlet extends AuthServlet {
             this.subject = subject;
             this.email = email;
             this.nextUrl = nextUrl;
+        }
+
+        public boolean isValid() {
+            boolean isEmail = email != null;
+            boolean isOidcIssuerValid = FieldValidator.getInvalidityInfoForOidcIssuer(issuer).isEmpty();
+            return isEmail && isOidcIssuerValid;
         }
     }
 
