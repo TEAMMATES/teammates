@@ -166,7 +166,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
     for (const user of Object.keys(this.userExpanded)) {
       for (const question of this.responses) {
-        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        const questionCopy: QuestionOutput = structuredClone(question);
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (!this.indicateMissingResponses && response.isMissingResponse) {
             // filter out missing responses
@@ -212,7 +212,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           // Should not display anything for contribution and text questions
           continue;
         }
-        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        const questionCopy: QuestionOutput = structuredClone(question);
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (response.isMissingResponse) {
             // Missing response is meaningless for team statistics

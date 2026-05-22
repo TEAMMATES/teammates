@@ -556,7 +556,7 @@ function normalizeRanks(ranks: number[]): number[] {
   const rankMapping: Record<number, number> = {};
   rankMapping[RANK_OPTIONS_ANSWER_NOT_SUBMITTED] = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
-  const rankCopy: number[] = JSON.parse(JSON.stringify(ranks));
+  const rankCopy: number[] = structuredClone(ranks);
   rankCopy.sort((a: number, b: number) => a - b);
 
   let normalizedRank = 1;
@@ -728,8 +728,8 @@ export function calculateRubricQuestionStatistics(
     }
     emptyAnswers.push(subQuestionAnswers);
   }
-  stats.answers = JSON.parse(JSON.stringify(emptyAnswers));
-  stats.answersExcludeSelf = JSON.parse(JSON.stringify(emptyAnswers));
+  stats.answers = structuredClone(emptyAnswers);
+  stats.answersExcludeSelf = structuredClone(emptyAnswers);
 
   for (const response of responses) {
     for (let i = 0; i < response.responseDetails.answer.length; i += 1) {
@@ -764,7 +764,7 @@ export function calculateRubricQuestionStatistics(
       recipientName: response.recipient,
       recipientEmail: response.recipientEmail,
       recipientTeam: response.recipientTeam,
-      answers: JSON.parse(JSON.stringify(emptyAnswers)),
+      answers: structuredClone(emptyAnswers),
       answersSum: [],
       percentages: [],
       percentagesAverage: [],
@@ -855,7 +855,7 @@ function calculateSubQuestionWeightAverage(stats: RubricQuestionStatistics, answ
 
 function calculatePercentages(answers: number[][]): number[][] {
   // Deep-copy the answers
-  const percentages: number[][] = JSON.parse(JSON.stringify(answers));
+  const percentages: number[][] = structuredClone(answers);
 
   // Calculate sums for each row
   const sums: number[] = percentages.map((weightedAnswers: number[]) =>
