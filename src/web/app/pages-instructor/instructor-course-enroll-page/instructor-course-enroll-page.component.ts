@@ -1,8 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit, DOCUMENT, inject, viewChild } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { type CellValue } from 'handsontable/common';
-import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -22,6 +21,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { StatusMessage } from '../../components/status-message/status-message';
 import { StatusMessageComponent } from '../../components/status-message/status-message.component';
 import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
+import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface EnrollResultPanel {
@@ -56,7 +56,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   private readonly progressBarService = inject(ProgressBarService);
   private readonly simpleModalService = inject(SimpleModalService);
   private readonly pageScrollService = inject(PageScrollService);
-  private readonly document = inject(DOCUMENT);
 
   GENERAL_ERROR_MESSAGE = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
         and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
@@ -602,11 +601,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Scrolls user to the target section.
    */
   navigateTo(target: string): void {
-    this.pageScrollService.scroll({
-      document: this.document,
-      duration: 500,
-      scrollTarget: `#${target}`,
-      scrollOffset: 70,
-    });
+    this.pageScrollService.scrollToAnchor(target);
   }
 }

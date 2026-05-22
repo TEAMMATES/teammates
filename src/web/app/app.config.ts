@@ -6,13 +6,12 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import routes from './app.routes';
 import { customUrlSerializerProvider } from './providers/custom-url-serializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(NgbDropdownModule, NgxPageScrollCoreModule.forRoot(), FormsModule, NgbDatepickerModule),
+    importProvidersFrom(NgbDropdownModule, FormsModule, NgbDatepickerModule),
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
