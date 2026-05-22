@@ -104,7 +104,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   userDeadlines: Record<string, number> = {};
 
   // to get the original session model on discard changes
-  feedbackSessionModelBeforeEditing: SessionEditFormModel = JSON.parse(JSON.stringify(this.sessionEditFormModel));
+  feedbackSessionModelBeforeEditing: SessionEditFormModel = structuredClone(this.sessionEditFormModel);
 
   // to get the original question model
   feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
@@ -386,7 +386,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles editing existing session event.
    */
   editExistingSessionHandler(): void {
-    this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
+    this.feedbackSessionModelBeforeEditing = structuredClone(this.sessionEditFormModel);
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
       this.sessionEditFormModel.submissionStartDate,
@@ -572,7 +572,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelEditingSessionHandler(): void {
-    this.sessionEditFormModel = JSON.parse(JSON.stringify(this.feedbackSessionModelBeforeEditing));
+    this.sessionEditFormModel = structuredClone(this.feedbackSessionModelBeforeEditing);
   }
 
   /**
@@ -1263,7 +1263,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   private deepCopy<T>(obj: T): T {
-    return JSON.parse(JSON.stringify(obj));
+    return structuredClone(obj);
   }
 
   private scrollToNewEditForm(): void {

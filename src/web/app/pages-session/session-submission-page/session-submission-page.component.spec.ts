@@ -65,7 +65,7 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 describe('SessionSubmissionPageComponent', () => {
-  const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
+  const deepCopy: <T>(obj: T) => T = <T>(obj: T) => structuredClone(obj);
 
   const testStudent: Student = {
     userId: '00000000-0000-4000-8000-000000000003',

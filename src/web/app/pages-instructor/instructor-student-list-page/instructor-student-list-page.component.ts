@@ -240,7 +240,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.coursesSortBy = by;
 
     if (this.courseTabList.length > 1) {
-      const coursesCopy: CourseTab[] = JSON.parse(JSON.stringify(this.courseTabList));
+      const coursesCopy: CourseTab[] = structuredClone(this.courseTabList);
       coursesCopy.sort(this.sortCoursesBy(by));
       this.courseTabList = coursesCopy;
     }

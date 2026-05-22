@@ -201,6 +201,6 @@ export class CustomPrivilegeSettingPanelComponent {
   }
 
   private deepCopy<T>(obj: T): T {
-    return JSON.parse(JSON.stringify(obj));
+    return structuredClone(obj);
   }
 }

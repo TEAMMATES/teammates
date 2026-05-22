@@ -399,7 +399,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   cancelEditingInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    panelDetail.editPanel = JSON.parse(JSON.stringify(panelDetail.originalPanel));
+    panelDetail.editPanel = structuredClone(panelDetail.originalPanel);
     panelDetail.editPanel.isSavingInstructorEdit = false;
     panelDetail.editPanel.isEditing = false;
   }
@@ -453,7 +453,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         },
       });
 
-    panelDetail.originalPanel = JSON.parse(JSON.stringify(panelDetail.editPanel));
+    panelDetail.originalPanel = structuredClone(panelDetail.editPanel);
   }
 
   /**
@@ -558,7 +558,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             editPanel: this.getInstructorEditPanelModel(resp),
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
-          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+          newDetailPanels.originalPanel = structuredClone(newDetailPanels.editPanel);
 
           this.instructorDetailPanels.push(newDetailPanels);
           this.statusMessageService.showSuccessToast(
@@ -678,7 +678,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             sectionLevel.sessionLevel = [];
           }
         });
-        panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
+        panel.originalPanel = structuredClone(panel.editPanel);
       });
   }
 
@@ -806,7 +806,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             editPanel: this.getInstructorEditPanelModel(newInstructor),
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
-          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+          newDetailPanels.originalPanel = structuredClone(newDetailPanels.editPanel);
 
           this.instructorDetailPanels.push(newDetailPanels);
         },

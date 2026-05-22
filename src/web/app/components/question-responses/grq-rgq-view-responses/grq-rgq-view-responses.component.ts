@@ -164,7 +164,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
       this.userHasRealResponses[user] = false;
 
       for (const question of this.responses) {
-        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        const questionCopy: QuestionOutput = structuredClone(question);
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (!this.indicateMissingResponses && response.isMissingResponse) {
             // filter out missing responses
@@ -196,7 +196,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             return this.isGrq ? response.recipient : response.giver;
           });
           for (const other of others) {
-            const questionCopy2: QuestionOutput = JSON.parse(JSON.stringify(questionCopy));
+            const questionCopy2: QuestionOutput = structuredClone(questionCopy);
             questionCopy2.allResponses = questionCopy2.allResponses.filter((response: ResponseOutput) => {
               return this.isGrq ? response.recipient === other : response.giver === other;
             });
