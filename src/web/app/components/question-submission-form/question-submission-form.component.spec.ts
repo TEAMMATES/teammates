@@ -157,6 +157,8 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   const feedbackResponseCommentBuilder = createBuilder<FeedbackResponseComment>({
+    commentGiverName: 'test-giver-name',
+    lastEditorName: 'test-editor-name',
     commentText: 'comment-text',
     showCommentTo: [],
     showGiverNameTo: [],

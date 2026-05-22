@@ -3,9 +3,8 @@ package teammates.ui.output;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-
 import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
@@ -14,9 +13,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 public class FeedbackResponseCommentData extends ApiOutput {
     private UUID feedbackResponseCommentId;
 
-    @Nullable
     private String commentGiverName;
-    @Nullable
     private String lastEditorName;
 
     private String commentText;
@@ -46,8 +43,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
     public FeedbackResponseCommentData(FeedbackResponseComment frc, boolean isGiverVisible) {
         this(frc);
         if (!isGiverVisible) {
-            this.commentGiverName = null;
-            this.lastEditorName = null;
+            this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
+            this.lastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
         }
     }
 

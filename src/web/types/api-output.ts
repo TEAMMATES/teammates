@@ -247,8 +247,8 @@ export interface FeedbackResponse extends ApiOutput {
 
 export interface FeedbackResponseComment extends ApiOutput {
   feedbackResponseCommentId: string;
-  commentGiverName?: string;
-  lastEditorName?: string;
+  commentGiverName: string;
+  lastEditorName: string;
   commentText: string;
   createdAt: number;
   lastEditedAt: number;

@@ -25,9 +25,7 @@
           }
           @if (!isFeedbackParticipantComment) {
             <ng-container class="text-secondary">
-              <span class="comment-giver-name"
-                >{{ model.originalComment.commentGiverName || 'Anonymous' }} commented at
-              </span>
+              <span class="comment-giver-name">{{ model.originalComment.commentGiverName }} commented at </span>
               <span
                 class="ngb-tooltip-class"
                 style="margin-right: 0.25rem"
@@ -45,7 +43,7 @@
                   style="margin-right: 0.25rem"
                   class="ngb-tooltip-class"
                   [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!"
-                  >edited by {{ model.originalComment.lastEditorName || 'Anonymous' }}</span
+                  >edited by {{ model.originalComment.lastEditorName }}</span
                 >
               }
             </ng-container>
