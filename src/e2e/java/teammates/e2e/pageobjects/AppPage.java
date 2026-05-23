@@ -14,11 +14,9 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -27,7 +25,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -524,52 +521,34 @@ public abstract class AppPage {
     }
 
     private void verifyTableRowValues(WebElement table, int rowIndex, String[] expectedRowValues) {
-        AtomicReference<List<String>> latestValues = new AtomicReference<>(Collections.emptyList());
-
-        List<String> actualValues;
-        try {
-            actualValues = waitFor(driver -> {
-                try {
-                    List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-                    if (rowIndex >= rows.size()) {
-                        return null;
-                    }
-
-                    List<WebElement> cells = rows.get(rowIndex).findElements(By.tagName("td"));
-                    if (expectedRowValues.length > cells.size()) {
-                        return null;
-                    }
-
-                    List<String> cellTexts = cells.stream()
-                            .limit(expectedRowValues.length)
-                            .map(WebElement::getText)
-                            .toList();
-                    latestValues.set(cellTexts);
-
-                    for (int i = 0; i < expectedRowValues.length; i++) {
-                        if (!expectedRowValues[i].isEmpty() && cellTexts.get(i).isEmpty()) {
-                            return null;
-                        }
-                    }
-
-                    for (int i = 0; i < expectedRowValues.length; i++) {
-                        if (!expectedRowValues[i].equals(cellTexts.get(i))) {
-                            return null;
-                        }
-                    }
-
-                    return cellTexts;
-                } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
+        List<String> actualValues = waitFor(driver -> {
+            try {
+                List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+                if (rowIndex >= rows.size()) {
                     return null;
                 }
-            });
-        } catch (TimeoutException e) {
-            actualValues = latestValues.get();
-        }
 
-        assertTrue(actualValues.size() >= expectedRowValues.length,
-                "Expected at least " + expectedRowValues.length + " cells in row " + rowIndex
-                        + " but found " + actualValues.size());
+                List<WebElement> cells = rows.get(rowIndex).findElements(By.tagName("td"));
+                if (expectedRowValues.length > cells.size()) {
+                    return null;
+                }
+
+                List<String> cellTexts = cells.stream()
+                        .limit(expectedRowValues.length)
+                        .map(WebElement::getText)
+                        .toList();
+
+                for (int i = 0; i < expectedRowValues.length; i++) {
+                    if (!expectedRowValues[i].isEmpty() && cellTexts.get(i).isEmpty()) {
+                        return null;
+                    }
+                }
+
+                return cellTexts;
+            } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
+                return null;
+            }
+        });
 
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], actualValues.get(cellIndex));
