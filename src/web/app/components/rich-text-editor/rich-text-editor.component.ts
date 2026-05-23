@@ -1,5 +1,16 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
@@ -16,8 +27,11 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   styleUrls: ['./rich-text-editor.component.scss'],
   imports: [DestroyableDirective, InViewportDirective, EditorComponent, NgClass, FormsModule],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RichTextEditorComponent implements OnInit, OnChanges {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
@@ -110,9 +124,10 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
 
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
-            setTimeout(() => {
+            queueMicrotask(() => {
               this.characterCount = this.getCurrentCharacterCount(editor);
-            }, 0);
+              this.cdr.markForCheck();
+            });
           });
           editor.on('keypress', (event: EditorEvent<KeyboardEvent>) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
@@ -168,8 +183,9 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   renderEditor(event: any): void {
     // If the editor has not been rendered before, render it once it gets into the viewport
     // However, do not destroy it when it gets out of the viewport
-    if (event.visible) {
+    if (event.visible && !this.render) {
       this.render = true;
+      this.cdr.markForCheck();
     }
   }
 }
