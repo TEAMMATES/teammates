@@ -32,7 +32,7 @@ module.exports = defineConfig(
     ],
     processor: angular.processInlineTemplates,
     rules: {
-      "dot-notation": "off",
+      'dot-notation': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
