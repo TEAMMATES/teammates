@@ -33,6 +33,9 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     fixture = TestBed.createComponent(ConstsumOptionsQuestionEditAnswerFormComponent);
     component = fixture.componentInstance;
     component.responseDetails = DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder
+      .constSumOptions(['Option 1', 'Option 2'])
+      .build();
     fixture.detectChanges();
   });
 
@@ -188,7 +191,11 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
       component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 4]).build();
 
       // totalRequiredPoints = answers.length * points = 3 (calculated in component.totalRequirePoints)
-      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.points(1).build();
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder
+        .pointsPerOption(true)
+        .points(1)
+        .constSumOptions(['1', '2', '3'])
+        .build();
 
       expect(component.isAnyPointAboveMaximum).toBeTruthy();
     },
@@ -201,7 +208,11 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
       component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 3]).build();
 
       // totalRequiredPoints = answers.length * points = 3 (calculated in component.totalRequirePoints)
-      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.points(1).build();
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder
+        .pointsPerOption(true)
+        .points(1)
+        .constSumOptions(['1', '2', '3'])
+        .build();
 
       expect(component.isAnyPointAboveMaximum).toBeFalsy();
     },

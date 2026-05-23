@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (accountRequest of accountRequests; track trackAccountRequest(i, accountRequest); let i = $index) {
+          @for (accountRequest of accountRequests; track accountRequest.id; let i = $index) {
             <tr>
               <td>{{ accountRequest.name }}</td>
               <td>{{ accountRequest.email }}</td>

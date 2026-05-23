@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (accountRequest of accountRequests; track trackAccountRequest(i, accountRequest); let i = $index) {
+          @for (accountRequest of accountRequests; track accountRequest.id; let i = $index) {
             <tr (click)="toggleAccountRequestLinks(accountRequest)">
               <td>
                 <div class="d-flex align-items-center gap-2">

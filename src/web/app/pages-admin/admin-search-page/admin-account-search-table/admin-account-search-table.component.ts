@@ -253,8 +253,4 @@ export class AdminAccountSearchTableComponent implements OnChanges {
       () => {},
     );
   }
-
-  trackAccountRequest(_: number, accountRequest: AccountRequestSearchResult): string {
-    return accountRequest.id;
-  }
 }
