@@ -71,8 +71,6 @@ describe('RichTextEditorComponent', () => {
   });
 
   it('should update character count on GetContent when character limit is enabled', async () => {
-    vi.useFakeTimers();
-
     component.hasCharacterLimit = true;
     component.ngOnInit();
 
