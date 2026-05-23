@@ -155,6 +155,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Set<FeedbackQuestion> qnsWithResponse = getQnsWithResponses(currentStudent);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
+                resultsPage.loadQuestionResponses(qn.getQuestionNumber());
                 resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
             } else {
                 resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());
@@ -175,6 +176,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Set<FeedbackQuestion> qnsWithResponse = getQnsWithResponses(currentInstructor);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
+                resultsPage.loadQuestionResponses(qn.getQuestionNumber());
                 resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
             } else {
                 resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());

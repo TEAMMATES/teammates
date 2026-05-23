@@ -86,6 +86,13 @@ public class FeedbackResultsPage extends AppPage {
         }
     }
 
+    public void loadQuestionResponses(int questionNum) {
+        // Response panels are loaded lazily as their question containers enter the viewport.
+        browser.driver.findElements(By.cssSelector("tm-question-response-panel > div"))
+                .forEach(this::scrollElementToCenter);
+        waitFor(driver -> !driver.findElements(By.id("question-" + questionNum + "-responses")).isEmpty());
+    }
+
     public void verifyResponseDetails(FeedbackQuestion question,
             List<ExpectedFeedbackResponse> givenResponses,
             List<ExpectedFeedbackResponse> otherResponses,
