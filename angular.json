@@ -27,7 +27,16 @@
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": ["moment-timezone"],
-            "assets": ["src/web/assets/", "src/web/robots.txt", "src/web/ngsw-worker.js"],
+            "assets": [
+              "src/web/assets/",
+              "src/web/robots.txt",
+              "src/web/ngsw-worker.js",
+              {
+                "glob": "**/*",
+                "input": "node_modules/tinymce",
+                "output": "/tinymce"
+              }
+            ],
             "styles": ["src/web/styles.scss"],
             "browser": "src/web/main.ts"
           },

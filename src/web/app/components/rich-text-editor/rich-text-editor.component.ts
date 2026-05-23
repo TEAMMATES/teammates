@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
-import { TINYMCE_BASE_URL } from './tinymce';
 
 const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 
@@ -15,7 +14,7 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   templateUrl: './rich-text-editor.component.html',
   styleUrls: ['./rich-text-editor.component.scss'],
   imports: [DestroyableDirective, InViewportDirective, EditorComponent, NgClass, FormsModule],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` }],
+  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' }],
 })
 export class RichTextEditorComponent implements OnInit, OnChanges {
   // const
@@ -65,8 +64,8 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
 
   private getEditorSettings(): any {
     return {
-      base_url: TINYMCE_BASE_URL,
-      skin_url: `${TINYMCE_BASE_URL}/skins/ui/oxide`,
+      base_url: '/tinymce',
+      skin_url: '/tinymce/skins/ui/oxide',
       content_css: '/assets/tinymce/tinymce.css',
       suffix: '.min',
       height: this.minHeightInPx,
