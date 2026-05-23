@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
+import { Editor, EditorEvent, RawEditorOptions } from 'tinymce';
 
 const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 
@@ -41,10 +42,10 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   characterCount = 0;
 
   // the argument passed to tinymce.init() in native JavaScript
-  init: any = {};
+  init: RawEditorOptions = {};
 
   render = false;
-  private editorInstance: any;
+  private editorInstance?: Editor;
 
   defaultToolbar: string =
     'styles | forecolor backcolor ' +
@@ -57,12 +58,12 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['richText'] || changes['isDisabled']) {
-      this.triggerAutoResize();
+    if (changes['isDisabled']) {
+      this.editorInstance?.mode.set(this.isDisabled ? 'readonly' : 'design');
     }
   }
 
-  private getEditorSettings(): any {
+  private getEditorSettings(): RawEditorOptions {
     return {
       base_url: '/tinymce',
       skin_url: '/tinymce/skins/ui/oxide',
@@ -101,10 +102,10 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
       autoresize_bottom_margin: 50,
 
       toolbar1: this.defaultToolbar,
-      setup: (editor: any) => {
+      setup: (editor: Editor) => {
         this.editorInstance = editor;
         editor.on('init', () => {
-          this.triggerAutoResize();
+          this.editorInstance?.mode.set(this.isDisabled ? 'readonly' : 'design');
         });
 
         if (this.hasCharacterLimit) {
@@ -113,13 +114,13 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
               this.characterCount = this.getCurrentCharacterCount(editor);
             }, 0);
           });
-          editor.on('keypress', (event: any) => {
+          editor.on('keypress', (event: EditorEvent<KeyboardEvent>) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
             if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
               event.preventDefault();
             }
           });
-          editor.on('paste', (event: any) => {
+          editor.on('paste', (event: EditorEvent<ClipboardEvent>) => {
             const contentBeforePasteEvent = editor.getContent({ format: 'text' });
             setTimeout(() => {
               const currentCharacterCount = this.getCurrentCharacterCount(editor);
@@ -158,9 +159,9 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
     };
   }
 
-  getCurrentCharacterCount(editor: any): number {
-    const wordCountApi = editor.plugins.wordcount;
-    const currentCharacterCount = wordCountApi.body.getCharacterCount();
+  getCurrentCharacterCount(editor: Editor): number {
+    const wordCountApi = editor.plugins['wordcount'];
+    const currentCharacterCount = wordCountApi['body'].getCharacterCount();
     return currentCharacterCount;
   }
 
@@ -170,15 +171,5 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
     if (event.visible) {
       this.render = true;
     }
-  }
-
-  private triggerAutoResize(): void {
-    if (!this.editorInstance) {
-      return;
-    }
-
-    setTimeout(() => {
-      this.editorInstance.execCommand('mceAutoResize');
-    }, 0);
   }
 }

@@ -4,7 +4,6 @@
       class="editor"
       [ngClass]="{ 'editor-disabled': isDisabled }"
       [init]="init"
-      [disabled]="isDisabled"
       [ngModel]="richText"
       (ngModelChange)="richTextChange.emit($event)"
       [attr.placeholder]="placeholderText"

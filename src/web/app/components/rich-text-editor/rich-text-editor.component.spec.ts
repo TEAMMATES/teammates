@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SimpleChange } from '@angular/core';
 
 import { RichTextEditorComponent } from './rich-text-editor.component';
+import { Editor } from 'tinymce';
 
 describe('RichTextEditorComponent', () => {
   let component: RichTextEditorComponent;
@@ -47,7 +48,7 @@ describe('RichTextEditorComponent', () => {
           },
         },
       },
-    };
+    } as unknown as Editor;
 
     expect(component.getCurrentCharacterCount(mockEditor)).toBe(123);
   });
@@ -89,9 +90,9 @@ describe('RichTextEditorComponent', () => {
           },
         },
       },
-    };
+    } as unknown as Editor;
 
-    component.init.setup(mockEditor);
+    component.init.setup!(mockEditor);
     handler();
 
     vi.runAllTimers();
@@ -118,13 +119,13 @@ describe('RichTextEditorComponent', () => {
           },
         },
       },
-    };
+    } as unknown as Editor;
 
     const mockEvent = {
       preventDefault: vi.fn(),
     };
 
-    component.init.setup(mockEditor);
+    component.init.setup!(mockEditor);
     keypressHandler!(mockEvent);
 
     expect(mockEvent.preventDefault).toHaveBeenCalled();
@@ -149,13 +150,13 @@ describe('RichTextEditorComponent', () => {
           },
         },
       },
-    };
+    } as unknown as Editor;
 
     const mockEvent = {
       preventDefault: vi.fn(),
     };
 
-    component.init.setup(mockEditor);
+    component.init.setup!(mockEditor);
     keypressHandler!(mockEvent);
 
     expect(mockEvent.preventDefault).not.toHaveBeenCalled();
@@ -172,9 +173,9 @@ describe('RichTextEditorComponent', () => {
         listeners[eventName] = handler;
       },
       execCommand,
-    };
+    } as unknown as Editor;
 
-    component.init.setup(mockEditor);
+    component.init.setup!(mockEditor);
     listeners['init']();
     vi.runAllTimers();
 
@@ -192,9 +193,9 @@ describe('RichTextEditorComponent', () => {
         listeners[eventName] = handler;
       },
       execCommand,
-    };
+    } as unknown as Editor;
 
-    component.init.setup(mockEditor);
+    component.init.setup!(mockEditor);
 
     component.ngOnChanges({
       richText: new SimpleChange('', '<p>new content</p>', false),
