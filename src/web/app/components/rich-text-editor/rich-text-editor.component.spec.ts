@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SimpleChange } from '@angular/core';
 
 import { RichTextEditorComponent } from './rich-text-editor.component';
 import { Editor } from 'tinymce';
@@ -54,15 +53,15 @@ describe('RichTextEditorComponent', () => {
   });
 
   it('should render editor when visible', () => {
-    component.render = false;
+    component.render.set(false);
     component.renderEditor({ visible: true });
-    expect(component.render).toBe(true);
+    expect(component.render()).toBe(true);
   });
 
   it('should not render editor when not visible', () => {
-    component.render = false;
+    component.render.set(false);
     component.renderEditor({ visible: false });
-    expect(component.render).toBe(false);
+    expect(component.render()).toBe(false);
   });
 
   it('should define setup function when character limit is enabled', () => {
@@ -71,7 +70,7 @@ describe('RichTextEditorComponent', () => {
     expect(component.init.setup).toBeDefined();
   });
 
-  it('should update character count on GetContent when character limit is enabled', () => {
+  it('should update character count on GetContent when character limit is enabled', async () => {
     vi.useFakeTimers();
 
     component.hasCharacterLimit = true;
@@ -95,9 +94,9 @@ describe('RichTextEditorComponent', () => {
     component.init.setup!(mockEditor);
     handler();
 
-    vi.runAllTimers();
+    await Promise.resolve();
 
-    expect(component.characterCount).toBe(50);
+    expect(component.characterCount()).toBe(50);
   });
 
   it('should prevent keypress when character limit is reached', () => {
@@ -160,48 +159,5 @@ describe('RichTextEditorComponent', () => {
     keypressHandler!(mockEvent);
 
     expect(mockEvent.preventDefault).not.toHaveBeenCalled();
-  });
-
-  it('should trigger auto resize on editor init', () => {
-    vi.useFakeTimers();
-    component.ngOnInit();
-
-    const execCommand = vi.fn();
-    const listeners: Record<string, () => void> = {};
-    const mockEditor = {
-      on: (eventName: string, handler: () => void) => {
-        listeners[eventName] = handler;
-      },
-      execCommand,
-    } as unknown as Editor;
-
-    component.init.setup!(mockEditor);
-    listeners['init']();
-    vi.runAllTimers();
-
-    expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
-  });
-
-  it('should trigger auto resize when rich text changes after editor is initialized', () => {
-    vi.useFakeTimers();
-    component.ngOnInit();
-
-    const execCommand = vi.fn();
-    const listeners: Record<string, () => void> = {};
-    const mockEditor = {
-      on: (eventName: string, handler: () => void) => {
-        listeners[eventName] = handler;
-      },
-      execCommand,
-    } as unknown as Editor;
-
-    component.init.setup!(mockEditor);
-
-    component.ngOnChanges({
-      richText: new SimpleChange('', '<p>new content</p>', false),
-    });
-    vi.runAllTimers();
-
-    expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
   });
 });

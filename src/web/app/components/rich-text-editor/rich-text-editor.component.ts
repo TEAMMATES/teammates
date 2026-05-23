@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -9,7 +8,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  inject,
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
@@ -30,8 +29,6 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RichTextEditorComponent implements OnInit, OnChanges {
-  private readonly cdr = inject(ChangeDetectorRef);
-
   // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
@@ -53,12 +50,12 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   @Output()
   richTextChange: EventEmitter<string> = new EventEmitter();
 
-  characterCount = 0;
+  characterCount = signal(0);
 
   // the argument passed to tinymce.init() in native JavaScript
   init: RawEditorOptions = {};
 
-  render = false;
+  render = signal(false);
   private editorInstance?: Editor;
 
   defaultToolbar: string =
@@ -125,8 +122,7 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             queueMicrotask(() => {
-              this.characterCount = this.getCurrentCharacterCount(editor);
-              this.cdr.markForCheck();
+              this.characterCount.set(this.getCurrentCharacterCount(editor));
             });
           });
           editor.on('keypress', (event: EditorEvent<KeyboardEvent>) => {
@@ -183,9 +179,8 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   renderEditor(event: any): void {
     // If the editor has not been rendered before, render it once it gets into the viewport
     // However, do not destroy it when it gets out of the viewport
-    if (event.visible && !this.render) {
-      this.render = true;
-      this.cdr.markForCheck();
+    if (event.visible && !this.render()) {
+      this.render.set(true);
     }
   }
 }
