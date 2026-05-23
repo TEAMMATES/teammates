@@ -53,12 +53,12 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), true);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), true);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:
@@ -88,14 +88,14 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         ResponseGiver responseGiver;
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId, true);
 
             responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                     ? new ResponseGiver(student.getTeam())
                     : new ResponseGiver(student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
 
             responseGiver = new ResponseGiver(instructor);
             break;

@@ -50,14 +50,14 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
-            instructor = getInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseForResult(courseId);
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForResult(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
@@ -100,21 +100,19 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case FULL_DETAIL:
-            instructor = getInstructorOfCourseFromRequest(courseId);
+            instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
             bundle = logic.getSessionResults(feedbackSession, instructor.getEmail(),
                     questionUuid, selectedSection, fetchType);
             return new JsonResult(SessionResultsData.init(bundle));
         case INSTRUCTOR_RESULT:
-            // Section name filter is not applicable here
-            instructor = getInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseForResult(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSession, instructor, questionUuid, isPreviewResults);
 
             return new JsonResult(SessionResultsData.initForUser(bundle, instructor));
         case STUDENT_RESULT:
-            // Section name filter is not applicable here
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForResult(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSession, student, questionUuid, isPreviewResults);
 

@@ -444,10 +444,8 @@ public abstract class AbstractBackDoor {
     public FeedbackResponseCommentData getFeedbackResponseCommentData(String feedbackResponseId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
-        params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSE_COMMENT, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND
-                || response.responseCode == HttpStatus.SC_NO_CONTENT) {
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
 

@@ -20,9 +20,6 @@ public class GetStudentAction extends Action {
     /** Message indicating that a student not found. */
     static final String STUDENT_NOT_FOUND = "No student found";
 
-    /** String indicating ACCESS is not given. */
-    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
-
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.REG_KEY;
@@ -37,7 +34,6 @@ public class GetStudentAction extends Action {
         Student student;
 
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
-        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (studentId != null) {
             student = getStudentInCourse(courseId, studentId);
             if (student == null) {
@@ -49,10 +45,8 @@ public class GetStudentAction extends Action {
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     student.getTeamName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
-        } else if (regKey != null) {
-            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         } else {
-            student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+            student = getStudentFromRequest(courseId);
             gateKeeper.verifyAccessible(student, course);
         }
     }
@@ -66,7 +60,7 @@ public class GetStudentAction extends Action {
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
         if (studentId == null) {
-            student = getPossiblyUnregisteredStudent(courseId);
+            student = getStudentFromRequest(courseId);
         } else {
             student = getStudentInCourse(courseId, studentId);
         }

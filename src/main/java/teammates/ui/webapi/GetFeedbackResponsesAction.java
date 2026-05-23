@@ -47,18 +47,17 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                                                 feedbackQuestion.getCourseId());
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
-        verifyNotPreview();
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), false);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:
@@ -84,11 +83,11 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         List<FeedbackResponse> responses;
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             responses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             responses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             break;
         default:

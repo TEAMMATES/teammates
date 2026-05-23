@@ -388,6 +388,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     void testGetStudent_unregisteredWithValidKey_canAccess() {
         when(mockLogic.getStudentByRegistrationKey(stubStudent.getRegKey()))
                 .thenReturn(stubStudent);
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         verifyCanAccess(regKeyParams(stubStudent.getRegKey()));
     }
 
