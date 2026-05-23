@@ -14,9 +14,11 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -24,6 +26,8 @@ import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
@@ -461,17 +465,148 @@ public abstract class AppPage {
      * expectedTableBodyValues.
      */
     protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
-        waitFor(driver ->
-                !table.findElement(By.tagName("tbody")).findElements(By.tagName("tr")).isEmpty()
-        );
-        List<WebElement> rows = table.findElement(By.tagName("tbody"))
+        String resolvedTableId = "";
+        try {
+            resolvedTableId = table.getAttribute("id");
+        } catch (StaleElementReferenceException e) {
+            // fall through; the original element may still be usable
+        }
+        final String tableId = resolvedTableId;
+
+        waitFor(driver -> {
+            try {
+                WebElement stableTable = getStableTable(table, tableId);
+                List<WebElement> rows = stableTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+                return rows.size() >= expectedTableBodyValues.length;
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                return false;
+            }
+        });
+
+        List<WebElement> rows = getStableTable(table, tableId)
+                .findElement(By.tagName("tbody"))
                 .findElements(By.tagName("tr"));
 
         assertTrue(expectedTableBodyValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
-            // re-fetch to avoid stale references
-            rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-            verifyTableRowValues(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);
+            verifyTableRowValues(getStableTable(table, tableId), rowIndex, expectedTableBodyValues[rowIndex]);
+        }
+    }
+
+    private WebElement getStableTable(WebElement originalTable, String tableId) {
+        if (tableId != null && !tableId.isEmpty()) {
+            List<WebElement> tablesWithSameId = browser.driver.findElements(By.id(tableId));
+            if (tablesWithSameId.size() == 1) {
+                return tablesWithSameId.get(0);
+            }
+
+            // Duplicate IDs exist on this page (e.g. repeated panels). In that case,
+            // keep using the original scoped element to avoid rebinding to a wrong table.
+            try {
+                originalTable.isDisplayed();
+                return originalTable;
+            } catch (StaleElementReferenceException e) {
+                for (WebElement candidate : tablesWithSameId) {
+                    try {
+                        if (candidate.isDisplayed()) {
+                            return candidate;
+                        }
+                    } catch (StaleElementReferenceException eInner) {
+                        // Continue searching for a live, displayed candidate.
+                    }
+                }
+                if (!tablesWithSameId.isEmpty()) {
+                    return tablesWithSameId.get(0);
+                }
+            }
+        }
+        return originalTable;
+    }
+
+    private void verifyTableRowValues(WebElement table, int rowIndex, String[] expectedRowValues) {
+        AtomicReference<List<String>> latestValues = new AtomicReference<>(Collections.emptyList());
+
+        List<String> actualValues;
+        try {
+            actualValues = waitFor(driver -> {
+                try {
+                    List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+                    if (rowIndex >= rows.size()) {
+                        return null;
+                    }
+
+                    List<WebElement> cells = rows.get(rowIndex).findElements(By.tagName("td"));
+                    if (expectedRowValues.length > cells.size()) {
+                        return null;
+                    }
+
+                    List<String> cellTexts = cells.stream()
+                            .limit(expectedRowValues.length)
+                            .map(WebElement::getText)
+                            .toList();
+                    latestValues.set(cellTexts);
+
+                    for (int i = 0; i < expectedRowValues.length; i++) {
+                        if (!expectedRowValues[i].isEmpty() && cellTexts.get(i).isEmpty()) {
+                            return null;
+                        }
+                    }
+
+                    for (int i = 0; i < expectedRowValues.length; i++) {
+                        if (!expectedRowValues[i].equals(cellTexts.get(i))) {
+                            return null;
+                        }
+                    }
+
+                    return cellTexts;
+                } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
+                    return null;
+                }
+            });
+        } catch (TimeoutException e) {
+            actualValues = latestValues.get();
+        }
+
+        assertTrue(actualValues.size() >= expectedRowValues.length,
+                "Expected at least " + expectedRowValues.length + " cells in row " + rowIndex
+                        + " but found " + actualValues.size());
+
+        for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
+            assertEquals(expectedRowValues[cellIndex], actualValues.get(cellIndex));
+        }
+    }
+
+    /**
+     * Asserts that all data values in the given table row are equal to the
+     * expectedRowValues.
+     */
+    protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
+        waitFor(driver -> {
+            try {
+                List<WebElement> cells = row.findElements(By.tagName("td"));
+                return !cells.isEmpty();
+            } catch (StaleElementReferenceException e) {
+                return false;
+            }
+        });
+
+        for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
+            final int currentCellIndex = cellIndex;
+            String actualValue = waitFor(driver -> {
+                try {
+                    List<WebElement> cells = row.findElements(By.tagName("td"));
+                    if (expectedRowValues.length > cells.size()) {
+                        return null;
+                    }
+                    WebElement cell = cells.get(currentCellIndex);
+                    waitForElementVisibility(cell);
+                    return cell.getText();
+                } catch (StaleElementReferenceException e) {
+                    return null;
+                }
+            });
+
+            assertEquals(expectedRowValues[currentCellIndex], actualValue);
         }
     }
 
@@ -496,20 +631,6 @@ public abstract class AppPage {
         assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTablColumnHeaderValues.length; rowIndex++) {
             verifyTableHeaderValues(rows.get(rowIndex), expectedTablColumnHeaderValues[rowIndex]);
-        }
-    }
-
-    /**
-     * Asserts that all data values in the given table row are equal to the
-     * expectedRowValues.
-     */
-    protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
-        List<WebElement> cells = row.findElements(By.tagName("td"));
-        assertTrue(expectedRowValues.length <= cells.size());
-        waitForElementVisibility(cells.get(0));
-
-        for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
-            assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
