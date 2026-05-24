@@ -85,7 +85,7 @@ public class CreateAccountAction extends Action {
         assert createdStudent != null : "Demo instructor student should have been created in data bundle";
 
         try {
-            logic.joinCourse(createdInstructor.getRegKey(), authContext.account());
+            logic.joinCourse(createdInstructor.getRegKey(), getCurrentAccount());
             logic.joinCourse(createdStudent.getRegKey(), getCurrentAccount());
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
