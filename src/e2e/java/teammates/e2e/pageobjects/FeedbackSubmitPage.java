@@ -12,6 +12,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -627,26 +628,25 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyVisibilityStringPresent(int qnNumber, String expectedString) {
-        Boolean isExpectedVisibilityStringPresent = waitFor(driver -> {
-            try {
-                List<WebElement> visibilityStrings = getQuestionForm(qnNumber)
-                        .findElement(By.className("visibility-list"))
-                        .findElements(By.tagName("li"));
-                for (WebElement visibilityString : visibilityStrings) {
-                    if (visibilityString.getText().equals(expectedString)) {
-                        return true;
+        try {
+            waitFor(driver -> {
+                try {
+                    List<WebElement> visibilityStrings = getQuestionForm(qnNumber)
+                            .findElement(By.className("visibility-list"))
+                            .findElements(By.tagName("li"));
+                    for (WebElement visibilityString : visibilityStrings) {
+                        if (visibilityString.getText().equals(expectedString)) {
+                            return true;
+                        }
                     }
+                    return false;
+                } catch (NoSuchElementException | StaleElementReferenceException e) {
+                    return false;
                 }
-                return false;
-            } catch (NoSuchElementException | StaleElementReferenceException e) {
-                return false;
-            }
-        });
-
-        if (isExpectedVisibilityStringPresent) {
-            return;
+            });
+        } catch (TimeoutException e) {
+            fail("Expected visibility string not found: " + qnNumber + ": " + expectedString);
         }
-        fail("Expected visibility string not found: " + qnNumber + ": " + expectedString);
     }
 
     private String getVisibilityString(FeedbackQuestion feedbackQuestion,
