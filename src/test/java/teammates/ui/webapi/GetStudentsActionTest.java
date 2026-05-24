@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -281,12 +282,25 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     @Test
-    void testGetStudents_instructorWithViewSectionPrivilegeSameCourse_canAccess() {
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                stubCourse,
-                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                Const.ParamsNames.COURSE_ID, stubCourse.getId()
-        );
+    void testGetStudents_sameCourseInstructorWithViewSectionPrivilege_canAccess() {
+        stubInstructorWithAllPrivileges.setCourse(stubCourse);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructorWithAllPrivileges);
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        loginAsInstructor(stubInstructorWithAllPrivileges.getId().toString());
+        verifyCanAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId());
+    }
+
+    @Test
+    void testGetStudents_sameCourseInstructorWithoutViewSectionPrivilege_cannotAccess() {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(stubCourse);
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
+        instructor.setPrivileges(privileges);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        loginAsInstructor(instructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId());
     }
 
     @Test

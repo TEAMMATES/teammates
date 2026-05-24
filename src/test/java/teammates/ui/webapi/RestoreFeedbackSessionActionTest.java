@@ -1,7 +1,10 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+
+import teammates.common.datatransfer.InstructorPrivileges;
 
 import java.time.Instant;
 
@@ -98,19 +101,59 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     }
 
     @Test
-    void testAccessControl() {
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId()))
-                .thenReturn(stubFeedbackSession);
+    void testAccessControl_sameCourseInstructorWithModifySessionPrivilege_canAccess() {
+        Course course = stubFeedbackSession.getCourse();
+        stubInstructor.setCourse(course);
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructor);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        loginAsInstructor(stubInstructor.getId().toString());
+        verifyCanAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+    }
 
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
-        };
+    @Test
+    void testAccessControl_sameCourseInstructorWithoutModifySessionPrivilege_cannotAccess() {
+        Course course = stubFeedbackSession.getCourse();
+        stubInstructor.setCourse(course);
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
+        stubInstructor.setPrivileges(privileges);
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructor);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        loginAsInstructor(stubInstructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+    }
 
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                stubFeedbackSession.getCourse(),
-                Const.InstructorPermissions.CAN_MODIFY_SESSION,
-                params
-        );
-        verifyInstructorsOfOtherCoursesCannotAccess(params);
+    @Test
+    void testAccessControl_differentCourseInstructor_cannotAccess() {
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        stubInstructor.setCourse(otherCourse);
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructor);
+        when(mockLogic.getCourse(stubFeedbackSession.getCourse().getId())).thenReturn(stubFeedbackSession.getCourse());
+        loginAsInstructor(stubInstructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+    }
+
+    @Test
+    void testAccessControl_student_cannotAccess() {
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+    }
+
+    @Test
+    void testAccessControl_unregistered_cannotAccess() {
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+    }
+
+    @Test
+    void testAccessControl_loggedOut_cannotAccess() {
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
+        logoutUser();
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
     }
 }

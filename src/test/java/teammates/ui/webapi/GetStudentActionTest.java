@@ -3,11 +3,14 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
+
+import teammates.common.datatransfer.InstructorPrivileges;
 
 import java.util.UUID;
 
@@ -344,16 +347,64 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testGetStudent_instructorUserIdPathSameCourseWithViewSectionPrivilege_canAccess() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
-        };
+    void testGetStudent_sameCourseInstructorWithViewSectionPrivilege_canAccess() {
+        stubInstructor.setCourse(stubCourse);
         when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                stubCourse,
-                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                params);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructor);
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        loginAsInstructor(stubInstructor.getId().toString());
+        verifyCanAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+    }
+
+    @Test
+    void testGetStudent_sameCourseInstructorWithoutViewSectionPrivilege_cannotAccess() {
+        stubInstructor.setCourse(stubCourse);
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
+        stubInstructor.setPrivileges(privileges);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructor);
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        loginAsInstructor(stubInstructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+    }
+
+    @Test
+    void testGetStudent_differentCourseInstructor_cannotAccess() {
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        stubInstructor.setCourse(otherCourse);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(stubInstructor);
+        when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        loginAsInstructor(stubInstructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+    }
+
+    @Test
+    void testGetStudent_student_cannotAccess() {
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+    }
+
+    @Test
+    void testGetStudent_unregistered_cannotAccess() {
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+    }
+
+    @Test
+    void testGetStudent_loggedOut_cannotAccess() {
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
+        logoutUser();
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString());
     }
 
     @Test
