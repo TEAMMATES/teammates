@@ -570,15 +570,6 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Checks if the session closed some time in the last one hour from calling this function.
-     *
-     * @return true if the session closed within the past hour; false otherwise.
-     */
-    public boolean isClosedWithinPastHour() {
-        return isClosedWithinPastHours(1);
-    }
-
-    /**
      * Checks if the session closed some time in the last {@code hours} from calling this function.
      *
      * @return true if the session closed within the past {@code hours}; false otherwise.
