@@ -3,14 +3,14 @@
     <changeSet author="TobyCyan" id="1779348505794-1">
         <addColumn tableName="accounts">
             <column name="issuer" type="VARCHAR(255)">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>
     <changeSet author="TobyCyan" id="1779348505794-2">
         <addColumn tableName="accounts">
             <column name="subject" type="VARCHAR(255)">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>

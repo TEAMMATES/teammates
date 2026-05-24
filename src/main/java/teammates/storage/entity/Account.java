@@ -33,10 +33,10 @@ public class Account extends BaseEntity {
     @Id
     private UUID id;
 
-    @Column
+    @Column(nullable = false)
     private String issuer;
 
-    @Column
+    @Column(nullable = false)
     private String subject;
 
     @NaturalId
