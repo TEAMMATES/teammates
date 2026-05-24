@@ -2,11 +2,6 @@
 
 @use 'sass:color';
 
-// Required to use ngx-page-scroll service https://github.com/TEAMMATES/teammates/pull/12224#issuecomment-1480350769.
-html {
-  scroll-behavior: auto !important;
-}
-
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.875rem;

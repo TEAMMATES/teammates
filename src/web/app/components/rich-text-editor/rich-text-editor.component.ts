@@ -1,9 +1,19 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
-import { TINYMCE_BASE_URL } from './tinymce';
+import { Editor, EditorEvent, RawEditorOptions } from 'tinymce';
 
 const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
 
@@ -15,7 +25,8 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   templateUrl: './rich-text-editor.component.html',
   styleUrls: ['./rich-text-editor.component.scss'],
   imports: [DestroyableDirective, InViewportDirective, EditorComponent, NgClass, FormsModule],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` }],
+  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RichTextEditorComponent implements OnInit, OnChanges {
   // const
@@ -39,13 +50,13 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   @Output()
   richTextChange: EventEmitter<string> = new EventEmitter();
 
-  characterCount = 0;
+  characterCount = signal(0);
 
   // the argument passed to tinymce.init() in native JavaScript
-  init: any = {};
+  init: RawEditorOptions = {};
 
-  render = false;
-  private editorInstance: any;
+  render = signal(false);
+  private editorInstance?: Editor;
 
   defaultToolbar: string =
     'styles | forecolor backcolor ' +
@@ -58,15 +69,15 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['richText'] || changes['isDisabled']) {
-      this.triggerAutoResize();
+    if (changes['isDisabled']) {
+      this.editorInstance?.mode.set(this.isDisabled ? 'readonly' : 'design');
     }
   }
 
-  private getEditorSettings(): any {
+  private getEditorSettings(): RawEditorOptions {
     return {
-      base_url: TINYMCE_BASE_URL,
-      skin_url: `${TINYMCE_BASE_URL}/skins/ui/oxide`,
+      base_url: '/tinymce',
+      skin_url: '/tinymce/skins/ui/oxide',
       content_css: '/assets/tinymce/tinymce.css',
       suffix: '.min',
       height: this.minHeightInPx,
@@ -102,25 +113,25 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
       autoresize_bottom_margin: 50,
 
       toolbar1: this.defaultToolbar,
-      setup: (editor: any) => {
+      setup: (editor: Editor) => {
         this.editorInstance = editor;
         editor.on('init', () => {
-          this.triggerAutoResize();
+          this.editorInstance?.mode.set(this.isDisabled ? 'readonly' : 'design');
         });
 
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
-            setTimeout(() => {
-              this.characterCount = this.getCurrentCharacterCount(editor);
-            }, 0);
+            queueMicrotask(() => {
+              this.characterCount.set(this.getCurrentCharacterCount(editor));
+            });
           });
-          editor.on('keypress', (event: any) => {
+          editor.on('keypress', (event: EditorEvent<KeyboardEvent>) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
             if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
               event.preventDefault();
             }
           });
-          editor.on('paste', (event: any) => {
+          editor.on('paste', (event: EditorEvent<ClipboardEvent>) => {
             const contentBeforePasteEvent = editor.getContent({ format: 'text' });
             setTimeout(() => {
               const currentCharacterCount = this.getCurrentCharacterCount(editor);
@@ -159,27 +170,17 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
     };
   }
 
-  getCurrentCharacterCount(editor: any): number {
-    const wordCountApi = editor.plugins.wordcount;
-    const currentCharacterCount = wordCountApi.body.getCharacterCount();
+  getCurrentCharacterCount(editor: Editor): number {
+    const wordCountApi = editor.plugins['wordcount'];
+    const currentCharacterCount = wordCountApi['body'].getCharacterCount();
     return currentCharacterCount;
   }
 
   renderEditor(event: any): void {
     // If the editor has not been rendered before, render it once it gets into the viewport
     // However, do not destroy it when it gets out of the viewport
-    if (event.visible) {
-      this.render = true;
+    if (event.visible && !this.render()) {
+      this.render.set(true);
     }
-  }
-
-  private triggerAutoResize(): void {
-    if (!this.editorInstance) {
-      return;
-    }
-
-    setTimeout(() => {
-      this.editorInstance.execCommand('mceAutoResize');
-    }, 0);
   }
 }

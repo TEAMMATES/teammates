@@ -12,7 +12,6 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackResponseCommentData;
-import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetFeedbackResponseCommentAction;
 import teammates.ui.webapi.JsonResult;
 
@@ -43,11 +42,10 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
     @Test
     @Override
     protected void testExecute() {
-        ______TS("typical successful case as student_submission");
+        ______TS("typical success case");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1");
         FeedbackResponseComment expectedComment = typicalBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
         String[] params = new String[] {
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
@@ -62,18 +60,17 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        ______TS("typical success case as student_submission");
+        ______TS("student cannot access");
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student1InCourse1.getGoogleId());
 
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
-        verifyCanAccess(submissionParams);
+        verifyCannotAccess(submissionParams);
     }
 
 }

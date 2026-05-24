@@ -9,12 +9,11 @@ import {
   QueryList,
   SimpleChanges,
   ViewChildren,
-  DOCUMENT,
   inject,
 } from '@angular/core';
-import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import { Sections } from './sections';
+import { PageScrollService } from '../../../services/page-scroll.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 
@@ -32,7 +31,6 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   protected simpleModalService = inject(SimpleModalService);
   private readonly pageScrollService = inject(PageScrollService);
   private readonly navigationService = inject(NavigationService);
-  private readonly document = inject(DOCUMENT);
 
   @Input() key = '';
   @Output() matchFound: EventEmitter<number> = new EventEmitter<number>();
@@ -149,11 +147,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
    * Scrolls to an HTML element with a given target id.
    */
   jumpTo(target: string): boolean {
-    this.pageScrollService.scroll({
-      document: this.document,
-      scrollTarget: `#${target}`,
-      scrollOffset: 70,
-    });
+    this.pageScrollService.scrollToAnchor(target);
     return false;
   }
 

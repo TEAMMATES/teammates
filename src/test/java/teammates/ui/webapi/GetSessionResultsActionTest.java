@@ -496,7 +496,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         session.setSessionVisibleFromTime(Instant.MIN);
         String[] params3 = buildParamsWithModerated(STUDENT_RESULT, student.getId().toString());
-        verifyCanAccess(params3);
+        verifyCannotAccess(params3);
     }
 
     @Test

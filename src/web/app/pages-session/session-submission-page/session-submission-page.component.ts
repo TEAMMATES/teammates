@@ -1,11 +1,10 @@
 import { KeyValuePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, DOCUMENT, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
-import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
@@ -62,6 +61,7 @@ import {
 import { QuestionSubmissionFormComponent } from '../../components/question-submission-form/question-submission-form.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
+import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface FeedbackQuestionsResponse {
@@ -100,12 +100,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private courseService = inject(CourseService);
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
-  private pageScrollService = inject(PageScrollService);
+  private readonly pageScrollService = inject(PageScrollService);
   private authService = inject(AuthService);
   private navigationService = inject(NavigationService);
   private commentService = inject(FeedbackResponseCommentService);
   private logService = inject(LogService);
-  private document = inject(DOCUMENT);
 
   readonly castAsSelectElement: typeof castAsSelectElement;
 
@@ -297,11 +296,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     // continue scrolling as long as the element to scroll to is yet to be found or not in view
     if (div == null || !this.isInViewport(div)) {
       setTimeout(() => {
-        this.pageScrollService.scroll({
-          document: this.document,
-          scrollTarget: `#${this.moderatedQuestionId}`,
-          scrollOffset: 70,
-        });
+        this.pageScrollService.scrollToAnchor(this.moderatedQuestionId);
         this.scrollToQuestion();
       }, 500);
     }
@@ -591,15 +586,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.handleError(resp);
         },
       });
-  }
-
-  /**
-   * Tracks the question submission form by feedback question id.
-   *
-   * @see https://angular.io/api/common/NgForOf#properties
-   */
-  trackQuestionSubmissionFormByFn(_: any, item: QuestionSubmissionFormModel): any {
-    return item.feedbackQuestionId;
   }
 
   /**

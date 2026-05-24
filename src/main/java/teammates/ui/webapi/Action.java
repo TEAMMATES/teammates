@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
-import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -258,44 +257,44 @@ public abstract class Action {
         return reqBody;
     }
 
-    /**
-     * Gets the unregistered student by the HTTP param.
-     */
-    Optional<Student> getUnregisteredStudent() {
+    private Student getUnregisteredStudent() {
         if (authContext.regKeyUser() instanceof Student student) {
-            return Optional.of(student);
+            return student;
         }
-        return Optional.empty();
+        return null;
     }
 
-    /**
-     * Gets the unregistered instructor by the HTTP param.
-     */
-    Optional<Instructor> getUnregisteredInstructor() {
+    private Instructor getUnregisteredInstructor() {
         if (authContext.regKeyUser() instanceof Instructor instructor) {
-            return Optional.of(instructor);
+            return instructor;
         }
-        return Optional.empty();
+        return null;
     }
 
-    Instructor getPossiblyUnregisteredInstructor(String courseId) {
-        return getUnregisteredInstructor().orElseGet(() -> {
-            Account account = authContext.account();
-            if (account == null) {
-                return null;
-            }
-            return logic.getInstructorByGoogleId(courseId, account.getGoogleId());
-        });
+    Instructor getInstructorFromRequest(String courseId) {
+        if (authContext.authType() == AuthType.REG_KEY) {
+            return getUnregisteredInstructor();
+        }
+
+        Account account = authContext.account();
+        if (account == null) {
+            return null;
+        }
+
+        return logic.getInstructorByGoogleId(courseId, account.getGoogleId());
     }
 
-    Student getPossiblyUnregisteredStudent(String courseId) {
-        return getUnregisteredStudent().orElseGet(() -> {
-            Account account = authContext.account();
-            if (account == null) {
-                return null;
-            }
-            return logic.getStudentByGoogleId(courseId, account.getGoogleId());
-        });
+    Student getStudentFromRequest(String courseId) {
+        if (authContext.authType() == AuthType.REG_KEY) {
+            return getUnregisteredStudent();
+        }
+
+        Account account = authContext.account();
+        if (account == null) {
+            return null;
+        }
+
+        return logic.getStudentByGoogleId(courseId, account.getGoogleId());
     }
 
     InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {
