@@ -575,8 +575,17 @@ public class FeedbackSession extends BaseEntity {
      * @return true if the session closed within the past hour; false otherwise.
      */
     public boolean isClosedWithinPastHour() {
+        return isClosedWithinPastHours(1);
+    }
+
+    /**
+     * Checks if the session closed some time in the last {@code hours} from calling this function.
+     *
+     * @return true if the session closed within the past {@code hours}; false otherwise.
+     */
+    public boolean isClosedWithinPastHours(long hours) {
         Instant now = Instant.now();
         Instant timeClosed = endTime.plus(gracePeriod);
-        return timeClosed.isBefore(now) && Duration.between(timeClosed, now).compareTo(Duration.ofHours(1)) < 0;
+        return timeClosed.isBefore(now) && Duration.between(timeClosed, now).compareTo(Duration.ofHours(hours)) < 0;
     }
 }
