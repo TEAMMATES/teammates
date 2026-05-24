@@ -189,12 +189,51 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
     }
 
     @Test
-    void testAccessControl() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+    void testAccessControl_sameCourseInstructorWithModifyInstructorPrivilege_canAccess() {
+        typicalInstructor.setCourse(typicalCourse);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(typicalInstructor);
+        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+        loginAsInstructor(typicalInstructor.getId().toString());
+        verifyCanAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+    }
 
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                typicalCourse, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, params);
+    @Test
+    void testAccessControl_sameCourseInstructorWithoutModifyInstructorPrivilege_cannotAccess() {
+        typicalInstructor.setCourse(typicalCourse);
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        typicalInstructor.setPrivileges(privileges);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(typicalInstructor);
+        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+        loginAsInstructor(typicalInstructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+    }
+
+    @Test
+    void testAccessControl_differentCourseInstructor_cannotAccess() {
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        typicalInstructor.setCourse(otherCourse);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(typicalInstructor);
+        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
+        loginAsInstructor(typicalInstructor.getId().toString());
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+    }
+
+    @Test
+    void testAccessControl_student_cannotAccess() {
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+    }
+
+    @Test
+    void testAccessControl_unregistered_cannotAccess() {
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+    }
+
+    @Test
+    void testAccessControl_loggedOut_cannotAccess() {
+        logoutUser();
+        verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
     }
 }
