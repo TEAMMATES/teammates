@@ -469,7 +469,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Returns a list of sessions that are going to close within the next 24 hours.
+     * Returns sessions in the reminder window before the closing time.
      */
     public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
@@ -478,7 +478,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Returns a list of sessions that are going to open in 24 hours.
+     * Returns sessions in the reminder window before the opening time.
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
@@ -505,7 +505,7 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * Gets a list of undeleted feedback sessions which opened recently
      * and need an open email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {

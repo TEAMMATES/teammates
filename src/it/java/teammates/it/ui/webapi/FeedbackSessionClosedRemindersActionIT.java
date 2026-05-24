@@ -67,7 +67,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         assertEquals("Successful", response1.getMessage());
         assertTrue(session.isClosedEmailSent());
 
-        verifySpecifiedTasksAdded("send-email-queue", 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
 
         ______TS("Success Case: no sessions to consider (`session` already sent closed email)");
         session.setClosedEmailSent(true);
@@ -92,7 +92,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
 
         assertEquals("Successful", response3.getMessage());
         assertTrue(session.isClosedEmailSent());
-        verifySpecifiedTasksAdded("send-email-queue", 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
 
         ______TS("Success Case: no sessions to consider (`session` closed outside redundancy window)");
         session.setClosedEmailSent(false);

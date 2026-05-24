@@ -28,7 +28,8 @@ public final class FeedbackSessionsDb {
     private static final Logger log = Logger.getLogger();
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 
-    private static final Duration CRON_REDUNDANCY_WINDOW = Duration.ofHours(2);
+    private static final Duration REMINDER_EMAIL_REDUNDANCY_WINDOW = Duration.ofHours(2);
+    private static final Duration EVENT_EMAIL_LOOKBACK_WINDOW = Duration.ofDays(2);
     private static final Duration REMINDER_LEAD_TIME = Duration.ofHours(24);
 
     private FeedbackSessionsDb() {
@@ -211,12 +212,11 @@ public final class FeedbackSessionsDb {
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
         Join<FeedbackSession, Course> courseJoin = root.join("course");
         Instant now = Instant.now();
-        Instant reminderStart = now.plus(REMINDER_LEAD_TIME).minus(CRON_REDUNDANCY_WINDOW);
+        Instant reminderStart = now.plus(REMINDER_LEAD_TIME).minus(REMINDER_EMAIL_REDUNDANCY_WINDOW);
         Instant reminderEnd = now.plus(REMINDER_LEAD_TIME);
 
         cr.select(root)
                 .where(cb.and(
-                    cb.greaterThan(root.get("startTime"), now),
                     cb.greaterThanOrEqualTo(root.get("startTime"), reminderStart),
                     cb.lessThanOrEqualTo(root.get("startTime"), reminderEnd),
                     cb.isFalse(root.get("isOpeningSoonEmailSent")),
@@ -237,7 +237,7 @@ public final class FeedbackSessionsDb {
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
         Join<FeedbackSession, Course> courseJoin = root.join("course");
         Instant now = Instant.now();
-        Instant reminderStart = now.plus(REMINDER_LEAD_TIME).minus(CRON_REDUNDANCY_WINDOW);
+        Instant reminderStart = now.plus(REMINDER_LEAD_TIME).minus(REMINDER_EMAIL_REDUNDANCY_WINDOW);
         Instant reminderEnd = now.plus(REMINDER_LEAD_TIME);
 
         cr.select(root)
@@ -298,7 +298,7 @@ public final class FeedbackSessionsDb {
 
         cr.select(root)
                 .where(cb.and(
-                        cb.greaterThanOrEqualTo(root.get("resultsVisibleFromTime"), now.minus(CRON_REDUNDANCY_WINDOW)),
+                        cb.greaterThanOrEqualTo(root.get("resultsVisibleFromTime"), now.minus(EVENT_EMAIL_LOOKBACK_WINDOW)),
                         cb.lessThanOrEqualTo(root.get("resultsVisibleFromTime"), now),
                         nonSpecialResultsVisibleTime,
                         cb.isFalse(root.get("isPublishedEmailSent")),
@@ -323,7 +323,7 @@ public final class FeedbackSessionsDb {
 
         cr.select(root)
                 .where(cb.and(
-                    cb.greaterThanOrEqualTo(root.get("startTime"), now.minus(CRON_REDUNDANCY_WINDOW)),
+                    cb.greaterThanOrEqualTo(root.get("startTime"), now.minus(EVENT_EMAIL_LOOKBACK_WINDOW)),
                     cb.lessThanOrEqualTo(root.get("startTime"), now),
                     cb.greaterThan(root.get("endTime"), now),
                     cb.isFalse(root.get("isOpenedEmailSent")),
