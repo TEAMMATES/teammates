@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -10,6 +11,7 @@ import java.util.Set;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -58,14 +60,55 @@ public class GetDeadlineExtensionsActionTest
     }
 
     @Test
-    void testAccessControl_instructorWithModifySessionPrivilege_canAccess() {
-        String[] params = getTypicalParams();
+    void testAccessControl_sameCourseInstructorWithModifySessionPrivilege_canAccess() {
+        Course course = typicalFeedbackSession.getCourse();
+        typicalInstructor.setCourse(course);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(typicalInstructor);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        loginAsInstructor(typicalInstructor.getId().toString());
+        verifyCanAccess(getTypicalParams());
+    }
 
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                typicalFeedbackSession.getCourse(),
-                Const.InstructorPermissions.CAN_MODIFY_SESSION,
-                params);
-        verifyInstructorsOfOtherCoursesCannotAccess(params);
+    @Test
+    void testAccessControl_sameCourseInstructorWithoutModifySessionPrivilege_cannotAccess() {
+        Course course = typicalFeedbackSession.getCourse();
+        typicalInstructor.setCourse(course);
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
+        typicalInstructor.setPrivileges(privileges);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(typicalInstructor);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        loginAsInstructor(typicalInstructor.getId().toString());
+        verifyCannotAccess(getTypicalParams());
+    }
+
+    @Test
+    void testAccessControl_differentCourseInstructor_cannotAccess() {
+        Course course = typicalFeedbackSession.getCourse();
+        Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        typicalInstructor.setCourse(otherCourse);
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(typicalInstructor);
+        when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        loginAsInstructor(typicalInstructor.getId().toString());
+        verifyCannotAccess(getTypicalParams());
+    }
+
+    @Test
+    void testAccessControl_student_cannotAccess() {
+        loginAsStudent("student-googleId");
+        verifyCannotAccess(getTypicalParams());
+    }
+
+    @Test
+    void testAccessControl_unregistered_cannotAccess() {
+        loginAsUnregistered("unregistered-googleId");
+        verifyCannotAccess(getTypicalParams());
+    }
+
+    @Test
+    void testAccessControl_loggedOut_cannotAccess() {
+        logoutUser();
+        verifyCannotAccess(getTypicalParams());
     }
 
     @Test
