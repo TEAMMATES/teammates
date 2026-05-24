@@ -127,7 +127,7 @@ public class CreateAccountAction extends Action {
     /**
      * Imports demo course for the new instructor.
      *
-     * @return the ID of demo course
+     * @return the DataBundle with the demo course
      */
     private DataBundle importDemoData(String instructorEmail, String instructorName,
             String instructorInstitute, String timezone) throws InvalidParametersException {
