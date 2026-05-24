@@ -42,9 +42,9 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         String email = firstAccount.getEmail();
 
-        accountsDb.createAccount(firstAccount);
-        accountsDb.createAccount(secondAccount);
-        accountsDb.createAccount(thirdAccount);
+        accountsDb.persistAccount(firstAccount);
+        accountsDb.persistAccount(secondAccount);
+        accountsDb.persistAccount(thirdAccount);
 
         accounts = accountsDb.getAccountsByEmail(email);
 
@@ -58,7 +58,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         Account account = getTypicalAccount();
 
-        accountsDb.createAccount(account);
+        accountsDb.persistAccount(account);
         HibernateUtil.flushSession();
 
         Account actualAccount = accountsDb.getAccount(account.getId());
@@ -68,7 +68,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testDeleteAccount() throws InvalidParametersException, EntityAlreadyExistsException {
         Account account = getTypicalAccount();
-        accountsDb.createAccount(account);
+        accountsDb.persistAccount(account);
         HibernateUtil.flushSession();
 
         ______TS("Delete existing account, success");

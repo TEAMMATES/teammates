@@ -83,8 +83,7 @@ public final class AccountsLogic {
         assert email != null;
 
         String googleId = email;
-        // TODO: Fetch account by issuer + subject first, then fall back to googleId.
-        // Remove googleId after migration is complete.
+        // TODO: Fetch account by issuer + subject
         Account account = getAccountForGoogleId(googleId);
         if (account != null) {
             return account;
@@ -117,18 +116,10 @@ public final class AccountsLogic {
         // TODO: Account name will be removed, use a generic "User" for now.
         // googleId will be removed as well.
         Account account = new Account(googleId, issuer, subject, "User", email);
-        return createAccount(account);
+        return validateThenPersistAccount(account);
     }
 
-    /**
-     * Creates an account.
-     *
-     * @return the created account
-     * @throws InvalidParametersException   if the account is not valid
-     * @throws EntityAlreadyExistsException if the account already exists in the
-     *                                      database.
-     */
-    private Account createAccount(Account account)
+    private Account validateThenPersistAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
 
@@ -138,7 +129,7 @@ public final class AccountsLogic {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 
-        return accountsDb.createAccount(account);
+        return accountsDb.persistAccount(account);
     }
 
     /**

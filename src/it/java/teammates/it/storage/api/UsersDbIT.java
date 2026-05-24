@@ -55,7 +55,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         Account instructorAccount = new Account(
                 "instructor-account", "teammates-test", "validInstructorSubject",
                 "instructor-name", "valid-instructor@email.tmt");
-        accountsDb.createAccount(instructorAccount);
+        accountsDb.persistAccount(instructorAccount);
         instructor = getTypicalInstructor();
         instructor.setCourse(course);
         usersDb.createInstructor(instructor);
@@ -64,7 +64,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         Account studentAccount = new Account(
                 "student-account", "teammates-test", "validStudentSubject",
                 "student-name", "valid-student@email.tmt");
-        accountsDb.createAccount(studentAccount);
+        accountsDb.persistAccount(studentAccount);
         student = getTypicalStudent();
         student.setCourse(course);
         student.setTeam(team);
@@ -136,7 +136,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: gets all instructors and students by googleId");
         Account userSharedAccount = new Account(
                 "user-account", "teammates-test", "valid-user@email.com", "user-name", "valid-user@email.tmt");
-        accountsDb.createAccount(userSharedAccount);
+        accountsDb.persistAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
         firstInstructor.setEmail("valid-instructor-1@email.tmt");
@@ -281,7 +281,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
                 "google-id", "teammates-test", "typicalStudentSubject", student.getName(), student.getEmail());
 
         team.addUser(student2);
-        accountsDb.createAccount(account);
+        accountsDb.persistAccount(account);
         student.setAccount(account);
         student2.setAccount(account);
         student2.setCourse(course2);

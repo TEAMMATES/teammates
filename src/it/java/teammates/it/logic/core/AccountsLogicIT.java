@@ -52,7 +52,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account loggedInAccount = getTypicalAccount();
         loggedInAccount.setGoogleId(loggedInGoogleId);
         loggedInAccount.setEmail("acct.student@teammates.tmt");
-        accountsDb.createAccount(loggedInAccount);
+        accountsDb.persistAccount(loggedInAccount);
 
         ______TS("failure: wrong key");
 
@@ -81,7 +81,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account existingAccount = getTypicalAccount();
         existingAccount.setGoogleId("existingAccountId");
         existingAccount.setEmail(student3YetToJoinCourse.getEmail());
-        accountsDb.createAccount(existingAccount);
+        accountsDb.persistAccount(existingAccount);
 
         accountsLogic.joinCourse(student3YetToJoinCourse.getRegKey(), existingAccount);
 
@@ -105,7 +105,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account loggedInAccount = getTypicalAccount();
         loggedInAccount.setGoogleId(loggedInGoogleId);
         loggedInAccount.setEmail("acct.instr@teammates.tmt");
-        accountsDb.createAccount(loggedInAccount);
+        accountsDb.persistAccount(loggedInAccount);
 
         String[] key = new String[] {
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()),
@@ -134,7 +134,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account existingAccount = getTypicalAccount();
         existingAccount.setGoogleId(existingAccountId);
         existingAccount.setEmail(instructor3YetToJoinCourse.getEmail());
-        accountsDb.createAccount(existingAccount);
+        accountsDb.persistAccount(existingAccount);
 
         accountsLogic.joinCourse(key[1], existingAccount);
 
@@ -153,7 +153,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account otherAccount = getTypicalAccount();
         otherAccount.setGoogleId("otherUserId");
         otherAccount.setEmail("other@teammates.tmt");
-        accountsDb.createAccount(otherAccount);
+        accountsDb.persistAccount(otherAccount);
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(key[0], otherAccount));

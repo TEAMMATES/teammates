@@ -61,9 +61,9 @@ public final class AccountsDb {
     }
 
     /**
-     * Creates an Account.
+     * Persists an Account.
      */
-    public Account createAccount(Account account) {
+    public Account persistAccount(Account account) {
         assert account != null;
 
         HibernateUtil.persist(account);
