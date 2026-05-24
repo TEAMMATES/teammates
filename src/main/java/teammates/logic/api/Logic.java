@@ -883,9 +883,7 @@ public class Logic {
     }
 
     /**
-     * Makes the user join the course, i.e. associate the account to the student or instructor.
-     * Preconditions: <br>
-     * * Parameters regkey and account are non-null.
+     * Makes the user join the course, i.e. associate the account to the user.
      */
     public User joinCourse(String regkey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {

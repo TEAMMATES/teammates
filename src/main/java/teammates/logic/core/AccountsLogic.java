@@ -3,6 +3,7 @@ package teammates.logic.core;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -167,25 +168,16 @@ public final class AccountsLogic {
     }
 
     /**
-     * Makes the user join the course, i.e. associate the account to the student or instructor.
-     * Preconditions: <br>
-     * * Parameters regkey and account are non-null.
+     * Makes the user join the course, i.e. associate the account to the user.
      */
     public User joinCourse(String registrationKey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        assert registrationKey != null;
-        assert account != null;
+        Objects.requireNonNull(account);
+        Objects.requireNonNull(registrationKey);
 
         User user = validateJoinRequest(registrationKey, account.getGoogleId());
         assert user.getAccount() == null;
         user.setAccount(account);
-        // Update the googleId of the student entity for the instructor which was created from sample data.
-        // TODO: The student entity from sample data must be joined separately as the email used here may be incorrect.
-        // i.e. the instructor email may be different from its corresponding student email.
-        // Student studentForInstructor = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-        // if (studentForInstructor != null) {
-        //     studentForInstructor.setAccount(account);
-        // }
         return user;
     }
 
