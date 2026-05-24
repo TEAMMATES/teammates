@@ -33,6 +33,8 @@ public final class Const {
     public static final Charset ENCODING = StandardCharsets.UTF_8;
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
+    public static final Duration FEEDBACK_SESSION_REMINDER_EMAIL_REDUNDANCY_WINDOW = Duration.ofHours(2);
+    public static final Duration FEEDBACK_SESSION_EVENT_EMAIL_LOOKBACK_WINDOW = Duration.ofDays(2);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
     public static final Duration STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = Duration.ofDays(90);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
