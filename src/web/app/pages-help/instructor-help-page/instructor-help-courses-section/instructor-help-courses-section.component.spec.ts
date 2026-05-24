@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section.component';
 
 describe('InstructorHelpCoursesSectionComponent', () => {
@@ -9,7 +8,6 @@ describe('InstructorHelpCoursesSectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxPageScrollCoreModule],
       providers: [provideRouter([])],
     }).compileComponents();
 

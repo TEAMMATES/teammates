@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { EnrollStatus } from './enroll-status';
 import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-page.component';
 import { Student, JoinState } from '../../../types/api-output';
@@ -14,7 +13,6 @@ describe('InstructorCourseEnrollPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxPageScrollCoreModule],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
