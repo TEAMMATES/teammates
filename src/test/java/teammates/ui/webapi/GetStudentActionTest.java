@@ -355,6 +355,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsInstructor(stubInstructor.getId().toString());
         verifyCanAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -369,6 +370,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsInstructor(stubInstructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -381,6 +383,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsInstructor(stubInstructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -389,6 +392,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsStudent("student-googleId");
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -397,6 +401,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsUnregistered("unregistered-googleId");
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.USER_ID, stubStudent.getId().toString());
+        logoutUser();
     }
 
     @Test

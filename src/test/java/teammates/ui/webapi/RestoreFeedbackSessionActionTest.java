@@ -109,6 +109,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         loginAsInstructor(stubInstructor.getId().toString());
         verifyCanAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -123,6 +124,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         loginAsInstructor(stubInstructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -134,6 +136,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         when(mockLogic.getCourse(stubFeedbackSession.getCourse().getId())).thenReturn(stubFeedbackSession.getCourse());
         loginAsInstructor(stubInstructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -141,6 +144,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
         loginAsStudent("student-googleId");
         verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+        logoutUser();
     }
 
     @Test
@@ -148,6 +152,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
         loginAsUnregistered("unregistered-googleId");
         verifyCannotAccess(Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString());
+        logoutUser();
     }
 
     @Test

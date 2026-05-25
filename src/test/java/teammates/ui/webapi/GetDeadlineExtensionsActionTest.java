@@ -67,6 +67,7 @@ public class GetDeadlineExtensionsActionTest
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         loginAsInstructor(typicalInstructor.getId().toString());
         verifyCanAccess(getTypicalParams());
+        logoutUser();
     }
 
     @Test
@@ -80,6 +81,7 @@ public class GetDeadlineExtensionsActionTest
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         loginAsInstructor(typicalInstructor.getId().toString());
         verifyCannotAccess(getTypicalParams());
+        logoutUser();
     }
 
     @Test
@@ -91,18 +93,21 @@ public class GetDeadlineExtensionsActionTest
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         loginAsInstructor(typicalInstructor.getId().toString());
         verifyCannotAccess(getTypicalParams());
+        logoutUser();
     }
 
     @Test
     void testAccessControl_student_cannotAccess() {
         loginAsStudent("student-googleId");
         verifyCannotAccess(getTypicalParams());
+        logoutUser();
     }
 
     @Test
     void testAccessControl_unregistered_cannotAccess() {
         loginAsUnregistered("unregistered-googleId");
         verifyCannotAccess(getTypicalParams());
+        logoutUser();
     }
 
     @Test
@@ -115,6 +120,7 @@ public class GetDeadlineExtensionsActionTest
     void testExecute_noParameters_shouldFail() {
         loginAsInstructor(typicalInstructor.getGoogleId());
         verifyHttpParameterFailure();
+        logoutUser();
     }
 
     @Test
@@ -123,6 +129,7 @@ public class GetDeadlineExtensionsActionTest
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         verifyEntityNotFoundAcl(getTypicalParams());
+        logoutUser();
     }
 
     @Test

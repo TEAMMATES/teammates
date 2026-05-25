@@ -288,6 +288,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         loginAsInstructor(stubInstructorWithAllPrivileges.getId().toString());
         verifyCanAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId());
+        logoutUser();
     }
 
     @Test
@@ -301,6 +302,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
         loginAsInstructor(instructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, stubCourse.getId());
+        logoutUser();
     }
 
     @Test

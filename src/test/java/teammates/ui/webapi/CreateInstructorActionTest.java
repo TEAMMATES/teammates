@@ -88,6 +88,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(newInstructor.getName(), response.getName());
         assertEquals(newInstructor.getEmail(), response.getEmail());
+        logoutUser();
     }
 
     @Test
@@ -110,6 +111,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         InvalidOperationException ioe = verifyInvalidOperation(requestBody, params);
+
         assertEquals("An instructor with the same email address already exists in the course.",
                 ioe.getMessage());
 
@@ -117,6 +119,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
+        logoutUser();
     }
 
     @Test
@@ -144,6 +147,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).createInstructor(any(Instructor.class));
+        logoutUser();
     }
 
     @Test
@@ -186,6 +190,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(newInstructor.getName(), response.getName());
         assertEquals(newInstructor.getEmail(), response.getEmail());
+        logoutUser();
     }
 
     @Test
@@ -195,6 +200,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         loginAsInstructor(typicalInstructor.getId().toString());
         verifyCanAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+        logoutUser();
     }
 
     @Test
@@ -207,6 +213,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         loginAsInstructor(typicalInstructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+        logoutUser();
     }
 
     @Test
@@ -217,18 +224,21 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         loginAsInstructor(typicalInstructor.getId().toString());
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+        logoutUser();
     }
 
     @Test
     void testAccessControl_student_cannotAccess() {
         loginAsStudent("student-googleId");
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+        logoutUser();
     }
 
     @Test
     void testAccessControl_unregistered_cannotAccess() {
         loginAsUnregistered("unregistered-googleId");
         verifyCannotAccess(Const.ParamsNames.COURSE_ID, typicalCourse.getId());
+        logoutUser();
     }
 
     @Test
