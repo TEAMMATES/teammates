@@ -1,14 +1,14 @@
 package teammates.ui.request;
 
 /**
- * The request that contain RegKey.
+ * The request that contains a registration key.
  */
 public class RegKeyRequest extends BasicRequest {
     private String key;
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(key != null, "RegKey can not be null");
+        assertTrue(key != null, "Registration key cannot be null");
     }
 
     public String getKey() {
