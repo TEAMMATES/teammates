@@ -124,16 +124,18 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     public void verifyNumScaleStatistics(int questionNum, String[] expectedStats) {
-        verifyTableRowValues(getNumScaleStatistics(questionNum), expectedStats);
+        verifyTableBodyValues(getNumScaleStatisticsTable(questionNum), new String[][] { expectedStats });
     }
 
     public void verifyRubricStatistics(int questionNum, String[][] expectedStats,
             String[][] expectedStatsExcludingSelf) {
         WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
         markOptionAsUnselected(excludeSelfCheckbox);
+        waitForPageToLoad();
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
 
         markOptionAsSelected(excludeSelfCheckbox);
+        waitForPageToLoad();
         verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatsExcludingSelf);
     }
 
@@ -590,8 +592,8 @@ public class FeedbackResultsPage extends AppPage {
         return responseView.findElements(By.tagName("tm-single-response"));
     }
 
-    private WebElement getNumScaleStatistics(int questionNum) {
-        return getQuestionResponsesSection(questionNum).findElement(By.cssSelector("#numscale-statistics tbody tr"));
+    private WebElement getNumScaleStatisticsTable(int questionNum) {
+        return getQuestionResponsesSection(questionNum).findElement(By.id("numscale-statistics"));
     }
 
     private WebElement getRubricExcludeSelfCheckbox(int questionNum) {

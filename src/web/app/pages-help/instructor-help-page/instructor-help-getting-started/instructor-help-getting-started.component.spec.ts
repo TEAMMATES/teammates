@@ -1,10 +1,8 @@
-import { DOCUMENT } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 
 describe('InstructorHelpGettingStartedComponent', () => {
@@ -21,9 +19,6 @@ describe('InstructorHelpGettingStartedComponent', () => {
             sanitize: () => '',
           },
         },
-        { provide: DOCUMENT, useValue: document },
-        PageScrollService,
-        { provide: NGXPS_CONFIG, useValue: {} },
         provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),

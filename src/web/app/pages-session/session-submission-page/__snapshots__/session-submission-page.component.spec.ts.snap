@@ -15,7 +15,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -44,7 +43,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -176,7 +175,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -205,7 +203,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -334,7 +332,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -363,7 +360,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -492,7 +489,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   courseName={[Function String]}
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -521,7 +517,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
   previewAsPerson=""
@@ -783,7 +779,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -812,7 +807,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -3819,7 +3814,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -3848,7 +3842,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
   previewAsPerson=""
@@ -6891,7 +6885,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -6920,7 +6913,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
   previewAsPerson=""
@@ -7050,7 +7043,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   courseName=""
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
-  document={[Function Document]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
@@ -7079,7 +7071,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   moderatedQuestionId=""
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  pageScrollService={[Function PageScrollService]}
+  pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
   previewAsPerson=""

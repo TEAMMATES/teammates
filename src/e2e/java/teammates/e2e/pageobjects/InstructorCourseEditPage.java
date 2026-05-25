@@ -362,7 +362,7 @@ public class InstructorCourseEditPage extends AppPage {
         click(getSessionLevelCheckbox(instrNum, panelNum, getSessionIndex(instrNum, session),
                 getSessionLevelPrivilegeIndex(privilege)));
         clickSaveInstructorButton(instrNum);
-        waitForPageToLoad();
+        waitForPageToLoad(true);
     }
 
     private int getNumInstructors() {
