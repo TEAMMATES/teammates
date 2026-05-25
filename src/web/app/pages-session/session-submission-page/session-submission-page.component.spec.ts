@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
@@ -646,7 +645,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, NgxPageScrollCoreModule],
+      imports: [BrowserAnimationsModule],
       providers: [
         provideRouter([]),
         provideHttpClient(),
