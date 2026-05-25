@@ -145,12 +145,13 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should join course when join course button is clicked on', () => {
-    const params: string[] = ['key'];
+    const key = 'key';
+    const entityType = 'student';
     component.isLoading = false;
     component.hasJoined = false;
     component.userId = 'user';
-    component.key = params[0];
-    component.entityType = params[1];
+    component.key = key;
+    component.entityType = entityType;
     component.validUrl = true;
 
     const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
@@ -162,9 +163,9 @@ describe('UserJoinPageComponent', () => {
     btn.click();
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
-    expect(courseSpy).toHaveBeenLastCalledWith(...params);
+    expect(courseSpy).toHaveBeenLastCalledWith({ key });
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith(`/web/${params[1]}`);
+    expect(navSpy).toHaveBeenLastCalledWith(`/web/${entityType}`);
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
