@@ -61,10 +61,8 @@ import teammates.ui.output.UsageStatisticsData;
 /**
  * Base class for all browser tests.
  *
- * <p>
- * This type of test has no knowledge of the workings of the application,
- * and can only communicate via the UI or via {@link BackDoor} to
- * obtain/transmit data.
+ * <p>This type of test has no knowledge of the workings of the application,
+ * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
  */
 public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
@@ -114,11 +112,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Contains all the tests for the page.
      *
-     * <p>
-     * This approach is chosen so that setup and teardown are only needed once per
-     * test page,
-     * thereby saving time. While it necessitates failed tests to be restarted from
-     * the beginning,
+     * <p>This approach is chosen so that setup and teardown are only needed once per test page,
+     * thereby saving time. While it necessitates failed tests to be restarted from the beginning,
      * test failures are rare and thus not causing significant overhead.
      */
     protected abstract void testAll();
@@ -135,8 +130,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         }
         boolean isSuccess = context.getFailedTests().getAllMethods()
                 .stream()
-                .noneMatch(
-                        method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
+                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
             browser.close();
         }
@@ -227,8 +221,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Visits the URL and gets the page object representation of the visited web
-     * page in the browser.
+     * Visits the URL and gets the page object representation of the visited web page in the browser.
      */
     protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
         browser.goToUrl(url.toAbsoluteString());
@@ -341,8 +334,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedStudent.getComments(), actualStudent.getComments());
             // TODO: A student might not have a team or section.
             // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
-            // assertEquals(expectedStudent.getSectionName(),
-            // actualStudent.getSectionName());
+            // assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
         } else if (expected instanceof UsageStatistics) {
             UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
             UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
@@ -447,8 +439,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback question data for the given question number and feedback
-     * session ID.
+     * Gets the feedback question data for the given question number and feedback session ID.
      */
     protected FeedbackQuestionData getFeedbackQuestion(int questionNumber, UUID feedbackSessionId) {
         return BACKDOOR.getFeedbackQuestionData(questionNumber, feedbackSessionId);
@@ -462,8 +453,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback response data for the given question ID, giver, and
-     * recipient.
+     * Gets the feedback question data for the given question number and feedback session ID.
      */
     protected FeedbackResponseData getFeedbackResponse(String questionId, ResponseGiver giver, ResponseRecipient recipient) {
         return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
@@ -484,8 +474,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback response comment data for the given feedback response
-     * comment.
+     * Gets the feedback question data for the given question number and feedback session ID.
      */
     protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
         return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
@@ -506,12 +495,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             return getFeedbackSession(feedbackSession.getId());
         }
 
-        // Feedback session may not have ID in some tests (where session is manually
-        // created).
-        // As a workaround, we fetch all feedback sessions for the course and filter by
-        // fs name.
-        // This is not ideal but should be sufficient for the tests that require this
-        // method.
+        // Feedback session may not have ID in some tests (where session is manually created).
+        // As a workaround, we fetch all feedback sessions for the course and filter by fs name.
+        // This is not ideal but should be sufficient for the tests that require this method.
         List<FeedbackSessionData> feedbackSessions = getFeedbackSessionsForCourse(feedbackSession.getCourseId());
         return feedbackSessions.stream()
                 .filter(session -> session.getFeedbackSessionName().equals(feedbackSession.getName()))
@@ -527,8 +513,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the soft-deleted feedback session data for the given feedback session
-     * name and instructor ID.
+     * Gets the soft-deleted feedback session data for the given feedback session name and instructor ID.
      */
     protected FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
         return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
@@ -618,10 +603,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Updates the feedback response comment in the database.
      *
-     * @param commentId          the ID of the comment to update
-     * @param commentText        the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to
-     *                           modify comments
+     * @param commentId the ID of the comment to update
+     * @param commentText the new comment text
+     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
     protected void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
         BACKDOOR.updateFeedbackResponseComment(commentId, commentText, instructorGoogleId);

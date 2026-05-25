@@ -52,8 +52,7 @@ public class GetNotificationsAction extends Action {
         List<Notification> notifications;
 
         if (targetUserString == null && authContext.isAdmin()) {
-            // if request is from admin and targetUser is not specified, retrieve all
-            // notifications
+            // if request is from admin and targetUser is not specified, retrieve all notifications
             notifications = logic.getAllNotifications();
             return new JsonResult(new NotificationsData(notifications));
         }

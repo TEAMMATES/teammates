@@ -5,6 +5,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { DateTimeService } from '../../../../services/datetime.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/datetime-const';
@@ -37,7 +38,7 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
 })
 export class NotificationEditFormComponent {
   private simpleModalService = inject(SimpleModalService);
-
+  private dateTimeService = inject(DateTimeService);
   NotificationEditFormMode!: typeof NotificationEditFormMode;
   NotificationStyle!: typeof NotificationStyle;
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -129,51 +130,18 @@ export class NotificationEditFormComponent {
         this.cancelEditingNotificationEvent.emit();
       });
   }
+
   /**
-   * Check if notification is visible and been shown to users.
+   * Checks if notification is active.
    * A notification is shown if current time is after its start time.
    */
   isNotificationActive(): boolean {
     const { startDate, startTime } = this.model;
-
     if (!startDate || !startTime) {
       return false;
     }
-
-    try {
-      const year = startDate.year;
-
-      if (year === 0) {
-        return false;
-      }
-
-      const month = startDate.month - 1;
-      const day = startDate.day;
-
-      let hours: number;
-      let minutes: number;
-
-      if (typeof startTime === 'string') {
-        const timeParts = (startTime as string).split(':');
-        hours = parseInt(timeParts[0], 10);
-        minutes = parseInt(timeParts[1], 10);
-      } else {
-        hours = (startTime as any).hour ?? (startTime as any).hours ?? 0;
-        minutes = (startTime as any).minute ?? (startTime as any).minutes ?? 0;
-      }
-
-      if (isNaN(hours) || isNaN(minutes) || isNaN(year) || isNaN(month) || isNaN(day)) {
-        console.warn('Invalid date/time values:', { year, month, day, hours, minutes });
-        return false;
-      }
-
-      const startTimestamp = new Date(year, month, day, hours, minutes, 0, 0).getTime();
-      const now = Date.now();
-
-      return now > startTimestamp;
-    } catch (error) {
-      console.error('Error calculating notification active state:', error);
-      return false;
-    }
+    const startTimestamp = this.dateTimeService.convertDateFormatAndTimeFormatToDate(startDate, startTime).getTime();
+    const now = Date.now();
+    return now > startTimestamp;
   }
 }
