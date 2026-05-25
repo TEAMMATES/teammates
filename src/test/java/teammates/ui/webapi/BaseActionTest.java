@@ -494,24 +494,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyWithoutLoginCannotAccess(params);
     }
 
-    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-            Course thisCourse, String privilege, String... submissionParams) {
-        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-        verifyStudentsCannotAccess(submissionParams);
-        verifyUnregisteredCannotAccess(submissionParams);
-        verifyWithoutLoginCannotAccess(submissionParams);
-    }
-
-    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-            Course thisCourse, InstructorPrivileges privilege, String... submissionParams) {
-        verifyAccessibleWithCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-        verifyInaccessibleWithoutCorrectSameCoursePrivilege(thisCourse, privilege, submissionParams);
-        verifyStudentsCannotAccess(submissionParams);
-        verifyUnregisteredCannotAccess(submissionParams);
-        verifyWithoutLoginCannotAccess(submissionParams);
-    }
-
     // Students
     void verifyOnlyStudentsCanAccess(String... params) {
         verifyStudentsCanAccess(params);
