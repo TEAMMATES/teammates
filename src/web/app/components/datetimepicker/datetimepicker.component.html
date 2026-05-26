@@ -1,0 +1,17 @@
+<tm-datepicker
+  [date]="date"
+  [isDisabled]="isDisabled"
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+  (dateChangeCallback)="onDateChange($event)"
+></tm-datepicker>
+<tm-timepicker
+  [date]="date"
+  [time]="time"
+  [isDisabled]="isDisabled"
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+  [minTime]="minTime"
+  [maxTime]="maxTime"
+  (timeChange)="onTimeChange($event)"
+></tm-timepicker>

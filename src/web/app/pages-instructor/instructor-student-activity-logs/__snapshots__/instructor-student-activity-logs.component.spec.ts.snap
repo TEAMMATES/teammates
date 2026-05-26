@@ -10,6 +10,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap when page is still
   course={[Function Object]}
   courseService={[Function _CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function _DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -70,6 +71,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap when searching for
   course={[Function Object]}
   courseService={[Function _CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function _DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -221,157 +223,189 @@ exports[`InstructorStudentActivityLogsComponent > should snap when searching for
           </label>
           <div
             class="input-group"
+            id="logs-from-datepicker"
           >
             <div
-              class="input-group"
-              id="logs-from-datepicker"
-            >
-              <input
-                aria-label="Date to search from"
-                class="form-control ng-untouched ng-pristine ng-valid"
-                ngbdatepicker=""
-                readonly=""
-                type="text"
-              />
-              <button
-                aria-label="Change date"
-                class="btn btn-light"
-                type="button"
-              >
-                <i
-                  class="fas fa-calendar-alt"
-                />
-              </button>
-            </div>
-            <tm-timepicker
               id="logs-from-timepicker"
             >
-              <select
-                aria-label="Select time"
-                class="form-control form-select ng-untouched ng-pristine ng-valid"
+              <tm-datetimepicker
+                class="d-flex align-items-center gap-2"
               >
-                <option
-                  value="1: Object"
-                >
-                   01:00H 
-                </option>
-                <option
-                  value="2: Object"
-                >
-                   02:00H 
-                </option>
-                <option
-                  value="3: Object"
-                >
-                   03:00H 
-                </option>
-                <option
-                  value="4: Object"
-                >
-                   04:00H 
-                </option>
-                <option
-                  value="5: Object"
-                >
-                   05:00H 
-                </option>
-                <option
-                  value="6: Object"
-                >
-                   06:00H 
-                </option>
-                <option
-                  value="7: Object"
-                >
-                   07:00H 
-                </option>
-                <option
-                  value="8: Object"
-                >
-                   08:00H 
-                </option>
-                <option
-                  value="9: Object"
-                >
-                   09:00H 
-                </option>
-                <option
-                  value="10: Object"
-                >
-                   10:00H 
-                </option>
-                <option
-                  value="11: Object"
-                >
-                   11:00H 
-                </option>
-                <option
-                  value="12: Object"
-                >
-                   12:00H 
-                </option>
-                <option
-                  value="13: Object"
-                >
-                   13:00H 
-                </option>
-                <option
-                  value="14: Object"
-                >
-                   14:00H 
-                </option>
-                <option
-                  value="15: Object"
-                >
-                   15:00H 
-                </option>
-                <option
-                  value="16: Object"
-                >
-                   16:00H 
-                </option>
-                <option
-                  value="17: Object"
-                >
-                   17:00H 
-                </option>
-                <option
-                  value="18: Object"
-                >
-                   18:00H 
-                </option>
-                <option
-                  value="19: Object"
-                >
-                   19:00H 
-                </option>
-                <option
-                  value="20: Object"
-                >
-                   20:00H 
-                </option>
-                <option
-                  value="21: Object"
-                >
-                   21:00H 
-                </option>
-                <option
-                  value="22: Object"
-                >
-                   22:00H 
-                </option>
-                <option
-                  value="23: Object"
-                >
-                   23:00H 
-                </option>
-                <option
-                  value="0: Object"
-                >
-                  23:59H
-                </option>
-              </select>
-            </tm-timepicker>
+                <tm-datepicker>
+                  <div
+                    class="input-group"
+                  >
+                    <input
+                      aria-label="Date"
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      ngbdatepicker=""
+                      readonly=""
+                      type="text"
+                    />
+                    <button
+                      aria-label="Change date"
+                      class="btn btn-light input-group-text"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-calendar-alt"
+                      />
+                    </button>
+                  </div>
+                </tm-datepicker>
+                <tm-timepicker>
+                  <select
+                    aria-label="Select time"
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
+                  >
+                    <option
+                      disabled=""
+                      value="1: Object"
+                    >
+                       01:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="2: Object"
+                    >
+                       02:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="3: Object"
+                    >
+                       03:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="4: Object"
+                    >
+                       04:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="5: Object"
+                    >
+                       05:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="6: Object"
+                    >
+                       06:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="7: Object"
+                    >
+                       07:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="8: Object"
+                    >
+                       08:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="9: Object"
+                    >
+                       09:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="10: Object"
+                    >
+                       10:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="11: Object"
+                    >
+                       11:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="12: Object"
+                    >
+                       12:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="13: Object"
+                    >
+                       13:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="14: Object"
+                    >
+                       14:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="15: Object"
+                    >
+                       15:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="16: Object"
+                    >
+                       16:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="17: Object"
+                    >
+                       17:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="18: Object"
+                    >
+                       18:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="19: Object"
+                    >
+                       19:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="20: Object"
+                    >
+                       20:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="21: Object"
+                    >
+                       21:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="22: Object"
+                    >
+                       22:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="23: Object"
+                    >
+                       23:00H 
+                    </option>
+                    <option
+                      disabled=""
+                      value="0: Object"
+                    >
+                      23:59H
+                    </option>
+                  </select>
+                </tm-timepicker>
+              </tm-datetimepicker>
+            </div>
           </div>
         </div>
         <div
@@ -385,158 +419,165 @@ exports[`InstructorStudentActivityLogsComponent > should snap when searching for
           </label>
           <div
             class="input-group"
+            id="logs-to-datepicker"
           >
             <div
-              class="input-group"
-              id="logs-to-datepicker"
-            >
-              <input
-                aria-label="Date to search until"
-                class="form-control ng-untouched ng-pristine ng-valid"
-                ngbdatepicker=""
-                readonly=""
-                type="text"
-              />
-              <button
-                aria-label="Change date"
-                class="btn btn-light"
-                type="button"
-              >
-                <i
-                  class="fas fa-calendar-alt"
-                />
-              </button>
-            </div>
-            <tm-timepicker
-              aria-label="Search period until time"
               id="logs-to-timepicker"
             >
-              <select
-                aria-label="Select time"
-                class="form-control form-select ng-untouched ng-pristine ng-valid"
+              <tm-datetimepicker
+                class="d-flex align-items-center gap-2"
               >
-                <option
-                  value="1: Object"
-                >
-                   01:00H 
-                </option>
-                <option
-                  value="2: Object"
-                >
-                   02:00H 
-                </option>
-                <option
-                  value="3: Object"
-                >
-                   03:00H 
-                </option>
-                <option
-                  value="4: Object"
-                >
-                   04:00H 
-                </option>
-                <option
-                  value="5: Object"
-                >
-                   05:00H 
-                </option>
-                <option
-                  value="6: Object"
-                >
-                   06:00H 
-                </option>
-                <option
-                  value="7: Object"
-                >
-                   07:00H 
-                </option>
-                <option
-                  value="8: Object"
-                >
-                   08:00H 
-                </option>
-                <option
-                  value="9: Object"
-                >
-                   09:00H 
-                </option>
-                <option
-                  value="10: Object"
-                >
-                   10:00H 
-                </option>
-                <option
-                  value="11: Object"
-                >
-                   11:00H 
-                </option>
-                <option
-                  value="12: Object"
-                >
-                   12:00H 
-                </option>
-                <option
-                  value="13: Object"
-                >
-                   13:00H 
-                </option>
-                <option
-                  value="14: Object"
-                >
-                   14:00H 
-                </option>
-                <option
-                  value="15: Object"
-                >
-                   15:00H 
-                </option>
-                <option
-                  value="16: Object"
-                >
-                   16:00H 
-                </option>
-                <option
-                  value="17: Object"
-                >
-                   17:00H 
-                </option>
-                <option
-                  value="18: Object"
-                >
-                   18:00H 
-                </option>
-                <option
-                  value="19: Object"
-                >
-                   19:00H 
-                </option>
-                <option
-                  value="20: Object"
-                >
-                   20:00H 
-                </option>
-                <option
-                  value="21: Object"
-                >
-                   21:00H 
-                </option>
-                <option
-                  value="22: Object"
-                >
-                   22:00H 
-                </option>
-                <option
-                  value="23: Object"
-                >
-                   23:00H 
-                </option>
-                <option
-                  value="0: Object"
-                >
-                  23:59H
-                </option>
-              </select>
-            </tm-timepicker>
+                <tm-datepicker>
+                  <div
+                    class="input-group"
+                  >
+                    <input
+                      aria-label="Date"
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      ngbdatepicker=""
+                      readonly=""
+                      type="text"
+                    />
+                    <button
+                      aria-label="Change date"
+                      class="btn btn-light input-group-text"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-calendar-alt"
+                      />
+                    </button>
+                  </div>
+                </tm-datepicker>
+                <tm-timepicker>
+                  <select
+                    aria-label="Select time"
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
+                  >
+                    <option
+                      value="1: Object"
+                    >
+                       01:00H 
+                    </option>
+                    <option
+                      value="2: Object"
+                    >
+                       02:00H 
+                    </option>
+                    <option
+                      value="3: Object"
+                    >
+                       03:00H 
+                    </option>
+                    <option
+                      value="4: Object"
+                    >
+                       04:00H 
+                    </option>
+                    <option
+                      value="5: Object"
+                    >
+                       05:00H 
+                    </option>
+                    <option
+                      value="6: Object"
+                    >
+                       06:00H 
+                    </option>
+                    <option
+                      value="7: Object"
+                    >
+                       07:00H 
+                    </option>
+                    <option
+                      value="8: Object"
+                    >
+                       08:00H 
+                    </option>
+                    <option
+                      value="9: Object"
+                    >
+                       09:00H 
+                    </option>
+                    <option
+                      value="10: Object"
+                    >
+                       10:00H 
+                    </option>
+                    <option
+                      value="11: Object"
+                    >
+                       11:00H 
+                    </option>
+                    <option
+                      value="12: Object"
+                    >
+                       12:00H 
+                    </option>
+                    <option
+                      value="13: Object"
+                    >
+                       13:00H 
+                    </option>
+                    <option
+                      value="14: Object"
+                    >
+                       14:00H 
+                    </option>
+                    <option
+                      value="15: Object"
+                    >
+                       15:00H 
+                    </option>
+                    <option
+                      value="16: Object"
+                    >
+                       16:00H 
+                    </option>
+                    <option
+                      value="17: Object"
+                    >
+                       17:00H 
+                    </option>
+                    <option
+                      value="18: Object"
+                    >
+                       18:00H 
+                    </option>
+                    <option
+                      value="19: Object"
+                    >
+                       19:00H 
+                    </option>
+                    <option
+                      value="20: Object"
+                    >
+                       20:00H 
+                    </option>
+                    <option
+                      value="21: Object"
+                    >
+                       21:00H 
+                    </option>
+                    <option
+                      value="22: Object"
+                    >
+                       22:00H 
+                    </option>
+                    <option
+                      value="23: Object"
+                    >
+                       23:00H 
+                    </option>
+                    <option
+                      value="0: Object"
+                    >
+                      23:59H
+                    </option>
+                  </select>
+                </tm-timepicker>
+              </tm-datetimepicker>
+            </div>
           </div>
         </div>
         <div
@@ -612,6 +653,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap with default field
   course={[Function Object]}
   courseService={[Function _CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function _DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -672,6 +714,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap with results of a 
   course={[Function Object]}
   courseService={[Function _CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function _DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -818,157 +861,165 @@ exports[`InstructorStudentActivityLogsComponent > should snap with results of a 
           </label>
           <div
             class="input-group"
+            id="logs-from-datepicker"
           >
             <div
-              class="input-group"
-              id="logs-from-datepicker"
-            >
-              <input
-                aria-label="Date to search from"
-                class="form-control ng-untouched ng-pristine ng-valid"
-                ngbdatepicker=""
-                readonly=""
-                type="text"
-              />
-              <button
-                aria-label="Change date"
-                class="btn btn-light"
-                type="button"
-              >
-                <i
-                  class="fas fa-calendar-alt"
-                />
-              </button>
-            </div>
-            <tm-timepicker
               id="logs-from-timepicker"
             >
-              <select
-                aria-label="Select time"
-                class="form-control form-select ng-untouched ng-pristine ng-valid"
+              <tm-datetimepicker
+                class="d-flex align-items-center gap-2"
               >
-                <option
-                  value="1: Object"
-                >
-                   01:00H 
-                </option>
-                <option
-                  value="2: Object"
-                >
-                   02:00H 
-                </option>
-                <option
-                  value="3: Object"
-                >
-                   03:00H 
-                </option>
-                <option
-                  value="4: Object"
-                >
-                   04:00H 
-                </option>
-                <option
-                  value="5: Object"
-                >
-                   05:00H 
-                </option>
-                <option
-                  value="6: Object"
-                >
-                   06:00H 
-                </option>
-                <option
-                  value="7: Object"
-                >
-                   07:00H 
-                </option>
-                <option
-                  value="8: Object"
-                >
-                   08:00H 
-                </option>
-                <option
-                  value="9: Object"
-                >
-                   09:00H 
-                </option>
-                <option
-                  value="10: Object"
-                >
-                   10:00H 
-                </option>
-                <option
-                  value="11: Object"
-                >
-                   11:00H 
-                </option>
-                <option
-                  value="12: Object"
-                >
-                   12:00H 
-                </option>
-                <option
-                  value="13: Object"
-                >
-                   13:00H 
-                </option>
-                <option
-                  value="14: Object"
-                >
-                   14:00H 
-                </option>
-                <option
-                  value="15: Object"
-                >
-                   15:00H 
-                </option>
-                <option
-                  value="16: Object"
-                >
-                   16:00H 
-                </option>
-                <option
-                  value="17: Object"
-                >
-                   17:00H 
-                </option>
-                <option
-                  value="18: Object"
-                >
-                   18:00H 
-                </option>
-                <option
-                  value="19: Object"
-                >
-                   19:00H 
-                </option>
-                <option
-                  value="20: Object"
-                >
-                   20:00H 
-                </option>
-                <option
-                  value="21: Object"
-                >
-                   21:00H 
-                </option>
-                <option
-                  value="22: Object"
-                >
-                   22:00H 
-                </option>
-                <option
-                  value="23: Object"
-                >
-                   23:00H 
-                </option>
-                <option
-                  value="0: Object"
-                >
-                  23:59H
-                </option>
-              </select>
-            </tm-timepicker>
+                <tm-datepicker>
+                  <div
+                    class="input-group"
+                  >
+                    <input
+                      aria-label="Date"
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      ngbdatepicker=""
+                      readonly=""
+                      type="text"
+                    />
+                    <button
+                      aria-label="Change date"
+                      class="btn btn-light input-group-text"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-calendar-alt"
+                      />
+                    </button>
+                  </div>
+                </tm-datepicker>
+                <tm-timepicker>
+                  <select
+                    aria-label="Select time"
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
+                  >
+                    <option
+                      value="1: Object"
+                    >
+                       01:00H 
+                    </option>
+                    <option
+                      value="2: Object"
+                    >
+                       02:00H 
+                    </option>
+                    <option
+                      value="3: Object"
+                    >
+                       03:00H 
+                    </option>
+                    <option
+                      value="4: Object"
+                    >
+                       04:00H 
+                    </option>
+                    <option
+                      value="5: Object"
+                    >
+                       05:00H 
+                    </option>
+                    <option
+                      value="6: Object"
+                    >
+                       06:00H 
+                    </option>
+                    <option
+                      value="7: Object"
+                    >
+                       07:00H 
+                    </option>
+                    <option
+                      value="8: Object"
+                    >
+                       08:00H 
+                    </option>
+                    <option
+                      value="9: Object"
+                    >
+                       09:00H 
+                    </option>
+                    <option
+                      value="10: Object"
+                    >
+                       10:00H 
+                    </option>
+                    <option
+                      value="11: Object"
+                    >
+                       11:00H 
+                    </option>
+                    <option
+                      value="12: Object"
+                    >
+                       12:00H 
+                    </option>
+                    <option
+                      value="13: Object"
+                    >
+                       13:00H 
+                    </option>
+                    <option
+                      value="14: Object"
+                    >
+                       14:00H 
+                    </option>
+                    <option
+                      value="15: Object"
+                    >
+                       15:00H 
+                    </option>
+                    <option
+                      value="16: Object"
+                    >
+                       16:00H 
+                    </option>
+                    <option
+                      value="17: Object"
+                    >
+                       17:00H 
+                    </option>
+                    <option
+                      value="18: Object"
+                    >
+                       18:00H 
+                    </option>
+                    <option
+                      value="19: Object"
+                    >
+                       19:00H 
+                    </option>
+                    <option
+                      value="20: Object"
+                    >
+                       20:00H 
+                    </option>
+                    <option
+                      value="21: Object"
+                    >
+                       21:00H 
+                    </option>
+                    <option
+                      value="22: Object"
+                    >
+                       22:00H 
+                    </option>
+                    <option
+                      value="23: Object"
+                    >
+                       23:00H 
+                    </option>
+                    <option
+                      value="0: Object"
+                    >
+                      23:59H
+                    </option>
+                  </select>
+                </tm-timepicker>
+              </tm-datetimepicker>
+            </div>
           </div>
         </div>
         <div
@@ -982,158 +1033,165 @@ exports[`InstructorStudentActivityLogsComponent > should snap with results of a 
           </label>
           <div
             class="input-group"
+            id="logs-to-datepicker"
           >
             <div
-              class="input-group"
-              id="logs-to-datepicker"
-            >
-              <input
-                aria-label="Date to search until"
-                class="form-control ng-untouched ng-pristine ng-valid"
-                ngbdatepicker=""
-                readonly=""
-                type="text"
-              />
-              <button
-                aria-label="Change date"
-                class="btn btn-light"
-                type="button"
-              >
-                <i
-                  class="fas fa-calendar-alt"
-                />
-              </button>
-            </div>
-            <tm-timepicker
-              aria-label="Search period until time"
               id="logs-to-timepicker"
             >
-              <select
-                aria-label="Select time"
-                class="form-control form-select ng-untouched ng-pristine ng-valid"
+              <tm-datetimepicker
+                class="d-flex align-items-center gap-2"
               >
-                <option
-                  value="1: Object"
-                >
-                   01:00H 
-                </option>
-                <option
-                  value="2: Object"
-                >
-                   02:00H 
-                </option>
-                <option
-                  value="3: Object"
-                >
-                   03:00H 
-                </option>
-                <option
-                  value="4: Object"
-                >
-                   04:00H 
-                </option>
-                <option
-                  value="5: Object"
-                >
-                   05:00H 
-                </option>
-                <option
-                  value="6: Object"
-                >
-                   06:00H 
-                </option>
-                <option
-                  value="7: Object"
-                >
-                   07:00H 
-                </option>
-                <option
-                  value="8: Object"
-                >
-                   08:00H 
-                </option>
-                <option
-                  value="9: Object"
-                >
-                   09:00H 
-                </option>
-                <option
-                  value="10: Object"
-                >
-                   10:00H 
-                </option>
-                <option
-                  value="11: Object"
-                >
-                   11:00H 
-                </option>
-                <option
-                  value="12: Object"
-                >
-                   12:00H 
-                </option>
-                <option
-                  value="13: Object"
-                >
-                   13:00H 
-                </option>
-                <option
-                  value="14: Object"
-                >
-                   14:00H 
-                </option>
-                <option
-                  value="15: Object"
-                >
-                   15:00H 
-                </option>
-                <option
-                  value="16: Object"
-                >
-                   16:00H 
-                </option>
-                <option
-                  value="17: Object"
-                >
-                   17:00H 
-                </option>
-                <option
-                  value="18: Object"
-                >
-                   18:00H 
-                </option>
-                <option
-                  value="19: Object"
-                >
-                   19:00H 
-                </option>
-                <option
-                  value="20: Object"
-                >
-                   20:00H 
-                </option>
-                <option
-                  value="21: Object"
-                >
-                   21:00H 
-                </option>
-                <option
-                  value="22: Object"
-                >
-                   22:00H 
-                </option>
-                <option
-                  value="23: Object"
-                >
-                   23:00H 
-                </option>
-                <option
-                  value="0: Object"
-                >
-                  23:59H
-                </option>
-              </select>
-            </tm-timepicker>
+                <tm-datepicker>
+                  <div
+                    class="input-group"
+                  >
+                    <input
+                      aria-label="Date"
+                      class="form-control ng-untouched ng-pristine ng-valid"
+                      ngbdatepicker=""
+                      readonly=""
+                      type="text"
+                    />
+                    <button
+                      aria-label="Change date"
+                      class="btn btn-light input-group-text"
+                      type="button"
+                    >
+                      <i
+                        class="fas fa-calendar-alt"
+                      />
+                    </button>
+                  </div>
+                </tm-datepicker>
+                <tm-timepicker>
+                  <select
+                    aria-label="Select time"
+                    class="form-control form-select ng-untouched ng-pristine ng-valid"
+                  >
+                    <option
+                      value="1: Object"
+                    >
+                       01:00H 
+                    </option>
+                    <option
+                      value="2: Object"
+                    >
+                       02:00H 
+                    </option>
+                    <option
+                      value="3: Object"
+                    >
+                       03:00H 
+                    </option>
+                    <option
+                      value="4: Object"
+                    >
+                       04:00H 
+                    </option>
+                    <option
+                      value="5: Object"
+                    >
+                       05:00H 
+                    </option>
+                    <option
+                      value="6: Object"
+                    >
+                       06:00H 
+                    </option>
+                    <option
+                      value="7: Object"
+                    >
+                       07:00H 
+                    </option>
+                    <option
+                      value="8: Object"
+                    >
+                       08:00H 
+                    </option>
+                    <option
+                      value="9: Object"
+                    >
+                       09:00H 
+                    </option>
+                    <option
+                      value="10: Object"
+                    >
+                       10:00H 
+                    </option>
+                    <option
+                      value="11: Object"
+                    >
+                       11:00H 
+                    </option>
+                    <option
+                      value="12: Object"
+                    >
+                       12:00H 
+                    </option>
+                    <option
+                      value="13: Object"
+                    >
+                       13:00H 
+                    </option>
+                    <option
+                      value="14: Object"
+                    >
+                       14:00H 
+                    </option>
+                    <option
+                      value="15: Object"
+                    >
+                       15:00H 
+                    </option>
+                    <option
+                      value="16: Object"
+                    >
+                       16:00H 
+                    </option>
+                    <option
+                      value="17: Object"
+                    >
+                       17:00H 
+                    </option>
+                    <option
+                      value="18: Object"
+                    >
+                       18:00H 
+                    </option>
+                    <option
+                      value="19: Object"
+                    >
+                       19:00H 
+                    </option>
+                    <option
+                      value="20: Object"
+                    >
+                       20:00H 
+                    </option>
+                    <option
+                      value="21: Object"
+                    >
+                       21:00H 
+                    </option>
+                    <option
+                      value="22: Object"
+                    >
+                       22:00H 
+                    </option>
+                    <option
+                      value="23: Object"
+                    >
+                       23:00H 
+                    </option>
+                    <option
+                      value="0: Object"
+                    >
+                      23:59H
+                    </option>
+                  </select>
+                </tm-timepicker>
+              </tm-datetimepicker>
+            </div>
           </div>
         </div>
         <div

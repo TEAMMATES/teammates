@@ -2,9 +2,10 @@ import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { DateTimeService } from '../../../services/datetime.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -32,6 +33,7 @@ import {
 import { castAsInputElement } from '../../../types/event-target-caster';
 import { SortBy } from '../../../types/sort-properties';
 import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
+import { DatetimepickerComponent } from '../../components/datetimepicker/datetimepicker.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import {
@@ -39,7 +41,6 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../components/sortable-table/sortable-table.component';
-import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -92,8 +93,7 @@ interface FeedbackSessionLogModel {
   imports: [
     LoadingSpinnerDirective,
     FormsModule,
-    NgbInputDatepicker,
-    TimepickerComponent,
+    DatetimepickerComponent,
     NgClass,
     PanelChevronComponent,
     SortableTableComponent,
@@ -108,6 +108,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   private logsService = inject(LogService);
   private timezoneService = inject(TimezoneService);
   private statusMessageService = inject(StatusMessageService);
+  private datetimeService = inject(DateTimeService);
 
   readonly castAsInputElement = castAsInputElement;
 
@@ -152,6 +153,37 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
   constructor() {
     this.SortBy = SortBy;
+  }
+
+  get logsDateTimeFrom(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.formModel.logsDateFrom,
+      this.formModel.logsTimeFrom,
+    );
+  }
+
+  get logsDateTimeTo(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.formModel.logsDateTo,
+      this.formModel.logsTimeTo,
+    );
+  }
+
+  get earliestSearchDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.earliestSearchDate, getDefaultTimeFormat());
+  }
+
+  get dateTodayDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.dateToday, getLatestTimeFormat());
+  }
+
+  triggerDateTimeModelChange(dateField: string, timeField: string, dateTime: Date): void {
+    const [date, time] = this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
+    this.formModel = {
+      ...this.formModel,
+      [dateField]: date,
+      [timeField]: time,
+    };
   }
 
   ngOnInit(): void {

@@ -26,13 +26,12 @@ import {
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
-import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../datetimepicker/datetimepicker.component';
 import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
-import { TimepickerComponent } from '../timepicker/timepicker.component';
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -49,8 +48,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     NgbTooltip,
     NgClass,
     RichTextEditorComponent,
-    DatepickerComponent,
-    TimepickerComponent,
+    DatetimepickerComponent,
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
     NgbCollapse,
@@ -257,6 +255,56 @@ export class SessionEditFormComponent {
   }
 
   /**
+   * Triggers the change of the model when submission opening datetime changes.
+   */
+  triggerSubmissionOpeningDateTimeModelChange(dateTime: Date): void {
+    const [date, convertedTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
+    let time: TimeFormat = convertedTime;
+    const minDate: DateFormat = this.minDateForSubmissionStart;
+    const minTime: TimeFormat = this.minTimeForSubmissionStart;
+
+    if (
+      DateTimeService.compareDateFormat(date, minDate) === 0 &&
+      DateTimeService.compareTimeFormat(time, minTime) === -1
+    ) {
+      this.configureSubmissionOpeningTime(minTime);
+      time = minTime;
+    }
+
+    const updatedModel: SessionEditFormModel = {
+      ...this.model,
+      submissionStartDate: date,
+      submissionStartTime: time,
+    };
+
+    const submissionDateTime = this.combineDateAndTime(date, time);
+    const visibilityDateTime = this.combineDateAndTime(
+      updatedModel.customSessionVisibleDate,
+      updatedModel.customSessionVisibleTime,
+    );
+
+    if (submissionDateTime.isBefore(visibilityDateTime)) {
+      updatedModel.customSessionVisibleDate = date;
+      updatedModel.customSessionVisibleTime = time;
+    }
+
+    this.modelChange.emit(updatedModel);
+  }
+
+  /**
+   * Triggers the change of date and time fields from a single Date.
+   */
+  triggerDateTimeModelChange(dateField: string, timeField: string, dateTime: Date): void {
+    const [date, time] = this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
+
+    this.modelChange.emit({
+      ...this.model,
+      [dateField]: date,
+      [timeField]: time,
+    });
+  }
+
+  /**
    * Configures the session visible date and time to ensure it is not after submission opening time.
    */
   configureSessionVisibleDateTime(date: DateFormat, time: TimeFormat): void {
@@ -299,6 +347,27 @@ export class SessionEditFormComponent {
   get minDateForSubmissionStart(): DateFormat {
     const twoHoursBeforeNow = moment().tz(this.model.timeZone).subtract(2, 'hours');
     return this.datetimeService.getDateInstance(twoHoursBeforeNow);
+  }
+
+  get submissionStartDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.submissionStartDate,
+      this.model.submissionStartTime,
+    );
+  }
+
+  get minDateTimeForSubmissionStart(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForSubmissionStart,
+      this.minTimeForSubmissionStart,
+    );
+  }
+
+  get maxDateTimeForSubmissionStart(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.maxDateForSubmissionStart,
+      this.maxTimeForSubmissionStart,
+    );
   }
 
   /**
@@ -344,6 +413,27 @@ export class SessionEditFormComponent {
     return submissionStartDate.isAfter(oneHourBeforeNow)
       ? this.model.submissionStartDate
       : this.datetimeService.getDateInstance(oneHourBeforeNow);
+  }
+
+  get submissionEndDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.submissionEndDate,
+      this.model.submissionEndTime,
+    );
+  }
+
+  get minDateTimeForSubmissionEnd(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForSubmissionEnd,
+      this.minTimeForSubmissionEnd,
+    );
+  }
+
+  get maxDateTimeForSubmissionEnd(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.maxDateForSubmissionEnd,
+      this.maxTimeForSubmissionEnd,
+    );
   }
 
   /**
@@ -401,6 +491,27 @@ export class SessionEditFormComponent {
       .getMomentInstanceFromDate(this.model.submissionStartDate)
       .subtract(30, 'days');
     return this.datetimeService.getDateInstance(thirtyDaysBeforeSubmissionStartDate);
+  }
+
+  get customSessionVisibleDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.customSessionVisibleDate,
+      this.model.customSessionVisibleTime,
+    );
+  }
+
+  get minDateTimeForSessionVisible(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForSessionVisible,
+      this.minTimeForSessionVisible,
+    );
+  }
+
+  get maxDateTimeForSessionVisible(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.maxDateForSessionVisible,
+      this.maxTimeForSessionVisible,
+    );
   }
 
   /**
@@ -490,6 +601,20 @@ export class SessionEditFormComponent {
       default:
         return getDefaultDateFormat();
     }
+  }
+
+  get customResponseVisibleDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.customResponseVisibleDate,
+      this.model.customResponseVisibleTime,
+    );
+  }
+
+  get minDateTimeForResponseVisible(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForResponseVisible,
+      this.minTimeForResponseVisible,
+    );
   }
 
   /**

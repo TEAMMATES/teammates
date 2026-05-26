@@ -31,7 +31,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -111,7 +111,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -191,7 +191,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -338,7 +338,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -931,7 +931,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -1681,7 +1681,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -1968,7 +1968,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -2255,7 +2255,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
   publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"

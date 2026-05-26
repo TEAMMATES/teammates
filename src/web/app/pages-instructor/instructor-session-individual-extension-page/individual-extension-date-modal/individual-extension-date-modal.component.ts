@@ -3,35 +3,31 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
+import { DateTimeService } from '../../../../services/datetime.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import {
   DateFormat,
   TimeFormat,
   getDefaultDateFormat,
+  getDefaultTimeFormat,
   getLatestTimeFormat,
   Hours,
   Milliseconds,
 } from '../../../../types/datetime-const';
-import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
-import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 
 export enum RadioOptions {
   EXTEND_TO = 1,
   EXTEND_BY = 2,
 }
 
-enum DateTime {
-  DATE,
-  TIME,
-}
-
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
-  imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
+  imports: [FormsModule, DatetimepickerComponent, KeyValuePipe],
   providers: [FormatDateDetailPipe],
 })
 export class IndividualExtensionDateModalComponent {
@@ -39,6 +35,7 @@ export class IndividualExtensionDateModalComponent {
   private simpleModalService = inject(SimpleModalService);
   private dateDetailPipe = inject(FormatDateDetailPipe);
   private readonly timeZoneService = inject(TimezoneService);
+  private readonly datetimeService = inject(DateTimeService);
 
   @Input()
   numStudents = 0;
@@ -57,7 +54,6 @@ export class IndividualExtensionDateModalComponent {
 
   RadioOptions!: typeof RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
-  DateTime!: typeof DateTime;
 
   extendByDeadlineKey = '';
   extendByDeadlineOptions: Map<string, number> = new Map([
@@ -78,7 +74,6 @@ export class IndividualExtensionDateModalComponent {
 
   constructor() {
     this.RadioOptions = RadioOptions;
-    this.DateTime = DateTime;
   }
 
   onConfirm(): void {
@@ -104,12 +99,20 @@ export class IndividualExtensionDateModalComponent {
       );
   }
 
-  onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {
-    if (field === DateTime.DATE) {
-      this.extendToDatePicker = data as DateFormat;
-    } else if (field === DateTime.TIME) {
-      this.extendToTimePicker = data as TimeFormat;
-    }
+  onChangeExtendToDateTime(dateTime: Date): void {
+    [this.extendToDatePicker, this.extendToTimePicker] =
+      this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
+  }
+
+  get extendToDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.extendToDatePicker, this.extendToTimePicker);
+  }
+
+  get minDateTimeForExtendTo(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.getDateFormat(this.feedbackSessionEndingTimestamp),
+      getDefaultTimeFormat(),
+    );
   }
 
   getDateFormat(timestamp: number): DateFormat {

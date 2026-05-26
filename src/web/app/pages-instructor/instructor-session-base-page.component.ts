@@ -63,9 +63,13 @@ export abstract class InstructorSessionBasePageComponent {
   coursesOfModifiedSession: string[] = [];
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
-  private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  private publishUnpublishRetryAttempts: number;
 
   private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
+
+  constructor() {
+    this.publishUnpublishRetryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  }
 
   sessionEditFormModel: SessionEditFormModel = {
     feedbackSessionId: '',

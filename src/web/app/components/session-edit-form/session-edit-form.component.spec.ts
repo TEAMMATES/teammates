@@ -137,6 +137,37 @@ describe('SessionEditFormComponent', () => {
     });
   });
 
+  it('should emit modelChange event with updated date and time fields when triggerDateTimeModelChange is called', () => {
+    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
+    const dateTime = new Date(2026, 6, 12, 9, 0);
+
+    component.triggerDateTimeModelChange('submissionEndDate', 'submissionEndTime', dateTime);
+
+    expect(modelChangeSpy).toHaveBeenCalledWith({
+      ...component.model,
+      submissionEndDate: { year: 2026, month: 7, day: 12 },
+      submissionEndTime: { hour: 9, minute: 0 },
+    });
+  });
+
+  it('should emit modelChange event and adjust visibility when submission opening datetime changes', () => {
+    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
+    const dateTime = new Date(2026, 6, 12, 9, 0);
+
+    component.model.customSessionVisibleDate = { year: 2026, month: 7, day: 13 };
+    component.model.customSessionVisibleTime = { hour: 10, minute: 0 };
+
+    component.triggerSubmissionOpeningDateTimeModelChange(dateTime);
+
+    expect(modelChangeSpy).toHaveBeenCalledWith({
+      ...component.model,
+      submissionStartDate: { year: 2026, month: 7, day: 12 },
+      submissionStartTime: { hour: 9, minute: 0 },
+      customSessionVisibleDate: { year: 2026, month: 7, day: 12 },
+      customSessionVisibleTime: { hour: 9, minute: 0 },
+    });
+  });
+
   it('should emit modelChange event when a valid course ID is provided', () => {
     const newCourseId = 'testId1';
     const courseCandidates: Course[] = [
