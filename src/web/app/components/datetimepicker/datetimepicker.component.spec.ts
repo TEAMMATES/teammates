@@ -47,6 +47,34 @@ describe('DatetimepickerComponent', () => {
     expect(component.time).toBe(initialTime);
   });
 
+  it('should reuse date and time object references when Date input has the same timestamp', () => {
+    const initialDate = component.date;
+    const initialTime = component.time;
+
+    component.dateTime = new Date(2026, 4, 26, 14, 30);
+
+    expect(component.date).toBe(initialDate);
+    expect(component.time).toBe(initialTime);
+  });
+
+  it('should reuse bounds object references when Date bounds have the same timestamps', () => {
+    component.minDateTime = new Date(2026, 0, 2, 3, 45);
+    component.maxDateTime = new Date(2026, 11, 31, 23, 59);
+
+    const initialMinDate = component.minDate;
+    const initialMinTime = component.minTime;
+    const initialMaxDate = component.maxDate;
+    const initialMaxTime = component.maxTime;
+
+    component.minDateTime = new Date(2026, 0, 2, 3, 45);
+    component.maxDateTime = new Date(2026, 11, 31, 23, 59);
+
+    expect(component.minDate).toBe(initialMinDate);
+    expect(component.minTime).toBe(initialMinTime);
+    expect(component.maxDate).toBe(initialMaxDate);
+    expect(component.maxTime).toBe(initialMaxTime);
+  });
+
   it('should not emit when date change keeps the same Date value', () => {
     const dateTimeChangeSpy = vi.spyOn(component.dateTimeChange, 'emit');
 

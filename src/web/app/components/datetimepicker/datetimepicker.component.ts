@@ -21,6 +21,10 @@ export class DatetimepickerComponent {
 
   @Input()
   set dateTime(dateTime: Date | undefined) {
+    if (this.hasSameTimestamp(this.internalDateTime, dateTime)) {
+      return;
+    }
+
     this.internalDateTime = dateTime;
     [this.date, this.time] = this.getDateTimeFormatsWithDefaults(dateTime);
   }
@@ -34,6 +38,10 @@ export class DatetimepickerComponent {
 
   @Input()
   set minDateTime(minDateTime: Date | undefined) {
+    if (this.hasSameTimestamp(this.internalMinDateTime, minDateTime)) {
+      return;
+    }
+
     this.internalMinDateTime = minDateTime;
     [this.minDate, this.minTime] = this.getOptionalDateTimeFormats(minDateTime);
   }
@@ -44,6 +52,10 @@ export class DatetimepickerComponent {
 
   @Input()
   set maxDateTime(maxDateTime: Date | undefined) {
+    if (this.hasSameTimestamp(this.internalMaxDateTime, maxDateTime)) {
+      return;
+    }
+
     this.internalMaxDateTime = maxDateTime;
     [this.maxDate, this.maxTime] = this.getOptionalDateTimeFormats(maxDateTime);
   }
@@ -72,7 +84,7 @@ export class DatetimepickerComponent {
 
   private updateDateTime(date: DateFormat, time: TimeFormat): void {
     const updatedDateTime = this.datetimeService.convertDateFormatAndTimeFormatToDate(date, time);
-    if (this.internalDateTime?.getTime() === updatedDateTime.getTime()) {
+    if (this.hasSameTimestamp(this.internalDateTime, updatedDateTime)) {
       return;
     }
 
@@ -94,5 +106,12 @@ export class DatetimepickerComponent {
       return [undefined, undefined];
     }
     return this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
+  }
+
+  private hasSameTimestamp(previousDateTime?: Date, nextDateTime?: Date): boolean {
+    if (!previousDateTime || !nextDateTime) {
+      return previousDateTime === nextDateTime;
+    }
+    return previousDateTime.getTime() === nextDateTime.getTime();
   }
 }
