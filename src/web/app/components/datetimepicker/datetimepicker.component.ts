@@ -15,52 +15,52 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
 export class DatetimepickerComponent {
   private datetimeService = inject(DateTimeService);
 
+  private internalDateTime?: Date;
+  private internalMinDateTime?: Date;
+  private internalMaxDateTime?: Date;
+
   @Input()
-  dateTime?: Date;
+  set dateTime(dateTime: Date | undefined) {
+    this.internalDateTime = dateTime;
+    [this.date, this.time] = this.getDateTimeFormatsWithDefaults(dateTime);
+  }
+
+  get dateTime(): Date | undefined {
+    return this.internalDateTime;
+  }
 
   @Input()
   isDisabled = false;
 
   @Input()
-  minDateTime?: Date;
+  set minDateTime(minDateTime: Date | undefined) {
+    this.internalMinDateTime = minDateTime;
+    [this.minDate, this.minTime] = this.getOptionalDateTimeFormats(minDateTime);
+  }
+
+  get minDateTime(): Date | undefined {
+    return this.internalMinDateTime;
+  }
 
   @Input()
-  maxDateTime?: Date;
+  set maxDateTime(maxDateTime: Date | undefined) {
+    this.internalMaxDateTime = maxDateTime;
+    [this.maxDate, this.maxTime] = this.getOptionalDateTimeFormats(maxDateTime);
+  }
+
+  get maxDateTime(): Date | undefined {
+    return this.internalMaxDateTime;
+  }
 
   @Output()
   dateTimeChange: EventEmitter<Date> = new EventEmitter<Date>();
 
-  get date(): DateFormat {
-    if (!this.dateTime) {
-      return getDefaultDateFormat();
-    }
-    const [date] = this.datetimeService.convertDateToDateFormatAndTimeFormat(this.dateTime);
-    return date;
-  }
-
-  get time(): TimeFormat {
-    if (!this.dateTime) {
-      return getDefaultTimeFormat();
-    }
-    const [, time] = this.datetimeService.convertDateToDateFormatAndTimeFormat(this.dateTime);
-    return time;
-  }
-
-  get minDate(): DateFormat | undefined {
-    return this.getDateFormat(this.minDateTime);
-  }
-
-  get minTime(): TimeFormat | undefined {
-    return this.getTimeFormat(this.minDateTime);
-  }
-
-  get maxDate(): DateFormat | undefined {
-    return this.getDateFormat(this.maxDateTime);
-  }
-
-  get maxTime(): TimeFormat | undefined {
-    return this.getTimeFormat(this.maxDateTime);
-  }
+  date: DateFormat = getDefaultDateFormat();
+  time: TimeFormat = getDefaultTimeFormat();
+  minDate?: DateFormat;
+  minTime?: TimeFormat;
+  maxDate?: DateFormat;
+  maxTime?: TimeFormat;
 
   onDateChange(newDate: DateFormat): void {
     this.updateDateTime(newDate, this.time);
@@ -71,23 +71,28 @@ export class DatetimepickerComponent {
   }
 
   private updateDateTime(date: DateFormat, time: TimeFormat): void {
-    this.dateTime = this.datetimeService.convertDateFormatAndTimeFormatToDate(date, time);
-    this.dateTimeChange.emit(this.dateTime);
+    const updatedDateTime = this.datetimeService.convertDateFormatAndTimeFormatToDate(date, time);
+    if (this.internalDateTime?.getTime() === updatedDateTime.getTime()) {
+      return;
+    }
+
+    this.date = date;
+    this.time = time;
+    this.internalDateTime = updatedDateTime;
+    this.dateTimeChange.emit(updatedDateTime);
   }
 
-  private getDateFormat(dateTime?: Date): DateFormat | undefined {
+  private getDateTimeFormatsWithDefaults(dateTime?: Date): [DateFormat, TimeFormat] {
     if (!dateTime) {
-      return undefined;
+      return [getDefaultDateFormat(), getDefaultTimeFormat()];
     }
-    const [date] = this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
-    return date;
+    return this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
   }
 
-  private getTimeFormat(dateTime?: Date): TimeFormat | undefined {
+  private getOptionalDateTimeFormats(dateTime?: Date): [DateFormat | undefined, TimeFormat | undefined] {
     if (!dateTime) {
-      return undefined;
+      return [undefined, undefined];
     }
-    const [, time] = this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
-    return time;
+    return this.datetimeService.convertDateToDateFormatAndTimeFormat(dateTime);
   }
 }

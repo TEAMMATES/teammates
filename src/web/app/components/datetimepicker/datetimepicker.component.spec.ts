@@ -37,6 +37,25 @@ describe('DatetimepickerComponent', () => {
     expect(component.dateTime).toEqual(new Date(2026, 4, 26, 23, 59));
   });
 
+  it('should reuse date and time object references while inputs are unchanged', () => {
+    const initialDate = component.date;
+    const initialTime = component.time;
+
+    fixture.detectChanges();
+
+    expect(component.date).toBe(initialDate);
+    expect(component.time).toBe(initialTime);
+  });
+
+  it('should not emit when date change keeps the same Date value', () => {
+    const dateTimeChangeSpy = vi.spyOn(component.dateTimeChange, 'emit');
+
+    component.onDateChange({ year: 2026, month: 5, day: 26 });
+
+    expect(dateTimeChangeSpy).not.toHaveBeenCalled();
+    expect(component.dateTime).toEqual(new Date(2026, 4, 26, 14, 30));
+  });
+
   it('should derive date and time bounds from Date inputs', () => {
     component.minDateTime = new Date(2026, 0, 2, 3, 45);
     component.maxDateTime = new Date(2026, 11, 31, 23, 59);
