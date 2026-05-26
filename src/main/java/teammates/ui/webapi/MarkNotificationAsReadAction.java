@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.ReadNotification;

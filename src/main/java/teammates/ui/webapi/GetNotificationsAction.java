@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;

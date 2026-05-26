@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.storage.entity.Account;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.exception.UnexpectedServerException;

@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
