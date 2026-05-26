@@ -254,8 +254,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
-            FeedbackResponseDetails expectedResponseDetails =
-                    expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
+            FeedbackResponseDetails expectedResponseDetails = expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
             FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
             assertEquals(expectedFeedbackResponse.getGiver().getIdentifier(),
@@ -324,7 +323,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedNotification.getTargetUser(), actualNotification.getTargetUser());
             assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
             assertEquals(expectedNotification.getMessage(), actualNotification.getMessage());
-            assertEquals(expectedNotification.isShown(), actualNotification.isShown());
         } else if (expected instanceof Student) {
             Student expectedStudent = (Student) expected;
             StudentData actualStudent = (StudentData) actual;

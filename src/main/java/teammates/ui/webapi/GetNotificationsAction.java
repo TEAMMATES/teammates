@@ -88,15 +88,6 @@ public class GetNotificationsAction extends Action {
         if (authContext.isAdmin()) {
             return new JsonResult(new NotificationsData(notifications));
         }
-
-        // Update shown attribute once a non-admin user fetches unread notifications
-        for (Notification n : notifications) {
-            if (n.isShown()) {
-                continue;
-            }
-            n.setShown();
-        }
-
         return new JsonResult(new NotificationsData(notifications));
     }
 }

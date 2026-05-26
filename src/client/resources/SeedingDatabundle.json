@@ -3322,8 +3322,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "Scheduled Maintenance Window",
-      "message": "<p>TEAMMATES will undergo scheduled maintenance on <strong>15 September 2026</strong> from 02:00 to 06:00 SGT. Please save your work and submit any pending evaluations before the maintenance window.</p>",
-      "shown": false
+      "message": "<p>TEAMMATES will undergo scheduled maintenance on <strong>15 September 2026</strong> from 02:00 to 06:00 SGT. Please save your work and submit any pending evaluations before the maintenance window.</p>"
     },
     "notification2": {
       "id": "00000000-0000-4000-8000-000000001102",
@@ -3332,8 +3331,7 @@
       "style": "INFO",
       "targetUser": "STUDENT",
       "title": "New Feature: Rich Text Responses",
-      "message": "<p>You can now use <strong>rich text formatting</strong> in your feedback responses! Look for the formatting toolbar when answering text questions that support it.</p>",
-      "shown": false
+      "message": "<p>You can now use <strong>rich text formatting</strong> in your feedback responses! Look for the formatting toolbar when answering text questions that support it.</p>"
     }
   },
   "readNotifications": {

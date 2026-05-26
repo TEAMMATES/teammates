@@ -19,6 +19,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.request.RegKeyRequest;
 
 /**
  * SUT: {@link JoinCourseAction}.
@@ -52,8 +53,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
 
     @Test
     void testExecute_invalidParams_throwsInvalidHttpParameterException() {
-        String [] params1 = {};
-        verifyHttpParameterFailure(params1);
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        verifyHttpRequestBodyFailure(regKeyRequest);
     }
 
     @Test
@@ -66,10 +67,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubCourse);
         when(mockEmailGenerator.generateUserCourseRegisteredEmail(stubStudent.getName(), stubStudent.getEmail(),
                 "unreg-student", false, stubCourse)).thenReturn(stubEmailWrapper);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "registered-key-student",
-        };
-        JoinCourseAction action = getAction(params);
+
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey("registered-key-student");
+
+        JoinCourseAction action = getAction(regKeyRequest);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
         assertEquals("User successfully joined course", messageOutput.getMessage());
@@ -84,10 +86,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getStudentByRegistrationKey("registered-key-student")).thenReturn(stubStudent);
         when(mockLogic.joinCourse(eq("registered-key-student"), any()))
                 .thenThrow(EntityAlreadyExistsException.class);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "registered-key-student",
-        };
-        JoinCourseAction action = getAction(params);
+
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey("registered-key-student");
+
+        JoinCourseAction action = getAction(regKeyRequest);
         assertThrows(InvalidOperationException.class, action::execute);
         verifyNoEmailsSent();
     }
@@ -100,10 +103,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getStudentByRegistrationKey("invalid-reg-key")).thenReturn(stubStudent);
         when(mockLogic.joinCourse(eq("invalid-reg-key"), any()))
                 .thenThrow(EntityDoesNotExistException.class);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "invalid-reg-key",
-        };
-        verifyEntityNotFound(params);
+
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey("invalid-reg-key");
+
+        verifyEntityNotFound(regKeyRequest);
         verifyNoEmailsSent();
     }
 
@@ -118,10 +122,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubCourse);
         when(mockEmailGenerator.generateUserCourseRegisteredEmail(stubInstructor.getName(), stubInstructor.getEmail(),
                 "unreg-instructor", true, stubCourse)).thenReturn(stubEmailWrapper);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "registered-key-instructor",
-        };
-        JoinCourseAction action = getAction(params);
+
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey("registered-key-instructor");
+
+        JoinCourseAction action = getAction(regKeyRequest);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
         assertEquals("User successfully joined course", messageOutput.getMessage());
@@ -136,10 +141,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getInstructorByRegistrationKey("registered-key-instructor")).thenReturn(stubInstructor);
         when(mockLogic.joinCourse(eq("registered-key-instructor"), any()))
                 .thenThrow(EntityAlreadyExistsException.class);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "registered-key-instructor",
-        };
-        JoinCourseAction action = getAction(params);
+
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey("registered-key-instructor");
+
+        JoinCourseAction action = getAction(regKeyRequest);
         assertThrows(InvalidOperationException.class, action::execute);
         verifyNoEmailsSent();
     }
@@ -152,10 +158,11 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         when(mockLogic.getInstructorByRegistrationKey("invalid-reg-key")).thenReturn(stubInstructor);
         when(mockLogic.joinCourse(eq("invalid-reg-key"), any()))
                 .thenThrow(EntityDoesNotExistException.class);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "invalid-reg-key",
-        };
-        verifyEntityNotFound(params);
+
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey("invalid-reg-key");
+
+        verifyEntityNotFound(regKeyRequest);
         verifyNoEmailsSent();
     }
 

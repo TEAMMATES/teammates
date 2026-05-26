@@ -13,7 +13,6 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
 
 const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
-  shown: false,
 
   startTime: getDefaultTimeFormat(),
   startDate: getDefaultDateFormat(),
@@ -65,14 +64,14 @@ describe('NotificationEditFormComponent', () => {
   });
 
   it('should snap with notification that has been shown to users', () => {
-    testNotificationEditModel.shown = true;
-    component.model = testNotificationEditModel;
+    const shownModel = { ...testNotificationEditModel };
+    shownModel.startDate = { year: 2000, month: 1, day: 1 };
+    component.model = shownModel;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should set up with testNotificationEditModel', () => {
-    testNotificationEditModel.shown = false;
     component.model = testNotificationEditModel;
     const model: NotificationEditFormModel = component.model;
     expect(model).toBe(testNotificationEditModel);
