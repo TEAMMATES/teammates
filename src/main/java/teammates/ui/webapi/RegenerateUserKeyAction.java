@@ -28,10 +28,6 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
     public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
             SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
-    /** Message indicating that the key regeneration was unsuccessful. */
-    public static final String UNSUCCESSFUL_REGENERATION =
-            "Regeneration of the user's key was unsuccessful.";
-
     /** Message indicating that the key regeneration was successful, but corresponding email could not be sent. */
     public static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
             SUCCESSFUL_REGENERATION + " but the email failed to send.";
