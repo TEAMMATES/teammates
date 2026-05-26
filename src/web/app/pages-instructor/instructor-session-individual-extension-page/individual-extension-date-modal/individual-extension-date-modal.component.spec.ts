@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -9,6 +10,7 @@ import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-r
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
+import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 import { Mock } from 'vitest';
 
 describe('IndividualExtensionDateModalComponent', () => {
@@ -155,6 +157,17 @@ describe('IndividualExtensionDateModalComponent', () => {
     component.extendToTimePicker = { hour: 10, minute: 30 };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should keep time options enabled when switching to extend-to before date is changed', () => {
+    fixture.componentRef.setInput('feedbackSessionEndingTimestamp', Date.parse('2032-04-30T16:00:00Z'));
+    component.radioOption = RadioOptions.EXTEND_TO;
+
+    fixture.detectChanges();
+
+    const timepicker = fixture.debugElement.query(By.directive(TimepickerComponent)).componentInstance;
+
+    expect(timepicker.isOptionDisabled({ hour: 23, minute: 59 })).toBe(false);
   });
 
   it('should snap with the warning modal', () => {
