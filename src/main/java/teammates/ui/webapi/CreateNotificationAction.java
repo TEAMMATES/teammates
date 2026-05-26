@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationCreateRequest;
@@ -36,7 +37,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
         } catch (EntityAlreadyExistsException e) {
             // Should not happen since UUID is usually unique
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e);
         }
     }
 }

@@ -13,6 +13,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.RegenerateKeyData;
 
 /**
@@ -47,7 +48,7 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (UserUpdateException ex) {
-            return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(ex);
         }
 
         boolean emailSent = sendEmail(updatedUser);

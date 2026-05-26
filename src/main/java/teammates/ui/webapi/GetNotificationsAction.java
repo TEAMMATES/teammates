@@ -12,6 +12,7 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.NotificationsData;
 
 /**
@@ -80,7 +81,7 @@ public class GetNotificationsAction extends Action {
         Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
         if (account == null) {
             // This should not happen as the user is authenticated
-            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException("Account not found");
         }
         notifications = logic.getUnreadActiveNotificationsByTargetUser(
                 List.of(targetUser, NotificationTargetUser.GENERAL), account.getId(), Instant.now());

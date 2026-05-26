@@ -25,6 +25,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -75,7 +76,7 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e);
         }
 
         Instructor createdInstructor = dataBundle.instructors.get("demoInstructor");
@@ -93,7 +94,7 @@ public class CreateAccountAction extends Action {
             // conflict with generated entities in new demo course.
             // InvalidParametersException should not be thrown as as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e);
         }
 
         try {
@@ -101,7 +102,7 @@ public class CreateAccountAction extends Action {
         } catch (InvalidParametersException e) {
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(e);
         }
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
