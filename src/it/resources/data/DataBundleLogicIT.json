@@ -233,8 +233,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "<p>Deprecation happens in three minutes</p>",
-      "shown": false
+      "message": "<p>Deprecation happens in three minutes</p>"
     }
   },
   "readNotifications": {

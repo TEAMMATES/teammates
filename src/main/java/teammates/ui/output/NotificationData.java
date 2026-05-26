@@ -21,7 +21,6 @@ public class NotificationData extends ApiOutput {
     private NotificationTargetUser targetUser;
     private String title;
     private String message;
-    private boolean shown;
 
     private NotificationData() {
         // for Jackson deserialization
@@ -32,12 +31,12 @@ public class NotificationData extends ApiOutput {
         this.startTimestamp = notification.getStartTime().toEpochMilli();
         this.endTimestamp = notification.getEndTime().toEpochMilli();
         this.createdAt = notification.getCreatedAt() == null
-                ? Instant.now().toEpochMilli() : notification.getCreatedAt().toEpochMilli();
+                ? Instant.now().toEpochMilli()
+                : notification.getCreatedAt().toEpochMilli();
         this.style = notification.getStyle();
         this.targetUser = notification.getTargetUser();
         this.title = notification.getTitle();
         this.message = notification.getMessage();
-        this.shown = notification.isShown();
     }
 
     public UUID getNotificationId() {
@@ -70,9 +69,5 @@ public class NotificationData extends ApiOutput {
 
     public String getMessage() {
         return this.message;
-    }
-
-    public boolean isShown() {
-        return this.shown;
     }
 }
