@@ -8,8 +8,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "<p>Deprecation happens in three minutes</p>",
-      "shown": false
+      "message": "<p>Deprecation happens in three minutes</p>"
     },
     "notification2": {
       "id": "00000000-0000-4000-8000-000000001103",
@@ -19,8 +18,7 @@
       "style": "SUCCESS",
       "targetUser": "STUDENT",
       "title": "A note for update",
-      "message": "<p>Exciting features</p>",
-      "shown": false
+      "message": "<p>Exciting features</p>"
     }
   }
 }

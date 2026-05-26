@@ -5,6 +5,7 @@ import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { DateTimeService } from '../../../../services/datetime.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/datetime-const';
@@ -37,7 +38,7 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
 })
 export class NotificationEditFormComponent {
   private simpleModalService = inject(SimpleModalService);
-
+  private dateTimeService = inject(DateTimeService);
   NotificationEditFormMode!: typeof NotificationEditFormMode;
   NotificationStyle!: typeof NotificationStyle;
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -50,7 +51,6 @@ export class NotificationEditFormComponent {
   @Input()
   model: NotificationEditFormModel = {
     notificationId: '',
-    shown: false,
 
     startTime: getDefaultTimeFormat(),
     startDate: getDefaultDateFormat(),
@@ -129,5 +129,18 @@ export class NotificationEditFormComponent {
       .result.then(() => {
         this.cancelEditingNotificationEvent.emit();
       });
+  }
+
+  /**
+   * Checks if notification is active.
+   */
+  isNotificationActive(): boolean {
+    const { startDate, startTime } = this.model;
+    if (!startDate || !startTime) {
+      return false;
+    }
+    const startTimestamp = this.dateTimeService.convertDateFormatAndTimeFormatToDate(startDate, startTime).getTime();
+    const now = Date.now();
+    return now > startTimestamp;
   }
 }
