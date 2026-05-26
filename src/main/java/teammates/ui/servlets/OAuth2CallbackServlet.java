@@ -134,7 +134,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         String redirectUri = getRedirectUri(req);
-        GoogleTokenResponse token = (GoogleTokenResponse) getGoogleAuthorizationFlow()
+        GoogleTokenResponse token = getGoogleAuthorizationFlow()
                 .newTokenRequest(code).setRedirectUri(redirectUri).execute();
 
         Payload payload;

@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -51,7 +51,7 @@ public class LoginServlet extends AuthServlet {
         }
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId());
-        AuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
+        GoogleAuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
         authorizationUrl.setRedirectUri(getRedirectUri(req));
         authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
 
