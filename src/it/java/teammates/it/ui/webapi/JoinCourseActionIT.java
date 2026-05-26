@@ -13,6 +13,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.RegKeyRequest;
 import teammates.ui.webapi.JoinCourseAction;
 
 /**
@@ -57,12 +58,10 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         loginAsUnregistered(loggedInGoogleIdStu);
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, student1RegKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
+        RegKeyRequest regKeyRequest = new RegKeyRequest();
+        regKeyRequest.setKey(student1RegKey);
 
-        JoinCourseAction joinCourseAction = getAction(submissionParams);
+        JoinCourseAction joinCourseAction = getAction(regKeyRequest);
         getJsonResult(joinCourseAction);
 
         verifyNumberOfEmailsSent(1);
@@ -73,12 +72,9 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         ______TS("failure: student is already registered");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, student1RegKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
+        regKeyRequest.setKey(student1RegKey);
 
-        InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
+        InvalidOperationException ioe = verifyInvalidOperation(regKeyRequest);
         assertEquals("User has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
@@ -87,12 +83,9 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         loginAsUnregistered(loggedInGoogleIdInst);
 
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, instructor1RegKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
+        regKeyRequest.setKey(instructor1RegKey);
 
-        joinCourseAction = getAction(submissionParams);
+        joinCourseAction = getAction(regKeyRequest);
         getJsonResult(joinCourseAction);
 
         verifyNumberOfEmailsSent(1);
@@ -103,24 +96,18 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         ______TS("failure: instructor is already registered");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, instructor1RegKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
+        regKeyRequest.setKey(instructor1RegKey);
 
-        ioe = verifyInvalidOperation(submissionParams);
+        ioe = verifyInvalidOperation(regKeyRequest);
         assertEquals("User has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
 
         ______TS("failure: invalid regkey");
 
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, "ANXKJZNZXNJCZXKJDNKSDA",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
+        regKeyRequest.setKey("ANXKJZNZXNJCZXKJDNKSDA");
 
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFound(regKeyRequest);
 
         verifyNoEmailsSent();
     }
