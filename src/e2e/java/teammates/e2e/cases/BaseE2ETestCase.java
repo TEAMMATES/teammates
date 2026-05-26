@@ -309,8 +309,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
             assertEquals(expectedInstructor.getName(), actualInstructor.getName());
             assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
-            // Cannot compare keys as actualInstructor's key is only generated before
-            // storing into the database.
+            // Cannot compare keys as actualInstructor's key is only generated before storing into the database.
             assertNotNull(actualInstructor.getKey());
             assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
             assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
@@ -453,7 +452,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback question data for the given question number and feedback session ID.
+     * Gets the feedback response data for the given question ID, giver, and recipient.
      */
     protected FeedbackResponseData getFeedbackResponse(String questionId, ResponseGiver giver, ResponseRecipient recipient) {
         return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
@@ -474,7 +473,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback question data for the given question number and feedback session ID.
+     * Gets the feedback response comment data for the given feedback response comment.
      */
     protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
         return getFeedbackResponseComment(frc.getFeedbackResponse().getId());

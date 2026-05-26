@@ -132,8 +132,7 @@ export class NotificationEditFormComponent {
   }
 
   /**
-   * Checks if notification is active.
-   * A notification is shown if current time is after its start time.
+   * Checks if notification is shown if current time is after its start time.
    */
   isNotificationActive(): boolean {
     const { startDate, startTime } = this.model;
