@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
-import { CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
+import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 /**
  * The statistics of a course
@@ -142,11 +142,8 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string): Observable<any> {
-    const paramMap: Record<string, string> = {
-      key: regKey,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.JOIN, paramMap);
+  joinCourse(regKeyRequest: RegKeyRequest): Observable<any> {
+    return this.httpRequestService.put(ResourceEndpoints.JOIN, {}, regKeyRequest);
   }
 
   /**

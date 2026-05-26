@@ -229,6 +229,10 @@ export interface NotificationCreateRequest extends NotificationBasicRequest {
 export interface NotificationUpdateRequest extends NotificationBasicRequest {
 }
 
+export interface RegKeyRequest extends BasicRequest {
+  key: string;
+}
+
 export interface SendEmailRequest extends BasicRequest {
   email: EmailWrapper;
 }
