@@ -14,7 +14,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   extendByDeadlineOptions={[Function Map]}
   extendToDatePicker={[Function Object]}
   extendToTimePicker={[Function Object]}
-  feedbackSessionEndingTimestamp="0"
+  feedbackSessionEndingTimestampValue="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
@@ -164,7 +164,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   extendByDeadlineOptions={[Function Map]}
   extendToDatePicker={[Function Object]}
   extendToTimePicker={[Function Object]}
-  feedbackSessionEndingTimestamp="0"
+  feedbackSessionEndingTimestampValue="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
@@ -359,7 +359,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
   extendByDeadlineOptions={[Function Map]}
   extendToDatePicker={[Function Object]}
   extendToTimePicker={[Function Object]}
-  feedbackSessionEndingTimestamp="0"
+  feedbackSessionEndingTimestampValue="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
@@ -630,7 +630,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
   extendByDeadlineOptions={[Function Map]}
   extendToDatePicker={[Function Object]}
   extendToTimePicker={[Function Object]}
-  feedbackSessionEndingTimestamp="0"
+  feedbackSessionEndingTimestampValue="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
@@ -781,7 +781,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
   extendByDeadlineOptions={[Function Map]}
   extendToDatePicker={[Function Object]}
   extendToTimePicker={[Function Object]}
-  feedbackSessionEndingTimestamp="0"
+  feedbackSessionEndingTimestampValue="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
   numStudents={[Function Number]}

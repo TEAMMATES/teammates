@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
@@ -30,7 +30,7 @@ export enum RadioOptions {
   imports: [FormsModule, DatetimepickerComponent, KeyValuePipe],
   providers: [FormatDateDetailPipe],
 })
-export class IndividualExtensionDateModalComponent implements OnChanges {
+export class IndividualExtensionDateModalComponent {
   activeModal = inject(NgbActiveModal);
   private simpleModalService = inject(SimpleModalService);
   private dateDetailPipe = inject(FormatDateDetailPipe);
@@ -43,8 +43,17 @@ export class IndividualExtensionDateModalComponent implements OnChanges {
   @Input()
   numInstructors = 0;
 
+  private feedbackSessionEndingTimestampValue = 0;
+
   @Input()
-  feedbackSessionEndingTimestamp = 0;
+  set feedbackSessionEndingTimestamp(feedbackSessionEndingTimestamp: number) {
+    this.feedbackSessionEndingTimestampValue = feedbackSessionEndingTimestamp;
+    this.extendToDatePicker = this.getDateFormat(feedbackSessionEndingTimestamp);
+  }
+
+  get feedbackSessionEndingTimestamp(): number {
+    return this.feedbackSessionEndingTimestampValue;
+  }
 
   @Input()
   feedbackSessionTimeZone = '';
@@ -74,12 +83,6 @@ export class IndividualExtensionDateModalComponent implements OnChanges {
 
   constructor() {
     this.RadioOptions = RadioOptions;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['feedbackSessionEndingTimestamp']) {
-      this.extendToDatePicker = this.getDateFormat(this.feedbackSessionEndingTimestamp);
-    }
   }
 
   onConfirm(): void {

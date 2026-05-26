@@ -160,7 +160,7 @@ describe('IndividualExtensionDateModalComponent', () => {
   });
 
   it('should keep time options enabled when switching to extend-to before date is changed', () => {
-    fixture.componentRef.setInput('feedbackSessionEndingTimestamp', Date.parse('2032-04-30T16:00:00Z'));
+    component.feedbackSessionEndingTimestamp = Date.parse('2032-04-30T16:00:00Z');
     component.radioOption = RadioOptions.EXTEND_TO;
 
     fixture.detectChanges();
