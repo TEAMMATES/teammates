@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
       "email": "icjoinconf.instr@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.ICJoinConf.instr"
     }
   },

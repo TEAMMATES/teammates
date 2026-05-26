@@ -238,7 +238,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             String email = googleId.contains("@") ? googleId : googleId + "@example.com";
             String subject = googleId;
             try {
-                logic.createAccount("teammates-test", subject, email, googleId);
+                logic.createAccount("teammates-dev", subject, email, googleId);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
@@ -752,7 +752,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             String googleId = email;
             String subject = email;
-            Account account = logic.createAccount("teammates-test", subject, email, googleId);
+            Account account = logic.createAccount("teammates-dev", subject, email, googleId);
             instructor.setAccount(account);
         }
         return instructor;
@@ -783,7 +783,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             String googleId = email;
             String subject = email;
-            Account account = logic.createAccount("teammates-test", subject, email, googleId);
+            Account account = logic.createAccount("teammates-dev", subject, email, googleId);
             student.setAccount(account);
         }
         return student;

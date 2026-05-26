@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.ICSDet.instr",
       "name": "Teammates Test",
       "email": "icsdet.instr@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.ICSDet.instr"
     },
     "Jos\u00e9 G\u00f3mez": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.ICSDet.jose.tmms",
       "name": "Jos\u00e9 G\u00f3mez",
       "email": "icsdet.jose.tmms@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.ICSDet.jose.tmms"
     }
   },

@@ -156,7 +156,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
         Course course3 = new Course("test-id3", "test-name3", "UTC", "UCL");
         when(mockLogic.getCourse(course3.getId())).thenReturn(course3);
-        String issuer = "teammates-test";
+        String issuer = "teammates-dev";
         Account instructor2Account = new Account(
                         "instructor2", issuer, "instructor2Subject", "instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
@@ -241,7 +241,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         when(mockLogic.getCourse(course1.getId())).thenReturn(course1);
         Course course2 = new Course("test-id2", "test-name2", "UTC", "MIT");
         when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
-        String issuer = "teammates-test";
+        String issuer = "teammates-dev";
         Account instructor2Account = new Account(
                         "instructor2", issuer, "instructor2Subject", "instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",

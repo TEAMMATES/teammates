@@ -133,7 +133,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
-        String issuer = "teammates-test";
+        String issuer = "teammates-dev";
         String subject = "validStudentSubject";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
         s.setAccount(new Account(googleId, issuer, subject, name, email));

@@ -5,7 +5,7 @@
       "googleId": "instructor1",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "instructor1"
     },
     "instructor2": {
@@ -13,7 +13,7 @@
       "googleId": "instructor2",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "instructor2"
     },
     "instructorOfUnregisteredCourse": {
@@ -21,7 +21,7 @@
       "googleId": "InstructorOfUnregisteredCourse",
       "name": "Instructor Of Unregistered Course",
       "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "InstructorOfUnregisteredCourse"
     },
     "instructorOfCourse2WithUniqueDisplayName": {
@@ -29,7 +29,7 @@
       "googleId": "instructorOfCourse2WithUniqueDisplayName",
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "instructorOfCourse2WithUniqueDisplayName"
     },
     "unregisteredInstructor1": {
@@ -37,7 +37,7 @@
       "googleId": "unregisteredInstructor1",
       "name": "Unregistered Instructor 1",
       "email": "unregisteredinstructor1@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "unregisteredInstructor1"
     },
     "unregisteredInstructor2": {
@@ -45,7 +45,7 @@
       "googleId": "unregisteredInstructor2",
       "name": "Unregistered Instructor 2",
       "email": "unregisteredinstructor2@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "unregisteredInstructor2"
     },
     "student1": {
@@ -53,7 +53,7 @@
       "googleId": "idOfStudent1Course1",
       "name": "Student 1",
       "email": "student1@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "idOfStudent1Course1"
     },
     "student2": {
@@ -61,7 +61,7 @@
       "googleId": "idOfStudent2Course1",
       "name": "Student 2",
       "email": "student2@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "idOfStudent2Course1"
     },
     "student3": {
@@ -69,7 +69,7 @@
       "googleId": "idOfStudent3Course1",
       "name": "Student 3",
       "email": "student3@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "idOfStudent3Course1"
     },
     "student4": {
@@ -77,7 +77,7 @@
       "googleId": "idOfStudent4Course1",
       "name": "Student 4",
       "email": "student4@teammates.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "idOfStudent4Course1"
     }
   },

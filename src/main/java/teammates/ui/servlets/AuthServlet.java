@@ -42,7 +42,7 @@ abstract class AuthServlet extends HttpServlet {
      */
     AuthorizationCodeFlow getGoogleAuthorizationFlow() throws IOException {
         return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.GOOGLE_OAUTH2_CLIENT_ID, Config.GOOGLE_OAUTH2_CLIENT_SECRET, SCOPES)
+                HTTP_TRANSPORT, JSON_FACTORY, Config.OIDC_GOOGLE_CLIENT_ID, Config.OIDC_GOOGLE_CLIENT_SECRET, SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();
@@ -63,7 +63,7 @@ abstract class AuthServlet extends HttpServlet {
      */
     GoogleIdTokenVerifier getGoogleIdTokenVerifier() {
         return new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-                .setAudience(List.of(Config.GOOGLE_OAUTH2_CLIENT_ID))
+                .setAudience(List.of(Config.OIDC_GOOGLE_CLIENT_ID))
                 .build();
     }
 

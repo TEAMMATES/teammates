@@ -149,7 +149,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
     @Test
     void testExecute_fullDetailWithAccount_success() {
-        Account account = new Account("google-id", "teammates-test", "validInstructorSubject", "name", "email@tm.tmt");
+        Account account = new Account("google-id", "teammates-dev", "validInstructorSubject", "name", "email@tm.tmt");
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         instructor.setAccount(account);
         when(mockLogic.getInstructorByGoogleId(course.getId(), "user-id")).thenReturn(instructor);

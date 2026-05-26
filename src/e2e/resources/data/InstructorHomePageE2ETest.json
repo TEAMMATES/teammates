@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
       "email": "ihome.instructor.tmms@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.IHome.instructor.tmms"
     }
   },

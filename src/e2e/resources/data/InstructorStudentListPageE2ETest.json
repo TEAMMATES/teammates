@@ -5,7 +5,7 @@
       "name": "Instructor of Course 1",
       "email": "islist.instr1@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.ISList.instr1"
     },
     "Student3Course3": {
@@ -13,7 +13,7 @@
       "name": "Charlie D",
       "email": "islist.charlie.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.ISList.charlie.tmms"
     }
   },

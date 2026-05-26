@@ -92,7 +92,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult(Const.OIDCIssuers.DEVELOPMENT, email, email, nextUrl);
+        return new AuthResult(Const.OidcIssuers.DEVELOPMENT, email, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -148,6 +148,14 @@ public class OAuth2CallbackServlet extends AuthServlet {
         } catch (GeneralSecurityException | IOException e) {
             log.warning("Failed to verify ID token", e);
             logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to verify ID token");
+            return null;
+        }
+
+        String oidcGoogleIssuer = Config.OIDC_GOOGLE_ISSUER;
+        assert oidcGoogleIssuer != null;
+        if (!oidcGoogleIssuer.equals(payload.getIssuer())) {
+            log.warning("Invalid issuer: " + payload.getIssuer());
+            logAndPrintError(req, resp, HttpStatus.SC_UNAUTHORIZED, "Invalid ID token issuer");
             return null;
         }
 

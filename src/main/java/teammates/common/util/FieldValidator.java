@@ -84,13 +84,9 @@ public final class FieldValidator {
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
-    public static final Set<String> PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES =
+    public static final Set<String> OIDC_ISSUER_ACCEPTED_VALUES =
             Collections.unmodifiableSet(
-                    Set.of(Const.OIDCIssuers.GOOGLE, Const.OIDCIssuers.GOOGLE_LEGACY));
-
-    public static final Set<String> DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES =
-            Collections.unmodifiableSet(
-                    Set.of(Const.OIDCIssuers.DEVELOPMENT, Const.OIDCIssuers.TEST));
+                    Set.of(Config.OIDC_GOOGLE_ISSUER, Const.OidcIssuers.DEVELOPMENT));
 
     /*
      * =======================================================================
@@ -971,8 +967,6 @@ public final class FieldValidator {
 
     /**
      * Checks if the given {@code oidcIssuer} is one of the trusted OIDC issuers.
-     * Production OIDC issuers are in {@link #PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES}.
-     * Development server OIDC issuers are in {@link #DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES}.
      *
      * @param oidcIssuer The OIDC issuer to be checked.
      * @return Error string if the {@code oidcIssuer} is not in the list of trusted OIDC issuers, otherwise empty string.
@@ -980,9 +974,7 @@ public final class FieldValidator {
     public static String getInvalidityInfoForOidcIssuer(String oidcIssuer) {
         assert oidcIssuer != null;
 
-        boolean isValidOidcIssuer = Config.isDevServerLoginEnabled()
-                ? DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer)
-                : PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer);
+        boolean isValidOidcIssuer = OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer);
         return isValidOidcIssuer ? "" : String.format(INVALID_OIDC_ISSUER_ERROR_MESSAGE, oidcIssuer);
     }
 

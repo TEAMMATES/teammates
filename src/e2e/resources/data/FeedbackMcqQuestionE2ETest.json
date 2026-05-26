@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FMcqQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FMcqQn.instructor"
     },
     "tm.e2e.FMcqQn.alice.tmms": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.FMcqQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FMcqQn.alice.tmms"
     },
     "tm.e2e.FMcqQn.benny.tmms": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.FMcqQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.c.tmms@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FMcqQn.benny.tmms"
     }
   },

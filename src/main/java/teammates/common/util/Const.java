@@ -229,14 +229,8 @@ public final class Const {
     /**
      * Represents OIDC issuers.
      */
-    public static class OIDCIssuers {
-        // Development issuers.
+    public static class OidcIssuers {
         public static final String DEVELOPMENT = "teammates-dev";
-        public static final String TEST = "teammates-test";
-
-        // Production issuers.
-        public static final String GOOGLE = "https://accounts.google.com";
-        public static final String GOOGLE_LEGACY = "accounts.google.com";
     }
 
     /**

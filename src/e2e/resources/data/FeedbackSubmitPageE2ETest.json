@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FSubmit.instr",
       "name": "Teammates Test",
       "email": "fsubmit.instr@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.instr"
     },
     "FSubmit.instr2": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.FSubmit.instr2",
       "name": "Teammates Test2",
       "email": "fsubmit.instr2@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.instr2"
     },
     "FSubmit.alice.b": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.FSubmit.alice.b",
       "name": "Alice Betsy",
       "email": "fsubmit.alice.b@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.alice.b"
     },
     "FSubmit.benny.c": {
@@ -29,7 +29,7 @@
       "googleId": "tm.e2e.FSubmit.benny.c",
       "name": "Benny Charles",
       "email": "fsubmit.benny.c@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.benny.c"
     },
     "FSubmit.charlie.d": {
@@ -37,7 +37,7 @@
       "googleId": "tm.e2e.FSubmit.charlie.d",
       "name": "Charlie Davis",
       "email": "fsubmit.charlie.d@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.charlie.d"
     },
     "FSubmit.danny.e": {
@@ -45,7 +45,7 @@
       "googleId": "tm.e2e.FSubmit.danny.e",
       "name": "Danny Engrid",
       "email": "fsubmit.danny.e@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.danny.e"
     },
     "FSubmit.emily.f": {
@@ -53,7 +53,7 @@
       "googleId": "tm.e2e.FSubmit.emily.f",
       "name": "Emily",
       "email": "fsubmit.emily.f@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.FSubmit.emily.f"
     }
   },

@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.ICEnroll.instr1",
       "name": "Instructor of Course CS2104",
       "email": "icenroll.instr1@gmail.tmt",
-      "issuer": "teammates-test",
+      "issuer": "teammates-dev",
       "subject": "tm.e2e.ICEnroll.instr1"
     }
   },

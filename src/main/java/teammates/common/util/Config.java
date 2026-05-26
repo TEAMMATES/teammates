@@ -77,14 +77,17 @@ public final class Config {
     /** The value {@code app.hmac.key}. */
     public static final String HMAC_KEY;
 
-    /** Value of {@code app.auth.type}. */
-    public static final String AUTH_TYPE;
+    /** Value of {@code app.oidc.provider}. */
+    public static final String OIDC_PROVIDER;
 
-    /** Value of {@code app.google.oauth2.client.id}. */
-    public static final String GOOGLE_OAUTH2_CLIENT_ID;
+    /** Value of {@code app.oidc.google.client.id}. */
+    public static final String OIDC_GOOGLE_CLIENT_ID;
 
-    /** Value of {@code app.google.oauth2.client.secret}. */
-    public static final String GOOGLE_OAUTH2_CLIENT_SECRET;
+    /** Value of {@code app.oidc.google.client.secret}. */
+    public static final String OIDC_GOOGLE_CLIENT_SECRET;
+
+    /** Value of {@code app.oidc.google.issuer}. */
+    public static final String OIDC_GOOGLE_ISSUER;
 
     /** Value of {@code app.captcha.secretkey}. */
     public static final String CAPTCHA_SECRET_KEY;
@@ -208,9 +211,10 @@ public final class Config {
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
         HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
-        AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
-        GOOGLE_OAUTH2_CLIENT_ID = getProperty(properties, devProperties, "app.google.oauth2.client.id");
-        GOOGLE_OAUTH2_CLIENT_SECRET = getProperty(properties, devProperties, "app.google.oauth2.client.secret");
+        OIDC_PROVIDER = getProperty(properties, devProperties, "app.oidc.provider");
+        OIDC_GOOGLE_CLIENT_ID = getProperty(properties, devProperties, "app.oidc.google.client.id");
+        OIDC_GOOGLE_CLIENT_SECRET = getProperty(properties, devProperties, "app.oidc.google.client.secret");
+        OIDC_GOOGLE_ISSUER = getProperty(properties, devProperties, "app.oidc.google.issuer");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         RECAPTCHA_SERVICE = getProperty(properties, devProperties, "app.recaptcha.service",
                 IS_DEV_SERVER ? "local" : "google");
