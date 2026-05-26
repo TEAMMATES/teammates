@@ -273,8 +273,7 @@ describe('SearchService', () => {
       [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
     expect(result.profilePageLink).toBe(
-      '/web/instructor/courses/student/details?' +
-        'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com',
+      '/web/instructor/courses/student/details?' + 'courseid=dog.gma-demo&userid=student-alice&user=test%40example.com',
     );
   });
 
@@ -287,8 +286,7 @@ describe('SearchService', () => {
       [mockPrivilegeB, mockPrivilegeC],
     );
     expect(result.profilePageLink).toBe(
-      '/web/instructor/courses/student/details?' +
-        'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=insC',
+      '/web/instructor/courses/student/details?' + 'courseid=dog.gma-demo&userid=student-alice&user=insC',
     );
   });
 

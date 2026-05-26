@@ -30,12 +30,16 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId);
     }
 
-    public AppUrl withStudentEmail(String email) {
-        return withParam(Const.ParamsNames.STUDENT_EMAIL, email);
+    public AppUrl withUserId(String userId) {
+        return withParam(Const.ParamsNames.USER_ID, userId);
     }
 
     public AppUrl withEntityType(String entityType) {
         return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
+    }
+
+    public AppUrl withPreviewAs(String previewAs) {
+        return withParam(Const.ParamsNames.PREVIEWAS, previewAs);
     }
 
 }

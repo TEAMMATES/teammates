@@ -9,7 +9,7 @@
         @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
           <span>instructor</span>
         }
-        {{ personName }} ({{ moderatedPerson }})
+        {{ personName }} ({{ personEmail }})
         @if (!isModerationHintExpanded) {
           <button type="button" class="btn btn-link" (click)="isModerationHintExpanded = true">[More]</button>
         }
@@ -20,9 +20,8 @@
       @if (isModerationHintExpanded) {
         <div class="text-start">
           <p>
-            The page below resembles the submission page as seen by the respondent {{ personName }} ({{
-              moderatedPerson
-            }}). You can use it to moderate responses submitted by the respondent or submit responses on behalf of the
+            The page below resembles the submission page as seen by the respondent {{ personName }} ({{ personEmail }}).
+            You can use it to moderate responses submitted by the respondent or submit responses on behalf of the
             respondent.
           </p>
           <p>
@@ -45,7 +44,7 @@
         @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
           <span>instructor</span>
         }
-        {{ personName }} ({{ previewAsPerson }})
+        {{ personName }} ({{ personEmail }})
       </h4>
     </div>
   </div>
@@ -176,7 +175,7 @@
           <h2 class="my-4">{{ getRecipientName(entry.key) }}</h2>
           @for (
             questionSubmissionForm of questionSubmissionForms;
-            track trackQuestionSubmissionFormByFn(i, questionSubmissionForm);
+            track questionSubmissionForm.feedbackQuestionId;
             let i = $index
           ) {
             @if (entry.value.has(questionSubmissionForm.questionNumber)) {
@@ -224,7 +223,7 @@
       }
       @for (
         questionSubmissionForm of questionSubmissionForms;
-        track trackQuestionSubmissionFormByFn(i, questionSubmissionForm);
+        track questionSubmissionForm.feedbackQuestionId;
         let i = $index
       ) {
         @if (ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)) {
@@ -247,7 +246,7 @@
     @if (currentSelectedSessionView === allSessionViews.DEFAULT) {
       @for (
         questionSubmissionForm of questionSubmissionForms;
-        track trackQuestionSubmissionFormByFn(i, questionSubmissionForm);
+        track questionSubmissionForm.feedbackQuestionId;
         let i = $index
       ) {
         <tm-question-submission-form

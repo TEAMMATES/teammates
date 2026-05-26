@@ -33,7 +33,7 @@
 }
 @if (!groupByTeam) {
   <div>
-    @for (userInfo of userExpanded | keyvalue; track trackByName($index, userInfo)) {
+    @for (userInfo of userExpanded | keyvalue; track userInfo.key) {
       <div>
         <ng-container [ngTemplateOutlet]="userTab" [ngTemplateOutletContext]="{ userInfo: userInfo.key }">
         </ng-container>
@@ -70,10 +70,10 @@
         }
       </div>
       <div class="card-header-btn-toolbar">
-        @if (isGrq && userToRelatedEmail[userInfo]) {
+        @if (isGrq && userToUserIdForModeration[userInfo]) {
           <tm-response-moderation-button
             class="btn-margin-right"
-            [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+            [userIdForModeration]="userToUserIdForModeration[userInfo]"
             [session]="session"
             [isGiverInstructor]="userIsInstructor[userInfo]"
             btnStyle="PRIMARY"

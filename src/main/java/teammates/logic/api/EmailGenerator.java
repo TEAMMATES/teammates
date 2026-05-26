@@ -58,7 +58,7 @@ public final class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
-    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
+    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 180;
 
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -428,8 +428,6 @@ public final class EmailGenerator {
 
         for (var student : studentsForEmail) {
             RequestTracer.checkRemainingTime();
-            // Query students' courses first
-            // as a student will likely be in only a small number of courses.
             Course course = student.getCourse();
             String courseId = course.getId();
 

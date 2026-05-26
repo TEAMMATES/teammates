@@ -2,13 +2,13 @@
 
 exports[`InstructorSearchPageComponent > should snap with a search key 1`] = `
 <tm-instructor-search-page
-  courseService={[Function _CourseService]}
   instructorService={[Function _InstructorService]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function _SearchService]}
   searchString=""
   statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsListRowTables={[Function Array]}
 >
   <tm-instructor-search-bar>
@@ -56,13 +56,13 @@ exports[`InstructorSearchPageComponent > should snap with a search key 1`] = `
 
 exports[`InstructorSearchPageComponent > should snap with a student table 1`] = `
 <tm-instructor-search-page
-  courseService={[Function _CourseService]}
   instructorService={[Function _InstructorService]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function _SearchService]}
   searchString=""
   statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsListRowTables={[Function Array]}
 >
   <tm-instructor-search-bar>
@@ -287,7 +287,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                           >
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&userid=student-5"
                               id="btn-view-details-test-exa.demo-0"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -296,7 +296,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </a>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&userid=student-5"
                               id="btn-edit-details-test-exa.demo-0"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -311,7 +311,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </button>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&userid=student-5"
                               id="btn-view-records-test-exa.demo-0"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -354,7 +354,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                           >
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&userid=student-6"
                               id="btn-view-details-test-exa.demo-1"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -363,7 +363,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </a>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&userid=student-6"
                               id="btn-edit-details-test-exa.demo-1"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -378,7 +378,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </button>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&userid=student-6"
                               id="btn-view-records-test-exa.demo-1"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -421,7 +421,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                           >
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&userid=student-7"
                               id="btn-view-details-test-exa.demo-2"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -430,7 +430,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </a>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&userid=student-7"
                               id="btn-edit-details-test-exa.demo-2"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -445,7 +445,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </button>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&userid=student-7"
                               id="btn-view-records-test-exa.demo-2"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -488,7 +488,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                           >
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                              href="/web/instructor/courses/student/details?courseid=test-exa.demo&userid=student-8"
                               id="btn-view-details-test-exa.demo-3"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -497,7 +497,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </a>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                              href="/web/instructor/courses/student/edit?courseid=test-exa.demo&userid=student-8"
                               id="btn-edit-details-test-exa.demo-3"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -512,7 +512,7 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
                             </button>
                             <a
                               class="btn btn-light btn-sm btn-margin-right custom-button"
-                              href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                              href="/web/instructor/students/records?courseid=test-exa.demo&userid=student-8"
                               id="btn-view-records-test-exa.demo-3"
                               rel="noopener noreferrer"
                               target="_blank"
@@ -537,13 +537,13 @@ exports[`InstructorSearchPageComponent > should snap with a student table 1`] = 
 
 exports[`InstructorSearchPageComponent > should snap with default fields 1`] = `
 <tm-instructor-search-page
-  courseService={[Function _CourseService]}
   instructorService={[Function _InstructorService]}
   isSearching="false"
   searchParams={[Function Object]}
   searchService={[Function _SearchService]}
   searchString=""
   statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsListRowTables={[Function Array]}
 >
   <tm-instructor-search-bar>

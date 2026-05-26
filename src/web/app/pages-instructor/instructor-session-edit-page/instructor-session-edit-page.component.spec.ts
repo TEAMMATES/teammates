@@ -452,7 +452,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(component.studentsOfCourse.length).toBe(2);
     expect(component.studentsOfCourse[0].name).toBe(testStudent1.name);
-    expect(component.emailOfStudentToPreview).toBe(testStudent1.email);
+    expect(component.userIdOfStudentToPreview).toBe(testStudent1.userId);
   });
 
   it('should emit error when failed to get student', () => {
@@ -500,7 +500,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.getAllInstructors().subscribe();
     expect(component.instructorsOfCourse.length).toBe(2);
     expect(component.instructorsOfCourse[0].name).toBe(testInstructor1.name);
-    expect(component.emailOfInstructorToPreview).toBe(testInstructor1.email);
+    expect(component.userIdOfInstructorToPreview).toBe(testInstructor1.userId);
   });
 
   it('should emit error when failed to get instructor', () => {
@@ -550,8 +550,8 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should cancel edit session', () => {
-    component.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(sessionEditFormModel));
-    const testSessionEditFormModel: SessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));
+    component.feedbackSessionModelBeforeEditing = structuredClone(sessionEditFormModel);
+    const testSessionEditFormModel: SessionEditFormModel = structuredClone(sessionEditFormModel);
     testSessionEditFormModel.instructions = 'New instructions';
     component.sessionEditFormModel = sessionEditFormModel;
     component.isLoadingFeedbackSession = false;
@@ -561,7 +561,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should edit existing session', () => {
-    component.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(sessionEditFormModel));
+    component.feedbackSessionModelBeforeEditing = structuredClone(sessionEditFormModel);
     sessionEditFormModel.instructions = 'New instructions';
     component.sessionEditFormModel = sessionEditFormModel;
     component.isLoadingFeedbackSession = false;
@@ -571,7 +571,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should delete current session', () => {
-    component.sessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));
+    component.sessionEditFormModel = structuredClone(sessionEditFormModel);
     const navSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockResolvedValue();
     vi.spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').mockReturnValue(of(true));
     component.deleteExistingSessionHandler();
@@ -594,10 +594,10 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should save existing question and move question to new position', () => {
-    const questionEditFormModel: QuestionEditFormModel = JSON.parse(JSON.stringify(testQuestionEditFormModel1));
+    const questionEditFormModel: QuestionEditFormModel = structuredClone(testQuestionEditFormModel1);
     questionEditFormModel.questionDescription = 'new description';
     questionEditFormModel.questionNumber = 2;
-    const updatedFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
+    const updatedFeedbackQuestion: FeedbackQuestion = structuredClone(testFeedbackQuestion1);
     updatedFeedbackQuestion.questionDescription = 'new description';
     updatedFeedbackQuestion.questionNumber = 2;
     const feedbackQuestionSpy = vi
@@ -620,7 +620,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should discard the changes made to the existing question', () => {
-    const questionEditFormModel: QuestionEditFormModel = JSON.parse(JSON.stringify(testQuestionEditFormModel1));
+    const questionEditFormModel: QuestionEditFormModel = structuredClone(testQuestionEditFormModel1);
     questionEditFormModel.questionDescription = 'new description';
     component.questionEditFormModels = [questionEditFormModel];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
@@ -633,7 +633,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should duplicate question', () => {
-    const duplicateFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
+    const duplicateFeedbackQuestion: FeedbackQuestion = structuredClone(testFeedbackQuestion1);
     duplicateFeedbackQuestion.questionNumber = 2;
     duplicateFeedbackQuestion.feedbackQuestionId = 'duplicate question id';
     component.questionEditFormModels = [testQuestionEditFormModel1];
@@ -718,7 +718,7 @@ describe('InstructorSessionEditPageComponent', () => {
       },
       promise,
     );
-    const copiedFeedbackSession: FeedbackSession = JSON.parse(JSON.stringify(testFeedbackSession));
+    const copiedFeedbackSession: FeedbackSession = structuredClone(testFeedbackSession);
     copiedFeedbackSession.courseId = 'testId2';
 
     component.feedbackSessionName = testFeedbackSession.feedbackSessionName;

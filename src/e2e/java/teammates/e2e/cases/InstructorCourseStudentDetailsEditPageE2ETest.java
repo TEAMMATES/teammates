@@ -32,7 +32,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
     public void testAll() {
         AppUrl editPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                 .withCourseId(course.getId())
-                .withStudentEmail(student.getEmail());
+                .withUserId(student.getId().toString());
         InstructorCourseStudentDetailsEditPage editPage =
                 loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
                         testData.instructors.get("ICSDetEdit.instr").getGoogleId());

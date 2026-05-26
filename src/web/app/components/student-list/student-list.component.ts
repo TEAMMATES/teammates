@@ -66,7 +66,7 @@ export class StudentListComponent implements OnInit {
     this.setRowData();
   }
 
-  @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
+  @Output() removeStudentFromCourseEvent: EventEmitter<StudentListRowModel> = new EventEmitter();
   @Output() sortStudentListEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   rowsData: SortableTableCellData[][] = [];
@@ -190,7 +190,7 @@ export class StudentListComponent implements OnInit {
         componentData: (idx: number) => ({
           idx,
           courseId: this.courseId,
-          email: studentModel.student.email,
+          userId: studentModel.student.userId,
           enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
           instructorPrivileges: {
             canModifyStudent: studentModel.isAllowedToModifyStudent,
@@ -204,13 +204,6 @@ export class StudentListComponent implements OnInit {
     };
 
     return actionsCell;
-  }
-
-  /**
-   * Function to be passed to ngFor, so that students in the list is tracked by email
-   */
-  trackByFn(_index: number, item: StudentListRowModel): any {
-    return item.student.email;
   }
 
   /**
@@ -247,9 +240,9 @@ export class StudentListComponent implements OnInit {
     );
     modalRef.result.then(
       () => {
-        this.removeStudentFromCourse(studentModel.student.email);
+        this.removeStudentFromCourse(studentModel);
         this.students = this.students.filter(
-          (student: StudentListRowModel) => student.student.email !== studentModel.student.email,
+          (student: StudentListRowModel) => student.student.userId !== studentModel.student.userId,
         );
         this.setRowData();
       },
@@ -274,8 +267,8 @@ export class StudentListComponent implements OnInit {
   /**
    * Removes the student from course.
    */
-  removeStudentFromCourse(studentEmail: string): void {
-    this.removeStudentFromCourseEvent.emit(studentEmail);
+  removeStudentFromCourse(studentModel: StudentListRowModel): void {
+    this.removeStudentFromCourseEvent.emit(studentModel);
   }
 
   /**

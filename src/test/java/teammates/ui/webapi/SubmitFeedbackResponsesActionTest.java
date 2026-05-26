@@ -850,7 +850,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.PREVIEWAS, stubInstructor.getEmail(),
+                Const.ParamsNames.PREVIEWAS, stubInstructor.getId().toString(),
         };
 
         verifyCannotAccess(params);
@@ -903,7 +903,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));
         spyFeedbackQuestion.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
 
-        when(mockLogic.getInstructorForEmail(stubCourse.getId(), stubInstructor.getEmail()))
+        when(mockLogic.getInstructorOfCourse(stubCourse.getId(), stubInstructor.getId()))
                 .thenReturn(stubInstructor);
 
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
@@ -911,7 +911,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getId().toString(),
         };
 
         verifyCanAccess(params);
@@ -948,7 +948,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, "some-email",
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, UUID.randomUUID().toString(),
         };
 
         verifyCannotAccess(params);

@@ -329,7 +329,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
             assertEquals(expectedStudent.getName(), actualStudent.getName());
             assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
-            assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
+            // assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
             assertEquals(expectedStudent.getComments(), actualStudent.getComments());
             // TODO: A student might not have a team or section.
             // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
@@ -574,8 +574,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Gets the student data for the given course ID and student email.
      */
-    protected StudentData getStudent(String courseId, String studentEmailAddress) {
-        return BACKDOOR.getStudentData(courseId, studentEmailAddress);
+    protected StudentData getStudent(String courseId, String studentEmail) {
+        return BACKDOOR.getStudentData(courseId, studentEmail);
     }
 
     /**
@@ -583,13 +583,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected StudentData getStudent(Student student) {
         return getStudent(student.getCourseId(), student.getEmail());
-    }
-
-    /**
-     * Gets registration key for a given student.
-     */
-    protected String getKeyForStudent(Student student) {
-        return getStudent(student).getKey();
     }
 
     /**

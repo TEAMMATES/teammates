@@ -5,14 +5,12 @@ import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
-import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Instructor,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
@@ -55,7 +53,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
   private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
   private tableComparatorService = inject(TableComparatorService);
   private statusMessageService = inject(StatusMessageService);
@@ -64,23 +61,22 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   courseId = '';
   studentName = '';
   studentEmail = '';
+  studentId = '';
   studentTeam = '';
 
   sessionTabs: SessionTab[] = [];
   isStudentResultsLoading = false;
   hasStudentResultsLoadingFailed = false;
 
-  currInstructorName?: string;
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   ngOnInit(): void {
     this.route.queryParams.subscribe({
       next: (queryParams: any) => {
         this.courseId = queryParams.courseid;
-        this.studentEmail = queryParams.studentemail;
+        this.studentId = queryParams.userid;
 
-        this.loadInstructorRecords(this.courseId);
-        this.loadStudentResults(this.courseId, this.studentEmail);
+        this.loadStudentResults(this.courseId, this.studentId);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -89,31 +85,17 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   }
 
   /**
-   * Loads the instructor's records based on the given course ID.
-   */
-  loadInstructorRecords(courseId: string): void {
-    this.instructorService
-      .getInstructor({
-        courseId,
-        intent: Intent.FULL_DETAIL,
-      })
-      .subscribe((instructor: Instructor) => {
-        this.currInstructorName = instructor.name;
-      });
-  }
-
-  /**
-   * Loads the student's feedback session results based on the given course ID and student email.
+   * Loads the student's feedback session results based on the given course ID and student user ID.
    * Fetches student records and feedback sessions in parallel, then loads results for each session.
    */
-  loadStudentResults(courseId: string, studentEmail: string): void {
+  loadStudentResults(courseId: string, studentId: string): void {
     this.sessionTabs = [];
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
 
     combineLatest({
       feedbackSession: this.getFeedbackSessions(this.courseId),
-      student: this.loadStudentRecords(courseId, studentEmail),
+      student: this.loadStudentRecords(courseId, studentId),
     })
       .pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
@@ -139,12 +121,13 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   }
 
   /**
-   * Loads the student's records based on the given course ID and email.
+   * Loads the student's records based on the given course ID and user ID.
    */
-  private loadStudentRecords(courseId: string, studentEmail: string): Observable<Student> {
-    return this.studentService.getStudent(courseId, studentEmail).pipe(
+  private loadStudentRecords(courseId: string, studentId: string): Observable<Student> {
+    return this.studentService.getStudent({ courseId, userId: studentId }).pipe(
       tap((resp: Student) => {
         this.studentName = resp.name;
+        this.studentEmail = resp.email;
         this.studentTeam = resp.teamName;
       }),
     );
@@ -245,7 +228,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       responseId,
       timezone,
       instructorCommentTableModel: this.instructorCommentTableModel,
-      currInstructorName: this.currInstructorName,
     });
   }
 
@@ -267,7 +249,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       data,
       timezone,
       instructorCommentTableModel: this.instructorCommentTableModel,
-      currInstructorName: this.currInstructorName,
     });
   }
 

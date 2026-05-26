@@ -1,6 +1,6 @@
 <tm-loading-retry
   [shouldShowRetry]="hasStudentLoadingFailed"
-  (retryEvent)="loadStudentDetails(courseId, studentEmail)"
+  (retryEvent)="loadStudentDetails(courseId, studentId)"
   [message]="'Failed to load students'"
 >
   <div *tmIsLoading="isStudentLoading">

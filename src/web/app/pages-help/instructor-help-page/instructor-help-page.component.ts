@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, ViewChild, DOCUMENT, inject } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import { InstructorHelpGeneralSectionComponent } from './instructor-help-general-section/instructor-help-general-section.component';
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section/instructor-help-questions-section.component';
@@ -11,6 +10,7 @@ import { InstructorHelpStudentsSectionComponent } from './instructor-help-studen
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
 import { environment } from '../../../environments/environment';
+import { PageScrollService } from '../../../services/page-scroll.service';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
@@ -31,9 +31,8 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   ],
 })
 export class InstructorHelpPageComponent implements AfterViewInit {
-  private route = inject(ActivatedRoute);
-  private pageScrollService = inject(PageScrollService);
-  private document = inject<Document>(DOCUMENT);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageScrollService = inject(PageScrollService);
 
   // enum
   Sections!: typeof Sections;
@@ -114,25 +113,11 @@ export class InstructorHelpPageComponent implements AfterViewInit {
    * Scrolls to the section passed in
    */
   scroll(section: string): void {
-    this.pageScrollService.scroll({
-      document: this.document,
-      duration: 500,
-      scrollTarget: `#${section}`,
-      scrollOffset: 70,
-    });
+    this.pageScrollService.scrollToAnchor(section);
   }
 
   scrollTo(target: string, timeout?: number): void {
-    setTimeout(
-      () =>
-        this.pageScrollService.scroll({
-          document: this.document,
-          duration: 500,
-          scrollTarget: `#${target}`,
-          scrollOffset: 60,
-        }),
-      timeout || 500,
-    );
+    setTimeout(() => this.pageScrollService.scrollToAnchor(target), timeout || 500);
   }
 
   /**

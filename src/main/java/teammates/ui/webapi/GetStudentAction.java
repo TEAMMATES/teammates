@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
@@ -19,9 +20,6 @@ public class GetStudentAction extends Action {
     /** Message indicating that a student not found. */
     static final String STUDENT_NOT_FOUND = "No student found";
 
-    /** String indicating ACCESS is not given. */
-    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
-
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.REG_KEY;
@@ -35,20 +33,20 @@ public class GetStudentAction extends Action {
 
         Student student;
 
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (studentEmail != null) {
-            student = logic.getStudentForEmail(courseId, studentEmail);
+        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        if (studentId != null) {
+            student = getStudentInCourse(courseId, studentId);
+            if (student == null) {
+                throw new EntityNotFoundException(STUDENT_NOT_FOUND);
+            }
 
             Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     student.getTeamName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
-        } else if (regKey != null) {
-            getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         } else {
-            student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+            student = getStudentFromRequest(courseId);
             gateKeeper.verifyAccessible(student, course);
         }
     }
@@ -59,12 +57,12 @@ public class GetStudentAction extends Action {
 
         Student student;
 
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
-        if (studentEmail == null) {
-            student = getPossiblyUnregisteredStudent(courseId);
+        if (studentId == null) {
+            student = getStudentFromRequest(courseId);
         } else {
-            student = logic.getStudentForEmail(courseId, studentEmail);
+            student = getStudentInCourse(courseId, studentId);
         }
 
         if (student == null) {
@@ -81,7 +79,7 @@ public class GetStudentAction extends Action {
             );
         }
 
-        if (studentEmail == null) {
+        if (studentId == null) {
             // hide information if not an instructor
             studentData.hideInformationForStudent();
             // add student institute
@@ -89,5 +87,13 @@ public class GetStudentAction extends Action {
         }
 
         return new JsonResult(studentData);
+    }
+
+    private Student getStudentInCourse(String courseId, UUID studentId) {
+        Student student = logic.getStudent(studentId);
+        if (student == null || !courseId.equals(student.getCourseId())) {
+            return null;
+        }
+        return student;
     }
 }

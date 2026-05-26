@@ -25,7 +25,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   student?: Student;
 
   courseId = '';
-  studentEmail = '';
+  studentId = '';
 
   isStudentLoading = false;
   hasStudentLoadingFailed = false;
@@ -33,20 +33,20 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
-      this.studentEmail = queryParams.studentemail;
+      this.studentId = queryParams.userid;
 
-      this.loadStudentDetails(this.courseId, this.studentEmail);
+      this.loadStudentDetails(this.courseId, this.studentId);
     });
   }
 
   /**
-   * Loads the student's details based on the given course ID and email.
+   * Loads the student's details based on the given course ID and user ID.
    */
-  loadStudentDetails(courseId: string, studentEmail: string): void {
+  loadStudentDetails(courseId: string, studentId: string): void {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService
-      .getStudent(courseId, studentEmail)
+      .getStudent({ courseId, userId: studentId })
       .pipe(
         finalize(() => {
           this.isStudentLoading = false;

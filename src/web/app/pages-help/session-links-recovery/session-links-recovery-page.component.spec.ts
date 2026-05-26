@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -7,6 +8,7 @@ import { Mocked } from 'vitest';
 
 const mockStatusMessageService: Mocked<Partial<StatusMessageService>> = {
   showErrorToast: vi.fn(),
+  showSuccessToast: vi.fn(),
 };
 
 const mockFeedbackSessionsService = {
@@ -80,5 +82,16 @@ describe('SessionLinksRecoveryPageComponent', () => {
     expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith(
       'Please complete the "I\'m not a robot" checkbox before submitting.',
     );
+  });
+
+  it('should show success when recovery link request succeeds', () => {
+    setValidEmail(component);
+    mockFeedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail.mockReturnValue(
+      of({ message: 'Recovery links sent' }),
+    );
+
+    component.onSubmitFormSessionLinksRecovery(component.formSessionLinksRecovery);
+
+    expect(mockStatusMessageService.showSuccessToast).toHaveBeenCalledWith('Recovery links sent');
   });
 });

@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -13,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -71,9 +69,8 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         stubEmailWrapper.setRecipient("non-existent@email.com");
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
         when(mockLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
-        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq("non-existent@email.com")))
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent("non-existent@email.com"))
                 .thenReturn(stubEmailWrapper);
-        mockEmailSender.setShouldFail(false);
 
         SessionLinksRecoveryAction action = getAction(params);
         JsonResult result = getJsonResult(action);
@@ -81,10 +78,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
         assertEquals("The recovery links for your feedback sessions have been sent to the "
                 + "specified email address: non-existent@email.com", output.getMessage());
-        verifyNumberOfEmailsSent(1);
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals("TEAMMATES: Recovery Email", emailSent.getSubject());
-        assertEquals("non-existent@email.com", emailSent.getRecipient());
+        verifySpecifiedTasksAdded(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
@@ -95,26 +89,21 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         };
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(stubStudent.getEmail()))
                 .thenReturn(stubEmailWrapper);
-        mockEmailSender.setShouldFail(false);
 
         SessionLinksRecoveryAction action = getAction(params);
         JsonResult result = getJsonResult(action);
 
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        assertTrue(output.isEmailSent());
         assertEquals("The recovery links for your feedback sessions have been sent to the "
                 + "specified email address: " + stubStudent.getEmail(), output.getMessage());
 
-        verifyNumberOfEmailsSent(1);
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals("TEAMMATES: Recovery Email", emailSent.getSubject());
-        assertEquals(stubStudent.getEmail(), emailSent.getRecipient());
+        verifySpecifiedTasksAdded(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
-    void testExecute_captchaVerificationFailed_returnsFalseResponse() {
+    void testExecute_captchaVerificationFailed_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
                 Const.ParamsNames.USER_CAPTCHA_RESPONSE, "incorrect-captcha-response",
@@ -122,35 +111,11 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(false);
 
-        SessionLinksRecoveryAction action = getAction(params);
-        JsonResult result = getJsonResult(action);
-
-        SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        assertFalse(output.isEmailSent());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
         assertEquals("Something went wrong with the reCAPTCHA verification. Please try again.",
-                output.getMessage());
+                ihpe.getMessage());
 
-        verifyNoEmailsSent();
-    }
-
-    @Test
-    void testExecute_emailSendingFails_returnsFalseResponse() {
-        String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.USER_CAPTCHA_RESPONSE, "correct-captcha-response",
-        };
-
-        when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
-                .thenReturn(stubEmailWrapper);
-        mockEmailSender.setShouldFail(true);
-
-        SessionLinksRecoveryAction action = getAction(params);
-        JsonResult result = getJsonResult(action);
-
-        SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        assertFalse(output.isEmailSent());
-        assertEquals("An error occurred. The email could not be sent.", output.getMessage());
+        verifyNoTasksAdded();
     }
 
     @Test

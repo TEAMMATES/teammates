@@ -396,7 +396,7 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
                                                 <span
                                                   class="comment-giver-name"
                                                 >
-                                                  comment-giver-1 commented at 
+                                                  comment-giver-name-1 commented at 
                                                 </span>
                                                 <span
                                                   class="ngb-tooltip-class"
@@ -950,7 +950,7 @@ exports[`QuestionResponsePanelComponent > should snap with questions and respons
                                                 <span
                                                   class="comment-giver-name"
                                                 >
-                                                  comment-giver-1 commented at 
+                                                  comment-giver-name-1 commented at 
                                                 </span>
                                                 <span
                                                   class="ngb-tooltip-class"

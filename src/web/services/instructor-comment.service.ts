@@ -19,14 +19,12 @@ export interface InstructorCommentUpdateParams {
   data: InstructorCommentEventData;
   timezone: string;
   instructorCommentTableModel: Record<string, CommentTableModel>;
-  currInstructorName?: string;
 }
 
 export interface InstructorCommentSaveParams {
   responseId: string;
   timezone: string;
   instructorCommentTableModel: Record<string, CommentTableModel>;
-  currInstructorName?: string;
 }
 
 export interface InstructorCommentDeleteParams {
@@ -64,12 +62,7 @@ export class InstructorCommentService {
   /**
    * Updates an instructor comment.
    */
-  updateComment({
-    data,
-    timezone,
-    instructorCommentTableModel,
-    currInstructorName,
-  }: InstructorCommentUpdateParams): void {
+  updateComment({ data, timezone, instructorCommentTableModel }: InstructorCommentUpdateParams): void {
     const commentTableModel: CommentTableModel = instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
     const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
@@ -86,15 +79,8 @@ export class InstructorCommentService {
       )
       .subscribe({
         next: (commentResponse: FeedbackResponseComment) => {
-          // Only override lastEditorName when the caller provided a current instructor name.
-          const transformedUpdatedComment = {
-            ...commentResponse,
-            commentGiverName: commentRowToUpdate.commentGiverName,
-            ...(currInstructorName ? { lastEditorName: currInstructorName } : {}),
-          };
-
           commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform(
-            transformedUpdatedComment,
+            commentResponse,
             timezone,
           );
           instructorCommentTableModel[data.responseId] = {
@@ -110,12 +96,7 @@ export class InstructorCommentService {
   /**
    * Saves an instructor comment.
    */
-  saveNewComment({
-    responseId,
-    timezone,
-    instructorCommentTableModel,
-    currInstructorName,
-  }: InstructorCommentSaveParams): void {
+  saveNewComment({ responseId, timezone, instructorCommentTableModel }: InstructorCommentSaveParams): void {
     const commentTableModel: CommentTableModel = instructorCommentTableModel[responseId];
     const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
 
@@ -131,18 +112,7 @@ export class InstructorCommentService {
       )
       .subscribe({
         next: (commentResponse: FeedbackResponseComment) => {
-          commentTableModel.commentRows.push(
-            this.commentToCommentRowModel.transform(
-              {
-                ...commentResponse,
-                // the giver and editor name will be the current login instructor
-                ...(currInstructorName
-                  ? { commentGiverName: currInstructorName, lastEditorName: currInstructorName }
-                  : {}),
-              },
-              timezone,
-            ),
-          );
+          commentTableModel.commentRows.push(this.commentToCommentRowModel.transform(commentResponse, timezone));
           this.sortComments(commentTableModel);
           instructorCommentTableModel[responseId] = {
             ...commentTableModel,

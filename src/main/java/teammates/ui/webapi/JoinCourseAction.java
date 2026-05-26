@@ -2,13 +2,14 @@ package teammates.ui.webapi;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.RegKeyRequest;
 
 /**
  * Action: joins a course for a student/instructor.
@@ -26,9 +27,9 @@ public class JoinCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() throws InvalidOperationException {
-        String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-        return joinCourse(regKey);
+    public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
+        RegKeyRequest requestBody = getAndValidateRequestBody(RegKeyRequest.class);
+        return joinCourse(requestBody.getKey());
     }
 
     private JsonResult joinCourse(String regKey) throws InvalidOperationException {

@@ -5,7 +5,7 @@ import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
-import { CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
+import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 describe('CourseService', () => {
   let spyHttpRequestService: any;
@@ -133,11 +133,11 @@ describe('CourseService', () => {
   });
 
   it('should execute PUT when joining course', () => {
-    const paramMap: Record<string, string> = {
+    const regKeyRequest: RegKeyRequest = {
       key: '123',
     };
-    service.joinCourse(paramMap['key']);
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
+    service.joinCourse(regKeyRequest);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, {}, regKeyRequest);
   });
 
   it('should execute POST to remind unregistered students of a course', () => {
@@ -154,17 +154,6 @@ describe('CourseService', () => {
     };
     service.remindUserForJoin(userId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
-  });
-
-  it('should execute DELETE to remove student from course', () => {
-    const courseId = 'test-id';
-    const studentEmail = 'test@example.com';
-    const paramsMap: { [key: string]: string } = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    service.removeStudentFromCourse(courseId, studentEmail);
-    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramsMap);
   });
 
   it('should execute GET when getting course section names', () => {

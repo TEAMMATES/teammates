@@ -23,11 +23,17 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
+            if (instructor == null) {
+                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
+            }
+            break;
         case INSTRUCTOR_RESULT:
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseForResult(courseId);
             if (instructor == null) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
@@ -56,8 +62,10 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
+            instructor = getInstructorOfCourseForSubmission(courseId, true);
+            break;
         case INSTRUCTOR_RESULT:
-            instructor = getInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseForResult(courseId);
             break;
         case FULL_DETAIL:
             instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());

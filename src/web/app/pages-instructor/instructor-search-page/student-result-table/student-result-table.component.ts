@@ -3,7 +3,6 @@ import { TableComparatorService } from '../../../../services/table-comparator.se
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../../components/student-list/student-list.component';
-import { areEmailsEqual } from '../../../components/teammates-common/email-utils';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
 
 /**
@@ -96,14 +95,5 @@ export class StudentResultTableComponent {
 
       return this.tableComparatorService.compare(by, order, strA, strB);
     };
-  }
-
-  removeStudent(students: StudentListRowModel[], studentEmail: string): void {
-    const studentToRemove: StudentListRowModel | undefined = students.find((student: StudentListRowModel) =>
-      areEmailsEqual(student.student.email, studentEmail),
-    );
-    if (studentToRemove) {
-      this.removeStudentFromCourseEvent.emit(studentToRemove);
-    }
   }
 }

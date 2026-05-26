@@ -64,13 +64,13 @@ const DefaultCourse: Course = {
 };
 
 const DefaultCourseModel: CourseFormModel = {
-  course: JSON.parse(JSON.stringify(DefaultCourse)),
+  course: structuredClone(DefaultCourse),
   timezones: [],
   isSaving: false,
 };
 
 const DefaultCourseAddFormModel: CourseAddFormModel = {
-  course: JSON.parse(JSON.stringify(DefaultCourse)),
+  course: structuredClone(DefaultCourse),
   timezones: [],
   institutes: [],
   activeCourses: [],
@@ -81,8 +81,8 @@ const DefaultCourseAddFormModel: CourseAddFormModel = {
 };
 
 const DefaultCourseEditFormModel: CourseEditFormModel = {
-  course: JSON.parse(JSON.stringify(DefaultCourse)),
-  originalCourse: JSON.parse(JSON.stringify(DefaultCourse)),
+  course: structuredClone(DefaultCourse),
+  originalCourse: structuredClone(DefaultCourse),
   timezones: [],
 
   isSaving: false,
@@ -93,20 +93,20 @@ const DefaultCourseEditFormModel: CourseEditFormModel = {
 /**
  * Returns default course form model.
  */
-export const DEFAULT_COURSE_FORM_MODEL = (): CourseEditFormModel => {
-  return JSON.parse(JSON.stringify(DefaultCourseModel));
+export const DEFAULT_COURSE_FORM_MODEL = (): CourseFormModel => {
+  return structuredClone(DefaultCourseModel);
 };
 
 /**
  * Returns default course edit form model.
  */
 export const DEFAULT_COURSE_EDIT_FORM_MODEL = (): CourseEditFormModel => {
-  return JSON.parse(JSON.stringify(DefaultCourseEditFormModel));
+  return structuredClone(DefaultCourseEditFormModel);
 };
 
 /**
  * Returns default course add form model.
  */
 export const DEFAULT_COURSE_ADD_FORM_MODEL = (): CourseAddFormModel => {
-  return JSON.parse(JSON.stringify(DefaultCourseAddFormModel));
+  return structuredClone(DefaultCourseAddFormModel);
 };

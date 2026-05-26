@@ -36,6 +36,7 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
@@ -211,6 +212,17 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets instructor associated with {@code id} in the specified course.
+     */
+    public Instructor getInstructorOfCourse(String courseId, UUID id) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(id);
+
+        Instructor instructor = getInstructor(id);
+        return instructor != null && courseId.equals(instructor.getCourseId()) ? instructor : null;
+    }
+
+    /**
      * Updates the privileges of an instructor by user id.
      *
      * @return the updated instructor
@@ -289,18 +301,49 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes an instructor and cascades deletion to
+     * Deletes an instructor by user ID and cascades deletion to
      * associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the instructor does not exist.
      */
-    public void deleteInstructorCascade(String courseId, String email) {
-        Instructor instructor = getInstructorForEmail(courseId, email);
+    public void deleteInstructorCascade(UUID userId) throws InvalidOperationException {
+        Instructor instructor = getInstructor(userId);
         if (instructor == null) {
             return;
         }
 
+        if (!hasAlternativeInstructor(instructor)) {
+            throw new InvalidOperationException(
+                    "The instructor you are trying to delete is the last instructor in the course. "
+                            + "Deleting the last instructor from the course is not allowed.");
+        }
+
         deleteUser(instructor);
+    }
+
+    /**
+     * Returns true if there is at least one joined instructor (other than the instructor to delete)
+     * with the privilege of modifying instructors and at least one instructor visible to the students.
+     */
+    private boolean hasAlternativeInstructor(Instructor instructorToDelete) {
+        List<Instructor> instructors = getInstructorsForCourse(instructorToDelete.getCourseId());
+        boolean hasAlternativeModifyInstructor = false;
+        boolean hasAlternativeVisibleInstructor = false;
+
+        for (Instructor instr : instructors) {
+            hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
+                    && !instr.equals(instructorToDelete)
+                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+
+            hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
+                    || instr.isDisplayedToStudents()
+                    && !instr.equals(instructorToDelete);
+
+            if (hasAlternativeModifyInstructor && hasAlternativeVisibleInstructor) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -406,6 +449,17 @@ public final class UsersLogic {
         assert id != null;
 
         return usersDb.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code id} in the specified course.
+     */
+    public Student getStudentOfCourse(String courseId, UUID id) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(id);
+
+        Student student = getStudent(id);
+        return student != null && courseId.equals(student.getCourseId()) ? student : null;
     }
 
     /**
@@ -626,17 +680,18 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
+     * Deletes a student by user ID along with its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      */
-    public void deleteStudentCascade(String courseId, String studentEmail) {
-        Student student = getStudentForEmail(courseId, studentEmail);
+    public void deleteStudentCascade(UUID userId) {
+        Student student = getStudent(userId);
 
         if (student == null) {
             return;
         }
 
+        String courseId = student.getCourseId();
         deleteUser(student);
         HibernateUtil.flushSession();
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);

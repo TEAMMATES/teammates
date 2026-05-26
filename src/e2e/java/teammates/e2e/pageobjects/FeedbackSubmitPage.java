@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -91,11 +93,19 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyRecipients(int qnNumber, List<String> recipientNames, String role) {
-        WebElement questionForm = getQuestionForm(qnNumber);
         Collections.sort(recipientNames);
         for (int i = 0; i < recipientNames.size(); i++) {
-            assertEquals(recipientNames.get(i) + " (" + role + ")",
-                    questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i)).getText());
+            String expectedRecipient = recipientNames.get(i) + " (" + role + ")";
+            String recipientId = "recipient-name-qn-" + qnNumber + "-idx-" + i;
+            String actualRecipient = waitFor(driver -> {
+                try {
+                    WebElement questionForm = getQuestionForm(qnNumber);
+                    return questionForm.findElement(By.id(recipientId)).getText();
+                } catch (NoSuchElementException | StaleElementReferenceException e) {
+                    return null;
+                }
+            });
+            assertEquals(expectedRecipient, actualRecipient);
         }
     }
 
@@ -586,8 +596,14 @@ public class FeedbackSubmitPage extends AppPage {
 
     private WebElement getQuestionForm(int qnNumber) {
         By questionFormId = By.id("question-submission-form-qn-" + qnNumber);
-        waitForElementPresence(questionFormId);
-        WebElement questionForm = browser.driver.findElement(questionFormId);
+        WebElement questionForm = waitFor(driver -> {
+            try {
+                WebElement element = driver.findElement(questionFormId);
+                return element.isDisplayed() ? element : null;
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                return null;
+            }
+        });
         // Scroll to the question to ensure that the details are fully loaded
         scrollElementToCenter(questionForm);
         waitForPageToLoad();
@@ -612,14 +628,25 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyVisibilityStringPresent(int qnNumber, String expectedString) {
-        List<WebElement> visibilityStrings = getQuestionForm(qnNumber).findElement(By.className("visibility-list"))
-                .findElements(By.tagName("li"));
-        for (WebElement visibilityString : visibilityStrings) {
-            if (visibilityString.getText().equals(expectedString)) {
-                return;
-            }
+        try {
+            waitFor(driver -> {
+                try {
+                    List<WebElement> visibilityStrings = getQuestionForm(qnNumber)
+                            .findElement(By.className("visibility-list"))
+                            .findElements(By.tagName("li"));
+                    for (WebElement visibilityString : visibilityStrings) {
+                        if (visibilityString.getText().equals(expectedString)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                } catch (NoSuchElementException | StaleElementReferenceException e) {
+                    return false;
+                }
+            });
+        } catch (TimeoutException e) {
+            fail("Expected visibility string not found: " + qnNumber + ": " + expectedString);
         }
-        fail("Expected visibility string not found: " + qnNumber + ": " + expectedString);
     }
 
     private String getVisibilityString(FeedbackQuestion feedbackQuestion,

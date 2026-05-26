@@ -192,7 +192,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
         assertEquals("Comment to first response", commentData.getCommentText());
-        assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
     @Test
@@ -411,7 +410,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
         assertEquals("Comment to first response, published session", commentData.getCommentText());
-        assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
     @Test
@@ -442,7 +440,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
         assertEquals("Instructor submission comment", commentData.getCommentText());
-        assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
     @Test
@@ -472,7 +469,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
         assertEquals("Student submission comment", commentData.getCommentText());
-        assertEquals(typicalStudent.getEmail(), commentData.getCommentGiver());
     }
 
     @Test

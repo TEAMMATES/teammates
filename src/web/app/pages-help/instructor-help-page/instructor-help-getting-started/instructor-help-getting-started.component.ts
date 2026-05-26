@@ -1,9 +1,9 @@
-import { Component, DOCUMENT, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
 import { CourseEditFormMode } from '../../../components/course-edit-form/course-edit-form-model';
 import { CourseEditFormComponent } from '../../../components/course-edit-form/course-edit-form.component';
+import { PageScrollService } from '../../../../services/page-scroll.service';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
@@ -22,9 +22,8 @@ import { Sections } from '../sections';
   imports: [TeammatesRouterDirective, ExampleBoxComponent, CourseEditFormComponent],
 })
 export class InstructorHelpGettingStartedComponent {
-  private route = inject(ActivatedRoute);
-  private pageScrollService = inject(PageScrollService);
-  private document = inject(DOCUMENT);
+  private readonly route = inject(ActivatedRoute);
+  private readonly pageScrollService = inject(PageScrollService);
 
   // enum
   StudentsSectionQuestions!: typeof StudentsSectionQuestions;
@@ -60,12 +59,7 @@ export class InstructorHelpGettingStartedComponent {
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
     if (destination) {
-      this.pageScrollService.scroll({
-        document: this.document,
-        duration: 500,
-        scrollTarget: `#${target}`,
-        scrollOffset: 70,
-      });
+      this.pageScrollService.scrollToAnchor(target);
     }
     return false;
   }

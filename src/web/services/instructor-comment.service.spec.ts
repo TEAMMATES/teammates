@@ -23,8 +23,8 @@ describe('InstructorCommentService', () => {
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<FeedbackResponseComment> = {}): FeedbackResponseComment => ({
-    commentGiver: 'instructor@example.com',
-    lastEditorEmail: 'instructor@example.com',
+    commentGiverName: 'Original Instructor',
+    lastEditorName: 'Original Instructor',
     feedbackResponseCommentId: 'comment-id',
     commentText: 'comment text',
     createdAt: 1000,
@@ -38,8 +38,6 @@ describe('InstructorCommentService', () => {
   const createCommentRow = (comment: FeedbackResponseComment = createComment()): CommentRowModel => ({
     timezone,
     originalComment: comment,
-    commentGiverName: 'Original Instructor',
-    lastEditorName: 'Original Instructor',
     commentEditFormModel: {
       commentText: comment.commentText,
       isUsingCustomVisibilities: false,
@@ -160,7 +158,6 @@ describe('InstructorCommentService', () => {
       data: { responseId: 'response-id', index: 0 },
       timezone,
       instructorCommentTableModel,
-      currInstructorName: 'Current Instructor',
     });
 
     expect(spyFeedbackResponseCommentService.updateComment).toHaveBeenCalledWith(
@@ -173,8 +170,6 @@ describe('InstructorCommentService', () => {
       Intent.INSTRUCTOR_RESULT,
     );
     expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.commentText).toBe('updated text');
-    expect(instructorCommentTableModel['response-id'].commentRows[0].commentGiverName).toBe('Original Instructor');
-    expect(instructorCommentTableModel['response-id'].commentRows[0].lastEditorName).toBe('Current Instructor');
     expect(instructorCommentTableModel['response-id'].commentRows[0].timezone).toBe(timezone);
   });
 
@@ -221,7 +216,6 @@ describe('InstructorCommentService', () => {
       responseId: 'response-id',
       timezone,
       instructorCommentTableModel,
-      currInstructorName: 'Current Instructor',
     });
 
     expect(spyFeedbackResponseCommentService.createComment).toHaveBeenCalledWith(
@@ -237,8 +231,6 @@ describe('InstructorCommentService', () => {
     expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.feedbackResponseCommentId).toBe(
       'new-comment-id',
     );
-    expect(instructorCommentTableModel['response-id'].commentRows[0].commentGiverName).toBe('Current Instructor');
-    expect(instructorCommentTableModel['response-id'].commentRows[0].lastEditorName).toBe('Current Instructor');
     expect(instructorCommentTableModel['response-id'].newCommentRow.commentEditFormModel.commentText).toBe('');
     expect(instructorCommentTableModel['response-id'].isAddingNewComment).toBe(false);
   });

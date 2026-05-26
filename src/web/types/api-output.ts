@@ -44,11 +44,6 @@ export interface Builder {
   queryLogsParams: QueryLogsParams;
 }
 
-export interface CommentOutput extends FeedbackResponseComment {
-  commentGiverName?: string;
-  lastEditorName?: string;
-}
-
 export interface ContributionStatistics {
   results: { [index: string]: ContributionStatisticsEntry };
 }
@@ -251,9 +246,9 @@ export interface FeedbackResponse extends ApiOutput {
 }
 
 export interface FeedbackResponseComment extends ApiOutput {
-  commentGiver: string;
-  lastEditorEmail: string;
   feedbackResponseCommentId: string;
+  commentGiverName: string;
+  lastEditorName: string;
   commentText: string;
   createdAt: number;
   lastEditedAt: number;
@@ -548,7 +543,7 @@ export interface ResponseOutput {
   isMissingResponse: boolean;
   responseId: string;
   giver: string;
-  relatedGiverEmail?: string;
+  userIdForModeration?: string;
   giverTeam: string;
   giverEmail?: string;
   giverSection: string;
@@ -557,12 +552,11 @@ export interface ResponseOutput {
   recipientEmail?: string;
   recipientSection: string;
   responseDetails: FeedbackResponseDetails;
-  participantComment?: CommentOutput;
-  instructorComments: CommentOutput[];
+  participantComment?: FeedbackResponseComment;
+  instructorComments: FeedbackResponseComment[];
 }
 
 export interface SessionLinksRecoveryResponse extends ApiOutput {
-  isEmailSent: boolean;
   message: string;
 }
 
