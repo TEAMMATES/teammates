@@ -89,6 +89,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, "unknown",
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, String.valueOf(true),
         };
         verifyHttpParameterFailureAcl(requestParams);
     }
