@@ -35,11 +35,11 @@ public class GetNotificationsAction extends Action {
 
         for (NotificationTargetUser targetUser : targetUsers) {
             if (targetUser == NotificationTargetUser.STUDENT) {
-                gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+                gateKeeper.verifyStudentInAnyCourse(getCurrentAccount());
             }
 
             if (targetUser == NotificationTargetUser.INSTRUCTOR) {
-                gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+                gateKeeper.verifyInstructorInAnyCourse(getCurrentAccount());
             }
         }
     }

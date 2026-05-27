@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import teammates.storage.entity.Account;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.ReadNotificationsData;
 
 /**
@@ -24,11 +23,7 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
-        if (account == null) {
-            // This should not happen as the user is authenticated
-            throw new UnexpectedServerException("Account not found");
-        }
+        Account account = getCurrentAccount();
         List<UUID> readNotifications =
                 logic.getReadNotificationsByAccountId(account.getId()).stream()
                         .map(n -> n.getNotification().getId())
