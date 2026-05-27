@@ -5,12 +5,16 @@ import { AuthInfo } from '../types/api-output';
 import { environment } from '../environments/environment.prod';
 import { map } from 'rxjs/operators';
 
+/**
+ * Guards routes based on user roles.
+ * Redirects to login page if user is not authenticated or does not have the required role.
+ */
 export const roleGuard: CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const authService = inject(AuthService);
   const backendUrl: string = environment.backendUrl;
   const expectedRole: string = childRoute.data['role'];
 
-  const isAuthorized = authService.getAuthUser(state.url).pipe(
+  return authService.getAuthUser(state.url).pipe(
     map((authInfo: AuthInfo) => {
       if (!authInfo.user) {
         redirectToLogin(authInfo, backendUrl);
@@ -25,8 +29,6 @@ export const roleGuard: CanActivateChildFn = (childRoute: ActivatedRouteSnapshot
       return true;
     }),
   );
-
-  return isAuthorized;
 };
 
 const matchRole = (authInfo: AuthInfo, expectedRole: string): boolean => {
