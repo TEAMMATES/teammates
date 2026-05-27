@@ -105,6 +105,18 @@ export class SortableTableComponent implements OnInit, OnChanges {
   @Input()
   sortOrder: SortOrder = SortOrder.ASC;
 
+  @Input()
+  emitSortEventOnInit = true;
+
+  @Input()
+  emitSortEventOnInputChange = true;
+
+  @Input()
+  rowIdGetter?: (row: SortableTableCellData[], idx: number) => string | undefined;
+
+  @Input()
+  rowClassGetter?: (row: SortableTableCellData[], idx: number) => string | undefined;
+
   @Output()
   sortEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
@@ -124,14 +136,14 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.tableRows = this.rows;
-    this.sortRows();
+    this.sortRows(this.emitSortEventOnInputChange);
   }
 
   onClickHeader(columnHeader: string): void {
     this.sortOrder =
       this.columnToSortBy === columnHeader && this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     this.columnToSortBy = columnHeader;
-    this.sortRows();
+    this.sortRows(true);
   }
 
   getAriaSort(column: string): string {
@@ -141,7 +153,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     return this.sortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
-  sortRows(): void {
+  sortRows(emitSortEvent = true): void {
     if (!this.columnToSortBy) {
       return;
     }
@@ -153,7 +165,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
     if (!sortBy) {
       return;
     }
-    this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
+    if (emitSortEvent) {
+      this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
+    }
     this.tableRows.sort((row1: any[], row2: any[]) => {
       return this.tableComparatorService.compare(
         sortBy,
@@ -176,7 +190,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     }
 
     this.columnToSortBy = this.columns[indexOfColumnToSort].header;
-    this.sortRows();
+    this.sortRows(this.emitSortEventOnInit);
   }
 
   getStyle(cellData: SortableTableCellData): string | undefined {
@@ -187,5 +201,13 @@ export class SortableTableComponent implements OnInit, OnChanges {
     return {
       'text-align': `${column?.alignment || 'start'}`,
     };
+  }
+
+  getRowId(row: SortableTableCellData[], idx: number): string | undefined {
+    return this.rowIdGetter ? this.rowIdGetter(row, idx) : undefined;
+  }
+
+  getRowClass(row: SortableTableCellData[], idx: number): string | undefined {
+    return this.rowClassGetter ? this.rowClassGetter(row, idx) : undefined;
   }
 }

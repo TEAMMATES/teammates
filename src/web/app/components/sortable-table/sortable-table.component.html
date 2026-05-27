@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped">
+<table class="table table-bordered table-striped" [attr.id]="tableId || null">
   <thead>
     <tr [ngClass]="setMainTableStyle ? 'bg-primary text-white' : customHeaderStyle">
       @for (column of columns; track column) {
@@ -42,7 +42,7 @@
   </thead>
   <tbody>
     @for (row of tableRows; track row; let idx = $index) {
-      <tr>
+      <tr [attr.id]="getRowId(row, idx) || null" [ngClass]="getRowClass(row, idx)">
         @for (item of row; track item) {
           <td [style]="getStyle(item)">
             @if (item.customComponent) {

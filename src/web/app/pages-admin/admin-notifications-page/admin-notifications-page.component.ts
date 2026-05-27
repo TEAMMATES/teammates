@@ -268,6 +268,7 @@ export class AdminNotificationsPageComponent implements OnInit {
             isHighlighted: true,
             notification,
           });
+          this.notificationsTableRowModels = [...this.notificationsTableRowModels];
           this.initNotificationEditFormModel();
           this.statusMessageService.showSuccessToast('Notification created successfully.');
         },
@@ -320,6 +321,7 @@ export class AdminNotificationsPageComponent implements OnInit {
               rowModel.notification = notification;
             }
           });
+          this.notificationsTableRowModels = [...this.notificationsTableRowModels];
 
           this.initNotificationEditFormModel();
         },
@@ -365,6 +367,7 @@ export class AdminNotificationsPageComponent implements OnInit {
       notificationsTableRowModel.isHighlighted = false;
     });
     this.notificationsTableRowModels.sort(this.getNotificationsTableRowModelsComparator());
+    this.notificationsTableRowModels = [...this.notificationsTableRowModels];
   }
 
   /**
