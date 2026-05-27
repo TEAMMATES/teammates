@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -62,14 +61,11 @@ public class GetNotificationsAction extends Action {
     }
 
     private NotificationTargetUser parseTargetUser(String targetUserString) {
-        if (targetUserString == null) {
+        try {
+            return NotificationTargetUser.valueOf(targetUserString);
+        } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
-                    String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.NOTIFICATION_TARGET_USER));
+                    String.format("Invalid notification target user: %s", targetUserString), e);
         }
-        String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
-        if (!targetUserErrorMessage.isEmpty()) {
-            throw new InvalidHttpParameterException(targetUserErrorMessage);
-        }
-        return NotificationTargetUser.valueOf(targetUserString);
     }
 }
