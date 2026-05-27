@@ -8,7 +8,7 @@ import { AuthService } from '../services/auth.service';
  */
 @Component({
   selector: 'tm-public-page',
-  template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
+  template: '<tm-page [hideAuthInfo]="true"></tm-page>',
   imports: [PageComponent],
 })
 export class PublicPageComponent {

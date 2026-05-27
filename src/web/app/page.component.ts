@@ -6,6 +6,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
   forwardRef,
   inject,
@@ -19,7 +20,7 @@ import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
-import { NotificationTargetUser } from '../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
@@ -74,7 +75,7 @@ export class ClickOutsideDirective {
     AsyncPipe,
   ],
 })
-export class PageComponent {
+export class PageComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private title = inject(Title);
@@ -84,13 +85,13 @@ export class PageComponent {
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
 
-  @Input() isFetchingAuthDetails = false;
-  @Input() user = '';
-  @Input() isStudent = false;
-  @Input() isInstructor = false;
-  @Input() isAdmin = false;
-  @Input() isMaintainer = false;
-  @Input() isValidUser = false;
+  isFetchingAuthDetails = false;
+  user = '';
+  isStudent = false;
+  isInstructor = false;
+  isAdmin = false;
+  isMaintainer = false;
+  isValidUser = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
   @Input() hideAuthInfo = false;
@@ -158,6 +159,28 @@ export class PageComponent {
     this.statusMessageService.getToastEvent().subscribe((toast: Toast) => {
       this.toast = toast;
     });
+  }
+
+  ngOnInit(): void {
+    const authInfo: AuthInfo | undefined = this.route.snapshot.data['authInfo'];
+    const user = authInfo?.user;
+    if (user) {
+      this.user = user.id;
+      if (authInfo?.masquerade) {
+        this.user += ' (M)';
+      }
+      this.isStudent = !!user.isStudent;
+      this.isInstructor = !!user.isInstructor;
+      this.isAdmin = !!user.isAdmin;
+      this.isMaintainer = !!user.isMaintainer;
+      this.isValidUser = true;
+    } else {
+      this.isStudent = false;
+      this.isInstructor = false;
+      this.isAdmin = false;
+      this.isMaintainer = false;
+      this.isValidUser = false;
+    }
   }
 
   private checkBrowserVersion(): void {

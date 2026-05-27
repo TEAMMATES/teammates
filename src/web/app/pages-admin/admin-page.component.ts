@@ -1,8 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { AuthService } from '../../services/auth.service';
-import { NavigationService } from '../../services/navigation.service';
-import { AuthInfo } from '../../types/api-output';
+import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
 
 /**
@@ -13,15 +9,7 @@ import { PageComponent } from '../page.component';
   templateUrl: './admin-page.component.html',
   imports: [PageComponent],
 })
-export class AdminPageComponent implements OnInit {
-  private authService = inject(AuthService);
-  private navigationService = inject(NavigationService);
-
-  user = '';
-  isInstructor = false;
-  isStudent = false;
-  isAdmin = false;
-  isMaintainer = false;
+export class AdminPageComponent {
   navItems: any[] = [
     {
       url: '/web/admin',
@@ -53,32 +41,4 @@ export class AdminPageComponent implements OnInit {
       ],
     },
   ];
-  isFetchingAuthDetails = false;
-
-  private backendUrl: string = environment.backendUrl;
-
-  ngOnInit(): void {
-    this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser('/web/admin/home').subscribe({
-      next: (res: AuthInfo) => {
-        if (res.user) {
-          this.user = res.user.id;
-          this.isInstructor = res.user.isInstructor;
-          this.isStudent = res.user.isStudent;
-          this.isAdmin = res.user.isAdmin;
-          this.isMaintainer = res.user.isMaintainer;
-          if (!this.isAdmin) {
-            // User is not a valid admin; redirect to home page.
-            this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
-          }
-        } else {
-          window.location.href = `${this.backendUrl}${res.loginUrl}`;
-        }
-        this.isFetchingAuthDetails = false;
-      },
-      error: () => {
-        this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
-      },
-    });
-  }
 }

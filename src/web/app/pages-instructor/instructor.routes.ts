@@ -1,7 +1,7 @@
 import { type Routes } from '@angular/router';
 import { Intent } from '../../types/api-request';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
-import { authInfoResolver } from '../../route-guards/authinfo.resolver';
+import { AuthInfoResolver } from '../../route-guards/authinfo.resolver';
 
 const routes: Routes = [
   {
@@ -32,7 +32,7 @@ const routes: Routes = [
           pageTitle: 'Edit Course Details',
         },
         resolve: {
-          authInfo: authInfoResolver,
+          authInfo: AuthInfoResolver,
         },
       },
       {

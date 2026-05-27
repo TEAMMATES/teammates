@@ -6,9 +6,9 @@ import { StaticPageComponent } from './pages-static/static-page.component';
 import { PublicPageComponent } from './public-page.component';
 import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
-import { roleGuard } from '../route-guards/role.guard';
-import { authGuard } from '../route-guards/auth.guard';
-import { authInfoResolver } from '../route-guards/authinfo.resolver';
+import { RoleGuard } from '../route-guards/role.guard';
+import { AuthGuard } from '../route-guards/auth.guard';
+import { AuthInfoResolver } from '../route-guards/authinfo.resolver';
 
 const routes: Routes = [
   {
@@ -18,9 +18,6 @@ const routes: Routes = [
         path: 'front',
         component: StaticPageComponent,
         loadChildren: () => import('./pages-static/static.routes'),
-        resolve: {
-          authInfo: authInfoResolver,
-        }
       },
       {
         path: 'join',
@@ -31,9 +28,10 @@ const routes: Routes = [
             loadComponent: () => import('./user-join-page.component').then((m) => m.UserJoinPageComponent),
           },
         ],
-        canActivateChild: [authGuard],
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         resolve: {
-          authInfo: authInfoResolver,
+          authInfo: AuthInfoResolver,
         },
       },
       {
@@ -63,14 +61,15 @@ const routes: Routes = [
           },
         ],
         resolve: {
-          authInfo: authInfoResolver,
+          authInfo: AuthInfoResolver,
         },
       },
       {
         path: 'student',
         component: StudentPageComponent,
         loadChildren: () => import('./pages-student/student.routes'),
-        canActivateChild: [roleGuard],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
         data: {
           role: 'student',
         },
@@ -79,7 +78,8 @@ const routes: Routes = [
         path: 'instructor',
         component: InstructorPageComponent,
         loadChildren: () => import('./pages-instructor/instructor.routes'),
-        canActivateChild: [roleGuard],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
         data: {
           role: 'instructor',
         },
@@ -88,7 +88,8 @@ const routes: Routes = [
         path: 'admin',
         component: AdminPageComponent,
         loadChildren: () => import('./pages-admin/admin.routes'),
-        canActivateChild: [roleGuard],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
         data: {
           role: 'admin',
         },
@@ -97,7 +98,8 @@ const routes: Routes = [
         path: 'maintainer',
         component: MaintainerPageComponent,
         loadChildren: () => import('./pages-maintainer/maintainer.routes'),
-        canActivateChild: [roleGuard],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
         data: {
           role: 'maintainer',
         },
