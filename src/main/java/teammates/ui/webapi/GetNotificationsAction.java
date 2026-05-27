@@ -27,7 +27,9 @@ public class GetNotificationsAction extends Action {
             return;
         }
 
-        for (NotificationTargetUser targetUser : getTargetUsersFromRequest()) {
+        List<NotificationTargetUser> targetUsers = getTargetUsersFromRequest();
+
+        for (NotificationTargetUser targetUser : targetUsers) {
             if (targetUser == NotificationTargetUser.STUDENT) {
                 gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
             }
@@ -40,24 +42,25 @@ public class GetNotificationsAction extends Action {
 
     @Override
     public JsonResult execute() {
-        String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        List<Notification> notifications;
+        boolean isFetchingActive = getBooleanRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE);
+        List<NotificationTargetUser> targetUsers = getTargetUsersFromRequest();
 
-        if (targetUserString == null && authContext.isAdmin()) {
-            // if request is from admin and targetUser is not specified, retrieve all notifications
-            notifications = logic.getAllNotifications();
-            return new JsonResult(new NotificationsData(notifications));
+        if (targetUsers.isEmpty()) {
+            throw new InvalidHttpParameterException(
+                    String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.NOTIFICATION_TARGET_USER));
         }
 
-        // retrieve active notification for specified target users
-        List<NotificationTargetUser> targetUsers = getTargetUsersFromRequest();
-        notifications = logic.getActiveNotificationsByTargetUsers(targetUsers);
+        List<Notification> notifications = isFetchingActive
+                ? logic.getActiveNotificationsByTargetUsers(targetUsers)
+                : logic.getNotificationsByTargetUsers(targetUsers);
 
         return new JsonResult(new NotificationsData(notifications));
     }
 
     private List<NotificationTargetUser> getTargetUsersFromRequest() {
-        return Arrays.stream(getNonNullRequestParamValues(Const.ParamsNames.NOTIFICATION_TARGET_USER))
+        String[] targetUserStrings = getNonNullRequestParamValues(Const.ParamsNames.NOTIFICATION_TARGET_USER);
+
+        return Arrays.stream(targetUserStrings)
                 .map(this::parseTargetUser)
                 .toList();
     }

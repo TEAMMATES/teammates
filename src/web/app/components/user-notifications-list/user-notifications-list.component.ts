@@ -77,7 +77,10 @@ export class UserNotificationsListComponent implements OnInit {
 
     forkJoin({
       readNotifications: this.notificationService.getReadNotifications(),
-      notifications: this.notificationService.getNotificationsForTargetUsers(this.getTargetUsers()),
+      notifications: this.notificationService.getNotifications({
+        targetUsers: this.getTargetUsers(),
+        isFetchingActive: true,
+      }),
     })
       .pipe(
         finalize(() => {

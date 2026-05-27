@@ -120,10 +120,13 @@ public final class NotificationsLogic {
     }
 
     /**
-     * Gets all notifications.
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code targetUsers}.
      */
-    public List<Notification> getAllNotifications() {
-        return notificationsDb.getAllNotifications();
+    public List<Notification> getNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
+        Objects.requireNonNull(targetUsers);
+        return notificationsDb.getNotificationsByTargetUsers(targetUsers);
     }
 
     /**

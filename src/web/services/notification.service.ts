@@ -2,18 +2,17 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import {
-  MessageOutput,
-  Notification,
-  Notifications,
-  NotificationTargetUser,
-  ReadNotifications,
-} from '../types/api-output';
+import { MessageOutput, Notification, Notifications, ReadNotifications } from '../types/api-output';
 import {
   MarkNotificationAsReadRequest,
   NotificationCreateRequest,
   NotificationUpdateRequest,
 } from '../types/api-request';
+
+export interface GetNotificationsParams {
+  targetUsers: string[];
+  isFetchingActive: boolean;
+}
 
 /**
  * Handles notification related logic injection
@@ -34,8 +33,12 @@ export class NotificationService {
   /**
    * Retrieves all notifications by calling API.
    */
-  getNotifications(): Observable<Notifications> {
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS);
+  getNotifications(params: GetNotificationsParams): Observable<Notifications> {
+    const paramMap: Record<string, string | string[]> = {
+      usertype: params.targetUsers,
+      isfetchingactive: String(params.isFetchingActive),
+    };
+    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
   }
 
   /**
@@ -63,16 +66,6 @@ export class NotificationService {
    */
   markNotificationAsRead(request: MarkNotificationAsReadRequest): Observable<ReadNotifications> {
     return this.httpRequestService.post(ResourceEndpoints.NOTIFICATION_READ, {}, request);
-  }
-
-  /**
-   * Retrieves all active notifications for specific target user types.
-   */
-  getNotificationsForTargetUsers(userTypes: NotificationTargetUser[]): Observable<Notifications> {
-    const paramMap: Record<string, string[]> = {
-      usertype: userTypes,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
   }
 
   /**

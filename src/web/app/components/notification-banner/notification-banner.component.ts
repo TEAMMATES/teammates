@@ -47,7 +47,10 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   fetchNotifications(): void {
     forkJoin({
       readNotifications: this.notificationService.getReadNotifications(),
-      notifications: this.notificationService.getNotificationsForTargetUsers(this.getTargetUsers()),
+      notifications: this.notificationService.getNotifications({
+        targetUsers: this.getTargetUsers(),
+        isFetchingActive: true,
+      }),
     }).subscribe(
       ({
         readNotifications,

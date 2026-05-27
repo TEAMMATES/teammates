@@ -1121,8 +1121,11 @@ public class Logic {
         usersLogic.deleteInstructorCascade(userId);
     }
 
-    public List<Notification> getAllNotifications() {
-        return notificationsLogic.getAllNotifications();
+    /**
+     * Returns all notifications for the specified {@code targetUsers}.
+     */
+    public List<Notification> getNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
+        return notificationsLogic.getNotificationsByTargetUsers(targetUsers);
     }
 
     /**

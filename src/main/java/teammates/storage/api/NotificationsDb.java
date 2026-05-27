@@ -8,7 +8,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.HibernateUtil;
@@ -62,15 +61,19 @@ public final class NotificationsDb {
     }
 
     /**
-     * Gets all notifications.
+     * Gets all notifications by {@code targetUsers}.
+     *
+     * @return a list of notifications for the specified targetUsers.
      */
-    public List<Notification> getAllNotifications() {
+    public List<Notification> getNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
-        CriteriaQuery<Notification> all = cq.select(root);
-        TypedQuery<Notification> allQuery = HibernateUtil.createQuery(all);
-        return allQuery.getResultList();
+        cq.select(root)
+                .where(root.get("targetUser").in(targetUsers))
+                .orderBy(cb.asc(root.get("startTime")));
+        TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
+        return query.getResultList();
     }
 
     /**

@@ -130,7 +130,14 @@ export class AdminNotificationsPageComponent implements OnInit {
   loadNotifications(): void {
     this.isNotificationLoading = true;
     this.notificationService
-      .getNotifications()
+      .getNotifications({
+        targetUsers: [
+          NotificationTargetUser.STUDENT,
+          NotificationTargetUser.INSTRUCTOR,
+          NotificationTargetUser.GENERAL,
+        ],
+        isFetchingActive: false,
+      })
       .pipe(
         finalize(() => {
           this.isNotificationLoading = false;
