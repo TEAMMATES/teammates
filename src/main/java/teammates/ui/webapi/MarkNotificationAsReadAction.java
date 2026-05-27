@@ -2,14 +2,13 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.ReadNotification;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.ReadNotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
@@ -38,7 +37,7 @@ public class MarkNotificationAsReadAction extends Action {
         Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
         if (account == null) {
             // This should not happen as the user is authenticated
-            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException("Account not found");
         }
         ReadNotification readNotification;
         try {

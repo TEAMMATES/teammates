@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -12,6 +10,7 @@ import teammates.common.util.Logger;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.JoinLinkData;
 
 /**
@@ -40,7 +39,7 @@ public class ResetAccountRequestAction extends AdminOnlyAction {
             // InvalidParametersException and EntityDoesNotExistException should not be thrown as
             // validity of params has been verified when fetching entity.
             log.severe("Unexpected error", ue);
-            return new JsonResult(ue.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(ue);
         }
 
         String joinLink = accountRequest.getRegistrationUrl();

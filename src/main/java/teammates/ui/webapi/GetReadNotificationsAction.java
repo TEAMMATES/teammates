@@ -3,10 +3,9 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.storage.entity.Account;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.ReadNotificationsData;
 
 /**
@@ -28,7 +27,7 @@ public class GetReadNotificationsAction extends Action {
         Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
         if (account == null) {
             // This should not happen as the user is authenticated
-            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException("Account not found");
         }
         List<UUID> readNotifications =
                 logic.getReadNotificationsByAccountId(account.getId()).stream()
