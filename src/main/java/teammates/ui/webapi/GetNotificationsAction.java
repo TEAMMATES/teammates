@@ -54,9 +54,7 @@ public class GetNotificationsAction extends Action {
                     String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.NOTIFICATION_TARGET_USER));
         }
 
-        List<Notification> notifications = isFetchingActive
-                ? logic.getActiveNotificationsByTargetUsers(targetUsers)
-                : logic.getNotificationsByTargetUsers(targetUsers);
+        List<Notification> notifications = logic.getNotificationsByTargetUsers(targetUsers, isFetchingActive);
 
         return new JsonResult(new NotificationsData(notifications));
     }

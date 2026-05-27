@@ -118,7 +118,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: get active notifications with target user GENERAL");
         List<Notification> actualNotifications =
-                notificationsDb.getActiveNotificationsByTargetUsers(List.of(NotificationTargetUser.GENERAL));
+                notificationsDb.getNotificationsByTargetUsers(List.of(NotificationTargetUser.GENERAL), true);
         List<Notification> expectedNotifications = List.of(n4, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it1 = expectedNotifications.iterator();
@@ -127,8 +127,8 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         });
 
         ______TS("success: get active notifications with target users INSTRUCTOR and GENERAL");
-        actualNotifications = notificationsDb.getActiveNotificationsByTargetUsers(
-                List.of(NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL));
+        actualNotifications = notificationsDb.getNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL), true);
         expectedNotifications = List.of(n4, n2, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it2 = expectedNotifications.iterator();
@@ -137,8 +137,8 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         });
 
         ______TS("success: get active notifications with target user INSTRUCTOR only");
-        actualNotifications = notificationsDb.getActiveNotificationsByTargetUsers(
-                List.of(NotificationTargetUser.INSTRUCTOR));
+        actualNotifications = notificationsDb.getNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR), true);
         expectedNotifications = List.of(n2);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it3 = expectedNotifications.iterator();

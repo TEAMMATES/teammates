@@ -124,19 +124,10 @@ public final class NotificationsLogic {
      *
      * @return a list of notifications with the specified {@code targetUsers}.
      */
-    public List<Notification> getNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActive) {
         Objects.requireNonNull(targetUsers);
-        return notificationsDb.getNotificationsByTargetUsers(targetUsers);
-    }
-
-    /**
-     * Gets a list of notifications.
-     *
-     * @return a list of notifications with the specified {@code targetUsers}.
-     */
-    public List<Notification> getActiveNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
-        Objects.requireNonNull(targetUsers);
-        return notificationsDb.getActiveNotificationsByTargetUsers(targetUsers);
+        return notificationsDb.getNotificationsByTargetUsers(targetUsers, isActive);
     }
 
     /**

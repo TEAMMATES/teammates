@@ -129,7 +129,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         List<NotificationTargetUser> targetUsers = List.of(
                 NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL);
-        when(mockLogic.getActiveNotificationsByTargetUsers(targetUsers))
+        when(mockLogic.getNotificationsByTargetUsers(targetUsers, true))
                 .thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
@@ -146,7 +146,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         // should fetch correct number of notifications
         assertEquals(expectedNumberOfNotifications, notifications.size());
-        verify(mockLogic).getActiveNotificationsByTargetUsers(targetUsers);
+        verify(mockLogic).getNotificationsByTargetUsers(targetUsers, true);
     }
 
     @Test
@@ -162,7 +162,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         List<NotificationTargetUser> targetUsers = List.of(
                 NotificationTargetUser.STUDENT, NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL);
-        when(mockLogic.getNotificationsByTargetUsers(targetUsers)).thenReturn(testNotifications);
+        when(mockLogic.getNotificationsByTargetUsers(targetUsers, false)).thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
@@ -178,7 +178,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         List<NotificationData> notificationOutput = output.getNotifications();
 
         assertEquals(expectedNumberOfNotifications, notificationOutput.size());
-        verify(mockLogic).getNotificationsByTargetUsers(targetUsers);
+        verify(mockLogic).getNotificationsByTargetUsers(targetUsers, false);
 
         NotificationData expected = new NotificationData(testNotifications.get(0));
         NotificationData firstNotification = notificationOutput.get(0);
@@ -237,7 +237,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         }
 
         List<NotificationTargetUser> targetUsers = List.of(NotificationTargetUser.INSTRUCTOR);
-        when(mockLogic.getActiveNotificationsByTargetUsers(targetUsers))
+        when(mockLogic.getNotificationsByTargetUsers(targetUsers, true))
                 .thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
@@ -255,7 +255,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         for (int i = 0; i < testNotifications.size(); i++) {
             verifyNotificationEquals(new NotificationData(testNotifications.get(i)), notifications.get(i));
         }
-        verify(mockLogic).getActiveNotificationsByTargetUsers(targetUsers);
+        verify(mockLogic).getNotificationsByTargetUsers(targetUsers, true);
     }
 
     @Test
@@ -269,7 +269,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         }
 
         List<NotificationTargetUser> targetUsers = List.of(NotificationTargetUser.INSTRUCTOR);
-        when(mockLogic.getNotificationsByTargetUsers(targetUsers))
+        when(mockLogic.getNotificationsByTargetUsers(targetUsers, false))
                 .thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
@@ -287,7 +287,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         for (int i = 0; i < testNotifications.size(); i++) {
             verifyNotificationEquals(new NotificationData(testNotifications.get(i)), notifications.get(i));
         }
-        verify(mockLogic).getNotificationsByTargetUsers(targetUsers);
+        verify(mockLogic).getNotificationsByTargetUsers(targetUsers, false);
     }
 
     @Test
@@ -301,7 +301,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         }
 
         List<NotificationTargetUser> targetUsers = List.of(NotificationTargetUser.GENERAL);
-        when(mockLogic.getActiveNotificationsByTargetUsers(targetUsers))
+        when(mockLogic.getNotificationsByTargetUsers(targetUsers, true))
                 .thenReturn(testNotifications);
 
         String[] requestParams = new String[] {
@@ -319,7 +319,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         for (int i = 0; i < testNotifications.size(); i++) {
             verifyNotificationEquals(new NotificationData(testNotifications.get(i)), notifications.get(i));
         }
-        verify(mockLogic).getActiveNotificationsByTargetUsers(targetUsers);
+        verify(mockLogic).getNotificationsByTargetUsers(targetUsers, true);
     }
 
     private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {

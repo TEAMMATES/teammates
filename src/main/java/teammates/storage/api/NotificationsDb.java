@@ -65,32 +65,25 @@ public final class NotificationsDb {
      *
      * @return a list of notifications for the specified targetUsers.
      */
-    public List<Notification> getNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActive) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
-        cq.select(root)
-                .where(root.get("targetUser").in(targetUsers))
-                .orderBy(cb.asc(root.get("startTime")));
-        TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
-        return query.getResultList();
-    }
 
-    /**
-     * Gets notifications by {@code targetUsers}.
-     *
-     * @return a list of notifications for the specified targetUsers.
-     */
-    public List<Notification> getActiveNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
-        Root<Notification> root = cq.from(Notification.class);
-        cq.select(root)
-                .where(cb.and(
-                        root.get("targetUser").in(targetUsers),
-                        cb.lessThanOrEqualTo(root.get("startTime"), Instant.now()),
-                        cb.greaterThanOrEqualTo(root.get("endTime"), Instant.now())))
-                .orderBy(cb.asc(root.get("startTime")));
+        if (isActive) {
+            Instant now = Instant.now();
+            cq.select(root)
+                    .where(cb.and(
+                            root.get("targetUser").in(targetUsers),
+                            cb.lessThanOrEqualTo(root.get("startTime"), now),
+                            cb.greaterThanOrEqualTo(root.get("endTime"), now)));
+        } else {
+            cq.select(root)
+                    .where(root.get("targetUser").in(targetUsers));
+        }
+
+        cq.orderBy(cb.asc(root.get("startTime")));
         TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
     }

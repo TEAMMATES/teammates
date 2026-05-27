@@ -1122,10 +1122,11 @@ public class Logic {
     }
 
     /**
-     * Returns all notifications for the specified {@code targetUsers}.
+     * Returns notifications for the specified {@code targetUsers}.
      */
-    public List<Notification> getNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
-        return notificationsLogic.getNotificationsByTargetUsers(targetUsers);
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActive) {
+        return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActive);
     }
 
     /**
@@ -1165,13 +1166,6 @@ public class Logic {
         assert instructorToEdit != null;
 
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-    }
-
-    /**
-     * Returns active notifications for the specified {@code targetUsers}.
-     */
-    public List<Notification> getActiveNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
-        return notificationsLogic.getActiveNotificationsByTargetUsers(targetUsers);
     }
 
     /**
