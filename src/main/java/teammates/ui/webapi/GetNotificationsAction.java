@@ -1,24 +1,20 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.NotificationsData;
 
 /**
  * Action: Gets a list of notifications.
  */
 public class GetNotificationsAction extends Action {
-
-    private static final String INVALID_TARGET_USER = "Target user can only be STUDENT or INSTRUCTOR.";
 
     @Override
     AuthType getMinAuthLevel() {
@@ -30,18 +26,15 @@ public class GetNotificationsAction extends Action {
         if (authContext.isAdmin()) {
             return;
         }
-        String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
-        String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
-        if (!targetUserErrorMessage.isEmpty()) {
-            throw new InvalidHttpParameterException(targetUserErrorMessage);
-        }
-        NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-        if (targetUser == NotificationTargetUser.STUDENT) {
-            gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
-        }
 
-        if (targetUser == NotificationTargetUser.INSTRUCTOR) {
-            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+        for (NotificationTargetUser targetUser : getTargetUsersFromRequest()) {
+            if (targetUser == NotificationTargetUser.STUDENT) {
+                gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+            }
+
+            if (targetUser == NotificationTargetUser.INSTRUCTOR) {
+                gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+            }
         }
     }
 
@@ -56,37 +49,28 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        // retrieve active notification for specified target user
+        // retrieve active notification for specified target users
+        List<NotificationTargetUser> targetUsers = getTargetUsersFromRequest();
+        notifications = logic.getActiveNotificationsByTargetUsers(targetUsers);
+
+        return new JsonResult(new NotificationsData(notifications));
+    }
+
+    private List<NotificationTargetUser> getTargetUsersFromRequest() {
+        return Arrays.stream(getNonNullRequestParamValues(Const.ParamsNames.NOTIFICATION_TARGET_USER))
+                .map(this::parseTargetUser)
+                .toList();
+    }
+
+    private NotificationTargetUser parseTargetUser(String targetUserString) {
+        if (targetUserString == null) {
+            throw new InvalidHttpParameterException(
+                    String.format("The [%s] HTTP parameter is null.", Const.ParamsNames.NOTIFICATION_TARGET_USER));
+        }
         String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
         if (!targetUserErrorMessage.isEmpty()) {
             throw new InvalidHttpParameterException(targetUserErrorMessage);
         }
-        NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-        if (targetUser == NotificationTargetUser.GENERAL) {
-            throw new InvalidHttpParameterException(INVALID_TARGET_USER);
-        }
-        notifications = logic.getActiveNotificationsByTargetUser(targetUser);
-
-        boolean isFetchingAll = false;
-        if (getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL) != null) {
-            isFetchingAll = getBooleanRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL);
-        }
-
-        if (isFetchingAll) {
-            return new JsonResult(new NotificationsData(notifications));
-        }
-
-        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
-        if (account == null) {
-            // This should not happen as the user is authenticated
-            throw new UnexpectedServerException("Account not found");
-        }
-        notifications = logic.getUnreadActiveNotificationsByTargetUser(
-                List.of(targetUser, NotificationTargetUser.GENERAL), account.getId(), Instant.now());
-
-        if (authContext.isAdmin()) {
-            return new JsonResult(new NotificationsData(notifications));
-        }
-        return new JsonResult(new NotificationsData(notifications));
+        return NotificationTargetUser.valueOf(targetUserString);
     }
 }

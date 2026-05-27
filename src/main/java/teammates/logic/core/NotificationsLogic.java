@@ -4,6 +4,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -128,28 +129,18 @@ public final class NotificationsLogic {
     /**
      * Gets a list of notifications.
      *
-     * @return a list of notifications with the specified {@code targetUser}.
+     * @return a list of notifications with the specified {@code targetUsers}.
      */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        assert targetUser != null;
-        return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
-    }
-
-    /**
-     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        assert targetUsers != null;
-        assert accountId != null;
-        return notificationsDb.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
+    public List<Notification> getActiveNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
+        Objects.requireNonNull(targetUsers);
+        return notificationsDb.getActiveNotificationsByTargetUsers(targetUsers);
     }
 
     /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
-        assert accountId != null;
+        Objects.requireNonNull(accountId);
         return notificationsDb.getReadNotificationsByAccountId(accountId);
     }
 

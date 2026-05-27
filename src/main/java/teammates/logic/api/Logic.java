@@ -1165,19 +1165,10 @@ public class Logic {
     }
 
     /**
-     * Returns active notification for general users and the specified
-     * {@code targetUser}.
+     * Returns active notifications for the specified {@code targetUsers}.
      */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
-    }
-
-    /**
-     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
+    public List<Notification> getActiveNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
+        return notificationsLogic.getActiveNotificationsByTargetUsers(targetUsers);
     }
 
     /**

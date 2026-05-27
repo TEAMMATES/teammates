@@ -175,7 +175,6 @@ public final class Const {
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
-        public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
     }
 
     /**

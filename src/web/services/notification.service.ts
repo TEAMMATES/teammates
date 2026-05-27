@@ -66,23 +66,11 @@ export class NotificationService {
   }
 
   /**
-   * Retrieves unread notifications for a specific target user type.
+   * Retrieves all active notifications for specific target user types.
    */
-  getUnreadNotificationsForTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
-    const paramMap: Record<string, string> = {
-      usertype: userType,
-      isfetchingall: 'false',
-    };
-    return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
-  }
-
-  /**
-   * Retrieves all notifications for a specific target user type.
-   */
-  getAllNotificationsForTargetUser(userType: NotificationTargetUser): Observable<Notifications> {
-    const paramMap: Record<string, string> = {
-      usertype: userType,
-      isfetchingall: 'true',
+  getNotificationsForTargetUsers(userTypes: NotificationTargetUser[]): Observable<Notifications> {
+    const paramMap: Record<string, string[]> = {
+      usertype: userTypes,
     };
     return this.httpRequestService.get(ResourceEndpoints.NOTIFICATIONS, paramMap);
   }

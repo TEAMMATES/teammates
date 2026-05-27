@@ -137,9 +137,9 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
             notificationsDb.createNotification(n);
         }
 
-        ______TS("success: get active notification with target user GENERAL");
+        ______TS("success: get active notifications with target user GENERAL");
         List<Notification> actualNotifications =
-                notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.GENERAL);
+                notificationsDb.getActiveNotificationsByTargetUsers(List.of(NotificationTargetUser.GENERAL));
         List<Notification> expectedNotifications = List.of(n4, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it1 = expectedNotifications.iterator();
@@ -147,13 +147,24 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
             verifyEquals(it1.next(), actual);
         });
 
-        ______TS("success: get active notification with target user INSTRUCTOR");
-        actualNotifications = notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
+        ______TS("success: get active notifications with target users INSTRUCTOR and GENERAL");
+        actualNotifications = notificationsDb.getActiveNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL));
         expectedNotifications = List.of(n4, n2, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it2 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
             verifyEquals(it2.next(), actual);
+        });
+
+        ______TS("success: get active notifications with target user INSTRUCTOR only");
+        actualNotifications = notificationsDb.getActiveNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR));
+        expectedNotifications = List.of(n2);
+        assertEquals(expectedNotifications.size(), actualNotifications.size());
+        Iterator<Notification> it3 = expectedNotifications.iterator();
+        actualNotifications.forEach(actual -> {
+            verifyEquals(it3.next(), actual);
         });
     }
 

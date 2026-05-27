@@ -74,50 +74,19 @@ public final class NotificationsDb {
     }
 
     /**
-     * Gets notifications by {@code targetUser}.
+     * Gets notifications by {@code targetUsers}.
      *
-     * @return a list of notifications for the specified targetUser.
+     * @return a list of notifications for the specified targetUsers.
      */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
+    public List<Notification> getActiveNotificationsByTargetUsers(List<NotificationTargetUser> targetUsers) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
-        cq.select(root)
-                .where(cb.and(
-                        cb.or(cb.equal(root.get("targetUser"), targetUser),
-                                cb.equal(root.get("targetUser"), NotificationTargetUser.GENERAL)),
-                        cb.lessThanOrEqualTo(root.get("startTime"), Instant.now()),
-                        cb.greaterThanOrEqualTo(root.get("endTime"), Instant.now())))
-                .orderBy(cb.asc(root.get("startTime")));
-        TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
-        return query.getResultList();
-    }
-
-    /**
-     * Gets active notifications by {@code targetUser} that have not been read by the account
-     * with the given {@code accountId}.
-     *
-     * @return a list of unread active notifications for the specified targetUser and account.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
-        Root<Notification> root = cq.from(Notification.class);
-
-        Subquery<Integer> subquery = cq.subquery(Integer.class);
-        Root<ReadNotification> readRoot = subquery.from(ReadNotification.class);
-        subquery.select(cb.literal(1))
-                .where(cb.and(
-                        cb.equal(readRoot.get("notification").get("id"), root.get("id")),
-                        cb.equal(readRoot.get("account").get("id"), accountId)));
-
         cq.select(root)
                 .where(cb.and(
                         root.get("targetUser").in(targetUsers),
-                        cb.lessThanOrEqualTo(root.get("startTime"), now),
-                        cb.greaterThanOrEqualTo(root.get("endTime"), now),
-                        cb.not(cb.exists(subquery))))
+                        cb.lessThanOrEqualTo(root.get("startTime"), Instant.now()),
+                        cb.greaterThanOrEqualTo(root.get("endTime"), Instant.now())))
                 .orderBy(cb.asc(root.get("startTime")));
         TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();

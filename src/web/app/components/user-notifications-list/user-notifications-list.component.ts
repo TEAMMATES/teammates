@@ -77,7 +77,7 @@ export class UserNotificationsListComponent implements OnInit {
 
     forkJoin({
       readNotifications: this.notificationService.getReadNotifications(),
-      notifications: this.notificationService.getAllNotificationsForTargetUser(this.userType),
+      notifications: this.notificationService.getNotificationsForTargetUsers(this.getTargetUsers()),
     })
       .pipe(
         finalize(() => {
@@ -103,6 +103,10 @@ export class UserNotificationsListComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  private getTargetUsers(): NotificationTargetUser[] {
+    return Array.from(new Set([this.userType, NotificationTargetUser.GENERAL]));
   }
 
   private createNotificationTab(notification: Notification, readNotifications: Set<string>): NotificationTab {
