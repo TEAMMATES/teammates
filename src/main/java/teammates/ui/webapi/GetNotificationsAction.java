@@ -27,6 +27,10 @@ public class GetNotificationsAction extends Action {
             return;
         }
 
+        if (!getBooleanRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE)) {
+            throw new UnauthorizedAccessException("Only admins can fetch non-active notifications.");
+        }
+
         List<NotificationTargetUser> targetUsers = getTargetUsersFromRequest();
 
         for (NotificationTargetUser targetUser : targetUsers) {

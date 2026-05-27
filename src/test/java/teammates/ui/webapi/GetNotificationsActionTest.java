@@ -94,6 +94,16 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
+    void testAccessControl_nonAdminFetchingNonActiveNotification_shouldFail() {
+        loginAsInstructor(GOOGLE_ID);
+        String[] requestParams = new String[] {
+                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.toString(),
+                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, String.valueOf(false),
+        };
+        verifyCannotAccess(requestParams);
+    }
+
+    @Test
     void testAccessControl_adminAccessAllNotification_shouldSucceed() {
         loginAsAdmin();
         String[] requestParams = new String[] {
