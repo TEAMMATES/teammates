@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -38,7 +38,6 @@ public final class FeedbackSessionsLogic {
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
     private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
-
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
     private FeedbackSessionsDb fsDb;
@@ -463,101 +462,66 @@ public final class FeedbackSessionsLogic {
      *         sent as they are published
      */
     public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
-        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
-
-        for (FeedbackSession session : sessions) {
-            // automated emails are required only for custom publish times
-            if (session.isPublished()
-                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())
-                    && session.getCourse().getDeletedAt() == null) {
-                sessionsToSendEmailsFor.add(session);
-            }
-        }
-        log.info(String.format("Number of sessions under consideration after filtering: %d",
-                sessionsToSendEmailsFor.size()));
-        return sessionsToSendEmailsFor;
+        log.info(String.format("Number of sessions to send published emails for: %d", sessions.size()));
+        return sessions;
     }
 
     /**
-     * Returns a list of sessions that are going to close within the next 24 hours.
+     * Returns sessions in the reminder window before the closing time.
      */
     public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
-        List<FeedbackSession> requiredSessions = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
+        List<FeedbackSession> filteredSessions = new ArrayList<>();
         for (FeedbackSession session : sessions) {
-            if (session.isClosingWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-                    && session.getCourse().getDeletedAt() == null) {
-                requiredSessions.add(session);
+            if (Duration.between(session.getStartTime(), session.getEndTime())
+                    .compareTo(Duration.ofHours(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) > 0) {
+                filteredSessions.add(session);
             }
         }
 
         log.info(String.format("Number of sessions under consideration after filtering: %d",
-                requiredSessions.size()));
-        return requiredSessions;
+                filteredSessions.size()));
+        return filteredSessions;
     }
 
     /**
-     * Returns a list of sessions that are going to open in 24 hours.
+     * Returns sessions in the reminder window before the opening time.
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
-        List<FeedbackSession> requiredSessions = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
-        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
-
-        for (FeedbackSession session : sessions) {
-            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
-                    && session.getCourse().getDeletedAt() == null) {
-                requiredSessions.add(session);
-            }
-        }
-
-        log.info(String.format("Number of sessions under consideration after filtering: %d",
-                requiredSessions.size()));
-        return requiredSessions;
+        log.info(String.format("Number of sessions to send opening soon emails for: %d", sessions.size()));
+        return sessions;
     }
 
     /**
-     * Returns a list of sessions that were closed within past hour.
+     * Returns a list of sessions that were closed recently.
      */
-    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
-        List<FeedbackSession> requiredSessions = new ArrayList<>();
+    public List<FeedbackSession> getFeedbackSessionsClosedRecently() {
+        List<FeedbackSession> filteredSessions = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSession session : sessions) {
-            // is session closed in the past 1 hour
-            if (session.isClosedWithinPastHour()
-                    && session.getCourse().getDeletedAt() == null) {
-                requiredSessions.add(session);
+            if (session.isClosedWithin(Const.FEEDBACK_SESSION_REMINDER_EMAIL_REDUNDANCY_WINDOW)) {
+                filteredSessions.add(session);
             }
         }
         log.info(String.format("Number of sessions under consideration after filtering: %d",
-                requiredSessions.size()));
-        return requiredSessions;
+                filteredSessions.size()));
+        return filteredSessions;
     }
 
     /**
-     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * Gets a list of undeleted feedback sessions which opened recently
      * and need an open email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {
-        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenedEmail();
-        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
-
-        for (FeedbackSession session : sessions) {
-            if (session.isOpened() && session.getCourse().getDeletedAt() == null) {
-                sessionsToSendEmailsFor.add(session);
-            }
-        }
-
-        log.info(String.format("Number of sessions under consideration after filtering: %d",
-                sessionsToSendEmailsFor.size()));
-        return sessionsToSendEmailsFor;
+        log.info(String.format("Number of sessions to send opened emails for: %d", sessions.size()));
+        return sessions;
     }
 
     /**

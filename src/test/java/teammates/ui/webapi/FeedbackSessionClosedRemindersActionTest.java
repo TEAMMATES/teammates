@@ -55,13 +55,13 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @Test
     void testExecute_allSessionsClosed_emailsSent() {
-        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(session, session2));
+        when(mockLogic.getFeedbackSessionsClosedRecently()).thenReturn(List.of(session, session2));
 
         try (MockedStatic<RequestTracer> mockRequestTracer = mockStatic(RequestTracer.class)) {
             FeedbackSessionClosedRemindersAction action = getAction();
             MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-            verify(mockLogic, times(1)).getFeedbackSessionsClosedWithinThePastHour();
+            verify(mockLogic, times(1)).getFeedbackSessionsClosedRecently();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(2));
             verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session);
             verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session2);
@@ -76,13 +76,13 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @Test
     void testExecute_oneSessionClosed_emailsSent() {
-        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of(session));
+        when(mockLogic.getFeedbackSessionsClosedRecently()).thenReturn(List.of(session));
 
         try (MockedStatic<RequestTracer> mockRequestTracer = mockStatic(RequestTracer.class)) {
             FeedbackSessionClosedRemindersAction action = getAction();
             MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-            verify(mockLogic, times(1)).getFeedbackSessionsClosedWithinThePastHour();
+            verify(mockLogic, times(1)).getFeedbackSessionsClosedRecently();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(1));
             verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session);
             verify(session, times(1)).setClosedEmailSent(true);
@@ -95,13 +95,13 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @Test
     void testExecute_noSessionsClosed_noEmailsSent() {
-        when(mockLogic.getFeedbackSessionsClosedWithinThePastHour()).thenReturn(List.of());
+        when(mockLogic.getFeedbackSessionsClosedRecently()).thenReturn(List.of());
 
         try (MockedStatic<RequestTracer> mockRequestTracer = mockStatic(RequestTracer.class)) {
             FeedbackSessionClosedRemindersAction action = getAction();
             MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-            verify(mockLogic, times(1)).getFeedbackSessionsClosedWithinThePastHour();
+            verify(mockLogic, times(1)).getFeedbackSessionsClosedRecently();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, never());
 
             verifyNoTasksAdded();

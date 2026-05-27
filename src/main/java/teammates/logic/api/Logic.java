@@ -1485,10 +1485,10 @@ public class Logic {
     }
 
     /**
-     * Returns a list of sessions that were closed within past hour.
+     * Returns a list of sessions that were closed recently.
      */
-    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
-        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    public List<FeedbackSession> getFeedbackSessionsClosedRecently() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedRecently();
     }
 
     /**
