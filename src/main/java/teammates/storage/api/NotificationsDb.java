@@ -61,9 +61,12 @@ public final class NotificationsDb {
     }
 
     /**
-     * Gets all notifications by {@code targetUsers}.
+     * Gets all notifications by {@code targetUsers} for the specified active status.
      *
-     * @return a list of notifications for the specified targetUsers.
+     * <p>An active notification is a notification that is currently being displayed to users,
+     * i.e. the current time is between the notification's start and end time.
+     *
+     * @return a list of notifications for the specified targetUsers for the specified active status.
      */
     public List<Notification> getNotificationsByTargetUsers(
             List<NotificationTargetUser> targetUsers, boolean isActive) {

@@ -122,7 +122,7 @@ public final class NotificationsLogic {
     /**
      * Gets a list of notifications.
      *
-     * @return a list of notifications with the specified {@code targetUsers}.
+     * @return a list of notifications with the specified {@code targetUsers} and active status.
      */
     public List<Notification> getNotificationsByTargetUsers(
             List<NotificationTargetUser> targetUsers, boolean isActive) {
