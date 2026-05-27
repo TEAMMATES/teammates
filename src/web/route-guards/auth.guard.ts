@@ -1,6 +1,6 @@
 import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AuthInfo } from '../types/api-output';
 import { environment } from '../environments/environment.prod';
 import { map } from 'rxjs/operators';
@@ -9,17 +9,20 @@ import { map } from 'rxjs/operators';
  * Guards routes based on user authentication status.
  * Redirects to login page if user is not authenticated.
  */
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthGuard implements CanActivate, CanActivateChild {
-  canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const authService = inject(AuthService);
-    const backendUrl: string = environment.backendUrl;
+  private authService = inject(AuthService);
+  private backendUrl: string = environment.backendUrl;
 
-    return authService.getAuthUser(state.url).pipe(
+  canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.authService.getAuthUser(state.url).pipe(
       map((authInfo: AuthInfo) => {
         console.log(`[authGuard] Checking auth for: ${state.url}`);
         if (!authInfo.user) {
           console.log(`[authGuard] No authenticated user — redirecting to login`);
-          this.redirectToLogin(authInfo, backendUrl);
+          this.redirectToLogin(authInfo, this.backendUrl);
           return false;
         }
         console.log(`[authGuard] Authenticated as ${authInfo.user.id} — access granted`);
