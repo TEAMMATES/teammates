@@ -1,0 +1,33 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260528-fr-giver-comment-1">
+        <addColumn tableName="feedback_responses">
+            <column name="giver_comment" type="TEXT" />
+        </addColumn>
+        <sql>
+            WITH participant_comments AS (
+                SELECT DISTINCT ON (response_id)
+                    response_id,
+                    comment_text
+                FROM feedback_response_comments
+                WHERE is_comment_from_feedback_participant = TRUE
+                ORDER BY response_id, updated_at DESC NULLS LAST, created_at DESC NULLS LAST, id
+            )
+            UPDATE feedback_responses fr
+            SET giver_comment = pc.comment_text
+            FROM participant_comments pc
+            WHERE fr.id = pc.response_id
+              AND fr.giver_comment IS NULL;
+        </sql>
+        <sql>
+            DELETE FROM feedback_response_comments
+            WHERE is_comment_from_feedback_participant = TRUE;
+        </sql>
+        <rollback/>
+    </changeSet>
+</databaseChangeLog>

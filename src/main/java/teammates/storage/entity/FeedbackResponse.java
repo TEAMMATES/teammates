@@ -54,6 +54,9 @@ public abstract class FeedbackResponse extends BaseEntity {
     @OneToMany(mappedBy = "feedbackResponse")
     private Set<FeedbackResponseComment> feedbackResponseComments = new HashSet<>();
 
+    @Column(columnDefinition = "TEXT")
+    private String giverComment;
+
     @Embedded
     private ResponseGiver giver;
 
@@ -211,6 +214,14 @@ public abstract class FeedbackResponse extends BaseEntity {
 
     public void setFeedbackResponseComments(Set<FeedbackResponseComment> feedbackResponseComments) {
         this.feedbackResponseComments = feedbackResponseComments;
+    }
+
+    public String getGiverComment() {
+        return giverComment;
+    }
+
+    public void setGiverComment(String giverComment) {
+        this.giverComment = giverComment;
     }
 
     public Instant getUpdatedAt() {
