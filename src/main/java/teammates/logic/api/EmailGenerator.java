@@ -352,6 +352,7 @@ public final class EmailGenerator {
      * Generates the email to be sent to a non-existent student when they request for session links recovery.
      */
     public EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
+        Objects.requireNonNull(recoveryEmailAddress);
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         String emailBody = Templates.populateTemplate(
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
@@ -373,6 +374,7 @@ public final class EmailGenerator {
      */
     public EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(
             String recoveryEmailAddress, List<Student> studentsForEmail) {
+        Objects.requireNonNull(recoveryEmailAddress);
         if (studentsForEmail.isEmpty()) {
             throw new IllegalArgumentException("studentsForEmail cannot be empty");
         }
