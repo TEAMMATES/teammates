@@ -15,10 +15,7 @@ describe('AuthGuard', () => {
   beforeEach(() => {
     spyAuthService = createSpyFromClass(AuthService);
     TestBed.configureTestingModule({
-      providers: [
-        AuthGuard,
-        { provide: AuthService, useValue: spyAuthService },
-      ],
+      providers: [AuthGuard, { provide: AuthService, useValue: spyAuthService }],
     });
     guard = TestBed.inject(AuthGuard);
   });

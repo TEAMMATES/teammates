@@ -16,10 +16,7 @@ describe('AuthInfoResolver', () => {
   beforeEach(() => {
     spyAuthService = createSpyFromClass(AuthService);
     TestBed.configureTestingModule({
-      providers: [
-        AuthInfoResolver,
-        { provide: AuthService, useValue: spyAuthService },
-      ],
+      providers: [AuthInfoResolver, { provide: AuthService, useValue: spyAuthService }],
     });
     resolver = TestBed.inject(AuthInfoResolver);
     originalMaintenance = environment.maintenance;
