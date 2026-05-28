@@ -3,6 +3,8 @@ package teammates.it.logic.api;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -76,7 +78,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("invalid email address");
 
-        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent("non-existing-student");
+        EmailWrapper email = emailGenerator
+                .generateSessionLinksRecoveryEmailForNonExistentStudent("non-existing-student");
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         verifyEmail(email, "non-existing-student", subject,
@@ -86,7 +89,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(student1InCourse1.getEmail());
+        email = emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                student1InCourse1.getEmail(), List.of(student1InCourse1));
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         verifyEmail(email, student1InCourse1.getEmail(), subject,
@@ -96,7 +100,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(student1InCourse3.getEmail());
+        email = emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                student1InCourse3.getEmail(), List.of(student1InCourse3));
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -107,7 +112,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(student1InCourse4.getEmail());
+        email = emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                student1InCourse4.getEmail(), List.of(student1InCourse4));
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
