@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import jakarta.annotation.Nullable;
 
@@ -19,9 +22,12 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
@@ -38,6 +44,8 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.storage.entity.responses.FeedbackRankRecipientsResponse;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.FeedbackResponsesRequest;
 
 /**
  * Handles operations related to feedback responses.
@@ -138,24 +146,6 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Creates a feedback response.
-     * @return the created response
-     * @throws InvalidParametersException if the response is not valid
-     * @throws EntityAlreadyExistsException if the response already exist
-     */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        validateFeedbackResponse(feedbackResponse);
-
-        if (frDb.getFeedbackResponse(feedbackResponse.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
-        }
-
-        return frDb.createFeedbackResponse(feedbackResponse);
-    }
-
-    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
@@ -196,17 +186,123 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Updates a feedback response.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException if attributes to update are not valid
+     * Submits feedback responses from a student or the student's team for a feedback question.
      */
-    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException {
-        // TODO: move update logic here.
-        validateFeedbackResponse(feedbackResponse);
+    public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
+            FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        ResponseGiver responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                ? new ResponseGiver(student.getTeam())
+                : new ResponseGiver(student);
+        List<FeedbackResponse> existingResponses = getFeedbackResponsesFromStudentOrTeamForQuestion(
+                feedbackQuestion, student);
 
-        return feedbackResponse;
+        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, student, submitRequest);
+    }
+
+    /**
+     * Submits feedback responses from an instructor for a feedback question.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
+            FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        ResponseGiver responseGiver = new ResponseGiver(instructor);
+        List<FeedbackResponse> existingResponses = getFeedbackResponsesFromInstructorForQuestion(
+                feedbackQuestion, instructor);
+
+        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, null, submitRequest);
+    }
+
+    private List<FeedbackResponse> submitFeedbackResponses(FeedbackQuestion feedbackQuestion,
+            ResponseGiver responseGiver, List<FeedbackResponse> existingResponses, @Nullable Student student,
+            FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
+        Optional<List<String>> dynamicallyGeneratedOptions = fqLogic.getDynamicallyGeneratedOptions(
+                feedbackQuestion, student);
+
+        if (dynamicallyGeneratedOptions.isPresent()) {
+            // Dynamically generated options are only supported for MCQ and MSQ questions.
+            if (questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
+                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions.get());
+            } else if (questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
+                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
+            }
+        }
+
+        Set<ResponseRecipient> recipientsOfTheQuestion = fqLogic.getRecipientsOfQuestion(
+                feedbackQuestion, responseGiver);
+        Map<String, ResponseRecipient> recipientsByIdentifier = recipientsOfTheQuestion.stream()
+                .collect(Collectors.toMap(ResponseRecipient::getIdentifier, recipient -> recipient));
+
+        Map<ResponseRecipient, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
+        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
+
+        for (String recipient : submitRequest.getRecipients()) {
+            if (recipient == null || !recipientsByIdentifier.containsKey(recipient)) {
+                throw new InvalidOperationException(
+                        "The recipient " + recipient + " is not a valid recipient of the question");
+            }
+        }
+
+        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+
+        for (var responseRequest : submitRequest.getResponses()) {
+            String recipient = responseRequest.getRecipient();
+            ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
+            FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
+
+            if (existingResponsesPerRecipient.containsKey(responseRecipient)) {
+                // Update the existing response
+                FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(responseRecipient);
+                existingFeedbackResponse.setGiver(responseGiver);
+                existingFeedbackResponse.setRecipient(responseRecipient);
+                existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
+                feedbackResponses.add(existingFeedbackResponse);
+                validateFeedbackResponse(existingFeedbackResponse);
+            } else {
+                // Create a new response
+                FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
+                        responseGiver,
+                        responseRecipient,
+                        responseDetails);
+
+                feedbackQuestion.addFeedbackResponse(feedbackResponse);
+                feedbackResponses.add(feedbackResponse);
+                validateFeedbackResponse(feedbackResponse);
+                frDb.createFeedbackResponse(feedbackResponse);
+            }
+        }
+
+        List<FeedbackResponseDetails> responseDetails = feedbackResponses.stream()
+                .map(FeedbackResponse::getFeedbackResponseDetailsCopy)
+                .toList();
+
+        int numRecipients = feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
+        if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
+                || numRecipients > recipientsOfTheQuestion.size()) {
+            numRecipients = recipientsOfTheQuestion.size();
+        }
+
+        List<String> questionSpecificErrors = questionDetails
+                .validateResponsesDetails(responseDetails, numRecipients);
+
+        if (!questionSpecificErrors.isEmpty()) {
+            throw new InvalidParametersException(questionSpecificErrors.toString());
+        }
+
+        // Delete responses that are deleted by the user
+        List<String> recipients = submitRequest.getRecipients();
+        List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
+                .filter(entry -> !recipients.contains(entry.getKey().getIdentifier()))
+                .map(Entry::getValue)
+                .toList();
+
+        for (FeedbackResponse feedbackResponse : feedbackResponsesToDelete) {
+            deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+        }
+
+        return feedbackResponses;
     }
 
     /**

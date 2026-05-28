@@ -1,32 +1,15 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
-import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -85,8 +68,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             verifySessionOpenExceptForModeration(feedbackSession, instructor);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
-        case INSTRUCTOR_RESULT:
-        case STUDENT_RESULT:
+        case INSTRUCTOR_RESULT, STUDENT_RESULT:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -103,133 +85,33 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
-        List<FeedbackResponse> existingResponses;
-        FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
-        Optional<List<String>> dynamicallyGeneratedOptions;
-
-        ResponseGiver responseGiver;
+        List<FeedbackResponse> output;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
+
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
-            responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                    ? new ResponseGiver(student.getTeam())
-                    : new ResponseGiver(student);
-            existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
-            dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
+            log.info("Student " + student.getId() + " is submitting feedback responses for question "
+                    + feedbackQuestion.getId() + " in session " + feedbackQuestion.getFeedbackSession().getId());
+            try {
+                output = logic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            }
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
-            responseGiver = new ResponseGiver(instructor);
-            existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
-            dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
+            log.info("Instructor " + instructor.getId() + " is submitting feedback responses for question "
+                    + feedbackQuestion.getId() + " in session " + feedbackQuestion.getFeedbackSession().getId());
+            try {
+                output = logic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            }
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
-
-        if (dynamicallyGeneratedOptions.isPresent()) {
-            // Dynamically generated options are only supported for MCQ and MSQ questions
-            if (questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
-                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions.get());
-            } else if (questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
-                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
-            }
-        }
-
-        Set<ResponseRecipient> recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, responseGiver);
-        Map<String, ResponseRecipient> recipientsByIdentifier = recipientsOfTheQuestion.stream()
-                .collect(Collectors.toMap(ResponseRecipient::getIdentifier, recipient -> recipient));
-
-        Map<ResponseRecipient, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
-        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
-
-        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
-        log.info(JsonUtils.toCompactJson(submitRequest));
-
-        for (String recipient : submitRequest.getRecipients()) {
-            if (recipient == null || !recipientsByIdentifier.containsKey(recipient)) {
-                throw new InvalidOperationException(
-                        "The recipient " + recipient + " is not a valid recipient of the question");
-            }
-        }
-
-        List<FeedbackResponse> feedbackResponsesToAdd = new ArrayList<>();
-        List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
-
-        submitRequest.getResponses().forEach(responseRequest -> {
-            String recipient = responseRequest.getRecipient();
-            ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
-            FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
-
-            if (existingResponsesPerRecipient.containsKey(responseRecipient)) {
-                FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(responseRecipient);
-                existingFeedbackResponse.setGiver(responseGiver);
-                existingFeedbackResponse.setRecipient(responseRecipient);
-                existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
-                feedbackResponsesToUpdate.add(existingFeedbackResponse);
-            } else {
-                FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                        responseGiver,
-                        responseRecipient,
-                        responseDetails
-                    );
-
-                feedbackQuestion.addFeedbackResponse(feedbackResponse);
-                feedbackResponsesToAdd.add(feedbackResponse);
-            }
-        });
-
-        List<FeedbackResponse> allResponses = Stream.concat(
-                        feedbackResponsesToAdd.stream(),
-                        feedbackResponsesToUpdate.stream())
-                .toList();
-
-        List<FeedbackResponseDetails> responseDetails = allResponses.stream()
-                .map(FeedbackResponse::getFeedbackResponseDetailsCopy)
-                .toList();
-
-        int numRecipients = feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
-        if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
-                || numRecipients > recipientsOfTheQuestion.size()) {
-            numRecipients = recipientsOfTheQuestion.size();
-        }
-
-        List<String> questionSpecificErrors = questionDetails
-                .validateResponsesDetails(responseDetails, numRecipients);
-
-        if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
-        }
-
-        List<String> recipients = submitRequest.getRecipients();
-        List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
-                .filter(entry -> !recipients.contains(entry.getKey().getIdentifier()))
-                .map(Entry::getValue)
-                .toList();
-
-        for (FeedbackResponse feedbackResponse : feedbackResponsesToDelete) {
-            logic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
-        }
-
-        List<FeedbackResponse> output = new ArrayList<>();
-
-        for (FeedbackResponse feedbackResponse : feedbackResponsesToAdd) {
-            try {
-                output.add(logic.createFeedbackResponse(feedbackResponse));
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                // None of the exceptions should be happening as the responses have been pre-validated
-                log.severe("Encountered exception when creating response: " + e.getMessage(), e);
-            }
-        }
-
-        for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
-            try {
-                output.add(logic.updateFeedbackResponseCascade(feedbackResponse));
-            } catch (InvalidParametersException e) {
-                // None of the exceptions should be happening as the responses have been pre-validated
-                log.severe("Encountered exception when updating response: " + e.getMessage(), e);
-            }
         }
 
         return new JsonResult(FeedbackResponsesData.createFromEntity(output));
