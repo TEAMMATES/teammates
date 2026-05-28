@@ -200,4 +200,6 @@ public abstract class User extends BaseEntity {
     public boolean isRegistered() {
         return this.account != null || this.accountId != null;
     }
+
+    public abstract String getRegistrationUrl();
 }

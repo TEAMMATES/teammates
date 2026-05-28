@@ -129,6 +129,7 @@ public class Student extends User {
         return errors;
     }
 
+    @Override
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getRegKey())
