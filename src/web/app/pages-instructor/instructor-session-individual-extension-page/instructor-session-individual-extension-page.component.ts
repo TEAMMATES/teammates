@@ -237,8 +237,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .subscribe({
         next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
           this.studentsOfCourse.forEach((studentColumnModel: StudentExtensionTableColumnModel) => {
-            studentColumnModel.hasSubmittedSession = feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(
-              studentColumnModel.email,
+            studentColumnModel.hasSubmittedSession = feedbackSessionSubmittedGiverSet.studentGivers.includes(
+              studentColumnModel.userId,
             );
           });
         },
@@ -310,8 +310,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       .subscribe({
         next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
           this.instructorsOfCourse.forEach((instructorColumnModel: InstructorExtensionTableColumnModel) => {
-            instructorColumnModel.hasSubmittedSession = feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(
-              instructorColumnModel.email,
+            instructorColumnModel.hasSubmittedSession = feedbackSessionSubmittedGiverSet.instructorGivers.includes(
+              instructorColumnModel.userId,
             );
           });
         },

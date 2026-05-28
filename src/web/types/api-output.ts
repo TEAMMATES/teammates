@@ -337,7 +337,9 @@ export interface FeedbackSessionStats extends ApiOutput {
 }
 
 export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
-  giverIdentifiers: string[];
+  studentGivers: string[];
+  instructorGivers: string[];
+  teamGivers: string[];
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {

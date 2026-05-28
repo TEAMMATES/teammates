@@ -281,8 +281,8 @@ export class FeedbackSessionsService {
     return forkJoin([allStudentsObservable, studentsWithResponseObservable]).pipe(
       map((result: any[]) => {
         const allStudents: Student[] = (result[0] as Students).students;
-        const studentEmailsWithResponse: string[] = (result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers;
-        return allStudents.filter((student: Student) => !studentEmailsWithResponse.includes(student.email));
+        const studentIdsWithResponse: string[] = (result[1] as FeedbackSessionSubmittedGiverSet).studentGivers;
+        return allStudents.filter((student: Student) => !studentIdsWithResponse.includes(student.userId));
       }),
     );
   }

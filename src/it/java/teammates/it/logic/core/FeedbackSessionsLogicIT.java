@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.HibernateUtil;
@@ -53,15 +54,16 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() throws EntityDoesNotExistException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        Set<String> expectedGivers = new HashSet<>();
+        Set<UUID> expectedStudentGivers = new HashSet<>();
 
-        expectedGivers.add(typicalDataBundle.students.get("student1InCourse1").getEmail());
-        expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
-        expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student1InCourse1").getId());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student2InCourse1").getId());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student3InCourse1").getId());
 
-        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getId());
-        assertEquals(expectedGivers.size(), givers.size());
-        assertEquals(expectedGivers, givers);
+        SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSetThatAnsweredFeedbackSession(fs.getId());
+        assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
+        assertTrue(givers.instructorGiverIds().isEmpty());
+        assertTrue(givers.teamGiverIds().isEmpty());
     }
 
     @Test

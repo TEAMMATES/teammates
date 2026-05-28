@@ -134,7 +134,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
       .subscribe({
         next: (result: any[]) => {
           const students: Student[] = (result[0] as Students).students;
-          const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
+          const submittedGiverSet: FeedbackSessionSubmittedGiverSet = result[1] as FeedbackSessionSubmittedGiverSet;
+          const studentGiverSet: Set<string> = new Set(submittedGiverSet.studentGivers);
+          const instructorGiverSet: Set<string> = new Set(submittedGiverSet.instructorGivers);
           const instructors: Instructor[] = (result[2] as Instructors).instructors;
 
           const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
@@ -150,9 +152,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                 teamName: student.teamName,
                 sectionName: student.sectionName,
 
-                hasSubmittedSession: giverSet.has(student.email),
+                hasSubmittedSession: studentGiverSet.has(student.userId),
 
-                isSelected: selectAllRespondents && !giverSet.has(student.email),
+                isSelected: selectAllRespondents && !studentGiverSet.has(student.userId),
               }) satisfies StudentListInfoTableRowModel,
           );
           modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
@@ -162,9 +164,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                 email: instructor.email,
                 name: instructor.name,
 
-                hasSubmittedSession: giverSet.has(instructor.email),
+                hasSubmittedSession: instructorGiverSet.has(instructor.userId),
 
-                isSelected: selectAllRespondents && !giverSet.has(instructor.email),
+                isSelected: selectAllRespondents && !instructorGiverSet.has(instructor.userId),
               }) satisfies InstructorListInfoTableRowModel,
           );
 

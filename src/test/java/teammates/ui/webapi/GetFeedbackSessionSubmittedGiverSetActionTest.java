@@ -3,13 +3,15 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -64,16 +66,22 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
-        String giverIdentifier = typicalFeedbackResponse.getGiver().getIdentifier();
+        UUID studentGiverId = typicalFeedbackResponse.getGiver().getGiverUserId();
+        SubmittedGiverSetBundle submittedGiverSetBundle = new SubmittedGiverSetBundle(
+                Set.of(studentGiverId),
+                Collections.emptySet(),
+                Collections.emptySet());
 
-        when(mockLogic.getGiverSetThatAnsweredFeedbackSession(typicalFeedbackSession.getId()))
-                .thenReturn(new HashSet<>(Arrays.asList(giverIdentifier)));
+        when(mockLogic.getSubmittedGiverSetThatAnsweredFeedbackSession(typicalFeedbackSession.getId()))
+                .thenReturn(submittedGiverSetBundle);
 
         GetFeedbackSessionSubmittedGiverSetAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
 
-        assertEquals(new HashSet<>(Arrays.asList(giverIdentifier)), output.getGiverIdentifiers());
+        assertEquals(Set.of(studentGiverId), output.getStudentGivers());
+        assertEquals(Collections.emptySet(), output.getInstructorGivers());
+        assertEquals(Collections.emptySet(), output.getTeamGivers());
     }
 
     @Test
