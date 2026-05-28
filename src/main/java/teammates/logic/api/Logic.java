@@ -542,9 +542,9 @@ public class Logic {
      *
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public SubmittedGiverSetBundle getSubmittedGiverSetThatAnsweredFeedbackSession(
+    public SubmittedGiverSetBundle getSubmittedGiverSet(
             UUID feedbackSessionId) throws EntityDoesNotExistException {
-        return feedbackSessionsLogic.getSubmittedGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
+        return feedbackSessionsLogic.getSubmittedGiverSet(feedbackSessionId);
     }
 
     /**

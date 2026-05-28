@@ -34,4 +34,6 @@ public enum QuestionGiverType {
      * Teams of the same section.
      */
     TEAMS_IN_SAME_SECTION
+
+    // TODO: remove TEAMS_IN_SAME_SECTION and STUDENTS_IN_SAME_SECTION as these are not valid giver types
 }

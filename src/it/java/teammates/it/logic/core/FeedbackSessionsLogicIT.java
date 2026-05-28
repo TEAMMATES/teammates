@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,6 +29,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -52,18 +54,56 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() throws EntityDoesNotExistException {
+    public void testGetSubmittedGiverSet_hasGivers_findsGivers() throws EntityDoesNotExistException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Set<UUID> expectedStudentGivers = new HashSet<>();
+        Set<UUID> expectedStudentNonGivers;
+        Set<UUID> expectedInstructorNonGivers = typicalDataBundle.instructors.values()
+                .stream()
+                .filter(instructor -> instructor.getCourseId().equals(fs.getCourseId()))
+                .map(Instructor::getId)
+                .collect(Collectors.toSet());
 
         expectedStudentGivers.add(typicalDataBundle.students.get("student1InCourse1").getId());
         expectedStudentGivers.add(typicalDataBundle.students.get("student2InCourse1").getId());
         expectedStudentGivers.add(typicalDataBundle.students.get("student3InCourse1").getId());
+        expectedStudentNonGivers = typicalDataBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fs.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
 
-        SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSetThatAnsweredFeedbackSession(fs.getId());
+        SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSet(fs.getId());
         assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
         assertTrue(givers.instructorGiverIds().isEmpty());
         assertTrue(givers.teamGiverIds().isEmpty());
+        assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
+        assertEquals(expectedInstructorNonGivers, new HashSet<>(givers.instructorNonGiverIds()));
+        assertTrue(givers.teamNonGiverIds().isEmpty());
+    }
+
+    @Test
+    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorAndTeamNonGivers()
+            throws EntityDoesNotExistException {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
+
+        Set<UUID> expectedStudentGivers = Set.of(typicalDataBundle.students.get("student1InCourse1").getId());
+        Set<UUID> expectedStudentNonGivers = typicalDataBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fs.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
+
+        SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSet(fs.getId());
+
+        assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
+        assertTrue(givers.instructorGiverIds().isEmpty());
+        assertTrue(givers.teamGiverIds().isEmpty());
+        assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
+        assertTrue(givers.instructorNonGiverIds().isEmpty());
+        assertTrue(givers.teamNonGiverIds().isEmpty());
     }
 
     @Test

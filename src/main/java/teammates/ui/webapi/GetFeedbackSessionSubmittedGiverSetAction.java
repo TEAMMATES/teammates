@@ -41,7 +41,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
 
         SubmittedGiverSetBundle submittedGiverSetBundle;
         try {
-            submittedGiverSetBundle = logic.getSubmittedGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
+            submittedGiverSetBundle = logic.getSubmittedGiverSet(feedbackSessionId);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

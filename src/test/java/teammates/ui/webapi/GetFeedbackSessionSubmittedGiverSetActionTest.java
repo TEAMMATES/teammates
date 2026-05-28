@@ -70,9 +70,12 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         SubmittedGiverSetBundle submittedGiverSetBundle = new SubmittedGiverSetBundle(
                 Set.of(studentGiverId),
                 Collections.emptySet(),
+                Collections.emptySet(),
+                Collections.emptySet(),
+                Collections.emptySet(),
                 Collections.emptySet());
 
-        when(mockLogic.getSubmittedGiverSetThatAnsweredFeedbackSession(typicalFeedbackSession.getId()))
+        when(mockLogic.getSubmittedGiverSet(typicalFeedbackSession.getId()))
                 .thenReturn(submittedGiverSetBundle);
 
         GetFeedbackSessionSubmittedGiverSetAction action = getAction(params);
@@ -82,6 +85,9 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         assertEquals(Set.of(studentGiverId), output.getStudentGivers());
         assertEquals(Collections.emptySet(), output.getInstructorGivers());
         assertEquals(Collections.emptySet(), output.getTeamGivers());
+        assertEquals(Collections.emptySet(), output.getStudentNonGivers());
+        assertEquals(Collections.emptySet(), output.getInstructorNonGivers());
+        assertEquals(Collections.emptySet(), output.getTeamNonGivers());
     }
 
     @Test

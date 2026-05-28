@@ -340,6 +340,9 @@ export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
   studentGivers: string[];
   instructorGivers: string[];
   teamGivers: string[];
+  studentNonGivers: string[];
+  instructorNonGivers: string[];
+  teamNonGivers: string[];
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
