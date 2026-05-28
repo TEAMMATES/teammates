@@ -24,7 +24,7 @@ describe('AdminAccountSearchTableComponent', () => {
   let ngbModal: NgbModal;
 
   const accountRequestDetailsBuilder = createBuilder<AccountRequestSearchResult>({
-    id: '',
+    accountRequestId: '',
     email: '',
     name: '',
     institute: '',
@@ -95,9 +95,9 @@ describe('AdminAccountSearchTableComponent', () => {
 
   it('should display account requests with no reset or expand links button', () => {
     const first: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    first.id = 'id-1';
+    first.accountRequestId = 'id-1';
     const second: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    second.id = 'id-2';
+    second.accountRequestId = 'id-2';
     const accountRequestResults: AccountRequestSearchResult[] = [first, second];
 
     component.accountRequests = accountRequestResults;
@@ -107,12 +107,12 @@ describe('AdminAccountSearchTableComponent', () => {
 
   it('should display account requests with reset button and expandable links buttons', () => {
     const approvedAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    approvedAccountRequestResult.id = 'approved-id';
+    approvedAccountRequestResult.accountRequestId = 'approved-id';
     approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
     approvedAccountRequestResult.registrationLink = 'registrationLink';
 
     const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.id = 'registered-id';
+    registeredAccountRequestResult.accountRequestId = 'registered-id';
     registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
     registeredAccountRequestResult.registrationLink = 'registrationLink';
 
@@ -427,7 +427,7 @@ describe('AdminAccountSearchTableComponent', () => {
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     const editedAccountRequest: AccountRequest = {
-      id: 'id',
+      accountRequestId: 'id',
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
@@ -458,7 +458,7 @@ describe('AdminAccountSearchTableComponent', () => {
     fixture.detectChanges();
 
     const approvedRequest: AccountRequest = {
-      id: component.accountRequests[0].id,
+      accountRequestId: component.accountRequests[0].accountRequestId,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
@@ -484,7 +484,7 @@ describe('AdminAccountSearchTableComponent', () => {
     fixture.detectChanges();
 
     const rejectedRequest: AccountRequest = {
-      id: component.accountRequests[0].id,
+      accountRequestId: component.accountRequests[0].accountRequestId,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
