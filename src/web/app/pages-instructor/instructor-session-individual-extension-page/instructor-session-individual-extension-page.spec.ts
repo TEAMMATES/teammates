@@ -126,8 +126,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     studentGivers: [testStudent2.userId],
     instructorGivers: [],
     teamGivers: [],
-    studentNonGivers: [],
-    instructorNonGivers: [],
+    studentNonGivers: [testStudent1.userId, testStudent3.userId],
+    instructorNonGivers: [testInstructor1.userId, testInstructor2.userId],
     teamNonGivers: [],
   };
 
@@ -694,8 +694,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       studentGivers: [testStudent2.userId],
       instructorGivers: [testInstructor1.userId],
       teamGivers: [],
-      studentNonGivers: [],
-      instructorNonGivers: [],
+      studentNonGivers: [testStudent1.userId, testStudent3.userId],
+      instructorNonGivers: [testInstructor2.userId],
       teamNonGivers: [],
     };
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(of(giverSet));
@@ -746,7 +746,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       instructorGivers: [testInstructor1.userId],
       teamGivers: [],
       studentNonGivers: [],
-      instructorNonGivers: [],
+      instructorNonGivers: [testInstructor2.userId],
       teamNonGivers: [],
     };
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(of(giverSet)); // Alice and Alex have not submitted yet

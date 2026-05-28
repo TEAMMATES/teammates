@@ -351,8 +351,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
       .subscribe({
         next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
           // TODO team is missing
-          this.noResponseStudents = this.allStudentsInCourse.filter(
-            (student: Student) => !feedbackSessionSubmittedGiverSet.studentGivers.includes(student.userId),
+          this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
+            feedbackSessionSubmittedGiverSet.studentNonGivers.includes(student.userId),
           );
           this.isNoResponseStudentsLoaded = true;
         },

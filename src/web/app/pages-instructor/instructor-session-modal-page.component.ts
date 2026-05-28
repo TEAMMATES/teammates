@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';
 import { StudentService } from '../../services/student.service';
-import { FeedbackSessionSubmittedGiverSet, Instructor, Instructors, Student, Students } from '../../types/api-output';
+import { Instructor, Instructors, Student, Students } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { ResendResultsLinkToRespondentModalComponent } from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import {
@@ -121,29 +121,28 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const feedbackSessionName = model.feedbackSession.feedbackSessionName;
     const feedbackSessionId = model.feedbackSession.feedbackSessionId;
 
-    forkJoin([
-      this.studentService.getStudentsFromCourse({ courseId }),
-      this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
-      this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
-    ])
+    forkJoin({
+      students: this.studentService.getStudentsFromCourse({ courseId }),
+      submittedGiverSet: this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
+      instructors: this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
+    })
       .pipe(
         finalize(() => {
           this.isSendReminderLoading = false;
         }),
       )
       .subscribe({
-        next: (result: any[]) => {
-          const students: Student[] = (result[0] as Students).students;
-          const submittedGiverSet: FeedbackSessionSubmittedGiverSet = result[1] as FeedbackSessionSubmittedGiverSet;
-          const studentGiverSet: Set<string> = new Set(submittedGiverSet.studentGivers);
-          const instructorGiverSet: Set<string> = new Set(submittedGiverSet.instructorGivers);
-          const instructors: Instructor[] = (result[2] as Instructors).instructors;
+        next: ({ students, submittedGiverSet, instructors }) => {
+          const studentsList = students.students;
+          const instructorsList = instructors.instructors;
+          const studentNonGiverSet = new Set(submittedGiverSet.studentNonGivers);
+          const instructorNonGiverSet = new Set(submittedGiverSet.instructorNonGivers);
 
-          const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
+          const modalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
 
           modalRef.componentInstance.courseId = courseId;
           modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-          modalRef.componentInstance.studentListInfoTableRowModels = students.map(
+          modalRef.componentInstance.studentListInfoTableRowModels = studentsList.map(
             (student: Student) =>
               ({
                 id: student.userId,
@@ -152,21 +151,21 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                 teamName: student.teamName,
                 sectionName: student.sectionName,
 
-                hasSubmittedSession: studentGiverSet.has(student.userId),
+                hasSubmittedSession: !studentNonGiverSet.has(student.userId),
 
-                isSelected: selectAllRespondents && !studentGiverSet.has(student.userId),
+                isSelected: selectAllRespondents && studentNonGiverSet.has(student.userId),
               }) satisfies StudentListInfoTableRowModel,
           );
-          modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
+          modalRef.componentInstance.instructorListInfoTableRowModels = instructorsList.map(
             (instructor: Instructor) =>
               ({
                 id: instructor.userId,
                 email: instructor.email,
                 name: instructor.name,
 
-                hasSubmittedSession: instructorGiverSet.has(instructor.userId),
+                hasSubmittedSession: !instructorNonGiverSet.has(instructor.userId),
 
-                isSelected: selectAllRespondents && !instructorGiverSet.has(instructor.userId),
+                isSelected: selectAllRespondents && instructorNonGiverSet.has(instructor.userId),
               }) satisfies InstructorListInfoTableRowModel,
           );
 
