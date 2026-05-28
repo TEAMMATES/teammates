@@ -316,9 +316,7 @@ describe('SessionResultPageComponent', () => {
   it('should navigate away when error occurs', () => {
     authService.authInfo$.next(testInfo);
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(
-      throwError(() => ({})),
-    );
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(throwError(() => ({})));
 
     fixture.detectChanges();
     component.ngOnInit();
