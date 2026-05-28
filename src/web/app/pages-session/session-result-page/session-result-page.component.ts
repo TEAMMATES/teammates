@@ -135,7 +135,7 @@ export class SessionResultPageComponent implements OnInit {
 
         let authInfo = this.route.parent?.snapshot.data['authInfo'];
         if (!authInfo) {
-          authInfo = this.authService.authInfo$.getValue();
+          authInfo = this.authService.authInfo$.value;
         }
         const isPreview = !!(authInfo?.user && this.previewAsPerson);
         if (authInfo?.user) {

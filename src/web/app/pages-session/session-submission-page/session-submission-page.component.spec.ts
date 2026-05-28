@@ -778,7 +778,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should fetch auth info on init', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    authService.authInfo$.next(testInfo);
     component.ngOnInit();
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
@@ -810,7 +810,7 @@ describe('SessionSubmissionPageComponent', () => {
       isUsed: false,
       isValid: true,
     };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    authService.authInfo$.next(testInfo);
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 

@@ -200,7 +200,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the information of the current logged-in instructor.
    */
   loadCurrInstructorInfo(): void {
-    const authInfo = this.authService.authInfo$.getValue();
+    const authInfo = this.authService.authInfo$.value;
     this.currInstructorGoogleId = authInfo?.user === undefined ? '' : authInfo.user.id;
   }
 

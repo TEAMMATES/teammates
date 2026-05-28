@@ -226,7 +226,7 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should fetch auth info on init', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    authService.authInfo$.next(testInfo);
 
     component.ngOnInit();
 
@@ -289,7 +289,7 @@ describe('SessionResultPageComponent', () => {
       isUsed: false,
       isValid: true,
     };
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    authService.authInfo$.next(testInfo);
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
@@ -323,12 +323,11 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate away when error occurs', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
-      throwError(() => ({
-        error: { message: 'This is error' },
-      })),
-    );
+    authService.authInfo$.next(testInfo);
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(
+      throwError(() => ({})),
+    );
 
     fixture.detectChanges();
     component.ngOnInit();

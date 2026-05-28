@@ -38,19 +38,11 @@ describe('AuthGuard', () => {
     expect(result).toBe(true);
   });
 
-  it('should return false and redirect if user is not authenticated', async () => {
+  it('should return false if user is not authenticated', async () => {
     const authInfo: AuthInfo = { loginUrl: '/login', masquerade: false };
     spyAuthService.getAuthUser.mockReturnValue(of(authInfo));
-    // Patch window.location.href
-    const orig = window.location;
-    // @ts-ignore
-    delete window.location;
-    // @ts-ignore
-    window.location = { href: '' };
     const result = await firstValueFrom(guard.canActivate({} as ActivatedRouteSnapshot, mockState('/web')));
     expect(result).toBe(false);
-    // @ts-ignore
-    window.location = orig;
   });
 
   it('canActivateChild delegates to canActivate', async () => {

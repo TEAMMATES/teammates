@@ -201,7 +201,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
         let authInfo = this.route.parent?.snapshot.data['authInfo'];
         if (!authInfo) {
-          authInfo = this.authService.authInfo$.getValue();
+          authInfo = this.authService.authInfo$.value;
         }
         const isPreviewOrModeration = !!(authInfo?.user && (this.moderatedPerson || this.previewAsPerson));
         if (authInfo?.user) {

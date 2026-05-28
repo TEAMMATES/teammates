@@ -1,43 +1,57 @@
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { of, throwError } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 import { AccountService } from '../services/account.service';
-import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
 import { createMockNgbModalRef } from '../test-helpers/mock-ngb-modal-ref';
+import { AuthService } from '../services/auth.service';
 
 describe('UserJoinPageComponent', () => {
   let component: UserJoinPageComponent;
   let fixture: ComponentFixture<UserJoinPageComponent>;
+  let authService: AuthService;
   let navService: NavigationService;
   let courseService: CourseService;
-  let authService: AuthService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
+  let queryParamsSubject: Subject<any>;
+
+  const mockAuthInfo = {
+    user: {
+      id: 'user',
+      isAdmin: false,
+      isInstructor: false,
+      isStudent: true,
+      isMaintainer: false,
+      accountId: 'account-id',
+    },
+    loginUrl: '/login',
+    masquerade: false,
+  };
 
   beforeEach(async () => {
+    queryParamsSubject = new Subject<any>();
+
     await TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: of({
-              entitytype: 'student',
-              key: 'key',
-            }),
+            queryParams: queryParamsSubject.asObservable(),
+            snapshot: {
+              data: {
+                authInfo: mockAuthInfo,
+              },
+            },
           },
         },
-        provideHttpClient(),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 
@@ -46,9 +60,8 @@ describe('UserJoinPageComponent', () => {
     ngbModal = TestBed.inject(NgbModal);
     navService = TestBed.inject(NavigationService);
     courseService = TestBed.inject(CourseService);
-    authService = TestBed.inject(AuthService);
     simpleModalService = TestBed.inject(SimpleModalService);
-    fixture.detectChanges();
+    authService = TestBed.inject(AuthService);
   });
 
   it('should create', () => {
@@ -155,6 +168,7 @@ describe('UserJoinPageComponent', () => {
     component.validUrl = true;
 
     const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(mockAuthInfo));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
@@ -169,20 +183,6 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
-      of({
-        loginUrl: '/login',
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: false,
-          isMaintainer: false,
-          accountId: 'account-id',
-        },
-        masquerade: false,
-      }),
-    );
     vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       of({
         hasJoined: true,
@@ -192,6 +192,11 @@ describe('UserJoinPageComponent', () => {
 
     component.ngOnInit();
 
+    queryParamsSubject.next({
+      entitytype: 'student',
+      key: 'key',
+    });
+
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
     expect(navSpy).toHaveBeenCalledTimes(1);
@@ -199,20 +204,6 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading and show error message if 404 is returned', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
-      of({
-        loginUrl: '/login',
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: false,
-          isMaintainer: false,
-          accountId: '',
-        },
-        masquerade: false,
-      }),
-    );
     vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       throwError(() => ({
         status: 404,
@@ -221,26 +212,34 @@ describe('UserJoinPageComponent', () => {
 
     component.ngOnInit();
 
+    queryParamsSubject.next({
+      entitytype: 'student',
+      key: 'key',
+    });
+
     expect(component.isLoading).toBeFalsy();
     expect(component.validUrl).toBeFalsy();
   });
 
   it('should stop loading and redirect if user is not logged in', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
-      of({
-        loginUrl: '/login',
-        masquerade: false,
-      }),
-    );
     vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       of({
         hasJoined: true,
       }),
     );
 
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
+
     component.ngOnInit();
 
-    expect(component.isLoading).toBeFalsy();
+    queryParamsSubject.next({
+      entitytype: 'student',
+      key: 'key',
+    });
+
+    expect(component.hasJoined).toBeTruthy();
+    expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/home');
   });
 });
 
@@ -248,37 +247,50 @@ describe('UserJoinPageComponent creating account', () => {
   let component: UserJoinPageComponent;
   let fixture: ComponentFixture<UserJoinPageComponent>;
   let navService: NavigationService;
-  let authService: AuthService;
   let accountService: AccountService;
   let courseService: CourseService;
   let timezoneService: TimezoneService;
+  let queryParamsSubject: Subject<any>;
+
+  const mockAuthInfo = {
+    user: {
+      id: 'user',
+      isAdmin: false,
+      isInstructor: false,
+      isStudent: true,
+      isMaintainer: false,
+      accountId: 'account-id',
+    },
+    loginUrl: '/login',
+    masquerade: false,
+  };
 
   beforeEach(async () => {
+    queryParamsSubject = new Subject<any>();
+
     await TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: of({
-              iscreatingaccount: 'true',
-              key: 'key',
-            }),
+            queryParams: queryParamsSubject.asObservable(),
+            snapshot: {
+              data: {
+                authInfo: mockAuthInfo,
+              },
+            },
           },
         },
-        provideHttpClient(),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
     navService = TestBed.inject(NavigationService);
-    authService = TestBed.inject(AuthService);
     accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
     timezoneService = TestBed.inject(TimezoneService);
-    fixture.detectChanges();
   });
 
   it('should create account and join course when join course button is clicked on', () => {
@@ -310,20 +322,6 @@ describe('UserJoinPageComponent creating account', () => {
   });
 
   it('should redirect user to home page if user is logged in and URL has been used', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
-      of({
-        loginUrl: '/login',
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: false,
-          isMaintainer: false,
-          accountId: '',
-        },
-        masquerade: false,
-      }),
-    );
     vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       of({
         hasJoined: true,
@@ -333,6 +331,12 @@ describe('UserJoinPageComponent creating account', () => {
 
     component.ngOnInit();
 
+    queryParamsSubject.next({
+      entitytype: 'student',
+      key: 'key',
+      iscreatingaccount: 'true',
+    });
+
     expect(component.hasJoined).toBeTruthy();
     expect(component.userId).toEqual('user');
     expect(navSpy).toHaveBeenCalledTimes(1);
@@ -340,20 +344,6 @@ describe('UserJoinPageComponent creating account', () => {
   });
 
   it('should stop loading and show error message if 404 is returned when creating new account', () => {
-    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
-      of({
-        loginUrl: '/login',
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: false,
-          isMaintainer: false,
-          accountId: '',
-        },
-        masquerade: false,
-      }),
-    );
     vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       throwError(() => ({
         status: 404,
@@ -361,6 +351,12 @@ describe('UserJoinPageComponent creating account', () => {
     );
 
     component.ngOnInit();
+
+    queryParamsSubject.next({
+      entitytype: 'instructor',
+      key: 'key',
+      iscreatingaccount: 'true',
+    });
 
     expect(component.entityType).toBe('instructor');
     expect(component.isCreatingAccount).toBeTruthy();
