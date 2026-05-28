@@ -61,20 +61,22 @@ public final class NotificationsDb {
     }
 
     /**
-     * Gets all notifications by {@code targetUsers} for the specified active status.
+     * Gets all notifications by {@code targetUsers}.
      *
      * <p>An active notification is a notification that is currently being displayed to users,
      * i.e. the current time is between the notification's start and end time.
      *
-     * @return a list of notifications for the specified targetUsers for the specified active status.
+     * @return a list of notifications for the specified targetUsers.
+     *         If isActiveOnly is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified targetUsers are returned.
      */
     public List<Notification> getNotificationsByTargetUsers(
-            List<NotificationTargetUser> targetUsers, boolean isActive) {
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
 
-        if (isActive) {
+        if (isActiveOnly) {
             Instant now = Instant.now();
             cq.select(root)
                     .where(cb.and(

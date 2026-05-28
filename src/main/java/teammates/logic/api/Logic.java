@@ -1122,11 +1122,15 @@ public class Logic {
     }
 
     /**
-     * Returns notifications for the specified {@code targetUsers}.
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code targetUsers}.
+     *         If {@code isActiveOnly} is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified {@code targetUsers} are returned.
      */
     public List<Notification> getNotificationsByTargetUsers(
-            List<NotificationTargetUser> targetUsers, boolean isActive) {
-        return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActive);
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
+        return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActiveOnly);
     }
 
     /**
