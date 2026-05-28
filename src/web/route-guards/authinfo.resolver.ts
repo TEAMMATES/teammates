@@ -6,7 +6,7 @@ import { environment } from '../environments/environment.prod';
 import { EMPTY } from 'rxjs';
 
 /**
- * Resolvers for fetching authentication information of the user.
+ * Resolver for fetching authentication information of the user.
  */
 @Injectable({
   providedIn: 'root',

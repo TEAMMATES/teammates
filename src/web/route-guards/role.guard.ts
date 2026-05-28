@@ -23,20 +23,16 @@ export class RoleGuard implements CanActivate, CanActivateChild {
 
     return this.authService.getAuthUser(state.url).pipe(
       map((authInfo: AuthInfo) => {
-        console.log(`[roleGuard] Checking role '${expectedRole}' for: ${state.url}`);
         if (!authInfo.user) {
-          console.log(`[roleGuard] No authenticated user — redirecting to login`);
           this.redirectToLogin(authInfo, this.backendUrl);
           return false;
         }
 
         const isRoleMatch = this.matchRole(authInfo, expectedRole);
         if (!isRoleMatch) {
-          console.log(`[roleGuard] User '${authInfo.user.id}' does not have required role '${expectedRole}'`);
           this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
           return false;
         }
-        console.log(`[roleGuard] User '${authInfo.user.id}' has role '${expectedRole}' — access granted`);
         return true;
       }),
     );

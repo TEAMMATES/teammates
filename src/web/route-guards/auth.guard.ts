@@ -19,13 +19,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.authService.getAuthUser(state.url).pipe(
       map((authInfo: AuthInfo) => {
-        console.log(`[authGuard] Checking auth for: ${state.url}`);
         if (!authInfo.user) {
-          console.log(`[authGuard] No authenticated user — redirecting to login`);
           this.redirectToLogin(authInfo, this.backendUrl);
           return false;
         }
-        console.log(`[authGuard] Authenticated as ${authInfo.user.id} — access granted`);
         return true;
       }),
     );
