@@ -274,15 +274,15 @@ export class FeedbackSessionsService {
     const allStudentsObservable: Observable<Students> = this.studentService.getStudentsFromCourse({
       courseId,
     });
-    const studentsWithResponseObservable: Observable<FeedbackSessionSubmittedGiverSet> =
+    const submittedGiverSetObservable: Observable<FeedbackSessionSubmittedGiverSet> =
       this.getFeedbackSessionSubmittedGiverSet({
         feedbackSessionId,
       });
-    return forkJoin([allStudentsObservable, studentsWithResponseObservable]).pipe(
-      map((result: any[]) => {
-        const allStudents: Student[] = (result[0] as Students).students;
-        const studentEmailsWithResponse: string[] = (result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers;
-        return allStudents.filter((student: Student) => !studentEmailsWithResponse.includes(student.email));
+    return forkJoin({ allStudents: allStudentsObservable, submittedGiverSet: submittedGiverSetObservable }).pipe(
+      map(({ allStudents, submittedGiverSet }) => {
+        const allStudentsList: Student[] = allStudents.students;
+        const studentIdsWithoutResponse: string[] = submittedGiverSet.studentNonGivers;
+        return allStudentsList.filter((student: Student) => studentIdsWithoutResponse.includes(student.userId));
       }),
     );
   }

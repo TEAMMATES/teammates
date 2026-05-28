@@ -2,6 +2,11 @@ package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -12,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 import teammates.ui.webapi.GetFeedbackSessionSubmittedGiverSetAction;
 import teammates.ui.webapi.JsonResult;
@@ -61,8 +67,53 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         JsonResult result = getJsonResult(pageAction);
 
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
-        assertEquals(Sets.newHashSet("student1@teammates.tmt", "student2@teammates.tmt",
-                "student3@teammates.tmt"), output.getGiverIdentifiers());
+        Set<UUID> expectedStudentGivers = Sets.newHashSet(
+                typicalBundle.students.get("student1InCourse1").getId(),
+                typicalBundle.students.get("student2InCourse1").getId(),
+                typicalBundle.students.get("student3InCourse1").getId());
+        Set<UUID> expectedStudentNonGivers = typicalBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fsa.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
+        assertEquals(Sets.newHashSet(
+                typicalBundle.students.get("student1InCourse1").getId(),
+                typicalBundle.students.get("student2InCourse1").getId(),
+                typicalBundle.students.get("student3InCourse1").getId()),
+                Sets.newHashSet(output.getStudentGivers()));
+        Set<UUID> expectedInstructorNonGivers = typicalBundle.instructors.values()
+                .stream()
+                .filter(instructor -> instructor.getCourseId().equals(fsa.getCourseId()))
+                .map(Instructor::getId)
+                .collect(Collectors.toSet());
+        assertEquals(Collections.emptySet(), output.getInstructorGivers());
+        assertEquals(expectedStudentNonGivers, Sets.newHashSet(output.getStudentNonGivers()));
+        assertEquals(expectedInstructorNonGivers, Sets.newHashSet(output.getInstructorNonGivers()));
+
+        ______TS("Session with student questions only should not produce instructor non-givers");
+        FeedbackSession fsb = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
+        String[] session2Params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsb.getId().toString(),
+        };
+
+        GetFeedbackSessionSubmittedGiverSetAction session2Action = getAction(session2Params);
+        JsonResult session2Result = getJsonResult(session2Action);
+        FeedbackSessionSubmittedGiverSet session2Output = (FeedbackSessionSubmittedGiverSet) session2Result.getOutput();
+
+        Set<UUID> expectedSession2StudentGivers = Sets.newHashSet(typicalBundle.students.get("student1InCourse1").getId());
+        Set<UUID> expectedSession2StudentNonGivers = typicalBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fsb.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedSession2StudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
+
+        assertEquals(expectedSession2StudentGivers,
+                Sets.newHashSet(session2Output.getStudentGivers()));
+        assertEquals(expectedSession2StudentNonGivers,
+                Sets.newHashSet(session2Output.getStudentNonGivers()));
+        assertEquals(Collections.emptySet(), session2Output.getInstructorNonGivers());
     }
 
     @Test
