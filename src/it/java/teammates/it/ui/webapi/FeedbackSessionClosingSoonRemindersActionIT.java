@@ -279,4 +279,30 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         // Only 1 email task should be added for the deadline extension
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
+
+    @Test
+    public void textExecute_typicalSuccess7() {
+        ______TS("Typical Success Case 7: No tasks queued -- session is shorter than the closing-soon lead time");
+        long oneHour = 60 * 60;
+        Instant now = Instant.now();
+        Duration noGracePeriod = Duration.between(now, now);
+
+        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
+        session.setClosingSoonEmailSent(false);
+        session.setStartTime(now.minusSeconds(oneHour / 2));
+        session.setEndTime(now.plusSeconds(oneHour * 23));
+        session.setGracePeriod(noGracePeriod);
+        session.getDeadlineExtensions().forEach(de -> de.setClosingSoonEmailSent(true));
+
+        String[] params = {};
+
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
+        JsonResult actionOutput1 = getJsonResult(action1);
+        MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
+
+        assertEquals("Successful", response1.getMessage());
+        assertFalse(session.isClosingSoonEmailSent());
+
+        verifyNoTasksAdded();
+    }
 }
