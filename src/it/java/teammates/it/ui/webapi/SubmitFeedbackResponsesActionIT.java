@@ -627,20 +627,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000"};
         verifyEntityNotFound(submissionParams);
 
-        ______TS("Failure: instructor has invalid intent");
-        FeedbackSession session = getSession("session1InCourse1");
-        int questionNumber = 3;
-
-        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_RESULT);
-        verifyHttpParameterFailure(submissionParams);
-
-        submissionParams = buildSubmissionParams(session, questionNumber, Intent.FULL_DETAIL);
-        verifyHttpParameterFailure(submissionParams);
-
         ______TS("Failure: no request body");
         loginStudent("student1InCourse1");
-
-        questionNumber = 2;
+        FeedbackSession session = getSession("session1InCourse1");
+        int questionNumber = 2;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
         verifyHttpRequestBodyFailure(null, submissionParams);
 

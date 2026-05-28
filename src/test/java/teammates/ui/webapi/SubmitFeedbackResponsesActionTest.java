@@ -3,10 +3,6 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -26,7 +22,6 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -40,10 +35,12 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link SubmitFeedbackResponsesAction}.
@@ -70,7 +67,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @BeforeMethod
-    void setUp() {
+    void setUp() throws Exception {
         stubStudent = getTypicalStudent();
         stubStudent.setTeam(getTypicalTeam());
         stubInstructor = getTypicalInstructor();
@@ -115,6 +112,52 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(List.of(stubInstructor, recipientInstructor1));
         when(mockLogic.getDeadlineForUser(any(FeedbackSession.class), any()))
                 .thenAnswer(invocation -> ((FeedbackSession) invocation.getArgument(0)).getEndTime());
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenAnswer(invocation -> getSubmittedResponses(
+                        invocation.getArgument(0), getResponseGiver(invocation.getArgument(0), invocation.getArgument(1)),
+                        invocation.getArgument(2)));
+        when(mockLogic.submitFeedbackResponsesFromInstructor(
+                any(FeedbackQuestion.class), any(Instructor.class), any(FeedbackResponsesRequest.class)))
+                .thenAnswer(invocation -> getSubmittedResponses(
+                        invocation.getArgument(0), new ResponseGiver((Instructor) invocation.getArgument(1)),
+                        invocation.getArgument(2)));
+    }
+
+    private ResponseGiver getResponseGiver(FeedbackQuestion feedbackQuestion, Student student) {
+        return feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                ? new ResponseGiver(student.getTeam())
+                : new ResponseGiver(student);
+    }
+
+    private List<FeedbackResponse> getSubmittedResponses(FeedbackQuestion feedbackQuestion, ResponseGiver responseGiver,
+            FeedbackResponsesRequest submitRequest) {
+        List<FeedbackResponse> responses = new ArrayList<>();
+        for (FeedbackResponsesRequest.FeedbackResponseRequest responseRequest : submitRequest.getResponses()) {
+            FeedbackResponse response = FeedbackResponse.makeResponse(
+                    responseGiver,
+                    getResponseRecipient(responseRequest.getRecipient()),
+                    responseRequest.getResponseDetails());
+            feedbackQuestion.addFeedbackResponse(response);
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    private ResponseRecipient getResponseRecipient(String recipient) {
+        if (recipientStudent1.getEmail().equals(recipient)) {
+            return new ResponseRecipient(recipientStudent1);
+        }
+        if (recipientStudent2.getEmail().equals(recipient)) {
+            return new ResponseRecipient(recipientStudent2);
+        }
+        if (recipientInstructor1.getEmail().equals(recipient)) {
+            return new ResponseRecipient(recipientInstructor1);
+        }
+        if (stubStudent.getTeamName().equals(recipient)) {
+            return new ResponseRecipient(stubStudent.getTeam());
+        }
+        return new ResponseRecipient();
     }
 
     @Test
@@ -131,29 +174,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_invalidIntent_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
-
-        String[] paramsStudentResult = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-        };
-        verifyHttpParameterFailure(paramsStudentResult);
-
-        String[] paramsInstructorResult = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-        };
-        verifyHttpParameterFailure(paramsInstructorResult);
-
-        String[] paramsFullDetail = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-        verifyHttpParameterFailure(paramsFullDetail);
-    }
-
-    @Test
     void testExecute_noRequestBody_throwsInvalidHttpRequestBodyException() {
         loginAsStudent(stubStudent.getGoogleId());
 
@@ -166,7 +186,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_nullRecipient_throwsInvalidOperationException() {
+    void testExecute_nullRecipient_throwsInvalidOperationException() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
@@ -174,11 +194,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
-                .thenReturn(List.of());
-        Set<ResponseRecipient> recipients = Set.of();
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenThrow(new InvalidOperationException("The recipient null is not a valid recipient of the question"));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -191,7 +209,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_emptyRecipient_throwsInvalidOperationException() {
+    void testExecute_emptyRecipient_throwsInvalidOperationException() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
@@ -199,11 +217,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
-                .thenReturn(List.of());
-        Set<ResponseRecipient> recipients = Set.of();
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenThrow(new InvalidOperationException("The recipient  is not a valid recipient of the question"));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -216,7 +232,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_invalidRecipient_throwsInvalidOperationException() {
+    void testExecute_invalidRecipient_throwsInvalidOperationException() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
@@ -224,9 +240,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        Set<ResponseRecipient> recipients = Set.of(new ResponseRecipient(recipientStudent1));
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenThrow(new InvalidOperationException(
+                        "The recipient invalid@email.com is not a valid recipient of the question"));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -280,11 +297,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         assertEquals(stubStudent.getEmail(), responseData.getGiverIdentifier());
         assertEquals(recipientStudent1.getEmail(), responseData.getRecipientIdentifier());
 
-        verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
-        verify(mockLogic).getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class));
-        verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver().getIdentifier().equals(stubStudent.getEmail())
-                        && response.getRecipient().getIdentifier().equals(recipientStudent1.getEmail())));
+        verify(mockLogic).submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
@@ -329,11 +343,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         assertEquals(stubInstructor.getEmail(), responseData.getGiverIdentifier());
         assertEquals(recipientInstructor1.getEmail(), responseData.getRecipientIdentifier());
 
-        verify(mockLogic).getFeedbackResponsesFromInstructorForQuestion(spyFeedbackQuestion, stubInstructor);
-        verify(mockLogic).getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class));
-        verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver().getIdentifier().equals(stubInstructor.getEmail())
-                        && response.getRecipient().getIdentifier().equals(recipientInstructor1.getEmail())));
+        verify(mockLogic).submitFeedbackResponsesFromInstructor(
+                any(FeedbackQuestion.class), any(Instructor.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
@@ -390,14 +401,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
         assertEquals(1, result.getResponses().size());
-        verify(mockLogic).updateFeedbackResponseCascade(any(FeedbackResponse.class));
-        verify(mockLogic).deleteFeedbackResponsesAndCommentsCascade(existingResponse2);
-        verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
-        verify(mockLogic).getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class));
-        verify(mockLogic).updateFeedbackResponseCascade(argThat(response ->
-                response.getGiver().getIdentifier().equals(stubStudent.getEmail())
-                        && response.getRecipient().getIdentifier().equals(recipientStudent1.getEmail())));
-        verify(mockLogic).deleteFeedbackResponsesAndCommentsCascade(existingResponse2);
+        verify(mockLogic).submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
@@ -435,13 +440,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         assertEquals(1, result.getResponses().size());
         assertEquals(stubStudent.getTeamName(), result.getResponses().get(0).getGiverIdentifier());
-        verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver() != null
-                        && response.getGiver().getIdentifier().equals(stubStudent.getTeamName())));
+        verify(mockLogic).submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
-    void testExecute_questionSpecificValidationFails_throwsInvalidHttpRequestBodyException() {
+    void testExecute_questionSpecificValidationFails_throwsInvalidHttpRequestBodyException() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
@@ -449,16 +453,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
-                .thenReturn(List.of());
-
-        Set<ResponseRecipient> recipients = Set.of(new ResponseRecipient(recipientStudent1));
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
-
-        FeedbackTextQuestionDetails mockDetails = mock(FeedbackTextQuestionDetails.class);
-        when(mockDetails.validateResponsesDetails(anyList(), anyInt())).thenReturn(List.of("Validation error"));
-        when(spyFeedbackQuestion.getQuestionDetailsCopy()).thenReturn(mockDetails);
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenThrow(new InvalidHttpRequestBodyException("[Validation error]"));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(

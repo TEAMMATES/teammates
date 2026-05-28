@@ -63,8 +63,10 @@ import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -1363,6 +1365,24 @@ public class Logic {
             FeedbackQuestion question, Student student) {
         return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                 question, student);
+    }
+
+    /**
+     * Submits feedback responses from a student or the student's team for a feedback question.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
+            FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidHttpRequestBodyException {
+        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+    }
+
+    /**
+     * Submits feedback responses from an instructor for a feedback question.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
+            FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidHttpRequestBodyException {
+        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
     }
 
     /**
