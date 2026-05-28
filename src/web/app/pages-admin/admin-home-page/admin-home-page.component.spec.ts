@@ -34,7 +34,7 @@ describe('AdminHomePageComponent', () => {
   it('should create account request directly if all fields are filled', () => {
     const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
-        id: 'some.person@example.com%NUS',
+        accountRequestId: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
         name: 'Some Person',
         institute: 'NUS',
@@ -111,7 +111,7 @@ describe('AdminHomePageComponent', () => {
   it('should not create any account request if multiple instructor details contain invalid format', () => {
     const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
-        id: 'some.person@example.com%NUS',
+        accountRequestId: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
         name: 'Some Person',
         institute: 'NUS',
@@ -144,7 +144,7 @@ describe('AdminHomePageComponent', () => {
   it('should create account requests for all multiple instructor details split by vertical bars', () => {
     const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
-        id: 'some.person@example.com%NUS',
+        accountRequestId: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
         name: 'Some Person',
         institute: 'NUS',
@@ -204,7 +204,7 @@ describe('AdminHomePageComponent', () => {
   it('should create account requests for all multiple instructor details split by tabs with empty lines', () => {
     const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
-        id: 'some.person@example.com%NUS',
+        accountRequestId: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
         name: 'Some Person',
         institute: 'NUS',
