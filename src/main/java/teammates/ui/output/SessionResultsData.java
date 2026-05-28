@@ -181,11 +181,7 @@ public class SessionResultsData extends ApiOutput {
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
-        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
-                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
-                .findFirst()
-                .map(FeedbackResponseCommentData::new)
-                .orElse(null);
+        String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
                 .withResponseId(response.getId().toString())
@@ -258,11 +254,7 @@ public class SessionResultsData extends ApiOutput {
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
         List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
-        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
-                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
-                .findFirst()
-                .map(FeedbackResponseCommentData::new)
-                .orElse(null);
+        String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
                 .withIsMissingResponse(false)
@@ -478,7 +470,7 @@ public class SessionResultsData extends ApiOutput {
 
         // comments
         @Nullable
-        private FeedbackResponseCommentData participantComment;
+        private String participantComment;
         private List<FeedbackResponseCommentData> instructorComments;
 
         private ResponseOutput() {
@@ -544,7 +536,7 @@ public class SessionResultsData extends ApiOutput {
         }
 
         @Nullable
-        public FeedbackResponseCommentData getParticipantComment() {
+        public String getParticipantComment() {
             return participantComment;
         }
 
@@ -622,7 +614,7 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withParticipantComment(@Nullable FeedbackResponseCommentData participantComment) {
+            Builder withParticipantComment(@Nullable String participantComment) {
                 responseOutput.participantComment = participantComment;
                 return this;
             }

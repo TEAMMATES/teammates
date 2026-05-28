@@ -385,4 +385,22 @@ describe('FeedbackResponsesService', () => {
     service.submitFeedbackResponses(paramMap['questionid'], dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
+
+  it('should call delete when deleting a giver comment', () => {
+    const dummyIntent: Intent = Intent.STUDENT_SUBMISSION;
+    const paramMap: Record<string, string> = {
+      responseid: '[dummy response ID]',
+      intent: dummyIntent,
+      key: '[dummy registration key]',
+      moderatedperson: '',
+    };
+    service.deleteGiverComment({
+      responseId: paramMap['responseid'],
+      intent: dummyIntent,
+      key: paramMap['key'],
+      moderatedPerson: paramMap['moderatedperson'],
+    });
+
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.RESPONSE_GIVER_COMMENT, paramMap);
+  });
 });

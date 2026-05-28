@@ -242,7 +242,7 @@ export interface FeedbackResponse extends ApiOutput {
   giverIdentifier: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
-  giverComment?: FeedbackResponseComment;
+  giverComment?: string;
 }
 
 export interface FeedbackResponseComment extends ApiOutput {
@@ -555,7 +555,7 @@ export interface ResponseOutput {
   recipientEmail?: string;
   recipientSection: string;
   responseDetails: FeedbackResponseDetails;
-  participantComment?: FeedbackResponseComment;
+  participantComment?: string;
   instructorComments: FeedbackResponseComment[];
 }
 

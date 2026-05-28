@@ -28,6 +28,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
@@ -86,6 +87,21 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse getFeedbackResponse(UUID frId) {
         return frDb.getFeedbackResponse(frId);
+    }
+
+    /**
+     * Deletes the giver comment for a feedback response by clearing it.
+     *
+     * @throws EntityDoesNotExistException if the feedback response does not exist
+     */
+    public FeedbackResponse deleteFeedbackResponseGiverComment(UUID frId) throws EntityDoesNotExistException {
+        FeedbackResponse feedbackResponse = frDb.getFeedbackResponse(frId);
+        if (feedbackResponse == null) {
+            throw new EntityDoesNotExistException("The feedback response does not exist.");
+        }
+
+        feedbackResponse.setGiverComment(null);
+        return feedbackResponse;
     }
 
     /**
@@ -258,6 +274,7 @@ public final class FeedbackResponsesLogic {
                 existingFeedbackResponse.setGiver(responseGiver);
                 existingFeedbackResponse.setRecipient(responseRecipient);
                 existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
+                existingFeedbackResponse.setGiverComment(responseRequest.getGiverComment());
                 feedbackResponses.add(existingFeedbackResponse);
                 validateFeedbackResponse(existingFeedbackResponse);
             } else {
@@ -266,6 +283,7 @@ public final class FeedbackResponsesLogic {
                         responseGiver,
                         responseRecipient,
                         responseDetails);
+                feedbackResponse.setGiverComment(responseRequest.getGiverComment());
 
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
                 feedbackResponses.add(feedbackResponse);

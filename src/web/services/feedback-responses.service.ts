@@ -15,6 +15,7 @@ import {
   FeedbackResponseDetails,
   FeedbackResponse,
   FeedbackResponses,
+  MessageOutput,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
   ResponseOutput,
@@ -210,5 +211,22 @@ export class FeedbackResponsesService {
       },
       request,
     );
+  }
+
+  /**
+   * Deletes a giver comment by clearing it from its feedback response.
+   */
+  deleteGiverComment(params: {
+    responseId: string;
+    intent: Intent;
+    key: string;
+    moderatedPerson: string;
+  }): Observable<MessageOutput> {
+    return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_GIVER_COMMENT, {
+      responseid: params.responseId,
+      intent: params.intent,
+      key: params.key,
+      moderatedperson: params.moderatedPerson,
+    });
   }
 }

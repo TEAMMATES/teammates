@@ -27,6 +27,7 @@ import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -90,6 +91,33 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackResponse result = frLogic.getFeedbackResponse(nonExistentId);
 
         assertNull(result);
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseGiverComment_responseExists_clearsGiverComment()
+            throws EntityDoesNotExistException {
+        UUID responseId = UUID.randomUUID();
+        FeedbackResponse response = getTypicalFeedbackResponseForQuestion(getTypicalFeedbackQuestionForSession(
+                getTypicalFeedbackSessionForCourse(getTypicalCourse())));
+        response.setGiverComment("giver comment");
+
+        when(frDb.getFeedbackResponse(responseId)).thenReturn(response);
+
+        FeedbackResponse result = frLogic.deleteFeedbackResponseGiverComment(responseId);
+
+        assertEquals(response, result);
+        assertNull(response.getGiverComment());
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseGiverComment_responseDoesNotExist_throwsEntityDoesNotExistException() {
+        UUID responseId = UUID.randomUUID();
+
+        when(frDb.getFeedbackResponse(responseId)).thenReturn(null);
+
+        EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class,
+                () -> frLogic.deleteFeedbackResponseGiverComment(responseId));
+        assertEquals("The feedback response does not exist.", exception.getMessage());
     }
 
     @Test
@@ -310,7 +338,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         ResponseRecipient responseRecipient = new ResponseRecipient(recipient);
         FeedbackResponsesRequest request = new FeedbackResponsesRequest();
         request.setResponses(List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipient.getEmail(), new FeedbackTextResponseDetails("new response"))));
+                recipient.getEmail(), new FeedbackTextResponseDetails("new response"), "new comment")));
 
         when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
                 .thenReturn(List.of());
@@ -324,6 +352,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         assertEquals(1, result.size());
         assertEquals(giver.getEmail(), result.get(0).getGiver().getIdentifier());
         assertEquals(recipient.getEmail(), result.get(0).getRecipient().getIdentifier());
+        assertEquals("new comment", result.get(0).getGiverComment());
         verify(frDb).createFeedbackResponse(any(FeedbackResponse.class));
     }
 
@@ -343,13 +372,14 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         ResponseRecipient responseRecipientToDelete = new ResponseRecipient(recipientToDelete);
         FeedbackResponse existingResponseToKeep = FeedbackResponse.makeResponse(
                 new ResponseGiver(giver), responseRecipientToKeep, new FeedbackTextResponseDetails("old response"));
+        existingResponseToKeep.setGiverComment("old comment");
         FeedbackResponse existingResponseToDelete = FeedbackResponse.makeResponse(
                 new ResponseGiver(giver), responseRecipientToDelete, new FeedbackTextResponseDetails("deleted response"));
         question.addFeedbackResponse(existingResponseToKeep);
         question.addFeedbackResponse(existingResponseToDelete);
         FeedbackResponsesRequest request = new FeedbackResponsesRequest();
         request.setResponses(List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipientToKeep.getEmail(), new FeedbackTextResponseDetails("updated response"))));
+                recipientToKeep.getEmail(), new FeedbackTextResponseDetails("updated response"), "updated comment")));
 
         when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
                 .thenReturn(List.of(existingResponseToKeep, existingResponseToDelete));
@@ -361,6 +391,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         assertEquals(1, result.size());
         assertEquals("updated response", ((FeedbackTextResponseDetails) result.get(0).getFeedbackResponseDetailsCopy())
                 .getAnswer());
+        assertEquals("updated comment", result.get(0).getGiverComment());
         verify(frDb, never()).createFeedbackResponse(any(FeedbackResponse.class));
         verify(frDb).deleteFeedbackResponse(existingResponseToDelete);
     }
