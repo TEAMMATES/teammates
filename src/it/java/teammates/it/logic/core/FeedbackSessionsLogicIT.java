@@ -77,14 +77,12 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSet(fs.getId());
         assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
         assertTrue(givers.instructorGiverIds().isEmpty());
-        assertTrue(givers.teamGiverIds().isEmpty());
         assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
         assertEquals(expectedInstructorNonGivers, new HashSet<>(givers.instructorNonGiverIds()));
-        assertTrue(givers.teamNonGiverIds().isEmpty());
     }
 
     @Test
-    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorAndTeamNonGivers()
+    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorNonGivers()
             throws EntityDoesNotExistException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
 
@@ -100,10 +98,8 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
         assertTrue(givers.instructorGiverIds().isEmpty());
-        assertTrue(givers.teamGiverIds().isEmpty());
         assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
         assertTrue(givers.instructorNonGiverIds().isEmpty());
-        assertTrue(givers.teamNonGiverIds().isEmpty());
     }
 
     @Test

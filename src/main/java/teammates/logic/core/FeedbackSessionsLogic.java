@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -28,7 +28,6 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -171,24 +170,24 @@ public final class FeedbackSessionsLogic {
 
     private SubmittedGiverSetBundle getSubmittedGiverSet(FeedbackSession feedbackSession) {
         Set<FeedbackQuestion> questions = feedbackSession.getFeedbackQuestions();
-        boolean hasQuestionsForStudents = fqLogic.hasFeedbackQuestionsForGiverType(questions, QuestionGiverType.STUDENTS);
+        boolean hasQuestionsForStudents = fqLogic.hasFeedbackQuestionsForStudents(questions);
+        boolean hasQuestionsForIndividualStudents = fqLogic.hasFeedbackQuestionsForGiverType(
+                questions, QuestionGiverType.STUDENTS);
+        boolean shouldCountTeamResponsesAsStudentSubmissions = hasQuestionsForStudents
+                && !hasQuestionsForIndividualStudents;
         boolean hasQuestionsForInstructors = fqLogic.hasFeedbackQuestionsForInstructors(questions, false);
-        boolean hasQuestionsForTeams = fqLogic.hasFeedbackQuestionsForGiverType(questions, QuestionGiverType.TEAMS);
 
         List<Student> students = usersLogic.getStudentsForCourse(feedbackSession.getCourseId());
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(feedbackSession.getCourseId());
-        List<Team> teams = students.stream()
-                .map(Student::getTeam)
-                .filter(Objects::nonNull)
-                .distinct()
-                .toList();
+        Map<UUID, Set<UUID>> studentIdsByTeamId = students.stream()
+                .filter(student -> student.getTeam() != null)
+                .collect(Collectors.groupingBy(student -> student.getTeam().getId(),
+                        Collectors.mapping(Student::getId, Collectors.toCollection(HashSet::new))));
 
         Set<UUID> studentGiverIds = new TreeSet<>();
         Set<UUID> instructorGiverIds = new TreeSet<>();
-        Set<UUID> teamGiverIds = new TreeSet<>();
         Set<UUID> studentNonGiverIds = new TreeSet<>();
         Set<UUID> instructorNonGiverIds = new TreeSet<>();
-        Set<UUID> teamNonGiverIds = new TreeSet<>();
 
         // Populate giver sets
         for (FeedbackQuestion question : feedbackSession.getFeedbackQuestions()) {
@@ -200,7 +199,10 @@ public final class FeedbackSessionsLogic {
                 } else if (responseGiver.isGiverInstructor()) {
                     instructorGiverIds.add(responseGiver.getGiverUserId());
                 } else if (responseGiver.isGiverTeam()) {
-                    teamGiverIds.add(responseGiver.getGiverTeamId());
+                    // For team-only sessions, one team response marks all team members as submitted.
+                    if (shouldCountTeamResponsesAsStudentSubmissions) {
+                        addStudentGiversForTeamResponse(response, studentIdsByTeamId, studentGiverIds);
+                    }
                 } else {
                     log.warning("Unknown giver type for response: " + response.getId());
                 }
@@ -224,16 +226,19 @@ public final class FeedbackSessionsLogic {
             instructorNonGiverIds.removeAll(instructorGiverIds);
         }
 
-        if (hasQuestionsForTeams) {
-            Set<UUID> allTeamIds = teams.stream()
-                    .map(Team::getId)
-                    .collect(Collectors.toSet());
-            teamNonGiverIds.addAll(allTeamIds);
-            teamNonGiverIds.removeAll(teamGiverIds);
+        return new SubmittedGiverSetBundle(studentGiverIds, instructorGiverIds, studentNonGiverIds, instructorNonGiverIds);
+    }
+
+    private void addStudentGiversForTeamResponse(FeedbackResponse response, Map<UUID, Set<UUID>> studentIdsByTeamId,
+            Set<UUID> studentGiverIds) {
+        UUID giverTeamId = response.getGiver().getGiverTeamId();
+        Set<UUID> memberStudentIds = studentIdsByTeamId.get(giverTeamId);
+        if (memberStudentIds == null || memberStudentIds.isEmpty()) {
+            log.warning("No students found for team giver response: " + response.getId());
+            return;
         }
 
-        return new SubmittedGiverSetBundle(studentGiverIds, instructorGiverIds, teamGiverIds,
-                studentNonGiverIds, instructorNonGiverIds, teamNonGiverIds);
+        studentGiverIds.addAll(memberStudentIds);
     }
 
     /**
@@ -627,8 +632,7 @@ public final class FeedbackSessionsLogic {
     public int getActualTotalSubmission(FeedbackSession fs) {
         SubmittedGiverSetBundle submittedGiverSetBundle = getSubmittedGiverSet(fs);
         return submittedGiverSetBundle.studentGiverIds().size()
-                + submittedGiverSetBundle.instructorGiverIds().size()
-                + submittedGiverSetBundle.teamGiverIds().size();
+                + submittedGiverSetBundle.instructorGiverIds().size();
     }
 
     private void validateFeedbackSession(FeedbackSession feedbackSession)

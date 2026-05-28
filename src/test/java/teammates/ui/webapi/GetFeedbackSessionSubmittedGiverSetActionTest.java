@@ -71,8 +71,6 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
                 Set.of(studentGiverId),
                 Collections.emptySet(),
                 Collections.emptySet(),
-                Collections.emptySet(),
-                Collections.emptySet(),
                 Collections.emptySet());
 
         when(mockLogic.getSubmittedGiverSet(typicalFeedbackSession.getId()))
@@ -84,10 +82,8 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
         assertEquals(Set.of(studentGiverId), output.getStudentGivers());
         assertEquals(Collections.emptySet(), output.getInstructorGivers());
-        assertEquals(Collections.emptySet(), output.getTeamGivers());
         assertEquals(Collections.emptySet(), output.getStudentNonGivers());
         assertEquals(Collections.emptySet(), output.getInstructorNonGivers());
-        assertEquals(Collections.emptySet(), output.getTeamNonGivers());
     }
 
     @Test

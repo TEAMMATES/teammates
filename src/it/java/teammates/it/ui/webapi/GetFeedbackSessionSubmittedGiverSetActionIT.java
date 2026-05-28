@@ -88,12 +88,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
                 .map(Instructor::getId)
                 .collect(Collectors.toSet());
         assertEquals(Collections.emptySet(), output.getInstructorGivers());
-        assertEquals(Collections.emptySet(), output.getTeamGivers());
         assertEquals(expectedStudentNonGivers, Sets.newHashSet(output.getStudentNonGivers()));
         assertEquals(expectedInstructorNonGivers, Sets.newHashSet(output.getInstructorNonGivers()));
-        assertEquals(Collections.emptySet(), output.getTeamNonGivers());
 
-        ______TS("Session with student questions only should not produce instructor/team non-givers");
+        ______TS("Session with student questions only should not produce instructor non-givers");
         FeedbackSession fsb = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
         String[] session2Params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsb.getId().toString(),
@@ -116,7 +114,6 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         assertEquals(expectedSession2StudentNonGivers,
                 Sets.newHashSet(session2Output.getStudentNonGivers()));
         assertEquals(Collections.emptySet(), session2Output.getInstructorNonGivers());
-        assertEquals(Collections.emptySet(), session2Output.getTeamNonGivers());
     }
 
     @Test
