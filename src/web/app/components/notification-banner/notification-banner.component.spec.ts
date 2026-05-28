@@ -57,14 +57,42 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should load data correctly', () => {
-    const spy = vi.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(
+    const getNotificationSpy = vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       of({
         notifications: [testNotificationOne, testNotificationTwo],
       }),
     );
+    const getReadNotificationSpy = vi.spyOn(notificationService, 'getReadNotifications').mockReturnValue(
+      of({
+        readNotifications: [testNotificationOne.notificationId],
+      }),
+    );
     component.ngOnInit();
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(component.notifications).toEqual([testNotificationOne, testNotificationTwo]);
+    expect(getNotificationSpy).toHaveBeenCalledWith({
+      targetUsers: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
+      isFetchingActive: true,
+    });
+    expect(getReadNotificationSpy).toHaveBeenCalledTimes(1);
+    expect(component.notifications).toEqual([testNotificationTwo]);
+  });
+
+  it('should not duplicate general target user when loading general notifications', () => {
+    const getNotificationSpy = vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
+      of({
+        notifications: [testNotificationOne],
+      }),
+    );
+    vi.spyOn(notificationService, 'getReadNotifications').mockReturnValue(
+      of({
+        readNotifications: [],
+      }),
+    );
+    component.notificationTargetUser = NotificationTargetUser.GENERAL;
+    component.fetchNotifications();
+    expect(getNotificationSpy).toHaveBeenCalledWith({
+      targetUsers: [NotificationTargetUser.GENERAL],
+      isFetchingActive: true,
+    });
   });
 
   it('should close after clicking X', () => {

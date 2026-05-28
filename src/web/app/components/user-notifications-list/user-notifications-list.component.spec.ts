@@ -79,7 +79,7 @@ describe('UserNotificationsListComponent', () => {
 
   it('should load notifications from APIs correctly', () => {
     // two notifications, only first one has been read
-    const getNotificationSpy = vi.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(
+    const getNotificationSpy = vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       of({
         notifications: [testNotificationOne, testNotificationTwo],
       }),
@@ -89,12 +89,35 @@ describe('UserNotificationsListComponent', () => {
         readNotifications: [testNotificationOne.notificationId],
       }),
     );
+    component.userType = NotificationTargetUser.STUDENT;
     component.loadNotifications();
-    expect(getNotificationSpy).toHaveBeenCalledTimes(1);
+    expect(getNotificationSpy).toHaveBeenCalledWith({
+      targetUsers: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
+      isFetchingActive: true,
+    });
     expect(getReadNotificationSpy).toHaveBeenCalledTimes(1);
     expect(component.notificationTabs).toEqual(
       getNotificationTabs([testNotificationOne, testNotificationTwo], [testNotificationOne.notificationId]),
     );
+  });
+
+  it('should not duplicate general target user when loading general notifications', () => {
+    const getNotificationSpy = vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
+      of({
+        notifications: [testNotificationOne],
+      }),
+    );
+    vi.spyOn(notificationService, 'getReadNotifications').mockReturnValue(
+      of({
+        readNotifications: [],
+      }),
+    );
+    component.userType = NotificationTargetUser.GENERAL;
+    component.loadNotifications();
+    expect(getNotificationSpy).toHaveBeenCalledWith({
+      targetUsers: [NotificationTargetUser.GENERAL],
+      isFetchingActive: true,
+    });
   });
 
   it('should mark notification as read when button is clicked', () => {
