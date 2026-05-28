@@ -69,7 +69,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         stubEmailWrapper.setRecipient("non-existent@email.com");
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
         when(mockLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
-        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent("non-existent@email.com"))
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForNonExistentStudent("non-existent@email.com"))
                 .thenReturn(stubEmailWrapper);
 
         SessionLinksRecoveryAction action = getAction(params);
@@ -89,7 +89,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         };
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(stubStudent.getEmail()))
+        when(mockLogic.getAllStudentsForEmail(stubStudent.getEmail())).thenReturn(List.of(stubStudent));
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                stubStudent.getEmail(), List.of(stubStudent)))
                 .thenReturn(stubEmailWrapper);
 
         SessionLinksRecoveryAction action = getAction(params);
