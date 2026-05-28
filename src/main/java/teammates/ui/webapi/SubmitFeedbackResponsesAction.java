@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackQuestion;
@@ -93,13 +94,21 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             log.info("Student " + student.getId() + " is submitting feedback responses for question "
                     + feedbackQuestion.getId() + " in session " + feedbackQuestion.getFeedbackSession().getId());
-            output = logic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+            try {
+                output = logic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            }
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             log.info("Instructor " + instructor.getId() + " is submitting feedback responses for question "
                     + feedbackQuestion.getId() + " in session " + feedbackQuestion.getFeedbackSession().getId());
-            output = logic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+            try {
+                output = logic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+            } catch (InvalidParametersException e) {
+                throw new InvalidHttpRequestBodyException(e);
+            }
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

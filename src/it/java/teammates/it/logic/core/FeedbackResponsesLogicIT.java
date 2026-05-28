@@ -1,8 +1,6 @@
 package teammates.it.logic.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -17,9 +15,6 @@ import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.ResponseGiver;
-import teammates.storage.entity.ResponseRecipient;
-import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -54,27 +49,5 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertNull(frLogic.getFeedbackResponse(fr1.getId()));
         assertNull(frcLogic.getFeedbackResponseComment(frcId));
-    }
-
-    @Test
-    public void testUpdatedFeedbackResponsesAndCommentsCascade() throws Exception {
-        ______TS("success: feedbackresponse and feedbackresponsecomment has been updated");
-        FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
-        fr = frLogic.getFeedbackResponse(fr.getId());
-
-        Student newGiver = typicalDataBundle.students.get("student2InCourse1");
-        Student newRecipient = typicalDataBundle.students.get("student4InCourse1");
-
-        assertNotEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
-        assertNotEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
-
-        fr.setGiver(new ResponseGiver(newGiver));
-        fr.setRecipient(new ResponseRecipient(newRecipient));
-
-        fr = frLogic.updateFeedbackResponse(fr);
-
-        fr = frLogic.getFeedbackResponse(fr.getId());
-        assertEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
-        assertEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
     }
 }

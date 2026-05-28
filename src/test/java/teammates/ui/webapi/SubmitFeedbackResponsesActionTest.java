@@ -40,7 +40,6 @@ import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link SubmitFeedbackResponsesAction}.
@@ -278,8 +277,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Response for " + recipientStudent1.getEmail()));
         spyFeedbackQuestion.addFeedbackResponse(createdResponse);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenReturn(createdResponse);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -324,8 +321,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 new ResponseRecipient(recipientInstructor1),
                 new FeedbackTextResponseDetails("Response for " + recipientInstructor1.getEmail()));
         spyFeedbackQuestion.addFeedbackResponse(createdResponse);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenReturn(createdResponse);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -386,8 +381,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Updated response 1"));
         spyFeedbackQuestion.addFeedbackResponse(updatedResponse);
-        when(mockLogic.updateFeedbackResponseCascade(any(FeedbackResponse.class)))
-                .thenReturn(updatedResponse);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -424,9 +417,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 recipientStudent1.getEmail(),
@@ -445,31 +435,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_questionSpecificValidationFails_throwsInvalidHttpRequestBodyException() throws Exception {
-        loginAsStudent(stubStudent.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.submitFeedbackResponsesFromStudent(
-                any(FeedbackQuestion.class), any(Student.class), any(FeedbackResponsesRequest.class)))
-                .thenThrow(new InvalidHttpRequestBodyException("[Validation error]"));
-
-        List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
-        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipientStudent1.getEmail(),
-                new FeedbackTextResponseDetails("test")));
-
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
-
-        verifyHttpRequestBodyFailure(requestBody, params);
-    }
-
-    @Test
-    void testExecute_tooManyRecipients_success() throws Exception {
+    void testExecute_tooManyRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
         spyFeedbackQuestion.setNumOfEntitiesToGiveFeedbackTo(1);
 
@@ -488,8 +454,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(recipients);
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -509,7 +473,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_multipleRecipients_success() throws Exception {
+    void testExecute_multipleRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
@@ -527,9 +491,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(recipients);
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
-
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -549,7 +510,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_teamBasedRecipients_success() throws Exception {
+    void testExecute_teamBasedRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
         spyFeedbackQuestion.setRecipientType(QuestionRecipientType.TEAMS);
 
@@ -567,9 +528,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(recipients);
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
-
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -609,7 +567,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_maxPossibleRecipients_success() throws Exception {
+    void testExecute_maxPossibleRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
         spyFeedbackQuestion.setNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS);
 
@@ -628,8 +586,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(recipients);
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(

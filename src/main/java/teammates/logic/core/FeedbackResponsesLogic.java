@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import jakarta.annotation.Nullable;
 
@@ -29,10 +28,8 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -49,7 +46,6 @@ import teammates.storage.entity.User;
 import teammates.storage.entity.responses.FeedbackRankRecipientsResponse;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackResponsesRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Handles operations related to feedback responses.
@@ -60,7 +56,6 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public final class FeedbackResponsesLogic {
 
     private static final FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
-    private static final Logger log = Logger.getLogger();
 
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
@@ -151,24 +146,6 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Creates a feedback response.
-     * @return the created response
-     * @throws InvalidParametersException if the response is not valid
-     * @throws EntityAlreadyExistsException if the response already exist
-     */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        validateFeedbackResponse(feedbackResponse);
-
-        if (frDb.getFeedbackResponse(feedbackResponse.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
-        }
-
-        return frDb.createFeedbackResponse(feedbackResponse);
-    }
-
-    /**
      * Get existing feedback responses from instructor for the given question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
@@ -213,7 +190,7 @@ public final class FeedbackResponsesLogic {
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
             FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
-            throws InvalidOperationException, InvalidHttpRequestBodyException {
+            throws InvalidOperationException, InvalidParametersException {
         ResponseGiver responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                 ? new ResponseGiver(student.getTeam())
                 : new ResponseGiver(student);
@@ -228,7 +205,7 @@ public final class FeedbackResponsesLogic {
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
             FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
-            throws InvalidOperationException, InvalidHttpRequestBodyException {
+            throws InvalidOperationException, InvalidParametersException {
         ResponseGiver responseGiver = new ResponseGiver(instructor);
         List<FeedbackResponse> existingResponses = getFeedbackResponsesFromInstructorForQuestion(
                 feedbackQuestion, instructor);
@@ -239,7 +216,7 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponse> submitFeedbackResponses(FeedbackQuestion feedbackQuestion,
             ResponseGiver responseGiver, List<FeedbackResponse> existingResponses, @Nullable Student student,
             FeedbackResponsesRequest submitRequest)
-            throws InvalidOperationException, InvalidHttpRequestBodyException {
+            throws InvalidOperationException, InvalidParametersException {
         FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
         Optional<List<String>> dynamicallyGeneratedOptions = fqLogic.getDynamicallyGeneratedOptions(
                 feedbackQuestion, student);
@@ -268,37 +245,36 @@ public final class FeedbackResponsesLogic {
             }
         }
 
-        List<FeedbackResponse> feedbackResponsesToAdd = new ArrayList<>();
-        List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
+        List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
-        submitRequest.getResponses().forEach(responseRequest -> {
+        for (var responseRequest : submitRequest.getResponses()) {
             String recipient = responseRequest.getRecipient();
             ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
 
             if (existingResponsesPerRecipient.containsKey(responseRecipient)) {
+                // Update the existing response
                 FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(responseRecipient);
                 existingFeedbackResponse.setGiver(responseGiver);
                 existingFeedbackResponse.setRecipient(responseRecipient);
                 existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
-                feedbackResponsesToUpdate.add(existingFeedbackResponse);
+                feedbackResponses.add(existingFeedbackResponse);
+                validateFeedbackResponse(existingFeedbackResponse);
             } else {
+                // Create a new response
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                         responseGiver,
                         responseRecipient,
                         responseDetails);
 
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
-                feedbackResponsesToAdd.add(feedbackResponse);
+                feedbackResponses.add(feedbackResponse);
+                validateFeedbackResponse(feedbackResponse);
+                frDb.createFeedbackResponse(feedbackResponse);
             }
-        });
+        }
 
-        List<FeedbackResponse> allResponses = Stream.concat(
-                        feedbackResponsesToAdd.stream(),
-                        feedbackResponsesToUpdate.stream())
-                .toList();
-
-        List<FeedbackResponseDetails> responseDetails = allResponses.stream()
+        List<FeedbackResponseDetails> responseDetails = feedbackResponses.stream()
                 .map(FeedbackResponse::getFeedbackResponseDetailsCopy)
                 .toList();
 
@@ -312,9 +288,10 @@ public final class FeedbackResponsesLogic {
                 .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
+            throw new InvalidParametersException(questionSpecificErrors.toString());
         }
 
+        // Delete responses that are deleted by the user
         List<String> recipients = submitRequest.getRecipients();
         List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
                 .filter(entry -> !recipients.contains(entry.getKey().getIdentifier()))
@@ -325,41 +302,7 @@ public final class FeedbackResponsesLogic {
             deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
         }
 
-        List<FeedbackResponse> output = new ArrayList<>();
-
-        for (FeedbackResponse feedbackResponse : feedbackResponsesToAdd) {
-            try {
-                output.add(createFeedbackResponse(feedbackResponse));
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                // None of the exceptions should be happening as the responses have been pre-validated.
-                log.severe("Encountered exception when creating response: " + e.getMessage(), e);
-            }
-        }
-
-        for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
-            try {
-                output.add(updateFeedbackResponse(feedbackResponse));
-            } catch (InvalidParametersException e) {
-                // None of the exceptions should be happening as the responses have been pre-validated.
-                log.severe("Encountered exception when updating response: " + e.getMessage(), e);
-            }
-        }
-
-        return output;
-    }
-
-    /**
-     * Updates a feedback response.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException if attributes to update are not valid
-     */
-    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException {
-        // TODO: move update logic here.
-        validateFeedbackResponse(feedbackResponse);
-
-        return feedbackResponse;
+        return feedbackResponses;
     }
 
     /**
