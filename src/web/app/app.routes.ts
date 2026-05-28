@@ -18,6 +18,9 @@ const routes: Routes = [
         path: 'front',
         component: StaticPageComponent,
         loadChildren: () => import('./pages-static/static.routes'),
+        resolve: {
+          authInfo: AuthInfoResolver,
+        },
       },
       {
         path: 'join',

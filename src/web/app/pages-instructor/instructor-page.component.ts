@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { NotificationTargetUser } from '../../types/api-output';
+import { Component, inject } from '@angular/core';
+import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 import { PageComponent } from '../page.component';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Base skeleton for instructor pages.
@@ -11,6 +12,8 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class InstructorPageComponent {
+  private authService = inject(AuthService);
+
   navItems: any[] = [
     {
       url: '/web/instructor',
@@ -51,4 +54,5 @@ export class InstructorPageComponent {
     },
   ];
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
+  authInfo: AuthInfo | null = this.authService.authInfo$.value;
 }

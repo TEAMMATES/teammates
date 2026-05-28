@@ -10,9 +10,9 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root',
 })
 export class AuthInfoResolver implements Resolve<AuthInfo> {
-  resolve(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const authService = inject(AuthService);
+  private authService = inject(AuthService);
 
-    return authService.getAuthUser(state.url);
+  resolve(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.authService.getAuthUser(state.url);
   }
 }

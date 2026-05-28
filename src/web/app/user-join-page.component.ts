@@ -95,7 +95,10 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse({ key: this.key }).subscribe({
       next: () => {
-        this.navigationService.navigateByURL(`/web/${this.entityType}`);
+        this.authService.clearAuthCache();
+        this.authService.getAuthUser().subscribe(() => {
+          this.navigationService.navigateByURL(`/web/${this.entityType}`);
+        });
       },
       error: (resp: ErrorMessageOutput) => {
         const errorMessage = resp.error.message;

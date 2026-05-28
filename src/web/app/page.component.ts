@@ -27,6 +27,7 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { AuthService } from '../services/auth.service';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -81,6 +82,7 @@ export class PageComponent implements OnInit {
   private title = inject(Title);
   private ngbModal = inject(NgbModal);
   private statusMessageService = inject(StatusMessageService);
+  private authService = inject(AuthService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -91,7 +93,7 @@ export class PageComponent implements OnInit {
   isInstructor = false;
   isAdmin = false;
   isMaintainer = false;
-  isValidUser = false;
+  @Input() authInfo: AuthInfo | null = null;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
   @Input() hideAuthInfo = false;
@@ -162,24 +164,21 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const authInfo: AuthInfo | undefined = this.route.snapshot.data['authInfo'];
-    const user = authInfo?.user;
+    const user = this.authInfo?.user;
     if (user) {
       this.user = user.id;
-      if (authInfo?.masquerade) {
+      if (this.authInfo?.masquerade) {
         this.user += ' (M)';
       }
-      this.isStudent = !!user.isStudent;
-      this.isInstructor = !!user.isInstructor;
-      this.isAdmin = !!user.isAdmin;
-      this.isMaintainer = !!user.isMaintainer;
-      this.isValidUser = true;
+      this.isStudent = user.isStudent;
+      this.isInstructor = user.isInstructor;
+      this.isAdmin = user.isAdmin;
+      this.isMaintainer = user.isMaintainer;
     } else {
       this.isStudent = false;
       this.isInstructor = false;
       this.isAdmin = false;
       this.isMaintainer = false;
-      this.isValidUser = false;
     }
   }
 
@@ -220,5 +219,6 @@ export class PageComponent implements OnInit {
 
   logout(): void {
     window.location.href = this.logoutUrl;
+    this.authService.clearAuthCache();
   }
 }

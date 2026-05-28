@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PageComponent } from '../page.component';
+import { AuthService } from '../../services/auth.service';
+import { AuthInfo } from '../../types/api-output';
 
 /**
  * Base skeleton for admin pages.
@@ -10,6 +12,8 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class AdminPageComponent {
+  private authService = inject(AuthService);
+
   navItems: any[] = [
     {
       url: '/web/admin',
@@ -41,4 +45,5 @@ export class AdminPageComponent {
       ],
     },
   ];
+  authInfo: AuthInfo | null = this.authService.authInfo$.value;
 }

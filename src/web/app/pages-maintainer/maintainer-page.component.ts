@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { PageComponent } from '../page.component';
+import { AuthService } from '../../services/auth.service';
+import { AuthInfo } from '../../types/api-output';
 
 /**
  * Base skeleton for maintainer pages.
@@ -11,6 +13,8 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class MaintainerPageComponent {
+  private authService = inject(AuthService);
+
   navItems: any[] = [
     {
       url: '/web/maintainer',
@@ -25,4 +29,5 @@ export class MaintainerPageComponent {
       display: 'Usage Statistics',
     },
   ];
+  authInfo: AuthInfo | null = this.authService.authInfo$.value;
 }

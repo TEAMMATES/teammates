@@ -8,7 +8,7 @@ import { NavigationService } from '../services/navigation.service';
 
 /**
  * Guards routes based on user roles.
- * Redirects to login page if user is not authenticated or does not have the required role.
+ * Redirects to login page if user is not authenticated or not admin.
  */
 @Injectable({
   providedIn: 'root',
@@ -33,12 +33,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
         const isRoleMatch = this.matchRole(authInfo, expectedRole);
         if (!isRoleMatch) {
           console.log(`[roleGuard] User '${authInfo.user.id}' does not have required role '${expectedRole}'`);
-          if (expectedRole === 'admin') {
-            // User not authorized to view admin page.
-            this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
-          } else {
-            this.redirectToLogin(authInfo, this.backendUrl);
-          }
+          this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
           return false;
         }
         console.log(`[roleGuard] User '${authInfo.user.id}' has role '${expectedRole}' — access granted`);
@@ -48,7 +43,11 @@ export class RoleGuard implements CanActivate, CanActivateChild {
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.canActivate(childRoute, state);
+    let route: ActivatedRouteSnapshot | null = childRoute;
+    while (route && !route.data['role']) {
+      route = route.parent;
+    }
+    return this.canActivate(route ?? childRoute, state);
   }
 
   private matchRole(authInfo: AuthInfo, expectedRole: string): boolean {
