@@ -16,7 +16,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  AuthInfo,
   Course,
   FeedbackQuestion,
   FeedbackQuestions,
@@ -134,81 +133,71 @@ export class SessionResultPageComponent implements OnInit {
           this.intent = Intent.INSTRUCTOR_RESULT;
         }
 
-        const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
-        this.authService.getAuthUser(nextUrl).subscribe({
-          next: (auth: AuthInfo) => {
-            const isPreview = !!(auth.user && this.previewAsPerson);
-            if (auth.user) {
-              this.loggedInUser = auth.user.id;
-            }
-            // prevent having both key and previewas parameters in URL
-            if (this.regKey && isPreview) {
-              this.navigationService.navigateWithErrorMessage(
-                '/web/front',
-                'You are not authorized to view this page.',
-              );
-              return;
-            }
-            if (this.regKey) {
-              this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe({
-                next: (resp: RegkeyValidity) => {
-                  if (resp.isAllowedAccess) {
-                    if (resp.isUsed) {
-                      // The logged in user matches the registration key; redirect to the logged in URL
+        let authInfo = this.route.parent?.snapshot.data['authInfo'];
+        if (!authInfo) {
+          authInfo = this.authService.authInfo$.getValue();
+        }
+        const isPreview = !!(authInfo?.user && this.previewAsPerson);
+        if (authInfo?.user) {
+          this.loggedInUser = authInfo.user.id;
+        }
+        // prevent having both key and previewas parameters in URL
+        if (this.regKey && isPreview) {
+          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+          return;
+        }
+        if (this.regKey) {
+          this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe({
+            next: (resp: RegkeyValidity) => {
+              if (resp.isAllowedAccess) {
+                if (resp.isUsed) {
+                  // The logged in user matches the registration key; redirect to the logged in URL
 
-                      this.navigationService.navigateByURLWithParamEncoding(`/web/${this.entityType}/sessions/result`, {
-                        fsid: this.feedbackSessionId,
-                      });
-                    } else {
-                      // Valid, unused registration key; load information based on the key
-                      this.loadFeedbackSession();
-                    }
-                  } else if (resp.isValid) {
-                    // At this point, registration key must already be used, otherwise access would be granted
-                    if (this.loggedInUser) {
-                      // Registration key belongs to another user who is not the logged in user
-                      this.navigationService.navigateWithErrorMessage(
-                        '/web/front',
-                        `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
-                        is not linked to this TEAMMATES account. If you used a different Google account to
-                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                        cannot remember which Google account you used before, please email us at
-                        ${environment.supportEmail} for help.`,
-                      );
-                    } else {
-                      // There is no logged in user for a valid, used registration key, redirect to login page
-                      window.location.href = `${this.backendUrl}${auth.loginUrl}`;
-                    }
-                  } else {
-                    // The registration key is invalid
-                    this.navigationService.navigateWithErrorMessage(
-                      '/web/front',
-                      'You are not authorized to view this page.',
-                    );
-                  }
-                },
-                error: () => {
+                  this.navigationService.navigateByURLWithParamEncoding(`/web/${this.entityType}/sessions/result`, {
+                    fsid: this.feedbackSessionId,
+                  });
+                } else {
+                  // Valid, unused registration key; load information based on the key
+                  this.loadFeedbackSession();
+                }
+              } else if (resp.isValid) {
+                // At this point, registration key must already be used, otherwise access would be granted
+                if (this.loggedInUser) {
+                  // Registration key belongs to another user who is not the logged in user
                   this.navigationService.navigateWithErrorMessage(
                     '/web/front',
-                    'You are not authorized to view this page.',
+                    `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
+                    is not linked to this TEAMMATES account. If you used a different Google account to
+                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                    cannot remember which Google account you used before, please email us at
+                    ${environment.supportEmail} for help.`,
                   );
-                },
-              });
-            } else if (this.loggedInUser) {
-              // Load information based on logged in user
-              // This will also cover preview cases
-              this.loadFeedbackSession();
-            } else {
+                } else {
+                  // There is no logged in user for a valid, used registration key, redirect to login page
+                  window.location.href = `${this.backendUrl}${authInfo.loginUrl}`;
+                }
+              } else {
+                // The registration key is invalid
+                this.navigationService.navigateWithErrorMessage(
+                  '/web/front',
+                  'You are not authorized to view this page.',
+                );
+              }
+            },
+            error: () => {
               this.navigationService.navigateWithErrorMessage(
                 '/web/front',
                 'You are not authorized to view this page.',
               );
-            }
-          },
-          error: () => {
-            this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-          },
-        });
+            },
+          });
+        } else if (this.loggedInUser) {
+          // Load information based on logged in user
+          // This will also cover preview cases
+          this.loadFeedbackSession();
+        } else {
+          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+        }
       });
   }
 

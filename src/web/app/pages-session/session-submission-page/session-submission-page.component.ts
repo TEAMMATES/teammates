@@ -199,74 +199,64 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.isSubmissionFormsDisabled = true;
         }
 
-        const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
-        this.authService.getAuthUser(nextUrl).subscribe({
-          next: (auth: AuthInfo) => {
-            const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
-            if (auth.user) {
-              this.loggedInUser = auth.user.id;
-            }
-            if (this.regKey && !isPreviewOrModeration) {
-              this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe({
-                next: (resp: RegkeyValidity) => {
-                  if (resp.isAllowedAccess) {
-                    if (resp.isUsed) {
-                      // The logged in user matches the registration key; redirect to the logged in URL
-                      this.navigationService.navigateByURLWithParamEncoding(
-                        `/web/${this.entityType}/sessions/submission`,
-                        {
-                          fsid: this.feedbackSessionId,
-                        },
-                      );
-                    } else {
-                      // Valid, unused registration key; load information based on the key
-                      this.loadFeedbackSession(false, auth);
-                    }
-                  } else if (resp.isValid) {
-                    // At this point, registration key must already be used, otherwise access would be granted
-                    if (this.loggedInUser) {
-                      // Registration key belongs to another user who is not the logged in user
-                      this.navigationService.navigateWithErrorMessage(
-                        '/web/front',
-                        `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
-                        is not linked to this TEAMMATES account. If you used a different Google account to
-                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                        cannot remember which Google account you used before, please email us at
-                        ${environment.supportEmail} for help.`,
-                      );
-                    } else {
-                      this.loadFeedbackSession(true, auth);
-                    }
-                  } else {
-                    // The registration key is invalid
-                    this.navigationService.navigateWithErrorMessage(
-                      '/web/front',
-                      'You are not authorized to view this page.',
-                    );
-                  }
-                },
-                error: () => {
+        let authInfo = this.route.parent?.snapshot.data['authInfo'];
+        if (!authInfo) {
+          authInfo = this.authService.authInfo$.getValue();
+        }
+        const isPreviewOrModeration = !!(authInfo?.user && (this.moderatedPerson || this.previewAsPerson));
+        if (authInfo?.user) {
+          this.loggedInUser = authInfo.user.id;
+        }
+        if (this.regKey && !isPreviewOrModeration) {
+          this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe({
+            next: (resp: RegkeyValidity) => {
+              if (resp.isAllowedAccess) {
+                if (resp.isUsed) {
+                  // The logged in user matches the registration key; redirect to the logged in URL
+                  this.navigationService.navigateByURLWithParamEncoding(`/web/${this.entityType}/sessions/submission`, {
+                    fsid: this.feedbackSessionId,
+                  });
+                } else {
+                  // Valid, unused registration key; load information based on the key
+                  this.loadFeedbackSession(false, authInfo);
+                }
+              } else if (resp.isValid) {
+                // At this point, registration key must already be used, otherwise access would be granted
+                if (this.loggedInUser) {
+                  // Registration key belongs to another user who is not the logged in user
                   this.navigationService.navigateWithErrorMessage(
                     '/web/front',
-                    'You are not authorized to view this page.',
+                    `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
+                    is not linked to this TEAMMATES account. If you used a different Google account to
+                    join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                    cannot remember which Google account you used before, please email us at
+                    ${environment.supportEmail} for help.`,
                   );
-                },
-              });
-            } else if (this.loggedInUser) {
-              // Load information based on logged in user
-              // This will also cover moderation/preview cases
-              this.loadFeedbackSession(false, auth);
-            } else {
+                } else {
+                  this.loadFeedbackSession(true, authInfo);
+                }
+              } else {
+                // The registration key is invalid
+                this.navigationService.navigateWithErrorMessage(
+                  '/web/front',
+                  'You are not authorized to view this page.',
+                );
+              }
+            },
+            error: () => {
               this.navigationService.navigateWithErrorMessage(
                 '/web/front',
                 'You are not authorized to view this page.',
               );
-            }
-          },
-          error: () => {
-            this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-          },
-        });
+            },
+          });
+        } else if (this.loggedInUser) {
+          // Load information based on logged in user
+          // This will also cover moderation/preview cases
+          this.loadFeedbackSession(false, authInfo);
+        } else {
+          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+        }
       });
   }
 
