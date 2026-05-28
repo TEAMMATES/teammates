@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.Notification;
@@ -26,7 +25,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
     @Test
-    public void testCreateNotification() throws EntityAlreadyExistsException {
+    public void testCreateNotification() {
         ______TS("success: create notification that does not exist");
         Notification newNotification = generateTypicalNotification();
 
@@ -38,7 +37,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetNotification() throws EntityAlreadyExistsException {
+    public void testGetNotification() {
         ______TS("success: get a notification that already exists");
         Notification newNotification = generateTypicalNotification();
 
@@ -55,7 +54,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testDeleteNotification() throws EntityAlreadyExistsException {
+    public void testDeleteNotification() {
         ______TS("success: delete a notification that already exists");
         Notification notification = generateTypicalNotification();
 
@@ -68,27 +67,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetAllNotifications() throws EntityAlreadyExistsException {
-        ______TS("success: no notification present in the database");
-        List<Notification> allNotifications = notificationsDb.getAllNotifications();
-        assertEquals(0, allNotifications.size());
-
-        ______TS("success: multiple notifications present in the database");
-        Notification n1 = generateTypicalNotification();
-        Notification n2 = generateTypicalNotification();
-
-        notificationsDb.createNotification(n1);
-        notificationsDb.createNotification(n2);
-
-        allNotifications = notificationsDb.getAllNotifications();
-
-        assertEquals(2, allNotifications.size());
-        verifyEquals(n1, allNotifications.get(0));
-        verifyEquals(n2, allNotifications.get(1));
-    }
-
-    @Test
-    public void testGetActiveNotificationsByTargetUser() throws EntityAlreadyExistsException {
+    public void testGetActiveNotificationsByTargetUser() {
         Notification n1 = new Notification(
                 Instant.parse("2011-01-04T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"),
@@ -137,9 +116,9 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
             notificationsDb.createNotification(n);
         }
 
-        ______TS("success: get active notification with target user GENERAL");
+        ______TS("success: get active notifications with target user GENERAL");
         List<Notification> actualNotifications =
-                notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.GENERAL);
+                notificationsDb.getNotificationsByTargetUsers(List.of(NotificationTargetUser.GENERAL), true);
         List<Notification> expectedNotifications = List.of(n4, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it1 = expectedNotifications.iterator();
@@ -147,13 +126,24 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
             verifyEquals(it1.next(), actual);
         });
 
-        ______TS("success: get active notification with target user INSTRUCTOR");
-        actualNotifications = notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
+        ______TS("success: get active notifications with target users INSTRUCTOR and GENERAL");
+        actualNotifications = notificationsDb.getNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL), true);
         expectedNotifications = List.of(n4, n2, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it2 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
             verifyEquals(it2.next(), actual);
+        });
+
+        ______TS("success: get active notifications with target user INSTRUCTOR only");
+        actualNotifications = notificationsDb.getNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR), true);
+        expectedNotifications = List.of(n2);
+        assertEquals(expectedNotifications.size(), actualNotifications.size());
+        Iterator<Notification> it3 = expectedNotifications.iterator();
+        actualNotifications.forEach(actual -> {
+            verifyEquals(it3.next(), actual);
         });
     }
 

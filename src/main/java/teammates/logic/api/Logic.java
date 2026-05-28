@@ -1122,8 +1122,16 @@ public class Logic {
         usersLogic.deleteInstructorCascade(userId);
     }
 
-    public List<Notification> getAllNotifications() {
-        return notificationsLogic.getAllNotifications();
+    /**
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code targetUsers}.
+     *         If {@code isActiveOnly} is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified {@code targetUsers} are returned.
+     */
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
+        return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActiveOnly);
     }
 
     /**
@@ -1163,22 +1171,6 @@ public class Logic {
         assert instructorToEdit != null;
 
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-    }
-
-    /**
-     * Returns active notification for general users and the specified
-     * {@code targetUser}.
-     */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
-    }
-
-    /**
-     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
     }
 
     /**

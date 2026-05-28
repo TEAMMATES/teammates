@@ -7,6 +7,7 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
+import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 
@@ -29,7 +30,11 @@ public class SessionLinksRecoveryAction extends PublicAction {
                     + "Please try again.");
         }
 
-        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
+        List<Student> studentsForEmail = logic.getAllStudentsForEmail(recoveryEmailAddress);
+        EmailWrapper email = studentsForEmail.isEmpty()
+                ? emailGenerator.generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress)
+                : emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                        recoveryEmailAddress, studentsForEmail);
         taskQueuer.scheduleEmailsForPrioritySending(List.of(email));
 
         return new JsonResult(new SessionLinksRecoveryResponseData(

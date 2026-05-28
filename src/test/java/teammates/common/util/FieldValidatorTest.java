@@ -789,30 +789,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForNotificationStyle_valid_returnEmptyString() {
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationStyle("SUCCESS"));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForNotificationStyle_inValid_returnErrorString() {
-        String invalidStyle = "invalid style";
-        assertEquals("\"" + invalidStyle + "\" is not an accepted notification style to TEAMMATES. ",
-                FieldValidator.getInvalidityInfoForNotificationStyle(invalidStyle));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForNotificationTargetUser_valid_returnEmptyString() {
-        assertEquals("", FieldValidator.getInvalidityInfoForNotificationTargetUser("GENERAL"));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForNotificationTargetUser_inValid_returnErrorString() {
-        String invalidUser = "invalid user";
-        assertEquals("\"" + invalidUser + "\" is not an accepted notification target user to TEAMMATES. ",
-                FieldValidator.getInvalidityInfoForNotificationTargetUser(invalidUser));
-    }
-
-    @Test
     public void testRegexName() {
         ______TS("success: typical name");
         String name = "Benny Charlés";

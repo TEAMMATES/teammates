@@ -61,8 +61,7 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
         EmailType emailType = user.getUserType() == UserType.STUDENT
                 ? EmailType.STUDENT_COURSE_LINKS_REGENERATED
                 : EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                user.getCourseId(), user.getEmail(), emailType);
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(user, emailType);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

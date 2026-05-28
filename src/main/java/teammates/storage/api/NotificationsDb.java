@@ -8,7 +8,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.HibernateUtil;
@@ -62,63 +61,34 @@ public final class NotificationsDb {
     }
 
     /**
-     * Gets all notifications.
-     */
-    public List<Notification> getAllNotifications() {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
-        Root<Notification> root = cq.from(Notification.class);
-        CriteriaQuery<Notification> all = cq.select(root);
-        TypedQuery<Notification> allQuery = HibernateUtil.createQuery(all);
-        return allQuery.getResultList();
-    }
-
-    /**
-     * Gets notifications by {@code targetUser}.
+     * Gets all notifications by {@code targetUsers}.
      *
-     * @return a list of notifications for the specified targetUser.
-     */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
-        Root<Notification> root = cq.from(Notification.class);
-        cq.select(root)
-                .where(cb.and(
-                        cb.or(cb.equal(root.get("targetUser"), targetUser),
-                                cb.equal(root.get("targetUser"), NotificationTargetUser.GENERAL)),
-                        cb.lessThanOrEqualTo(root.get("startTime"), Instant.now()),
-                        cb.greaterThanOrEqualTo(root.get("endTime"), Instant.now())))
-                .orderBy(cb.asc(root.get("startTime")));
-        TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
-        return query.getResultList();
-    }
-
-    /**
-     * Gets active notifications by {@code targetUser} that have not been read by the account
-     * with the given {@code accountId}.
+     * <p>An active notification is a notification that is currently being displayed to users,
+     * i.e. the current time is between the notification's start and end time.
      *
-     * @return a list of unread active notifications for the specified targetUser and account.
+     * @return a list of notifications for the specified targetUsers.
+     *         If isActiveOnly is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified targetUsers are returned.
      */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Notification> cq = cb.createQuery(Notification.class);
         Root<Notification> root = cq.from(Notification.class);
 
-        Subquery<Integer> subquery = cq.subquery(Integer.class);
-        Root<ReadNotification> readRoot = subquery.from(ReadNotification.class);
-        subquery.select(cb.literal(1))
-                .where(cb.and(
-                        cb.equal(readRoot.get("notification").get("id"), root.get("id")),
-                        cb.equal(readRoot.get("account").get("id"), accountId)));
+        if (isActiveOnly) {
+            Instant now = Instant.now();
+            cq.select(root)
+                    .where(cb.and(
+                            root.get("targetUser").in(targetUsers),
+                            cb.lessThanOrEqualTo(root.get("startTime"), now),
+                            cb.greaterThanOrEqualTo(root.get("endTime"), now)));
+        } else {
+            cq.select(root)
+                    .where(root.get("targetUser").in(targetUsers));
+        }
 
-        cq.select(root)
-                .where(cb.and(
-                        root.get("targetUser").in(targetUsers),
-                        cb.lessThanOrEqualTo(root.get("startTime"), now),
-                        cb.greaterThanOrEqualTo(root.get("endTime"), now),
-                        cb.not(cb.exists(subquery))))
-                .orderBy(cb.asc(root.get("startTime")));
+        cq.orderBy(cb.asc(root.get("startTime")));
         TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
     }
