@@ -155,6 +155,9 @@ public abstract class Action {
         return value;
     }
 
+    /**
+     * Returns all values for the specified parameter expected to be present in the HTTP request.
+     */
     String[] getNonNullRequestParamValues(String paramName) {
         String[] values = req.getParameterValues(paramName);
         if (values == null || values.length == 0) {

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,7 +21,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
@@ -62,7 +62,6 @@ public final class EmailGenerator {
 
     private static final EmailGenerator instance = new EmailGenerator();
 
-    private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private final UsersLogic usersLogic = UsersLogic.inst();
@@ -241,27 +240,40 @@ public final class EmailGenerator {
 
     /**
      * Generates the email containing the summary of the feedback sessions
-     * email for the given {@code courseId} for {@code userEmail}.
-     * @param courseId - ID of the course
-     * @param userEmail - Email of student to send feedback session summary to
+     * email for the given {@code user}.
+     *
+     * @param user - User to send feedback session summary to
      * @param emailType - The email type which corresponds to the reason behind why the links are being resent
      */
-    public EmailWrapper generateFeedbackSessionSummaryOfCourse(
-            String courseId, String userEmail, EmailType emailType) {
-        assert emailType == EmailType.STUDENT_EMAIL_CHANGED
-                || emailType == EmailType.STUDENT_COURSE_LINKS_REGENERATED
-                || emailType == EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
+    public EmailWrapper generateFeedbackSessionSummaryOfCourse(User user, EmailType emailType) {
+        Objects.requireNonNull(user);
+        if (emailType != EmailType.STUDENT_EMAIL_CHANGED
+                && emailType != EmailType.STUDENT_COURSE_LINKS_REGENERATED
+                && emailType != EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED) {
+            throw new IllegalArgumentException("Unsupported email type: " + emailType);
+        }
 
-        Course course = coursesLogic.getCourse(courseId);
-        boolean isInstructor = emailType == EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
-        Student student = usersLogic.getStudentForEmail(courseId, userEmail);
-        Instructor instructor = null;
-        if (isInstructor) {
-            instructor = usersLogic.getInstructorForEmail(courseId, userEmail);
+        String userEmail = user.getEmail();
+        Course course = user.getCourse();
+
+        String joinUrl = Config.getFrontEndAppUrl(user.getRegistrationUrl()).toAbsoluteString();
+        boolean isYetToJoinCourse = user.getAccount() == null;
+        String userKey = user.getRegKey();
+        String userName = user.getName();
+
+        String joinFragmentTemplate;
+        if (user instanceof Instructor) {
+            joinFragmentTemplate = EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET;
+        } else if (user instanceof Student) {
+            joinFragmentTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
+                    ? EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN
+                    : EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
+        } else {
+            throw new IllegalArgumentException("Unsupported user type: " + user.getClass().getSimpleName());
         }
 
         List<FeedbackSession> sessions = new ArrayList<>();
-        List<FeedbackSession> fsInCourse = fsLogic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSession> fsInCourse = fsLogic.getFeedbackSessionsForCourse(course.getId());
 
         for (FeedbackSession fs : fsInCourse) {
             if (fs.isOpenedEmailSent() || fs.isPublishedEmailSent()) {
@@ -270,15 +282,6 @@ public final class EmailGenerator {
         }
 
         StringBuilder linksFragmentValue = new StringBuilder(1000);
-        String joinUrl = Config.getFrontEndAppUrl(
-                isInstructor ? instructor.getRegistrationUrl() : student.getRegistrationUrl()).toAbsoluteString();
-        boolean isYetToJoinCourse = isInstructor ? isYetToJoinCourse(instructor) : isYetToJoinCourse(student);
-        String joinFragmentTemplate = isInstructor
-                ? EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_REGKEY_RESET
-                : emailType == EmailType.STUDENT_EMAIL_CHANGED
-                        ? EmailTemplates.FRAGMENT_STUDENT_COURSE_JOIN
-                        : EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_REGKEY_RESET;
-
         String joinFragmentValue = isYetToJoinCourse
                 ? Templates.populateTemplate(joinFragmentTemplate,
                         "${joinUrl}", joinUrl,
@@ -291,13 +294,11 @@ public final class EmailGenerator {
             String submitUrlHtml = "(Feedback session is not yet opened)";
             String reportUrlHtml = "(Feedback session is not yet published)";
 
-            String userKey = isInstructor ? instructor.getRegKey() : student.getRegKey();
-
             if (fs.isOpened() || fs.isClosed()) {
                 String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withFeedbackSessionId(fs.getId().toString())
                         .withRegistrationKey(userKey)
-                        .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
+                        .withEntityType(user instanceof Instructor ? Const.EntityType.INSTRUCTOR : "")
                         .toAbsoluteString();
                 submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
             }
@@ -306,7 +307,7 @@ public final class EmailGenerator {
                 String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                         .withFeedbackSessionId(fs.getId().toString())
                         .withRegistrationKey(userKey)
-                        .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
+                        .withEntityType(user instanceof Instructor ? Const.EntityType.INSTRUCTOR : "")
                         .toAbsoluteString();
                 reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
             }
@@ -322,16 +323,15 @@ public final class EmailGenerator {
                     "${reportUrl}", reportUrlHtml));
         }
 
-        if (linksFragmentValue.length() == 0) {
+        if (linksFragmentValue.isEmpty()) {
             linksFragmentValue.append("No links found.");
         }
 
-        String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
+        String additionalContactInformation = getAdditionalContactInformationFragment(course, user instanceof Instructor);
         String resendLinksTemplate = emailType == EmailType.STUDENT_EMAIL_CHANGED
                 ? Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS
                 : Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS;
 
-        String userName = isInstructor ? instructor.getName() : student.getName();
         String emailBody = Templates.populateTemplate(resendLinksTemplate,
                 "${userName}", SanitizationHelper.sanitizeForHtml(userName),
                 "${userEmail}", userEmail,
@@ -349,22 +349,10 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates for the student an recovery email listing the links to submit/view responses for all feedback sessions
-     * under {@code recoveryEmailAddress} in the past 180 days. If no student with {@code recoveryEmailAddress} is
-     * found, generate an email stating that there is no such student in the system. If no feedback sessions are found,
-     * generate an email stating no feedback sessions found.
+     * Generates the email to be sent to a non-existent student when they request for session links recovery.
      */
-    public EmailWrapper generateSessionLinksRecoveryEmailForStudent(String recoveryEmailAddress) {
-        List<Student> studentsForEmail = usersLogic.getAllStudentsForEmail(recoveryEmailAddress);
-
-        if (studentsForEmail.isEmpty()) {
-            return generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress);
-        } else {
-            return generateSessionLinksRecoveryEmailForExistingStudent(recoveryEmailAddress, studentsForEmail);
-        }
-    }
-
-    private EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
+    public EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
+        Objects.requireNonNull(recoveryEmailAddress);
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();
         String emailBody = Templates.populateTemplate(
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
@@ -379,9 +367,17 @@ public final class EmailGenerator {
         return email;
     }
 
-    private EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(String recoveryEmailAddress,
-            List<Student> studentsForEmail) {
-        assert !studentsForEmail.isEmpty();
+    /**
+     * Generates the email to be sent to an existing student when they request for session links recovery.
+     *
+     * <p>Lists the links to submit/view responses for all feedback sessions under the student's email in the past 180 days.
+     */
+    public EmailWrapper generateSessionLinksRecoveryEmailForExistingStudent(
+            String recoveryEmailAddress, List<Student> studentsForEmail) {
+        Objects.requireNonNull(recoveryEmailAddress);
+        if (studentsForEmail.isEmpty()) {
+            throw new IllegalArgumentException("studentsForEmail cannot be empty");
+        }
         int firstStudentIdx = 0;
         Map<Course, StringBuilder> linkFragmentsMap = generateLinkFragmentsMap(studentsForEmail);
         String emailBody;
@@ -422,11 +418,11 @@ public final class EmailGenerator {
         return email;
     }
 
-    private Map<Course, StringBuilder> generateLinkFragmentsMap(List<Student> studentsForEmail) {
+    private Map<Course, StringBuilder> generateLinkFragmentsMap(List<Student> students) {
         Instant searchStartTime = TimeHelper.getInstantDaysOffsetBeforeNow(SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<Course, StringBuilder> linkFragmentsMap = new HashMap<>();
 
-        for (var student : studentsForEmail) {
+        for (var student : students) {
             RequestTracer.checkRemainingTime();
             Course course = student.getCourse();
             String courseId = course.getId();
@@ -504,38 +500,24 @@ public final class EmailGenerator {
         boolean isEmailNeededForInstructors =
                 !deadlineExtensions.isEmpty() && fsLogic.isFeedbackSessionForUserTypeToAnswer(session, true);
 
-        List<Student> students = new ArrayList<>();
-        if (isEmailNeededForStudents) {
-            for (DeadlineExtension de : deadlineExtensions) {
-                Student student = usersLogic.getStudentForEmail(course.getId(), de.getUser().getEmail());
-                if (student != null) {
-                    students.add(student);
-                }
-            }
-        }
-
-        List<Instructor> instructors = new ArrayList<>();
-        if (isEmailNeededForInstructors) {
-            for (DeadlineExtension de : deadlineExtensions) {
-                Instructor instructor =
-                        usersLogic.getInstructorForEmail(course.getId(), de.getUser().getEmail());
-                if (instructor != null) {
-                    instructors.add(instructor);
-                }
-            }
-        }
+        List<User> usersWithExtensions = deadlineExtensions.stream()
+                .map(DeadlineExtension::getUser)
+                .toList();
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSING_SOON);
         EmailType type = EmailType.FEEDBACK_CLOSING_SOON;
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
         List<EmailWrapper> emails = new ArrayList<>();
-        for (Student student : students) {
-            emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.singletonList(student),
-                    Collections.emptyList(), Collections.emptyList(), template, type, feedbackAction));
-        }
-        for (Instructor instructor : instructors) {
-            emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.emptyList(),
-                    Collections.singletonList(instructor), Collections.emptyList(), template, type, feedbackAction));
+        for (User user : usersWithExtensions) {
+            if (isEmailNeededForStudents && user instanceof Student student) {
+                emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.singletonList(student),
+                        Collections.emptyList(), Collections.emptyList(), template, type, feedbackAction));
+            }
+            if (isEmailNeededForInstructors && user instanceof Instructor instructor) {
+                emails.addAll(generateFeedbackSessionEmailBases(course, session, Collections.emptyList(),
+                        Collections.singletonList(instructor), Collections.emptyList(), template, type,
+                        feedbackAction));
+            }
         }
         return emails;
     }
@@ -803,14 +785,6 @@ public final class EmailGenerator {
         email.setSubjectFromType(course.getName(), session.getName());
         email.setContent(emailBody);
         return email;
-    }
-
-    private boolean isYetToJoinCourse(Student student) {
-        return student.getAccount() == null || student.getAccount().getGoogleId().isEmpty();
-    }
-
-    private boolean isYetToJoinCourse(Instructor instructor) {
-        return instructor.getAccount() == null || instructor.getAccount().getGoogleId().isEmpty();
     }
 
     /**

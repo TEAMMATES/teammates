@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.EnrollException;
@@ -537,13 +538,13 @@ public class Logic {
     }
 
     /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     * Gets submitted givers partitioned by giver type under a feedback session.
      *
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+    public SubmittedGiverSetBundle getSubmittedGiverSet(
             UUID feedbackSessionId) throws EntityDoesNotExistException {
-        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
+        return feedbackSessionsLogic.getSubmittedGiverSet(feedbackSessionId);
     }
 
     /**
@@ -1121,8 +1122,16 @@ public class Logic {
         usersLogic.deleteInstructorCascade(userId);
     }
 
-    public List<Notification> getAllNotifications() {
-        return notificationsLogic.getAllNotifications();
+    /**
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code targetUsers}.
+     *         If {@code isActiveOnly} is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified {@code targetUsers} are returned.
+     */
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
+        return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActiveOnly);
     }
 
     /**
@@ -1162,22 +1171,6 @@ public class Logic {
         assert instructorToEdit != null;
 
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-    }
-
-    /**
-     * Returns active notification for general users and the specified
-     * {@code targetUser}.
-     */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
-    }
-
-    /**
-     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
     }
 
     /**

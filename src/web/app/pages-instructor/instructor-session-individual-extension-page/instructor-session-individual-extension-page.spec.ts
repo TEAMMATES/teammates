@@ -123,7 +123,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   };
 
   const testFeedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet = {
-    giverIdentifiers: [testStudent2.email],
+    studentGivers: [testStudent2.userId],
+    instructorGivers: [],
+    studentNonGivers: [testStudent1.userId, testStudent3.userId],
+    instructorNonGivers: [testInstructor1.userId, testInstructor2.userId],
   };
 
   const testTimeString = '5 Apr 2000 2:00:00';
@@ -686,7 +689,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     );
 
     const giverSet: FeedbackSessionSubmittedGiverSet = {
-      giverIdentifiers: [testStudent2.email, testInstructor1.email],
+      studentGivers: [testStudent2.userId],
+      instructorGivers: [testInstructor1.userId],
+      studentNonGivers: [testStudent1.userId, testStudent3.userId],
+      instructorNonGivers: [testInstructor2.userId],
     };
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(of(giverSet));
     component.ngOnInit();
@@ -732,7 +738,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     );
 
     const giverSet: FeedbackSessionSubmittedGiverSet = {
-      giverIdentifiers: [testInstructor1.email],
+      studentGivers: [],
+      instructorGivers: [testInstructor1.userId],
+      studentNonGivers: [],
+      instructorNonGivers: [testInstructor2.userId],
     };
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(of(giverSet)); // Alice and Alex have not submitted yet
     component.ngOnInit();
