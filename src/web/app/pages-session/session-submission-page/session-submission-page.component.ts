@@ -890,7 +890,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
                       recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
                       recipientSubmissionFormModel.commentByGiver = correspondingResp.giverComment
-                        ? this.getGiverCommentModel(correspondingResp.giverComment, correspondingResp.recipientIdentifier)
+                        ? this.getGiverCommentModel(
+                            correspondingResp.giverComment,
+                            correspondingResp.recipientIdentifier,
+                          )
                         : undefined;
                     } else {
                       recipientSubmissionFormModel.responseId = '';
