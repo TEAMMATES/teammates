@@ -44,15 +44,7 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000016d",
-            "commentText": "Student 1 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 1 comment",
           "instructorComments": []
         },
         {
@@ -73,15 +65,7 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000042",
-            "commentText": "Student 2 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 2 comment",
           "instructorComments": [
             {
               "commentGiverName": "Instructor1 Course1",
@@ -114,15 +98,7 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000041",
-            "commentText": "Student 3 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 3 comment",
           "instructorComments": []
         },
         {
