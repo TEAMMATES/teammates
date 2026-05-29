@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -308,7 +308,7 @@ public abstract class AppPage {
         // HtmlUnitWebElement is mirrored as opposed to RemoteWebElement (which is used
         // with actual browsers) for convenience
         // and the implementation can differ.
-        checkNotNull(element);
+        Objects.requireNonNull(element);
 
         // Adapted from ExpectedConditions#stalenessOf which forces a staleness check.
         // This allows a meaningful

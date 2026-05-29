@@ -7,8 +7,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.google.common.base.Joiner;
+import java.util.stream.Collectors;
 
 import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelperExtension;
@@ -50,8 +49,8 @@ public final class AssertHelper {
      */
     public static void assertSameContentIgnoreOrder(List<?> a, List<?> b) {
 
-        String expectedListAsString = Joiner.on("\t").join(a);
-        String actualListAsString = Joiner.on("\t").join(b);
+        String expectedListAsString = a.stream().map(Object::toString).collect(Collectors.joining("\t"));
+        String actualListAsString = b.stream().map(Object::toString).collect(Collectors.joining("\t"));
 
         List<String> expectedStringTypeList = new ArrayList<>(Arrays.asList(expectedListAsString.split("\t")));
         List<String> actualStringTypeList = new ArrayList<>(Arrays.asList(actualListAsString.split("\t")));

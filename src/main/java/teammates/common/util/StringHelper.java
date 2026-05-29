@@ -16,8 +16,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.google.common.base.CharMatcher;
-
 import teammates.common.exception.InvalidParametersException;
 
 /**
@@ -206,7 +204,8 @@ public final class StringHelper {
         if (str == null) {
             return null;
         }
-        return CharMatcher.whitespace().trimFrom(str).replaceAll("\\s+", " ");
+        return str.replaceAll("^[\\s\\p{Zs}\\u0085\\u2028\\u2029]+|[\\s\\p{Zs}\\u0085\\u2028\\u2029]+$", "")
+                .replaceAll("\\s+", " ");
     }
 
     /**

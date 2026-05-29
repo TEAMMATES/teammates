@@ -127,6 +127,9 @@ public class StringHelperTest extends BaseTestCase {
         str = " \u00A0 a    a   ";
         assertEquals("a a", StringHelper.removeExtraSpace(str));
 
+        str = "\u0085\u2028\u2029a    a\u2029\u2028\u0085";
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
+
         str = "    ";
         assertEquals("", StringHelper.removeExtraSpace(str));
 
