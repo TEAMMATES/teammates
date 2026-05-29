@@ -8,9 +8,11 @@ import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, FeedbackResponseComment } from '../types/api-output';
 import { Intent } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
-import { CommentRowModel } from '../app/components/comment-box/comment-row/comment-row.component';
+import {
+  InstructorCommentRowModel,
+  NewCommentRowModel,
+} from '../app/components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from '../app/components/comment-box/comment-to-comment-row-model.pipe';
 
 describe('InstructorCommentService', () => {
   const timezone = 'Asia/Singapore';
@@ -19,7 +21,6 @@ describe('InstructorCommentService', () => {
   let spyFeedbackResponseCommentService: any;
   let spyStatusMessageService: any;
   let spyTableComparatorService: any;
-  let commentToCommentRowModelPipe: CommentToCommentRowModelPipe;
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<FeedbackResponseComment> = {}): FeedbackResponseComment => ({
@@ -35,19 +36,31 @@ describe('InstructorCommentService', () => {
     ...overrides,
   });
 
-  const createCommentRow = (comment: FeedbackResponseComment = createComment()): CommentRowModel => ({
+  const createCommentRow = (comment: FeedbackResponseComment = createComment()): InstructorCommentRowModel => ({
+    commentType: 'instructor',
     timezone,
-    originalComment: comment,
+    commentId: comment.feedbackResponseCommentId,
+    commentGiverName: comment.commentGiverName,
+    lastEditorName: comment.lastEditorName,
+    createdAt: comment.createdAt,
+    lastEditedAt: comment.lastEditedAt,
+    originalCommentFormModel: {
+      commentText: comment.commentText,
+      isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
+      showCommentTo: comment.showCommentTo,
+      showGiverNameTo: comment.showGiverNameTo,
+    },
     commentEditFormModel: {
       commentText: comment.commentText,
-      isUsingCustomVisibilities: false,
+      isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
       showCommentTo: comment.showCommentTo,
       showGiverNameTo: comment.showGiverNameTo,
     },
     isEditing: false,
   });
 
-  const createNewCommentRow = (): CommentRowModel => ({
+  const createNewCommentRow = (): NewCommentRowModel => ({
+    commentType: 'new',
     commentEditFormModel: {
       commentText: 'new comment text',
       isUsingCustomVisibilities: true,
@@ -57,7 +70,7 @@ describe('InstructorCommentService', () => {
     isEditing: true,
   });
 
-  const createCommentTableModel = (commentRows: CommentRowModel[] = []): CommentTableModel => ({
+  const createCommentTableModel = (commentRows: InstructorCommentRowModel[] = []): CommentTableModel => ({
     commentRows,
     newCommentRow: createNewCommentRow(),
     isAddingNewComment: true,
@@ -68,7 +81,6 @@ describe('InstructorCommentService', () => {
     spyFeedbackResponseCommentService = createSpyFromClass(FeedbackResponseCommentService);
     spyStatusMessageService = createSpyFromClass(StatusMessageService);
     spyTableComparatorService = createSpyFromClass(TableComparatorService);
-    commentToCommentRowModelPipe = new CommentToCommentRowModelPipe();
     spyTableComparatorService.compare.mockReturnValue(0);
 
     TestBed.configureTestingModule({
@@ -76,7 +88,6 @@ describe('InstructorCommentService', () => {
         { provide: FeedbackResponseCommentService, useValue: spyFeedbackResponseCommentService },
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: TableComparatorService, useValue: spyTableComparatorService },
-        { provide: CommentToCommentRowModelPipe, useValue: commentToCommentRowModelPipe },
       ],
     });
     service = TestBed.inject(InstructorCommentService);
@@ -106,9 +117,7 @@ describe('InstructorCommentService', () => {
       Intent.INSTRUCTOR_RESULT,
     );
     expect(instructorCommentTableModel['response-id'].commentRows).toHaveLength(1);
-    expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.feedbackResponseCommentId).toBe(
-      'comment-id-2',
-    );
+    expect(instructorCommentTableModel['response-id'].commentRows[0].commentId).toBe('comment-id-2');
   });
 
   it('should show error toast when deleting an instructor comment fails', () => {
@@ -169,7 +178,9 @@ describe('InstructorCommentService', () => {
       'comment-id-to-update',
       Intent.INSTRUCTOR_RESULT,
     );
-    expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.commentText).toBe('updated text');
+    expect(instructorCommentTableModel['response-id'].commentRows[0].originalCommentFormModel?.commentText).toBe(
+      'updated text',
+    );
     expect(instructorCommentTableModel['response-id'].commentRows[0].timezone).toBe(timezone);
   });
 
@@ -189,7 +200,9 @@ describe('InstructorCommentService', () => {
     });
 
     expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMessage);
-    expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.commentText).toBe('comment text');
+    expect(instructorCommentTableModel['response-id'].commentRows[0].originalCommentFormModel?.commentText).toBe(
+      'comment text',
+    );
   });
 
   it('should save a new instructor comment and keep comments sorted', () => {
@@ -228,9 +241,7 @@ describe('InstructorCommentService', () => {
       Intent.INSTRUCTOR_RESULT,
     );
     expect(instructorCommentTableModel['response-id'].commentRows).toHaveLength(2);
-    expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.feedbackResponseCommentId).toBe(
-      'new-comment-id',
-    );
+    expect(instructorCommentTableModel['response-id'].commentRows[0].commentId).toBe('new-comment-id');
     expect(instructorCommentTableModel['response-id'].newCommentRow.commentEditFormModel.commentText).toBe('');
     expect(instructorCommentTableModel['response-id'].isAddingNewComment).toBe(false);
   });

@@ -1,11 +1,11 @@
-import { CommentRowModel } from '../comment-row/comment-row.component';
+import { InstructorCommentRowModel, NewCommentRowModel } from '../comment-row/comment-row.component';
 
 /**
  * Model for CommentTableComponent.
  */
 export interface CommentTableModel {
-  commentRows: CommentRowModel[];
-  newCommentRow: CommentRowModel;
+  commentRows: InstructorCommentRowModel[];
+  newCommentRow: NewCommentRowModel;
   isAddingNewComment: boolean;
   isReadOnly: boolean;
 }

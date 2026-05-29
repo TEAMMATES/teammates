@@ -41,13 +41,13 @@ import {
   RegkeyValidity,
   Student,
 } from '../../../types/api-output';
-import type { FeedbackResponseComment } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { castAsSelectElement } from '../../../types/event-target-caster';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
-import type { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { giverCommentToCommentRowModel } from '../../components/comment-box/comment-row-model-mapper';
+import type { GiverCommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -726,10 +726,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 isModified: false,
               };
               if (matchedExistingResponse?.giverComment) {
-                submissionForm.commentByGiver = this.getGiverCommentModel(
-                  matchedExistingResponse.giverComment,
-                  recipient.recipientIdentifier,
-                );
+                submissionForm.commentByGiver = this.getGiverCommentModel(matchedExistingResponse.giverComment);
               }
               model.recipientSubmissionForms.push(submissionForm);
             });
@@ -751,10 +748,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 isModified: false,
               };
               if (response.giverComment) {
-                submissionForm.commentByGiver = this.getGiverCommentModel(
-                  response.giverComment,
-                  response.recipientIdentifier,
-                );
+                submissionForm.commentByGiver = this.getGiverCommentModel(response.giverComment);
               }
               model.recipientSubmissionForms.push(submissionForm);
             });
@@ -776,31 +770,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private getGiverCommentModel(commentText: string, recipientIdentifier: string): CommentRowModel {
-    const comment: FeedbackResponseComment = {
-      feedbackResponseCommentId: '',
-      commentGiverName: '',
-      lastEditorName: '',
-      commentText,
-      createdAt: 0,
-      lastEditedAt: 0,
-      isVisibilityFollowingFeedbackQuestion: true,
-      showGiverNameTo: [],
-      showCommentTo: [],
-    };
-
-    return {
-      originalComment: comment,
-      originalRecipientIdentifier: recipientIdentifier,
-      timezone: this.feedbackSessionTimezone,
-      commentEditFormModel: {
-        commentText,
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: false,
-    };
+  private getGiverCommentModel(commentText: string): GiverCommentRowModel {
+    return giverCommentToCommentRowModel(commentText);
   }
 
   /**
@@ -890,10 +861,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
                       recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
                       recipientSubmissionFormModel.commentByGiver = correspondingResp.giverComment
-                        ? this.getGiverCommentModel(
-                            correspondingResp.giverComment,
-                            correspondingResp.recipientIdentifier,
-                          )
+                        ? this.getGiverCommentModel(correspondingResp.giverComment)
                         : undefined;
                     } else {
                       recipientSubmissionFormModel.responseId = '';

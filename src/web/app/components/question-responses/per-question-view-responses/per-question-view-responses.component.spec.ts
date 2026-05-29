@@ -18,7 +18,7 @@ import {
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
-import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
+import { NewCommentRowModel } from '../../comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
 describe('PerQuestionViewResponsesComponent', () => {
@@ -91,7 +91,8 @@ describe('PerQuestionViewResponsesComponent', () => {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
-  const commentRowModel: CommentRowModel = {
+  const commentRowModel: NewCommentRowModel = {
+    commentType: 'new',
     commentEditFormModel: {
       commentText: '',
       isUsingCustomVisibilities: false,

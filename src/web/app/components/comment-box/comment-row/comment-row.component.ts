@@ -5,12 +5,7 @@ import { CommentRowMode } from './comment-row.mode';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import {
-  CommentVisibilityType,
-  FeedbackResponseComment,
-  FeedbackVisibilityType,
-  ResponseOutput,
-} from '../../../../types/api-output';
+import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { FormatDateBriefPipe } from '../../teammates-common/format-date-brief.pipe';
@@ -22,15 +17,36 @@ import { CommentVisibilityTypesJointNamePipe } from '../comment-visibility-setti
 /**
  * Model for a comment row.
  */
-export interface CommentRowModel {
-  // original comment, recipient identifier and timezone can be null under ADD mode
-  originalComment?: FeedbackResponseComment;
-  originalRecipientIdentifier?: string;
-  timezone?: string;
-
+interface CommentRowBaseModel {
   commentEditFormModel: CommentEditFormModel;
   isEditing: boolean;
 }
+
+export interface NewCommentRowModel extends CommentRowBaseModel {
+  commentType: 'new';
+}
+
+interface SavedCommentRowBaseModel extends CommentRowBaseModel {
+  originalCommentFormModel: CommentEditFormModel;
+}
+
+export interface GiverCommentRowModel extends SavedCommentRowBaseModel {
+  commentType: 'giver';
+}
+
+export interface InstructorCommentRowModel extends SavedCommentRowBaseModel {
+  commentType: 'instructor';
+  commentId: string;
+  commentGiverName: string;
+  lastEditorName: string;
+  createdAt: number;
+  lastEditedAt: number;
+  timezone: string;
+}
+
+export type SavedCommentRowModel = GiverCommentRowModel | InstructorCommentRowModel;
+
+export type CommentRowModel = NewCommentRowModel | SavedCommentRowModel;
 
 /**
  * Comment row component to be used in a comment table
@@ -88,6 +104,7 @@ export class CommentRowComponent implements OnChanges {
 
   @Input()
   model: CommentRowModel = {
+    commentType: 'new',
     commentEditFormModel: {
       commentText: '',
 
@@ -116,18 +133,27 @@ export class CommentRowComponent implements OnChanges {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 
+  get savedCommentModel(): SavedCommentRowModel | undefined {
+    return this.model.commentType === 'new' ? undefined : this.model;
+  }
+
+  get instructorCommentModel(): InstructorCommentRowModel | undefined {
+    return this.model.commentType === 'instructor' ? this.model : undefined;
+  }
+
   ngOnChanges(): void {
-    if (this.model.originalComment) {
+    const savedCommentModel: SavedCommentRowModel | undefined = this.savedCommentModel;
+    if (savedCommentModel) {
       this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
-      if (this.model.originalComment.isVisibilityFollowingFeedbackQuestion) {
-        // follow the question's visibilities settings
-        this.visibilityStateMachine.allowAllApplicableTypesToSee();
-      } else {
+      if (savedCommentModel.originalCommentFormModel.isUsingCustomVisibilities) {
         const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
-          SHOW_COMMENT: this.model.originalComment.showCommentTo,
-          SHOW_GIVER_NAME: this.model.originalComment.showCommentTo,
+          SHOW_COMMENT: savedCommentModel.originalCommentFormModel.showCommentTo,
+          SHOW_GIVER_NAME: savedCommentModel.originalCommentFormModel.showGiverNameTo,
         };
         this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
+      } else {
+        // follow the question's visibilities settings
+        this.visibilityStateMachine.allowAllApplicableTypesToSee();
       }
     }
   }

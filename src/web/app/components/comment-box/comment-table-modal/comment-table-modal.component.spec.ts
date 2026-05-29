@@ -12,6 +12,7 @@ describe('CommentTableModalComponent', () => {
   const testModel: CommentTableModel = {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
         isUsingCustomVisibilities: false,

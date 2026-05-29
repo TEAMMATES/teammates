@@ -15,7 +15,7 @@
   ></tm-comment-edit-form>
 }
 
-@if (!model.isEditing && mode === CommentRowMode.EDIT && model.originalComment) {
+@if (!model.isEditing && mode === CommentRowMode.EDIT && savedCommentModel; as savedComment) {
   <div class="card">
     <div class="card-body">
       <div class="row comment-row">
@@ -23,27 +23,24 @@
           @if (isFeedbackParticipantComment) {
             <span class="by-response-giver text-secondary"> Comment by response giver. </span>
           }
-          @if (!isFeedbackParticipantComment) {
+          @if (!isFeedbackParticipantComment && instructorCommentModel; as instructorComment) {
             <ng-container class="text-secondary">
-              <span class="comment-giver-name">{{ model.originalComment.commentGiverName }} commented at </span>
+              <span class="comment-giver-name">{{ instructorComment.commentGiverName }} commented at </span>
               <span
                 class="ngb-tooltip-class"
                 style="margin-right: 0.25rem"
-                [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!"
+                [ngbTooltip]="instructorComment.createdAt | formatDateDetail: instructorComment.timezone"
               >
-                {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span
+                {{ instructorComment.createdAt | formatDateBrief: instructorComment.timezone }}</span
               >
-              @if (
-                model.originalComment.lastEditedAt &&
-                model.originalComment.lastEditedAt !== model.originalComment.createdAt
-              ) {
+              @if (instructorComment.lastEditedAt && instructorComment.lastEditedAt !== instructorComment.createdAt) {
                 <i class="fas fa-circle dot-xs align-middle" style="margin-right: 0.25rem"></i>
                 <span
                   id="last-editor-name"
                   style="margin-right: 0.25rem"
                   class="ngb-tooltip-class"
-                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!"
-                  >edited by {{ model.originalComment.lastEditorName }}</span
+                  [ngbTooltip]="instructorComment.lastEditedAt | formatDateDetail: instructorComment.timezone"
+                  >edited by {{ instructorComment.lastEditorName }}</span
                 >
               }
             </ng-container>
@@ -83,7 +80,10 @@
             }
           </div>
         </div>
-        <div class="comment-text col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
+        <div
+          class="comment-text col-12"
+          [innerHTML]="savedComment.originalCommentFormModel.commentText | safeHtml"
+        ></div>
       </div>
     </div>
   </div>

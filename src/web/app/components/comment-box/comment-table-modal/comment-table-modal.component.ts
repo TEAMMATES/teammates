@@ -23,6 +23,7 @@ export class CommentTableModalComponent implements OnChanges {
   model: CommentTableModel = {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
         isUsingCustomVisibilities: false,

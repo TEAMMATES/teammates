@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform, inject } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { CommentTableModel } from './comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
+import { createNewCommentRowModel, instructorCommentToCommentRowModel } from './comment-row-model-mapper';
 import { FeedbackResponseComment } from '../../../types/api-output';
 
 /**
@@ -8,23 +8,13 @@ import { FeedbackResponseComment } from '../../../types/api-output';
  */
 @Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
-  private commentToCommentRowModel = inject(CommentToCommentRowModelPipe);
-
-  transform(comments: FeedbackResponseComment[], isReadOnly: boolean, timezone?: string): CommentTableModel {
+  transform(comments: FeedbackResponseComment[], isReadOnly: boolean, timezone: string): CommentTableModel {
     return {
       isReadOnly,
       commentRows: comments.map((comment: FeedbackResponseComment) => {
-        return this.commentToCommentRowModel.transform(comment, timezone);
+        return instructorCommentToCommentRowModel(comment, timezone);
       }),
-      newCommentRow: {
-        commentEditFormModel: {
-          commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-        isEditing: false,
-      },
+      newCommentRow: createNewCommentRowModel(),
       isAddingNewComment: false,
     };
   }

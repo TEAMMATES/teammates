@@ -1,5 +1,4 @@
 import { FeedbackResponseComment } from '../../../types/api-output';
-import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
 import { TestBed } from '@angular/core/testing';
 
@@ -8,7 +7,7 @@ describe('CommentsToCommentTableModelPipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe],
+      providers: [CommentsToCommentTableModelPipe],
     });
 
     pipe = TestBed.inject(CommentsToCommentTableModelPipe);
@@ -42,17 +41,18 @@ describe('CommentsToCommentTableModelPipe', () => {
     expect(pipe.transform(comments, true, 'UTC')).toEqual({
       commentRows: [
         {
+          commentType: 'instructor',
           timezone: 'UTC',
-          originalComment: {
-            commentGiverName: 'commentGiverName',
-            lastEditorName: 'lastEditorName',
-            feedbackResponseCommentId: '00000000-0000-4000-8000-000000000000',
+          commentGiverName: 'commentGiverName',
+          lastEditorName: 'lastEditorName',
+          commentId: '00000000-0000-4000-8000-000000000000',
+          createdAt: 0,
+          lastEditedAt: 0,
+          originalCommentFormModel: {
             commentText: 'commentText',
-            createdAt: 0,
-            lastEditedAt: 0,
-            isVisibilityFollowingFeedbackQuestion: false,
-            showGiverNameTo: [],
+            isUsingCustomVisibilities: true,
             showCommentTo: [],
+            showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText',
@@ -63,17 +63,18 @@ describe('CommentsToCommentTableModelPipe', () => {
           isEditing: false,
         },
         {
+          commentType: 'instructor',
           timezone: 'UTC',
-          originalComment: {
-            commentGiverName: 'commentGiverName2',
-            lastEditorName: 'lastEditorName2',
-            feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+          commentGiverName: 'commentGiverName2',
+          lastEditorName: 'lastEditorName2',
+          commentId: '00000000-0000-4000-8000-000000000001',
+          createdAt: 1,
+          lastEditedAt: 1,
+          originalCommentFormModel: {
             commentText: 'commentText2',
-            createdAt: 1,
-            lastEditedAt: 1,
-            isVisibilityFollowingFeedbackQuestion: true,
-            showGiverNameTo: [],
+            isUsingCustomVisibilities: false,
             showCommentTo: [],
+            showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText2',
@@ -85,6 +86,7 @@ describe('CommentsToCommentTableModelPipe', () => {
         },
       ],
       newCommentRow: {
+        commentType: 'new',
         commentEditFormModel: {
           commentText: '',
           isUsingCustomVisibilities: false,

@@ -7,7 +7,7 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
 } from '../../../types/api-output';
-import type { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import type { GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
 /**
  * The mode of operation for question submission form.
@@ -79,7 +79,7 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   isModified: boolean;
 
   // comment by giver
-  commentByGiver?: CommentRowModel;
+  commentByGiver?: GiverCommentRowModel | NewCommentRowModel;
 }
 
 export enum FeedbackRecipientLabelType {

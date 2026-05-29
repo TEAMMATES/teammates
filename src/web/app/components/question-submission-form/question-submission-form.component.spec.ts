@@ -521,6 +521,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.addNewParticipantCommentToResponse(3);
 
       expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', {
+        commentType: 'new',
         commentEditFormModel: {
           commentText: '',
           isUsingCustomVisibilities: false,
