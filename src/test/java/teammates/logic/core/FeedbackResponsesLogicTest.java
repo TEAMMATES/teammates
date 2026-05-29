@@ -371,8 +371,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         ResponseRecipient responseRecipientToKeep = new ResponseRecipient(recipientToKeep);
         ResponseRecipient responseRecipientToDelete = new ResponseRecipient(recipientToDelete);
         FeedbackResponse existingResponseToKeep = FeedbackResponse.makeResponse(
-                new ResponseGiver(giver), responseRecipientToKeep, new FeedbackTextResponseDetails("old response"));
-        existingResponseToKeep.setGiverComment("old comment");
+                new ResponseGiver(giver), responseRecipientToKeep, new FeedbackTextResponseDetails("old response"),
+                "old comment");
         FeedbackResponse existingResponseToDelete = FeedbackResponse.makeResponse(
                 new ResponseGiver(giver), responseRecipientToDelete, new FeedbackTextResponseDetails("deleted response"));
         question.addFeedbackResponse(existingResponseToKeep);

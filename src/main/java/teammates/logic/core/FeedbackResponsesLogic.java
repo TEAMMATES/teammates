@@ -282,8 +282,8 @@ public final class FeedbackResponsesLogic {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                         responseGiver,
                         responseRecipient,
-                        responseDetails);
-                feedbackResponse.setGiverComment(responseRequest.getGiverComment());
+                        responseDetails,
+                        responseRequest.getGiverComment());
 
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
                 feedbackResponses.add(feedbackResponse);
