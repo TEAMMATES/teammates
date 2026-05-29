@@ -208,7 +208,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -364,7 +364,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -520,7 +520,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -809,7 +809,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -1185,7 +1185,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-mcq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
@@ -1210,7 +1210,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-1-idx-0"
                     >
                       <div>
@@ -1441,7 +1441,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-text-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-3-idx-0"
                   >
                     <div>
@@ -1466,7 +1466,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-3-idx-0"
                     >
                       <div>
@@ -1876,7 +1876,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-msq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-4-idx-0"
                   >
                     <div>
@@ -1901,7 +1901,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-4-idx-0"
                     >
                       <div>
@@ -2158,11 +2158,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-num-scale-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-5-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-5-idx-0"
                     >
                       <div
@@ -2369,11 +2369,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-constsum-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-6-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-6-idx-0"
                     >
                       <div
@@ -2844,11 +2844,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-contribution-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-7-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-7-idx-0"
                     >
                       <div
@@ -3205,11 +3205,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rubric-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-8-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-8-idx-0"
                     >
                       <div
@@ -3487,11 +3487,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-options-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-9-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-9-idx-0"
                     >
                       <div
@@ -3714,11 +3714,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-10-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-10-idx-0"
                     >
                       <div
@@ -3837,7 +3837,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -4216,7 +4216,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-mcq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
@@ -4241,7 +4241,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-1-idx-0"
                     >
                       <div>
@@ -4475,7 +4475,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-text-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-3-idx-0"
                   >
                     <div>
@@ -4500,7 +4500,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-3-idx-0"
                     >
                       <div>
@@ -4916,7 +4916,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-msq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-4-idx-0"
                   >
                     <div>
@@ -4941,7 +4941,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-4-idx-0"
                     >
                       <div>
@@ -5201,11 +5201,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-num-scale-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-5-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-5-idx-0"
                     >
                       <div
@@ -5414,11 +5414,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-constsum-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-6-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-6-idx-0"
                     >
                       <div
@@ -5891,11 +5891,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-contribution-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-7-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-7-idx-0"
                     >
                       <div
@@ -6263,11 +6263,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rubric-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-8-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-8-idx-0"
                     >
                       <div
@@ -6547,11 +6547,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-options-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-9-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-9-idx-0"
                     >
                       <div
@@ -6776,11 +6776,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-10-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-10-idx-0"
                     >
                       <div
@@ -6902,7 +6902,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -7059,7 +7059,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts={[Function Number]}
+  retryAttempts="undefined"
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
