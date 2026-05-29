@@ -124,9 +124,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   QuestionSubmissionFormMode!: typeof QuestionSubmissionFormMode;
   QuestionGiverType!: typeof QuestionGiverType;
   QuestionRecipientType!: typeof QuestionRecipientType;
-  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   CommentRowMode!: typeof CommentRowMode;
-
+  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   isMCQDropDownEnabled = false;
 
   get hasResponseChanged(): boolean {
@@ -243,8 +242,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.QuestionSubmissionFormMode = QuestionSubmissionFormMode;
     this.QuestionGiverType = QuestionGiverType;
     this.QuestionRecipientType = QuestionRecipientType;
-    this.FeedbackVisibilityType = FeedbackVisibilityType;
     this.CommentRowMode = CommentRowMode;
+    this.FeedbackVisibilityType = FeedbackVisibilityType;
     this.allSessionViews = SessionView;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
@@ -437,34 +436,39 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Add new participant comment to response with index.
    */
   addNewParticipantCommentToResponse(index: number): void {
-    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', {
+    const newComment: CommentRowModel = {
       commentEditFormModel: {
         commentText: '',
+        isUsingCustomVisibilities: false,
+        showCommentTo: [],
+        showGiverNameTo: [],
       },
-
       isEditing: true,
-    });
+    };
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', newComment);
   }
 
   /**
    * Cancel adding new participant comment.
    */
   cancelAddingNewParticipantComment(index: number): void {
-    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', null);
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', undefined);
   }
 
   /**
-   * Discards the current editing and restore the original comment.
+   * Discard changes to an existing participant comment.
    */
   discardEditedParticipantComment(index: number): void {
-    const commentModel: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
-    if (!commentModel?.originalComment) {
+    const comment: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
+    if (!comment?.originalComment) {
       return;
     }
+
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', {
-      ...commentModel,
+      ...comment,
       commentEditFormModel: {
-        commentText: commentModel.originalComment.commentText,
+        ...comment.commentEditFormModel,
+        commentText: comment.originalComment.commentText,
       },
       isEditing: false,
     });

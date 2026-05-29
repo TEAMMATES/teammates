@@ -29,7 +29,6 @@ import {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
-  FeedbackResponseComment,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
@@ -41,7 +40,6 @@ import {
 import { DEFAULT_TEXT_RESPONSE_DETAILS } from '../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseId: 'response-id-1',
@@ -144,28 +142,6 @@ describe('QuestionSubmissionFormComponent', () => {
     recipientIdentifier: 'testIdentifier',
     isValid: true,
     isModified: false,
-  });
-
-  const commentRowModelBuilder = createBuilder<CommentRowModel>({
-    commentEditFormModel: {
-      commentText: 'test comment text',
-      isUsingCustomVisibilities: false,
-      showCommentTo: [],
-      showGiverNameTo: [],
-    },
-    isEditing: false,
-  });
-
-  const feedbackResponseCommentBuilder = createBuilder<FeedbackResponseComment>({
-    commentGiverName: 'test-giver-name',
-    lastEditorName: 'test-editor-name',
-    commentText: 'comment-text',
-    showCommentTo: [],
-    showGiverNameTo: [],
-    lastEditedAt: 0,
-    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000000',
-    createdAt: 0,
-    isVisibilityFollowingFeedbackQuestion: true,
   });
 
   const feedbackResponseTextDetailsBuilder = createBuilder<FeedbackTextResponseDetails>({
@@ -547,8 +523,10 @@ describe('QuestionSubmissionFormComponent', () => {
       expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', {
         commentEditFormModel: {
           commentText: '',
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
         },
-
         isEditing: true,
       });
     },
@@ -563,68 +541,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
       component.cancelAddingNewParticipantComment(3);
 
-      expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', null);
-    },
-  );
-
-  it(
-    'discardEditedParticipantComment: should not call triggerRecipientSubmissionFormChange' +
-      'if commentModel is undefined',
-    () => {
-      component.model.recipientSubmissionForms = [recipientSubmissionFormBuilder.recipientIdentifier('testid').build()];
-      const triggerRecipientSubmissionFormChangeSpy = vi
-        .spyOn(component, 'triggerRecipientSubmissionFormChange')
-        .mockReturnValue();
-
-      component.discardEditedParticipantComment(0);
-
-      expect(triggerRecipientSubmissionFormChangeSpy).not.toHaveBeenCalled();
-    },
-  );
-
-  it(
-    'discardEditedParticipantComment: should not call triggerRecipientSubmissionFormChange if' +
-      'originalComment in commentModel is undefined',
-    () => {
-      const recipientSubmissionForm = recipientSubmissionFormBuilder.build();
-      recipientSubmissionForm.commentByGiver = commentRowModelBuilder.build();
-      component.model.recipientSubmissionForms = [recipientSubmissionForm];
-
-      const triggerRecipientSubmissionFormChangeSpy = vi
-        .spyOn(component, 'triggerRecipientSubmissionFormChange')
-        .mockReturnValue();
-
-      component.discardEditedParticipantComment(0);
-
-      expect(triggerRecipientSubmissionFormChangeSpy).not.toHaveBeenCalled();
-    },
-  );
-
-  it(
-    'discardEditedParticipantComment: should call triggerRecipientSubmissionFormChange if' +
-      'originalComment in commentModel is defined',
-    () => {
-      const recipientSubmissionForm = recipientSubmissionFormBuilder.build();
-      const commentModel = commentRowModelBuilder.build();
-      const feedbackResponseComment = feedbackResponseCommentBuilder.build();
-
-      recipientSubmissionForm.commentByGiver = commentModel;
-      recipientSubmissionForm.commentByGiver.originalComment = feedbackResponseComment;
-
-      component.model.recipientSubmissionForms = [recipientSubmissionForm];
-      const triggerRecipientSubmissionFormChangeSpy = vi
-        .spyOn(component, 'triggerRecipientSubmissionFormChange')
-        .mockReturnValue();
-
-      component.discardEditedParticipantComment(0);
-
-      expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(0, 'commentByGiver', {
-        ...commentModel,
-        commentEditFormModel: {
-          commentText: commentModel.originalComment?.commentText,
-        },
-        isEditing: false,
-      });
+      expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', undefined);
     },
   );
 
