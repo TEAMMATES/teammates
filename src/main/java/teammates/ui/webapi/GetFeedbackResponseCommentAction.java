@@ -11,7 +11,7 @@ import teammates.ui.output.FeedbackResponseCommentData;
 /**
  * Get all the comments given by the user for a response.
  */
-public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
+public class GetFeedbackResponseCommentAction extends AdminOnlyAction {
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.ALL_ACCESS;

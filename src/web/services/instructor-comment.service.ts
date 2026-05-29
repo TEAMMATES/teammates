@@ -7,7 +7,6 @@ import { CommentTableModel } from '../app/components/comment-box/comment-table/c
 import { instructorCommentToCommentRowModel } from '../app/components/comment-box/comment-row-model-mapper';
 import { ErrorMessageOutput } from '../app/error-message-output';
 import { FeedbackResponseComment } from '../types/api-output';
-import { Intent } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
 export interface InstructorCommentEventData {
@@ -45,7 +44,7 @@ export class InstructorCommentService {
     const commentTableModel: CommentTableModel = instructorCommentTableModel[data.responseId];
     const commentId: string = commentTableModel.commentRows[data.index].commentId;
 
-    this.commentService.deleteComment(commentId, Intent.INSTRUCTOR_RESULT).subscribe({
+    this.commentService.deleteComment(commentId).subscribe({
       next: () => {
         commentTableModel.commentRows.splice(data.index, 1);
         instructorCommentTableModel[data.responseId] = {
@@ -74,7 +73,6 @@ export class InstructorCommentService {
           showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
         },
         commentId,
-        Intent.INSTRUCTOR_RESULT,
       )
       .subscribe({
         next: (commentResponse: FeedbackResponseComment) => {
@@ -104,7 +102,6 @@ export class InstructorCommentService {
           showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
         },
         responseId,
-        Intent.INSTRUCTOR_RESULT,
       )
       .subscribe({
         next: (commentResponse: FeedbackResponseComment) => {

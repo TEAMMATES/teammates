@@ -14,7 +14,6 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
-import teammates.ui.request.Intent;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 
 /**
@@ -50,7 +49,6 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
         loginAsInstructor(instructor.getGoogleId());
 
         String [] submissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
         };
         String newCommentText = frc.getCommentText() + " (Edited)";
@@ -73,7 +71,6 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
         ______TS("successful case for instructor result");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
         };
 

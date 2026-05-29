@@ -2,12 +2,10 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.UUID;
@@ -16,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -31,7 +28,6 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.Intent;
 
 /**
  * SUT: {@link DeleteFeedbackResponseCommentAction}.
@@ -41,7 +37,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private Course typicalCourse;
     private Instructor typicalInstructor;
     private Student typicalStudent;
-    private FeedbackSession typicalFeedbackSession;
     private FeedbackQuestion typicalFeedbackQuestion;
     private FeedbackResponse typicalFeedbackResponse;
 
@@ -60,7 +55,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
-        typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackSession.setStartTime(Instant.now().minusSeconds(100));
         typicalFeedbackSession.setEndTime(Instant.now());
         typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
@@ -75,10 +70,9 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testExecute_typicalCase_success() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
+        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -95,11 +89,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Test
-    void testExecute_nonExistentFeedbackResponseComment_failSilently() {
+    void testExecute_nonExistentFeedbackResponseComment_success() {
         UUID nonExistentCommentId = UUID.fromString("00000000-0000-4000-8000-000000009999");
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, nonExistentCommentId.toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(nonExistentCommentId))
@@ -112,7 +105,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         MessageOutput output = (MessageOutput) r.getOutput();
 
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
-        verify(mockLogic, never()).deleteFeedbackResponseComment(null);
+        verify(mockLogic).deleteFeedbackResponseComment(nonExistentCommentId);
     }
 
     @Test
@@ -125,7 +118,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -144,7 +136,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -161,7 +152,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -179,7 +169,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -196,7 +185,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -218,7 +206,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         loginAsInstructor(instructorInSameCourse.getGoogleId());
@@ -237,7 +224,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -264,7 +250,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -275,185 +260,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
 
         verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorAsCommentGiver_canAccessInstructorAsParticipantComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructorAsParticipant();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-        when(mockLogic.getDeadlineForUser(typicalFeedbackSession, typicalInstructor))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
-
-        loginAsInstructor(typicalInstructor.getGoogleId());
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testAccessControl_differentInstructorInSameCourse_cannotAccessInstructorAsParticipantComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructorAsParticipant();
-
-        Instructor differentInstructorInSameCourse = getTypicalInstructor();
-        differentInstructorInSameCourse.setEmail("differentInstructor@teammates.tmt");
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), differentInstructorInSameCourse.getGoogleId()))
-                .thenReturn(differentInstructorInSameCourse);
-        when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentInstructorInSameCourse))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
-
-        loginAsInstructor(differentInstructorInSameCourse.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_studentAsCommentGiver_canAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
-
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-        when(mockLogic.getDeadlineForUser(typicalFeedbackSession, typicalStudent))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
-
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testAccessControl_differentStudentFromSameCourse_cannotAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
-
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
-
-        Student differentStudentFromSameCourse = getTypicalStudent();
-        differentStudentFromSameCourse.setEmail("differentStudent@teammates.tmt");
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), differentStudentFromSameCourse.getGoogleId()))
-                .thenReturn(differentStudentFromSameCourse);
-        when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentFromSameCourse))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
-
-        loginAsStudent(differentStudentFromSameCourse.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_unregisteredUsers_cannotAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
-
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-
-        loginAsUnregistered("unreg");
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_differentStudentInDifferentTeam_cannotAccessTeamComment() {
-        typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
-
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-        Section section = getTypicalSection();
-        Team team = new Team("first team");
-        section.addTeam(team);
-        typicalStudent.setTeam(team);
-
-        Team differentTeam = new Team("different team");
-        section.addTeam(differentTeam);
-        Student differentStudentInDifferentTeam = new Student(typicalCourse, "differentStudent",
-                "differentstudent@teammates.tmt", "comments");
-        differentTeam.addUser(differentStudentInDifferentTeam);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), differentStudentInDifferentTeam.getGoogleId()))
-                .thenReturn(differentStudentInDifferentTeam);
-        when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentInDifferentTeam))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
-
-        loginAsStudent(differentStudentInDifferentTeam.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_differentStudentInSameTeam_canAccessTeamComment() {
-        typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
-
-        Section section = new Section("Section A");
-        typicalCourse.addSection(section);
-        Team team = new Team("first team");
-        section.addTeam(team);
-        typicalStudent.setTeam(team);
-
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(team);
-
-        Student differentStudentInSameTeam = new Student(typicalCourse, "differentStudent",
-                "differentstudent@teammates.tmt", "comments");
-        team.addUser(differentStudentInSameTeam);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), differentStudentInSameTeam.getGoogleId()))
-                .thenReturn(differentStudentInSameTeam);
-        when(mockLogic.getDeadlineForUser(typicalFeedbackSession, differentStudentInSameTeam))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(15)));
-
-        loginAsStudent(differentStudentInSameTeam.getGoogleId());
-
-        verifyCanAccess(params);
     }
 
     @Test
@@ -471,7 +277,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -497,7 +302,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -523,7 +327,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
 
         when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
@@ -534,121 +337,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
 
         verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorSubmissionPastEndTimeBeforeDeadlineWithinGracePeriod_canAccess() {
-        FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
-        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructorAsParticipant();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-        when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
-
-        loginAsInstructor(typicalInstructor.getGoogleId());
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorSubmissionPastDeadline_cannotAccess() {
-        FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
-        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructorAsParticipant();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-        when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalInstructor))
-                .thenReturn(Instant.now().minus(Duration.ofHours(1)));
-
-        loginAsInstructor(typicalInstructor.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_studentSubmissionPastEndTimeBeforeDeadlineWithinGracePeriod_canAccess() {
-        FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
-        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
-        typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-        when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
-                .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
-
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testAccessControl_studentSubmissionPastDeadline_cannotAccess() {
-        FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
-        FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
-        typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
-        when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-        when(mockLogic.getDeadlineForUser(feedbackSessionPastEndTime, typicalStudent))
-                .thenReturn(Instant.now().minus(Duration.ofHours(1)));
-
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    private FeedbackResponseComment getTypicalCommentFromStudent() {
-        ResponseGiver giver = new ResponseGiver(typicalStudent);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                giver,
-                "typical comment",
-                true,
-                true,
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                giver);
-        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
-        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
-        feedbackResponseComment.setCreatedAt(Instant.EPOCH);
-        feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
-        return feedbackResponseComment;
     }
 
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
@@ -663,23 +351,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 giver);
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
-        feedbackResponseComment.setCreatedAt(Instant.EPOCH);
-        feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
-        return feedbackResponseComment;
-    }
-
-    private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
-        ResponseGiver giver = new ResponseGiver(typicalInstructor);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                giver,
-                "typical comment",
-                true,
-                true,
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                giver);
-        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
-        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
@@ -701,8 +372,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
-                true,
-                true,
+                false,
+                false,
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);
@@ -711,22 +382,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
         return feedbackResponseComment;
-    }
-
-    private FeedbackSession getFeedbackSessionPastEndTime() {
-        FeedbackSession feedbackSession = new FeedbackSession(
-                typicalFeedbackSession.getName(),
-                typicalFeedbackSession.getCreatorEmail(),
-                typicalFeedbackSession.getInstructions(),
-                Instant.now().minus(Duration.ofHours(2)),
-                Instant.now().minus(Duration.ofHours(1)),
-                Instant.now().minus(Duration.ofHours(1)),
-                Instant.now().minus(Duration.ofHours(1)),
-                Duration.ofMinutes(15),
-                false,
-                false);
-        typicalFeedbackSession.getCourse().addFeedbackSession(feedbackSession);
-        return feedbackSession;
     }
 
 }

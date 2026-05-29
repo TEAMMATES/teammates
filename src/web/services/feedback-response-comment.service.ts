@@ -3,11 +3,10 @@ import { Observable } from 'rxjs';
 import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { FeedbackResponseComment, FeedbackVisibilityType } from '../types/api-output';
+import { FeedbackResponseComment, FeedbackVisibilityType, MessageOutput } from '../types/api-output';
 import {
   FeedbackResponseCommentCreateRequest,
   FeedbackResponseCommentUpdateRequest,
-  Intent,
 } from '../types/api-request';
 
 /**
@@ -25,15 +24,11 @@ export class FeedbackResponseCommentService {
   createComment(
     createRequest: FeedbackResponseCommentCreateRequest,
     responseId: string,
-    intent: Intent,
-    additionalParams: { [key: string]: string } = {},
   ): Observable<FeedbackResponseComment> {
     return this.httpRequestService.post(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
-        intent,
         responseid: responseId,
-        ...additionalParams,
       },
       createRequest,
     );
@@ -45,15 +40,11 @@ export class FeedbackResponseCommentService {
   updateComment(
     updateRequest: FeedbackResponseCommentUpdateRequest,
     commentId: string,
-    intent: Intent,
-    additionalParams: { [key: string]: string } = {},
   ): Observable<FeedbackResponseComment> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
-        intent,
         responsecommentid: commentId,
-        ...additionalParams,
       },
       updateRequest,
     );
@@ -62,11 +53,9 @@ export class FeedbackResponseCommentService {
   /**
    * Deletes a comment by calling API.
    */
-  deleteComment(commentId: string, intent: Intent, additionalParams: { [key: string]: string } = {}): Observable<any> {
+  deleteComment(commentId: string): Observable<MessageOutput> {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
       responsecommentid: commentId,
-      ...additionalParams,
     });
   }
 

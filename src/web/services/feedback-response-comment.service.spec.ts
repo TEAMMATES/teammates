@@ -9,7 +9,6 @@ import {
   CommentVisibilityType,
   FeedbackResponseCommentCreateRequest,
   FeedbackResponseCommentUpdateRequest,
-  Intent,
 } from '../types/api-request';
 
 describe('FeedbackResponseCommentService', () => {
@@ -39,13 +38,11 @@ describe('FeedbackResponseCommentService', () => {
       showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.GIVER_TEAM_MEMBERS],
     };
     const responseid = 'resp-id-1';
-    const intent: Intent = Intent.INSTRUCTOR_RESULT;
 
-    service.createComment(createRequest, responseid, intent);
+    service.createComment(createRequest, responseid);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
-        intent,
         responseid,
       },
       createRequest,
@@ -59,13 +56,11 @@ describe('FeedbackResponseCommentService', () => {
       showGiverNameTo: [CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS],
     };
     const commentId = '00000000-0000-4000-8000-000000000003';
-    const intent: Intent = Intent.INSTRUCTOR_RESULT;
 
-    service.updateComment(updateRequest, commentId, intent);
+    service.updateComment(updateRequest, commentId);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
-        intent,
         responsecommentid: commentId,
       },
       updateRequest,
@@ -74,11 +69,9 @@ describe('FeedbackResponseCommentService', () => {
 
   it('should call delete when delete comment', () => {
     const commentId = '00000000-0000-4000-8000-000000000002';
-    const intent: Intent = Intent.STUDENT_RESULT;
 
-    service.deleteComment(commentId, intent);
+    service.deleteComment(commentId);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
       responsecommentid: commentId,
     });
   });

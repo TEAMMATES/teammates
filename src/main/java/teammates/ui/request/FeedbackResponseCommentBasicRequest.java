@@ -1,7 +1,6 @@
 package teammates.ui.request;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -29,7 +28,8 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(commentText != null, "Comment Text can't be null");
+        assertTrue(commentText != null, "Comment Text cannot be null");
+        assertTrue(!commentText.trim().isEmpty(), "Comment Text cannot be empty");
     }
 
     public String getCommentText() {
@@ -68,6 +68,6 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
                 break;
             }
             return null;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }
