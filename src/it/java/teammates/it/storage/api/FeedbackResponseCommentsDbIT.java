@@ -46,7 +46,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
         ______TS("success: typical case");
         FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
 
-        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
+        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment2ToResponse2ForQ1");
         FeedbackResponseComment actualComment = frcDb.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
 
         assertEquals(expectedComment, actualComment);
@@ -60,7 +60,6 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
         ______TS("Multiple feedback responses match");
         List<FeedbackResponseComment> expected = List.of(
                 testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1"),
-                testDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1"),
                 testDataBundle.feedbackResponseComments.get("comment1ToResponse4ForQ1")
         );
         List<FeedbackResponseComment> results = frcDb.getFeedbackResponseCommentsForResponses(
@@ -84,8 +83,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
 
         ______TS("Mixed response IDs returns matching comments only");
         List<FeedbackResponseComment> expected = List.of(
-                testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1"),
-                testDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1")
+                testDataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1")
         );
         results = frcDb.getFeedbackResponseCommentsForResponses(
                 List.of(response1ForQ1.getId(), nonexistentResponseId));

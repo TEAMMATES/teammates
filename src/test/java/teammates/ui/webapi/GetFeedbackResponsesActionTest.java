@@ -35,7 +35,6 @@ import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.Intent;
@@ -78,6 +77,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
         // First stub FeedbackResponsesData
         FeedbackResponse feedbackResponse1 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
+        feedbackResponse1.setGiverComment(stubFeedbackResponseComment.getCommentText());
         FeedbackResponse feedbackResponse2 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
         feedbackResponse2.setGiver(new ResponseGiver(stubInstructor));
         feedbackResponse2.setRecipient(new ResponseRecipient(stubInstructor));
@@ -96,7 +96,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         }
         // Set comment for the first FeedbackResponseData
         feedbackResponseDataListNonNullComments.get(0)
-                .setGiverComment(new FeedbackResponseCommentData(stubFeedbackResponseComment));
+                .setGiverComment(stubFeedbackResponseComment.getCommentText());
         stubFeedbackResponsesDataNonNullComments = new FeedbackResponsesData();
         stubFeedbackResponsesDataNonNullComments.setResponses(feedbackResponseDataListNonNullComments);
 
@@ -411,13 +411,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     private void verifyFeedbackCommentEquals(FeedbackResponseData expected, FeedbackResponseData actual) {
-        FeedbackResponseCommentData expectedComment = expected.getGiverComment();
-        FeedbackResponseCommentData actualComment = actual.getGiverComment();
-        assert expectedComment != null;
-        assert actualComment != null;
-        assertEquals(expectedComment.getCommentGiverName(), actualComment.getCommentGiverName());
-        assertEquals(expectedComment.getCommentText(), actualComment.getCommentText());
-        assertEquals(expectedComment.getLastEditorName(), actualComment.getLastEditorName());
+        assertEquals(expected.getGiverComment(), actual.getGiverComment());
     }
 
     @Test
