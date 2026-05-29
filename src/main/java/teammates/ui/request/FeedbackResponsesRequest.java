@@ -49,7 +49,9 @@ public class FeedbackResponsesRequest extends BasicRequest {
         public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails, String giverComment) {
             this.recipient = recipient;
             this.responseDetails = responseDetails;
-            this.giverComment = giverComment;
+            this.giverComment = giverComment == null
+                    ? null
+                    : SanitizationHelper.sanitizeForRichText(giverComment);
         }
 
         @Override
@@ -67,7 +69,7 @@ public class FeedbackResponsesRequest extends BasicRequest {
         }
 
         public String getGiverComment() {
-            return giverComment == null ? null : SanitizationHelper.sanitizeForRichText(giverComment);
+            return giverComment;
         }
 
     }
