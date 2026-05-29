@@ -46,7 +46,13 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
         ______TS("success: typical case");
         FeedbackResponse fr = testDataBundle.feedbackResponses.get("response1ForQ1");
 
-        FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment2ToResponse2ForQ1");
+        FeedbackResponseComment expectedComment = new FeedbackResponseComment(
+                fr.getGiver(), "Participant comment", true, true, List.of(), List.of(), fr.getGiver());
+        fr.addFeedbackResponseComment(expectedComment);
+        frcDb.createFeedbackResponseComment(expectedComment);
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
+
         FeedbackResponseComment actualComment = frcDb.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
 
         assertEquals(expectedComment, actualComment);
