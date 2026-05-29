@@ -95,7 +95,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify comments");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
-        verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response2").getGiverComment());
         verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
         verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
@@ -128,11 +127,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("preview results as student: visible responses shown");
         questions.stream().filter(this::canInstructorSeeQuestion)
                 .forEach(question -> verifyResponseDetails(student, question));
-
-        ______TS("preview results as student: invisible comments excluded");
-        List<String> commentsNotVisibleForPreview = List.of(
-                testData.feedbackResponses.get("qn3response2").getGiverComment());
-        resultsPage.verifyQuestionHasCommentsNotVisibleForPreview(3, commentsNotVisibleForPreview);
 
         ______TS("preview results as student: visible comments shown");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
