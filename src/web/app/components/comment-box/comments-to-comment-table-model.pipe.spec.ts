@@ -50,13 +50,11 @@ describe('CommentsToCommentTableModelPipe', () => {
           lastEditedAt: 0,
           originalCommentFormModel: {
             commentText: 'commentText',
-            isUsingCustomVisibilities: true,
             showCommentTo: [],
             showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText',
-            isUsingCustomVisibilities: true,
             showCommentTo: [],
             showGiverNameTo: [],
           },
@@ -72,13 +70,11 @@ describe('CommentsToCommentTableModelPipe', () => {
           lastEditedAt: 1,
           originalCommentFormModel: {
             commentText: 'commentText2',
-            isUsingCustomVisibilities: false,
             showCommentTo: [],
             showGiverNameTo: [],
           },
           commentEditFormModel: {
             commentText: 'commentText2',
-            isUsingCustomVisibilities: false,
             showCommentTo: [],
             showGiverNameTo: [],
           },
@@ -89,9 +85,8 @@ describe('CommentsToCommentTableModelPipe', () => {
         commentType: 'new',
         commentEditFormModel: {
           commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
+          showCommentTo: ['GIVER'],
+          showGiverNameTo: ['GIVER'],
         },
         isEditing: false,
       },

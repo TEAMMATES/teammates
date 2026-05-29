@@ -79,7 +79,6 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
 export const EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
   commentText: '',
 
-  isUsingCustomVisibilities: false,
   showCommentTo: [],
   showGiverNameTo: [],
 };
@@ -228,7 +227,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        isUsingCustomVisibilities: true,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -243,7 +241,6 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
       commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },

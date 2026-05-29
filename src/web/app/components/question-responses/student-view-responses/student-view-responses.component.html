@@ -35,7 +35,9 @@
                   [isFeedbackParticipantComment]="true"
                   [response]="response"
                   [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                  [model]="response.participantComment | giverCommentToCommentRowModel"
+                  [model]="
+                    response.participantComment | giverCommentToCommentRowModel: feedbackQuestion.showResponsesTo
+                  "
                 ></tm-comment-row>
               </td>
             </tr>
@@ -46,7 +48,10 @@
                 <tm-comment-table
                   [response]="response"
                   [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
-                  [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
+                  [model]="
+                    response.instructorComments
+                      | commentsToCommentTableModel: true : timezone : feedbackQuestion.showResponsesTo
+                  "
                   [shouldHideClosingButtonForNewComment]="true"
                 ></tm-comment-table>
               </td>

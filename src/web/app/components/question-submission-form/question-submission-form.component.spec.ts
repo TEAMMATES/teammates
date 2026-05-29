@@ -524,9 +524,8 @@ describe('QuestionSubmissionFormComponent', () => {
         commentType: 'new',
         commentEditFormModel: {
           commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
+          showCommentTo: ['GIVER'],
+          showGiverNameTo: ['GIVER'],
         },
         isEditing: true,
       });

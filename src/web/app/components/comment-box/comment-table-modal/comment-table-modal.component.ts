@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
+import { createNewCommentRowModel } from '../comment-row-model-mapper';
 import { CommentTableComponent } from '../comment-table/comment-table.component';
 import { CommentTableModel } from '../comment-table/comment-table.model';
 
@@ -22,16 +23,7 @@ export class CommentTableModalComponent implements OnChanges {
   @Input()
   model: CommentTableModel = {
     commentRows: [],
-    newCommentRow: {
-      commentType: 'new',
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: true,
-    },
+    newCommentRow: createNewCommentRowModel([], true),
     isAddingNewComment: true,
     isReadOnly: false,
   };

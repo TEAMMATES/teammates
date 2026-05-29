@@ -106,7 +106,6 @@ describe('SessionSubmissionPageComponent', () => {
   const createGiverComment = (commentText: string): GiverCommentRowModel => {
     const originalCommentFormModel = {
       commentText,
-      isUsingCustomVisibilities: false,
       showCommentTo: [],
       showGiverNameTo: [],
     };

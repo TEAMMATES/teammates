@@ -4,27 +4,53 @@ import {
   InstructorCommentRowModel,
   NewCommentRowModel,
 } from './comment-row/comment-row.component';
-import { FeedbackResponseComment } from '../../../types/api-output';
+import { CommentVisibilityStateMachine } from '../../../services/comment-visibility-state-machine';
+import { CommentVisibilityControl } from '../../../types/comment-visibility-control';
+import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType } from '../../../types/api-output';
 
-export function createNewCommentRowModel(isEditing = false): NewCommentRowModel {
+interface CommentVisibilityModel {
+  showCommentTo: CommentVisibilityType[];
+  showGiverNameTo: CommentVisibilityType[];
+}
+
+function getDefaultCommentVisibility(questionShowResponsesTo: FeedbackVisibilityType[]): CommentVisibilityModel {
+  const visibilityStateMachine = new CommentVisibilityStateMachine(questionShowResponsesTo);
+  visibilityStateMachine.allowAllApplicableTypesToSee();
+  return {
+    showCommentTo: visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+      CommentVisibilityControl.SHOW_COMMENT,
+    ),
+    showGiverNameTo: visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+      CommentVisibilityControl.SHOW_GIVER_NAME,
+    ),
+  };
+}
+
+export function createNewCommentRowModel(
+  questionShowResponsesTo: FeedbackVisibilityType[] = [],
+  isEditing = false,
+): NewCommentRowModel {
+  const { showCommentTo, showGiverNameTo } = getDefaultCommentVisibility(questionShowResponsesTo);
   return {
     commentType: 'new',
     commentEditFormModel: {
       commentText: '',
-      isUsingCustomVisibilities: false,
-      showCommentTo: [],
-      showGiverNameTo: [],
+      showCommentTo,
+      showGiverNameTo,
     },
     isEditing,
   };
 }
 
-export function giverCommentToCommentRowModel(commentText: string): GiverCommentRowModel {
+export function giverCommentToCommentRowModel(
+  commentText: string,
+  questionShowResponsesTo: FeedbackVisibilityType[] = [],
+): GiverCommentRowModel {
+  const { showCommentTo, showGiverNameTo } = getDefaultCommentVisibility(questionShowResponsesTo);
   const originalCommentFormModel: CommentEditFormModel = {
     commentText,
-    isUsingCustomVisibilities: false,
-    showCommentTo: [],
-    showGiverNameTo: [],
+    showCommentTo,
+    showGiverNameTo,
   };
 
   return {
@@ -41,7 +67,6 @@ export function instructorCommentToCommentRowModel(
 ): InstructorCommentRowModel {
   const originalCommentFormModel: CommentEditFormModel = {
     commentText: comment.commentText,
-    isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
     showCommentTo: comment.showCommentTo,
     showGiverNameTo: comment.showGiverNameTo,
   };

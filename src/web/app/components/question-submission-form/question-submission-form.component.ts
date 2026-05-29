@@ -34,6 +34,7 @@ import { ResponseDetailsTypeChecker } from '../../../types/response-details-impl
 import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
+import { createNewCommentRowModel } from '../comment-box/comment-row-model-mapper';
 import {
   CommentRowModel,
   CommentRowComponent,
@@ -441,16 +442,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Add new participant comment to response with index.
    */
   addNewParticipantCommentToResponse(index: number): void {
-    const newComment: NewCommentRowModel = {
-      commentType: 'new',
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: true,
-    };
+    const newComment: NewCommentRowModel = createNewCommentRowModel(this.model.showResponsesTo, true);
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', newComment);
   }
 

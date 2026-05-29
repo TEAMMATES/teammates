@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
 import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
+import { createNewCommentRowModel } from '../comment-row-model-mapper';
 import { InstructorCommentRowModel, CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-model.pipe';
@@ -33,16 +34,7 @@ export class CommentTableComponent {
   @Input()
   model: CommentTableModel = {
     commentRows: [],
-    newCommentRow: {
-      commentType: 'new',
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: true,
-    },
+    newCommentRow: createNewCommentRowModel([], true),
     isAddingNewComment: true,
     isReadOnly: false,
   };
@@ -121,6 +113,10 @@ export class CommentTableComponent {
    * Handles adding new comment button click event.
    */
   handleAddingNewCommentEvent(): void {
-    this.triggerModelChange('isAddingNewComment', true);
+    this.modelChange.emit({
+      ...this.model,
+      newCommentRow: createNewCommentRowModel(this.questionShowResponsesTo, true),
+      isAddingNewComment: true,
+    });
   }
 }

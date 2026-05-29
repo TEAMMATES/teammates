@@ -108,7 +108,6 @@ export class CommentRowComponent implements OnChanges {
     commentEditFormModel: {
       commentText: '',
 
-      isUsingCustomVisibilities: false,
       showCommentTo: [],
       showGiverNameTo: [],
     },
@@ -145,16 +144,11 @@ export class CommentRowComponent implements OnChanges {
     const savedCommentModel: SavedCommentRowModel | undefined = this.savedCommentModel;
     if (savedCommentModel) {
       this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
-      if (savedCommentModel.originalCommentFormModel.isUsingCustomVisibilities) {
-        const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
-          SHOW_COMMENT: savedCommentModel.originalCommentFormModel.showCommentTo,
-          SHOW_GIVER_NAME: savedCommentModel.originalCommentFormModel.showGiverNameTo,
-        };
-        this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-      } else {
-        // follow the question's visibilities settings
-        this.visibilityStateMachine.allowAllApplicableTypesToSee();
-      }
+      const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
+        SHOW_COMMENT: savedCommentModel.originalCommentFormModel.showCommentTo,
+        SHOW_GIVER_NAME: savedCommentModel.originalCommentFormModel.showGiverNameTo,
+      };
+      this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
     }
   }
 

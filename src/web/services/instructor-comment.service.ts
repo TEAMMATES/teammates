@@ -7,10 +7,7 @@ import {
   NewCommentRowModel,
 } from '../app/components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
-import {
-  createNewCommentRowModel,
-  instructorCommentToCommentRowModel,
-} from '../app/components/comment-box/comment-row-model-mapper';
+import { instructorCommentToCommentRowModel } from '../app/components/comment-box/comment-row-model-mapper';
 import { ErrorMessageOutput } from '../app/error-message-output';
 import { FeedbackResponseComment } from '../types/api-output';
 import { Intent } from '../types/api-request';
@@ -118,7 +115,14 @@ export class InstructorCommentService {
           this.sortComments(commentTableModel);
           instructorCommentTableModel[responseId] = {
             ...commentTableModel,
-            newCommentRow: createNewCommentRowModel(),
+            newCommentRow: {
+              ...commentRowToAdd,
+              commentEditFormModel: {
+                ...commentRowToAdd.commentEditFormModel,
+                commentText: '',
+              },
+              isEditing: false,
+            },
             isAddingNewComment: false,
           };
         },

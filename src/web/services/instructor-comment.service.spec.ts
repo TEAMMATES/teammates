@@ -46,13 +46,11 @@ describe('InstructorCommentService', () => {
     lastEditedAt: comment.lastEditedAt,
     originalCommentFormModel: {
       commentText: comment.commentText,
-      isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
       showCommentTo: comment.showCommentTo,
       showGiverNameTo: comment.showGiverNameTo,
     },
     commentEditFormModel: {
       commentText: comment.commentText,
-      isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
       showCommentTo: comment.showCommentTo,
       showGiverNameTo: comment.showGiverNameTo,
     },
@@ -63,7 +61,6 @@ describe('InstructorCommentService', () => {
     commentType: 'new',
     commentEditFormModel: {
       commentText: 'new comment text',
-      isUsingCustomVisibilities: true,
       showCommentTo: [CommentVisibilityType.RECIPIENT],
       showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },
@@ -146,7 +143,6 @@ describe('InstructorCommentService', () => {
     const commentTableModel: CommentTableModel = createCommentTableModel([createCommentRow(originalComment)]);
     commentTableModel.commentRows[0].commentEditFormModel = {
       commentText: 'updated text',
-      isUsingCustomVisibilities: true,
       showCommentTo: [CommentVisibilityType.RECIPIENT],
       showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     };

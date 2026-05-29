@@ -95,7 +95,6 @@ describe('PerQuestionViewResponsesComponent', () => {
     commentType: 'new',
     commentEditFormModel: {
       commentText: '',
-      isUsingCustomVisibilities: false,
       showCommentTo: [CommentVisibilityType.RECIPIENT],
       showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },

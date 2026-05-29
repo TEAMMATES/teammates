@@ -26,13 +26,11 @@ describe('InstructorCommentToCommentRowModelPipe', () => {
       lastEditedAt: 2,
       originalCommentFormModel: {
         commentText: 'comment text',
-        isUsingCustomVisibilities: true,
         showCommentTo: [CommentVisibilityType.RECIPIENT],
         showGiverNameTo: [CommentVisibilityType.GIVER],
       },
       commentEditFormModel: {
         commentText: 'comment text',
-        isUsingCustomVisibilities: true,
         showCommentTo: [CommentVisibilityType.RECIPIENT],
         showGiverNameTo: [CommentVisibilityType.GIVER],
       },

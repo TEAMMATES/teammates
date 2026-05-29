@@ -46,13 +46,11 @@ describe('CommentRowComponent', () => {
         timezone: 'UTC',
         originalCommentFormModel: {
           commentText: 'Mock comment text',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
           showGiverNameTo: [],
         },
         commentEditFormModel: {
           commentText: 'Mock comment text for form',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER],
           showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
         },
@@ -64,12 +62,15 @@ describe('CommentRowComponent', () => {
       expect(component.visibilityStateMachine).toBeDefined();
       expect(component.visibilityStateMachine.allowAllApplicableTypesToSee).toBeDefined();
 
-      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
+        SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+        SHOW_GIVER_NAME: [],
+      });
 
       expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalledWith(component.questionShowResponsesTo);
     });
 
-    it('should allow all applicable types to see when isVisibilityFollowingFeedbackQuestion is true', () => {
+    it('should apply empty visibility settings when no visibility type is selected', () => {
       component.model = {
         commentType: 'instructor',
         commentGiverName: 'Mock Giver Name',
@@ -80,20 +81,21 @@ describe('CommentRowComponent', () => {
         timezone: 'UTC',
         originalCommentFormModel: {
           commentText: 'Mock comment text',
-          isUsingCustomVisibilities: false,
           showCommentTo: [],
           showGiverNameTo: [],
         },
         commentEditFormModel: {
           commentText: 'Mock comment text for form',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER],
           showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
         },
         isEditing: true,
       };
       component.ngOnChanges();
-      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
+        SHOW_COMMENT: [],
+        SHOW_GIVER_NAME: [],
+      });
     });
   });
 
@@ -134,13 +136,11 @@ describe('CommentRowComponent', () => {
         timezone: 'UTC',
         originalCommentFormModel: {
           commentText: 'Mock comment text',
-          isUsingCustomVisibilities: true,
           showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
           showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
         },
         commentEditFormModel: {
           commentText: 'Mock comment text for form',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER],
           showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
         },
