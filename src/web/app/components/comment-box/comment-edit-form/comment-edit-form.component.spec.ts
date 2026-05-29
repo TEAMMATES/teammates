@@ -94,7 +94,6 @@ describe('CommentEditFormComponent', () => {
   it('should emit the updated model when triggerModelChangeBatch is called', () => {
     component.model = {
       commentText: 'Initial Comment',
-      isUsingCustomVisibilities: false,
       showCommentTo: [],
       showGiverNameTo: [],
     };
@@ -102,7 +101,6 @@ describe('CommentEditFormComponent', () => {
 
     const updatedModel = {
       commentText: 'Updated Comment',
-      isUsingCustomVisibilities: true,
       showCommentTo: ['Public'],
       showGiverNameTo: ['Team'],
     };

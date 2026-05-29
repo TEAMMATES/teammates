@@ -11,6 +11,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   FeedbackSession,
   FeedbackSessions,
+  FeedbackVisibilityType,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
@@ -109,7 +110,11 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
         next: ({ feedbackSession, results }: { results: SessionResults; feedbackSession: FeedbackSession }) => {
           this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
           results.questions.forEach((questions: QuestionOutput) => {
-            return this.preprocessComments(questions.allResponses, feedbackSession.timeZone);
+            return this.preprocessComments(
+              questions.allResponses,
+              feedbackSession.timeZone,
+              questions.feedbackQuestion.showResponsesTo,
+            );
           });
         },
         error: (errorMessageOutput: ErrorMessageOutput) => {
@@ -207,12 +212,17 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(responses: ResponseOutput[], timezone: string): void {
+  preprocessComments(
+    responses: ResponseOutput[],
+    timezone: string,
+    questionShowResponsesTo: FeedbackVisibilityType[],
+  ): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
         response.instructorComments,
         false,
         timezone,
+        questionShowResponsesTo,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

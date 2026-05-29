@@ -34,7 +34,9 @@ import { ResponseDetailsTypeChecker } from '../../../types/response-details-impl
 import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
-import { CommentRowModel, CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
+import { createNewCommentRowModel } from '../comment-box/comment-row-model-mapper';
+import type { CommentRowModel, GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment.model';
+import { CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
@@ -436,15 +438,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Add new participant comment to response with index.
    */
   addNewParticipantCommentToResponse(index: number): void {
-    const newComment: CommentRowModel = {
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: true,
-    };
+    const newComment: NewCommentRowModel = createNewCommentRowModel(this.model.showResponsesTo, true);
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', newComment);
   }
 
@@ -460,18 +454,19 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   discardEditedParticipantComment(index: number): void {
     const comment: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
-    if (!comment?.originalComment) {
+    if (comment?.commentType !== 'giver') {
       return;
     }
 
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', {
       ...comment,
-      commentEditFormModel: {
-        ...comment.commentEditFormModel,
-        commentText: comment.originalComment.commentText,
-      },
+      commentEditFormModel: structuredClone(comment.originalCommentFormModel),
       isEditing: false,
     });
+  }
+
+  hasExistingGiverComment(comment: CommentRowModel | undefined): comment is GiverCommentRowModel {
+    return comment?.commentType === 'giver';
   }
 
   /**

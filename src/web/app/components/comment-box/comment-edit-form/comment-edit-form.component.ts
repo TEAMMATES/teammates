@@ -9,23 +9,13 @@ import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
+import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
-
-/**
- * Model for comment edit form.
- */
-export interface CommentEditFormModel {
-  commentText: string;
-
-  isUsingCustomVisibilities: boolean;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
-}
 
 /**
  * Comment edit form component
@@ -60,7 +50,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   model: CommentEditFormModel = {
     commentText: '',
 
-    isUsingCustomVisibilities: false,
     showCommentTo: [],
     showGiverNameTo: [],
   };
@@ -114,27 +103,11 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
-    if (this.model.isUsingCustomVisibilities) {
-      const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
-        SHOW_COMMENT: this.model.showCommentTo,
-        SHOW_GIVER_NAME: this.model.showGiverNameTo,
-      };
-      this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-    } else {
-      // follow the question's visibilities settings
-      this.visibilityStateMachine.allowAllApplicableTypesToSee();
-      // sync the two visibilities settings to follow question
-      // automatically change the isUsingCustomVisibilities flag to true
-      this.triggerModelChangeBatch({
-        isUsingCustomVisibilities: true,
-        showCommentTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-          CommentVisibilityControl.SHOW_COMMENT,
-        ),
-        showGiverNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-          CommentVisibilityControl.SHOW_GIVER_NAME,
-        ),
-      });
-    }
+    const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
+      SHOW_COMMENT: this.model.showCommentTo,
+      SHOW_GIVER_NAME: this.model.showGiverNameTo,
+    };
+    this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
   }
 
   /**

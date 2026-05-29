@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
-import { FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
+import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
-import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
+import { createNewCommentRowModel } from '../comment-row-model-mapper';
+import type { CommentRowModel, InstructorCommentRowModel } from '../comment.model';
+import { CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-model.pipe';
 
@@ -33,15 +35,7 @@ export class CommentTableComponent {
   @Input()
   model: CommentTableModel = {
     commentRows: [],
-    newCommentRow: {
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      isEditing: true,
-    },
+    newCommentRow: createNewCommentRowModel([], true),
     isAddingNewComment: true,
     isReadOnly: false,
   };
@@ -90,7 +84,11 @@ export class CommentTableComponent {
    * Triggers the change of comment rows for the form.
    */
   triggerCommentRowChange(index: number, data: CommentRowModel): void {
-    const newCommentRows: CommentRowModel[] = structuredClone(this.model.commentRows);
+    if (data.commentType !== 'instructor') {
+      return;
+    }
+
+    const newCommentRows: InstructorCommentRowModel[] = structuredClone(this.model.commentRows);
     newCommentRows[index] = data;
     this.triggerModelChange('commentRows', newCommentRows);
   }
@@ -106,15 +104,8 @@ export class CommentTableComponent {
    * Handles the close editing event.
    */
   handleCloseEditingCommentRowEvent(index: number): void {
-    const newRowModel: CommentRowModel = structuredClone(this.model.commentRows[index]);
-    const originalComment: FeedbackResponseComment = newRowModel.originalComment!;
-    newRowModel.commentEditFormModel = {
-      commentText: originalComment.commentText,
-
-      isUsingCustomVisibilities: false,
-      showCommentTo: originalComment.showCommentTo,
-      showGiverNameTo: originalComment.showGiverNameTo,
-    };
+    const newRowModel: InstructorCommentRowModel = structuredClone(this.model.commentRows[index]);
+    newRowModel.commentEditFormModel = structuredClone(newRowModel.originalCommentFormModel);
     newRowModel.isEditing = false;
     this.triggerCommentRowChange(index, newRowModel);
   }
@@ -123,6 +114,10 @@ export class CommentTableComponent {
    * Handles adding new comment button click event.
    */
   handleAddingNewCommentEvent(): void {
-    this.triggerModelChange('isAddingNewComment', true);
+    this.modelChange.emit({
+      ...this.model,
+      newCommentRow: createNewCommentRowModel(this.questionShowResponsesTo, true),
+      isAddingNewComment: true,
+    });
   }
 }

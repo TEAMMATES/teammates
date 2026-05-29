@@ -52,14 +52,13 @@ import {
   SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
-import type { FeedbackResponseComment } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import type { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 describe('SessionSubmissionPageComponent', () => {
@@ -104,28 +103,17 @@ describe('SessionSubmissionPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const createGiverComment = (commentText: string, recipientIdentifier: string): CommentRowModel => {
-    const comment: FeedbackResponseComment = {
-      feedbackResponseCommentId: '',
-      commentGiverName: '',
-      lastEditorName: '',
+  const createGiverComment = (commentText: string): GiverCommentRowModel => {
+    const originalCommentFormModel = {
       commentText,
-      createdAt: 0,
-      lastEditedAt: 0,
-      isVisibilityFollowingFeedbackQuestion: true,
       showCommentTo: [],
       showGiverNameTo: [],
     };
 
     return {
-      originalComment: comment,
-      originalRecipientIdentifier: recipientIdentifier,
-      commentEditFormModel: {
-        commentText,
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
+      commentType: 'giver',
+      originalCommentFormModel,
+      commentEditFormModel: structuredClone(originalCommentFormModel),
       isEditing: false,
     };
   };
@@ -139,7 +127,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqResponseDetails,
     isValid: true,
     isModified: false,
-    commentByGiver: createGiverComment('comment text here', 'barry-harris-id'),
+    commentByGiver: createGiverComment('comment text here'),
   };
 
   const testTextRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -151,7 +139,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackTextResponseDetails,
     isValid: true,
     isModified: false,
-    commentByGiver: createGiverComment('comment text here', 'gene-harris-id'),
+    commentByGiver: createGiverComment('comment text here'),
   };
 
   const testMcqRecipientSubmissionForm3: FeedbackResponseRecipientSubmissionFormModel = {
@@ -187,7 +175,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMsqResponseDetails,
     isValid: true,
     isModified: false,
-    commentByGiver: createGiverComment('comment text', 'barry-harris-id'),
+    commentByGiver: createGiverComment('comment text'),
   };
 
   const testNumscaleRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {

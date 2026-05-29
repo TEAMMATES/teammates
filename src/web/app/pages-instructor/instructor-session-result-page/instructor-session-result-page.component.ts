@@ -34,6 +34,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
+  FeedbackVisibilityType,
   Instructor,
   Instructors,
   QuestionOutput,
@@ -417,7 +418,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
             responses.questionStatistics,
           );
 
-          this.preprocessComments(responses.allResponses);
+          this.preprocessComments(responses.allResponses, responses.feedbackQuestion.showResponsesTo);
         },
         complete: () => {
           tmpMap.forEach((response: ResponseOutput) => this.questionsModel[questionId].responses.push(response));
@@ -468,7 +469,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
           );
           resp.questions.forEach((question: QuestionOutput) => {
-            this.preprocessComments(question.allResponses);
+            this.preprocessComments(question.allResponses, question.feedbackQuestion.showResponsesTo);
           });
         },
         complete: () => {
@@ -488,12 +489,13 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(responses: ResponseOutput[]): void {
+  preprocessComments(responses: ResponseOutput[], questionShowResponsesTo: FeedbackVisibilityType[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
         response.instructorComments,
         false,
         this.session.timeZone,
+        questionShowResponsesTo,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

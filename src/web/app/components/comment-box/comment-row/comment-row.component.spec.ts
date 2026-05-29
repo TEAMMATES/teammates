@@ -35,22 +35,22 @@ describe('CommentRowComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should properly handle visibility settings if originalComment is defined', () => {
+    it('should properly handle visibility settings if comment text is defined', () => {
       component.model = {
-        originalComment: {
-          isVisibilityFollowingFeedbackQuestion: true,
-          commentGiverName: 'Mock Giver Name',
-          lastEditorName: 'Mock Editor Name',
-          feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+        commentType: 'instructor',
+        commentGiverName: 'Mock Giver Name',
+        lastEditorName: 'Mock Editor Name',
+        commentId: '00000000-0000-4000-8000-000000000001',
+        createdAt: Date.now(),
+        lastEditedAt: Date.now(),
+        timezone: 'UTC',
+        originalCommentFormModel: {
           commentText: 'Mock comment text',
           showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-          createdAt: Date.now(),
-          lastEditedAt: Date.now(),
           showGiverNameTo: [],
         },
         commentEditFormModel: {
           commentText: 'Mock comment text for form',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER],
           showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
         },
@@ -62,34 +62,40 @@ describe('CommentRowComponent', () => {
       expect(component.visibilityStateMachine).toBeDefined();
       expect(component.visibilityStateMachine.allowAllApplicableTypesToSee).toBeDefined();
 
-      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
+        SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+        SHOW_GIVER_NAME: [],
+      });
 
       expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalledWith(component.questionShowResponsesTo);
     });
 
-    it('should allow all applicable types to see when isVisibilityFollowingFeedbackQuestion is true', () => {
+    it('should apply empty visibility settings when no visibility type is selected', () => {
       component.model = {
-        originalComment: {
-          isVisibilityFollowingFeedbackQuestion: true,
-          commentGiverName: 'Mock Giver Name',
-          lastEditorName: 'Mock Editor Name',
-          feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+        commentType: 'instructor',
+        commentGiverName: 'Mock Giver Name',
+        lastEditorName: 'Mock Editor Name',
+        commentId: '00000000-0000-4000-8000-000000000001',
+        createdAt: Date.now(),
+        lastEditedAt: Date.now(),
+        timezone: 'UTC',
+        originalCommentFormModel: {
           commentText: 'Mock comment text',
           showCommentTo: [],
-          createdAt: Date.now(),
-          lastEditedAt: Date.now(),
           showGiverNameTo: [],
         },
         commentEditFormModel: {
           commentText: 'Mock comment text for form',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER],
           showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
         },
         isEditing: true,
       };
       component.ngOnChanges();
-      expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
+      expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
+        SHOW_COMMENT: [],
+        SHOW_GIVER_NAME: [],
+      });
     });
   });
 
@@ -119,22 +125,22 @@ describe('CommentRowComponent', () => {
       expect(emitSpy).toHaveBeenCalled();
     });
 
-    it('should set visibility settings when originalComment is defined and not following feedback question', () => {
+    it('should set visibility settings when comment text is defined and not following feedback question', () => {
       component.model = {
-        originalComment: {
-          isVisibilityFollowingFeedbackQuestion: false,
-          commentGiverName: 'Mock Giver Name',
-          lastEditorName: 'Mock Editor Name',
-          feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+        commentType: 'instructor',
+        commentGiverName: 'Mock Giver Name',
+        lastEditorName: 'Mock Editor Name',
+        commentId: '00000000-0000-4000-8000-000000000001',
+        createdAt: Date.now(),
+        lastEditedAt: Date.now(),
+        timezone: 'UTC',
+        originalCommentFormModel: {
           commentText: 'Mock comment text',
           showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-          createdAt: Date.now(),
-          lastEditedAt: Date.now(),
-          showGiverNameTo: [],
+          showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
         },
         commentEditFormModel: {
           commentText: 'Mock comment text for form',
-          isUsingCustomVisibilities: false,
           showCommentTo: [CommentVisibilityType.GIVER],
           showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
         },

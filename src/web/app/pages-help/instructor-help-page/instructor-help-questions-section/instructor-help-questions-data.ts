@@ -382,10 +382,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   1: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -398,10 +398,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   2: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -414,10 +414,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   3: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -430,10 +430,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   4: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -446,10 +446,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   5: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -462,10 +462,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   6: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -478,10 +478,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   7: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -494,10 +494,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
   8: {
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
 
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
