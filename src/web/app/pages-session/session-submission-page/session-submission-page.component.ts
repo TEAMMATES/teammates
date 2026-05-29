@@ -199,9 +199,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.isSubmissionFormsDisabled = true;
         }
 
-        let authInfo = this.route.parent?.snapshot.data['authInfo'];
+        const authInfo = this.route.parent?.snapshot.data['authInfo'] ?? this.authService.authInfo$.value;
         if (!authInfo) {
-          authInfo = this.authService.authInfo$.value;
+          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+          return;
         }
         const isPreviewOrModeration = !!(authInfo?.user && (this.moderatedPerson || this.previewAsPerson));
         if (authInfo?.user) {

@@ -51,7 +51,13 @@ export class UserJoinPageComponent implements OnInit {
         this.entityType = 'instructor';
       }
 
+      // Join course is protected by the auth guard only, so just read from resolver data.
       const authInfo = this.route.snapshot.data['authInfo'];
+      if (!authInfo?.user) {
+        this.isLoading = false;
+        this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+        return;
+      }
       this.userId = authInfo.user.id;
 
       this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
@@ -85,9 +91,17 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse({ key: this.key }).subscribe({
       next: () => {
+        // Clear and refresh auth cache to ensure user's role is updated.
         this.authService.clearAuthCache();
-        this.authService.getAuthUser().subscribe(() => {
-          this.navigationService.navigateByURL(`/web/${this.entityType}`);
+        this.authService.getAuthUser().subscribe({
+          next: () => {
+            this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          },
         });
       },
       error: (resp: ErrorMessageOutput) => {

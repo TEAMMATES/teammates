@@ -2,13 +2,13 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { AuthService } from '../services/auth.service';
 import { inject, Injectable } from '@angular/core';
 import { AuthInfo } from '../types/api-output';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
 import { NavigationService } from '../services/navigation.service';
 
 /**
  * Guards routes based on user roles.
- * Redirects to login page if user is not authenticated or not admin.
+ * Redirects to login page if user is not authenticated or does not have the required role.
  */
 @Injectable({
   providedIn: 'root',

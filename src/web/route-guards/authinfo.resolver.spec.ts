@@ -4,7 +4,7 @@ import { of, EMPTY } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { AuthInfoResolver } from './authinfo.resolver';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 
 const mockState = (url: string): RouterStateSnapshot => ({ url }) as RouterStateSnapshot;
 

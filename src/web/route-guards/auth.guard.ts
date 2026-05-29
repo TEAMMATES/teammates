@@ -2,7 +2,7 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { AuthService } from '../services/auth.service';
 import { inject, Injectable } from '@angular/core';
 import { AuthInfo } from '../types/api-output';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
 
 /**

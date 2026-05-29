@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { AuthInfo } from '../types/api-output';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 import { EMPTY } from 'rxjs';
 
 /**

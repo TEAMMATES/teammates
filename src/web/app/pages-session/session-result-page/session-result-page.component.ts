@@ -133,9 +133,10 @@ export class SessionResultPageComponent implements OnInit {
           this.intent = Intent.INSTRUCTOR_RESULT;
         }
 
-        let authInfo = this.route.parent?.snapshot.data['authInfo'];
+        const authInfo = this.route.parent?.snapshot.data['authInfo'] ?? this.authService.authInfo$.value;
         if (!authInfo) {
-          authInfo = this.authService.authInfo$.value;
+          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
+          return;
         }
         const isPreview = !!(authInfo?.user && this.previewAsPerson);
         if (authInfo?.user) {
