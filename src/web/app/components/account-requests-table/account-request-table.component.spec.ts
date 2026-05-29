@@ -304,7 +304,7 @@ describe('AccountRequestTableComponent', () => {
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     const editedAccountRequest: AccountRequest = {
-      id: 'id',
+      accountRequestId: 'id',
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
@@ -335,7 +335,7 @@ describe('AccountRequestTableComponent', () => {
     fixture.detectChanges();
 
     const approvedRequest: AccountRequest = {
-      id: component.accountRequests[0].id,
+      accountRequestId: component.accountRequests[0].id,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].instituteAndCountry,
@@ -361,7 +361,7 @@ describe('AccountRequestTableComponent', () => {
     fixture.detectChanges();
 
     const rejectedRequest: AccountRequest = {
-      id: component.accountRequests[0].id,
+      accountRequestId: component.accountRequests[0].id,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].instituteAndCountry,

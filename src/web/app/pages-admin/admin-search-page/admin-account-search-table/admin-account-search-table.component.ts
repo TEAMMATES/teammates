@@ -90,7 +90,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
     modalRef.result.then(
       (res: EditRequestModalComponentResult) => {
         this.accountService
-          .editAccountRequest(accountRequest.id, {
+          .editAccountRequest(accountRequest.accountRequestId, {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
@@ -116,7 +116,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
   approveAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isApprovingAccount[index] = true;
-    this.accountService.approveAccountRequest(accountRequest.id).subscribe({
+    this.accountService.approveAccountRequest(accountRequest.accountRequestId).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
@@ -149,7 +149,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.resetAccountRequest(accountRequest.id).subscribe({
+        this.accountService.resetAccountRequest(accountRequest.accountRequestId).subscribe({
           next: () => {
             this.statusMessageService.showSuccessToast(
               `Reset successful. An email has been sent to ${accountRequest.email}.`,
@@ -179,7 +179,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.deleteAccountRequest(accountRequest.id).subscribe({
+        this.accountService.deleteAccountRequest(accountRequest.accountRequestId).subscribe({
           next: (resp: MessageOutput) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
@@ -209,7 +209,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
   rejectAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isRejectingAccount[index] = true;
-    this.accountService.rejectAccountRequest(accountRequest.id).subscribe({
+    this.accountService.rejectAccountRequest(accountRequest.accountRequestId).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
@@ -235,7 +235,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
     modalRef.result.then(
       (res: RejectWithReasonModalComponentResult) => {
         this.accountService
-          .rejectAccountRequest(accountRequest.id, res.rejectionReasonTitle, res.rejectionReasonBody)
+          .rejectAccountRequest(accountRequest.accountRequestId, res.rejectionReasonTitle, res.rejectionReasonBody)
           .subscribe({
             next: (resp: AccountRequest) => {
               accountRequest.status = resp.status;

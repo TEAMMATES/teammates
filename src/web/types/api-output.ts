@@ -11,7 +11,7 @@ export interface Account extends ApiOutput {
 }
 
 export interface AccountRequest extends ApiOutput {
-  id: string;
+  accountRequestId: string;
   email: string;
   name: string;
   institute: string;
