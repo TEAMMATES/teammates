@@ -11,42 +11,9 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { FormatDateBriefPipe } from '../../teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../../teammates-common/format-date-detail.pipe';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
-import { CommentEditFormModel, CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
+import { CommentEditFormComponent } from '../comment-edit-form/comment-edit-form.component';
+import type { CommentRowModel, InstructorCommentRowModel, SavedCommentRowModel } from '../comment.model';
 import { CommentVisibilityTypesJointNamePipe } from '../comment-visibility-setting.pipe';
-
-/**
- * Model for a comment row.
- */
-interface CommentRowBaseModel {
-  commentEditFormModel: CommentEditFormModel;
-  isEditing: boolean;
-}
-
-export interface NewCommentRowModel extends CommentRowBaseModel {
-  commentType: 'new';
-}
-
-interface SavedCommentRowBaseModel extends CommentRowBaseModel {
-  originalCommentFormModel: CommentEditFormModel;
-}
-
-export interface GiverCommentRowModel extends SavedCommentRowBaseModel {
-  commentType: 'giver';
-}
-
-export interface InstructorCommentRowModel extends SavedCommentRowBaseModel {
-  commentType: 'instructor';
-  commentId: string;
-  commentGiverName: string;
-  lastEditorName: string;
-  createdAt: number;
-  lastEditedAt: number;
-  timezone: string;
-}
-
-export type SavedCommentRowModel = GiverCommentRowModel | InstructorCommentRowModel;
-
-export type CommentRowModel = NewCommentRowModel | SavedCommentRowModel;
 
 /**
  * Comment row component to be used in a comment table

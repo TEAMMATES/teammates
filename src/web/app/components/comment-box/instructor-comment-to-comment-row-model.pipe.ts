@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { InstructorCommentRowModel } from './comment-row/comment-row.component';
+import type { InstructorCommentRowModel } from './comment.model';
 import { instructorCommentToCommentRowModel } from './comment-row-model-mapper';
 import { FeedbackResponseComment } from '../../../types/api-output';
 

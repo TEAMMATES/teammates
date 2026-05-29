@@ -3,7 +3,8 @@ import { CommentTableModel } from './comment-table.model';
 import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { createNewCommentRowModel } from '../comment-row-model-mapper';
-import { InstructorCommentRowModel, CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
+import type { CommentRowModel, InstructorCommentRowModel } from '../comment.model';
+import { CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-model.pipe';
 

@@ -1,9 +1,9 @@
-import { CommentEditFormModel } from './comment-edit-form/comment-edit-form.component';
 import {
+  CommentEditFormModel,
   GiverCommentRowModel,
   InstructorCommentRowModel,
   NewCommentRowModel,
-} from './comment-row/comment-row.component';
+} from './comment.model';
 import { CommentVisibilityStateMachine } from '../../../services/comment-visibility-state-machine';
 import { CommentVisibilityControl } from '../../../types/comment-visibility-control';
 import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType } from '../../../types/api-output';

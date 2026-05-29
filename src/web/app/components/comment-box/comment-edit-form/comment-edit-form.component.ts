@@ -9,22 +9,13 @@ import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
+import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
-
-/**
- * Model for comment edit form.
- */
-export interface CommentEditFormModel {
-  commentText: string;
-
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
-}
 
 /**
  * Comment edit form component

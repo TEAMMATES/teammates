@@ -18,7 +18,7 @@ import {
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
-import { NewCommentRowModel } from '../../comment-box/comment-row/comment-row.component';
+import type { NewCommentRowModel } from '../../comment-box/comment.model';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
 describe('PerQuestionViewResponsesComponent', () => {

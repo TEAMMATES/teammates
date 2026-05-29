@@ -1,4 +1,4 @@
-import { InstructorCommentRowModel, NewCommentRowModel } from '../comment-row/comment-row.component';
+import type { InstructorCommentRowModel, NewCommentRowModel } from '../comment.model';
 
 /**
  * Model for CommentTableComponent.

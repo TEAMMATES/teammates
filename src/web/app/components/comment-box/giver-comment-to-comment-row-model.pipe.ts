@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { GiverCommentRowModel } from './comment-row/comment-row.component';
+import type { GiverCommentRowModel } from './comment.model';
 import { giverCommentToCommentRowModel } from './comment-row-model-mapper';
 import { FeedbackVisibilityType } from '../../../types/api-output';
 

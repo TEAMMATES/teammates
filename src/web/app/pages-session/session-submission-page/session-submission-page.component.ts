@@ -47,7 +47,7 @@ import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-a
 import { castAsSelectElement } from '../../../types/event-target-caster';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { giverCommentToCommentRowModel } from '../../components/comment-box/comment-row-model-mapper';
-import type { GiverCommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';

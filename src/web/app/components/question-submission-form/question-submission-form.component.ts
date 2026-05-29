@@ -35,12 +35,8 @@ import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { createNewCommentRowModel } from '../comment-box/comment-row-model-mapper';
-import {
-  CommentRowModel,
-  CommentRowComponent,
-  GiverCommentRowModel,
-  NewCommentRowModel,
-} from '../comment-box/comment-row/comment-row.component';
+import type { CommentRowModel, GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment.model';
+import { CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
 import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';

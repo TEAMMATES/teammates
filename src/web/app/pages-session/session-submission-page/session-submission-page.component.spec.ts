@@ -58,7 +58,7 @@ import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import type { GiverCommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 describe('SessionSubmissionPageComponent', () => {

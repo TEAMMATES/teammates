@@ -2,10 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { FeedbackResponseCommentService } from './feedback-response-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
-import {
-  InstructorCommentRowModel,
-  NewCommentRowModel,
-} from '../app/components/comment-box/comment-row/comment-row.component';
+import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
 import { instructorCommentToCommentRowModel } from '../app/components/comment-box/comment-row-model-mapper';
 import { ErrorMessageOutput } from '../app/error-message-output';
