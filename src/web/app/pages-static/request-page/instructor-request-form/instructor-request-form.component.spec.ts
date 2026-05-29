@@ -25,7 +25,7 @@ describe('InstructorRequestFormComponent', () => {
     instructorInstitution: `${typicalModel.institution}, ${typicalModel.country}`,
   };
   const typicalAccountRequest: AccountRequest = {
-    id: 'id',
+    accountRequestId: 'id',
     email: typicalModel.email,
     name: typicalModel.name,
     institute: `${typicalModel.institution}, ${typicalModel.country}`,

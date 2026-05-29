@@ -13,8 +13,7 @@ import teammates.storage.entity.AccountRequest;
  * Output format of account request data.
  */
 public class AccountRequestData extends ApiOutput {
-    // TODO: rename to accountRequestId for consistency.
-    private final UUID id;
+    private final UUID accountRequestId;
     private final String email;
     private final String name;
     private final String institute;
@@ -27,9 +26,9 @@ public class AccountRequestData extends ApiOutput {
     private final long createdAt;
 
     @JsonCreator
-    private AccountRequestData(UUID id, String email, String name, String institute, String registrationKey,
+    private AccountRequestData(UUID accountRequestId, String email, String name, String institute, String registrationKey,
                                 AccountRequestStatus status, String comments, Long registeredAt, long createdAt) {
-        this.id = id;
+        this.accountRequestId = accountRequestId;
         this.email = email;
         this.name = name;
         this.institute = institute;
@@ -41,7 +40,7 @@ public class AccountRequestData extends ApiOutput {
     }
 
     public AccountRequestData(AccountRequest accountRequest) {
-        this.id = accountRequest.getId();
+        this.accountRequestId = accountRequest.getId();
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
         this.institute = accountRequest.getInstitute();
@@ -57,8 +56,8 @@ public class AccountRequestData extends ApiOutput {
         }
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getAccountRequestId() {
+        return accountRequestId;
     }
 
     public String getInstitute() {

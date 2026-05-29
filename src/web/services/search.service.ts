@@ -327,7 +327,7 @@ export class SearchService {
 
   joinAdminAccountRequest(accountRequest: AccountRequest): AccountRequestSearchResult {
     let accountRequestResult: AccountRequestSearchResult = {
-      id: '',
+      accountRequestId: '',
       name: '',
       email: '',
       institute: '',
@@ -339,8 +339,17 @@ export class SearchService {
       comments: '',
     };
 
-    const { id, registrationKey, createdAt, registeredAt, name, institute, email, status, comments }: AccountRequest =
-      accountRequest;
+    const {
+      accountRequestId,
+      registrationKey,
+      createdAt,
+      registeredAt,
+      name,
+      institute,
+      email,
+      status,
+      comments,
+    }: AccountRequest = accountRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
@@ -348,7 +357,15 @@ export class SearchService {
     accountRequestResult.comments = comments || '';
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
-    accountRequestResult = { ...accountRequestResult, id, name, email, institute, registrationLink, status };
+    accountRequestResult = {
+      ...accountRequestResult,
+      accountRequestId,
+      name,
+      email,
+      institute,
+      registrationLink,
+      status,
+    };
 
     return accountRequestResult;
   }
@@ -485,7 +502,7 @@ export interface AdminSearchResult {
  * Search results for account requests from the admin endpoint.
  */
 export interface AccountRequestSearchResult {
-  id: string;
+  accountRequestId: string;
   name: string;
   email: string;
   status: AccountRequestStatus;

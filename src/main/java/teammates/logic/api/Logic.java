@@ -63,6 +63,7 @@ import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.StudentEnrollRequest;
@@ -1321,23 +1322,6 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback response.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return created feedback response
-     * @throws InvalidParametersException   if the response is not valid
-     * @throws EntityAlreadyExistsException if the response already exist
-     */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        assert feedbackResponse != null;
-        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
-    }
-
-    /**
      * Deletes a feedback response and its associated feedback response comments.
      *
      * <p>Fails silently if the feedback response doesn't exist.</p>
@@ -1366,6 +1350,24 @@ public class Logic {
     }
 
     /**
+     * Submits feedback responses from a student or the student's team for a feedback question.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
+            FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+    }
+
+    /**
+     * Submits feedback responses from an instructor for a feedback question.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
+            FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+    }
+
+    /**
      * Gets an feedback response comment by feedback response comment id.
      *
      * @param id of feedback response comment.
@@ -1384,26 +1386,6 @@ public class Logic {
             FeedbackResponseCommentUpdateRequest updateRequest, ResponseGiver updater)
             throws EntityDoesNotExistException {
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updater);
-    }
-
-    /**
-     * Updates a feedback response and comments by {@link FeedbackResponse}.
-     *
-     * <p>
-     * Cascade updates its associated feedback response comment
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException  if attributes to update are not valid
-     */
-    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException {
-        assert feedbackResponse != null;
-
-        return feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
     }
 
     /**
