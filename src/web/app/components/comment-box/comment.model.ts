@@ -2,8 +2,6 @@ import { CommentVisibilityType } from '../../../types/api-output';
 
 export interface CommentEditFormModel {
   commentText: string;
-  isUsingCustomVisibilities?: boolean;
-
   showCommentTo: CommentVisibilityType[];
   showGiverNameTo: CommentVisibilityType[];
 }
