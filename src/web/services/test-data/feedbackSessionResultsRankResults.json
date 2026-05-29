@@ -290,15 +290,7 @@
             "answer": "No Response",
             "questionType": "TEXT"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000000b1",
-            "commentText": "Student 5 comment",
-            "createdAt": 1237497658010,
-            "lastEditedAt": 2245905638000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 5 comment",
           "instructorComments": []
         },
         {
@@ -543,15 +535,7 @@
             "answers": [1, 2, 3, 4, -999],
             "questionType": "RANK_OPTIONS"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000000b1",
-            "commentText": "Student 1 comment",
-            "createdAt": 1237497658010,
-            "lastEditedAt": 2245905638000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 1 comment",
           "instructorComments": []
         },
         {

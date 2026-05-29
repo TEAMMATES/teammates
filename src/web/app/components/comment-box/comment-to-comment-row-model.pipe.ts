@@ -8,15 +8,32 @@ import { FeedbackResponseComment } from '../../../types/api-output';
 @Injectable({ providedIn: 'root' })
 @Pipe({ name: 'commentToCommentRowModel' })
 export class CommentToCommentRowModelPipe implements PipeTransform {
-  transform(comment: FeedbackResponseComment, timezone?: string): CommentRowModel {
+  transform(comment: FeedbackResponseComment | string, timezone?: string): CommentRowModel {
+    // Temporarily support string type for comment to avoid breaking existing code.
+    // This can be removed once comment related code is updated to properly support both string and FeedbackResponseComment types.
+    const commentModel: FeedbackResponseComment =
+      typeof comment === 'string'
+        ? {
+            feedbackResponseCommentId: '',
+            commentGiverName: '',
+            lastEditorName: '',
+            commentText: comment,
+            createdAt: 0,
+            lastEditedAt: 0,
+            isVisibilityFollowingFeedbackQuestion: true,
+            showCommentTo: [],
+            showGiverNameTo: [],
+          }
+        : comment;
+
     return {
       timezone,
-      originalComment: comment,
+      originalComment: commentModel,
       commentEditFormModel: {
-        commentText: comment.commentText,
-        isUsingCustomVisibilities: !comment.isVisibilityFollowingFeedbackQuestion,
-        showCommentTo: comment.showCommentTo,
-        showGiverNameTo: comment.showGiverNameTo,
+        commentText: commentModel.commentText,
+        isUsingCustomVisibilities: !commentModel.isVisibilityFollowingFeedbackQuestion,
+        showCommentTo: commentModel.showCommentTo,
+        showGiverNameTo: commentModel.showGiverNameTo,
       },
       isEditing: false,
     };

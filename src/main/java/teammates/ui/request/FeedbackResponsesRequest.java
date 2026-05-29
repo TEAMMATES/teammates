@@ -2,11 +2,11 @@ package teammates.ui.request;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.SanitizationHelper;
 
 /**
  * The basic request of submitting a list of feedback responses.
@@ -24,7 +24,7 @@ public class FeedbackResponsesRequest extends BasicRequest {
     }
 
     public List<String> getRecipients() {
-        return responses.stream().map(FeedbackResponseRequest::getRecipient).collect(Collectors.toList());
+        return responses.stream().map(FeedbackResponseRequest::getRecipient).toList();
     }
 
     @Override
@@ -39,11 +39,19 @@ public class FeedbackResponsesRequest extends BasicRequest {
 
         private String recipient;
         private FeedbackResponseDetails responseDetails;
+        private String giverComment;
+
+        public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails) {
+            this(recipient, responseDetails, null);
+        }
 
         @JsonCreator
-        public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails) {
+        public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails, String giverComment) {
             this.recipient = recipient;
             this.responseDetails = responseDetails;
+            this.giverComment = giverComment == null
+                    ? null
+                    : SanitizationHelper.sanitizeForRichText(giverComment);
         }
 
         @Override
@@ -58,6 +66,10 @@ public class FeedbackResponsesRequest extends BasicRequest {
 
         public FeedbackResponseDetails getResponseDetails() {
             return responseDetails;
+        }
+
+        public String getGiverComment() {
+            return giverComment;
         }
 
     }

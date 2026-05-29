@@ -131,6 +131,7 @@ export interface FeedbackResponseDetails {
 export interface FeedbackResponseRequest extends BasicRequest {
   recipient: string;
   responseDetails: FeedbackResponseDetails;
+  giverComment: string;
 }
 
 export interface FeedbackResponsesRequest extends BasicRequest {

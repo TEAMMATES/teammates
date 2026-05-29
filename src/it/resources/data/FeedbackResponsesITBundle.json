@@ -838,6 +838,7 @@
         "questionType": "TEXT",
         "answer": "Student 1 self feedback. This is a very long feedback response intended to test the database capacity. It should exceed the 255 character limit commonly associated with VARCHAR columns. By including a large amount of text, we can verify if the system correctly handles extended feedback without truncation or errors. This is particularly important for text-based questions where users might provide detailed qualitative data. Let's make sure it's well over 255 characters to be absolutely certain."
       },
+      "giverComment": "Student 1 comment to student 1 self feedback",
       "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1": {
@@ -973,20 +974,6 @@
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000901"
-    },
-    "comment2ToResponse1ForQ1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Student 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"

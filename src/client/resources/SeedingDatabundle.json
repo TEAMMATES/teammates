@@ -1629,6 +1629,7 @@
         "questionType": "TEXT",
         "answer": "I have made solid progress with recursion and feel confident about basic tree traversals. Higher-order functions like map and filter are becoming second nature, though I still struggle with environment model diagrams for deeply nested closures."
       },
+      "giverComment": "Thank you for the feedback, Prof. Khan. I have started the supplementary exercises and they are really helpful for understanding nested closures.",
       "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1InSession1InCourse1": {
@@ -2377,6 +2378,7 @@
         "questionType": "TEXT",
         "answer": "I took the lead on designing the class diagram and implementing the core Parser module. I also set up the CI/CD pipeline and reviewed three pull requests from teammates during Sprint 1."
       },
+      "giverComment": "Thanks Dr. Vasquez! I will make sure to improve the developer guide documentation for Sprint 2.",
       "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response2ForQ1InSession1InCourse2": {
@@ -3187,20 +3189,6 @@
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
-    "comment2ToResp1ForQ1InSession1InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Thank you for the feedback, Prof. Khan. I have started the supplementary exercises and they are really helpful for understanding nested closures.",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000901"
-    },
     "comment1ToResp2ForQ1InSession1InCourse1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -3239,20 +3227,6 @@
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000934"
-    },
-    "comment2ToResp1ForQ1InSession1InCourse2": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000611"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000611"
-      },
-      "commentText": "Thanks Dr. Vasquez! I will make sure to improve the developer guide documentation for Sprint 2.",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000934"

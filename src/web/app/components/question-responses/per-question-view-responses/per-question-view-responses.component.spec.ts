@@ -70,7 +70,7 @@ describe('PerQuestionViewResponsesComponent', () => {
       answer: '<p>Lisa is a good classmate </p>',
     } as FeedbackTextResponseDetails,
     instructorComments: [],
-    participantComment: commentOutput,
+    participantComment: commentOutput.commentText,
   };
 
   const feedbackQuestion: FeedbackQuestion = {

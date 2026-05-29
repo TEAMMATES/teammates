@@ -7,7 +7,7 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
 } from '../../../types/api-output';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import type { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
 /**
  * The mode of operation for question submission form.

@@ -9,7 +9,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -169,7 +168,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -326,7 +324,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -483,7 +480,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId={[Function String]}
   courseInstitute={[Function String]}
   courseName={[Function String]}
@@ -773,7 +769,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -1190,7 +1185,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-mcq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
@@ -1215,7 +1210,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-1-idx-0"
                     >
                       <div>
@@ -1269,7 +1264,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                 <div
                                   class="comment-text col-12"
                                 >
-                                  comment text
+                                  comment text here
                                 </div>
                               </div>
                             </div>
@@ -1446,7 +1441,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-text-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-3-idx-0"
                   >
                     <div>
@@ -1471,71 +1466,65 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-3-idx-0"
                     >
-                      <div
-                        style="display: inline-block;"
-                      >
-                      </div>
                       <div>
                         <tm-comment-row>
-                          <tm-comment-edit-form>
+                          <div
+                            class="card"
+                          >
                             <div
-                              class="row"
+                              class="card-body"
                             >
                               <div
-                                class="col-6"
-                              >
-                                Your comment about the above response
-                              </div>
-                              <div
-                                class="col-6"
+                                class="row comment-row"
                               >
                                 <div
-                                  class="float-end"
+                                  class="col-12"
                                 >
-                                  <span>
-                                  </span>
                                   <span
-                                    style="margin-left: 10px;"
+                                    class="by-response-giver text-secondary"
+                                  >
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
                                   >
                                     <button
-                                      aria-label="Close"
-                                      class="btn-close"
+                                      aria-label="Edit comment"
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      ngbtooltip="Edit this comment"
                                       type="button"
-                                    />
-                                  </span>
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      aria-label="Delete comment"
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text here
                                 </div>
                               </div>
                             </div>
-                            <div
-                              style="margin: 10px 0;"
-                            >
-                              <tm-rich-text-editor
-                                placeholdertext="Enter your comment here"
-                              >
-                                <div
-                                  inviewport=""
-                                >
-                                </div>
-                              </tm-rich-text-editor>
-                            </div>
-                            <div
-                              class="d-flex justify-content-end"
-                            >
-                              <button
-                                aria-label="Cancel editing"
-                                class="btn btn-light btn-sm me-2"
-                                type="button"
-                              >
-                                <i
-                                  class="fas fa-times"
-                                />
-                                 Cancel 
-                              </button>
-                            </div>
-                          </tm-comment-edit-form>
+                          </div>
                         </tm-comment-row>
                       </div>
                     </div>
@@ -1887,7 +1876,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-msq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-4-idx-0"
                   >
                     <div>
@@ -1912,7 +1901,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-4-idx-0"
                     >
                       <div>
@@ -2169,11 +2158,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-num-scale-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-5-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-5-idx-0"
                     >
                       <div
@@ -2380,11 +2369,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-constsum-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-6-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-6-idx-0"
                     >
                       <div
@@ -2855,11 +2844,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-contribution-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-7-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-7-idx-0"
                     >
                       <div
@@ -3216,11 +3205,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rubric-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-8-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-8-idx-0"
                     >
                       <div
@@ -3498,11 +3487,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-options-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-9-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-9-idx-0"
                     >
                       <div
@@ -3725,11 +3714,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-10-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-10-idx-0"
                     >
                       <div
@@ -3808,7 +3797,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -4228,7 +4216,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-mcq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-1-idx-0"
                   >
                     <div>
@@ -4253,7 +4241,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-1-idx-0"
                     >
                       <div>
@@ -4309,7 +4297,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                                 <div
                                   class="comment-text col-12"
                                 >
-                                  comment text
+                                  comment text here
                                 </div>
                               </div>
                             </div>
@@ -4487,7 +4475,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-text-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-3-idx-0"
                   >
                     <div>
@@ -4512,72 +4500,67 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-3-idx-0"
                     >
-                      <div
-                        style="display: inline-block;"
-                      >
-                      </div>
                       <div>
                         <tm-comment-row>
-                          <tm-comment-edit-form>
+                          <div
+                            class="card"
+                          >
                             <div
-                              class="row"
+                              class="card-body"
                             >
                               <div
-                                class="col-6"
-                              >
-                                Your comment about the above response
-                              </div>
-                              <div
-                                class="col-6"
+                                class="row comment-row"
                               >
                                 <div
-                                  class="float-end"
+                                  class="col-12"
                                 >
-                                  <span>
-                                  </span>
                                   <span
-                                    style="margin-left: 10px;"
+                                    class="by-response-giver text-secondary"
+                                  >
+                                     Comment by response giver. 
+                                  </span>
+                                  <i
+                                    aria-hidden="true"
+                                    class="fa fa-eye"
+                                  />
+                                  <div
+                                    class="float-end"
                                   >
                                     <button
-                                      aria-label="Close"
-                                      class="btn-close"
+                                      aria-label="Edit comment"
+                                      class="btn-edit-comment btn btn-outline-primary btn-sm"
+                                      disabled=""
+                                      ngbtooltip="Edit this comment"
                                       type="button"
-                                    />
-                                  </span>
+                                    >
+                                      <i
+                                        class="fas fa-pencil-alt"
+                                      />
+                                    </button>
+                                    <button
+                                      aria-label="Delete comment"
+                                      class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                                      disabled=""
+                                      ngbtooltip="Delete this comment"
+                                      type="button"
+                                    >
+                                      <i
+                                        class="fas fa-trash"
+                                      />
+                                    </button>
+                                  </div>
+                                </div>
+                                <div
+                                  class="comment-text col-12"
+                                >
+                                  comment text here
                                 </div>
                               </div>
                             </div>
-                            <div
-                              style="margin: 10px 0;"
-                            >
-                              <tm-rich-text-editor
-                                placeholdertext="Enter your comment here"
-                              >
-                                <div
-                                  inviewport=""
-                                >
-                                </div>
-                              </tm-rich-text-editor>
-                            </div>
-                            <div
-                              class="d-flex justify-content-end"
-                            >
-                              <button
-                                aria-label="Cancel editing"
-                                class="btn btn-light btn-sm me-2"
-                                disabled=""
-                                type="button"
-                              >
-                                <i
-                                  class="fas fa-times"
-                                />
-                                 Cancel 
-                              </button>
-                            </div>
-                          </tm-comment-edit-form>
+                          </div>
                         </tm-comment-row>
                       </div>
                     </div>
@@ -4933,7 +4916,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-msq-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-4-idx-0"
                   >
                     <div>
@@ -4958,7 +4941,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                       </div>
                     </div>
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-4-idx-0"
                     >
                       <div>
@@ -5218,11 +5201,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-num-scale-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-5-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-5-idx-0"
                     >
                       <div
@@ -5431,11 +5414,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-constsum-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-6-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-6-idx-0"
                     >
                       <div
@@ -5908,11 +5891,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-contribution-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-7-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-7-idx-0"
                     >
                       <div
@@ -6280,11 +6263,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rubric-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-8-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-8-idx-0"
                     >
                       <div
@@ -6564,11 +6547,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-options-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-9-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-9-idx-0"
                     >
                       <div
@@ -6793,11 +6776,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                     </tm-rank-recipients-question-edit-answer-form>
                   </div>
                   <div
-                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    class="col-12 margin-bottom-20px margin-top-10px"
                     id="comment-section-qn-10-idx-0"
                   >
                     <div
-                      class="col-12 margin-bottom-20px margin-top-10px indent"
+                      class="col-12 margin-bottom-20px margin-top-10px"
                       id="comment-section-qn-10-idx-0"
                     >
                       <div
@@ -6879,7 +6862,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -7037,7 +7019,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
-  commentService={[Function _FeedbackResponseCommentService]}
   courseId=""
   courseInstitute=""
   courseName=""

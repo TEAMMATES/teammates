@@ -2,6 +2,8 @@ package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -41,10 +43,15 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
 
     @Test
     @Override
-    protected void testExecute() {
+    protected void testExecute() throws Exception {
         ______TS("typical success case");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1");
-        FeedbackResponseComment expectedComment = typicalBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
+        FeedbackResponseComment expectedComment = new FeedbackResponseComment(
+                fr.getGiver(), "Participant comment", true, true, List.of(), List.of(), fr.getGiver());
+        fr.addFeedbackResponseComment(expectedComment);
+        logic.createFeedbackResponseComment(expectedComment);
+        HibernateUtil.flushSession();
+
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };

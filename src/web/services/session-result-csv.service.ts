@@ -177,9 +177,7 @@ export class SessionResultCsvService {
           ...responseAnswer,
         ];
 
-        const participantCommentHtml: string = response.participantComment
-          ? response.participantComment.commentText
-          : '';
+        const participantCommentHtml: string = response.participantComment ?? '';
         const participantComment: string = StringHelper.getTextFromHtml(participantCommentHtml);
         const participantImgLinks: string = StringHelper.convertImageToLinkInHtml(participantCommentHtml);
         currRow.push(participantComment + participantImgLinks);

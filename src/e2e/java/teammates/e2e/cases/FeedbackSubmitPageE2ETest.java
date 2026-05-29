@@ -1,8 +1,10 @@
 package teammates.e2e.cases;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,7 +18,6 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
@@ -134,7 +135,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(response2);
 
         submitPage.verifyComment(qnToComment, recipient.getName(), comment);
-        verifyPresentInDatabase(getFeedbackResponseComment(response, comment));
+        assertEquals(comment, getFeedbackResponse(response).getGiverComment());
 
         ______TS("edit comment");
         comment = "<p>edited comment</p>";
@@ -142,14 +143,14 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.clickSubmitAllQuestionsButton();
 
         submitPage.verifyComment(qnToComment, recipient.getName(), comment);
-        verifyPresentInDatabase(getFeedbackResponseComment(response, comment));
+        assertEquals(comment, getFeedbackResponse(response).getGiverComment());
 
         ______TS("delete comment");
         submitPage.deleteComment(qnToComment, recipient.getName());
 
         submitPage.verifyStatusMessage("Your comment has been deleted!");
         submitPage.verifyNoCommentPresent(qnToComment, recipient.getName());
-        verifyAbsentInDatabase(getFeedbackResponseComment(response, comment));
+        assertNull(getFeedbackResponse(response).getGiverComment());
 
         ______TS("preview as instructor");
         logout();
@@ -243,12 +244,4 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         return response;
     }
 
-    private FeedbackResponseComment getFeedbackResponseComment(FeedbackResponse response, String comment) {
-        ResponseGiver giver = new ResponseGiver(student);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                giver, comment, true, true,
-                Collections.emptyList(), Collections.emptyList(), giver);
-        response.addFeedbackResponseComment(feedbackResponseComment);
-        return feedbackResponseComment;
-    }
 }

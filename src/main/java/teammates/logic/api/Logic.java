@@ -1322,6 +1322,15 @@ public class Logic {
     }
 
     /**
+     * Deletes the giver comment for a feedback response by clearing it.
+     *
+     * @throws EntityDoesNotExistException if the feedback response does not exist
+     */
+    public FeedbackResponse deleteFeedbackResponseGiverComment(UUID frId) throws EntityDoesNotExistException {
+        return feedbackResponsesLogic.deleteFeedbackResponseGiverComment(frId);
+    }
+
+    /**
      * Deletes a feedback response and its associated feedback response comments.
      *
      * <p>Fails silently if the feedback response doesn't exist.</p>

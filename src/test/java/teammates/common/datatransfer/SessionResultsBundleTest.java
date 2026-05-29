@@ -193,7 +193,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         // Manually add comment IDs as loadDataBundle does not add comment IDs
         FeedbackResponseComment comment1 = responseBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        FeedbackResponseComment comment2 = responseBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
+        FeedbackResponseComment comment2 = responseBundle.feedbackResponseComments.get("comment2ToResponse2ForQ1");
         comment1.setId(commentId1);
         comment2.setId(commentId2);
 

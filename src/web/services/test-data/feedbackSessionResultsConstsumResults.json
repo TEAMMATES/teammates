@@ -57,15 +57,7 @@
             "answers": [80],
             "questionType": "CONSTSUM"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000006a509",
-            "commentText": "Instructor 1 comment",
-            "createdAt": 1451692743000,
-            "lastEditedAt": 1451692740010,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Instructor 1 comment",
           "instructorComments": []
         }
       ],
@@ -416,15 +408,7 @@
             "answers": [80, 20],
             "questionType": "CONSTSUM"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000175bc",
-            "commentText": "Student 2 comment",
-            "createdAt": 1451692743000,
-            "lastEditedAt": 1451692740010,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 2 comment",
           "instructorComments": []
         },
         {

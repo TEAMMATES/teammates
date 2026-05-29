@@ -95,11 +95,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify comments");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
-        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment1"),
-                student);
-        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"),
-                student);
-        verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
+        verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
+        verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
         ______TS("registered instructor: can access results");
         logout();
@@ -131,16 +128,11 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.stream().filter(this::canInstructorSeeQuestion)
                 .forEach(question -> verifyResponseDetails(student, question));
 
-        ______TS("preview results as student: invisible comments excluded");
-        List<String> commentsNotVisibleForPreview = List.of(
-                testData.feedbackResponseComments.get("qn3Comment1").getCommentText());
-        resultsPage.verifyQuestionHasCommentsNotVisibleForPreview(3, commentsNotVisibleForPreview);
-
         ______TS("preview results as student: visible comments shown");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
-        verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"), student);
-        verifyCommentDetails(4, testData.feedbackResponseComments.get("qn4Comment1"), student);
+        verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
+        verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
         ______TS("preview results as instructor: can access results");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
@@ -225,6 +217,10 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             giver = getIdentifier(currentStudent, comment.getGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
+    }
+
+    private void verifyParticipantCommentDetails(int questionNum, String commentText) {
+        resultsPage.verifyCommentDetails(questionNum, "", "", commentText);
     }
 
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {

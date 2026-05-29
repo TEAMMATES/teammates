@@ -14,7 +14,6 @@ import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -32,7 +31,6 @@ import {
   FeedbackQuestionRecipients,
   FeedbackQuestionType,
   FeedbackResponse,
-  FeedbackResponseComment,
   FeedbackResponses,
   FeedbackSession,
   FeedbackSessionLogType,
@@ -43,12 +41,13 @@ import {
   RegkeyValidity,
   Student,
 } from '../../../types/api-output';
+import type { FeedbackResponseComment } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { castAsSelectElement } from '../../../types/event-target-caster';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
-import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import type { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -103,7 +102,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private readonly pageScrollService = inject(PageScrollService);
   private authService = inject(AuthService);
   private navigationService = inject(NavigationService);
-  private commentService = inject(FeedbackResponseCommentService);
   private logService = inject(LogService);
 
   readonly castAsSelectElement: typeof castAsSelectElement;
@@ -728,7 +726,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 isModified: false,
               };
               if (matchedExistingResponse?.giverComment) {
-                submissionForm.commentByGiver = this.getCommentModel(
+                submissionForm.commentByGiver = this.getGiverCommentModel(
                   matchedExistingResponse.giverComment,
                   recipient.recipientIdentifier,
                 );
@@ -753,7 +751,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 isModified: false,
               };
               if (response.giverComment) {
-                submissionForm.commentByGiver = this.getCommentModel(
+                submissionForm.commentByGiver = this.getGiverCommentModel(
                   response.giverComment,
                   response.recipientIdentifier,
                 );
@@ -778,21 +776,29 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       });
   }
 
-  /**
-   * Gets the comment model for a given comment.
-   */
-  getCommentModel(comment: FeedbackResponseComment, recipientIdentifier: string): CommentRowModel {
+  private getGiverCommentModel(commentText: string, recipientIdentifier: string): CommentRowModel {
+    const comment: FeedbackResponseComment = {
+      feedbackResponseCommentId: '',
+      commentGiverName: '',
+      lastEditorName: '',
+      commentText,
+      createdAt: 0,
+      lastEditedAt: 0,
+      isVisibilityFollowingFeedbackQuestion: true,
+      showGiverNameTo: [],
+      showCommentTo: [],
+    };
+
     return {
       originalComment: comment,
       originalRecipientIdentifier: recipientIdentifier,
+      timezone: this.feedbackSessionTimezone,
       commentEditFormModel: {
-        commentText: comment.commentText,
-        // the participant comment shall not use custom visibilities
+        commentText,
         isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
-      timezone: this.feedbackSessionTimezone,
       isEditing: false,
     };
   }
@@ -841,6 +847,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             responses.push({
               recipient: recipientSubmissionFormModel.recipientIdentifier,
               responseDetails: recipientSubmissionFormModel.responseDetails,
+              giverComment: recipientSubmissionFormModel.commentByGiver?.commentEditFormModel.commentText ?? '',
             });
           }
         },
@@ -882,6 +889,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
                       recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
                       recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
+                      recipientSubmissionFormModel.commentByGiver = correspondingResp.giverComment
+                        ? this.getGiverCommentModel(
+                            correspondingResp.giverComment,
+                            correspondingResp.recipientIdentifier,
+                          )
+                        : undefined;
                     } else {
                       recipientSubmissionFormModel.responseId = '';
                       recipientSubmissionFormModel.commentByGiver = undefined;
@@ -889,14 +902,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                   },
                 );
               }),
-              switchMap(() =>
-                forkJoin(
-                  questionSubmissionFormModel.recipientSubmissionForms.map(
-                    (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
-                      this.createCommentRequest(recipientSubmissionFormModel),
-                  ),
-                ),
-              ),
               tap(() => {
                 if (recipientId) {
                   questionSubmissionFormModel.recipientSubmissionForms.forEach((form) => {
@@ -946,125 +951,24 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Creates comment request.
-   */
-  createCommentRequest(recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel): Observable<any> {
-    if (!recipientSubmissionFormModel.responseId) {
-      // responseId not set, cannot set comment
-      return of({});
-    }
-    if (!recipientSubmissionFormModel.commentByGiver) {
-      // comment not given, do nothing
-      return of({});
-    }
-
-    const isSameRecipient =
-      recipientSubmissionFormModel.recipientIdentifier ===
-      recipientSubmissionFormModel.commentByGiver.originalRecipientIdentifier;
-
-    if (!recipientSubmissionFormModel.commentByGiver.originalComment || !isSameRecipient) {
-      // comment is new or original comment deleted because recipient has changed
-
-      if (recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText === '') {
-        // new comment is empty
-        recipientSubmissionFormModel.commentByGiver = undefined;
-        return of({});
-      }
-
-      // create new comment
-      return this.commentService
-        .createComment(
-          {
-            commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
-            // we ignore the fields in comment edit model as participant comment
-            // will follow visibilities from question by design
-            showCommentTo: [],
-            showGiverNameTo: [],
-          },
-          recipientSubmissionFormModel.responseId,
-          this.intent,
-          {
-            key: this.regKey,
-            moderatedperson: this.moderatedPerson,
-          },
-        )
-        .pipe(
-          tap((comment: FeedbackResponseComment) => {
-            recipientSubmissionFormModel.commentByGiver = this.getCommentModel(
-              comment,
-              recipientSubmissionFormModel.recipientIdentifier,
-            );
-          }),
-        );
-    }
-
-    // existing comment
-
-    if (recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText === '') {
-      // comment is empty, create delete request
-      return this.commentService
-        .deleteComment(
-          recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId,
-          this.intent,
-          {
-            key: this.regKey,
-            moderatedperson: this.moderatedPerson,
-          },
-        )
-        .pipe(
-          tap(() => {
-            recipientSubmissionFormModel.commentByGiver = undefined;
-          }),
-        );
-    }
-
-    // update comment
-    return this.commentService
-      .updateComment(
-        {
-          commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
-          // we ignore the fields in comment edit model as participant comment
-          // will follow visibilities from question by design
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-        recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId,
-        this.intent,
-        {
-          key: this.regKey,
-          moderatedperson: this.moderatedPerson,
-        },
-      )
-      .pipe(
-        tap((comment: FeedbackResponseComment) => {
-          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(
-            comment,
-            recipientSubmissionFormModel.recipientIdentifier,
-          );
-        }),
-      );
-  }
-
-  /**
    * Deletes a comment by participants.
    */
   deleteParticipantComment(questionIndex: number, responseIdx: number): void {
     const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
       this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
 
-    if (!recipientSubmissionFormModel.commentByGiver?.originalComment) {
+    if (!recipientSubmissionFormModel.responseId) {
+      recipientSubmissionFormModel.commentByGiver = undefined;
       return;
     }
 
-    this.commentService
-      .deleteComment(
-        recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId,
-        this.intent,
-        {
-          key: this.regKey,
-          moderatedperson: this.moderatedPerson,
-        },
-      )
+    this.feedbackResponsesService
+      .deleteGiverComment({
+        responseId: recipientSubmissionFormModel.responseId,
+        intent: this.intent,
+        key: this.regKey,
+        moderatedPerson: this.moderatedPerson,
+      })
       .subscribe({
         next: () => {
           recipientSubmissionFormModel.commentByGiver = undefined;

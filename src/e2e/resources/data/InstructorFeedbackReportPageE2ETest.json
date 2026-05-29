@@ -468,6 +468,7 @@
         "isOther": false,
         "otherFieldContent": ""
       },
+      "giverComment": "Charlie comment to alice",
       "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "c2qn1response1": {
@@ -518,21 +519,6 @@
       "showCommentTo": ["STUDENTS"],
       "showGiverNameTo": ["STUDENTS"],
       "responseId": "00000000-0000-4000-8000-000000000903"
-    },
-    "qn3Comment1": {
-      "id": "00000000-0000-4000-8000-000000000973",
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000603"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000603"
-      },
-      "commentText": "Charlie comment to alice",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000907"
     }
   },
   "deadlineExtensions": {},
