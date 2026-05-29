@@ -93,6 +93,7 @@ export class PageComponent implements OnInit {
   isInstructor = false;
   isAdmin = false;
   isMaintainer = false;
+  @Input() isAuthNeeded = true;
   @Input() authInfo: AuthInfo | null = null;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
@@ -220,5 +221,26 @@ export class PageComponent implements OnInit {
   logout(): void {
     window.location.href = this.logoutUrl;
     this.authService.clearAuthCache();
+  }
+
+  get isValidUser(): boolean {
+    const hasRole = this.hasRole;
+    const isLoggedIn = !!this.user;
+
+    // Logged in but not known to TEAMMATES
+    if (isLoggedIn && !hasRole) {
+      return false;
+    }
+
+    // Public pages
+    if (!this.isAuthNeeded) {
+      return true;
+    }
+
+    return isLoggedIn && hasRole;
+  }
+
+  get hasRole(): boolean {
+    return this.isStudent || this.isInstructor || this.isAdmin || this.isMaintainer;
   }
 }
