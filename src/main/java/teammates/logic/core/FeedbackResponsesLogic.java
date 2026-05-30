@@ -539,8 +539,7 @@ public final class FeedbackResponsesLogic {
         for (FeedbackQuestion qn : allQuestions) {
             relatedQuestions.add(qn);
 
-            // Mark preview-hidden questions up-front so omitted responses message can still show
-            // even when there are currently no responses.
+            // set questions that should not be visible to instructors if results are being previewed
             if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
                 questionsNotVisibleToInstructors.add(qn);
                 relatedQuestionsNotVisibleForPreviewSet.add(qn);
