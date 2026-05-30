@@ -19,8 +19,8 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
@@ -178,9 +178,9 @@ public class SessionResultsData extends ApiOutput {
         }
 
         // process comments
-        List<FeedbackResponseComment> feedbackResponseComments =
+        List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
+        List<ResponseInstructorCommentData> instructorComments = buildInstructorComments(responseInstructorComments, bundle);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
@@ -251,9 +251,9 @@ public class SessionResultsData extends ApiOutput {
         }
 
         // process comments
-        List<FeedbackResponseComment> feedbackResponseComments =
+        List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
+        List<ResponseInstructorCommentData> instructorComments = buildInstructorComments(responseInstructorComments, bundle);
         String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
@@ -369,14 +369,12 @@ public class SessionResultsData extends ApiOutput {
         }
     }
 
-    private static List<FeedbackResponseCommentData> buildInstructorComments(
-                List<FeedbackResponseComment> feedbackResponseComments, SessionResultsBundle bundle) {
-        List<FeedbackResponseCommentData> outputs = new ArrayList<>();
+    private static List<ResponseInstructorCommentData> buildInstructorComments(
+                List<ResponseInstructorComment> responseInstructorComments, SessionResultsBundle bundle) {
+        List<ResponseInstructorCommentData> outputs = new ArrayList<>();
 
-        for (FeedbackResponseComment comment : feedbackResponseComments) {
-            if (!comment.getIsCommentFromFeedbackParticipant()) {
-                outputs.add(new FeedbackResponseCommentData(comment, bundle.isCommentGiverVisible(comment)));
-            }
+        for (ResponseInstructorComment comment : responseInstructorComments) {
+            outputs.add(new ResponseInstructorCommentData(comment, bundle.isCommentGiverVisible(comment)));
         }
 
         return outputs;
@@ -471,7 +469,7 @@ public class SessionResultsData extends ApiOutput {
         // comments
         @Nullable
         private String participantComment;
-        private List<FeedbackResponseCommentData> instructorComments;
+        private List<ResponseInstructorCommentData> instructorComments;
 
         private ResponseOutput() {
             // use builder instead
@@ -540,7 +538,7 @@ public class SessionResultsData extends ApiOutput {
             return participantComment;
         }
 
-        public List<FeedbackResponseCommentData> getInstructorComments() {
+        public List<ResponseInstructorCommentData> getInstructorComments() {
             return instructorComments;
         }
 
@@ -619,7 +617,7 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withInstructorComments(List<FeedbackResponseCommentData> instructorComments) {
+            Builder withInstructorComments(List<ResponseInstructorCommentData> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
                 return this;
             }

@@ -36,10 +36,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -61,7 +61,7 @@ public final class FeedbackResponsesLogic {
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
     private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
+    private ResponseInstructorCommentsLogic frcLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -75,7 +75,7 @@ public final class FeedbackResponsesLogic {
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
     void initLogicDependencies(FeedbackResponsesDb frDb,
-            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, FeedbackResponseCommentsLogic frcLogic) {
+            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, ResponseInstructorCommentsLogic frcLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.fqLogic = fqLogic;
@@ -540,7 +540,7 @@ public final class FeedbackResponsesLogic {
         // related questions, responses, and comment
         List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
-        Map<FeedbackResponse, List<FeedbackResponseComment>> relatedCommentsMap = new HashMap<>();
+        Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
         Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
         if (isCourseWide) {
@@ -610,11 +610,11 @@ public final class FeedbackResponsesLogic {
         for (FeedbackResponse relatedResponse : relatedResponses) {
             relatedResponseIds.add(relatedResponse.getId());
         }
-        List<FeedbackResponseComment> allComments = frcLogic.getFeedbackResponseCommentsForResponses(relatedResponseIds);
+        List<ResponseInstructorComment> allComments = frcLogic.getResponseInstructorCommentsForResponses(relatedResponseIds);
         RequestTracer.checkRemainingTime();
 
         // build comment
-        for (FeedbackResponseComment frc : allComments) {
+        for (ResponseInstructorComment frc : allComments) {
             FeedbackResponse relatedResponse = frc.getFeedbackResponse();
             // the comment needs to be relevant to the question and response
             if (relatedResponse == null) {
@@ -1187,11 +1187,11 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether instructors can see the comment.
      */
-    boolean checkCanInstructorsSeeComment(FeedbackResponseComment feedbackResponseComment) {
+    boolean checkCanInstructorsSeeComment(ResponseInstructorComment responseInstructorComment) {
         boolean isCommentVisibleToInstructor =
-                feedbackResponseComment.getShowCommentTo().contains(ViewerType.INSTRUCTORS);
+                responseInstructorComment.getShowCommentTo().contains(ViewerType.INSTRUCTORS);
         boolean isGiverVisibleToInstructor =
-                feedbackResponseComment.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
+                responseInstructorComment.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
         return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
     }
 

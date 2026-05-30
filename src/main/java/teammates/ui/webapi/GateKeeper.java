@@ -6,10 +6,10 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -253,7 +253,7 @@ final class GateKeeper {
      * @param frc comment to be accessed
      * @param participant the response giver who is trying to access the comment
      */
-    void verifyOwnership(FeedbackResponseComment frc, ResponseGiver participant)
+    void verifyOwnership(ResponseInstructorComment frc, ResponseGiver participant)
             throws UnauthorizedAccessException {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.getGiver(), "feedback response comment giver");

@@ -3,7 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CommentRowMode } from './comment-row.mode';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { ResponseInstructorCommentService } from '../../../../services/feedback-response-comment.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
@@ -33,7 +33,7 @@ import { CommentVisibilityTypesJointNamePipe } from '../comment-visibility-setti
 })
 export class CommentRowComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
-  private commentService = inject(FeedbackResponseCommentService);
+  private commentService = inject(ResponseInstructorCommentService);
 
   // enum
   CommentRowMode!: typeof CommentRowMode;

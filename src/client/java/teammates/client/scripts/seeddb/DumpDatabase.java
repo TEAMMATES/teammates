@@ -22,12 +22,12 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -132,8 +132,8 @@ public final class DumpDatabase {
         for (FeedbackResponse e : queryAll(cb, FeedbackResponse.class)) {
             bundle.feedbackResponses.put(e.getId().toString(), e);
         }
-        for (FeedbackResponseComment e : queryAll(cb, FeedbackResponseComment.class)) {
-            bundle.feedbackResponseComments.put(e.getId().toString(), e);
+        for (ResponseInstructorComment e : queryAll(cb, ResponseInstructorComment.class)) {
+            bundle.responseInstructorComments.put(e.getId().toString(), e);
         }
         for (FeedbackSessionLog e : queryAll(cb, FeedbackSessionLog.class)) {
             bundle.feedbackSessionLogs.put(e.getId().toString(), e);

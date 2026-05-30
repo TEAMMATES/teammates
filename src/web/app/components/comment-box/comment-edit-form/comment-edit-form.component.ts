@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { ResponseInstructorCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
 import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
@@ -34,7 +34,7 @@ import {
   ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
-  private commentService = inject(FeedbackResponseCommentService);
+  private commentService = inject(ResponseInstructorCommentService);
 
   readonly castAsInputElement: typeof castAsInputElement;
 

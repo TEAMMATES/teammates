@@ -50,8 +50,8 @@ import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
-import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 import tools.jackson.databind.JsonNode;
 
@@ -445,13 +445,13 @@ public abstract class AbstractBackDoor {
      * @param commentText the new comment text
      * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
+    public void updateResponseInstructorComment(UUID commentId, String commentText, String instructorGoogleId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
         params.put(Const.ParamsNames.USER, instructorGoogleId);
 
-        FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
+        ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
                 commentText,
                 new ArrayList<>(),
                 new ArrayList<>()

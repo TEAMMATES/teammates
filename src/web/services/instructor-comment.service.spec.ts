@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import { FeedbackResponseCommentService } from './feedback-response-comment.service';
+import { ResponseInstructorCommentService } from './feedback-response-comment.service';
 import { InstructorCommentService } from './instructor-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
-import { CommentVisibilityType, FeedbackResponseComment } from '../types/api-output';
+import { CommentVisibilityType, ResponseInstructorComment } from '../types/api-output';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
@@ -14,28 +14,27 @@ describe('InstructorCommentService', () => {
   const timezone = 'Asia/Singapore';
   const errorMessage = 'Something went wrong';
 
-  let spyFeedbackResponseCommentService: any;
+  let spyResponseInstructorCommentService: any;
   let spyStatusMessageService: any;
   let spyTableComparatorService: any;
   let service: InstructorCommentService;
 
-  const createComment = (overrides: Partial<FeedbackResponseComment> = {}): FeedbackResponseComment => ({
+  const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({
     commentGiverName: 'Original Instructor',
     lastEditorName: 'Original Instructor',
-    feedbackResponseCommentId: 'comment-id',
+    responseInstructorCommentId: 'comment-id',
     commentText: 'comment text',
     createdAt: 1000,
     lastEditedAt: 1000,
-    isVisibilityFollowingFeedbackQuestion: false,
     showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
     showCommentTo: [CommentVisibilityType.INSTRUCTORS],
     ...overrides,
   });
 
-  const createCommentRow = (comment: FeedbackResponseComment = createComment()): InstructorCommentRowModel => ({
+  const createCommentRow = (comment: ResponseInstructorComment = createComment()): InstructorCommentRowModel => ({
     commentType: 'instructor',
     timezone,
-    commentId: comment.feedbackResponseCommentId,
+    commentId: comment.responseInstructorCommentId,
     commentGiverName: comment.commentGiverName,
     lastEditorName: comment.lastEditorName,
     createdAt: comment.createdAt,
@@ -71,14 +70,14 @@ describe('InstructorCommentService', () => {
   });
 
   beforeEach(() => {
-    spyFeedbackResponseCommentService = createSpyFromClass(FeedbackResponseCommentService);
+    spyResponseInstructorCommentService = createSpyFromClass(ResponseInstructorCommentService);
     spyStatusMessageService = createSpyFromClass(StatusMessageService);
     spyTableComparatorService = createSpyFromClass(TableComparatorService);
     spyTableComparatorService.compare.mockReturnValue(0);
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: FeedbackResponseCommentService, useValue: spyFeedbackResponseCommentService },
+        { provide: ResponseInstructorCommentService, useValue: spyResponseInstructorCommentService },
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: TableComparatorService, useValue: spyTableComparatorService },
       ],
@@ -92,20 +91,20 @@ describe('InstructorCommentService', () => {
 
   it('should delete an instructor comment', () => {
     const commentTableModel: CommentTableModel = createCommentTableModel([
-      createCommentRow(createComment({ feedbackResponseCommentId: 'comment-id-1' })),
-      createCommentRow(createComment({ feedbackResponseCommentId: 'comment-id-2' })),
+      createCommentRow(createComment({ responseInstructorCommentId: 'comment-id-1' })),
+      createCommentRow(createComment({ responseInstructorCommentId: 'comment-id-2' })),
     ]);
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
     };
-    spyFeedbackResponseCommentService.deleteComment.mockReturnValue(of({}));
+    spyResponseInstructorCommentService.deleteComment.mockReturnValue(of({}));
 
     service.deleteComment({
       data: { responseId: 'response-id', index: 0 },
       instructorCommentTableModel,
     });
 
-    expect(spyFeedbackResponseCommentService.deleteComment).toHaveBeenCalledWith('comment-id-1');
+    expect(spyResponseInstructorCommentService.deleteComment).toHaveBeenCalledWith('comment-id-1');
     expect(instructorCommentTableModel['response-id'].commentRows).toHaveLength(1);
     expect(instructorCommentTableModel['response-id'].commentRows[0].commentId).toBe('comment-id-2');
   });
@@ -115,7 +114,7 @@ describe('InstructorCommentService', () => {
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
     };
-    spyFeedbackResponseCommentService.deleteComment.mockReturnValue(
+    spyResponseInstructorCommentService.deleteComment.mockReturnValue(
       throwError(() => ({ error: { message: errorMessage } })),
     );
 
@@ -129,8 +128,8 @@ describe('InstructorCommentService', () => {
   });
 
   it('should update an instructor comment', () => {
-    const originalComment: FeedbackResponseComment = createComment({
-      feedbackResponseCommentId: 'comment-id-to-update',
+    const originalComment: ResponseInstructorComment = createComment({
+      responseInstructorCommentId: 'comment-id-to-update',
       commentText: 'old text',
     });
     const commentTableModel: CommentTableModel = createCommentTableModel([createCommentRow(originalComment)]);
@@ -139,8 +138,8 @@ describe('InstructorCommentService', () => {
       showCommentTo: [CommentVisibilityType.RECIPIENT],
       showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     };
-    const updatedComment: FeedbackResponseComment = createComment({
-      feedbackResponseCommentId: 'comment-id-to-update',
+    const updatedComment: ResponseInstructorComment = createComment({
+      responseInstructorCommentId: 'comment-id-to-update',
       commentText: 'updated text',
       createdAt: 1000,
       lastEditedAt: 2000,
@@ -150,7 +149,7 @@ describe('InstructorCommentService', () => {
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
     };
-    spyFeedbackResponseCommentService.updateComment.mockReturnValue(of(updatedComment));
+    spyResponseInstructorCommentService.updateComment.mockReturnValue(of(updatedComment));
 
     service.updateComment({
       data: { responseId: 'response-id', index: 0 },
@@ -158,7 +157,7 @@ describe('InstructorCommentService', () => {
       instructorCommentTableModel,
     });
 
-    expect(spyFeedbackResponseCommentService.updateComment).toHaveBeenCalledWith(
+    expect(spyResponseInstructorCommentService.updateComment).toHaveBeenCalledWith(
       {
         commentText: 'updated text',
         showCommentTo: [CommentVisibilityType.RECIPIENT],
@@ -177,7 +176,7 @@ describe('InstructorCommentService', () => {
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
     };
-    spyFeedbackResponseCommentService.updateComment.mockReturnValue(
+    spyResponseInstructorCommentService.updateComment.mockReturnValue(
       throwError(() => ({ error: { message: errorMessage } })),
     );
 
@@ -194,13 +193,13 @@ describe('InstructorCommentService', () => {
   });
 
   it('should save a new instructor comment and keep comments sorted', () => {
-    const oldComment: FeedbackResponseComment = createComment({
-      feedbackResponseCommentId: 'old-comment-id',
+    const oldComment: ResponseInstructorComment = createComment({
+      responseInstructorCommentId: 'old-comment-id',
       commentText: 'old comment',
       createdAt: 2000,
     });
-    const newComment: FeedbackResponseComment = createComment({
-      feedbackResponseCommentId: 'new-comment-id',
+    const newComment: ResponseInstructorComment = createComment({
+      responseInstructorCommentId: 'new-comment-id',
       commentText: 'new comment text',
       createdAt: 1000,
     });
@@ -208,7 +207,7 @@ describe('InstructorCommentService', () => {
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
     };
-    spyFeedbackResponseCommentService.createComment.mockReturnValue(of(newComment));
+    spyResponseInstructorCommentService.createComment.mockReturnValue(of(newComment));
     spyTableComparatorService.compare.mockImplementation(
       (_sortBy: SortBy, _sortOrder: SortOrder, strA: string, strB: string) => Number(strA) - Number(strB),
     );
@@ -219,7 +218,7 @@ describe('InstructorCommentService', () => {
       instructorCommentTableModel,
     });
 
-    expect(spyFeedbackResponseCommentService.createComment).toHaveBeenCalledWith(
+    expect(spyResponseInstructorCommentService.createComment).toHaveBeenCalledWith(
       {
         commentText: 'new comment text',
         showCommentTo: [CommentVisibilityType.RECIPIENT],
@@ -238,7 +237,7 @@ describe('InstructorCommentService', () => {
     const instructorCommentTableModel: Record<string, CommentTableModel> = {
       'response-id': commentTableModel,
     };
-    spyFeedbackResponseCommentService.createComment.mockReturnValue(
+    spyResponseInstructorCommentService.createComment.mockReturnValue(
       throwError(() => ({ error: { message: errorMessage } })),
     );
 

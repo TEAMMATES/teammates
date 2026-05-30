@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { FeedbackResponseComment, FeedbackVisibilityType, MessageOutput } from '../types/api-output';
-import { FeedbackResponseCommentCreateRequest, FeedbackResponseCommentUpdateRequest } from '../types/api-request';
+import { ResponseInstructorComment, FeedbackVisibilityType, MessageOutput } from '../types/api-output';
+import { ResponseInstructorCommentCreateRequest, ResponseInstructorCommentUpdateRequest } from '../types/api-request';
 
 /**
  * Handles requests to the back-end related to response comments.
@@ -12,16 +12,16 @@ import { FeedbackResponseCommentCreateRequest, FeedbackResponseCommentUpdateRequ
 @Injectable({
   providedIn: 'root',
 })
-export class FeedbackResponseCommentService {
+export class ResponseInstructorCommentService {
   private httpRequestService = inject(HttpRequestService);
 
   /**
    * Create a comment by calling API.
    */
   createComment(
-    createRequest: FeedbackResponseCommentCreateRequest,
+    createRequest: ResponseInstructorCommentCreateRequest,
     responseId: string,
-  ): Observable<FeedbackResponseComment> {
+  ): Observable<ResponseInstructorComment> {
     return this.httpRequestService.post(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
@@ -35,9 +35,9 @@ export class FeedbackResponseCommentService {
    * Updates a comment by calling API.
    */
   updateComment(
-    updateRequest: FeedbackResponseCommentUpdateRequest,
+    updateRequest: ResponseInstructorCommentUpdateRequest,
     commentId: string,
-  ): Observable<FeedbackResponseComment> {
+  ): Observable<ResponseInstructorComment> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSE_COMMENT,
       {

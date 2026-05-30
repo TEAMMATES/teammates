@@ -1,7 +1,6 @@
 package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Arrays;
 
@@ -12,16 +11,16 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.CommentVisibilityType;
-import teammates.ui.request.FeedbackResponseCommentCreateRequest;
-import teammates.ui.webapi.CreateFeedbackResponseCommentAction;
+import teammates.ui.request.ResponseInstructorCommentCreateRequest;
+import teammates.ui.webapi.CreateResponseInstructorCommentAction;
 
 /**
- * SUT: {@link CreateFeedbackResponseCommentAction}.
+ * SUT: {@link CreateResponseInstructorCommentAction}.
  */
-public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFeedbackResponseCommentAction> {
+public class CreateResponseInstructorCommentActionIT extends BaseActionIT<CreateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
     @Override
@@ -53,19 +52,17 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
-        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
+        ResponseInstructorCommentCreateRequest requestBody = new ResponseInstructorCommentCreateRequest(
                 "Instructor result comment", Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS));
-        CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
+        CreateResponseInstructorCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        FeedbackResponseComment comment = fr.getFeedbackResponseComments().stream()
+        ResponseInstructorComment comment = fr.getResponseInstructorComments().stream()
                 .filter(frc -> "Instructor result comment".equals(frc.getCommentText()))
                 .findFirst()
                 .orElseThrow();
         assertEquals(instructor, comment.getGiver().getGiverUser());
-        assertFalse(comment.getIsCommentFromFeedbackParticipant());
-        assertFalse(comment.getIsVisibilityFollowingFeedbackQuestion());
     }
 
     @Test

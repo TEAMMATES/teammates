@@ -29,20 +29,20 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.output.CommentVisibilityType;
-import teammates.ui.output.FeedbackResponseCommentData;
-import teammates.ui.request.FeedbackResponseCommentCreateRequest;
+import teammates.ui.output.ResponseInstructorCommentData;
+import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
 /**
- * SUT: {@link CreateFeedbackResponseCommentAction}.
+ * SUT: {@link CreateResponseInstructorCommentAction}.
  */
-public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<CreateFeedbackResponseCommentAction> {
+public class CreateResponseInstructorCommentActionTest extends BaseActionTest<CreateResponseInstructorCommentAction> {
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
 
@@ -51,7 +51,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private Student typicalStudent;
     private FeedbackSession typicalFeedbackSession;
     private FeedbackResponse typicalFeedbackResponse;
-    private FeedbackResponseCommentCreateRequest typicalRequestBody;
+    private ResponseInstructorCommentCreateRequest typicalRequestBody;
 
     @Override
     protected String getActionUri() {
@@ -94,7 +94,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 null,
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
@@ -110,7 +110,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "",
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
@@ -126,23 +126,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment to first response",
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment to first response", commentData.getCommentText());
     }
@@ -155,23 +155,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Empty giver permissions",
                 new ArrayList<>(),
                 new ArrayList<>());
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Empty giver permissions", commentData.getCommentText());
     }
@@ -184,23 +184,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment shown to giver",
                 Arrays.asList(CommentVisibilityType.GIVER),
                 new ArrayList<>());
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment shown to giver", commentData.getCommentText());
     }
@@ -213,23 +213,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment shown to recipient",
                 Arrays.asList(CommentVisibilityType.RECIPIENT),
                 new ArrayList<>());
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment shown to recipient", commentData.getCommentText());
     }
@@ -242,23 +242,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment shown to giver team",
                 Arrays.asList(CommentVisibilityType.GIVER_TEAM_MEMBERS),
                 new ArrayList<>());
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment shown to giver team", commentData.getCommentText());
     }
@@ -271,23 +271,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment shown to recipient team",
                 Arrays.asList(CommentVisibilityType.RECIPIENT_TEAM_MEMBERS),
                 new ArrayList<>());
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment shown to recipient team", commentData.getCommentText());
     }
@@ -300,23 +300,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment shown to students",
                 Arrays.asList(CommentVisibilityType.STUDENTS),
                 new ArrayList<>());
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment shown to students", commentData.getCommentText());
     }
@@ -330,23 +330,23 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        typicalRequestBody = new FeedbackResponseCommentCreateRequest(
+        typicalRequestBody = new ResponseInstructorCommentCreateRequest(
                 "Comment to first response, published session",
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
 
-        FeedbackResponseComment typicalComment = getTypicalCommentForInstructorResult();
+        ResponseInstructorComment typicalComment = getTypicalCommentForInstructorResult();
 
         when(mockLogic.getFeedbackResponse(typicalFeedbackResponse.getId())).thenReturn(typicalFeedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        mockCreateFeedbackResponseComment(typicalComment);
+        mockCreateResponseInstructorComment(typicalComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        CreateFeedbackResponseCommentAction action = getAction(typicalRequestBody, params);
+        CreateResponseInstructorCommentAction action = getAction(typicalRequestBody, params);
         JsonResult r = getJsonResult(action);
-        FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
+        ResponseInstructorCommentData commentData = (ResponseInstructorCommentData) r.getOutput();
 
         assertEquals("Comment to first response, published session", commentData.getCommentText());
     }
@@ -513,25 +513,25 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
     }
 
-    private void mockCreateFeedbackResponseComment(FeedbackResponseComment comment) throws Exception {
-        when(mockLogic.createFeedbackResponseComment(
+    private void mockCreateResponseInstructorComment(ResponseInstructorComment comment) throws Exception {
+        when(mockLogic.createResponseInstructorComment(
                 any(UUID.class), any(ResponseGiver.class), any(String.class), any(), any()))
                 .thenReturn(comment);
     }
 
-    private FeedbackResponseComment getTypicalCommentForInstructorResult() {
+    private ResponseInstructorComment getTypicalCommentForInstructorResult() {
         ResponseGiver giver = new ResponseGiver(typicalInstructor);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
+        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
                 giver,
                 typicalRequestBody.getCommentText(),
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 giver);
-        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
-        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
-        feedbackResponseComment.setCreatedAt(Instant.EPOCH);
-        feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
-        return feedbackResponseComment;
+        typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
+        responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
+        responseInstructorComment.setCreatedAt(Instant.EPOCH);
+        responseInstructorComment.setUpdatedAt(Instant.EPOCH);
+        return responseInstructorComment;
     }
 
 }

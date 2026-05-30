@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FeedbackQuestion,
-  FeedbackResponseComment,
+  ResponseInstructorComment,
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   QuestionGiverType,
@@ -43,14 +43,13 @@ describe('PerQuestionViewResponsesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const commentOutput: FeedbackResponseComment = {
+  const commentOutput: ResponseInstructorComment = {
     commentGiverName: 'Jennie Kim',
     lastEditorName: 'Jennie Kim',
-    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000003',
+    responseInstructorCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
     lastEditedAt: 0,
-    isVisibilityFollowingFeedbackQuestion: false,
     showGiverNameTo: [],
     showCommentTo: [],
   };

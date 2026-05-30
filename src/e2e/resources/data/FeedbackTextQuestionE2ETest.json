@@ -193,7 +193,7 @@
   },
   "notifications": {},
   "readNotifications": {},
-  "feedbackResponseComments": {},
+  "responseInstructorComments": {},
   "students": {
     "alice.tmms@FTextQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000604",

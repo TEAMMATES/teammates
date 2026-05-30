@@ -9,11 +9,11 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.DeadlineExtensionsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionLogsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.NotificationsDb;
+import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.api.UsageStatisticsDb;
 import teammates.storage.api.UsersDb;
 
@@ -36,7 +36,7 @@ public class LogicStarter implements ServletContextListener {
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-        FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+        ResponseInstructorCommentsLogic frcLogic = ResponseInstructorCommentsLogic.inst();
         FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
         NotificationsLogic notificationsLogic = NotificationsLogic.inst();
         UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
@@ -50,7 +50,7 @@ public class LogicStarter implements ServletContextListener {
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic);
         fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic);
-        frcLogic.initLogicDependencies(FeedbackResponseCommentsDb.inst(), frLogic);
+        frcLogic.initLogicDependencies(ResponseInstructorCommentsDb.inst(), frLogic);
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());

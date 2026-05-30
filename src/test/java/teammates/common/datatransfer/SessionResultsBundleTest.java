@@ -18,9 +18,9 @@ import teammates.common.datatransfer.participanttypes.ResponseRecipientType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
@@ -192,8 +192,8 @@ public class SessionResultsBundleTest extends BaseTestCase {
                 );
 
         // Manually add comment IDs as loadDataBundle does not add comment IDs
-        FeedbackResponseComment comment1 = responseBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        FeedbackResponseComment comment2 = responseBundle.feedbackResponseComments.get("comment2ToResponse2ForQ1");
+        ResponseInstructorComment comment1 = responseBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
+        ResponseInstructorComment comment2 = responseBundle.responseInstructorComments.get("comment2ToResponse2ForQ1");
         comment1.setId(commentId1);
         comment2.setId(commentId2);
 

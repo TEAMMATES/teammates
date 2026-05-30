@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import teammates.ui.output.CommentVisibilityType;
 
 /**
- * The update request of a feedback response comment.
+ * The create request of a feedback response comment.
  */
-public class FeedbackResponseCommentUpdateRequest extends FeedbackResponseCommentBasicRequest {
+public class ResponseInstructorCommentCreateRequest extends ResponseInstructorCommentBasicRequest {
 
     @JsonCreator
-    public FeedbackResponseCommentUpdateRequest(String commentText,
+    public ResponseInstructorCommentCreateRequest(String commentText,
                                                 List<CommentVisibilityType> showCommentTo,
                                                 List<CommentVisibilityType> showGiverNameTo) {
         super(commentText, showCommentTo, showGiverNameTo);

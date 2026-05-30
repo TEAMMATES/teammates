@@ -1226,7 +1226,7 @@
       "questionId": "00000000-0000-4000-8000-000000000811"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000961",
       "giver": {
@@ -1236,8 +1236,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor first comment to Alice",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
       "createdAt": "2026-02-02T23:59:00Z",
@@ -1252,8 +1250,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor second comment to Alice",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
       "createdAt": "2026-03-01T23:59:00Z",

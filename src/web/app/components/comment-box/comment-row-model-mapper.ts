@@ -6,7 +6,7 @@ import {
 } from './comment.model';
 import { CommentVisibilityStateMachine } from '../../../services/comment-visibility-state-machine';
 import { CommentVisibilityControl } from '../../../types/comment-visibility-control';
-import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType } from '../../../types/api-output';
+import { CommentVisibilityType, ResponseInstructorComment, FeedbackVisibilityType } from '../../../types/api-output';
 
 interface CommentVisibilityModel {
   showCommentTo: CommentVisibilityType[];
@@ -62,7 +62,7 @@ export function giverCommentToCommentRowModel(
 }
 
 export function instructorCommentToCommentRowModel(
-  comment: FeedbackResponseComment,
+  comment: ResponseInstructorComment,
   timezone: string,
 ): InstructorCommentRowModel {
   const originalCommentFormModel: CommentEditFormModel = {
@@ -73,7 +73,7 @@ export function instructorCommentToCommentRowModel(
 
   return {
     commentType: 'instructor',
-    commentId: comment.feedbackResponseCommentId,
+    commentId: comment.responseInstructorCommentId,
     commentGiverName: comment.commentGiverName,
     lastEditorName: comment.lastEditorName,
     createdAt: comment.createdAt,
