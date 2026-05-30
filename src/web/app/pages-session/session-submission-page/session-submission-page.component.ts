@@ -22,6 +22,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { SubmissionReceiptService } from '../../../services/submission-receipt.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
@@ -95,6 +96,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private feedbackQuestionsService = inject(FeedbackQuestionsService);
   private feedbackResponsesService = inject(FeedbackResponsesService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
+  private submissionReceiptService = inject(SubmissionReceiptService);
   private studentService = inject(StudentService);
   private instructorService = inject(InstructorService);
   private courseService = inject(CourseService);
@@ -139,6 +141,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
 
   isSavingResponses = false;
+  isDownloadingSubmissionReceipt = false;
   isSubmissionFormsDisabled = false;
 
   isModerationHintExpanded = false;
@@ -796,7 +799,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
-    const answers: Record<string, FeedbackResponse[]> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
@@ -847,9 +849,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 const responsesMap: Record<string, FeedbackResponse> = {};
                 resp.responses.forEach((response: FeedbackResponse) => {
                   responsesMap[response.recipientIdentifier] = response;
-                  answers[questionSubmissionFormModel.feedbackQuestionId] =
-                    answers[questionSubmissionFormModel.feedbackQuestionId] || [];
-                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
                 });
                 requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
@@ -893,19 +892,46 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.isSavingResponses = false;
 
           const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
-          modalRef.componentInstance.requestIds = requestIds;
-          modalRef.componentInstance.courseId = this.courseId;
-          modalRef.componentInstance.feedbackSessionName = this.feedbackSessionName;
-          modalRef.componentInstance.feedbackSessionTimezone = this.feedbackSessionTimezone;
-          modalRef.componentInstance.personEmail = this.personEmail;
-          modalRef.componentInstance.personName = this.personName;
           modalRef.componentInstance.questions = questionSubmissionForms;
-          modalRef.componentInstance.answers = answers;
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
         }),
       )
       .subscribe();
+  }
+
+  downloadSubmissionReceipt(): void {
+    this.isDownloadingSubmissionReceipt = true;
+    this.submissionReceiptService
+      .downloadSubmissionReceipt({
+        questionSubmissionForms: this.questionSubmissionForms,
+        intent: this.intent,
+        key: this.regKey,
+        moderatedPerson: this.moderatedPerson,
+        feedbackSessionTimezone: this.feedbackSessionTimezone,
+        personName: this.personName,
+        personEmail: this.personEmail,
+        courseName: this.courseName,
+        courseId: this.courseId,
+        feedbackSessionName: this.feedbackSessionName,
+      })
+      .pipe(
+        finalize(() => {
+          this.isDownloadingSubmissionReceipt = false;
+        }),
+      )
+      .subscribe({
+        next: (hasResponses: boolean) => {
+          if (!hasResponses) {
+            this.statusMessageService.showWarningToast(
+              'No submitted responses found to include in submission receipt.',
+            );
+          }
+        },
+        error: () => {
+          this.statusMessageService.showErrorToast('An error occurred while generating the submission receipt.');
+        },
+      });
   }
 
   /**

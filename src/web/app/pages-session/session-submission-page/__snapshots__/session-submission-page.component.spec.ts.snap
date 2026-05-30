@@ -30,6 +30,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -55,6 +56,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -189,6 +191,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -214,6 +217,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -345,6 +349,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -370,6 +375,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -501,6 +507,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -526,6 +533,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -790,6 +798,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
@@ -815,6 +824,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -3768,11 +3778,19 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </div>
       </tm-question-submission-form>
       <div
-        class="row"
+        class="d-flex justify-content-center gap-2 flex-wrap"
       >
-        <div
-          class="col-12 text-center"
-        >
+        <div>
+          <button
+            class="btn btn-info"
+            id="btn-download-submission-receipt"
+            ngbtooltip="Download a receipt of your submission."
+            type="button"
+          >
+             Download Submission Receipt 
+          </button>
+        </div>
+        <div>
           <button
             class="btn btn-success"
             id="btn-submit"
@@ -3818,6 +3836,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
@@ -3843,6 +3862,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -6832,11 +6852,20 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </div>
       </tm-question-submission-form>
       <div
-        class="row"
+        class="d-flex justify-content-center gap-2 flex-wrap"
       >
-        <div
-          class="col-12 text-center"
-        >
+        <div>
+          <button
+            class="btn btn-info"
+            disabled=""
+            id="btn-download-submission-receipt"
+            ngbtooltip="Download a receipt of your submission."
+            type="button"
+          >
+             Download Submission Receipt 
+          </button>
+        </div>
+        <div>
           <button
             class="btn btn-success"
             disabled=""
@@ -6883,6 +6912,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -6908,6 +6938,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -7040,6 +7071,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -7065,6 +7097,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
