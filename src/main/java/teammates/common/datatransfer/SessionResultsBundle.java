@@ -13,8 +13,8 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 
 /**
@@ -27,7 +27,7 @@ public class SessionResultsBundle {
     private final Set<FeedbackQuestion> questionsWithCommentNotVisibleForPreviewSet;
     private final Map<FeedbackQuestion, List<FeedbackResponse>> questionResponseMap;
     private final Map<FeedbackQuestion, List<FeedbackMissingResponse>> questionMissingResponseMap;
-    private final Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap;
+    private final Map<FeedbackResponse, List<ResponseInstructorComment>> responseCommentsMap;
     private final Map<UUID, Boolean> responseGiverVisibilityTable;
     private final Map<UUID, Boolean> responseRecipientVisibilityTable;
     private final Map<UUID, Boolean> commentGiverVisibilityTable;
@@ -40,7 +40,7 @@ public class SessionResultsBundle {
                                 List<FeedbackMissingResponse> missingResponses,
                                 Map<UUID, Boolean> responseGiverVisibilityTable,
                                 Map<UUID, Boolean> responseRecipientVisibilityTable,
-                                Map<FeedbackResponse, List<FeedbackResponseComment>> responseCommentsMap,
+                                Map<FeedbackResponse, List<ResponseInstructorComment>> responseCommentsMap,
                                 Map<UUID, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
 
@@ -94,7 +94,7 @@ public class SessionResultsBundle {
      * Returns true if the giver of a comment is visible to the current user.
      * Returns false otherwise.
      */
-    public boolean isCommentGiverVisible(FeedbackResponseComment comment) {
+    public boolean isCommentGiverVisible(ResponseInstructorComment comment) {
         return commentGiverVisibilityTable.get(comment.getId());
     }
 
@@ -140,7 +140,7 @@ public class SessionResultsBundle {
         return questions;
     }
 
-    public Map<FeedbackResponse, List<FeedbackResponseComment>> getResponseCommentsMap() {
+    public Map<FeedbackResponse, List<ResponseInstructorComment>> getResponseCommentsMap() {
         return responseCommentsMap;
     }
 

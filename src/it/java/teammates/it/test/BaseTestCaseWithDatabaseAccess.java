@@ -25,11 +25,11 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -131,9 +131,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             FeedbackResponse actualResponse = (FeedbackResponse) actual;
             equalizeIrrelevantData(expectedResponse, actualResponse);
             assertEquals(JsonUtils.toJson(expectedResponse), JsonUtils.toJson(actualResponse));
-        } else if (expected instanceof FeedbackResponseComment) {
-            FeedbackResponseComment expectedComment = (FeedbackResponseComment) expected;
-            FeedbackResponseComment actualComment = (FeedbackResponseComment) actual;
+        } else if (expected instanceof ResponseInstructorComment) {
+            ResponseInstructorComment expectedComment = (ResponseInstructorComment) expected;
+            ResponseInstructorComment actualComment = (ResponseInstructorComment) actual;
             equalizeIrrelevantData(expectedComment, actualComment);
             assertEquals(JsonUtils.toJson(expectedComment), JsonUtils.toJson(actualComment));
         } else if (expected instanceof Notification) {
@@ -205,8 +205,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             return logic.getFeedbackQuestion(((FeedbackQuestion) entity).getId());
         } else if (entity instanceof FeedbackResponse) {
             return logic.getFeedbackResponse(((FeedbackResponse) entity).getId());
-        } else if (entity instanceof FeedbackResponseComment) {
-            return logic.getFeedbackResponseComment(((FeedbackResponseComment) entity).getId());
+        } else if (entity instanceof ResponseInstructorComment) {
+            return logic.getResponseInstructorComment(((ResponseInstructorComment) entity).getId());
         } else if (entity instanceof Account) {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {
@@ -253,7 +253,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         expected.setUpdatedAt(actual.getUpdatedAt());
     }
 
-    private void equalizeIrrelevantData(FeedbackResponseComment expected, FeedbackResponseComment actual) {
+    private void equalizeIrrelevantData(ResponseInstructorComment expected, ResponseInstructorComment actual) {
         // Ignore time field as it is stamped at the time of creation in testing
         expected.setCreatedAt(actual.getCreatedAt());
         expected.setUpdatedAt(actual.getUpdatedAt());

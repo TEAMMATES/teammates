@@ -205,7 +205,7 @@
       "questionId": "00000000-0000-4000-8000-000000000801"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -214,8 +214,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"

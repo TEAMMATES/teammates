@@ -12,7 +12,6 @@ export interface FeedbackQuestionModel {
   otherResponses: ResponseOutput[][];
   isLoading: boolean;
   isLoaded: boolean;
-  hasResponse: boolean;
   errorMessage?: string;
   hasResponseButNotVisibleForPreview: boolean;
   hasCommentNotVisibleForPreview: boolean;

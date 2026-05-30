@@ -112,18 +112,6 @@ export interface FeedbackRankRecipientsResponseDetails extends FeedbackResponseD
   answer: number;
 }
 
-export interface FeedbackResponseCommentBasicRequest extends BasicRequest {
-  commentText: string;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
-}
-
-export interface FeedbackResponseCommentCreateRequest extends FeedbackResponseCommentBasicRequest {
-}
-
-export interface FeedbackResponseCommentUpdateRequest extends FeedbackResponseCommentBasicRequest {
-}
-
 export interface FeedbackResponseDetails {
   questionType: FeedbackQuestionType;
 }
@@ -131,6 +119,7 @@ export interface FeedbackResponseDetails {
 export interface FeedbackResponseRequest extends BasicRequest {
   recipient: string;
   responseDetails: FeedbackResponseDetails;
+  giverComment: string;
 }
 
 export interface FeedbackResponsesRequest extends BasicRequest {
@@ -231,6 +220,18 @@ export interface NotificationUpdateRequest extends NotificationBasicRequest {
 
 export interface RegKeyRequest extends BasicRequest {
   key: string;
+}
+
+export interface ResponseInstructorCommentBasicRequest extends BasicRequest {
+  commentText: string;
+  showCommentTo: CommentVisibilityType[];
+  showGiverNameTo: CommentVisibilityType[];
+}
+
+export interface ResponseInstructorCommentCreateRequest extends ResponseInstructorCommentBasicRequest {
+}
+
+export interface ResponseInstructorCommentUpdateRequest extends ResponseInstructorCommentBasicRequest {
 }
 
 export interface SendEmailRequest extends BasicRequest {
@@ -363,12 +364,10 @@ export enum NumberOfEntitiesToGiveFeedbackToSetting {
 }
 
 export enum QuestionGiverType {
-  SELF = "SELF",
+  SESSION_CREATOR = "SESSION_CREATOR",
   STUDENTS = "STUDENTS",
-  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
   INSTRUCTORS = "INSTRUCTORS",
   TEAMS = "TEAMS",
-  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
 }
 
 export enum QuestionRecipientType {

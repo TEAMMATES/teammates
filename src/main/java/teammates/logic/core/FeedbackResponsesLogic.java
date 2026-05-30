@@ -28,6 +28,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
@@ -35,10 +36,10 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -60,7 +61,7 @@ public final class FeedbackResponsesLogic {
     private FeedbackResponsesDb frDb;
     private UsersLogic usersLogic;
     private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
+    private ResponseInstructorCommentsLogic frcLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -74,7 +75,7 @@ public final class FeedbackResponsesLogic {
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
     void initLogicDependencies(FeedbackResponsesDb frDb,
-            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, FeedbackResponseCommentsLogic frcLogic) {
+            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, ResponseInstructorCommentsLogic frcLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.fqLogic = fqLogic;
@@ -86,6 +87,21 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse getFeedbackResponse(UUID frId) {
         return frDb.getFeedbackResponse(frId);
+    }
+
+    /**
+     * Deletes the giver comment for a feedback response by clearing it.
+     *
+     * @throws EntityDoesNotExistException if the feedback response does not exist
+     */
+    public FeedbackResponse deleteFeedbackResponseGiverComment(UUID frId) throws EntityDoesNotExistException {
+        FeedbackResponse feedbackResponse = frDb.getFeedbackResponse(frId);
+        if (feedbackResponse == null) {
+            throw new EntityDoesNotExistException("The feedback response does not exist.");
+        }
+
+        feedbackResponse.setGiverComment(null);
+        return feedbackResponse;
     }
 
     /**
@@ -258,6 +274,7 @@ public final class FeedbackResponsesLogic {
                 existingFeedbackResponse.setGiver(responseGiver);
                 existingFeedbackResponse.setRecipient(responseRecipient);
                 existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
+                existingFeedbackResponse.setGiverComment(responseRequest.getGiverComment());
                 feedbackResponses.add(existingFeedbackResponse);
                 validateFeedbackResponse(existingFeedbackResponse);
             } else {
@@ -265,7 +282,8 @@ public final class FeedbackResponsesLogic {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                         responseGiver,
                         responseRecipient,
-                        responseDetails);
+                        responseDetails,
+                        responseRequest.getGiverComment());
 
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
                 feedbackResponses.add(feedbackResponse);
@@ -392,7 +410,7 @@ public final class FeedbackResponsesLogic {
         int numberOfRecipients = 0;
 
         switch (giverType) {
-        case INSTRUCTORS, SELF:
+        case INSTRUCTORS, SESSION_CREATOR:
             for (Instructor instructor : roster.getInstructors()) {
                 ResponseGiver responseGiver = new ResponseGiver(instructor);
                 numberOfRecipients =
@@ -400,7 +418,7 @@ public final class FeedbackResponsesLogic {
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId());
             }
             break;
-        case TEAMS, TEAMS_IN_SAME_SECTION:
+        case TEAMS:
             Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
                 String teamName = entry.getKey();
@@ -507,28 +525,16 @@ public final class FeedbackResponsesLogic {
 
     private SessionResultsBundle buildResultsBundle(
             boolean isCourseWide, String sectionName, User user,
-            CourseRoster roster, List<FeedbackQuestion> allQuestions,
+            CourseRoster roster, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
-
-        Set<FeedbackQuestion> questionsNotVisibleToInstructors = new HashSet<>();
-        for (FeedbackQuestion qn : allQuestions) {
-
-            // set questions that should not be visible to instructors if results are being previewed
-            if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
-                questionsNotVisibleToInstructors.add(qn);
-            }
-        }
-
-        // related questions, responses, and comment
-        List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
-        Map<FeedbackResponse, List<FeedbackResponseComment>> relatedCommentsMap = new HashMap<>();
+        Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
         Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
-        if (isCourseWide) {
-            // all questions are related questions when viewing course-wide result
-            for (FeedbackQuestion qn : allQuestions) {
-                relatedQuestions.add(qn);
+        for (FeedbackQuestion qn : relatedQuestions) {
+            // set questions that should not be visible to instructors if results are being previewed
+            if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
+                relatedQuestionsNotVisibleForPreviewSet.add(qn);
             }
         }
 
@@ -566,15 +572,6 @@ public final class FeedbackResponsesLogic {
                 continue;
             }
 
-            // if previewing results and corresponding question should not be visible to instructors,
-            // note down the question and do not add the response
-            if (isPreviewResults && questionsNotVisibleToInstructors.contains(response.getFeedbackQuestion())) {
-                relatedQuestionsNotVisibleForPreviewSet.add(response.getFeedbackQuestion());
-                continue;
-            }
-
-            // if there are viewable responses, the corresponding question becomes related
-            relatedQuestions.add(response.getFeedbackQuestion());
             relatedResponses.add(response);
 
             // generate giver/recipient name visibility table
@@ -592,11 +589,11 @@ public final class FeedbackResponsesLogic {
         for (FeedbackResponse relatedResponse : relatedResponses) {
             relatedResponseIds.add(relatedResponse.getId());
         }
-        List<FeedbackResponseComment> allComments = frcLogic.getFeedbackResponseCommentsForResponses(relatedResponseIds);
+        List<ResponseInstructorComment> allComments = frcLogic.getResponseInstructorCommentsForResponses(relatedResponseIds);
         RequestTracer.checkRemainingTime();
 
         // build comment
-        for (FeedbackResponseComment frc : allComments) {
+        for (ResponseInstructorComment frc : allComments) {
             FeedbackResponse relatedResponse = frc.getFeedbackResponse();
             // the comment needs to be relevant to the question and response
             if (relatedResponse == null) {
@@ -686,21 +683,21 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackSession the feedback session
      * @param user the user viewing the feedback session
-     * @param questionId if not null, will only return partial bundle for the question
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user,
-            @Nullable UUID questionId, boolean isPreviewResults) {
+            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId);
-        RequestTracer.checkRemainingTime();
+        List<FeedbackQuestion> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSession)
+                .stream()
+                .filter(question -> isQuestionRelevantForUserResult(question, user))
+                .toList();
 
         // load response(s)
         List<FeedbackResponse> allResponses = new ArrayList<>();
@@ -716,9 +713,32 @@ public final class FeedbackResponsesLogic {
 
             allResponses.addAll(viewableResponses);
         }
-        RequestTracer.checkRemainingTime();
 
         return buildResultsBundle(false, null, user, roster, allQuestions, allResponses, isPreviewResults);
+    }
+
+    /**
+     * Returns whether the question is relevant to the user in user-scoped result view.
+     */
+    private boolean isQuestionRelevantForUserResult(FeedbackQuestion question, User user) {
+        if (user instanceof Instructor instructor) {
+            boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.INSTRUCTORS
+                    || question.getGiverType() == QuestionGiverType.SESSION_CREATOR
+                            && SanitizationHelper.areEmailsEqual(
+                                    question.getFeedbackSession().getCreatorEmail(), instructor.getEmail());
+            boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToInstructor(question)
+                    && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS;
+            return isRelevantAsGiver || isRelevantAsRecipient;
+        }
+
+        if (user instanceof Student) {
+            boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.STUDENTS
+                    || question.getGiverType() == QuestionGiverType.TEAMS;
+            boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToStudent(question);
+            return isRelevantAsGiver || isRelevantAsRecipient;
+        }
+
+        return false;
     }
 
     /**
@@ -1169,11 +1189,11 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether instructors can see the comment.
      */
-    boolean checkCanInstructorsSeeComment(FeedbackResponseComment feedbackResponseComment) {
+    boolean checkCanInstructorsSeeComment(ResponseInstructorComment responseInstructorComment) {
         boolean isCommentVisibleToInstructor =
-                feedbackResponseComment.getShowCommentTo().contains(ViewerType.INSTRUCTORS);
+                responseInstructorComment.getShowCommentTo().contains(ViewerType.INSTRUCTORS);
         boolean isGiverVisibleToInstructor =
-                feedbackResponseComment.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
+                responseInstructorComment.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
         return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
     }
 

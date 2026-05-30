@@ -231,7 +231,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.INSTRUCTORS))
                 .thenReturn(questionsInstructors);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SELF)).thenReturn(questionsSelf);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SESSION_CREATOR)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr1@teammates.tmt");
@@ -255,7 +255,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.INSTRUCTORS))
                 .thenReturn(questionsInstructors);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SELF)).thenReturn(questionsSelf);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SESSION_CREATOR)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr2@teammates.tmt");

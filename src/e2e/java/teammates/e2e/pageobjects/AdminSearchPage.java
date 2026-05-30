@@ -285,7 +285,8 @@ public class AdminSearchPage extends AppPage {
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-admin-account-search-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
+            if (columns.size() >= ACCOUNT_REQUEST_COL_INSTITUTE
+                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
                     && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
                     .getAttribute("innerHTML")).contains(institute)) {

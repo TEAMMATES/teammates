@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
@@ -19,8 +18,8 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
@@ -76,17 +75,24 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
+            boolean hasResponseButNotVisibleForPreview = bundle.getQuestionsNotVisibleForPreviewSet()
+                    .contains(question);
             // check if question has comments (on any responses) not visible for preview
             boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
                     .contains(question);
+
+            String questionStatistics = hasResponseButNotVisibleForPreview
+                    ? ""
+                    : questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle);
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle),
-                    false, hasCommentNotVisibleForPreview);
+                    questionStatistics,
+                    hasResponseButNotVisibleForPreview,
+                    hasCommentNotVisibleForPreview);
             Map<ResponseRecipient, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             qnOutput.getFeedbackQuestion().hideInformationForStudent();
 
-            if (questionDetails.isIndividualResponsesShownToStudents()) {
+            if (!hasResponseButNotVisibleForPreview && questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponse response : responses) {
                     boolean isUserGiver = Objects.equals(user, response.getGiver().getGiverUser());
                     boolean isUserRecipient = Objects.equals(user, response.getRecipient().getRecipientUser());
@@ -113,13 +119,6 @@ public class SessionResultsData extends ApiOutput {
             }
             qnOutput.otherResponses.addAll(otherResponsesMap.values());
 
-            sessionResultsData.questions.add(qnOutput);
-        });
-
-        Set<FeedbackQuestion> questionsWithResponsesNotVisibleForPreview =
-                bundle.getQuestionsNotVisibleForPreviewSet();
-        questionsWithResponsesNotVisibleForPreview.forEach(question -> {
-            QuestionOutput qnOutput = new QuestionOutput(question, "", true, false);
             sessionResultsData.questions.add(qnOutput);
         });
 
@@ -178,14 +177,10 @@ public class SessionResultsData extends ApiOutput {
         }
 
         // process comments
-        List<FeedbackResponseComment> feedbackResponseComments =
+        List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
-        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
-                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
-                .findFirst()
-                .map(FeedbackResponseCommentData::new)
-                .orElse(null);
+        List<ResponseInstructorCommentData> instructorComments = buildInstructorComments(responseInstructorComments, bundle);
+        String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
                 .withResponseId(response.getId().toString())
@@ -255,14 +250,10 @@ public class SessionResultsData extends ApiOutput {
         }
 
         // process comments
-        List<FeedbackResponseComment> feedbackResponseComments =
+        List<ResponseInstructorComment> responseInstructorComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
-        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
-                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
-                .findFirst()
-                .map(FeedbackResponseCommentData::new)
-                .orElse(null);
+        List<ResponseInstructorCommentData> instructorComments = buildInstructorComments(responseInstructorComments, bundle);
+        String participantComment = response.getGiverComment();
 
         return ResponseOutput.builder()
                 .withIsMissingResponse(false)
@@ -377,14 +368,12 @@ public class SessionResultsData extends ApiOutput {
         }
     }
 
-    private static List<FeedbackResponseCommentData> buildInstructorComments(
-                List<FeedbackResponseComment> feedbackResponseComments, SessionResultsBundle bundle) {
-        List<FeedbackResponseCommentData> outputs = new ArrayList<>();
+    private static List<ResponseInstructorCommentData> buildInstructorComments(
+                List<ResponseInstructorComment> responseInstructorComments, SessionResultsBundle bundle) {
+        List<ResponseInstructorCommentData> outputs = new ArrayList<>();
 
-        for (FeedbackResponseComment comment : feedbackResponseComments) {
-            if (!comment.getIsCommentFromFeedbackParticipant()) {
-                outputs.add(new FeedbackResponseCommentData(comment, bundle.isCommentGiverVisible(comment)));
-            }
+        for (ResponseInstructorComment comment : responseInstructorComments) {
+            outputs.add(new ResponseInstructorCommentData(comment, bundle.isCommentGiverVisible(comment)));
         }
 
         return outputs;
@@ -478,8 +467,8 @@ public class SessionResultsData extends ApiOutput {
 
         // comments
         @Nullable
-        private FeedbackResponseCommentData participantComment;
-        private List<FeedbackResponseCommentData> instructorComments;
+        private String participantComment;
+        private List<ResponseInstructorCommentData> instructorComments;
 
         private ResponseOutput() {
             // use builder instead
@@ -544,11 +533,11 @@ public class SessionResultsData extends ApiOutput {
         }
 
         @Nullable
-        public FeedbackResponseCommentData getParticipantComment() {
+        public String getParticipantComment() {
             return participantComment;
         }
 
-        public List<FeedbackResponseCommentData> getInstructorComments() {
+        public List<ResponseInstructorCommentData> getInstructorComments() {
             return instructorComments;
         }
 
@@ -622,12 +611,12 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withParticipantComment(@Nullable FeedbackResponseCommentData participantComment) {
+            Builder withParticipantComment(@Nullable String participantComment) {
                 responseOutput.participantComment = participantComment;
                 return this;
             }
 
-            Builder withInstructorComments(List<FeedbackResponseCommentData> instructorComments) {
+            Builder withInstructorComments(List<ResponseInstructorCommentData> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
                 return this;
             }

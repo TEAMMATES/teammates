@@ -66,15 +66,7 @@
             "otherFieldContent": "",
             "questionType": "MSQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000042",
-            "commentText": "Instructor 3 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Instructor 3 comment",
           "instructorComments": []
         },
         {
@@ -168,15 +160,7 @@
             "otherFieldContent": "",
             "questionType": "MSQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000041",
-            "commentText": "Student 4 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 4 comment",
           "instructorComments": []
         },
         {

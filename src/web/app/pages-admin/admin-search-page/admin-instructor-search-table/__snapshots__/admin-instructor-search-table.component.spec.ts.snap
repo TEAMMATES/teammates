@@ -140,6 +140,82 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
               </button>
             </td>
           </tr>
+          <tr>
+            <td
+              colspan="5"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-success has-success"
+                >
+                  <strong>
+                    Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Course Join Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-light"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-warning"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-danger"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-success"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -289,7 +365,7 @@ exports[`AdminInstructorSearchTableComponent > should snap with an expanded inst
               colspan="5"
             >
               <ul
-                class="list-group"
+                class="list-group collapse show"
               >
                 <li
                   class="list-group-item list-group-item-success has-success"

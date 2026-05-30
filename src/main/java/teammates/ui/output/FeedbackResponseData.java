@@ -23,15 +23,16 @@ public class FeedbackResponseData extends ApiOutput {
     private final FeedbackResponseDetails responseDetails;
 
     @Nullable
-    private FeedbackResponseCommentData giverComment;
+    private String giverComment;
 
     @JsonCreator
     private FeedbackResponseData(UUID feedbackResponseId, String giverIdentifier,
-            String recipientIdentifier, FeedbackResponseDetails responseDetails) {
+            String recipientIdentifier, FeedbackResponseDetails responseDetails, @Nullable String giverComment) {
         this.feedbackResponseId = feedbackResponseId;
         this.giverIdentifier = giverIdentifier;
         this.recipientIdentifier = recipientIdentifier;
         this.responseDetails = responseDetails;
+        this.giverComment = giverComment;
     }
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
@@ -39,6 +40,7 @@ public class FeedbackResponseData extends ApiOutput {
         this.giverIdentifier = feedbackResponse.getGiver().getIdentifier();
         this.recipientIdentifier = feedbackResponse.getRecipient().getIdentifier();
         this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
+        this.giverComment = feedbackResponse.getGiverComment();
     }
 
     public UUID getFeedbackResponseId() {
@@ -57,11 +59,11 @@ public class FeedbackResponseData extends ApiOutput {
         return responseDetails;
     }
 
-    public FeedbackResponseCommentData getGiverComment() {
+    public String getGiverComment() {
         return giverComment;
     }
 
-    public void setGiverComment(FeedbackResponseCommentData giverComment) {
+    public void setGiverComment(String giverComment) {
         this.giverComment = giverComment;
     }
 

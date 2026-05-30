@@ -20,10 +20,8 @@ import { environment } from '../../../../environments/environment';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import { Course, FeedbackSession, Instructor, ResponseOutput, Student } from '../../../../types/api-output';
 import { AddingQuestionPanelComponent } from '../../../components/adding-question-panel/adding-question-panel.component';
-import {
-  CommentEditFormModel,
-  CommentEditFormComponent,
-} from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
+import type { CommentEditFormModel } from '../../../components/comment-box/comment.model';
+import { CommentEditFormComponent } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
 import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.mode';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import { FeedbackPathPanelComponent } from '../../../components/feedback-path-panel/feedback-path-panel.component';

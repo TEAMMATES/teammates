@@ -28,9 +28,9 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
 
@@ -487,7 +487,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).isEmpty());
     }
 
-    public void verifyQnViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyQnViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                     FeedbackResponse response, Collection<Instructor> instructors,
                                     Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
@@ -505,7 +505,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment);
     }
 
-    public void verifyGqrViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyGqrViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -525,7 +525,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment);
     }
 
-    public void verifyRqgViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyRqgViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -545,7 +545,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment);
     }
 
-    public void verifyGrqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyGrqViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -564,7 +564,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment);
     }
 
-    public void verifyRgqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyRgqViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -582,7 +582,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment);
     }
 
-    private void verifyResponseRowComment(WebElement responseRow, FeedbackResponseComment comment) {
+    private void verifyResponseRowComment(WebElement responseRow, ResponseInstructorComment comment) {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
@@ -592,7 +592,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyGroupedResponseComment(WebElement groupedResponses, int qnNum,
-                                              FeedbackResponseComment comment) {
+                                              ResponseInstructorComment comment) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
         String editor = comment.getLastEditedBy().getDisplayName();

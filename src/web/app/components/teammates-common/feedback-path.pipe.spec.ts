@@ -12,8 +12,8 @@ describe('GiverTypeDescriptionPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('transform QuestionRecipientType.SELF', () => {
-    expect(pipe.transform(QuestionGiverType.SELF)).toBe('Feedback session creator (i.e., me)');
+  it('transform QuestionGiverType.SESSION_CREATOR', () => {
+    expect(pipe.transform(QuestionGiverType.SESSION_CREATOR)).toBe('Feedback session creator (i.e., me)');
   });
 
   it('transform QuestionGiverType.STUDENTS', () => {

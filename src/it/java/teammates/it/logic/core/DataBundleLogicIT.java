@@ -36,12 +36,12 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -214,12 +214,12 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         verifyEquals(expectedResponse1, actualResponse1);
 
         ______TS("verify feedback response comments deserialized correctly");
-        FeedbackResponseComment actualComment1 = dataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        ResponseInstructorComment actualComment1 = dataBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
         ResponseGiver commentGiver = new ResponseGiver(actualInstructor1);
-        FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(commentGiver,
-                "Instructor 1 comment to student 1 self feedback", false, false,
+        ResponseInstructorComment expectedComment1 = new ResponseInstructorComment(commentGiver,
+                "Instructor 1 comment to student 1 self feedback",
                 new ArrayList<>(), new ArrayList<>(), commentGiver);
-        expectedResponse1.addFeedbackResponseComment(expectedComment1);
+        expectedResponse1.addResponseInstructorComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
         verifyEquals(expectedComment1, actualComment1);
     }
@@ -311,7 +311,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Set<FeedbackQuestion> fqs = session1InTypicalCourse.getFeedbackQuestions();
         Set<DeadlineExtension> des = session1InTypicalCourse.getDeadlineExtensions();
         List<FeedbackResponse> frs = new ArrayList<>();
-        List<FeedbackResponseComment> frcs = new ArrayList<>();
+        List<ResponseInstructorComment> frcs = new ArrayList<>();
 
         for (DeadlineExtension de : des) {
             assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(de));
@@ -323,11 +323,11 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         }
 
         for (FeedbackResponse fr : frs) {
-            frcs.addAll(fr.getFeedbackResponseComments());
+            frcs.addAll(fr.getResponseInstructorComments());
             assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fr));
         }
 
-        for (FeedbackResponseComment frc : frcs) {
+        for (ResponseInstructorComment frc : frcs) {
             assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(frc));
         }
 

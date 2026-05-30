@@ -1,7 +1,6 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,15 +22,14 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
  * Represents a feedback response comment.
  */
 @Entity
-@Table(name = "FeedbackResponseComments")
-public class FeedbackResponseComment extends BaseEntity {
+@Table(name = "ResponseInstructorComments")
+public class ResponseInstructorComment extends BaseEntity {
     @Id
     private UUID id;
 
@@ -69,12 +67,6 @@ public class FeedbackResponseComment extends BaseEntity {
     private String commentText;
 
     @Column(nullable = false)
-    private boolean isVisibilityFollowingFeedbackQuestion;
-
-    @Column(nullable = false)
-    private boolean isCommentFromFeedbackParticipant;
-
-    @Column(nullable = false)
     @Convert(converter = ViewerTypeListConverter.class)
     private List<ViewerType> showCommentTo;
 
@@ -85,20 +77,17 @@ public class FeedbackResponseComment extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    protected FeedbackResponseComment() {
+    protected ResponseInstructorComment() {
         // required by Hibernate
     }
 
-    public FeedbackResponseComment(
+    public ResponseInstructorComment(
             ResponseGiver giver, String commentText,
-            boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo,
             ResponseGiver lastEditedBy
     ) {
         this.setGiver(giver);
         this.setCommentText(commentText);
-        this.setIsVisibilityFollowingFeedbackQuestion(isVisibilityFollowingFeedbackQuestion);
-        this.setIsCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant);
         this.setShowCommentTo(showCommentTo);
         this.setShowGiverNameTo(showGiverNameTo);
         this.setLastEditedBy(lastEditedBy);
@@ -143,22 +132,6 @@ public class FeedbackResponseComment extends BaseEntity {
 
     public void setCommentText(String commentText) {
         this.commentText = commentText;
-    }
-
-    public boolean getIsVisibilityFollowingFeedbackQuestion() {
-        return this.isVisibilityFollowingFeedbackQuestion;
-    }
-
-    public void setIsVisibilityFollowingFeedbackQuestion(boolean isVisibilityFollowingFeedbackQuestion) {
-        this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
-    }
-
-    public boolean getIsCommentFromFeedbackParticipant() {
-        return this.isCommentFromFeedbackParticipant;
-    }
-
-    public void setIsCommentFromFeedbackParticipant(boolean isCommentFromFeedbackParticipant) {
-        this.isCommentFromFeedbackParticipant = isCommentFromFeedbackParticipant;
     }
 
     public List<ViewerType> getShowCommentTo() {
@@ -215,19 +188,12 @@ public class FeedbackResponseComment extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        List<String> errors = new ArrayList<>();
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
-                isCommentFromFeedbackParticipant, isVisibilityFollowingFeedbackQuestion), errors);
-
-        return errors;
+        return List.of();
     }
 
     @Override
     public String toString() {
-        return "FeedbackResponseComment [id=" + id + ", giver=" + giver + ", commentText=" + commentText
-                + ", isVisibilityFollowingFeedbackQuestion=" + isVisibilityFollowingFeedbackQuestion
-                + ", isCommentFromFeedbackParticipant=" + isCommentFromFeedbackParticipant
+        return "ResponseInstructorComment [id=" + id + ", giver=" + giver + ", commentText=" + commentText
                 + ", lastEditedBy=" + lastEditedBy + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + "]";
     }
@@ -238,7 +204,7 @@ public class FeedbackResponseComment extends BaseEntity {
             return true;
         }
 
-        if (!(o instanceof FeedbackResponseComment other)) {
+        if (!(o instanceof ResponseInstructorComment other)) {
             return false;
         }
 

@@ -1,7 +1,6 @@
 package teammates.ui.request;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -11,7 +10,7 @@ import teammates.ui.output.CommentVisibilityType;
 /**
  * The basic request of modifying a feedback response comment.
  */
-class FeedbackResponseCommentBasicRequest extends BasicRequest {
+class ResponseInstructorCommentBasicRequest extends BasicRequest {
 
     private String commentText;
 
@@ -19,7 +18,7 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
     private List<CommentVisibilityType> showGiverNameTo;
 
     @JsonCreator
-    FeedbackResponseCommentBasicRequest(String commentText,
+    ResponseInstructorCommentBasicRequest(String commentText,
                                         List<CommentVisibilityType> showCommentTo,
                                         List<CommentVisibilityType> showGiverNameTo) {
         this.commentText = commentText;
@@ -29,7 +28,8 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(commentText != null, "Comment Text can't be null");
+        assertTrue(commentText != null, "Comment Text cannot be null");
+        assertTrue(!commentText.trim().isEmpty(), "Comment Text cannot be empty");
     }
 
     public String getCommentText() {
@@ -68,6 +68,6 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
                 break;
             }
             return null;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }

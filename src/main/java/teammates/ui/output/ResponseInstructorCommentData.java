@@ -5,13 +5,13 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.ResponseInstructorComment;
 
 /**
- * The API output format of {@link FeedbackResponseComment}.
+ * The API output format of {@link ResponseInstructorComment}.
  */
-public class FeedbackResponseCommentData extends ApiOutput {
-    private UUID feedbackResponseCommentId;
+public class ResponseInstructorCommentData extends ApiOutput {
+    private UUID responseInstructorCommentId;
 
     private String commentGiverName;
     private String lastEditorName;
@@ -19,28 +19,26 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
-    private boolean isVisibilityFollowingFeedbackQuestion;
 
     private List<CommentVisibilityType> showGiverNameTo;
     private List<CommentVisibilityType> showCommentTo;
 
-    private FeedbackResponseCommentData() {
+    private ResponseInstructorCommentData() {
         // for Jackson deserialization
     }
 
-    public FeedbackResponseCommentData(FeedbackResponseComment frc) {
+    public ResponseInstructorCommentData(ResponseInstructorComment frc) {
         this.commentGiverName = frc.getGiver().getDisplayName();
         this.lastEditorName = frc.getLastEditedBy().getDisplayName();
-        this.feedbackResponseCommentId = frc.getId();
+        this.responseInstructorCommentId = frc.getId();
         this.commentText = frc.getCommentText();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
         this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
         this.createdAt = frc.getCreatedAt().toEpochMilli();
         this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
-        this.isVisibilityFollowingFeedbackQuestion = frc.getIsVisibilityFollowingFeedbackQuestion();
     }
 
-    public FeedbackResponseCommentData(FeedbackResponseComment frc, boolean isGiverVisible) {
+    public ResponseInstructorCommentData(ResponseInstructorComment frc, boolean isGiverVisible) {
         this(frc);
         if (!isGiverVisible) {
             this.commentGiverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
@@ -79,8 +77,8 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return commentText;
     }
 
-    public UUID getFeedbackResponseCommentId() {
-        return feedbackResponseCommentId;
+    public UUID getResponseInstructorCommentId() {
+        return responseInstructorCommentId;
     }
 
     public String getCommentGiverName() {
@@ -107,7 +105,4 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return lastEditedAt;
     }
 
-    public boolean isVisibilityFollowingFeedbackQuestion() {
-        return isVisibilityFollowingFeedbackQuestion;
-    }
 }

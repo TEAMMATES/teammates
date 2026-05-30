@@ -3,6 +3,7 @@ package teammates.logic.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,103 +17,93 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.api.ResponseInstructorCommentsDb;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.CommentVisibilityType;
-import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**
- * SUT: {@link FeedbackResponseCommentsLogic}.
+ * SUT: {@link ResponseInstructorCommentsLogic}.
  */
-public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
+public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
 
     private static final UUID TYPICAL_ID = UUID.fromString("00000000-0000-4000-8000-000000000064");
     private static final UUID NOT_TYPICAL_ID = UUID.fromString("00000000-0000-4000-8000-000000000065");
-    private static final UUID TYPICAL_UUID = UUID.randomUUID();
-    private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private FeedbackResponseCommentsDb frcDb;
+    private ResponseInstructorCommentsLogic frcLogic = ResponseInstructorCommentsLogic.inst();
+    private ResponseInstructorCommentsDb frcDb;
+    private FeedbackResponsesLogic frLogic;
 
     @BeforeMethod
     public void setUpMethod() {
-        frcDb = mock(FeedbackResponseCommentsDb.class);
-        frcLogic.initLogicDependencies(frcDb);
+        frcDb = mock(ResponseInstructorCommentsDb.class);
+        frLogic = mock(FeedbackResponsesLogic.class);
+        frcLogic.initLogicDependencies(frcDb, frLogic);
     }
 
     @Test
     public void testGetComment_commentAlreadyExists_success() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        ResponseInstructorComment comment = getTypicalResponseComment(TYPICAL_ID);
 
-        when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
+        when(frcDb.getResponseInstructorComment(comment.getId())).thenReturn(comment);
 
-        FeedbackResponseComment commentFetched = frcLogic.getFeedbackResponseComment(TYPICAL_ID);
-
-        assertEquals(comment, commentFetched);
-    }
-
-    @Test
-    public void testGetCommentForResponseFromParticipant_commentAlreadyExists_success() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-
-        when(frcDb.getFeedbackResponseCommentForResponseFromParticipant(TYPICAL_UUID)).thenReturn(comment);
-
-        FeedbackResponseComment commentFetched = frcLogic
-                .getFeedbackResponseCommentForResponseFromParticipant(TYPICAL_UUID);
+        ResponseInstructorComment commentFetched = frcLogic.getResponseInstructorComment(TYPICAL_ID);
 
         assertEquals(comment, commentFetched);
     }
 
     @Test
     public void testGetComment_commentDoesNotExist_returnsNull() {
-        when(frcDb.getFeedbackResponseComment(NOT_TYPICAL_ID)).thenReturn(null);
+        when(frcDb.getResponseInstructorComment(NOT_TYPICAL_ID)).thenReturn(null);
 
-        FeedbackResponseComment commentFetched = frcLogic.getFeedbackResponseComment(NOT_TYPICAL_ID);
+        ResponseInstructorComment commentFetched = frcLogic.getResponseInstructorComment(NOT_TYPICAL_ID);
 
-        verify(frcDb, times(1)).getFeedbackResponseComment(NOT_TYPICAL_ID);
+        verify(frcDb, times(1)).getResponseInstructorComment(NOT_TYPICAL_ID);
         assertNull(commentFetched);
     }
 
     @Test
     public void testCreateComment_commentDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+            throws InvalidParametersException, EntityDoesNotExistException {
+        ResponseInstructorComment comment = getTypicalResponseComment(TYPICAL_ID);
+        FeedbackResponse feedbackResponse = comment.getFeedbackResponse();
+        ResponseGiver giver = getRandomInstructorGiver();
 
-        frcLogic.createFeedbackResponseComment(comment);
+        when(frLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
+        when(frcDb.createResponseInstructorComment(any(ResponseInstructorComment.class)))
+                .thenAnswer(invocation -> invocation.getArgument(0));
 
-        verify(frcDb, times(1)).createFeedbackResponseComment(comment);
-    }
+        ResponseInstructorComment createdComment = frcLogic.createResponseInstructorComment(feedbackResponse.getId(), giver,
+                "new comment", List.of(ViewerType.STUDENTS), List.of(ViewerType.INSTRUCTORS));
 
-    @Test
-    public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
-
-        assertThrows(EntityAlreadyExistsException.class,
-                () -> frcLogic.createFeedbackResponseComment(comment));
-
+        verify(frcDb, times(1)).createResponseInstructorComment(createdComment);
+        assertEquals("new comment", createdComment.getCommentText());
+        assertEquals(giver, createdComment.getGiver());
+        assertEquals(List.of(ViewerType.STUDENTS), createdComment.getShowCommentTo());
+        assertEquals(List.of(ViewerType.INSTRUCTORS), createdComment.getShowGiverNameTo());
     }
 
     @Test
     public void testDeleteComment_commentExists_success() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        when(frcDb.getFeedbackResponseComment(TYPICAL_ID)).thenReturn(comment);
+        ResponseInstructorComment comment = getTypicalResponseComment(TYPICAL_ID);
+        when(frcDb.getResponseInstructorComment(TYPICAL_ID)).thenReturn(comment);
 
-        frcLogic.deleteFeedbackResponseComment(TYPICAL_ID);
+        frcLogic.deleteResponseInstructorComment(TYPICAL_ID);
 
-        verify(frcDb, times(1)).deleteFeedbackResponseComment(comment);
+        verify(frcDb, times(1)).deleteResponseInstructorComment(comment);
     }
 
     @Test
     public void testUpdateComment_entityAlreadyExists_success()
             throws EntityDoesNotExistException {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        ResponseInstructorComment comment = getTypicalResponseComment(TYPICAL_ID);
 
-        when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
+        when(frcDb.getResponseInstructorComment(comment.getId())).thenReturn(comment);
 
         String updatedCommentText = "Update";
         List<CommentVisibilityType> showCommentTo = new ArrayList<>();
@@ -121,12 +112,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
         List<CommentVisibilityType> showGiverNameTo = new ArrayList<>();
         showGiverNameTo.add(CommentVisibilityType.INSTRUCTORS);
 
-        FeedbackResponseCommentUpdateRequest updateRequest = new FeedbackResponseCommentUpdateRequest(
+        ResponseInstructorCommentUpdateRequest updateRequest = new ResponseInstructorCommentUpdateRequest(
                 updatedCommentText, showCommentTo, showGiverNameTo);
-        FeedbackResponseComment updatedComment = frcLogic.updateFeedbackResponseComment(TYPICAL_ID, updateRequest,
+        ResponseInstructorComment updatedComment = frcLogic.updateResponseInstructorComment(TYPICAL_ID, updateRequest,
                 getRandomInstructorGiver());
 
-        verify(frcDb, times(1)).getFeedbackResponseComment(TYPICAL_ID);
+        verify(frcDb, times(1)).getResponseInstructorComment(TYPICAL_ID);
 
         List<ViewerType> expectedShowCommentTo = new ArrayList<>();
         expectedShowCommentTo.add(ViewerType.STUDENTS);
@@ -142,9 +133,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
     @Test
     public void testUpdateComment_entityDoesNotExist() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        ResponseInstructorComment comment = getTypicalResponseComment(TYPICAL_ID);
 
-        when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
+        when(frcDb.getResponseInstructorComment(comment.getId())).thenReturn(comment);
 
         UUID nonExistentId = UUID.fromString("00000000-0000-4000-8000-000000009999");
         String updatedCommentText = "Update";
@@ -154,19 +145,19 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
         List<CommentVisibilityType> showGiverNameTo = new ArrayList<>();
         showGiverNameTo.add(CommentVisibilityType.INSTRUCTORS);
 
-        FeedbackResponseCommentUpdateRequest updateRequest = new FeedbackResponseCommentUpdateRequest(
+        ResponseInstructorCommentUpdateRequest updateRequest = new ResponseInstructorCommentUpdateRequest(
                 updatedCommentText, showCommentTo, showGiverNameTo);
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> frcLogic.updateFeedbackResponseComment(nonExistentId, updateRequest,
+                () -> frcLogic.updateResponseInstructorComment(nonExistentId, updateRequest,
                         getRandomInstructorGiver()
                 ));
 
         assertEquals("Trying to update a feedback response comment that does not exist.", ex.getMessage());
     }
 
-    private FeedbackResponseComment getTypicalResponseComment(UUID id) {
-        FeedbackResponseComment comment = getTypicalFeedbackResponseComment();
+    private ResponseInstructorComment getTypicalResponseComment(UUID id) {
+        ResponseInstructorComment comment = getTypicalResponseInstructorComment();
         comment.setId(id);
         return comment;
     }

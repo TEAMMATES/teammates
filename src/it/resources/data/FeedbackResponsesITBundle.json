@@ -742,7 +742,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 3,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
@@ -775,7 +775,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 5,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -792,7 +792,7 @@
       },
       "description": "Feedback question with no responses",
       "questionNumber": 5,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -838,6 +838,7 @@
         "questionType": "TEXT",
         "answer": "Student 1 self feedback. This is a very long feedback response intended to test the database capacity. It should exceed the 255 character limit commonly associated with VARCHAR columns. By including a large amount of text, we can verify if the system correctly handles extended feedback without truncation or errors. This is particularly important for text-based questions where users might provide detailed qualitative data. Let's make sure it's well over 255 characters to be absolutely certain."
       },
+      "giverComment": "Student 1 comment to student 1 self feedback",
       "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1": {
@@ -962,7 +963,7 @@
       "questionId": "00000000-0000-4000-8000-000000000801"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -971,22 +972,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000901"
-    },
-    "comment2ToResponse1ForQ1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Student 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
@@ -999,8 +984,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
@@ -1013,8 +996,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000903"
@@ -1027,8 +1008,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000905"
@@ -1041,8 +1020,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 4 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000908"
@@ -1055,8 +1032,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8001-000000000901"

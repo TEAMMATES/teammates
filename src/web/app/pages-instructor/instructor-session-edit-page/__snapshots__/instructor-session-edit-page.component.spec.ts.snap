@@ -5492,7 +5492,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                             Instructors in this course
                           </option>
                           <option
-                            value="1: SELF"
+                            value="1: SESSION_CREATOR"
                           >
                             Feedback session creator (i.e., me)
                           </option>

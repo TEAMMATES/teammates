@@ -10,17 +10,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.Intent;
-import teammates.ui.webapi.DeleteFeedbackResponseCommentAction;
+import teammates.ui.webapi.DeleteResponseInstructorCommentAction;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * SUT: {@link DeleteFeedbackResponseCommentAction}.
+ * SUT: {@link DeleteResponseInstructorCommentAction}.
  */
-public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFeedbackResponseCommentAction> {
+public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<DeleteResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
     @Override
@@ -45,17 +44,16 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
     @Override
     protected void testExecute() {
         ______TS("Typical successful case, comment deleted");
-        FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        ResponseInstructorComment frc = typicalBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        DeleteFeedbackResponseCommentAction action = getAction(submissionParams);
+        DeleteResponseInstructorCommentAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertNull(logic.getFeedbackResponseComment(frc.getId()));
+        assertNull(logic.getResponseInstructorComment(frc.getId()));
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
 
@@ -63,10 +61,9 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
     @Override
     protected void testAccessControl() throws Exception {
         ______TS("Instructor who give the comment can delete comment");
-        FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ3");
+        ResponseInstructorComment frc = typicalBundle.responseInstructorComments.get("comment1ToResponse1ForQ3");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         Instructor instructorWhoGiveComment = typicalBundle.instructors.get("instructor1OfCourse1");
 

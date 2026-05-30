@@ -8,7 +8,6 @@ import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -17,7 +16,6 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
-  CommentVisibilityType,
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
   FeedbackContributionQuestionDetails,
@@ -35,7 +33,6 @@ import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponse,
-  FeedbackResponseComment,
   FeedbackResponses,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
@@ -59,7 +56,9 @@ import { Milliseconds } from '../../../types/datetime-const';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
 } from '../../components/question-submission-form/question-submission-form-model';
+import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 describe('SessionSubmissionPageComponent', () => {
@@ -104,16 +103,19 @@ describe('SessionSubmissionPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const testComment: FeedbackResponseComment = {
-    commentGiverName: 'Comment Giver',
-    lastEditorName: 'Comment Editor',
-    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
-    commentText: 'comment text',
-    createdAt: 10000000,
-    lastEditedAt: 20000000,
-    isVisibilityFollowingFeedbackQuestion: true,
-    showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-    showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+  const createGiverComment = (commentText: string): GiverCommentRowModel => {
+    const originalCommentFormModel = {
+      commentText,
+      showCommentTo: [],
+      showGiverNameTo: [],
+    };
+
+    return {
+      commentType: 'giver',
+      originalCommentFormModel,
+      commentEditFormModel: structuredClone(originalCommentFormModel),
+      isEditing: false,
+    };
   };
 
   const testMcqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -123,41 +125,9 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
     } as FeedbackMcqResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
-    commentByGiver: {
-      originalComment: testComment,
-      originalRecipientIdentifier: 'barry-harris-id',
-      commentEditFormModel: {
-        commentText: 'comment text here',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
-      isEditing: false,
-    },
-  };
-
-  const testMcqRecipientSubmissionForm2: FeedbackResponseRecipientSubmissionFormModel = {
-    responseId: 'response-id-2',
-    recipientIdentifier: 'recipient-identifier',
-    responseDetails: {
-      answer: 'answer',
-      questionType: FeedbackQuestionType.MCQ,
-    } as FeedbackMcqResponseDetails,
-    isValid: true,
-    isModified: false,
-    commentByGiver: {
-      originalComment: testComment,
-      originalRecipientIdentifier: 'recipient-identifier',
-      commentEditFormModel: {
-        commentText: '',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
-      isEditing: false,
-    },
+    commentByGiver: createGiverComment('comment text here'),
   };
 
   const testTextRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -167,17 +137,9 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'answer',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
-    commentByGiver: {
-      commentEditFormModel: {
-        commentText: 'comment text here',
-        isUsingCustomVisibilities: true,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
-      isEditing: false,
-    },
+    commentByGiver: createGiverComment('comment text here'),
   };
 
   const testMcqRecipientSubmissionForm3: FeedbackResponseRecipientSubmissionFormModel = {
@@ -187,8 +149,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'barry-harris-answer',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testMcqRecipientSubmissionForm4: FeedbackResponseRecipientSubmissionFormModel = {
@@ -198,8 +160,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'gene-harris-answer',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testMsqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -211,19 +173,9 @@ describe('SessionSubmissionPageComponent', () => {
       otherFieldContent: 'other field content',
       questionType: FeedbackQuestionType.MSQ,
     } as FeedbackMsqResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
-    commentByGiver: {
-      originalComment: testComment,
-      originalRecipientIdentifier: 'barry-harris-id',
-      commentEditFormModel: {
-        commentText: 'comment text',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
-      isEditing: false,
-    },
+    commentByGiver: createGiverComment('comment text'),
   };
 
   const testNumscaleRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -237,8 +189,8 @@ describe('SessionSubmissionPageComponent', () => {
       questionText: 'question text',
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleQuestionDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testConstsumRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -248,8 +200,8 @@ describe('SessionSubmissionPageComponent', () => {
       answers: [7, 13],
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testContribRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -259,8 +211,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 20,
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testRubricRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -270,8 +222,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: [3, 4],
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testRankOptionsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -281,8 +233,8 @@ describe('SessionSubmissionPageComponent', () => {
       answers: [2, 1],
       questionType: FeedbackQuestionType.RANK_OPTIONS,
     } as FeedbackRankOptionsResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testRankRecipientsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -295,8 +247,8 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
       answer: 1,
     } as FeedbackRankRecipientsResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testResponse1: FeedbackResponse = {
@@ -637,7 +589,6 @@ describe('SessionSubmissionPageComponent', () => {
   let instructorService: InstructorService;
   let feedbackSessionsService: FeedbackSessionsService;
   let feedbackResponsesService: FeedbackResponsesService;
-  let feedbackResponseCommentService: FeedbackResponseCommentService;
   let feedbackQuestionsService: FeedbackQuestionsService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
@@ -672,7 +623,6 @@ describe('SessionSubmissionPageComponent', () => {
     instructorService = TestBed.inject(InstructorService);
     feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     feedbackResponsesService = TestBed.inject(FeedbackResponsesService);
-    feedbackResponseCommentService = TestBed.inject(FeedbackResponseCommentService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     simpleModalService = TestBed.inject(SimpleModalService);
     ngbModal = TestBed.inject(NgbModal);
@@ -1100,7 +1050,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
-    testQuestionSubmissionForm1.recipientSubmissionForms[0].isModified = true;
+    testQuestionSubmissionForm1.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
@@ -1113,8 +1063,6 @@ describe('SessionSubmissionPageComponent', () => {
         }
         return of({ responses: [testResponse2], requestId: '20' });
       });
-    vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
-    vi.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
@@ -1128,6 +1076,7 @@ describe('SessionSubmissionPageComponent', () => {
           {
             recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
             responseDetails: testResponseDetails1,
+            giverComment: 'comment text here',
           },
         ],
       },
@@ -1174,7 +1123,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
-    testQuestionSubmissionForm2.recipientSubmissionForms[0].isModified = true;
+    testQuestionSubmissionForm2.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     // invalid response
     testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
@@ -1183,8 +1132,6 @@ describe('SessionSubmissionPageComponent', () => {
     const responseSpy = vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockImplementation(() => {
       return of({ responses: [testResponse1], requestId: '10' });
     });
-    vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
-    vi.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
@@ -1198,6 +1145,7 @@ describe('SessionSubmissionPageComponent', () => {
           {
             recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
             responseDetails: testResponseDetails1,
+            giverComment: 'comment text here',
           },
         ],
       },
@@ -1223,114 +1171,29 @@ describe('SessionSubmissionPageComponent', () => {
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
-    expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].isModified).toBe(true);
-  });
-
-  it('should create comment request to create new comment when submission form has no original comment', () => {
-    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testTextRecipientSubmissionForm);
-    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
-
-    component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(
-        component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier),
-      );
-    });
-
-    expect(commentSpy).toHaveBeenCalledTimes(1);
-    expect(commentSpy).toHaveBeenLastCalledWith(
-      {
-        commentText: 'comment text here',
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      testTextRecipientSubmissionForm.responseId,
-      Intent.STUDENT_SUBMISSION,
-      { key: testQueryParams.key, moderatedperson: '' },
+    expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].status).toBe(
+      ResponseSubmissionStatus.MODIFIED,
     );
-  });
-
-  it(
-    'should create comment request to create new comment when submission form has original comment' +
-      'with different original recipient',
-    () => {
-      const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
-      testSubmissionForm.commentByGiver!.originalRecipientIdentifier = 'other-recipient-identifier';
-      const commentSpy = vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
-
-      component.createCommentRequest(testSubmissionForm).subscribe(() => {
-        expect(testSubmissionForm.commentByGiver).toEqual(
-          component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier),
-        );
-      });
-
-      expect(commentSpy).toHaveBeenCalledTimes(1);
-      expect(commentSpy).toHaveBeenLastCalledWith(
-        {
-          commentText: 'comment text here',
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-        testMcqRecipientSubmissionForm.responseId,
-        Intent.STUDENT_SUBMISSION,
-        { key: testQueryParams.key, moderatedperson: '' },
-      );
-    },
-  );
-
-  it('should create comment request to update existing comment when submission form has original comment', () => {
-    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
-    const expectedId: any = testMcqRecipientSubmissionForm.commentByGiver?.originalComment?.feedbackResponseCommentId;
-    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
-
-    component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(
-        component.getCommentModel(testComment, testSubmissionForm.recipientIdentifier),
-      );
-    });
-
-    expect(commentSpy).toHaveBeenCalledTimes(1);
-    expect(commentSpy).toHaveBeenLastCalledWith(
-      {
-        commentText: 'comment text here',
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      expectedId,
-      Intent.STUDENT_SUBMISSION,
-      { key: testQueryParams.key, moderatedperson: '' },
-    );
-  });
-
-  it('should create comment request to delete existing comment when new comment text is empty', () => {
-    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm2);
-    const expectedId: any = testMcqRecipientSubmissionForm2.commentByGiver?.originalComment?.feedbackResponseCommentId;
-    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'deleteComment').mockReturnValue(of({}));
-
-    component.createCommentRequest(testSubmissionForm).subscribe(() => {
-      expect(testSubmissionForm.commentByGiver).toEqual(undefined);
-    });
-
-    expect(commentSpy).toHaveBeenCalledTimes(1);
-    expect(commentSpy).toHaveBeenLastCalledWith(expectedId, Intent.STUDENT_SUBMISSION, {
-      key: testQueryParams.key,
-      moderatedperson: '',
-    });
   });
 
   it('should delete participant comment', () => {
     const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMsqQuestionSubmissionForm);
-    const expectedId: any =
-      testMsqQuestionSubmissionForm.recipientSubmissionForms[0].commentByGiver?.originalComment
-        ?.feedbackResponseCommentId;
-    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'deleteComment').mockReturnValue(of(true));
+    const commentSpy = vi.spyOn(feedbackResponsesService, 'deleteGiverComment').mockReturnValue(
+      of({
+        message: 'Successfully deleted feedback response giver comment.',
+      }),
+    );
 
     component.questionSubmissionForms = [testSubmissionForm];
     component.deleteParticipantComment(0, 0);
 
     expect(commentSpy).toHaveBeenCalledTimes(1);
-    expect(commentSpy).toHaveBeenLastCalledWith(expectedId, Intent.STUDENT_SUBMISSION, {
+    expect(commentSpy).toHaveBeenLastCalledWith({
+      responseId: 'response-id-6',
+      intent: Intent.STUDENT_SUBMISSION,
       key: testQueryParams.key,
-      moderatedperson: '',
+      moderatedPerson: '',
     });
+    expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].commentByGiver).toBeUndefined();
   });
 });

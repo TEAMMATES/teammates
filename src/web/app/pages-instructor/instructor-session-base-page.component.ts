@@ -501,7 +501,7 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackQuestionsService
       .getFeedbackQuestions({
         feedbackSessionId: model.feedbackSession.feedbackSessionId,
-        intent: Intent.INSTRUCTOR_RESULT,
+        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackQuestions: FeedbackQuestions) => {
@@ -512,7 +512,6 @@ export abstract class InstructorSessionBasePageComponent {
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
               model.feedbackSession.feedbackSessionId,
-              Intent.FULL_DETAIL,
               true,
               true,
               questions,

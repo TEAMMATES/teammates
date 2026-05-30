@@ -7,7 +7,6 @@ import { FeedbackQuestionModel } from './feedback-question.model';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -17,13 +16,12 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
-  FeedbackQuestion,
-  FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   Instructor,
+  QuestionOutput,
   RegkeyValidity,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -48,18 +46,17 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [LoadingSpinnerDirective, LoadingRetryComponent, QuestionResponsePanelComponent],
 })
 export class SessionResultPageComponent implements OnInit {
-  private feedbackQuestionsService = inject(FeedbackQuestionsService);
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private route = inject(ActivatedRoute);
-  private timezoneService = inject(TimezoneService);
-  private navigationService = inject(NavigationService);
-  private authService = inject(AuthService);
-  private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
-  private courseService = inject(CourseService);
-  private statusMessageService = inject(StatusMessageService);
-  private logService = inject(LogService);
-  private ngbModal = inject(NgbModal);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly authService = inject(AuthService);
+  private readonly studentService = inject(StudentService);
+  private readonly instructorService = inject(InstructorService);
+  private readonly courseService = inject(CourseService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly logService = inject(LogService);
+  private readonly ngbModal = inject(NgbModal);
 
   // enum
   Intent!: typeof Intent;
@@ -109,7 +106,7 @@ export class SessionResultPageComponent implements OnInit {
   feedbackSessionId = '';
   studentId: string | undefined = '';
 
-  private backendUrl: string = environment.backendUrl;
+  private readonly backendUrl: string = environment.backendUrl;
 
   constructor() {
     this.Intent = Intent;
@@ -308,47 +305,50 @@ export class SessionResultPageComponent implements OnInit {
           this.logStudentView();
           this.loadCourseInfo();
           this.loadPersonName();
-
-          this.feedbackQuestionsService
-            .getFeedbackQuestions({
-              feedbackSessionId: this.feedbackSessionId,
-              intent: this.intent,
-              key: this.regKey,
-              previewAs: this.previewAsPerson,
-            })
-            .pipe(
-              finalize(() => {
-                this.isFeedbackSessionResultsLoading = false;
-              }),
-            )
-            .subscribe({
-              next: (feedbackQuestions: FeedbackQuestions) => {
-                feedbackQuestions.questions.sort(
-                  (a: FeedbackQuestion, b: FeedbackQuestion) => a.questionNumber - b.questionNumber,
-                );
-                for (const question of feedbackQuestions.questions) {
-                  this.questions.push({
-                    feedbackQuestion: question,
-                    questionStatistics: '',
-                    allResponses: [],
-                    responsesToSelf: [],
-                    responsesFromSelf: [],
-                    otherResponses: [],
-                    isLoading: false,
-                    isLoaded: false,
-                    hasResponse: false,
-                    hasResponseButNotVisibleForPreview: false,
-                    hasCommentNotVisibleForPreview: false,
-                  });
-                }
-              },
-              error: (resp: ErrorMessageOutput) => {
-                this.handleError(resp);
-              },
-            });
+          this.loadFeedbackSessionResults();
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionResultsLoading = false;
+          this.handleError(resp);
+        },
+      });
+  }
+
+  private loadFeedbackSessionResults(): void {
+    this.isFeedbackSessionResultsLoading = true;
+    this.feedbackSessionsService
+      .getUserSessionResults({
+        feedbackSessionId: this.feedbackSessionId,
+        intent: this.intent,
+        key: this.regKey,
+        previewAs: this.previewAsPerson,
+      })
+      .pipe(
+        finalize(() => {
+          this.isFeedbackSessionResultsLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (sessionResults) => {
+          sessionResults.questions.sort(
+            (a: QuestionOutput, b: QuestionOutput) =>
+              a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
+          );
+
+          this.questions = sessionResults.questions.map((question: QuestionOutput) => ({
+            feedbackQuestion: question.feedbackQuestion,
+            questionStatistics: question.questionStatistics,
+            allResponses: question.allResponses,
+            responsesToSelf: question.responsesToSelf,
+            responsesFromSelf: question.responsesFromSelf,
+            otherResponses: question.otherResponses,
+            isLoading: false,
+            isLoaded: true,
+            hasResponseButNotVisibleForPreview: question.hasResponseButNotVisibleForPreview,
+            hasCommentNotVisibleForPreview: question.hasCommentNotVisibleForPreview,
+          }));
+        },
+        error: (resp: ErrorMessageOutput) => {
           this.handleError(resp);
         },
       });

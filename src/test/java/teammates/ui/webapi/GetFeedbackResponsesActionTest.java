@@ -26,16 +26,15 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.Intent;
@@ -52,7 +51,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     private List<FeedbackResponse> stubFeedbackResponsesNullComments;
     private FeedbackResponsesData stubFeedbackResponsesDataNullComments;
     private FeedbackResponsesData stubFeedbackResponsesDataNonNullComments;
-    private FeedbackResponseComment stubFeedbackResponseComment;
     private FeedbackSession stubFeedbackSession;
 
     @Override
@@ -74,10 +72,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         stubFeedbackQuestion = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
-        stubFeedbackResponseComment = getTypicalFeedbackResponseComment();
+        ResponseInstructorComment stubResponseInstructorComment = getTypicalResponseInstructorComment();
 
         // First stub FeedbackResponsesData
         FeedbackResponse feedbackResponse1 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
+        feedbackResponse1.setGiverComment(stubResponseInstructorComment.getCommentText());
         FeedbackResponse feedbackResponse2 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
         feedbackResponse2.setGiver(new ResponseGiver(stubInstructor));
         feedbackResponse2.setRecipient(new ResponseRecipient(stubInstructor));
@@ -96,7 +95,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         }
         // Set comment for the first FeedbackResponseData
         feedbackResponseDataListNonNullComments.get(0)
-                .setGiverComment(new FeedbackResponseCommentData(stubFeedbackResponseComment));
+                .setGiverComment(stubResponseInstructorComment.getCommentText());
         stubFeedbackResponsesDataNonNullComments = new FeedbackResponsesData();
         stubFeedbackResponsesDataNonNullComments.setResponses(feedbackResponseDataListNonNullComments);
 
@@ -230,8 +229,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.STUDENT, true, false);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result);
@@ -246,8 +243,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.STUDENT, true, true);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result);
@@ -262,8 +257,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.INSTRUCTOR, true, false);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result);
@@ -278,8 +271,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.INSTRUCTOR, true, true);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result);
@@ -337,16 +328,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         prepareGeneralMocks(EntityType.INSTRUCTOR, false, false);
 
         // Null comments
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
         GetFeedbackResponsesAction action1 = getAction(params);
         FeedbackResponsesData result1 = (FeedbackResponsesData) getJsonResult(action1).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result1);
 
         prepareGeneralMocks(EntityType.INSTRUCTOR, false, true);
         // Non-null comments
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
         GetFeedbackResponsesAction action2 = getAction(params);
         FeedbackResponsesData result2 = (FeedbackResponsesData) getJsonResult(action2).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result2);
@@ -411,13 +398,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     private void verifyFeedbackCommentEquals(FeedbackResponseData expected, FeedbackResponseData actual) {
-        FeedbackResponseCommentData expectedComment = expected.getGiverComment();
-        FeedbackResponseCommentData actualComment = actual.getGiverComment();
-        assert expectedComment != null;
-        assert actualComment != null;
-        assertEquals(expectedComment.getCommentGiverName(), actualComment.getCommentGiverName());
-        assertEquals(expectedComment.getCommentText(), actualComment.getCommentText());
-        assertEquals(expectedComment.getLastEditorName(), actualComment.getLastEditorName());
+        assertEquals(expected.getGiverComment(), actual.getGiverComment());
     }
 
     @Test
@@ -470,7 +451,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SELF) {
+            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SESSION_CREATOR) {
                 continue;
             }
             stubFeedbackQuestion.setGiverType(type);
@@ -482,9 +463,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         verify(mockLogic, times(QuestionGiverType.values().length - 2))
                 .getFeedbackQuestion(stubFeedbackQuestion.getId());
 
-        // verify only QuestionGiverType.INSTRUCTORS and SELF are accessible
+        // verify only QuestionGiverType.INSTRUCTORS and SESSION_CREATOR are accessible
         for (QuestionGiverType type : new QuestionGiverType[] { QuestionGiverType.INSTRUCTORS,
-                QuestionGiverType.SELF }) {
+                QuestionGiverType.SESSION_CREATOR }) {
             stubFeedbackQuestion.setGiverType(type);
             verifyCanAccess(params);
         }

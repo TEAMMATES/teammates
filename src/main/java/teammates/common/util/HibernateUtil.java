@@ -22,12 +22,12 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -90,7 +90,7 @@ public final class HibernateUtil {
             FeedbackRankRecipientsResponse.class,
             FeedbackRubricResponse.class,
             FeedbackTextResponse.class,
-            FeedbackResponseComment.class,
+            ResponseInstructorComment.class,
             FeedbackSessionLog.class);
 
     private static SessionFactory sessionFactory;

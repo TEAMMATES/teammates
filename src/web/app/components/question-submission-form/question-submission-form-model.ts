@@ -7,7 +7,7 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
 } from '../../../types/api-output';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
+import type { GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment.model';
 
 /**
  * The mode of operation for question submission form.
@@ -74,12 +74,21 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   responseId: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
+  status: ResponseSubmissionStatus;
 
   isValid: boolean;
-  isModified: boolean;
 
   // comment by giver
-  commentByGiver?: CommentRowModel;
+  commentByGiver?: GiverCommentRowModel | NewCommentRowModel;
+}
+
+/**
+ * Submission status for a recipient response form.
+ */
+export enum ResponseSubmissionStatus {
+  NEW,
+  SAVED,
+  MODIFIED,
 }
 
 export enum FeedbackRecipientLabelType {

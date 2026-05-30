@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FeedbackQuestion,
-  FeedbackResponseComment,
+  ResponseInstructorComment,
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   QuestionGiverType,
@@ -18,7 +18,7 @@ import {
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
-import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
+import type { NewCommentRowModel } from '../../comment-box/comment.model';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
 
 describe('PerQuestionViewResponsesComponent', () => {
@@ -43,14 +43,13 @@ describe('PerQuestionViewResponsesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const commentOutput: FeedbackResponseComment = {
+  const commentOutput: ResponseInstructorComment = {
     commentGiverName: 'Jennie Kim',
     lastEditorName: 'Jennie Kim',
-    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000003',
+    responseInstructorCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
     lastEditedAt: 0,
-    isVisibilityFollowingFeedbackQuestion: false,
     showGiverNameTo: [],
     showCommentTo: [],
   };
@@ -70,7 +69,7 @@ describe('PerQuestionViewResponsesComponent', () => {
       answer: '<p>Lisa is a good classmate </p>',
     } as FeedbackTextResponseDetails,
     instructorComments: [],
-    participantComment: commentOutput,
+    participantComment: commentOutput.commentText,
   };
 
   const feedbackQuestion: FeedbackQuestion = {
@@ -91,10 +90,10 @@ describe('PerQuestionViewResponsesComponent', () => {
     customNumberOfEntitiesToGiveFeedbackTo: 0,
   };
 
-  const commentRowModel: CommentRowModel = {
+  const commentRowModel: NewCommentRowModel = {
+    commentType: 'new',
     commentEditFormModel: {
       commentText: '',
-      isUsingCustomVisibilities: false,
       showCommentTo: [CommentVisibilityType.RECIPIENT],
       showGiverNameTo: [CommentVisibilityType.RECIPIENT],
     },

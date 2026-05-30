@@ -649,7 +649,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         };
 
         for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SELF) {
+            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SESSION_CREATOR) {
                 continue;
             }
             spyFeedbackQuestion.setGiverType(type);

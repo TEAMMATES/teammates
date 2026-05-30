@@ -242,19 +242,7 @@ export interface FeedbackResponse extends ApiOutput {
   giverIdentifier: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
-  giverComment?: FeedbackResponseComment;
-}
-
-export interface FeedbackResponseComment extends ApiOutput {
-  feedbackResponseCommentId: string;
-  commentGiverName: string;
-  lastEditorName: string;
-  commentText: string;
-  createdAt: number;
-  lastEditedAt: number;
-  isVisibilityFollowingFeedbackQuestion: boolean;
-  showGiverNameTo: CommentVisibilityType[];
-  showCommentTo: CommentVisibilityType[];
+  giverComment?: string;
 }
 
 export interface FeedbackResponseDetails {
@@ -542,6 +530,17 @@ export interface RequestLogUser {
   googleId: string;
 }
 
+export interface ResponseInstructorComment extends ApiOutput {
+  responseInstructorCommentId: string;
+  commentGiverName: string;
+  lastEditorName: string;
+  commentText: string;
+  createdAt: number;
+  lastEditedAt: number;
+  showGiverNameTo: CommentVisibilityType[];
+  showCommentTo: CommentVisibilityType[];
+}
+
 export interface ResponseOutput {
   isMissingResponse: boolean;
   responseId: string;
@@ -555,8 +554,8 @@ export interface ResponseOutput {
   recipientEmail?: string;
   recipientSection: string;
   responseDetails: FeedbackResponseDetails;
-  participantComment?: FeedbackResponseComment;
-  instructorComments: FeedbackResponseComment[];
+  participantComment?: string;
+  instructorComments: ResponseInstructorComment[];
 }
 
 export interface SessionLinksRecoveryResponse extends ApiOutput {
@@ -768,12 +767,10 @@ export enum NumberOfEntitiesToGiveFeedbackToSetting {
 }
 
 export enum QuestionGiverType {
-  SELF = "SELF",
+  SESSION_CREATOR = "SESSION_CREATOR",
   STUDENTS = "STUDENTS",
-  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
   INSTRUCTORS = "INSTRUCTORS",
   TEAMS = "TEAMS",
-  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
 }
 
 export enum QuestionRecipientType {

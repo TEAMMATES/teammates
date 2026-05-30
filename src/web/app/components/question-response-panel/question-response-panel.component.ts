@@ -1,22 +1,14 @@
-import { Component, Input, inject } from '@angular/core';
-import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { StatusMessageService } from '../../../services/status-message.service';
+import { Component, Input } from '@angular/core';
 import {
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  QuestionOutput,
   ResponseVisibleSetting,
-  SessionResults,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
-import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
-import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { SingleStatisticsComponent } from '../question-responses/single-statistics/single-statistics.component';
 import { StudentViewResponsesComponent } from '../question-responses/student-view-responses/student-view-responses.component';
 import { QuestionTextWithInfoComponent } from '../question-text-with-info/question-text-with-info.component';
@@ -28,20 +20,9 @@ import { QuestionTextWithInfoComponent } from '../question-text-with-info/questi
   selector: 'tm-question-response-panel',
   templateUrl: './question-response-panel.component.html',
   styleUrls: ['./question-response-panel.component.scss'],
-  imports: [
-    DestroyableDirective,
-    InViewportDirective,
-    LoadingSpinnerDirective,
-    LoadingRetryComponent,
-    QuestionTextWithInfoComponent,
-    SingleStatisticsComponent,
-    StudentViewResponsesComponent,
-  ],
+  imports: [QuestionTextWithInfoComponent, SingleStatisticsComponent, StudentViewResponsesComponent],
 })
 export class QuestionResponsePanelComponent {
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private statusMessageService = inject(StatusMessageService);
-
   readonly RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [FeedbackQuestionType.CONTRIB];
 
   @Input()
@@ -79,75 +60,15 @@ export class QuestionResponsePanelComponent {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
     if (this.intent === Intent.STUDENT_RESULT) {
       return (
-        showResponsesTo.filter(
-          (visibilityType: FeedbackVisibilityType) => visibilityType !== FeedbackVisibilityType.INSTRUCTORS,
-        ).length > 0
+        showResponsesTo.includes(FeedbackVisibilityType.RECIPIENT) ||
+        showResponsesTo.includes(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS) ||
+        showResponsesTo.includes(FeedbackVisibilityType.GIVER_TEAM_MEMBERS) ||
+        showResponsesTo.includes(FeedbackVisibilityType.STUDENTS)
       );
     }
     if (this.intent === Intent.INSTRUCTOR_RESULT) {
-      return (
-        showResponsesTo.filter(
-          (visibilityType: FeedbackVisibilityType) => visibilityType === FeedbackVisibilityType.INSTRUCTORS,
-        ).length > 0
-      );
+      return showResponsesTo.includes(FeedbackVisibilityType.INSTRUCTORS);
     }
     return false;
-  }
-
-  /**
-   * Loads responses for feedback question.
-   */
-  loadQuestionResults(question: FeedbackQuestionModel): void {
-    if (question.isLoaded) {
-      // Do not re-fetch data
-      return;
-    }
-    this.feedbackSessionsService
-      .getFeedbackSessionResults({
-        questionId: question.feedbackQuestion.feedbackQuestionId,
-        feedbackSessionId: this.session.feedbackSessionId,
-        intent: this.intent,
-        key: this.regKey,
-        previewAs: this.previewAsPerson,
-      })
-      .subscribe({
-        next: (sessionResults: SessionResults) => {
-          const responses: QuestionOutput = sessionResults.questions[0];
-          if (responses) {
-            question.hasResponse = true;
-            question.feedbackQuestion = responses.feedbackQuestion;
-            question.allResponses = responses.allResponses;
-            question.otherResponses = responses.otherResponses;
-            question.questionStatistics = responses.questionStatistics;
-            question.responsesFromSelf = responses.responsesFromSelf;
-            question.responsesToSelf = responses.responsesToSelf;
-            question.hasResponseButNotVisibleForPreview = responses.hasResponseButNotVisibleForPreview;
-            question.hasCommentNotVisibleForPreview = responses.hasCommentNotVisibleForPreview;
-          } else {
-            question.hasResponse = false;
-            if (question.errorMessage) {
-              this.statusMessageService.showSuccessToast(
-                'Question '.concat(question.feedbackQuestion.questionNumber.toString()).concat(' has no responses.'),
-              );
-            }
-          }
-        },
-        complete: () => {
-          question.isLoaded = true;
-          question.isLoading = false;
-          question.errorMessage = '';
-        },
-        error: (resp: ErrorMessageOutput) => {
-          question.errorMessage = resp.error.message;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-  }
-
-  loadQuestion(event: any, question: FeedbackQuestionModel): void {
-    if (event?.visible && !question.isLoaded && !question.isLoading) {
-      question.isLoading = true;
-      this.loadQuestionResults(question);
-    }
   }
 }

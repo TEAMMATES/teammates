@@ -3,12 +3,8 @@ import { Observable } from 'rxjs';
 import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { FeedbackResponseComment, FeedbackVisibilityType } from '../types/api-output';
-import {
-  FeedbackResponseCommentCreateRequest,
-  FeedbackResponseCommentUpdateRequest,
-  Intent,
-} from '../types/api-request';
+import { ResponseInstructorComment, FeedbackVisibilityType, MessageOutput } from '../types/api-output';
+import { ResponseInstructorCommentCreateRequest, ResponseInstructorCommentUpdateRequest } from '../types/api-request';
 
 /**
  * Handles requests to the back-end related to response comments.
@@ -16,24 +12,20 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class FeedbackResponseCommentService {
+export class ResponseInstructorCommentService {
   private httpRequestService = inject(HttpRequestService);
 
   /**
    * Create a comment by calling API.
    */
   createComment(
-    createRequest: FeedbackResponseCommentCreateRequest,
+    createRequest: ResponseInstructorCommentCreateRequest,
     responseId: string,
-    intent: Intent,
-    additionalParams: { [key: string]: string } = {},
-  ): Observable<FeedbackResponseComment> {
+  ): Observable<ResponseInstructorComment> {
     return this.httpRequestService.post(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
-        intent,
         responseid: responseId,
-        ...additionalParams,
       },
       createRequest,
     );
@@ -43,17 +35,13 @@ export class FeedbackResponseCommentService {
    * Updates a comment by calling API.
    */
   updateComment(
-    updateRequest: FeedbackResponseCommentUpdateRequest,
+    updateRequest: ResponseInstructorCommentUpdateRequest,
     commentId: string,
-    intent: Intent,
-    additionalParams: { [key: string]: string } = {},
-  ): Observable<FeedbackResponseComment> {
+  ): Observable<ResponseInstructorComment> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSE_COMMENT,
       {
-        intent,
         responsecommentid: commentId,
-        ...additionalParams,
       },
       updateRequest,
     );
@@ -62,11 +50,9 @@ export class FeedbackResponseCommentService {
   /**
    * Deletes a comment by calling API.
    */
-  deleteComment(commentId: string, intent: Intent, additionalParams: { [key: string]: string } = {}): Observable<any> {
+  deleteComment(commentId: string): Observable<MessageOutput> {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
       responsecommentid: commentId,
-      ...additionalParams,
     });
   }
 

@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
@@ -15,7 +16,6 @@ import { RejectWithReasonModalComponentResult } from '../../../components/accoun
 import { RejectWithReasonModalComponent } from '../../../components/account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 
 /**
  * Account requests table component for admin search.
@@ -24,9 +24,9 @@ import { collapseAnim } from '../../../components/teammates-common/collapse-anim
   selector: 'tm-admin-account-search-table',
   templateUrl: './admin-account-search-table.component.html',
   styleUrls: ['./admin-account-search-table.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
+    NgbCollapse,
     AjaxLoadingComponent,
     NgbDropdown,
     NgbDropdownToggle,

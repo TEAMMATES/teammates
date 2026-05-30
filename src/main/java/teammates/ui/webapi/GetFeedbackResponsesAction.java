@@ -1,21 +1,17 @@
 package teammates.ui.webapi;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackResponseCommentData;
-import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.Intent;
 
@@ -94,22 +90,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        List<FeedbackResponseData> responsesData = new LinkedList<>();
-        responses.forEach(response -> {
-            FeedbackResponseData data = new FeedbackResponseData(response);
-            // TODO: fix, n+1 query issue.
-            FeedbackResponseComment comment =
-                    logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
-            if (comment != null) {
-                data.setGiverComment(new FeedbackResponseCommentData(comment));
-            }
-            responsesData.add(data);
-        });
-        FeedbackResponsesData result = new FeedbackResponsesData();
-        if (!responsesData.isEmpty()) {
-            result.setResponses(responsesData);
-        }
-
+        FeedbackResponsesData result = FeedbackResponsesData.createFromEntity(responses);
         return new JsonResult(result);
     }
 

@@ -14,7 +14,7 @@ import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.c
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 import { CommentTableComponent } from '../../comment-box/comment-table/comment-table.component';
 import { CommentTableModel } from '../../comment-box/comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from '../../comment-box/comment-to-comment-row-model.pipe';
+import { GiverCommentToCommentRowModelPipe } from '../../comment-box/giver-comment-to-comment-row-model.pipe';
 import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 import { SingleResponseComponent } from '../single-response/single-response.component';
@@ -33,7 +33,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     NgbTooltip,
     CommentRowComponent,
     CommentTableComponent,
-    CommentToCommentRowModelPipe,
+    GiverCommentToCommentRowModelPipe,
   ],
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {

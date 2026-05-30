@@ -825,22 +825,6 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if visibility of comment is following question when comment is from a feedback participant.
-     *
-     * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.
-     * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
-     * @return Error string if condition is not met, otherwise empty string.
-     */
-    public static String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
-            boolean isCommentFromFeedbackParticipant,
-            boolean isVisibilityFollowingFeedbackQuestion) {
-        if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
-            return "Comment by feedback participant not following visibility setting of the question.";
-        }
-        return "";
-    }
-
-    /**
      * Checks if all the given viewer types are valid for the purpose of
      * showing different fields of a feedback response.
      *

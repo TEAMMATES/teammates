@@ -10,17 +10,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.CommentVisibilityType;
-import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
-import teammates.ui.request.Intent;
-import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
+import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
+import teammates.ui.webapi.UpdateResponseInstructorCommentAction;
 
 /**
- * SUT: {@link UpdateFeedbackResponseCommentAction}.
+ * SUT: {@link UpdateResponseInstructorCommentAction}.
  */
-public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFeedbackResponseCommentAction> {
+public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<UpdateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
     @Override
@@ -45,23 +44,22 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        ResponseInstructorComment frc = typicalBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
         ______TS("Typical successful case for INSTRUCTOR_RESULT");
         loginAsInstructor(instructor.getGoogleId());
 
         String [] submissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
         };
         String newCommentText = frc.getCommentText() + " (Edited)";
-        FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
+        ResponseInstructorCommentUpdateRequest requestBody = new ResponseInstructorCommentUpdateRequest(
                 newCommentText, Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS));
 
-        UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
+        UpdateResponseInstructorCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        FeedbackResponseComment actualFrc = logic.getFeedbackResponseComment(frc.getId());
+        ResponseInstructorComment actualFrc = logic.getResponseInstructorComment(frc.getId());
         assertEquals(newCommentText, actualFrc.getCommentText());
     }
 
@@ -69,11 +67,10 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        ResponseInstructorComment frc = typicalBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
         ______TS("successful case for instructor result");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
         };
 

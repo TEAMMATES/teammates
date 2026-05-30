@@ -56,9 +56,9 @@ export class VisibilityStateMachine {
       case QuestionGiverType.STUDENTS:
         // all options enabled when giverType is STUDENTS (subject to options disabled by recipientType)
         break;
-      case QuestionGiverType.SELF:
+      case QuestionGiverType.SESSION_CREATOR:
       case QuestionGiverType.INSTRUCTORS:
-        // GIVER_TEAM_MEMBERS is disabled for SELF and INSTRUCTORS because it is the same as INSTRUCTORS
+        // GIVER_TEAM_MEMBERS is disabled for SESSION_CREATOR and INSTRUCTORS because it is the same as INSTRUCTORS
         this.applicability.delete(FeedbackVisibilityType.GIVER_TEAM_MEMBERS);
         break;
       case QuestionGiverType.TEAMS:
@@ -112,7 +112,7 @@ export class VisibilityStateMachine {
     }
     // disable according to combination
     if (
-      (giverType === QuestionGiverType.SELF || giverType === QuestionGiverType.INSTRUCTORS) &&
+      (giverType === QuestionGiverType.SESSION_CREATOR || giverType === QuestionGiverType.INSTRUCTORS) &&
       recipientType === QuestionRecipientType.SELF
     ) {
       // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as INSTRUCTORS
