@@ -57,7 +57,7 @@ public class GetCourseSessionResultsActionTest extends BaseActionTest<GetCourseS
         ArrayList<FeedbackQuestion> questionsStub = new ArrayList<>();
         questionsStub.add(questionStub);
         resultsStub = new SessionResultsBundle(
-            questionsStub,
+                questionsStub,
                 new HashSet<>(), new HashSet<>(), new ArrayList<>(),
                 new ArrayList<>(), new HashMap<>(), new HashMap<>(),
                 new HashMap<>(), new HashMap<>(), new CourseRoster(new ArrayList<>(), new ArrayList<>()));
