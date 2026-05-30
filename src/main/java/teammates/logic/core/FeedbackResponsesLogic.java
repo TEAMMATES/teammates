@@ -418,7 +418,7 @@ public final class FeedbackResponsesLogic {
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId());
             }
             break;
-        case TEAMS, TEAMS_IN_SAME_SECTION:
+        case TEAMS:
             Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
                 String teamName = entry.getKey();

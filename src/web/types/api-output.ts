@@ -769,10 +769,8 @@ export enum NumberOfEntitiesToGiveFeedbackToSetting {
 export enum QuestionGiverType {
   SELF = "SELF",
   STUDENTS = "STUDENTS",
-  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
   INSTRUCTORS = "INSTRUCTORS",
   TEAMS = "TEAMS",
-  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
 }
 
 export enum QuestionRecipientType {
