@@ -14,6 +14,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -21,6 +22,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.ui.request.CourseCreateRequest;
 
 /**
  * Handles operations related to courses.
@@ -36,8 +38,6 @@ public final class CoursesLogic {
 
     private UsersLogic usersLogic;
 
-    private AccountsLogic accountsLogic;
-
     private CoursesLogic() {
         // prevent initialization
     }
@@ -46,10 +46,9 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, AccountsLogic accountsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
-        this.accountsLogic = accountsLogic;
     }
 
     /**
@@ -57,10 +56,12 @@ public final class CoursesLogic {
      *
      * @return the created course
      * @throws InvalidParametersException   if the course is not valid
-     * @throws EntityAlreadyExistsException if the course already exists in the
-     *                                      database.
+     * @throws EntityAlreadyExistsException if a course with the same ID already exists
      */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Course createCourse(String courseId, String courseName, String timeZone, String institute)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = new Course(courseId, courseName, timeZone, institute);
+
         validateCourse(course);
 
         if (getCourse(course.getId()) != null) {
@@ -73,22 +74,29 @@ public final class CoursesLogic {
     /**
      * Creates a course and an associated instructor for the course.
      *
-     * <br/>Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor privileges.
+     * @param courseCreator      the account of the instructor creating the course.
+     * @param courseCreateRequest the course creation details.
+     * @throws InvalidParametersException   if the course is not valid.
+     * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public Course createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
+    public Course createCourseAndInstructor(
+            Account courseCreator, CourseCreateRequest courseCreateRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        Account courseCreator = accountsLogic.getAccountForGoogleId(instructorGoogleId);
-        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
+        String timeZone = courseCreateRequest.getTimeZone();
+        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(timeZone);
+        if (!timeZoneErrorMessage.isEmpty()) {
+            throw new InvalidParametersException(timeZoneErrorMessage);
+        }
 
-        Course createdCourse = createCourse(courseToCreate);
+        Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
+                timeZone, courseCreateRequest.getInstitute());
 
         // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         Instructor instructor = new Instructor(
-                createdCourse,
+                course,
                 courseCreator.getName(),
                 courseCreator.getEmail(),
                 false,
@@ -100,12 +108,11 @@ public final class CoursesLogic {
         try {
             usersLogic.createInstructor(instructor);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            String errorMessage = "Unexpected exception while trying to create instructor for a new course "
-                                  + System.lineSeparator() + courseToCreate.toString();
-            assert false : errorMessage;
+            assert false : "Unexpected exception while trying to create instructor for a new course "
+                                  + System.lineSeparator() + course.toString();
         }
 
-        return createdCourse;
+        return course;
     }
 
     /**

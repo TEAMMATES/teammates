@@ -79,12 +79,10 @@ describe('CourseService', () => {
       courseId: 'test-id',
       courseName: 'test-name',
       timeZone: 'test-zone',
+      institute: 'test-institute',
     };
-    const paramMap: { [key: string]: string } = {
-      instructorinstitution: 'test-institute',
-    };
-    service.createCourse('test-institute', request);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap, request);
+    service.createCourse(request);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.COURSE, {}, request);
   });
 
   it('should execute PUT to update course', () => {

@@ -33,6 +33,7 @@ import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
+import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -68,6 +69,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic logic = Logic.inst();
+    CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
@@ -545,7 +547,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Action c = getAction(params);
         try {
             c.checkAccessControl();
-        } catch (UnauthorizedAccessException e) {
+        } catch (UnauthorizedAccessException | InvalidHttpRequestBodyException e) {
             throw new RuntimeException(e);
         }
     }
@@ -733,9 +735,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     // TODO: createXX methods should be deprecated and replaced with proper test data builders.
     private Course createTestCourseOther() throws InvalidParametersException, EntityAlreadyExistsException {
         if (testCourseOther == null) {
-            testCourseOther = new Course("test-course-other-id", "test course other", Const.DEFAULT_TIME_ZONE,
-                    "test-institute");
-            logic.createCourse(testCourseOther);
+            testCourseOther = coursesLogic.createCourse("test-course-other-id", "test course other",
+                    Const.DEFAULT_TIME_ZONE, "test-institute");
         }
         return testCourseOther;
     }

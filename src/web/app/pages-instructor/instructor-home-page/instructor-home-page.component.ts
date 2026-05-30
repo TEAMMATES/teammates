@@ -186,10 +186,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.copyProgressPercentage = 0;
 
     this.courseService
-      .createCourse(result.newCourseInstitute, {
+      .createCourse({
         courseName: result.newCourseName,
         timeZone: result.newTimeZone,
         courseId: result.newCourseId,
+        institute: result.newCourseInstitute,
       })
       .subscribe({
         next: () => {

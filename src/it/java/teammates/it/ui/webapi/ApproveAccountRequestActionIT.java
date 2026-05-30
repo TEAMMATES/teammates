@@ -148,8 +148,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String email = "existing-instructor@email.com";
         String institute = "dupInstitute";
 
-        Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
-        logic.createCourse(course);
+        Course course = coursesLogic.createCourse("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
 
         Instructor existingInstructor = new Instructor(course, "name", email, true, "display-name",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
