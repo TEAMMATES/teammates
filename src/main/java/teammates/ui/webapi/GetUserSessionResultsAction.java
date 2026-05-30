@@ -8,6 +8,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -76,21 +77,22 @@ public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
         }
 
         String courseId = feedbackSession.getCourseId();
-        SessionResultsBundle bundle;
+        User user;
 
         switch (intent) {
         case INSTRUCTOR_RESULT:
-            Instructor instructor = getInstructorOfCourseForResult(courseId);
-            bundle = logic.getSessionResultsForUser(feedbackSession, instructor, isPreviewResults);
-            return new JsonResult(SessionResultsData.initForUser(bundle, instructor));
+            user = getInstructorOfCourseForResult(courseId);
+            break;
         case STUDENT_RESULT:
-            Student student = getStudentOfCourseForResult(courseId);
-            bundle = logic.getSessionResultsForUser(feedbackSession, student, isPreviewResults);
-            return new JsonResult(SessionResultsData.initForUser(bundle, student));
+            user = getStudentOfCourseForResult(courseId);
+            break;
         case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
+
+        SessionResultsBundle bundle = logic.getSessionResultsForUser(feedbackSession, user, isPreviewResults);
+        return new JsonResult(SessionResultsData.initForUser(bundle, user));
     }
 }
