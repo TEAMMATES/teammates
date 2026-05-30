@@ -16,13 +16,13 @@ import { DeadlineExtensionHelper } from '../../../services/deadline-extension-he
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { FileSaveService } from '../../../services/file-save.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { SubmissionReceiptService } from '../../../services/submission-receipt.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
@@ -64,7 +64,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackResponseDetailsFactory } from '../../../types/response-details-impl/feedback-response-details-factory';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -97,7 +96,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private feedbackQuestionsService = inject(FeedbackQuestionsService);
   private feedbackResponsesService = inject(FeedbackResponsesService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
-  private fileSaveService = inject(FileSaveService);
+  private submissionReceiptService = inject(SubmissionReceiptService);
   private studentService = inject(StudentService);
   private instructorService = inject(InstructorService);
   private courseService = inject(CourseService);
@@ -903,113 +902,36 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   downloadSubmissionReceipt(): void {
     this.isDownloadingSubmissionReceipt = true;
-    try {
-      const submittedResponsesByQuestion: Record<string, FeedbackResponseRecipientSubmissionFormModel[]> =
-        this.getSubmittedResponsesByQuestion();
-      const hasResponses: boolean = Object.values(submittedResponsesByQuestion).some(
-        (responses: FeedbackResponseRecipientSubmissionFormModel[]) => responses.length > 0,
-      );
-
-      if (!hasResponses) {
-        this.statusMessageService.showWarningToast('No submitted responses found to include in submission receipt.');
-        this.isDownloadingSubmissionReceipt = false;
-        return;
-      }
-
-      const generatedAtMs: number = Date.now();
-      const generatedAtFormatted: string = this.timezoneService.formatToString(
-        generatedAtMs,
-        this.feedbackSessionTimezone,
-        'ddd, DD MMM, YYYY, hh:mm A zz',
-      );
-      const timeForFilename: string = this.timezoneService.formatToString(
-        generatedAtMs,
-        this.feedbackSessionTimezone,
-        'YYYYMMDDHHmmss',
-      );
-
-      const sortedQuestions: QuestionSubmissionFormModel[] = [...this.questionSubmissionForms].sort(
-        (a: QuestionSubmissionFormModel, b: QuestionSubmissionFormModel) => a.questionNumber - b.questionNumber,
-      );
-      const answeredQuestionsCount: number = sortedQuestions.filter(
-        (question: QuestionSubmissionFormModel) =>
-          (submittedResponsesByQuestion[question.feedbackQuestionId] || []).length > 0,
-      ).length;
-
-      const fileContent: string[] = [
-        'TEAMMATES Submission Receipt',
-        '============================',
-        `Generated At: ${generatedAtFormatted}`,
-        `Submitted by: ${this.personName} (${this.personEmail})`,
-        `Course: ${this.courseName} (${this.courseId})`,
-        `Session: ${this.feedbackSessionName}`,
-        `Questions Answered: ${answeredQuestionsCount} of ${sortedQuestions.length}`,
-        '============================',
-        '',
-      ];
-
-      sortedQuestions.forEach((question: QuestionSubmissionFormModel) => {
-        const questionResponses: FeedbackResponseRecipientSubmissionFormModel[] =
-          submittedResponsesByQuestion[question.feedbackQuestionId] || [];
-
-        fileContent.push(`Question ${question.questionNumber}`, `${question.questionBrief}`, '');
-
-        if (questionResponses.length === 0) {
-          fileContent.push('No submitted responses for this question.', '', '');
-          return;
-        }
-
-        const sortedResponses: FeedbackResponseRecipientSubmissionFormModel[] = [...questionResponses].sort(
-          (a: FeedbackResponseRecipientSubmissionFormModel, b: FeedbackResponseRecipientSubmissionFormModel) =>
-            a.recipientIdentifier.localeCompare(b.recipientIdentifier),
-        );
-
-        sortedResponses.forEach((response: FeedbackResponseRecipientSubmissionFormModel) => {
-          const recipient: FeedbackResponseRecipient | undefined = question.recipientList.find(
-            (item: FeedbackResponseRecipient) => item.recipientIdentifier === response.recipientIdentifier,
-          );
-          const recipientLabel: string = recipient?.recipientName
-            ? `${recipient.recipientName} [${response.recipientIdentifier}]`
-            : response.recipientIdentifier;
-
-          fileContent.push(
-            `Recipient: ${recipientLabel}`,
-            `Response ID: ${response.responseId}`,
-            `Answer: ${FeedbackResponseDetailsFactory.fromApiOutput(response.responseDetails)
-              .getResponseCsvAnswers(question.questionDetails)
-              .join(', ')}`,
-          );
-
-          if (response.commentByGiver?.commentType === 'giver') {
-            fileContent.push(`Comment by giver: ${response.commentByGiver.originalCommentFormModel.commentText}`);
+    this.submissionReceiptService
+      .downloadSubmissionReceipt({
+        questionSubmissionForms: this.questionSubmissionForms,
+        intent: this.intent,
+        key: this.regKey,
+        moderatedPerson: this.moderatedPerson,
+        feedbackSessionTimezone: this.feedbackSessionTimezone,
+        personName: this.personName,
+        personEmail: this.personEmail,
+        courseName: this.courseName,
+        courseId: this.courseId,
+        feedbackSessionName: this.feedbackSessionName,
+      })
+      .pipe(
+        finalize(() => {
+          this.isDownloadingSubmissionReceipt = false;
+        }),
+      )
+      .subscribe({
+        next: (hasResponses: boolean) => {
+          if (!hasResponses) {
+            this.statusMessageService.showWarningToast(
+              'No submitted responses found to include in submission receipt.',
+            );
           }
-
-          fileContent.push('');
-        });
-
-        fileContent.push('');
+        },
+        error: () => {
+          this.statusMessageService.showErrorToast('An error occurred while generating the submission receipt.');
+        },
       });
-
-      const blob: Blob = new Blob([fileContent.join('\n')], { type: 'text/plain' });
-      this.fileSaveService.saveFile(blob, `TEAMMATES Submission Receipt - ${timeForFilename}.txt`);
-    } catch (error) {
-      console.error('Error generating submission receipt:', error);
-      this.statusMessageService.showErrorToast('An error occurred while generating the submission receipt.');
-    } finally {
-      this.isDownloadingSubmissionReceipt = false;
-    }
-  }
-
-  private getSubmittedResponsesByQuestion(): Record<string, FeedbackResponseRecipientSubmissionFormModel[]> {
-    const responsesByQuestion: Record<string, FeedbackResponseRecipientSubmissionFormModel[]> = {};
-
-    this.questionSubmissionForms.forEach((question: QuestionSubmissionFormModel) => {
-      responsesByQuestion[question.feedbackQuestionId] = question.recipientSubmissionForms.filter(
-        (response: FeedbackResponseRecipientSubmissionFormModel) => response.status === ResponseSubmissionStatus.SAVED,
-      );
-    });
-
-    return responsesByQuestion;
   }
 
   /**

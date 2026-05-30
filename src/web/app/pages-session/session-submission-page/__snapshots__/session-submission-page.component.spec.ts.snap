@@ -23,7 +23,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
@@ -57,6 +56,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -184,7 +184,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -218,6 +217,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -342,7 +342,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -376,6 +375,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -500,7 +500,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime={[Function String]}
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -534,6 +533,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -791,7 +791,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -825,6 +824,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -3829,7 +3829,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -3863,6 +3862,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -6904,7 +6904,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -6938,6 +6937,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
@@ -7063,7 +7063,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
-  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -7097,6 +7096,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   statusMessageService={[Function _StatusMessageService]}
   studentId=""
   studentService={[Function _StudentService]}
+  submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}

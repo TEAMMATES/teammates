@@ -1193,9 +1193,28 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].commentByGiver).toBeUndefined();
   });
 
-  it('should download submission receipt from submitted response status without refetching', async () => {
+  it('should download submission receipt using latest fetched responses', async () => {
     const saveFileSpy = vi.spyOn(TestBed.inject(FileSaveService), 'saveFile');
-    const getResponseSpy = vi.spyOn(feedbackResponsesService, 'getFeedbackResponse');
+    const getResponseSpy = vi
+      .spyOn(feedbackResponsesService, 'getFeedbackResponse')
+      .mockImplementation((queryParams: { questionId: string }) => {
+        if (queryParams.questionId === 'feedback-question-id-mcq') {
+          return of({ responses: [] });
+        }
+        return of({
+          responses: [
+            {
+              feedbackResponseId: 'response-id-3',
+              giverIdentifier: 'giver-identifier',
+              recipientIdentifier: 'gene-harris-id',
+              responseDetails: {
+                answer: 'answer',
+                questionType: FeedbackQuestionType.TEXT,
+              },
+            },
+          ],
+        });
+      });
 
     component.courseId = 'course-id';
     component.courseName = 'Test Course';
@@ -1208,11 +1227,23 @@ describe('SessionSubmissionPageComponent', () => {
       deepCopy(testTextQuestionSubmissionForm),
     ];
     component.questionSubmissionForms[0].recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
-    component.questionSubmissionForms[1].recipientSubmissionForms[0].status = ResponseSubmissionStatus.SAVED;
+    component.questionSubmissionForms[1].recipientSubmissionForms[0].status = ResponseSubmissionStatus.NEW;
 
     component.downloadSubmissionReceipt();
 
-    expect(getResponseSpy).not.toHaveBeenCalled();
+    expect(getResponseSpy).toHaveBeenCalledTimes(2);
+    expect(getResponseSpy).toHaveBeenNthCalledWith(1, {
+      questionId: 'feedback-question-id-mcq',
+      intent: Intent.STUDENT_SUBMISSION,
+      key: 'reg-key',
+      moderatedPerson: '',
+    });
+    expect(getResponseSpy).toHaveBeenNthCalledWith(2, {
+      questionId: 'feedback-question-id-text',
+      intent: Intent.STUDENT_SUBMISSION,
+      key: 'reg-key',
+      moderatedPerson: '',
+    });
     expect(saveFileSpy).toHaveBeenCalledTimes(1);
 
     const [blob, fileName] = saveFileSpy.mock.calls[0];
