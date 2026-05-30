@@ -11,6 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { FileSaveService } from '../../../services/file-save.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -1109,18 +1110,10 @@ describe('SessionSubmissionPageComponent', () => {
       },
     );
 
-    expect(mockModalRef.componentInstance.requestIds).toEqual({
-      'feedback-question-id-mcq': '10',
-      'feedback-question-id-text': '20',
-    });
     expect(mockModalRef.componentInstance.questions).toEqual([
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
     ]);
-    expect(mockModalRef.componentInstance.answers).toEqual({
-      'feedback-question-id-mcq': [testResponse1],
-      'feedback-question-id-text': [testResponse2],
-    });
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
   });
@@ -1167,16 +1160,10 @@ describe('SessionSubmissionPageComponent', () => {
     );
 
     // only the valid response is saved
-    expect(mockModalRef.componentInstance.requestIds).toEqual({
-      [testQuestionSubmissionForm1.feedbackQuestionId]: '10',
-    });
     expect(mockModalRef.componentInstance.questions).toEqual([
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
     ]);
-    expect(mockModalRef.componentInstance.answers).toEqual({
-      [testQuestionSubmissionForm1.feedbackQuestionId]: [testResponse1],
-    });
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
@@ -1204,5 +1191,41 @@ describe('SessionSubmissionPageComponent', () => {
       moderatedPerson: '',
     });
     expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].commentByGiver).toBeUndefined();
+  });
+
+  it('should download submission receipt from submitted response status without refetching', async () => {
+    const saveFileSpy = vi.spyOn(TestBed.inject(FileSaveService), 'saveFile');
+    const getResponseSpy = vi.spyOn(feedbackResponsesService, 'getFeedbackResponse');
+
+    component.courseId = 'course-id';
+    component.courseName = 'Test Course';
+    component.feedbackSessionName = 'First Session';
+    component.feedbackSessionTimezone = 'Asia/Singapore';
+    component.personName = 'Alice Betsy';
+    component.personEmail = 'alice@tmms.com';
+    component.questionSubmissionForms = [
+      deepCopy(testMcqQuestionSubmissionForm),
+      deepCopy(testTextQuestionSubmissionForm),
+    ];
+    component.questionSubmissionForms[0].recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
+    component.questionSubmissionForms[1].recipientSubmissionForms[0].status = ResponseSubmissionStatus.SAVED;
+
+    expect(component.isSubmissionReceiptDownloadDisabled).toBe(false);
+
+    component.downloadSubmissionReceipt();
+
+    expect(getResponseSpy).not.toHaveBeenCalled();
+    expect(saveFileSpy).toHaveBeenCalledTimes(1);
+
+    const [blob, fileName] = saveFileSpy.mock.calls[0];
+    expect(fileName).toContain('TEAMMATES Submission Receipt - ');
+
+    const content: string = await blob.text();
+    expect(content).toContain('Questions Answered: 1 of 2');
+    expect(content).toContain('Question 1\nquestion brief');
+    expect(content).toContain('No submitted responses for this question.');
+    expect(content).toContain('Question 3\nquestion brief');
+    expect(content).toContain('Response ID: response-id-3');
+    expect(content).not.toContain('Response ID: response-id-1');
   });
 });

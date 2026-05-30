@@ -23,6 +23,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
@@ -30,6 +31,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -182,6 +184,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -189,6 +192,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -338,6 +342,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -345,6 +350,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -494,6 +500,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime={[Function String]}
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -501,6 +508,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -783,6 +791,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -790,6 +799,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
@@ -3768,11 +3778,18 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </div>
       </tm-question-submission-form>
       <div
-        class="row"
+        class="d-flex justify-content-center gap-2 flex-wrap"
       >
-        <div
-          class="col-12 text-center"
-        >
+        <div>
+          <button
+            class="btn btn-info"
+            id="btn-download-submission-receipt"
+            type="button"
+          >
+             Download Submission Receipt 
+          </button>
+        </div>
+        <div>
           <button
             class="btn btn-success"
             id="btn-submit"
@@ -3811,6 +3828,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -3818,6 +3836,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
   isModerationHintExpanded="false"
@@ -6832,11 +6851,18 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </div>
       </tm-question-submission-form>
       <div
-        class="row"
+        class="d-flex justify-content-center gap-2 flex-wrap"
       >
-        <div
-          class="col-12 text-center"
-        >
+        <div>
+          <button
+            class="btn btn-info"
+            id="btn-download-submission-receipt"
+            type="button"
+          >
+             Download Submission Receipt 
+          </button>
+        </div>
+        <div>
           <button
             class="btn btn-success"
             disabled=""
@@ -6876,6 +6902,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -6883,6 +6910,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"
@@ -7033,6 +7061,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  fileSaveService={[Function _FileSaveService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
@@ -7040,6 +7069,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
+  isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
   isModerationHintExpanded="false"

@@ -16,6 +16,7 @@ import { DeadlineExtensionHelper } from '../../../services/deadline-extension-he
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { FileSaveService } from '../../../services/file-save.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -63,6 +64,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { FeedbackResponseDetailsFactory } from '../../../types/response-details-impl/feedback-response-details-factory';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -95,6 +97,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private feedbackQuestionsService = inject(FeedbackQuestionsService);
   private feedbackResponsesService = inject(FeedbackResponsesService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
+  private fileSaveService = inject(FileSaveService);
   private studentService = inject(StudentService);
   private instructorService = inject(InstructorService);
   private courseService = inject(CourseService);
@@ -139,6 +142,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
 
   isSavingResponses = false;
+  isDownloadingSubmissionReceipt = false;
   isSubmissionFormsDisabled = false;
 
   isModerationHintExpanded = false;
@@ -163,6 +167,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
+
+  get isSubmissionReceiptDownloadDisabled(): boolean {
+    const hasAtLeastOneSavedResponse = this.questionSubmissionForms.some((question: QuestionSubmissionFormModel) =>
+      question.recipientSubmissionForms.some(
+        (response: FeedbackResponseRecipientSubmissionFormModel) => response.status === ResponseSubmissionStatus.SAVED,
+      ),
+    );
+    return this.isDownloadingSubmissionReceipt || !hasAtLeastOneSavedResponse;
+  }
 
   constructor() {
     this.castAsSelectElement = castAsSelectElement;
@@ -796,7 +809,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const requestIds: Record<string, string> = {};
-    const answers: Record<string, FeedbackResponse[]> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
@@ -847,9 +859,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 const responsesMap: Record<string, FeedbackResponse> = {};
                 resp.responses.forEach((response: FeedbackResponse) => {
                   responsesMap[response.recipientIdentifier] = response;
-                  answers[questionSubmissionFormModel.feedbackQuestionId] =
-                    answers[questionSubmissionFormModel.feedbackQuestionId] || [];
-                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
                 });
                 requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
@@ -893,19 +902,117 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.isSavingResponses = false;
 
           const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
-          modalRef.componentInstance.requestIds = requestIds;
-          modalRef.componentInstance.courseId = this.courseId;
-          modalRef.componentInstance.feedbackSessionName = this.feedbackSessionName;
-          modalRef.componentInstance.feedbackSessionTimezone = this.feedbackSessionTimezone;
-          modalRef.componentInstance.personEmail = this.personEmail;
-          modalRef.componentInstance.personName = this.personName;
           modalRef.componentInstance.questions = questionSubmissionForms;
-          modalRef.componentInstance.answers = answers;
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
         }),
       )
       .subscribe();
+  }
+
+  downloadSubmissionReceipt(): void {
+    this.isDownloadingSubmissionReceipt = true;
+    const submittedResponsesByQuestion: Record<string, FeedbackResponseRecipientSubmissionFormModel[]> =
+      this.getSubmittedResponsesByQuestion();
+    const hasResponses: boolean = Object.values(submittedResponsesByQuestion).some(
+      (responses: FeedbackResponseRecipientSubmissionFormModel[]) => responses.length > 0,
+    );
+
+    if (!hasResponses) {
+      this.statusMessageService.showWarningToast('No submitted responses found to include in submission receipt.');
+      this.isDownloadingSubmissionReceipt = false;
+      return;
+    }
+
+    const generatedAtMs: number = Date.now();
+    const generatedAtFormatted: string = this.timezoneService.formatToString(
+      generatedAtMs,
+      this.feedbackSessionTimezone,
+      'ddd, DD MMM, YYYY, hh:mm A zz',
+    );
+    const timeForFilename: string = this.timezoneService.formatToString(
+      generatedAtMs,
+      this.feedbackSessionTimezone,
+      'YYYYMMDDHHmmss',
+    );
+
+    const sortedQuestions: QuestionSubmissionFormModel[] = [...this.questionSubmissionForms].sort(
+      (a: QuestionSubmissionFormModel, b: QuestionSubmissionFormModel) => a.questionNumber - b.questionNumber,
+    );
+    const answeredQuestionsCount: number = sortedQuestions.filter(
+      (question: QuestionSubmissionFormModel) =>
+        (submittedResponsesByQuestion[question.feedbackQuestionId] || []).length > 0,
+    ).length;
+
+    const fileContent: string[] = [
+      'TEAMMATES Submission Receipt',
+      '============================',
+      `Generated At: ${generatedAtFormatted}`,
+      `Submitted by: ${this.personName} (${this.personEmail})`,
+      `Course: ${this.courseName} (${this.courseId})`,
+      `Session: ${this.feedbackSessionName}`,
+      `Questions Answered: ${answeredQuestionsCount} of ${sortedQuestions.length}`,
+      '============================',
+      '',
+    ];
+
+    sortedQuestions.forEach((question: QuestionSubmissionFormModel) => {
+      const questionResponses: FeedbackResponseRecipientSubmissionFormModel[] =
+        submittedResponsesByQuestion[question.feedbackQuestionId] || [];
+
+      fileContent.push(`Question ${question.questionNumber}`, `${question.questionBrief}`, '');
+
+      if (questionResponses.length === 0) {
+        fileContent.push('No submitted responses for this question.', '', '');
+        return;
+      }
+
+      const sortedResponses: FeedbackResponseRecipientSubmissionFormModel[] = [...questionResponses].sort(
+        (a: FeedbackResponseRecipientSubmissionFormModel, b: FeedbackResponseRecipientSubmissionFormModel) =>
+          a.recipientIdentifier.localeCompare(b.recipientIdentifier),
+      );
+
+      sortedResponses.forEach((response: FeedbackResponseRecipientSubmissionFormModel) => {
+        const recipient: FeedbackResponseRecipient | undefined = question.recipientList.find(
+          (item: FeedbackResponseRecipient) => item.recipientIdentifier === response.recipientIdentifier,
+        );
+        const recipientLabel: string = recipient?.recipientName
+          ? `${recipient.recipientName} [${response.recipientIdentifier}]`
+          : response.recipientIdentifier;
+
+        fileContent.push(
+          `Recipient: ${recipientLabel}`,
+          `Response ID: ${response.responseId}`,
+          `Answer: ${FeedbackResponseDetailsFactory.fromApiOutput(response.responseDetails)
+            .getResponseCsvAnswers(question.questionDetails)
+            .join(', ')}`,
+        );
+
+        if (response.commentByGiver?.commentType === 'giver') {
+          fileContent.push(`Comment by giver: ${response.commentByGiver.originalCommentFormModel.commentText}`);
+        }
+
+        fileContent.push('');
+      });
+
+      fileContent.push('');
+    });
+
+    const blob: Blob = new Blob([fileContent.join('\n')], { type: 'text/plain' });
+    this.fileSaveService.saveFile(blob, `TEAMMATES Submission Receipt - ${timeForFilename}`);
+    this.isDownloadingSubmissionReceipt = false;
+  }
+
+  private getSubmittedResponsesByQuestion(): Record<string, FeedbackResponseRecipientSubmissionFormModel[]> {
+    const responsesByQuestion: Record<string, FeedbackResponseRecipientSubmissionFormModel[]> = {};
+
+    this.questionSubmissionForms.forEach((question: QuestionSubmissionFormModel) => {
+      responsesByQuestion[question.feedbackQuestionId] = question.recipientSubmissionForms.filter(
+        (response: FeedbackResponseRecipientSubmissionFormModel) => response.status === ResponseSubmissionStatus.SAVED,
+      );
+    });
+
+    return responsesByQuestion;
   }
 
   /**

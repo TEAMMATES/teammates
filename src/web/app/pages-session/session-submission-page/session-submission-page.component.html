@@ -266,30 +266,43 @@
       }
     }
     @if (questionsNeedingSubmission.length === 0) {
-      <div class="row">
-        <div class="col-12 text-center">
-          <div class="alert alert-info" role="alert">There are no questions for you to answer here!</div>
-        </div>
+      <div class="text-center">
+        <div class="alert alert-info" role="alert">There are no questions for you to answer here!</div>
       </div>
-    }
-    <!-- Do not display if only one question can be answered, as a button to submit individual response exists -->
-    @if (questionsNeedingSubmission.length > 1) {
-      <div class="row">
-        <div class="col-12 text-center">
+    } @else {
+      <div class="d-flex justify-content-center gap-2 flex-wrap">
+        <div>
           <button
-            id="btn-submit"
-            type="submit"
-            class="btn btn-success"
-            ngbTooltip="You can save your responses at any time and come back later to continue."
-            (click)="saveFeedbackResponses(questionSubmissionForms, null)"
-            [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+            id="btn-download-submission-receipt"
+            type="button"
+            class="btn btn-info"
+            (click)="downloadSubmissionReceipt()"
+            [disabled]="isSubmissionReceiptDownloadDisabled"
           >
-            @if (isSavingResponses) {
+            @if (isDownloadingSubmissionReceipt) {
               <tm-ajax-loading></tm-ajax-loading>
             }
-            Submit Responses for All Questions
+            Download Submission Receipt
           </button>
         </div>
+        <!-- Do not display if only one question can be answered, as a button to submit individual response exists -->
+        @if (questionsNeedingSubmission.length > 1) {
+          <div>
+            <button
+              id="btn-submit"
+              type="submit"
+              class="btn btn-success"
+              ngbTooltip="You can save your responses at any time and come back later to continue."
+              (click)="saveFeedbackResponses(questionSubmissionForms, null)"
+              [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+            >
+              @if (isSavingResponses) {
+                <tm-ajax-loading></tm-ajax-loading>
+              }
+              Submit Responses for All Questions
+            </button>
+          </div>
+        }
       </div>
     }
   </div>
