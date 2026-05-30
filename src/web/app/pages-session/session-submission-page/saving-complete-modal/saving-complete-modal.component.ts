@@ -26,8 +26,4 @@ export class SavingCompleteModalComponent {
   get hasFailToSaveQuestions(): boolean {
     return Object.keys(this.failToSaveQuestions).length !== 0;
   }
-
-  get isAllQuestionSavingFailed(): boolean {
-    return Object.keys(this.failToSaveQuestions).length === this.questions.length;
-  }
 }
