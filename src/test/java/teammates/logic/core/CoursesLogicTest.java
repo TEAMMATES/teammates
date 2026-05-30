@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -22,15 +23,21 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
+import teammates.ui.request.CourseCreateRequest;
 
 /**
  * SUT: {@code CoursesLogic}.
@@ -40,13 +47,13 @@ public class CoursesLogicTest extends BaseTestCase {
     private CoursesLogic coursesLogic = CoursesLogic.inst();
 
     private CoursesDb coursesDb;
+    private UsersLogic usersLogic;
 
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
-        UsersLogic usersLogic = mock(UsersLogic.class);
-        AccountsLogic accountsLogic = mock(AccountsLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, usersLogic, accountsLogic);
+        usersLogic = mock(UsersLogic.class);
+        coursesLogic.initLogicDependencies(coursesDb, usersLogic);
     }
 
     @Test
@@ -162,6 +169,49 @@ public class CoursesLogicTest extends BaseTestCase {
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()), ex.getMessage());
         verify(coursesDb, never()).createCourse(course);
     }
+
+    @Test
+    public void testCreateCourseAndInstructor_withCourseCreateRequest_success()
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        String instructorGoogleId = "creator-google-id";
+        Account courseCreator = new Account(instructorGoogleId, "Creator Name", "creator@example.com");
+        CourseCreateRequest request = new CourseCreateRequest();
+        request.setCourseId(" course-id ");
+        request.setCourseName("Course Name");
+        request.setTimeZone(Const.DEFAULT_TIME_ZONE);
+
+        when(coursesDb.createCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Course createdCourse = coursesLogic.createCourseAndInstructor(courseCreator, request, "Institute");
+
+        assertEquals("course-id", createdCourse.getId());
+        assertEquals("Course Name", createdCourse.getName());
+        assertEquals(Const.DEFAULT_TIME_ZONE, createdCourse.getTimeZone());
+        assertEquals("Institute", createdCourse.getInstitute());
+        verify(usersLogic, times(1)).createInstructor(argThat(instructor ->
+                instructor.getCourse().equals(createdCourse)
+                        && instructor.getGoogleId().equals(instructorGoogleId)
+                        && instructor.hasCoownerPrivileges()));
+    }
+
+    @Test
+    public void testCreateCourseAndInstructor_invalidTimeZone_throwInvalidParametersException()
+            throws EntityAlreadyExistsException, InvalidParametersException {
+        CourseCreateRequest request = new CourseCreateRequest();
+        request.setCourseId("course-id");
+        request.setCourseName("Course Name");
+        request.setTimeZone("Invalid/Zone");
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> coursesLogic.createCourseAndInstructor(getTypicalAccount(), request, "Institute"));
+
+        assertEquals("\"Invalid/Zone\" is not acceptable to TEAMMATES as a/an time zone because "
+                + "it is not available as a choice. "
+                + "The value must be one of the values from the time zone dropdown selector.", ex.getMessage());
+        verify(coursesDb, never()).createCourse(any(Course.class));
+        verify(usersLogic, never()).createInstructor(any(Instructor.class));
+    }
+
 
     @Test
     public void testGetCourse_shouldReturnCourse_success() {
@@ -377,5 +427,10 @@ public class CoursesLogicTest extends BaseTestCase {
         List<Team> expectedTeams = List.of(t1, t2);
 
         assertEquals(expectedTeams, returnedTeams);
+    }
+
+    private Instructor createInstructorWithRole(Course course, String roleName) {
+        return new Instructor(course, "Instructor Name", "instructor@example.com", false, "Instructor Name",
+                InstructorPermissionRole.getEnum(roleName), new InstructorPrivileges(roleName));
     }
 }

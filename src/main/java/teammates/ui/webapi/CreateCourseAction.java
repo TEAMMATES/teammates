@@ -1,13 +1,11 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -45,25 +43,14 @@ public class CreateCourseAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
-        courseCreateRequest.setCourseId(courseCreateRequest.getCourseId().trim());
-
-        String newCourseTimeZone = courseCreateRequest.getTimeZone();
-        String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(newCourseTimeZone);
-        if (!timeZoneErrorMessage.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(timeZoneErrorMessage);
-        }
-
-        String newCourseId = courseCreateRequest.getCourseId();
-        String newCourseName = courseCreateRequest.getCourseName();
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
-        course.setCreatedAt(Instant.now());
 
         try {
-            Course createdCourse = logic.createCourseAndInstructor(getCurrentUserGoogleId(), course);
+            Course createdCourse = logic.createCourseAndInstructor(
+                    getCurrentAccount(), courseCreateRequest, institute);
             return new JsonResult(new CourseData(createdCourse));
-
         } catch (EntityAlreadyExistsException e) {
+            String newCourseId = courseCreateRequest.getCourseId().trim();
             throw new InvalidOperationException("The course ID " + newCourseId
                     + " has been used by another course, possibly by some other user."
                     + " Please try again with a different course ID.", e);

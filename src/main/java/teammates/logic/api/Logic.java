@@ -62,6 +62,7 @@ import teammates.storage.entity.Team;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -319,20 +320,16 @@ public class Logic {
     /**
      * Creates a course and an associated instructor for the course.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor
-     * privileges.
-     *
-     * @param instructorGoogleId the Google ID of the instructor creating the
-     *                           course.
-     * @param course             the course to create.
+     * @param courseCreator      the account of the instructor creating the course.
+     * @param courseCreateRequest the course creation details.
+     * @param institute          the institute of the course to create.
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public Course createCourseAndInstructor(String instructorGoogleId, Course course)
+    public Course createCourseAndInstructor(
+            Account courseCreator, CourseCreateRequest courseCreateRequest, String institute)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+        return coursesLogic.createCourseAndInstructor(courseCreator, courseCreateRequest, institute);
     }
 
     /**
