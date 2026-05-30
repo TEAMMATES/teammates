@@ -10,7 +10,6 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -139,7 +138,7 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+           Nothing to show. This session has no questions. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -159,7 +158,6 @@ exports[`SessionResultPageComponent > should snap when session results failed to
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -312,7 +310,6 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -442,7 +439,7 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+           Nothing to show. This session has no questions. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -462,7 +459,6 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -592,7 +588,7 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+           Nothing to show. This session has no questions. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -612,7 +608,6 @@ exports[`SessionResultPageComponent > should snap with session details and resul
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -694,7 +689,6 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -844,7 +838,6 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -975,7 +968,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+           Nothing to show. This session has no questions. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -995,7 +988,6 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
   courseName=""
   courseService={[Function _CourseService]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionId={[Function String]}
   feedbackSessionName=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
@@ -1125,7 +1117,7 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. The responses are either not configured to be visible or there are no responses. 
+           Nothing to show. This session has no questions. 
         </div>
       </div>
       <tm-question-response-panel>

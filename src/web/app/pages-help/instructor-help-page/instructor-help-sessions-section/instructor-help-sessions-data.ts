@@ -422,7 +422,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [
     otherResponses: [],
     isLoaded: true,
     isLoading: false,
-    hasResponse: true,
     hasResponseButNotVisibleForPreview: false,
     hasCommentNotVisibleForPreview: false,
   },

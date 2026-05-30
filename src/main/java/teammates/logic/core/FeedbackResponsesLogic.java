@@ -543,11 +543,14 @@ public final class FeedbackResponsesLogic {
         Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
         Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
-        if (isCourseWide) {
-            // all questions are related questions when viewing course-wide result
-            for (FeedbackQuestion qn : allQuestions) {
-                relatedQuestions.add(qn);
-            }
+        // always include all questions so question cards still render,
+        // even when no responses are visible or responses are omitted in preview.
+        for (FeedbackQuestion qn : allQuestions) {
+            relatedQuestions.add(qn);
+        }
+
+        if (isPreviewResults) {
+            relatedQuestionsNotVisibleForPreviewSet.addAll(questionsNotVisibleToInstructors);
         }
 
         Set<String> studentsEmailInTeam = new HashSet<>();
@@ -587,7 +590,6 @@ public final class FeedbackResponsesLogic {
             // if previewing results and corresponding question should not be visible to instructors,
             // note down the question and do not add the response
             if (isPreviewResults && questionsNotVisibleToInstructors.contains(response.getFeedbackQuestion())) {
-                relatedQuestionsNotVisibleForPreviewSet.add(response.getFeedbackQuestion());
                 continue;
             }
 

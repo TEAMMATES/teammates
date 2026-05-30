@@ -7,7 +7,6 @@ import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -16,7 +15,6 @@ import {
   AuthInfo,
   FeedbackMcqQuestionDetails,
   FeedbackQuestion,
-  FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -24,6 +22,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
+  SessionResults,
   RegkeyValidity,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -93,7 +92,6 @@ describe('SessionResultPageComponent', () => {
   let authService: AuthService;
   let navService: NavigationService;
   let studentService: StudentService;
-  let feedbackQuestionsService: FeedbackQuestionsService;
   let feedbackSessionService: FeedbackSessionsService;
   let logService: LogService;
 
@@ -130,7 +128,6 @@ describe('SessionResultPageComponent', () => {
     authService = TestBed.inject(AuthService);
     navService = TestBed.inject(NavigationService);
     studentService = TestBed.inject(StudentService);
-    feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
@@ -138,6 +135,7 @@ describe('SessionResultPageComponent', () => {
     component.isCourseLoading = false;
     component.isFeedbackSessionDetailsLoading = false;
     component.isFeedbackSessionResultsLoading = false;
+    vi.spyOn(feedbackSessionService, 'getUserSessionResults').mockReturnValue(of({ questions: [] }));
     fixture.detectChanges();
   });
 
@@ -351,38 +349,47 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: 'reg-key' });
   });
 
-  it('should load feedback questions', () => {
+  it('should load session results and hydrate questions', () => {
     const testValidity: RegkeyValidity = {
       isAllowedAccess: true,
       isUsed: false,
       isValid: false,
     };
-    const testFeedbackQuestions: FeedbackQuestions = {
-      questions: [testFeedbackQuestion],
-    };
     const testFeedbackQuestionModel: FeedbackQuestionModel = {
       feedbackQuestion: testFeedbackQuestion,
-      questionStatistics: '',
+      questionStatistics: 'stats',
       allResponses: [],
       responsesToSelf: [],
       responsesFromSelf: [],
       otherResponses: [],
       isLoading: false,
-      isLoaded: false,
-      hasResponse: false,
+      isLoaded: true,
       hasResponseButNotVisibleForPreview: false,
       hasCommentNotVisibleForPreview: false,
     };
-
+    const testSessionResults: SessionResults = {
+      questions: [
+        {
+          feedbackQuestion: testFeedbackQuestion,
+          questionStatistics: 'stats',
+          allResponses: [],
+          hasResponseButNotVisibleForPreview: false,
+          hasCommentNotVisibleForPreview: false,
+          responsesToSelf: [],
+          responsesFromSelf: [],
+          otherResponses: [],
+        },
+      ],
+    };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const getQuestionsSpy = vi
-      .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-      .mockReturnValue(of(testFeedbackQuestions));
+    const getResultsSpy = vi
+      .spyOn(feedbackSessionService, 'getUserSessionResults')
+      .mockReturnValue(of(testSessionResults));
 
     component.ngOnInit();
-    expect(getQuestionsSpy).toHaveBeenLastCalledWith({
+    expect(getResultsSpy).toHaveBeenLastCalledWith({
       feedbackSessionId: testQueryParams['fsid'],
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams['key'],

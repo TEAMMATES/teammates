@@ -59,12 +59,6 @@
     </div>
   </div>
 }
-@if (!isFeedbackSessionResultsLoading && questions.length !== 0) {
-  <div class="alert alert-primary" role="alert">
-    <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or
-    responses are not meant to be visible to you) are not shown below.
-  </div>
-}
 <div *tmIsLoading="isCourseLoading || isFeedbackSessionDetailsLoading" class="card card-plain mt-3">
   <div class="card-body">
     <div class="row text-center">
@@ -128,7 +122,7 @@
             style="background-color: #d1ecf1"
             role="alert"
           >
-            Nothing to show. The responses are either not configured to be visible or there are no responses.
+            Nothing to show. This session has no questions.
           </div>
         </div>
       }
