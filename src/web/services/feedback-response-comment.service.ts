@@ -4,10 +4,7 @@ import { CommentVisibilityStateMachine } from './comment-visibility-state-machin
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { FeedbackResponseComment, FeedbackVisibilityType, MessageOutput } from '../types/api-output';
-import {
-  FeedbackResponseCommentCreateRequest,
-  FeedbackResponseCommentUpdateRequest,
-} from '../types/api-request';
+import { FeedbackResponseCommentCreateRequest, FeedbackResponseCommentUpdateRequest } from '../types/api-request';
 
 /**
  * Handles requests to the back-end related to response comments.
