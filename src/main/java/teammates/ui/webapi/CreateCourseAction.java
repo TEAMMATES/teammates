@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -25,8 +24,10 @@ public class CreateCourseAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
+    void checkSpecificAccessControl() throws UnauthorizedAccessException, InvalidHttpRequestBodyException {
+        CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
+
+        String institute = courseCreateRequest.getInstitute().trim();
         List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
