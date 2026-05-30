@@ -527,9 +527,6 @@ public final class FeedbackResponsesLogic {
             boolean isCourseWide, String sectionName, User user,
             CourseRoster roster, List<FeedbackQuestion> allQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
-
-        Set<FeedbackQuestion> questionsNotVisibleToInstructors = new HashSet<>();
-
         // related questions, responses, and comment
         List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
@@ -541,7 +538,6 @@ public final class FeedbackResponsesLogic {
 
             // set questions that should not be visible to instructors if results are being previewed
             if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
-                questionsNotVisibleToInstructors.add(qn);
                 relatedQuestionsNotVisibleForPreviewSet.add(qn);
             }
         }
@@ -577,12 +573,6 @@ public final class FeedbackResponsesLogic {
                     response.getGiver(), response.getRecipient(),
                     correspondingQuestion);
             if (!isVisibleResponse) {
-                continue;
-            }
-
-            // if previewing results and corresponding question should not be visible to instructors,
-            // note down the question and do not add the response
-            if (isPreviewResults && questionsNotVisibleToInstructors.contains(response.getFeedbackQuestion())) {
                 continue;
             }
 
