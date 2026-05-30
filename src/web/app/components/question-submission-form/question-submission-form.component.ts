@@ -127,9 +127,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   get isSaved(): boolean {
     return (
       this.model.recipientSubmissionForms.length > 0 &&
-      this.model.recipientSubmissionForms.every(
-        (form) => this.getResponseStatus(form) === ResponseSubmissionStatus.SAVED,
-      )
+      this.model.recipientSubmissionForms.every((form) => form.status === ResponseSubmissionStatus.SAVED)
     );
   }
 
@@ -571,10 +569,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return false;
     }
 
-    return recipientSpecificForms.every((form) => this.getResponseStatus(form) === ResponseSubmissionStatus.SAVED);
-  }
-
-  getResponseStatus(form: FeedbackResponseRecipientSubmissionFormModel): ResponseSubmissionStatus {
-    return form.status;
+    return recipientSpecificForms.every((form) => form.status === ResponseSubmissionStatus.SAVED);
   }
 }

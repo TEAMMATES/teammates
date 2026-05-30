@@ -300,33 +300,6 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('getResponseStatus: should return NEW when form status is NEW', () => {
-    const status: ResponseSubmissionStatus = component.getResponseStatus({
-      ...recipientSubmissionFormBuilder.build(),
-      status: ResponseSubmissionStatus.NEW,
-    });
-
-    expect(status).toEqual(ResponseSubmissionStatus.NEW);
-  });
-
-  it('getResponseStatus: should return SAVED when form status is SAVED', () => {
-    const status: ResponseSubmissionStatus = component.getResponseStatus({
-      ...recipientSubmissionFormBuilder.build(),
-      status: ResponseSubmissionStatus.SAVED,
-    });
-
-    expect(status).toEqual(ResponseSubmissionStatus.SAVED);
-  });
-
-  it('getResponseStatus: should return MODIFIED when form status is MODIFIED', () => {
-    const status: ResponseSubmissionStatus = component.getResponseStatus({
-      ...recipientSubmissionFormBuilder.build(),
-      status: ResponseSubmissionStatus.MODIFIED,
-    });
-
-    expect(status).toEqual(ResponseSubmissionStatus.MODIFIED);
-  });
-
   it('sets isSaved to false if some response has changed', () => {
     component.model.recipientSubmissionForms.push(
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
