@@ -65,7 +65,7 @@ public class GetCourseSessionResultsActionTest extends BaseActionTest<GetCourseS
     }
 
     @Test
-    void testExecute_fullDetailIntent_success() {
+    void testExecute_success() {
         loginAsInstructor(googleId);
         Instructor instructorStub = getTypicalInstructor();
 
@@ -87,25 +87,13 @@ public class GetCourseSessionResultsActionTest extends BaseActionTest<GetCourseS
     }
 
     @Test
-    void testExecute_userIntent_throwsInvalidHttpParameterException() {
-        loginAsInstructor(googleId);
-        when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
     void testGetSessionResult_notLoggedInUser_cannotAccess() {
         when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
         verifyWithoutLoginCannotAccess(buildParams());
     }
 
     @Test
-    void testGetSessionResult_fullDetailIntent_canAccess() {
+    void testGetSessionResult_instructor_canAccess() {
         when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course, buildParams());
     }
