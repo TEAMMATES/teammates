@@ -56,6 +56,7 @@ import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
 } from '../../components/question-submission-form/question-submission-form-model';
 import { QuestionSubmissionFormComponent } from '../../components/question-submission-form/question-submission-form.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
@@ -647,8 +648,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 recipientIdentifier,
                 responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: '',
+                status: ResponseSubmissionStatus.NEW,
                 isValid: true,
-                isModified: false,
               });
             });
             model.isLoading = false;
@@ -722,8 +723,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                   ? matchedExistingResponse.responseDetails
                   : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
+                status: matchedExistingResponse ? ResponseSubmissionStatus.SAVED : ResponseSubmissionStatus.NEW,
                 isValid: true,
-                isModified: false,
               };
               if (matchedExistingResponse?.giverComment) {
                 submissionForm.commentByGiver = this.getGiverCommentModel(matchedExistingResponse.giverComment);
@@ -744,8 +745,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 recipientIdentifier: response.recipientIdentifier,
                 responseDetails: response.responseDetails,
                 responseId: response.feedbackResponseId,
+                status: ResponseSubmissionStatus.SAVED,
                 isValid: true,
-                isModified: false,
               };
               if (response.giverComment) {
                 submissionForm.commentByGiver = this.getGiverCommentModel(response.giverComment);
@@ -759,8 +760,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 recipientIdentifier: '',
                 responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
                 responseId: '',
+                status: ResponseSubmissionStatus.NEW,
                 isValid: true,
-                isModified: false,
               });
               numberOfRecipientSubmissionFormsNeeded -= 1;
             }
@@ -858,6 +859,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       const correspondingResp: FeedbackResponse =
                         responsesMap[recipientSubmissionFormModel.recipientIdentifier];
                       recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                      recipientSubmissionFormModel.status = ResponseSubmissionStatus.SAVED;
                       recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
                       recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
                       recipientSubmissionFormModel.commentByGiver = correspondingResp.giverComment
@@ -865,23 +867,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         : undefined;
                     } else {
                       recipientSubmissionFormModel.responseId = '';
+                      recipientSubmissionFormModel.status = ResponseSubmissionStatus.NEW;
                       recipientSubmissionFormModel.commentByGiver = undefined;
                     }
                   },
                 );
-              }),
-              tap(() => {
-                if (recipientId) {
-                  questionSubmissionFormModel.recipientSubmissionForms.forEach((form) => {
-                    if (form.recipientIdentifier === recipientId) {
-                      form.isModified = false;
-                    }
-                  });
-                } else {
-                  questionSubmissionFormModel.recipientSubmissionForms.forEach((form) => {
-                    form.isModified = false;
-                  });
-                }
               }),
               catchError((error: ErrorMessageOutput) => {
                 failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;

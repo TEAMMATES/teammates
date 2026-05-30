@@ -57,6 +57,7 @@ import { Milliseconds } from '../../../types/datetime-const';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
 } from '../../components/question-submission-form/question-submission-form-model';
 import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
@@ -125,8 +126,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
     } as FeedbackMcqResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
     commentByGiver: createGiverComment('comment text here'),
   };
 
@@ -137,8 +138,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'answer',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
     commentByGiver: createGiverComment('comment text here'),
   };
 
@@ -149,8 +150,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'barry-harris-answer',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testMcqRecipientSubmissionForm4: FeedbackResponseRecipientSubmissionFormModel = {
@@ -160,8 +161,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 'gene-harris-answer',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testMsqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -173,8 +174,8 @@ describe('SessionSubmissionPageComponent', () => {
       otherFieldContent: 'other field content',
       questionType: FeedbackQuestionType.MSQ,
     } as FeedbackMsqResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
     commentByGiver: createGiverComment('comment text'),
   };
 
@@ -189,8 +190,8 @@ describe('SessionSubmissionPageComponent', () => {
       questionText: 'question text',
       questionType: FeedbackQuestionType.NUMSCALE,
     } as FeedbackNumericalScaleQuestionDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testConstsumRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -200,8 +201,8 @@ describe('SessionSubmissionPageComponent', () => {
       answers: [7, 13],
       questionType: FeedbackQuestionType.CONSTSUM,
     } as FeedbackConstantSumResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testContribRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -211,8 +212,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: 20,
       questionType: FeedbackQuestionType.CONTRIB,
     } as FeedbackContributionResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testRubricRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -222,8 +223,8 @@ describe('SessionSubmissionPageComponent', () => {
       answer: [3, 4],
       questionType: FeedbackQuestionType.RUBRIC,
     } as FeedbackRubricResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testRankOptionsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -233,8 +234,8 @@ describe('SessionSubmissionPageComponent', () => {
       answers: [2, 1],
       questionType: FeedbackQuestionType.RANK_OPTIONS,
     } as FeedbackRankOptionsResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testRankRecipientsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -247,8 +248,8 @@ describe('SessionSubmissionPageComponent', () => {
       questionType: FeedbackQuestionType.RANK_RECIPIENTS,
       answer: 1,
     } as FeedbackRankRecipientsResponseDetails,
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
   };
 
   const testResponse1: FeedbackResponse = {
@@ -1058,7 +1059,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
-    testQuestionSubmissionForm1.recipientSubmissionForms[0].isModified = true;
+    testQuestionSubmissionForm1.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
@@ -1131,7 +1132,7 @@ describe('SessionSubmissionPageComponent', () => {
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
-    testQuestionSubmissionForm2.recipientSubmissionForms[0].isModified = true;
+    testQuestionSubmissionForm2.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     // invalid response
     testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
@@ -1179,7 +1180,9 @@ describe('SessionSubmissionPageComponent', () => {
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
-    expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].isModified).toBe(true);
+    expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].status).toBe(
+      ResponseSubmissionStatus.MODIFIED,
+    );
   });
 
   it('should delete participant comment', () => {

@@ -8,27 +8,20 @@ import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
 } from './question-submission-form-model';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
-  FeedbackConstantSumResponseDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
-  FeedbackRankOptionsResponseDetails,
   FeedbackResponseDetails,
-  FeedbackRubricResponseDetails,
-  FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
 } from '../../../types/api-output';
-import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
 import { ResponseDetailsTypeChecker } from '../../../types/response-details-impl/response-details-caster';
 import { VisibilityControl } from '../../../types/visibility-control';
@@ -129,13 +122,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   CommentRowMode!: typeof CommentRowMode;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   isMCQDropDownEnabled = false;
-
-  get hasResponseChanged(): boolean {
-    return this.model.recipientSubmissionForms.some((form) => form.isModified);
-  }
+  ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
   get isSaved(): boolean {
-    return this.model.recipientSubmissionForms.some((form) => form.responseId.length > 0) && !this.hasResponseChanged;
+    return this.model.recipientSubmissionForms.length > 0 && this.model.recipientSubmissionForms.every(
+      (form) => this.getResponseStatus(form) === ResponseSubmissionStatus.SAVED,
+    );
   }
 
   @Input()
@@ -246,6 +238,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.QuestionRecipientType = QuestionRecipientType;
     this.CommentRowMode = CommentRowMode;
     this.FeedbackVisibilityType = FeedbackVisibilityType;
+    this.ResponseSubmissionStatus = ResponseSubmissionStatus;
     this.allSessionViews = SessionView;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
@@ -403,7 +396,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
     this.model.recipientSubmissionForms[index] = {
       ...this.model.recipientSubmissionForms[index],
-      isModified: true,
+      status: ResponseSubmissionStatus.MODIFIED,
       [field]: data,
     };
 
@@ -575,42 +568,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return false;
     }
 
-    switch (this.model.questionType) {
-      case FeedbackQuestionType.TEXT:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackTextResponseDetails).answer !== '',
-        );
-      case FeedbackQuestionType.MCQ:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackMcqResponseDetails).answer !== '',
-        );
-      case FeedbackQuestionType.MSQ:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackMsqResponseDetails).answers.length !== 0,
-        );
-      case FeedbackQuestionType.NUMSCALE:
-        return recipientSpecificForms.every(
-          (form) =>
-            !form.isModified &&
-            (form.responseDetails as FeedbackNumericalScaleResponseDetails).answer !==
-              NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
-        );
-      case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        return recipientSpecificForms.every(
-          (form) =>
-            !form.isModified && (form.responseDetails as FeedbackConstantSumResponseDetails).answers.length !== 0,
-        );
-      case FeedbackQuestionType.RUBRIC:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackRubricResponseDetails).answer.length !== 0,
-        );
-      case FeedbackQuestionType.RANK_OPTIONS:
-        return recipientSpecificForms.every(
-          (form) =>
-            !form.isModified && (form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length !== 0,
-        );
-      default:
-        return false;
-    }
+    return recipientSpecificForms.every(
+      (form) => this.getResponseStatus(form) === ResponseSubmissionStatus.SAVED,
+    );
+  }
+
+  getResponseStatus(form: FeedbackResponseRecipientSubmissionFormModel): ResponseSubmissionStatus {
+    return form.status;
   }
 }
