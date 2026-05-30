@@ -181,18 +181,16 @@
                 </div>
               </td>
             </tr>
-            @if (accountRequest.showLinks) {
-              <tr>
-                <td colspan="100">
-                  <ul class="list-group" @collapseAnim>
-                    <li class="list-group-item list-group-item-info">
-                      <strong>Account Registration Link</strong>
-                      <input [value]="accountRequest.registrationLink" disabled class="form-control" />
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-            }
+            <tr>
+              <td colspan="100">
+                <ul class="list-group" [ngbCollapse]="!accountRequest.showLinks">
+                  <li class="list-group-item list-group-item-info">
+                    <strong>Account Registration Link</strong>
+                    <input [value]="accountRequest.registrationLink" disabled class="form-control" />
+                  </li>
+                </ul>
+              </td>
+            </tr>
           }
         </tbody>
       </table>
