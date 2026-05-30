@@ -64,7 +64,6 @@ public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
     @Override
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
@@ -82,11 +81,11 @@ public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case INSTRUCTOR_RESULT:
             Instructor instructor = getInstructorOfCourseForResult(courseId);
-            bundle = logic.getSessionResultsForUser(feedbackSession, instructor, questionId, isPreviewResults);
+            bundle = logic.getSessionResultsForUser(feedbackSession, instructor, isPreviewResults);
             return new JsonResult(SessionResultsData.initForUser(bundle, instructor));
         case STUDENT_RESULT:
             Student student = getStudentOfCourseForResult(courseId);
-            bundle = logic.getSessionResultsForUser(feedbackSession, student, questionId, isPreviewResults);
+            bundle = logic.getSessionResultsForUser(feedbackSession, student, isPreviewResults);
             return new JsonResult(SessionResultsData.initForUser(bundle, student));
         case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");

@@ -1231,15 +1231,13 @@ public class Logic {
      *
      * @param feedbackSession the feedback session
      * @param user the user viewing the feedback session
-     * @param questionId if not null, will only return partial bundle for the question
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user,
-            @Nullable UUID questionId, boolean isPreviewResults) {
+            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, user, questionId, isPreviewResults);
+                feedbackSession, user, isPreviewResults);
     }
 
     /**

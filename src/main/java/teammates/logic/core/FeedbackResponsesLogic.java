@@ -683,20 +683,18 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackSession the feedback session
      * @param user the user viewing the feedback session
-     * @param questionId if not null, will only return partial bundle for the question
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user,
-            @Nullable UUID questionId, boolean isPreviewResults) {
+            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId)
+        List<FeedbackQuestion> allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSession)
                 .stream()
                 .filter(question -> isQuestionRelevantForUserResult(question, user))
                 .toList();
