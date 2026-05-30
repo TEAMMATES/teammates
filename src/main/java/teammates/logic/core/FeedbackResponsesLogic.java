@@ -525,17 +525,13 @@ public final class FeedbackResponsesLogic {
 
     private SessionResultsBundle buildResultsBundle(
             boolean isCourseWide, String sectionName, User user,
-            CourseRoster roster, List<FeedbackQuestion> allQuestions,
+            CourseRoster roster, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
-        // related questions, responses, and comment
-        List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
         Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
         Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
-        for (FeedbackQuestion qn : allQuestions) {
-            relatedQuestions.add(qn);
-
+        for (FeedbackQuestion qn : relatedQuestions) {
             // set questions that should not be visible to instructors if results are being previewed
             if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
                 relatedQuestionsNotVisibleForPreviewSet.add(qn);
@@ -576,8 +572,6 @@ public final class FeedbackResponsesLogic {
                 continue;
             }
 
-            // if there are viewable responses, the corresponding question becomes related
-            relatedQuestions.add(response.getFeedbackQuestion());
             relatedResponses.add(response);
 
             // generate giver/recipient name visibility table
