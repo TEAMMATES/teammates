@@ -34,7 +34,10 @@ import {
 import { Response } from '../../../../types/question-statistics.model';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';
-import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
+import {
+  QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
+} from '../../../components/question-submission-form/question-submission-form-model';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
@@ -1543,15 +1546,15 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       responseId: 'response1',
       recipientIdentifier: 'alice',
       responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [0, 2] } as FeedbackRubricResponseDetails,
+      status: ResponseSubmissionStatus.SAVED,
       isValid: true,
-      isModified: false,
     },
     {
       responseId: 'response2',
       recipientIdentifier: 'bob',
       responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [1, 3] } as FeedbackRubricResponseDetails,
+      status: ResponseSubmissionStatus.SAVED,
       isValid: true,
-      isModified: false,
     },
   ],
   customNumberOfEntitiesToGiveFeedbackTo: 0,

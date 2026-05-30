@@ -74,12 +74,21 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   responseId: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
+  status: ResponseSubmissionStatus;
 
   isValid: boolean;
-  isModified: boolean;
 
   // comment by giver
   commentByGiver?: GiverCommentRowModel | NewCommentRowModel;
+}
+
+/**
+ * Submission status for a recipient response form.
+ */
+export enum ResponseSubmissionStatus {
+  NEW,
+  SAVED,
+  MODIFIED,
 }
 
 export enum FeedbackRecipientLabelType {
