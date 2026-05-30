@@ -16,7 +16,6 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/n
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
@@ -34,7 +33,7 @@ const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for St
  */
 @Directive({ selector: '[tmClickOutside]' })
 export class ClickOutsideDirective {
-  private elementRef = inject(ElementRef);
+  private readonly elementRef = inject(ElementRef);
 
   @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
@@ -75,11 +74,11 @@ export class ClickOutsideDirective {
   ],
 })
 export class PageComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private title = inject(Title);
-  private ngbModal = inject(NgbModal);
-  private statusMessageService = inject(StatusMessageService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly title = inject(Title);
+  private readonly ngbModal = inject(NgbModal);
+  private readonly statusMessageService = inject(StatusMessageService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -105,25 +104,11 @@ export class PageComponent {
   logoutUrl = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
 
-  /**
-   * Minimum versions of browsers supported.
-   *
-   * Angular browser support: https://angular.io/guide/browser-support
-   *
-   * Bootstrap 5 browser support: https://getbootstrap.com/docs/5.2/getting-started/browsers-devices/
-   */
-  minimumVersions: Record<string, number> = {
-    Chrome: 87,
-    Firefox: 86,
-    Safari: 13,
-    Edge: 88,
-  };
-
   constructor() {
     const location = inject(Location);
 
     this.NotificationTargetUser = NotificationTargetUser;
-    this.checkBrowserVersion();
+    this.isCookieDisabled = !navigator.cookieEnabled;
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
@@ -144,8 +129,8 @@ export class PageComponent {
 
     this.isNetworkOnline$ = merge(
       of(navigator.onLine),
-      fromEvent(window, 'online').pipe(map(() => true)),
-      fromEvent(window, 'offline').pipe(map(() => false)),
+      fromEvent(globalThis, 'online').pipe(map(() => true)),
+      fromEvent(globalThis, 'offline').pipe(map(() => false)),
     );
 
     // Close open modal(s) when moving backward or forward through history in the browser page
@@ -158,14 +143,6 @@ export class PageComponent {
     this.statusMessageService.getToastEvent().subscribe((toast: Toast) => {
       this.toast = toast;
     });
-  }
-
-  private checkBrowserVersion(): void {
-    const browser: any = uaParser(navigator.userAgent).browser;
-    this.browser = `${browser.name} ${browser.version}`;
-    this.isUnsupportedBrowser =
-      !this.minimumVersions[browser.name] || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
-    this.isCookieDisabled = !navigator.cookieEnabled;
   }
 
   /**
@@ -196,6 +173,6 @@ export class PageComponent {
   }
 
   logout(): void {
-    window.location.href = this.logoutUrl;
+    globalThis.location.href = this.logoutUrl;
   }
 }
