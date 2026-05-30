@@ -912,95 +912,101 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   downloadSubmissionReceipt(): void {
     this.isDownloadingSubmissionReceipt = true;
-    const submittedResponsesByQuestion: Record<string, FeedbackResponseRecipientSubmissionFormModel[]> =
-      this.getSubmittedResponsesByQuestion();
-    const hasResponses: boolean = Object.values(submittedResponsesByQuestion).some(
-      (responses: FeedbackResponseRecipientSubmissionFormModel[]) => responses.length > 0,
-    );
+    try {
+      const submittedResponsesByQuestion: Record<string, FeedbackResponseRecipientSubmissionFormModel[]> =
+        this.getSubmittedResponsesByQuestion();
+      const hasResponses: boolean = Object.values(submittedResponsesByQuestion).some(
+        (responses: FeedbackResponseRecipientSubmissionFormModel[]) => responses.length > 0,
+      );
 
-    if (!hasResponses) {
-      this.statusMessageService.showWarningToast('No submitted responses found to include in submission receipt.');
-      this.isDownloadingSubmissionReceipt = false;
-      return;
-    }
-
-    const generatedAtMs: number = Date.now();
-    const generatedAtFormatted: string = this.timezoneService.formatToString(
-      generatedAtMs,
-      this.feedbackSessionTimezone,
-      'ddd, DD MMM, YYYY, hh:mm A zz',
-    );
-    const timeForFilename: string = this.timezoneService.formatToString(
-      generatedAtMs,
-      this.feedbackSessionTimezone,
-      'YYYYMMDDHHmmss',
-    );
-
-    const sortedQuestions: QuestionSubmissionFormModel[] = [...this.questionSubmissionForms].sort(
-      (a: QuestionSubmissionFormModel, b: QuestionSubmissionFormModel) => a.questionNumber - b.questionNumber,
-    );
-    const answeredQuestionsCount: number = sortedQuestions.filter(
-      (question: QuestionSubmissionFormModel) =>
-        (submittedResponsesByQuestion[question.feedbackQuestionId] || []).length > 0,
-    ).length;
-
-    const fileContent: string[] = [
-      'TEAMMATES Submission Receipt',
-      '============================',
-      `Generated At: ${generatedAtFormatted}`,
-      `Submitted by: ${this.personName} (${this.personEmail})`,
-      `Course: ${this.courseName} (${this.courseId})`,
-      `Session: ${this.feedbackSessionName}`,
-      `Questions Answered: ${answeredQuestionsCount} of ${sortedQuestions.length}`,
-      '============================',
-      '',
-    ];
-
-    sortedQuestions.forEach((question: QuestionSubmissionFormModel) => {
-      const questionResponses: FeedbackResponseRecipientSubmissionFormModel[] =
-        submittedResponsesByQuestion[question.feedbackQuestionId] || [];
-
-      fileContent.push(`Question ${question.questionNumber}`, `${question.questionBrief}`, '');
-
-      if (questionResponses.length === 0) {
-        fileContent.push('No submitted responses for this question.', '', '');
+      if (!hasResponses) {
+        this.statusMessageService.showWarningToast('No submitted responses found to include in submission receipt.');
+        this.isDownloadingSubmissionReceipt = false;
         return;
       }
 
-      const sortedResponses: FeedbackResponseRecipientSubmissionFormModel[] = [...questionResponses].sort(
-        (a: FeedbackResponseRecipientSubmissionFormModel, b: FeedbackResponseRecipientSubmissionFormModel) =>
-          a.recipientIdentifier.localeCompare(b.recipientIdentifier),
+      const generatedAtMs: number = Date.now();
+      const generatedAtFormatted: string = this.timezoneService.formatToString(
+        generatedAtMs,
+        this.feedbackSessionTimezone,
+        'ddd, DD MMM, YYYY, hh:mm A zz',
+      );
+      const timeForFilename: string = this.timezoneService.formatToString(
+        generatedAtMs,
+        this.feedbackSessionTimezone,
+        'YYYYMMDDHHmmss',
       );
 
-      sortedResponses.forEach((response: FeedbackResponseRecipientSubmissionFormModel) => {
-        const recipient: FeedbackResponseRecipient | undefined = question.recipientList.find(
-          (item: FeedbackResponseRecipient) => item.recipientIdentifier === response.recipientIdentifier,
-        );
-        const recipientLabel: string = recipient?.recipientName
-          ? `${recipient.recipientName} [${response.recipientIdentifier}]`
-          : response.recipientIdentifier;
+      const sortedQuestions: QuestionSubmissionFormModel[] = [...this.questionSubmissionForms].sort(
+        (a: QuestionSubmissionFormModel, b: QuestionSubmissionFormModel) => a.questionNumber - b.questionNumber,
+      );
+      const answeredQuestionsCount: number = sortedQuestions.filter(
+        (question: QuestionSubmissionFormModel) =>
+          (submittedResponsesByQuestion[question.feedbackQuestionId] || []).length > 0,
+      ).length;
 
-        fileContent.push(
-          `Recipient: ${recipientLabel}`,
-          `Response ID: ${response.responseId}`,
-          `Answer: ${FeedbackResponseDetailsFactory.fromApiOutput(response.responseDetails)
-            .getResponseCsvAnswers(question.questionDetails)
-            .join(', ')}`,
-        );
+      const fileContent: string[] = [
+        'TEAMMATES Submission Receipt',
+        '============================',
+        `Generated At: ${generatedAtFormatted}`,
+        `Submitted by: ${this.personName} (${this.personEmail})`,
+        `Course: ${this.courseName} (${this.courseId})`,
+        `Session: ${this.feedbackSessionName}`,
+        `Questions Answered: ${answeredQuestionsCount} of ${sortedQuestions.length}`,
+        '============================',
+        '',
+      ];
 
-        if (response.commentByGiver?.commentType === 'giver') {
-          fileContent.push(`Comment by giver: ${response.commentByGiver.originalCommentFormModel.commentText}`);
+      sortedQuestions.forEach((question: QuestionSubmissionFormModel) => {
+        const questionResponses: FeedbackResponseRecipientSubmissionFormModel[] =
+          submittedResponsesByQuestion[question.feedbackQuestionId] || [];
+
+        fileContent.push(`Question ${question.questionNumber}`, `${question.questionBrief}`, '');
+
+        if (questionResponses.length === 0) {
+          fileContent.push('No submitted responses for this question.', '', '');
+          return;
         }
+
+        const sortedResponses: FeedbackResponseRecipientSubmissionFormModel[] = [...questionResponses].sort(
+          (a: FeedbackResponseRecipientSubmissionFormModel, b: FeedbackResponseRecipientSubmissionFormModel) =>
+            a.recipientIdentifier.localeCompare(b.recipientIdentifier),
+        );
+
+        sortedResponses.forEach((response: FeedbackResponseRecipientSubmissionFormModel) => {
+          const recipient: FeedbackResponseRecipient | undefined = question.recipientList.find(
+            (item: FeedbackResponseRecipient) => item.recipientIdentifier === response.recipientIdentifier,
+          );
+          const recipientLabel: string = recipient?.recipientName
+            ? `${recipient.recipientName} [${response.recipientIdentifier}]`
+            : response.recipientIdentifier;
+
+          fileContent.push(
+            `Recipient: ${recipientLabel}`,
+            `Response ID: ${response.responseId}`,
+            `Answer: ${FeedbackResponseDetailsFactory.fromApiOutput(response.responseDetails)
+              .getResponseCsvAnswers(question.questionDetails)
+              .join(', ')}`,
+          );
+
+          if (response.commentByGiver?.commentType === 'giver') {
+            fileContent.push(`Comment by giver: ${response.commentByGiver.originalCommentFormModel.commentText}`);
+          }
+
+          fileContent.push('');
+        });
 
         fileContent.push('');
       });
 
-      fileContent.push('');
-    });
-
-    const blob: Blob = new Blob([fileContent.join('\n')], { type: 'text/plain' });
-    this.fileSaveService.saveFile(blob, `TEAMMATES Submission Receipt - ${timeForFilename}`);
-    this.isDownloadingSubmissionReceipt = false;
+      const blob: Blob = new Blob([fileContent.join('\n')], { type: 'text/plain' });
+      this.fileSaveService.saveFile(blob, `TEAMMATES Submission Receipt - ${timeForFilename}.txt`);
+    } catch (error) {
+      console.error('Error generating submission receipt:', error);
+      this.statusMessageService.showErrorToast('An error occurred while generating the submission receipt.');
+    } finally {
+      this.isDownloadingSubmissionReceipt = false;
+    }
   }
 
   private getSubmittedResponsesByQuestion(): Record<string, FeedbackResponseRecipientSubmissionFormModel[]> {

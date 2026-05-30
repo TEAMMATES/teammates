@@ -55,5 +55,12 @@
   }
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn modal-btn-ok btn-success" (click)="activeModal.close()">OK</button>
+  <button
+    type="button"
+    class="btn modal-btn-ok"
+    [ngClass]="{ 'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions }"
+    (click)="activeModal.close()"
+  >
+    OK
+  </button>
 </div>
