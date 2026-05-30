@@ -35,7 +35,7 @@
     }
     <!-- "Add new comment" row -->
     @if (!model.isReadOnly && model.isAddingNewComment) {
-      <li class="list-group-item" @collapseAnim>
+      <li class="list-group-item">
         <tm-comment-row
           [model]="model.newCommentRow"
           [isDisabled]="false"
