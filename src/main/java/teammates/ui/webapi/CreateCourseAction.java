@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -48,6 +49,7 @@ public class CreateCourseAction extends Action {
         try {
             Course createdCourse = logic.createCourseAndInstructor(
                     getCurrentAccount(), courseCreateRequest);
+            HibernateUtil.flushSession();
             return new JsonResult(new CourseData(createdCourse));
         } catch (EntityAlreadyExistsException e) {
             String newCourseId = courseCreateRequest.getCourseId().trim();
