@@ -91,14 +91,13 @@ public class FeedbackResponseComment extends BaseEntity {
 
     public FeedbackResponseComment(
             ResponseGiver giver, String commentText,
-            boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo,
             ResponseGiver lastEditedBy
     ) {
         this.setGiver(giver);
         this.setCommentText(commentText);
-        this.setIsVisibilityFollowingFeedbackQuestion(isVisibilityFollowingFeedbackQuestion);
-        this.setIsCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant);
+        this.setIsVisibilityFollowingFeedbackQuestion(false);
+        this.setIsCommentFromFeedbackParticipant(false);
         this.setShowCommentTo(showCommentTo);
         this.setShowGiverNameTo(showGiverNameTo);
         this.setLastEditedBy(lastEditedBy);
@@ -226,8 +225,6 @@ public class FeedbackResponseComment extends BaseEntity {
     @Override
     public String toString() {
         return "FeedbackResponseComment [id=" + id + ", giver=" + giver + ", commentText=" + commentText
-                + ", isVisibilityFollowingFeedbackQuestion=" + isVisibilityFollowingFeedbackQuestion
-                + ", isCommentFromFeedbackParticipant=" + isCommentFromFeedbackParticipant
                 + ", lastEditedBy=" + lastEditedBy + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + "]";
     }

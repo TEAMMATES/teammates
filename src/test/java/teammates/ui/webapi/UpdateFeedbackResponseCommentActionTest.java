@@ -392,8 +392,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
-                false,
-                false,
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);
@@ -409,8 +407,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "updated comment",
-                false,
-                false,
                 Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 giver);
@@ -437,8 +433,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
-                false,
-                false,
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);

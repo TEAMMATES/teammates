@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -62,32 +62,26 @@ public class CreateFeedbackResponseCommentAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
+        FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
+
         FeedbackResponse feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
         String courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
-
-        FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
-
         Instructor instructor = getInstructorFromRequest(courseId);
         ResponseGiver giverRg = new ResponseGiver(instructor);
-        boolean isFromParticipant = false;
-        boolean isFollowingQuestionVisibility = false;
 
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(giverRg,
-                comment.getCommentText(), isFollowingQuestionVisibility, isFromParticipant,
-                comment.getShowCommentTo(), comment.getShowGiverNameTo(), giverRg);
-        feedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         try {
-            FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseId, giverRg,
+                    comment.getCommentText(), comment.getShowCommentTo(), comment.getShowGiverNameTo());
             HibernateUtil.flushSession();
             return new JsonResult(new FeedbackResponseCommentData(createdComment));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException(e);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         }
     }
 }

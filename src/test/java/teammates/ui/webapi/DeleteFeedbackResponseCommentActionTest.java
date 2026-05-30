@@ -344,8 +344,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
-                false,
-                false,
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);
@@ -372,8 +370,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
-                false,
-                false,
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);

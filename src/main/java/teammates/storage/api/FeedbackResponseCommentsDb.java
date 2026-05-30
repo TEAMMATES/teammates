@@ -5,11 +5,9 @@ import java.util.UUID;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
@@ -53,22 +51,6 @@ public final class FeedbackResponseCommentsDb {
      */
     public void deleteFeedbackResponseComment(FeedbackResponseComment frc) {
         HibernateUtil.remove(frc);
-    }
-
-    /**
-     * Gets the comment associated with the feedback response.
-     */
-    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
-            UUID feedbackResponseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
-        cq.select(root)
-                .where(cb.and(
-                        cb.equal(frJoin.get("id"), feedbackResponseId),
-                        cb.equal(root.get("isCommentFromFeedbackParticipant"), true)));
-        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
     }
 
     /**

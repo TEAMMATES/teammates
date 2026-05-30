@@ -32,7 +32,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 DeleteFeedbackResponseCommentAction.class,
                 DeleteFeedbackResponseGiverCommentAction.class,
                 CreateFeedbackResponseCommentAction.class,
-                GetFeedbackResponseCommentAction.class,
                 UpdateFeedbackResponseCommentAction.class,
                 RestoreFeedbackSessionAction.class,
                 BinFeedbackSessionAction.class,

@@ -217,7 +217,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackResponseComment actualComment1 = dataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         ResponseGiver commentGiver = new ResponseGiver(actualInstructor1);
         FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(commentGiver,
-                "Instructor 1 comment to student 1 self feedback", false, false,
+                "Instructor 1 comment to student 1 self feedback",
                 new ArrayList<>(), new ArrayList<>(), commentGiver);
         expectedResponse1.addFeedbackResponseComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
