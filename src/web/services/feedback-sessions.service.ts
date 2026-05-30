@@ -334,16 +334,14 @@ export class FeedbackSessionsService {
    */
   downloadSessionResults(
     feedbackSessionId: string,
-    intent: Intent,
     indicateMissingResponses: boolean,
     showStatistics: boolean,
     questionId?: string,
     groupBySection?: string,
     sectionDetail?: InstructorSessionResultSectionType,
   ): Observable<string> {
-    return this.getFeedbackSessionResults({
+    return this.getCourseSessionResults({
       feedbackSessionId,
-      intent,
       questionId,
       groupBySection,
     }).pipe(
@@ -360,15 +358,41 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Retrieves the results for a feedback session.
+   * Retrieves course-wide results for a feedback session.
    */
-  getFeedbackSessionResults(queryParams: {
+  getCourseSessionResults(queryParams: {
+    feedbackSessionId: string;
+    questionId?: string;
+    groupBySection?: string;
+    sectionByGiverReceiver?: string;
+  }): Observable<SessionResults> {
+    const paramMap: Record<string, string> = {
+      fsid: queryParams.feedbackSessionId,
+    };
+
+    if (queryParams.questionId) {
+      paramMap['questionid'] = queryParams.questionId;
+    }
+
+    if (queryParams.groupBySection) {
+      paramMap['frgroupbysection'] = queryParams.groupBySection;
+    }
+
+    if (queryParams.sectionByGiverReceiver) {
+      paramMap['sectionByGiverReceiver'] = queryParams.sectionByGiverReceiver;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
+  }
+
+  /**
+   * Retrieves user-scoped results for a feedback session.
+   */
+  getUserSessionResults(queryParams: {
     feedbackSessionId: string;
     intent: Intent;
     questionId?: string;
-    groupBySection?: string;
     key?: string;
-    sectionByGiverReceiver?: string;
     previewAs?: string;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
@@ -380,23 +404,15 @@ export class FeedbackSessionsService {
       paramMap['questionid'] = queryParams.questionId;
     }
 
-    if (queryParams.groupBySection) {
-      paramMap['frgroupbysection'] = queryParams.groupBySection;
-    }
-
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;
-    }
-
-    if (queryParams.sectionByGiverReceiver) {
-      paramMap['sectionByGiverReceiver'] = queryParams.sectionByGiverReceiver;
     }
 
     if (queryParams.previewAs) {
       paramMap['previewas'] = queryParams.previewAs;
     }
 
-    return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
   }
 
   /**

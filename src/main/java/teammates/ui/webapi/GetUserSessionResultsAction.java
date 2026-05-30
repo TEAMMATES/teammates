@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -16,9 +15,9 @@ import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
 /**
- * Gets feedback session results including statistics where necessary.
+ * Gets user-scoped feedback session results for instructor/student result views.
  */
-public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
+public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -41,16 +40,11 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         String courseId = feedbackSession.getCourseId();
 
         switch (intent) {
-        case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-            gateKeeper.verifyAccessible(instructor, feedbackSession);
-            break;
         case INSTRUCTOR_RESULT:
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
-            instructor = getInstructorOfCourseForResult(courseId);
+            Instructor instructor = getInstructorOfCourseForResult(courseId);
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
@@ -60,7 +54,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             Student student = getStudentOfCourseForResult(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
-        case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
+        case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -70,58 +64,34 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
     @Override
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-
-        // Allow additional filter by question ID and section name
         UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        return execute(feedbackSessionId, questionId, selectedSection,
-                fetchType, intent, isPreviewResults);
-    }
-
-    private JsonResult execute(
-            UUID feedbackSessionId, UUID questionUuid, String selectedSection,
-            FeedbackResultFetchType fetchType, Intent intent, boolean isPreviewResults) {
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
         String courseId = feedbackSession.getCourseId();
-        Instructor instructor;
         SessionResultsBundle bundle;
 
         switch (intent) {
-        case FULL_DETAIL:
-            instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-
-            bundle = logic.getSessionResults(feedbackSession, instructor.getEmail(),
-                    questionUuid, selectedSection, fetchType);
-            return new JsonResult(SessionResultsData.init(bundle));
         case INSTRUCTOR_RESULT:
-            instructor = getInstructorOfCourseForResult(courseId);
-
-            bundle = logic.getSessionResultsForUser(feedbackSession, instructor, questionUuid, isPreviewResults);
-
+            Instructor instructor = getInstructorOfCourseForResult(courseId);
+            bundle = logic.getSessionResultsForUser(feedbackSession, instructor, questionId, isPreviewResults);
             return new JsonResult(SessionResultsData.initForUser(bundle, instructor));
         case STUDENT_RESULT:
             Student student = getStudentOfCourseForResult(courseId);
-
-            bundle = logic.getSessionResultsForUser(feedbackSession, student, questionUuid, isPreviewResults);
-
+            bundle = logic.getSessionResultsForUser(feedbackSession, student, questionId, isPreviewResults);
             return new JsonResult(SessionResultsData.initForUser(bundle, student));
-        case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
+        case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
     }
-
 }

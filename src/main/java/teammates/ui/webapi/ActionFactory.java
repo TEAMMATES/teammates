@@ -68,7 +68,8 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateResponseInstructorCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteResponseInstructorCommentAction.class);
         map(ResourceURIs.RESPONSE_GIVER_COMMENT, DELETE, DeleteFeedbackResponseGiverCommentAction.class);
-        map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
+        map(ResourceURIs.COURSE_SESSION_RESULTS, GET, GetCourseSessionResultsAction.class);
+        map(ResourceURIs.USER_SESSION_RESULTS, GET, GetUserSessionResultsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         //STUDENTS APIs

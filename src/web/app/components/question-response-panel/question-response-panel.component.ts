@@ -103,7 +103,7 @@ export class QuestionResponsePanelComponent {
       return;
     }
     this.feedbackSessionsService
-      .getFeedbackSessionResults({
+      .getUserSessionResults({
         questionId: question.feedbackQuestion.feedbackQuestionId,
         feedbackSessionId: this.session.feedbackSessionId,
         intent: this.intent,
