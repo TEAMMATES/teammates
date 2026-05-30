@@ -97,8 +97,6 @@ export class PageComponent {
   readonly isCookieEnabled = signal(navigator.cookieEnabled);
 
   isCollapsed = true;
-  isUnsupportedBrowser = false;
-  browser = '';
   version: string = environment.version;
   logoutUrl = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
