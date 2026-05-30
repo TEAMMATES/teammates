@@ -56,10 +56,12 @@ public final class CoursesLogic {
      *
      * @return the created course
      * @throws InvalidParametersException   if the course is not valid
-     * @throws EntityAlreadyExistsException if the course already exists in the
-     *                                      database.
+     * @throws EntityAlreadyExistsException if a course with the same ID already exists
      */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Course createCourse(String courseId, String courseName, String timeZone, String institute)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = new Course(courseId, courseName, timeZone, institute);
+
         validateCourse(course);
 
         if (getCourse(course.getId()) != null) {
@@ -87,17 +89,14 @@ public final class CoursesLogic {
             throw new InvalidParametersException(timeZoneErrorMessage);
         }
 
-        Course course = new Course(
-                courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
+        Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
                 timeZone, courseCreateRequest.getInstitute());
-
-        Course createdCourse = createCourse(course);
 
         // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         Instructor instructor = new Instructor(
-                createdCourse,
+                course,
                 courseCreator.getName(),
                 courseCreator.getEmail(),
                 false,
@@ -113,7 +112,7 @@ public final class CoursesLogic {
                                   + System.lineSeparator() + course.toString();
         }
 
-        return createdCourse;
+        return course;
     }
 
     /**

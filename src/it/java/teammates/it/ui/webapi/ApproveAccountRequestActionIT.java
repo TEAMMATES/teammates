@@ -15,6 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -31,6 +32,7 @@ import teammates.ui.webapi.JsonResult;
  */
 public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRequestAction> {
     private DataBundle typicalBundle;
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     @BeforeMethod
@@ -148,8 +150,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String email = "existing-instructor@email.com";
         String institute = "dupInstitute";
 
-        Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
-        logic.createCourse(course);
+        Course course = coursesLogic.createCourse("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
 
         Instructor existingInstructor = new Instructor(course, "name", email, true, "display-name",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());

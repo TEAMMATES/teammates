@@ -306,18 +306,6 @@ public class Logic {
     }
 
     /**
-     * Creates a course.
-     *
-     * @param course the course to create.
-     * @return the created course.
-     * @throws InvalidParametersException   if the course is not valid.
-     * @throws EntityAlreadyExistsException if the course already exists.
-     */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourse(course);
-    }
-
-    /**
      * Creates a course and an associated instructor for the course.
      *
      * @param courseCreator      the account of the instructor creating the course.

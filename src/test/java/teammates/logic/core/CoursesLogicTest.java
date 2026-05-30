@@ -147,11 +147,16 @@ public class CoursesLogicTest extends BaseTestCase {
             throws EntityAlreadyExistsException, InvalidParametersException {
         Course course = getTypicalCourse();
 
-        when(coursesDb.createCourse(course)).thenReturn(course);
+        when(coursesDb.createCourse(any(Course.class))).thenReturn(course);
 
-        Course createdCourse = coursesLogic.createCourse(course);
+        Course createdCourse = coursesLogic.createCourse(
+                course.getId(), course.getName(), course.getTimeZone(), course.getInstitute());
 
-        verify(coursesDb, times(1)).createCourse(course);
+        verify(coursesDb, times(1)).createCourse(argThat(courseToCreate ->
+                courseToCreate.getId().equals(course.getId())
+                        && courseToCreate.getName().equals(course.getName())
+                        && courseToCreate.getTimeZone().equals(course.getTimeZone())
+                        && courseToCreate.getInstitute().equals(course.getInstitute())));
         assertNotNull(createdCourse);
     }
 
@@ -162,10 +167,11 @@ public class CoursesLogicTest extends BaseTestCase {
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> coursesLogic.createCourse(course));
+                () -> coursesLogic.createCourse(
+                        course.getId(), course.getName(), course.getTimeZone(), course.getInstitute()));
 
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()), ex.getMessage());
-        verify(coursesDb, never()).createCourse(course);
+        verify(coursesDb, never()).createCourse(any(Course.class));
     }
 
     @Test

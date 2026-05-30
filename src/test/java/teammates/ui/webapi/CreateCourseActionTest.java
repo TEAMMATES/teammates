@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
@@ -60,7 +61,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         Course expectedCourse = new Course(course.getId(), course.getName(), course.getTimeZone(), course.getInstitute());
         expectedCourse.setCreatedAt(Instant.parse("2022-01-01T00:00:00Z"));
 
-        when(mockLogic.createCourse(course)).thenReturn(expectedCourse);
+        when(mockLogic.createCourseAndInstructor(any(), any())).thenReturn(expectedCourse);
         when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(instructor);
         mockHibernateUtil.when(HibernateUtil::flushSession).thenAnswer(Answers.RETURNS_DEFAULTS);
 
@@ -68,6 +69,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         request.setCourseName(course.getName());
         request.setTimeZone(course.getTimeZone());
         request.setCourseId(course.getId());
+        request.setInstitute(course.getInstitute());
 
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute(),
@@ -90,12 +92,13 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("existing-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        when(mockLogic.createCourse(course)).thenThrow(new EntityAlreadyExistsException(""));
+        when(mockLogic.createCourseAndInstructor(any(), any())).thenThrow(new EntityAlreadyExistsException(""));
 
         CourseCreateRequest request = new CourseCreateRequest();
         request.setCourseName(course.getName());
         request.setTimeZone(course.getTimeZone());
         request.setCourseId(course.getId());
+        request.setInstitute(course.getInstitute());
 
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute(),
@@ -109,12 +112,13 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
             throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = new Course("invalid-course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
-        when(mockLogic.createCourse(course)).thenThrow(new InvalidParametersException(""));
+        when(mockLogic.createCourseAndInstructor(any(), any())).thenThrow(new InvalidParametersException(""));
 
         CourseCreateRequest request = new CourseCreateRequest();
         request.setCourseName(course.getName());
         request.setTimeZone(course.getTimeZone());
         request.setCourseId(course.getId());
+        request.setInstitute(course.getInstitute());
 
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, course.getInstitute(),
