@@ -3174,7 +3174,7 @@
       "questionId": "00000000-0000-4000-8000-000000000827"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResp1ForQ1InSession1InCourse1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -3183,8 +3183,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Excellent self-awareness, Mei Lin. Your identification of closures as a growth area is spot on. I recommend working through the supplementary exercises on environment model diagrams.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
@@ -3197,8 +3195,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Good progress, Carlos. Consider pairing up with a classmate to practice environment model walkthroughs before the midterm.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
@@ -3211,8 +3207,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Thank you for this evaluation. The peer feedback process is important for team development.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000904"
@@ -3225,8 +3219,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000503"
       },
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000934"
@@ -3239,8 +3231,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000505"
       },
       "commentText": "Thoughtful feedback, Amara. Encouraging your partner to consider edge cases earlier is exactly the kind of constructive observation we value.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000961"
@@ -3253,8 +3243,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Thank you for the positive feedback. I will continue to incorporate more interactive examples in my teaching.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000925"
@@ -3267,8 +3255,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "This rubric evaluation aligns well with my own observations. Carlos has been steadily improving his communication in team settings.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000919"
@@ -3281,8 +3267,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000503"
       },
       "commentText": "Good evaluation. I notice Anya has been very consistent in following coding standards. Encourage her to also share her documentation practices with the team.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000949"
