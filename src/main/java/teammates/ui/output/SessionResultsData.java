@@ -76,18 +76,18 @@ public class SessionResultsData extends ApiOutput {
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             boolean hasResponseButNotVisibleForPreview = bundle.getQuestionsNotVisibleForPreviewSet()
-                .contains(question);
+                    .contains(question);
             // check if question has comments (on any responses) not visible for preview
             boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
                     .contains(question);
 
             String questionStatistics = hasResponseButNotVisibleForPreview
-                ? ""
-                : questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle);
+                    ? ""
+                    : questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle);
             QuestionOutput qnOutput = new QuestionOutput(question,
-                questionStatistics,
-                hasResponseButNotVisibleForPreview,
-                hasCommentNotVisibleForPreview);
+                    questionStatistics,
+                    hasResponseButNotVisibleForPreview,
+                    hasCommentNotVisibleForPreview);
             Map<ResponseRecipient, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             qnOutput.getFeedbackQuestion().hideInformationForStudent();

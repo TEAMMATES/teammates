@@ -138,7 +138,7 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. This session has no questions. 
+           Nothing to show. There are no questions relevant to you to view in this session. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -439,7 +439,7 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. This session has no questions. 
+           Nothing to show. There are no questions relevant to you to view in this session. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -588,7 +588,7 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. This session has no questions. 
+           Nothing to show. There are no questions relevant to you to view in this session. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -968,7 +968,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. This session has no questions. 
+           Nothing to show. There are no questions relevant to you to view in this session. 
         </div>
       </div>
       <tm-question-response-panel>
@@ -1117,7 +1117,7 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
           role="alert"
           style="background-color: #d1ecf1;"
         >
-           Nothing to show. This session has no questions. 
+           Nothing to show. There are no questions relevant to you to view in this session. 
         </div>
       </div>
       <tm-question-response-panel>

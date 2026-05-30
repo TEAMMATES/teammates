@@ -529,13 +529,6 @@ public final class FeedbackResponsesLogic {
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
 
         Set<FeedbackQuestion> questionsNotVisibleToInstructors = new HashSet<>();
-        for (FeedbackQuestion qn : allQuestions) {
-
-            // set questions that should not be visible to instructors if results are being previewed
-            if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
-                questionsNotVisibleToInstructors.add(qn);
-            }
-        }
 
         // related questions, responses, and comment
         List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
@@ -543,14 +536,15 @@ public final class FeedbackResponsesLogic {
         Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
         Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
-        // always include all questions so question cards still render,
-        // even when no responses are visible or responses are omitted in preview.
         for (FeedbackQuestion qn : allQuestions) {
             relatedQuestions.add(qn);
-        }
 
-        if (isPreviewResults) {
-            relatedQuestionsNotVisibleForPreviewSet.addAll(questionsNotVisibleToInstructors);
+            // Mark preview-hidden questions up-front so omitted responses message can still show
+            // even when there are currently no responses.
+            if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
+                questionsNotVisibleToInstructors.add(qn);
+                relatedQuestionsNotVisibleForPreviewSet.add(qn);
+            }
         }
 
         Set<String> studentsEmailInTeam = new HashSet<>();
@@ -719,8 +713,10 @@ public final class FeedbackResponsesLogic {
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId);
-        RequestTracer.checkRemainingTime();
+        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId)
+                .stream()
+                .filter(question -> isQuestionRelevantForUserResult(question, user))
+                .toList();
 
         // load response(s)
         List<FeedbackResponse> allResponses = new ArrayList<>();
@@ -736,9 +732,32 @@ public final class FeedbackResponsesLogic {
 
             allResponses.addAll(viewableResponses);
         }
-        RequestTracer.checkRemainingTime();
 
         return buildResultsBundle(false, null, user, roster, allQuestions, allResponses, isPreviewResults);
+    }
+
+    /**
+     * Returns whether the question is relevant to the user in user-scoped result view.
+     */
+    private boolean isQuestionRelevantForUserResult(FeedbackQuestion question, User user) {
+        if (user instanceof Instructor instructor) {
+            boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.INSTRUCTORS
+                    || question.getGiverType() == QuestionGiverType.SELF
+                            && SanitizationHelper.areEmailsEqual(
+                                    question.getFeedbackSession().getCreatorEmail(), instructor.getEmail());
+            boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToInstructor(question)
+                    && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS;
+            return isRelevantAsGiver || isRelevantAsRecipient;
+        }
+
+        if (user instanceof Student) {
+            boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.STUDENTS
+                    || question.getGiverType() == QuestionGiverType.TEAMS;
+            boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToStudent(question);
+            return isRelevantAsGiver || isRelevantAsRecipient;
+        }
+
+        return false;
     }
 
     /**
