@@ -17,7 +17,6 @@ import {
   SessionResults,
   Student,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -156,10 +155,9 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     groupBySection: string,
   ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
-      .getFeedbackSessionResults({
+      .getCourseSessionResults({
         feedbackSessionId: feedbackSession.feedbackSessionId,
         groupBySection,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         map((results: SessionResults) => {

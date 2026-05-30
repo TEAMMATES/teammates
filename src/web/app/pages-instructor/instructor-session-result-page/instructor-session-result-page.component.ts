@@ -393,10 +393,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
     of(...Object.keys(this.sectionsModel))
       .pipe(
         concatMap((sectionName: string) => {
-          return this.feedbackSessionsService.getFeedbackSessionResults({
+          return this.feedbackSessionsService.getCourseSessionResults({
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
-            intent: Intent.FULL_DETAIL,
             groupBySection: sectionName,
             sectionByGiverReceiver: 'both',
           });
@@ -454,9 +453,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
       return;
     }
     this.feedbackSessionsService
-      .getFeedbackSessionResults({
+      .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
         groupBySection: sectionName,
       })
       .subscribe({
@@ -608,7 +606,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.courseId,
         this.session.feedbackSessionName,
         this.session.feedbackSessionId,
-        Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
         Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
@@ -630,7 +627,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .downloadSessionResults(
         this.session.feedbackSessionId,
-        Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
         question.questionId,

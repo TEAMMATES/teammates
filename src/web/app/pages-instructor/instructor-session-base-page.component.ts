@@ -512,7 +512,6 @@ export abstract class InstructorSessionBasePageComponent {
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
               model.feedbackSession.feedbackSessionId,
-              Intent.FULL_DETAIL,
               true,
               true,
               questions,
