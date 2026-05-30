@@ -7,7 +7,6 @@ import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '.
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
@@ -16,6 +15,7 @@ import {
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Comment edit form component
@@ -23,8 +23,8 @@ import {
 @Component({
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
-  animations: [collapseAnim],
   imports: [
+    NgbCollapse,
     NgbTooltip,
     RichTextEditorComponent,
     EnumToArrayPipe,
@@ -34,7 +34,7 @@ import {
   ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
-  private commentService = inject(ResponseInstructorCommentService);
+  private readonly commentService = inject(ResponseInstructorCommentService);
 
   readonly castAsInputElement: typeof castAsInputElement;
 
