@@ -1210,8 +1210,6 @@ describe('SessionSubmissionPageComponent', () => {
     component.questionSubmissionForms[0].recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     component.questionSubmissionForms[1].recipientSubmissionForms[0].status = ResponseSubmissionStatus.SAVED;
 
-    expect(component.isSubmissionReceiptDownloadDisabled).toBe(false);
-
     component.downloadSubmissionReceipt();
 
     expect(getResponseSpy).not.toHaveBeenCalled();

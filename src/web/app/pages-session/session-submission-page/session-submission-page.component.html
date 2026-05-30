@@ -278,7 +278,7 @@
             class="btn btn-info"
             ngbTooltip="Download a receipt of your submission."
             (click)="downloadSubmissionReceipt()"
-            [disabled]="isSubmissionReceiptDownloadDisabled"
+            [disabled]="isDownloadingSubmissionReceipt"
           >
             @if (isDownloadingSubmissionReceipt) {
               <tm-ajax-loading></tm-ajax-loading>

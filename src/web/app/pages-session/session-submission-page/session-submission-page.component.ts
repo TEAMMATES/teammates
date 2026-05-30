@@ -168,15 +168,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  get isSubmissionReceiptDownloadDisabled(): boolean {
-    const hasAtLeastOneSavedResponse = this.questionSubmissionForms.some((question: QuestionSubmissionFormModel) =>
-      question.recipientSubmissionForms.some(
-        (response: FeedbackResponseRecipientSubmissionFormModel) => response.status === ResponseSubmissionStatus.SAVED,
-      ),
-    );
-    return this.isDownloadingSubmissionReceipt || !hasAtLeastOneSavedResponse;
-  }
-
   constructor() {
     this.castAsSelectElement = castAsSelectElement;
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;

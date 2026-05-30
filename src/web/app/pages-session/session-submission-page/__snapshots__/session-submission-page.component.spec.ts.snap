@@ -3784,6 +3784,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           <button
             class="btn btn-info"
             id="btn-download-submission-receipt"
+            ngbtooltip="Download a receipt of your submission."
             type="button"
           >
              Download Submission Receipt 
@@ -6857,6 +6858,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           <button
             class="btn btn-info"
             id="btn-download-submission-receipt"
+            ngbtooltip="Download a receipt of your submission."
             type="button"
           >
              Download Submission Receipt 
