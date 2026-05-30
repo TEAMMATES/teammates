@@ -64,7 +64,7 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        paths.set(QuestionGiverType.SELF, [
+        paths.set(QuestionGiverType.SESSION_CREATOR, [
           QuestionRecipientType.STUDENTS,
           QuestionRecipientType.INSTRUCTORS,
           QuestionRecipientType.TEAMS,
@@ -101,7 +101,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        paths.set(QuestionGiverType.SELF, [
+        paths.set(QuestionGiverType.SESSION_CREATOR, [
           QuestionRecipientType.SELF,
           QuestionRecipientType.STUDENTS,
           QuestionRecipientType.INSTRUCTORS,
@@ -158,7 +158,7 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        paths.set(QuestionGiverType.SELF, [QuestionRecipientType.INSTRUCTORS]);
+        paths.set(QuestionGiverType.SESSION_CREATOR, [QuestionRecipientType.INSTRUCTORS]);
         paths.set(QuestionGiverType.STUDENTS, [
           QuestionRecipientType.INSTRUCTORS,
           QuestionRecipientType.OWN_TEAM_MEMBERS,
@@ -173,7 +173,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        paths.set(QuestionGiverType.SELF, [
+        paths.set(QuestionGiverType.SESSION_CREATOR, [
           QuestionRecipientType.NONE,
           QuestionRecipientType.SELF,
           QuestionRecipientType.INSTRUCTORS,

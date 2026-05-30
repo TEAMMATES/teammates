@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samuelfangjw" id="20260530-question-giver-type-session-creator-1">
+        <update tableName="feedback_questions">
+            <column name="giver_type" value="SESSION_CREATOR" />
+            <where>giver_type = 'SELF'</where>
+        </update>
+        <rollback>
+            <update tableName="feedback_questions">
+                <column name="giver_type" value="SELF" />
+                <where>giver_type = 'SESSION_CREATOR'</where>
+            </update>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

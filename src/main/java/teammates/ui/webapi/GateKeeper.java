@@ -221,7 +221,7 @@ final class GateKeeper {
         verifyNotNull(feedbackQuestion, "feedback question");
 
         if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.SELF) {
+                && feedbackQuestion.getGiverType() != QuestionGiverType.SESSION_CREATOR) {
             throw new UnauthorizedAccessException("Feedback question is not answerable for instructors", true);
         }
     }

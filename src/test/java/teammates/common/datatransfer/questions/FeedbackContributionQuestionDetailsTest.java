@@ -294,7 +294,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals("", details.validateGiverRecipientVisibility(feedbackQuestion));
 
         ______TS("failure: giver type is not STUDENT");
-        feedbackQuestion.setGiverType(QuestionGiverType.SELF);
+        feedbackQuestion.setGiverType(QuestionGiverType.SESSION_CREATOR);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
@@ -307,7 +307,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF");
-        feedbackQuestion.setGiverType(QuestionGiverType.SELF);
+        feedbackQuestion.setGiverType(QuestionGiverType.SESSION_CREATOR);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
@@ -325,7 +325,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and invalid restrictions on visibility options");
-        feedbackQuestion.setGiverType(QuestionGiverType.SELF);
+        feedbackQuestion.setGiverType(QuestionGiverType.SESSION_CREATOR);
         feedbackQuestion.setRecipientType(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
@@ -349,7 +349,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF"
                 + " and invalid restrictions on visibility options");
-        feedbackQuestion.setGiverType(QuestionGiverType.SELF);
+        feedbackQuestion.setGiverType(QuestionGiverType.SESSION_CREATOR);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
         feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,

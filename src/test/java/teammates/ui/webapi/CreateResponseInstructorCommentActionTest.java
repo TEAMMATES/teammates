@@ -370,7 +370,7 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
         FeedbackQuestion contributionQuestion = FeedbackQuestion.makeQuestion(
                 2,
                 "contribution question",
-                QuestionGiverType.SELF,
+                QuestionGiverType.SESSION_CREATOR,
                 QuestionRecipientType.TEAMS,
                 2,
                 new ArrayList<>(),

@@ -189,7 +189,7 @@ public class BaseTestCase {
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
         FeedbackQuestion fq = FeedbackQuestion.makeQuestion(1, "test-description",
-                QuestionGiverType.SELF, QuestionRecipientType.SELF, 1, new ArrayList<>(),
+                QuestionGiverType.SESSION_CREATOR, QuestionRecipientType.SELF, 1, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails("test question text"));
         session.addFeedbackQuestion(fq);
