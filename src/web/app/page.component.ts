@@ -1,4 +1,4 @@
-import { Location, NgStyle, AsyncPipe } from '@angular/common';
+import { Location, NgStyle } from '@angular/common';
 import {
   Component,
   Directive,
@@ -9,13 +9,12 @@ import {
   Output,
   forwardRef,
   inject,
+  signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { fromEvent, merge, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
@@ -70,7 +69,6 @@ export class ClickOutsideDirective {
     NotificationBannerComponent,
     LoadingSpinnerDirective,
     RouterOutlet,
-    AsyncPipe,
   ],
 })
 export class PageComponent {
@@ -95,11 +93,12 @@ export class PageComponent {
   @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
 
+  readonly isNetworkOnline = signal(navigator.onLine);
+  readonly isCookieEnabled = signal(navigator.cookieEnabled);
+
   isCollapsed = true;
   isUnsupportedBrowser = false;
-  isCookieDisabled = false;
   browser = '';
-  isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
   logoutUrl = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
@@ -108,7 +107,6 @@ export class PageComponent {
     const location = inject(Location);
 
     this.NotificationTargetUser = NotificationTargetUser;
-    this.isCookieDisabled = !navigator.cookieEnabled;
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
@@ -127,11 +125,8 @@ export class PageComponent {
       this.logoutUrl += `?frontendUrl=${environment.frontendUrl}`;
     }
 
-    this.isNetworkOnline$ = merge(
-      of(navigator.onLine),
-      fromEvent(globalThis, 'online').pipe(map(() => true)),
-      fromEvent(globalThis, 'offline').pipe(map(() => false)),
-    );
+    globalThis.addEventListener('online', () => this.isNetworkOnline.set(true));
+    globalThis.addEventListener('offline', () => this.isNetworkOnline.set(false));
 
     // Close open modal(s) when moving backward or forward through history in the browser page
     location.subscribe(() => {

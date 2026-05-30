@@ -115,18 +115,19 @@
     <tm-notification-banner [url]="getUrl()" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
   }
   <div *tmIsLoading="isFetchingAuthDetails">
-    @if ((isNetworkOnline$ | async) === false) {
+    @if (!isNetworkOnline()) {
       <div>
         <div class="alert alert-danger" role="alert">
-          <i class="fas fa-wifi"></i>&nbsp;You are not connected to the internet.
+          <i class="fas fa-wifi"></i>&nbsp;Your device appears to be offline. Some TEAMMATES features may not work until
+          your internet connection is restored.
         </div>
       </div>
     }
-    @if (isCookieDisabled) {
+    @if (!isCookieEnabled()) {
       <div>
         <div class="alert alert-danger" role="alert">
-          <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires
-          cookies in order to work effectively.
+          <i class="fas fa-ban"></i>&nbsp;TEAMMATES requires cookies to function properly. Please enable cookies in your
+          browser settings.
         </div>
       </div>
     }
