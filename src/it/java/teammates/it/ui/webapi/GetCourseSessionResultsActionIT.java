@@ -13,7 +13,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.SessionResultsData;
-import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetCourseSessionResultsAction;
 import teammates.ui.webapi.JsonResult;
 
@@ -52,7 +51,6 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
         GetCourseSessionResultsAction action = getAction(params);
@@ -72,7 +70,6 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
         verifyAccessibleForInstructorsOfTheSameCourse(course, params);
@@ -82,11 +79,5 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         verifyCannotAccess(params);
 
         verifyInaccessibleForStudentsOfOtherCourse(course, params);
-
-        String[] invalidIntentParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
-        };
-        verifyHttpParameterFailure(invalidIntentParams);
     }
 }
