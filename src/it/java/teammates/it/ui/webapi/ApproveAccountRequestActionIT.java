@@ -15,7 +15,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -32,7 +31,6 @@ import teammates.ui.webapi.JsonResult;
  */
 public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRequestAction> {
     private DataBundle typicalBundle;
-    private final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     @BeforeMethod
