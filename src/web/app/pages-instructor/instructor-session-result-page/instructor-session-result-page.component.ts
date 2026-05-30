@@ -188,7 +188,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId,
-        intent: Intent.INSTRUCTOR_RESULT,
+        intent: Intent.FULL_DETAIL,
       })
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
@@ -258,7 +258,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.feedbackQuestionsService
             .getFeedbackQuestions({
               feedbackSessionId,
-              intent: Intent.INSTRUCTOR_RESULT,
+              intent: Intent.FULL_DETAIL,
             })
             .subscribe({
               next: (feedbackQuestions: FeedbackQuestions) => {

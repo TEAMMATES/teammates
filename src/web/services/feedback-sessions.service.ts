@@ -391,7 +391,6 @@ export class FeedbackSessionsService {
   getUserSessionResults(queryParams: {
     feedbackSessionId: string;
     intent: Intent;
-    questionId?: string;
     key?: string;
     previewAs?: string;
   }): Observable<SessionResults> {
@@ -399,10 +398,6 @@ export class FeedbackSessionsService {
       fsid: queryParams.feedbackSessionId,
       intent: queryParams.intent,
     };
-
-    if (queryParams.questionId) {
-      paramMap['questionid'] = queryParams.questionId;
-    }
 
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;

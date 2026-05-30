@@ -78,7 +78,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
             when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
-                            eq(instructorStub), eq(null), eq(false)))
+                            eq(instructorStub), eq(false)))
                     .thenReturn(resultsStub);
             break;
         case STUDENT_RESULT:
@@ -86,7 +86,7 @@ public class GetUserSessionResultsActionTest extends BaseActionTest<GetUserSessi
             when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
-                            eq(studentStub), eq(null), eq(false)))
+                            eq(studentStub), eq(false)))
                     .thenReturn(resultsStub);
             break;
         case FULL_DETAIL, INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:

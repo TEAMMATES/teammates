@@ -63,7 +63,7 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
 
         SessionResultsData output = (SessionResultsData) result.getOutput();
         SessionResultsData expectedResults = SessionResultsData.initForUser(
-                logic.getSessionResultsForUser(accessibleFeedbackSession, instructor, null, false),
+                logic.getSessionResultsForUser(accessibleFeedbackSession, instructor, false),
                 instructor);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
@@ -81,7 +81,7 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
 
         output = (SessionResultsData) result.getOutput();
         expectedResults = SessionResultsData.initForUser(
-                logic.getSessionResultsForUser(accessibleFeedbackSession, student, null, false),
+                logic.getSessionResultsForUser(accessibleFeedbackSession, student, false),
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
