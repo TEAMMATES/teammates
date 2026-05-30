@@ -525,28 +525,16 @@ public final class FeedbackResponsesLogic {
 
     private SessionResultsBundle buildResultsBundle(
             boolean isCourseWide, String sectionName, User user,
-            CourseRoster roster, List<FeedbackQuestion> allQuestions,
+            CourseRoster roster, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
-
-        Set<FeedbackQuestion> questionsNotVisibleToInstructors = new HashSet<>();
-        for (FeedbackQuestion qn : allQuestions) {
-
-            // set questions that should not be visible to instructors if results are being previewed
-            if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
-                questionsNotVisibleToInstructors.add(qn);
-            }
-        }
-
-        // related questions, responses, and comment
-        List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
         Map<FeedbackResponse, List<ResponseInstructorComment>> relatedCommentsMap = new HashMap<>();
         Set<FeedbackQuestion> relatedQuestionsNotVisibleForPreviewSet = new HashSet<>();
         Set<FeedbackQuestion> relatedQuestionsWithCommentNotVisibleForPreview = new HashSet<>();
-        if (isCourseWide) {
-            // all questions are related questions when viewing course-wide result
-            for (FeedbackQuestion qn : allQuestions) {
-                relatedQuestions.add(qn);
+        for (FeedbackQuestion qn : relatedQuestions) {
+            // set questions that should not be visible to instructors if results are being previewed
+            if (isPreviewResults && !checkCanInstructorsSeeQuestion(qn)) {
+                relatedQuestionsNotVisibleForPreviewSet.add(qn);
             }
         }
 
@@ -584,15 +572,6 @@ public final class FeedbackResponsesLogic {
                 continue;
             }
 
-            // if previewing results and corresponding question should not be visible to instructors,
-            // note down the question and do not add the response
-            if (isPreviewResults && questionsNotVisibleToInstructors.contains(response.getFeedbackQuestion())) {
-                relatedQuestionsNotVisibleForPreviewSet.add(response.getFeedbackQuestion());
-                continue;
-            }
-
-            // if there are viewable responses, the corresponding question becomes related
-            relatedQuestions.add(response.getFeedbackQuestion());
             relatedResponses.add(response);
 
             // generate giver/recipient name visibility table
@@ -717,8 +696,10 @@ public final class FeedbackResponsesLogic {
                 usersLogic.getInstructorsForCourse(courseId));
 
         // load question(s)
-        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId);
-        RequestTracer.checkRemainingTime();
+        List<FeedbackQuestion> allQuestions = getQuestionsForSession(feedbackSession, questionId)
+                .stream()
+                .filter(question -> isQuestionRelevantForUserResult(question, user))
+                .toList();
 
         // load response(s)
         List<FeedbackResponse> allResponses = new ArrayList<>();
@@ -734,9 +715,32 @@ public final class FeedbackResponsesLogic {
 
             allResponses.addAll(viewableResponses);
         }
-        RequestTracer.checkRemainingTime();
 
         return buildResultsBundle(false, null, user, roster, allQuestions, allResponses, isPreviewResults);
+    }
+
+    /**
+     * Returns whether the question is relevant to the user in user-scoped result view.
+     */
+    private boolean isQuestionRelevantForUserResult(FeedbackQuestion question, User user) {
+        if (user instanceof Instructor instructor) {
+            boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.INSTRUCTORS
+                    || question.getGiverType() == QuestionGiverType.SELF
+                            && SanitizationHelper.areEmailsEqual(
+                                    question.getFeedbackSession().getCreatorEmail(), instructor.getEmail());
+            boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToInstructor(question)
+                    && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS;
+            return isRelevantAsGiver || isRelevantAsRecipient;
+        }
+
+        if (user instanceof Student) {
+            boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.STUDENTS
+                    || question.getGiverType() == QuestionGiverType.TEAMS;
+            boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToStudent(question);
+            return isRelevantAsGiver || isRelevantAsRecipient;
+        }
+
+        return false;
     }
 
     /**

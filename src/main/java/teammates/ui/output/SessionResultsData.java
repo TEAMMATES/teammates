@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
@@ -76,17 +75,24 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((question, responses) -> {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
+            boolean hasResponseButNotVisibleForPreview = bundle.getQuestionsNotVisibleForPreviewSet()
+                    .contains(question);
             // check if question has comments (on any responses) not visible for preview
             boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
                     .contains(question);
+
+            String questionStatistics = hasResponseButNotVisibleForPreview
+                    ? ""
+                    : questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle);
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle),
-                    false, hasCommentNotVisibleForPreview);
+                    questionStatistics,
+                    hasResponseButNotVisibleForPreview,
+                    hasCommentNotVisibleForPreview);
             Map<ResponseRecipient, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             qnOutput.getFeedbackQuestion().hideInformationForStudent();
 
-            if (questionDetails.isIndividualResponsesShownToStudents()) {
+            if (!hasResponseButNotVisibleForPreview && questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponse response : responses) {
                     boolean isUserGiver = Objects.equals(user, response.getGiver().getGiverUser());
                     boolean isUserRecipient = Objects.equals(user, response.getRecipient().getRecipientUser());
@@ -113,13 +119,6 @@ public class SessionResultsData extends ApiOutput {
             }
             qnOutput.otherResponses.addAll(otherResponsesMap.values());
 
-            sessionResultsData.questions.add(qnOutput);
-        });
-
-        Set<FeedbackQuestion> questionsWithResponsesNotVisibleForPreview =
-                bundle.getQuestionsNotVisibleForPreviewSet();
-        questionsWithResponsesNotVisibleForPreview.forEach(question -> {
-            QuestionOutput qnOutput = new QuestionOutput(question, "", true, false);
             sessionResultsData.questions.add(qnOutput);
         });
 
