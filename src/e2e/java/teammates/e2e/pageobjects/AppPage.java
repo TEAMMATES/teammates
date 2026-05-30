@@ -848,7 +848,7 @@ public abstract class AppPage {
 
     String getDisplayGiverName(QuestionGiverType type) {
         switch (type) {
-        case SELF:
+        case SESSION_CREATOR:
             return "Feedback session creator (i.e., me)";
         case STUDENTS:
             return "Students in this course";

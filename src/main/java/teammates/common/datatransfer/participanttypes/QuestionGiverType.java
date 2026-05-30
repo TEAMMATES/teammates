@@ -5,10 +5,9 @@ package teammates.common.datatransfer.participanttypes;
  */
 public enum QuestionGiverType {
     /**
-     * Represents "own self". As a giver, it represents the feedback session
-     * creator.
+     * Represents the feedback session creator.
      */
-    SELF, // TODO: rename to SESSION_CREATOR or similar to avoid ambiguity
+    SESSION_CREATOR,
 
     /**
      * Students of the course.

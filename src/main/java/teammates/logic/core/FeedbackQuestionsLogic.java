@@ -135,7 +135,7 @@ public final class FeedbackQuestionsLogic {
         }
 
         if (isCreator) {
-            hasQuestions = hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.SELF);
+            hasQuestions = hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.SESSION_CREATOR);
         }
 
         return hasQuestions;
@@ -155,7 +155,7 @@ public final class FeedbackQuestionsLogic {
         if (SanitizationHelper.areEmailsEqual(feedbackSession.getCreatorEmail(), userEmail)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSession, QuestionGiverType.SELF));
+                        feedbackSession, QuestionGiverType.SESSION_CREATOR));
         }
 
         return questions;
@@ -716,7 +716,7 @@ public final class FeedbackQuestionsLogic {
                     .map(ResponseGiver::new)
                     .toList();
             break;
-        case SELF:
+        case SESSION_CREATOR:
             FeedbackSession feedbackSession =
                     feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
             Instructor instructorGiver = courseRoster.getInstructorForEmail(feedbackSession.getCreatorEmail());

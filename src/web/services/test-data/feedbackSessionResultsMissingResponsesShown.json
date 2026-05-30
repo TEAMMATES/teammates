@@ -642,7 +642,7 @@
           "questionText": "New format Text question"
         },
         "questionType": "TEXT",
-        "giverType": "SELF",
+        "giverType": "SESSION_CREATOR",
         "recipientType": "NONE",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
         "showResponsesTo": ["INSTRUCTORS"],
@@ -683,7 +683,7 @@
           "questionText": "My comments on the class"
         },
         "questionType": "TEXT",
-        "giverType": "SELF",
+        "giverType": "SESSION_CREATOR",
         "recipientType": "NONE",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
         "showResponsesTo": ["GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],

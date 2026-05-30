@@ -451,7 +451,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SELF) {
+            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SESSION_CREATOR) {
                 continue;
             }
             stubFeedbackQuestion.setGiverType(type);
@@ -463,9 +463,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         verify(mockLogic, times(QuestionGiverType.values().length - 2))
                 .getFeedbackQuestion(stubFeedbackQuestion.getId());
 
-        // verify only QuestionGiverType.INSTRUCTORS and SELF are accessible
+        // verify only QuestionGiverType.INSTRUCTORS and SESSION_CREATOR are accessible
         for (QuestionGiverType type : new QuestionGiverType[] { QuestionGiverType.INSTRUCTORS,
-                QuestionGiverType.SELF }) {
+                QuestionGiverType.SESSION_CREATOR }) {
             stubFeedbackQuestion.setGiverType(type);
             verifyCanAccess(params);
         }

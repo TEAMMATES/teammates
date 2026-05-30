@@ -410,7 +410,7 @@ public final class FeedbackResponsesLogic {
         int numberOfRecipients = 0;
 
         switch (giverType) {
-        case INSTRUCTORS, SELF:
+        case INSTRUCTORS, SESSION_CREATOR:
             for (Instructor instructor : roster.getInstructors()) {
                 ResponseGiver responseGiver = new ResponseGiver(instructor);
                 numberOfRecipients =
@@ -723,7 +723,7 @@ public final class FeedbackResponsesLogic {
     private boolean isQuestionRelevantForUserResult(FeedbackQuestion question, User user) {
         if (user instanceof Instructor instructor) {
             boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.INSTRUCTORS
-                    || question.getGiverType() == QuestionGiverType.SELF
+                    || question.getGiverType() == QuestionGiverType.SESSION_CREATOR
                             && SanitizationHelper.areEmailsEqual(
                                     question.getFeedbackSession().getCreatorEmail(), instructor.getEmail());
             boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToInstructor(question)

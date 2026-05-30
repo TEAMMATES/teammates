@@ -767,7 +767,7 @@ export enum NumberOfEntitiesToGiveFeedbackToSetting {
 }
 
 export enum QuestionGiverType {
-  SELF = "SELF",
+  SESSION_CREATOR = "SESSION_CREATOR",
   STUDENTS = "STUDENTS",
   INSTRUCTORS = "INSTRUCTORS",
   TEAMS = "TEAMS",
