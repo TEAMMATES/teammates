@@ -408,7 +408,7 @@ public class DataBundleLogicTest extends BaseTestCase {
                 + "\"feedbackSessionLogs\": {},"
                 + "\"feedbackQuestions\": {},"
                 + "\"feedbackResponses\": {},"
-                + "\"feedbackResponseComments\": {},"
+                + "\"responseInstructorComments\": {},"
                 + "\"deadlineExtensions\": {},"
                 + "\"notifications\": {},"
                 + "\"readNotifications\": {}"
@@ -428,7 +428,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         assertTrue(result.feedbackSessionLogs.isEmpty());
         assertTrue(result.feedbackQuestions.isEmpty());
         assertTrue(result.feedbackResponses.isEmpty());
-        assertTrue(result.feedbackResponseComments.isEmpty());
+        assertTrue(result.responseInstructorComments.isEmpty());
         assertTrue(result.deadlineExtensions.isEmpty());
         assertTrue(result.notifications.isEmpty());
         assertTrue(result.readNotifications.isEmpty());
@@ -450,7 +450,7 @@ public class DataBundleLogicTest extends BaseTestCase {
                 + "\"feedbackSessionLogs\": {},"
                 + "\"feedbackQuestions\": {},"
                 + "\"feedbackResponses\": {},"
-                + "\"feedbackResponseComments\": {},"
+                + "\"responseInstructorComments\": {},"
                 + "\"deadlineExtensions\": {},"
                 + "\"notifications\": {},"
                 + "\"readNotifications\": {}"

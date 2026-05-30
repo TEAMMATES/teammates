@@ -5,16 +5,16 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Deletes a feedback response comment.
  */
-public class DeleteFeedbackResponseCommentAction extends Action {
+public class DeleteResponseInstructorCommentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -23,8 +23,8 @@ public class DeleteFeedbackResponseCommentAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        FeedbackResponseComment comment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
+        UUID responseInstructorCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        ResponseInstructorComment comment = logic.getResponseInstructorComment(responseInstructorCommentId);
         if (comment == null) {
             return;
         }
@@ -54,8 +54,8 @@ public class DeleteFeedbackResponseCommentAction extends Action {
 
     @Override
     public JsonResult execute() {
-        UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        logic.deleteFeedbackResponseComment(feedbackResponseCommentId);
+        UUID responseInstructorCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
+        logic.deleteResponseInstructorComment(responseInstructorCommentId);
 
         return new JsonResult("Successfully deleted feedback response comment.");
     }

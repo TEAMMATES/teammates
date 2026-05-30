@@ -9,42 +9,42 @@ import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
-import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**
  * Handles operations related to feedback response comments.
  *
- * @see FeedbackResponseComment
- * @see FeedbackResponseCommentsDb
+ * @see ResponseInstructorComment
+ * @see ResponseInstructorCommentsDb
  */
-public final class FeedbackResponseCommentsLogic {
+public final class ResponseInstructorCommentsLogic {
 
-    private static final FeedbackResponseCommentsLogic instance = new FeedbackResponseCommentsLogic();
-    private FeedbackResponseCommentsDb frcDb;
+    private static final ResponseInstructorCommentsLogic instance = new ResponseInstructorCommentsLogic();
+    private ResponseInstructorCommentsDb frcDb;
     private FeedbackResponsesLogic frLogic;
 
-    private FeedbackResponseCommentsLogic() {
+    private ResponseInstructorCommentsLogic() {
         // prevent initialization
     }
 
-    public static FeedbackResponseCommentsLogic inst() {
+    public static ResponseInstructorCommentsLogic inst() {
         return instance;
     }
 
     /**
-     * Initialize dependencies for {@code FeedbackResponseCommentsLogic}.
+     * Initialize dependencies for {@code ResponseInstructorCommentsLogic}.
      */
-    void initLogicDependencies(FeedbackResponseCommentsDb frcDb, FeedbackResponsesLogic frLogic) {
+    void initLogicDependencies(ResponseInstructorCommentsDb frcDb, FeedbackResponsesLogic frLogic) {
         this.frcDb = frcDb;
         this.frLogic = frLogic;
     }
@@ -54,8 +54,8 @@ public final class FeedbackResponseCommentsLogic {
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(UUID id) {
-        return frcDb.getFeedbackResponseComment(id);
+    public ResponseInstructorComment getResponseInstructorComment(UUID id) {
+        return frcDb.getResponseInstructorComment(id);
     }
 
     /**
@@ -64,7 +64,7 @@ public final class FeedbackResponseCommentsLogic {
      * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException if the comment is invalid
      */
-    public FeedbackResponseComment createFeedbackResponseComment(UUID feedbackResponseId, ResponseGiver giver,
+    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, ResponseGiver giver,
             String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackResponse feedbackResponse = frLogic.getFeedbackResponse(feedbackResponseId);
@@ -72,48 +72,48 @@ public final class FeedbackResponseCommentsLogic {
             throw new EntityDoesNotExistException("The feedback response does not exist.");
         }
 
-        FeedbackResponseComment frc = new FeedbackResponseComment(giver, commentText,
+        ResponseInstructorComment frc = new ResponseInstructorComment(giver, commentText,
                 showCommentTo, showGiverNameTo, giver);
-        feedbackResponse.addFeedbackResponseComment(frc);
+        feedbackResponse.addResponseInstructorComment(frc);
 
-        validateFeedbackResponseComment(frc);
+        validateResponseInstructorComment(frc);
 
-        return frcDb.createFeedbackResponseComment(frc);
+        return frcDb.createResponseInstructorComment(frc);
     }
 
     /**
-     * Deletes a feedbackResponseComment.
+     * Deletes a ResponseInstructorComment.
      *
      * <p>Fails silently if the comment does not exist.</p>
      */
-    public void deleteFeedbackResponseComment(UUID frcId) {
-        FeedbackResponseComment frc = getFeedbackResponseComment(frcId);
+    public void deleteResponseInstructorComment(UUID frcId) {
+        ResponseInstructorComment frc = getResponseInstructorComment(frcId);
         if (frc == null) {
             return;
         }
-        frcDb.deleteFeedbackResponseComment(frc);
+        frcDb.deleteResponseInstructorComment(frc);
     }
 
     /**
-     * Updates a feedback response comment by {@link FeedbackResponseComment}.
+     * Updates a feedback response comment by {@link ResponseInstructorComment}.
      *
      * @return updated comment
      * @throws InvalidParametersException if attributes to update are not valid
      */
-    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+    public ResponseInstructorComment updateResponseInstructorComment(ResponseInstructorComment responseInstructorComment)
             throws InvalidParametersException {
-        validateFeedbackResponseComment(feedbackResponseComment);
-        return feedbackResponseComment;
+        validateResponseInstructorComment(responseInstructorComment);
+        return responseInstructorComment;
     }
 
     /**
      * Updates a feedback response comment.
      * @throws EntityDoesNotExistException if the comment does not exist
      */
-    public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
-            FeedbackResponseCommentUpdateRequest updateRequest, ResponseGiver updater)
+    public ResponseInstructorComment updateResponseInstructorComment(UUID frcId,
+            ResponseInstructorCommentUpdateRequest updateRequest, ResponseGiver updater)
             throws EntityDoesNotExistException {
-        FeedbackResponseComment comment = frcDb.getFeedbackResponseComment(frcId);
+        ResponseInstructorComment comment = frcDb.getResponseInstructorComment(frcId);
         if (comment == null) {
             throw new EntityDoesNotExistException("Trying to update a feedback response comment that does not exist.");
         }
@@ -129,8 +129,8 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Gets all feedback response comments for the given feedback response IDs.
      */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponses(List<UUID> feedbackResponseIds) {
-        return frcDb.getFeedbackResponseCommentsForResponses(feedbackResponseIds);
+    public List<ResponseInstructorComment> getResponseInstructorCommentsForResponses(List<UUID> feedbackResponseIds) {
+        return frcDb.getResponseInstructorCommentsForResponses(feedbackResponseIds);
     }
 
     /**
@@ -138,17 +138,15 @@ public final class FeedbackResponseCommentsLogic {
      * @return true/false
      */
     public boolean checkIsResponseCommentVisibleForUser(User user,
-            FeedbackResponse response, FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment) {
+            FeedbackResponse response, FeedbackQuestion relatedQuestion, ResponseInstructorComment relatedComment) {
 
         if (response == null || relatedQuestion == null) {
             return false;
         }
 
-        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
-        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
-                || relatedComment.checkIsVisibleTo(ViewerType.GIVER);
+        boolean isVisibleToGiver = relatedComment.checkIsVisibleTo(ViewerType.GIVER);
 
-        boolean isVisibleToUser = checkIsVisibleToUser(user, response, relatedQuestion, relatedComment, isVisibleToGiver);
+        boolean isVisibleToUser = checkIsVisibleToUser(user, response, relatedComment, isVisibleToGiver);
 
         boolean isVisibleToUserTeam = false;
         if (user instanceof Student student) {
@@ -161,7 +159,7 @@ public final class FeedbackResponseCommentsLogic {
 
     private boolean checkIsVisibleToUserTeam(Student student,
             FeedbackResponse response, FeedbackQuestion relatedQuestion,
-            FeedbackResponseComment relatedComment) {
+            ResponseInstructorComment relatedComment) {
         Team studentTeam = student.getTeam();
 
         ResponseGiver responseGiver = response.getGiver();
@@ -185,16 +183,16 @@ public final class FeedbackResponseCommentsLogic {
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients =
                 relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
-                && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment, ViewerType.RECEIVER)
+                && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.RECEIVER)
                 && isUserInRecipientTeam;
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
-                || checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment, ViewerType.OWN_TEAM_MEMBERS))
+                || checkIsResponseCommentVisibleTo(relatedComment, ViewerType.OWN_TEAM_MEMBERS))
                 && isUserInGiverTeam;
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
-                checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment, ViewerType.RECEIVER_TEAM_MEMBERS)
+                checkIsResponseCommentVisibleTo(relatedComment, ViewerType.RECEIVER_TEAM_MEMBERS)
                 && isUserInRecipientTeam;
 
         return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
@@ -203,18 +201,16 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     private boolean checkIsVisibleToUser(User user, FeedbackResponse response,
-            FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment,
+            ResponseInstructorComment relatedComment,
             boolean isVisibleToGiver) {
         boolean isUserInstructor = user instanceof Instructor;
 
         boolean isUserInstructorAndRelatedResponseCommentVisibleToInstructors =
-                isUserInstructor && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                               ViewerType.INSTRUCTORS);
+                isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
                 Objects.equals(response.getRecipient().getRecipientUser(), user)
-                        && checkIsResponseCommentVisibleTo(relatedQuestion,
-                        relatedComment, ViewerType.RECEIVER);
+                        && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
                 Objects.equals(response.getGiver().getGiverUser(), user) && isVisibleToGiver;
@@ -230,8 +226,7 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
-                !isUserInstructor && checkIsResponseCommentVisibleTo(relatedQuestion,
-                        relatedComment, ViewerType.STUDENTS);
+                !isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.STUDENTS);
 
         return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
                 || isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients
@@ -240,23 +235,16 @@ public final class FeedbackResponseCommentsLogic {
                 || isUserStudentAndRelatedResponseCommentVisibleToStudents;
     }
 
-    private boolean checkIsResponseCommentVisibleTo(FeedbackQuestion relatedQuestion,
-                                               FeedbackResponseComment relatedComment,
+    private boolean checkIsResponseCommentVisibleTo(
+                                               ResponseInstructorComment relatedComment,
                                                ViewerType viewerType) {
-        boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
-        return isVisibilityFollowingFeedbackQuestion
-                ? relatedQuestion.isResponseVisibleTo(viewerType)
-                : relatedComment.checkIsVisibleTo(viewerType);
+        return relatedComment.checkIsVisibleTo(viewerType);
     }
 
     /**
      * Returns true if the comment's giver name is visible to certain user.
      */
-    public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response, User user) {
-        if (comment.getIsVisibilityFollowingFeedbackQuestion()) {
-            return true;
-        }
-
+    public boolean checkIsNameVisibleToUser(ResponseInstructorComment comment, FeedbackResponse response, User user) {
         //comment giver can always see
         ResponseGiver commentGiver = comment.getGiver();
         if (Objects.equals(user, commentGiver.getGiverUser()) || user instanceof Student student
@@ -266,15 +254,15 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         List<ViewerType> showNameTo = comment.getShowGiverNameTo();
-        assert showNameTo != null : "showNameTo should not be null if isVisibilityFollowingFeedbackQuestion is false";
+        assert showNameTo != null : "showNameTo should not be null";
 
         return checkIsFeedbackGiverNameVisibleToUser(response, user, showNameTo);
     }
 
-    private void validateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+    private void validateResponseInstructorComment(ResponseInstructorComment responseInstructorComment)
             throws InvalidParametersException {
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
+        if (!responseInstructorComment.isValid()) {
+            throw new InvalidParametersException(responseInstructorComment.getInvalidityInfo());
         }
     }
 

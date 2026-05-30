@@ -10,7 +10,7 @@ import teammates.ui.output.CommentVisibilityType;
 /**
  * The basic request of modifying a feedback response comment.
  */
-class FeedbackResponseCommentBasicRequest extends BasicRequest {
+class ResponseInstructorCommentBasicRequest extends BasicRequest {
 
     private String commentText;
 
@@ -18,7 +18,7 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
     private List<CommentVisibilityType> showGiverNameTo;
 
     @JsonCreator
-    FeedbackResponseCommentBasicRequest(String commentText,
+    ResponseInstructorCommentBasicRequest(String commentText,
                                         List<CommentVisibilityType> showCommentTo,
                                         List<CommentVisibilityType> showGiverNameTo) {
         this.commentText = commentText;

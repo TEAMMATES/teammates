@@ -117,11 +117,10 @@ export const EXAMPLE_RESPONSE_WITH_COMMENT: ResponseOutput = {
     {
       commentGiverName: 'Instructor',
       lastEditorName: 'Instructor',
-      feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+      responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
       commentText: 'Good to know!',
       createdAt: 1,
       lastEditedAt: 1,
-      isVisibilityFollowingFeedbackQuestion: true,
       showGiverNameTo: [CommentVisibilityType.GIVER],
       showCommentTo: [CommentVisibilityType.GIVER],
     },

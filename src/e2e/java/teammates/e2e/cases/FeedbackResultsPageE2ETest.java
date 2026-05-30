@@ -17,10 +17,10 @@ import teammates.e2e.pageobjects.FeedbackResultsPage;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 
@@ -93,8 +93,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyContributionStatistics(11, expectedContribStats);
 
         ______TS("verify comments");
-        verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
-        verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment1"), student);
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment2"), student);
         verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
         verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
@@ -129,8 +129,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("preview results as student: visible comments shown");
-        verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
-        verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment2"), student);
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment1"), student);
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment2"), student);
         verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
         verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
@@ -205,7 +205,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 visibleRecipients);
     }
 
-    private void verifyCommentDetails(int questionNum, FeedbackResponseComment comment,
+    private void verifyCommentDetails(int questionNum, ResponseInstructorComment comment,
             Student currentStudent) {
         String editor = "";
         String giver = "";
@@ -213,9 +213,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (!Objects.equals(comment.getLastEditedBy(), comment.getGiver())) {
             editor = getIdentifier(currentStudent, comment.getLastEditedBy());
         }
-        if (!comment.getIsCommentFromFeedbackParticipant()) {
-            giver = getIdentifier(currentStudent, comment.getGiver());
-        }
+        giver = getIdentifier(currentStudent, comment.getGiver());
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
     }
 

@@ -53,7 +53,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     private UUID questionId;
 
     @OneToMany(mappedBy = "feedbackResponse")
-    private Set<FeedbackResponseComment> feedbackResponseComments = new HashSet<>();
+    private Set<ResponseInstructorComment> responseInstructorComments = new HashSet<>();
 
     @Column(columnDefinition = "TEXT")
     private String giverComment;
@@ -175,9 +175,9 @@ public abstract class FeedbackResponse extends BaseEntity {
     /**
      * Add a comment to the feedback response.
      */
-    public void addFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        this.feedbackResponseComments.add(feedbackResponseComment);
-        feedbackResponseComment.setFeedbackResponse(this);
+    public void addResponseInstructorComment(ResponseInstructorComment responseInstructorComment) {
+        this.responseInstructorComments.add(responseInstructorComment);
+        responseInstructorComment.setFeedbackResponse(this);
     }
 
     public UUID getId() {
@@ -220,12 +220,12 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.questionId = feedbackQuestion == null ? null : feedbackQuestion.getId();
     }
 
-    public Set<FeedbackResponseComment> getFeedbackResponseComments() {
-        return feedbackResponseComments;
+    public Set<ResponseInstructorComment> getResponseInstructorComments() {
+        return responseInstructorComments;
     }
 
-    public void setFeedbackResponseComments(Set<FeedbackResponseComment> feedbackResponseComments) {
-        this.feedbackResponseComments = feedbackResponseComments;
+    public void setResponseInstructorComments(Set<ResponseInstructorComment> responseInstructorComments) {
+        this.responseInstructorComments = responseInstructorComments;
     }
 
     public String getGiverComment() {

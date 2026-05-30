@@ -8,23 +8,23 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackResponseCommentData;
-import teammates.ui.request.FeedbackResponseCommentCreateRequest;
+import teammates.ui.output.ResponseInstructorCommentData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
 /**
  * Creates a new feedback response comment.
  */
-public class CreateFeedbackResponseCommentAction extends Action {
+public class CreateResponseInstructorCommentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -62,7 +62,8 @@ public class CreateFeedbackResponseCommentAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
-        FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
+        Class<ResponseInstructorCommentCreateRequest> requestClass = ResponseInstructorCommentCreateRequest.class;
+        ResponseInstructorCommentCreateRequest comment = getAndValidateRequestBody(requestClass);
 
         FeedbackResponse feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
@@ -74,10 +75,11 @@ public class CreateFeedbackResponseCommentAction extends Action {
         ResponseGiver giverRg = new ResponseGiver(instructor);
 
         try {
-            FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseId, giverRg,
-                    comment.getCommentText(), comment.getShowCommentTo(), comment.getShowGiverNameTo());
+            ResponseInstructorComment createdComment = logic.createResponseInstructorComment(
+                    feedbackResponseId, giverRg, comment.getCommentText(),
+                    comment.getShowCommentTo(), comment.getShowGiverNameTo());
             HibernateUtil.flushSession();
-            return new JsonResult(new FeedbackResponseCommentData(createdComment));
+            return new JsonResult(new ResponseInstructorCommentData(createdComment));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException e) {

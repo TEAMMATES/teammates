@@ -56,7 +56,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         frDb = mock(FeedbackResponsesDb.class);
         UsersLogic usersLogic = mock(UsersLogic.class);
         fqLogic = mock(FeedbackQuestionsLogic.class);
-        FeedbackResponseCommentsLogic frcLogic = mock(FeedbackResponseCommentsLogic.class);
+        ResponseInstructorCommentsLogic frcLogic = mock(ResponseInstructorCommentsLogic.class);
         frLogic.initLogicDependencies(frDb, usersLogic, fqLogic, frcLogic);
         when(fqLogic.getDynamicallyGeneratedOptions(any(FeedbackQuestion.class), any()))
                 .thenReturn(Optional.empty());

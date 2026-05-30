@@ -5,7 +5,7 @@ import { CommentEditFormComponent } from './comment-edit-form.component';
 import {
   CommentVisibilityType,
   FeedbackQuestionType,
-  FeedbackResponseComment,
+  ResponseInstructorComment,
   FeedbackResponseDetails,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
@@ -38,7 +38,7 @@ describe('CommentEditFormComponent', () => {
       const feedbackResponseDetails: FeedbackResponseDetails = {
         questionType: FeedbackQuestionType.CONSTSUM,
       };
-      const commentOutputs: FeedbackResponseComment[] = [];
+      const commentOutputs: ResponseInstructorComment[] = [];
       component.response = {
         isMissingResponse: true,
         responseId: 'string',

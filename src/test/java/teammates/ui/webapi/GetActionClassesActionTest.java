@@ -29,10 +29,10 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Test
     void testExecute() {
         List<Class<? extends Action>> expectedActionClasses = Arrays.asList(
-                DeleteFeedbackResponseCommentAction.class,
+                DeleteResponseInstructorCommentAction.class,
                 DeleteFeedbackResponseGiverCommentAction.class,
-                CreateFeedbackResponseCommentAction.class,
-                UpdateFeedbackResponseCommentAction.class,
+                CreateResponseInstructorCommentAction.class,
+                UpdateResponseInstructorCommentAction.class,
                 RestoreFeedbackSessionAction.class,
                 BinFeedbackSessionAction.class,
                 GetCoursesAction.class,

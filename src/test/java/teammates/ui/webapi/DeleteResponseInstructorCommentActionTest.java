@@ -19,10 +19,10 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -30,9 +30,9 @@ import teammates.storage.entity.Team;
 import teammates.ui.output.MessageOutput;
 
 /**
- * SUT: {@link DeleteFeedbackResponseCommentAction}.
+ * SUT: {@link DeleteResponseInstructorCommentAction}.
  */
-public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<DeleteFeedbackResponseCommentAction> {
+public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<DeleteResponseInstructorCommentAction> {
 
     private Course typicalCourse;
     private Instructor typicalInstructor;
@@ -70,58 +70,58 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testExecute_typicalCase_success() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        DeleteFeedbackResponseCommentAction action = getAction(params);
+        DeleteResponseInstructorCommentAction action = getAction(params);
         JsonResult r = getJsonResult(action);
         MessageOutput output = (MessageOutput) r.getOutput();
 
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
-        verify(mockLogic).deleteFeedbackResponseComment(typicalFeedbackResponseComment.getId());
+        verify(mockLogic).deleteResponseInstructorComment(typicalResponseInstructorComment.getId());
     }
 
     @Test
-    void testExecute_nonExistentFeedbackResponseComment_success() {
+    void testExecute_nonExistentResponseInstructorComment_success() {
         UUID nonExistentCommentId = UUID.fromString("00000000-0000-4000-8000-000000009999");
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, nonExistentCommentId.toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(nonExistentCommentId))
+        when(mockLogic.getResponseInstructorComment(nonExistentCommentId))
                 .thenReturn(null);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
 
-        DeleteFeedbackResponseCommentAction action = getAction(params);
+        DeleteResponseInstructorCommentAction action = getAction(params);
         JsonResult r = getJsonResult(action);
         MessageOutput output = (MessageOutput) r.getOutput();
 
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
-        verify(mockLogic).deleteFeedbackResponseComment(nonExistentCommentId);
+        verify(mockLogic).deleteResponseInstructorComment(nonExistentCommentId);
     }
 
     @Test
     void testAccessControl_instructorWithoutSubmitSessionInSectionsPrivilege_cannotAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         Instructor instructorWithoutAccess = getTypicalInstructor();
         instructorWithoutAccess.setEmail("helper@teammates.tmt");
         instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutAccess.getGoogleId()))
                 .thenReturn(instructorWithoutAccess);
 
@@ -132,14 +132,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_logOut_cannotAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
 
         logoutUser();
 
@@ -148,14 +148,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_unregisteredUser_cannotAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(any(String.class), any(String.class))).thenReturn(null);
 
         loginAsUnregistered("unreg.user");
@@ -165,14 +165,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_studentsForInstructorComment_cannotAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
 
         loginAsStudent(typicalStudent.getGoogleId());
 
@@ -181,14 +181,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorAsCommentGiver_canAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
@@ -199,19 +199,19 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorInSameCourse_canAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         Instructor instructorInSameCourse = getTypicalInstructor();
         instructorInSameCourse.setEmail("instructor2@teammates.tmt");
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
         loginAsInstructor(instructorInSameCourse.getGoogleId());
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorInSameCourse.getGoogleId()))
                 .thenReturn(instructorInSameCourse);
 
@@ -220,14 +220,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_adminToMasqueradeAsInstructor_canAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(any(String.class), any(String.class)))
                 .thenReturn(typicalInstructor);
 
@@ -238,7 +238,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithWrongSectionPrivilege_cannotAccessInstructorComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromInstructor();
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromInstructor();
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithoutPrivilege@teammates.tmt");
@@ -249,11 +249,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         instructorWithoutPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
@@ -264,7 +264,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithCorrectPrivilege_canAccessCrossSectionComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
 
         Instructor instructorWithPrivilege = getTypicalInstructor();
         instructorWithPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
@@ -276,11 +276,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         instructorWithPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithPrivilege.getGoogleId()))
                 .thenReturn(instructorWithPrivilege);
 
@@ -291,7 +291,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithoutGiverSectionPrivilege_cannotAccessCrossSectionComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
@@ -301,11 +301,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         instructorWithoutPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
@@ -316,7 +316,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithoutRecipientSectionPrivilege_cannotAccessCrossSectionComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
+        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
@@ -326,11 +326,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         instructorWithoutPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackResponseComment(typicalFeedbackResponseComment.getId()))
-                .thenReturn(typicalFeedbackResponseComment);
+        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
+                .thenReturn(typicalResponseInstructorComment);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
                 .thenReturn(instructorWithoutPrivilege);
 
@@ -339,22 +339,22 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         verifyCannotAccess(params);
     }
 
-    private FeedbackResponseComment getTypicalCommentFromInstructor() {
+    private ResponseInstructorComment getTypicalCommentFromInstructor() {
         ResponseGiver giver = new ResponseGiver(typicalInstructor);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
+        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
                 giver,
                 "typical comment",
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);
-        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
-        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
-        feedbackResponseComment.setCreatedAt(Instant.EPOCH);
-        feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
-        return feedbackResponseComment;
+        typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
+        responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
+        responseInstructorComment.setCreatedAt(Instant.EPOCH);
+        responseInstructorComment.setUpdatedAt(Instant.EPOCH);
+        return responseInstructorComment;
     }
 
-    private FeedbackResponseComment getTypicalCommentFromTeam(Team team) {
+    private ResponseInstructorComment getTypicalCommentFromTeam(Team team) {
         Section sectionA = new Section("Section A");
         typicalCourse.addSection(sectionA);
         Section sectionB = new Section("Section B");
@@ -367,17 +367,17 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 new ResponseGiver(giverTeam), new ResponseRecipient(recipientTeam), getTypicalFeedbackResponseDetails());
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         ResponseGiver giver = new ResponseGiver(team);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
+        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
                 giver,
                 "typical comment",
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 giver);
-        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
-        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
-        feedbackResponseComment.setCreatedAt(Instant.EPOCH);
-        feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
-        return feedbackResponseComment;
+        typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
+        responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
+        responseInstructorComment.setCreatedAt(Instant.EPOCH);
+        responseInstructorComment.setUpdatedAt(Instant.EPOCH);
+        return responseInstructorComment;
     }
 
 }

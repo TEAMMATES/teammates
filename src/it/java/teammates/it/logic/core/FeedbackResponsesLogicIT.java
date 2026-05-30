@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
-import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
+import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.storage.entity.FeedbackResponse;
 
 /**
@@ -21,7 +21,7 @@ import teammates.storage.entity.FeedbackResponse;
  */
 public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final ResponseInstructorCommentsLogic frcLogic = ResponseInstructorCommentsLogic.inst();
 
     private DataBundle typicalDataBundle;
 
@@ -39,15 +39,15 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: typical case");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr1 = frLogic.getFeedbackResponse(fr1.getId());
-        UUID frcId = fr1.getFeedbackResponseComments().iterator().next().getId();
+        UUID frcId = fr1.getResponseInstructorComments().iterator().next().getId();
         assertNotNull(fr1);
-        assertFalse(fr1.getFeedbackResponseComments().isEmpty());
+        assertFalse(fr1.getResponseInstructorComments().isEmpty());
 
         frLogic.deleteFeedbackResponsesAndCommentsCascade(fr1);
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
 
         assertNull(frLogic.getFeedbackResponse(fr1.getId()));
-        assertNull(frcLogic.getFeedbackResponseComment(frcId));
+        assertNull(frcLogic.getResponseInstructorComment(frcId));
     }
 }

@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommentRowComponent } from './comment-row.component';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { ResponseInstructorCommentService } from '../../../../services/feedback-response-comment.service';
 import createSpyFromClass from '../../../../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, FeedbackVisibilityType } from '../../../../types/api-output';
 
@@ -13,13 +13,13 @@ describe('CommentRowComponent', () => {
 
   const spyVisibilityStateMachine = createSpyFromClass(CommentVisibilityStateMachine);
 
-  const spyCommentService = createSpyFromClass(FeedbackResponseCommentService);
+  const spyCommentService = createSpyFromClass(ResponseInstructorCommentService);
   spyCommentService.getNewVisibilityStateMachine.mockReturnValue(spyVisibilityStateMachine);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        { provide: FeedbackResponseCommentService, useValue: spyCommentService },
+        { provide: ResponseInstructorCommentService, useValue: spyCommentService },
         provideHttpClient(),
         provideHttpClientTesting(),
       ],

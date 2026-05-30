@@ -26,10 +26,10 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
@@ -72,11 +72,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         stubFeedbackQuestion = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
-        FeedbackResponseComment stubFeedbackResponseComment = getTypicalFeedbackResponseComment();
+        ResponseInstructorComment stubResponseInstructorComment = getTypicalResponseInstructorComment();
 
         // First stub FeedbackResponsesData
         FeedbackResponse feedbackResponse1 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
-        feedbackResponse1.setGiverComment(stubFeedbackResponseComment.getCommentText());
+        feedbackResponse1.setGiverComment(stubResponseInstructorComment.getCommentText());
         FeedbackResponse feedbackResponse2 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
         feedbackResponse2.setGiver(new ResponseGiver(stubInstructor));
         feedbackResponse2.setRecipient(new ResponseRecipient(stubInstructor));
@@ -95,7 +95,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         }
         // Set comment for the first FeedbackResponseData
         feedbackResponseDataListNonNullComments.get(0)
-                .setGiverComment(stubFeedbackResponseComment.getCommentText());
+                .setGiverComment(stubResponseInstructorComment.getCommentText());
         stubFeedbackResponsesDataNonNullComments = new FeedbackResponsesData();
         stubFeedbackResponsesDataNonNullComments.setResponses(feedbackResponseDataListNonNullComments);
 

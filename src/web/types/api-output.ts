@@ -245,18 +245,6 @@ export interface FeedbackResponse extends ApiOutput {
   giverComment?: string;
 }
 
-export interface FeedbackResponseComment extends ApiOutput {
-  feedbackResponseCommentId: string;
-  commentGiverName: string;
-  lastEditorName: string;
-  commentText: string;
-  createdAt: number;
-  lastEditedAt: number;
-  isVisibilityFollowingFeedbackQuestion: boolean;
-  showGiverNameTo: CommentVisibilityType[];
-  showCommentTo: CommentVisibilityType[];
-}
-
 export interface FeedbackResponseDetails {
   questionType: FeedbackQuestionType;
 }
@@ -542,6 +530,17 @@ export interface RequestLogUser {
   googleId: string;
 }
 
+export interface ResponseInstructorComment extends ApiOutput {
+  responseInstructorCommentId: string;
+  commentGiverName: string;
+  lastEditorName: string;
+  commentText: string;
+  createdAt: number;
+  lastEditedAt: number;
+  showGiverNameTo: CommentVisibilityType[];
+  showCommentTo: CommentVisibilityType[];
+}
+
 export interface ResponseOutput {
   isMissingResponse: boolean;
   responseId: string;
@@ -556,7 +555,7 @@ export interface ResponseOutput {
   recipientSection: string;
   responseDetails: FeedbackResponseDetails;
   participantComment?: string;
-  instructorComments: FeedbackResponseComment[];
+  instructorComments: ResponseInstructorComment[];
 }
 
 export interface SessionLinksRecoveryResponse extends ApiOutput {

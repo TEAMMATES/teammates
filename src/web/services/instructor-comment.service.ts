@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { FeedbackResponseCommentService } from './feedback-response-comment.service';
+import { ResponseInstructorCommentService } from './feedback-response-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
 import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
 import { instructorCommentToCommentRowModel } from '../app/components/comment-box/comment-row-model-mapper';
 import { ErrorMessageOutput } from '../app/error-message-output';
-import { FeedbackResponseComment } from '../types/api-output';
+import { ResponseInstructorComment } from '../types/api-output';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
 export interface InstructorCommentEventData {
@@ -33,7 +33,7 @@ export interface InstructorCommentDeleteParams {
 
 @Injectable({ providedIn: 'root' })
 export class InstructorCommentService {
-  private commentService = inject(FeedbackResponseCommentService);
+  private commentService = inject(ResponseInstructorCommentService);
   private statusMessageService = inject(StatusMessageService);
   private tableComparatorService = inject(TableComparatorService);
 
@@ -75,7 +75,7 @@ export class InstructorCommentService {
         commentId,
       )
       .subscribe({
-        next: (commentResponse: FeedbackResponseComment) => {
+        next: (commentResponse: ResponseInstructorComment) => {
           commentTableModel.commentRows[data.index] = instructorCommentToCommentRowModel(commentResponse, timezone);
           instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
@@ -104,7 +104,7 @@ export class InstructorCommentService {
         responseId,
       )
       .subscribe({
-        next: (commentResponse: FeedbackResponseComment) => {
+        next: (commentResponse: ResponseInstructorComment) => {
           commentTableModel.commentRows.push(instructorCommentToCommentRowModel(commentResponse, timezone));
           this.sortComments(commentTableModel);
           instructorCommentTableModel[responseId] = {

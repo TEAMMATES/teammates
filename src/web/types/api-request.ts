@@ -112,18 +112,6 @@ export interface FeedbackRankRecipientsResponseDetails extends FeedbackResponseD
   answer: number;
 }
 
-export interface FeedbackResponseCommentBasicRequest extends BasicRequest {
-  commentText: string;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
-}
-
-export interface FeedbackResponseCommentCreateRequest extends FeedbackResponseCommentBasicRequest {
-}
-
-export interface FeedbackResponseCommentUpdateRequest extends FeedbackResponseCommentBasicRequest {
-}
-
 export interface FeedbackResponseDetails {
   questionType: FeedbackQuestionType;
 }
@@ -232,6 +220,18 @@ export interface NotificationUpdateRequest extends NotificationBasicRequest {
 
 export interface RegKeyRequest extends BasicRequest {
   key: string;
+}
+
+export interface ResponseInstructorCommentBasicRequest extends BasicRequest {
+  commentText: string;
+  showCommentTo: CommentVisibilityType[];
+  showGiverNameTo: CommentVisibilityType[];
+}
+
+export interface ResponseInstructorCommentCreateRequest extends ResponseInstructorCommentBasicRequest {
+}
+
+export interface ResponseInstructorCommentUpdateRequest extends ResponseInstructorCommentBasicRequest {
 }
 
 export interface SendEmailRequest extends BasicRequest {
