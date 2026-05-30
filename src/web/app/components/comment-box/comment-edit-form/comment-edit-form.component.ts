@@ -16,6 +16,7 @@ import {
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Comment edit form component
@@ -25,6 +26,7 @@ import {
   templateUrl: './comment-edit-form.component.html',
   animations: [collapseAnim],
   imports: [
+    NgbCollapse,
     NgbTooltip,
     RichTextEditorComponent,
     EnumToArrayPipe,
