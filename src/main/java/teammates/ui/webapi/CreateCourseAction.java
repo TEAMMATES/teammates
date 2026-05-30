@@ -43,11 +43,10 @@ public class CreateCourseAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
-        String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
 
         try {
             Course createdCourse = logic.createCourseAndInstructor(
-                    getCurrentAccount(), courseCreateRequest, institute);
+                    getCurrentAccount(), courseCreateRequest);
             return new JsonResult(new CourseData(createdCourse));
         } catch (EntityAlreadyExistsException e) {
             String newCourseId = courseCreateRequest.getCourseId().trim();

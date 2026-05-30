@@ -23,8 +23,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -179,10 +177,11 @@ public class CoursesLogicTest extends BaseTestCase {
         request.setCourseId(" course-id ");
         request.setCourseName("Course Name");
         request.setTimeZone(Const.DEFAULT_TIME_ZONE);
+        request.setInstitute("Institute");
 
         when(coursesDb.createCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Course createdCourse = coursesLogic.createCourseAndInstructor(courseCreator, request, "Institute");
+        Course createdCourse = coursesLogic.createCourseAndInstructor(courseCreator, request);
 
         assertEquals("course-id", createdCourse.getId());
         assertEquals("Course Name", createdCourse.getName());
@@ -201,9 +200,10 @@ public class CoursesLogicTest extends BaseTestCase {
         request.setCourseId("course-id");
         request.setCourseName("Course Name");
         request.setTimeZone("Invalid/Zone");
+        request.setInstitute("Institute");
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createCourseAndInstructor(getTypicalAccount(), request, "Institute"));
+                () -> coursesLogic.createCourseAndInstructor(getTypicalAccount(), request));
 
         assertEquals("\"Invalid/Zone\" is not acceptable to TEAMMATES as a/an time zone because "
                 + "it is not available as a choice. "
@@ -211,7 +211,6 @@ public class CoursesLogicTest extends BaseTestCase {
         verify(coursesDb, never()).createCourse(any(Course.class));
         verify(usersLogic, never()).createInstructor(any(Instructor.class));
     }
-
 
     @Test
     public void testGetCourse_shouldReturnCourse_success() {
@@ -427,10 +426,5 @@ public class CoursesLogicTest extends BaseTestCase {
         List<Team> expectedTeams = List.of(t1, t2);
 
         assertEquals(expectedTeams, returnedTeams);
-    }
-
-    private Instructor createInstructorWithRole(Course course, String roleName) {
-        return new Instructor(course, "Instructor Name", "instructor@example.com", false, "Instructor Name",
-                InstructorPermissionRole.getEnum(roleName), new InstructorPrivileges(roleName));
     }
 }

@@ -74,12 +74,11 @@ public final class CoursesLogic {
      *
      * @param courseCreator      the account of the instructor creating the course.
      * @param courseCreateRequest the course creation details.
-     * @param institute          the institute of the course to create.
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
     public Course createCourseAndInstructor(
-            Account courseCreator, CourseCreateRequest courseCreateRequest, String institute)
+            Account courseCreator, CourseCreateRequest courseCreateRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         String timeZone = courseCreateRequest.getTimeZone();
@@ -89,7 +88,8 @@ public final class CoursesLogic {
         }
 
         Course course = new Course(
-                courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(), timeZone, institute);
+                courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
+                timeZone, courseCreateRequest.getInstitute());
 
         Course createdCourse = createCourse(course);
 

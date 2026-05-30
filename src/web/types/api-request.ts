@@ -32,6 +32,7 @@ export interface CourseBasicRequest extends BasicRequest {
 
 export interface CourseCreateRequest extends CourseBasicRequest {
   courseId: string;
+  institute: string;
 }
 
 export interface CourseUpdateRequest extends CourseBasicRequest {

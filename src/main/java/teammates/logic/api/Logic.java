@@ -322,14 +322,13 @@ public class Logic {
      *
      * @param courseCreator      the account of the instructor creating the course.
      * @param courseCreateRequest the course creation details.
-     * @param institute          the institute of the course to create.
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
     public Course createCourseAndInstructor(
-            Account courseCreator, CourseCreateRequest courseCreateRequest, String institute)
+            Account courseCreator, CourseCreateRequest courseCreateRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourseAndInstructor(courseCreator, courseCreateRequest, institute);
+        return coursesLogic.createCourseAndInstructor(courseCreator, courseCreateRequest);
     }
 
     /**
