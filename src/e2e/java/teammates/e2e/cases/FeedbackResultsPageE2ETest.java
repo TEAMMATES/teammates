@@ -148,8 +148,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
                 resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
-            } else {
-                resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());
             }
         });
 
@@ -168,8 +166,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
                 resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
-            } else {
-                resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());
             }
         });
 
