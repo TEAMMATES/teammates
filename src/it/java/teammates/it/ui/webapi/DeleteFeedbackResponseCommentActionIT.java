@@ -13,7 +13,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.Intent;
 import teammates.ui.webapi.DeleteFeedbackResponseCommentAction;
 import teammates.ui.webapi.JsonResult;
 
@@ -48,7 +47,6 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
         FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
         DeleteFeedbackResponseCommentAction action = getAction(submissionParams);
@@ -66,7 +64,6 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
         FeedbackResponseComment frc = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ3");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, frc.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         Instructor instructorWhoGiveComment = typicalBundle.instructors.get("instructor1OfCourse1");
 

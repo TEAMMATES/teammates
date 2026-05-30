@@ -7,10 +7,8 @@ import java.util.UUID;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -33,6 +31,7 @@ public final class FeedbackResponseCommentsLogic {
 
     private static final FeedbackResponseCommentsLogic instance = new FeedbackResponseCommentsLogic();
     private FeedbackResponseCommentsDb frcDb;
+    private FeedbackResponsesLogic frLogic;
 
     private FeedbackResponseCommentsLogic() {
         // prevent initialization
@@ -45,8 +44,9 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Initialize dependencies for {@code FeedbackResponseCommentsLogic}.
      */
-    void initLogicDependencies(FeedbackResponseCommentsDb frcDb) {
+    void initLogicDependencies(FeedbackResponseCommentsDb frcDb, FeedbackResponsesLogic frLogic) {
         this.frcDb = frcDb;
+        this.frLogic = frLogic;
     }
 
     /**
@@ -59,26 +59,24 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Gets the comment associated with the response.
-     */
-    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
-            UUID feedbackResponseId) {
-        return frcDb.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
-    }
-
-    /**
      * Creates a feedback response comment.
-     * @throws EntityAlreadyExistsException if the comment alreadty exists
+     *
+     * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException if the comment is invalid
      */
-    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        validateFeedbackResponseComment(frc);
-
-        if (frcDb.getFeedbackResponseComment(frc.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, frc.toString()));
+    public FeedbackResponseComment createFeedbackResponseComment(UUID feedbackResponseId, ResponseGiver giver,
+            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackResponse feedbackResponse = frLogic.getFeedbackResponse(feedbackResponseId);
+        if (feedbackResponse == null) {
+            throw new EntityDoesNotExistException("The feedback response does not exist.");
         }
+
+        FeedbackResponseComment frc = new FeedbackResponseComment(giver, commentText,
+                showCommentTo, showGiverNameTo, giver);
+        feedbackResponse.addFeedbackResponseComment(frc);
+
+        validateFeedbackResponseComment(frc);
 
         return frcDb.createFeedbackResponseComment(frc);
     }

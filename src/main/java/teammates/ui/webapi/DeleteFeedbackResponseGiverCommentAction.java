@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,7 +18,7 @@ import teammates.ui.request.Intent;
 /**
  * Deletes the giver comment for a feedback response.
  */
-public class DeleteFeedbackResponseGiverCommentAction extends BasicCommentSubmissionAction {
+public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmissionAction {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -52,7 +53,7 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicCommentSubmis
             verifyInstructorCanSeeQuestionIfInModeration(question);
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
-            verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
+            verifyResponseOwnershipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -69,5 +70,34 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicCommentSubmis
         }
 
         return new JsonResult("Successfully deleted feedback response giver comment.");
+    }
+
+    /**
+     * Verify response ownership for student.
+     */
+    void verifyResponseOwnershipForStudent(Student student, FeedbackResponse response)
+            throws UnauthorizedAccessException {
+        Objects.requireNonNull(student);
+        if (Objects.equals(response.getGiver().getGiverUser(), student)
+                || Objects.equals(response.getGiver().getGiverTeam(), student.getTeam())) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
+                + student.getName());
+    }
+
+    /**
+     * Verify response ownership for instructor.
+     */
+    void verifyResponseOwnershipForInstructor(Instructor instructor, FeedbackResponse response)
+            throws UnauthorizedAccessException {
+        Objects.requireNonNull(instructor);
+        if (Objects.equals(response.getGiver().getGiverUser(), instructor)) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
+                + instructor.getName());
     }
 }

@@ -32,7 +32,6 @@ import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
@@ -48,7 +47,6 @@ import teammates.ui.output.ApiOutput;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.output.FeedbackQuestionData;
-import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
@@ -278,12 +276,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
             assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
             assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
-        } else if (expected instanceof FeedbackResponseComment) {
-            FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
-            FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
-            assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
-            assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
-                    actualComment.isVisibilityFollowingFeedbackQuestion());
         } else if (expected instanceof FeedbackSession) {
             FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;
@@ -380,8 +372,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             return getFeedbackQuestion((FeedbackQuestion) entity);
         } else if (entity instanceof FeedbackResponse) {
             return getFeedbackResponse((FeedbackResponse) entity);
-        } else if (entity instanceof FeedbackResponseComment) {
-            return getFeedbackResponseComment((FeedbackResponseComment) entity);
         } else if (entity instanceof FeedbackSession) {
             return getFeedbackSession((FeedbackSession) entity);
         } else if (entity instanceof Instructor) {
@@ -463,20 +453,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected FeedbackResponseData getFeedbackResponse(FeedbackResponse fr) {
         return getFeedbackResponse(fr.getFeedbackQuestion().getId().toString(), fr.getGiver(), fr.getRecipient());
-    }
-
-    /**
-     * Gets the feedback response comment data for the given feedback response ID.
-     */
-    protected FeedbackResponseCommentData getFeedbackResponseComment(UUID feedbackResponseId) {
-        return BACKDOOR.getFeedbackResponseCommentData(feedbackResponseId.toString());
-    }
-
-    /**
-     * Gets the feedback response comment data for the given feedback response comment.
-     */
-    protected FeedbackResponseCommentData getFeedbackResponseComment(FeedbackResponseComment frc) {
-        return getFeedbackResponseComment(frc.getFeedbackResponse().getId());
     }
 
     /**

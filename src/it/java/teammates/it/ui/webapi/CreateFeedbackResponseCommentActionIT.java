@@ -1,7 +1,7 @@
 package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Arrays;
 
@@ -13,10 +13,9 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
-import teammates.ui.request.Intent;
 import teammates.ui.webapi.CreateFeedbackResponseCommentAction;
 
 /**
@@ -46,43 +45,42 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
     @Test
     @Override
     protected void testExecute() throws Exception {
-        ______TS("Successful case: student submission");
-        Student student = typicalBundle.students.get("student1InCourse1");
+        ______TS("Successful case: instructor result comment");
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1InSession2");
-        loginAsStudent(student.getGoogleId());
+        loginAsInstructor(instructor.getGoogleId());
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
-                "Student submission comment", Arrays.asList(CommentVisibilityType.INSTRUCTORS),
+                "Instructor result comment", Arrays.asList(CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.INSTRUCTORS));
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        FeedbackResponseComment comment =
-                logic.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
-        assertEquals(comment.getCommentText(), "Student submission comment");
-        assertEquals(student, comment.getGiver().getGiverUser());
-        assertTrue(comment.getIsCommentFromFeedbackParticipant());
-        assertTrue(comment.getIsVisibilityFollowingFeedbackQuestion());
+        FeedbackResponseComment comment = fr.getFeedbackResponseComments().stream()
+                .filter(frc -> "Instructor result comment".equals(frc.getCommentText()))
+                .findFirst()
+                .orElseThrow();
+        assertEquals(instructor, comment.getGiver().getGiverUser());
+        assertFalse(comment.getIsCommentFromFeedbackParticipant());
+        assertFalse(comment.getIsVisibilityFollowingFeedbackQuestion());
     }
 
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        Student student = typicalBundle.students.get("student1InCourse1");
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackResponse fr = typicalBundle.feedbackResponses.get("response1ForQ1InSession2");
 
         String[] submissionParamsStudentToStudents = new String[] {
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, fr.getId().toString(),
         };
 
-        ______TS("students access own response to give comments");
+        ______TS("instructor access response to give result comments");
 
-        loginAsStudent(student.getGoogleId());
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParamsStudentToStudents);
     }
 

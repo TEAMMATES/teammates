@@ -6,7 +6,6 @@ import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, FeedbackResponseComment } from '../types/api-output';
-import { Intent } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
@@ -106,10 +105,7 @@ describe('InstructorCommentService', () => {
       instructorCommentTableModel,
     });
 
-    expect(spyFeedbackResponseCommentService.deleteComment).toHaveBeenCalledWith(
-      'comment-id-1',
-      Intent.INSTRUCTOR_RESULT,
-    );
+    expect(spyFeedbackResponseCommentService.deleteComment).toHaveBeenCalledWith('comment-id-1');
     expect(instructorCommentTableModel['response-id'].commentRows).toHaveLength(1);
     expect(instructorCommentTableModel['response-id'].commentRows[0].commentId).toBe('comment-id-2');
   });
@@ -169,7 +165,6 @@ describe('InstructorCommentService', () => {
         showGiverNameTo: [CommentVisibilityType.RECIPIENT],
       },
       'comment-id-to-update',
-      Intent.INSTRUCTOR_RESULT,
     );
     expect(instructorCommentTableModel['response-id'].commentRows[0].originalCommentFormModel?.commentText).toBe(
       'updated text',
@@ -231,7 +226,6 @@ describe('InstructorCommentService', () => {
         showGiverNameTo: [CommentVisibilityType.RECIPIENT],
       },
       'response-id',
-      Intent.INSTRUCTOR_RESULT,
     );
     expect(instructorCommentTableModel['response-id'].commentRows).toHaveLength(2);
     expect(instructorCommentTableModel['response-id'].commentRows[0].commentId).toBe('new-comment-id');

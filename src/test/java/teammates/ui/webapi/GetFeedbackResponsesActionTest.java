@@ -51,7 +51,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     private List<FeedbackResponse> stubFeedbackResponsesNullComments;
     private FeedbackResponsesData stubFeedbackResponsesDataNullComments;
     private FeedbackResponsesData stubFeedbackResponsesDataNonNullComments;
-    private FeedbackResponseComment stubFeedbackResponseComment;
     private FeedbackSession stubFeedbackSession;
 
     @Override
@@ -73,7 +72,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         stubCourse = getTypicalCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         stubFeedbackQuestion = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
-        stubFeedbackResponseComment = getTypicalFeedbackResponseComment();
+        FeedbackResponseComment stubFeedbackResponseComment = getTypicalFeedbackResponseComment();
 
         // First stub FeedbackResponsesData
         FeedbackResponse feedbackResponse1 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
@@ -230,8 +229,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.STUDENT, true, false);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result);
@@ -246,8 +243,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.STUDENT, true, true);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result);
@@ -262,8 +257,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.INSTRUCTOR, true, false);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result);
@@ -278,8 +271,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         prepareGeneralMocks(EntityType.INSTRUCTOR, true, true);
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result);
@@ -337,16 +328,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         prepareGeneralMocks(EntityType.INSTRUCTOR, false, false);
 
         // Null comments
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(null);
         GetFeedbackResponsesAction action1 = getAction(params);
         FeedbackResponsesData result1 = (FeedbackResponsesData) getJsonResult(action1).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNullComments, result1);
 
         prepareGeneralMocks(EntityType.INSTRUCTOR, false, true);
         // Non-null comments
-        when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(
-                stubFeedbackResponsesNonNullComments.get(0).getId())).thenReturn(stubFeedbackResponseComment);
         GetFeedbackResponsesAction action2 = getAction(params);
         FeedbackResponsesData result2 = (FeedbackResponsesData) getJsonResult(action2).getOutput();
         verifyFeedbackResponsesEquals(stubFeedbackResponsesDataNonNullComments, result2);

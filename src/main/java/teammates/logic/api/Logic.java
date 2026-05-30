@@ -20,6 +20,7 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1412,22 +1413,16 @@ public class Logic {
     }
 
     /**
-     * Gets the comment associated with the response.
-     */
-    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
-            UUID feedbackResponseId) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
-    }
-
-    /**
      * Creates a feedback response comment.
      *
-     * @throws EntityAlreadyExistsException if the comment alreadty exists
+     * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException   if the comment is invalid
      */
-    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackResponseCommentsLogic.createFeedbackResponseComment(frc);
+    public FeedbackResponseComment createFeedbackResponseComment(UUID feedbackResponseId, ResponseGiver giver,
+            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackResponseCommentsLogic.createFeedbackResponseComment(
+                feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);
     }
 
     /**

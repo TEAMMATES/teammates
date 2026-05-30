@@ -161,7 +161,7 @@ public class BaseTestCase {
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
         ResponseGiver commentGiver = new ResponseGiver(getTypicalStudent());
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(commentGiver,
-                "typical-comment", true, true, List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+                "typical-comment", List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
