@@ -4,10 +4,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +25,7 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RichTextEditorComponent implements OnInit, OnChanges {
+export class RichTextEditorComponent implements OnInit {
   // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
@@ -54,8 +52,6 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   // the argument passed to tinymce.init() in native JavaScript
   init: RawEditorOptions = {};
 
-  private editorInstance?: Editor;
-
   defaultToolbar: string =
     'styles | forecolor backcolor ' +
     '| bold italic underline strikethrough subscript superscript ' +
@@ -64,12 +60,6 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['isDisabled']) {
-      this.editorInstance?.mode.set(this.isDisabled ? 'readonly' : 'design');
-    }
   }
 
   private getEditorSettings(): RawEditorOptions {
@@ -112,11 +102,6 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
 
       toolbar1: this.defaultToolbar,
       setup: (editor: Editor) => {
-        this.editorInstance = editor;
-        editor.on('init', () => {
-          this.editorInstance?.mode.set(this.isDisabled ? 'readonly' : 'design');
-        });
-
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             queueMicrotask(() => {

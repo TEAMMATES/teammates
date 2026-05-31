@@ -2,6 +2,7 @@
   <editor
     class="editor"
     [ngClass]="{ 'editor-disabled': isDisabled }"
+    [readonly]="isDisabled"
     [init]="init"
     [ngModel]="richText"
     (ngModelChange)="richTextChange.emit($event)"
