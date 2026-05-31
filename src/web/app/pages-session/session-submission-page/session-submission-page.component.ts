@@ -811,10 +811,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             hasValidationErrorInQuestion = true;
             return;
           }
-          const isFeedbackResponseDetailsEmpty: boolean = this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
-            questionSubmissionFormModel.questionType,
-            recipientSubmissionFormModel.responseDetails,
-          );
+
+          const isFeedbackResponseDetailsEmpty: boolean =
+            recipientSubmissionFormModel.status === ResponseSubmissionStatus.NEW;
 
           if (!isFeedbackResponseDetailsEmpty) {
             responses.push({
