@@ -40,6 +40,7 @@ import {
   QuestionRecipientType,
   RegkeyValidity,
   Student,
+  FeedbackQuestions,
 } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
@@ -61,10 +62,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
-
-interface FeedbackQuestionsResponse {
-  questions: FeedbackQuestion[];
-}
 
 /**
  * Feedback session submission page.
@@ -444,7 +441,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         previewAs: this.previewAsPerson,
       })
       .pipe(
-        tap((response: FeedbackQuestionsResponse) => {
+        tap((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             this.questionSubmissionForms.push({
               isTabExpanded: true,
