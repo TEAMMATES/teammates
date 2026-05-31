@@ -929,7 +929,7 @@ describe('SessionSubmissionPageComponent', () => {
               giverComment: 'comment text here',
             },
           ],
-          // do not call for testQuestionSubmissionForm2 since it is empty
+          'feedback-question-id-text': [], // empty response details are submitted as empty array to delete any existing responses
         },
       },
       {
@@ -945,6 +945,46 @@ describe('SessionSubmissionPageComponent', () => {
     ]);
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
+  });
+
+  it('should submit empty question responses to delete saved responses', () => {
+    const mockModalRef: any = { componentInstance: {} };
+    const testQuestionSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
+    testQuestionSubmissionForm.recipientSubmissionForms[0].responseDetails = {
+      answer: '',
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextResponseDetails;
+    component.questionSubmissionForms = [testQuestionSubmissionForm];
+
+    const responseSpy = vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockReturnValueOnce(
+      of({
+        questionResponses: {
+          [testQuestionSubmissionForm.feedbackQuestionId]: [],
+        },
+        requestId: '10',
+      }),
+    );
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+
+    component.saveFeedbackResponses(component.questionSubmissionForms);
+
+    expect(responseSpy).toHaveBeenCalledTimes(1);
+    expect(responseSpy).toHaveBeenCalledWith(
+      component.feedbackSessionId,
+      {
+        questionResponses: {
+          [testQuestionSubmissionForm.feedbackQuestionId]: [],
+        },
+      },
+      {
+        intent: 'STUDENT_SUBMISSION',
+        key: 'reg-key',
+        moderatedperson: '',
+      },
+    );
+    expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].responseId).toBe('');
+    expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].status).toBe(ResponseSubmissionStatus.NEW);
   });
 
   it('should not save invalid feedback responses', () => {

@@ -825,7 +825,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       );
 
       const isQuestionFullyAnswered = responses.length > 0;
-      if (!hasValidationErrorInQuestion && isQuestionFullyAnswered) {
+      if (!hasValidationErrorInQuestion) {
         questionResponses[questionSubmissionFormModel.feedbackQuestionId] = responses;
       }
 
