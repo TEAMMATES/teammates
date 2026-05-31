@@ -51,7 +51,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -208,7 +207,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -362,7 +360,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -516,7 +513,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -803,7 +799,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -3935,7 +3930,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -7105,7 +7099,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
@@ -7260,7 +7253,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}

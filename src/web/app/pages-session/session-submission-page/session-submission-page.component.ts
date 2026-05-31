@@ -85,22 +85,22 @@ interface FeedbackQuestionsResponse {
   ],
 })
 export class SessionSubmissionPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private statusMessageService = inject(StatusMessageService);
-  private timezoneService = inject(TimezoneService);
-  private feedbackQuestionsService = inject(FeedbackQuestionsService);
-  private feedbackResponsesService = inject(FeedbackResponsesService);
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private submissionReceiptService = inject(SubmissionReceiptService);
-  private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
-  private courseService = inject(CourseService);
-  private ngbModal = inject(NgbModal);
-  private simpleModalService = inject(SimpleModalService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private readonly feedbackResponsesService = inject(FeedbackResponsesService);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly submissionReceiptService = inject(SubmissionReceiptService);
+  private readonly studentService = inject(StudentService);
+  private readonly instructorService = inject(InstructorService);
+  private readonly courseService = inject(CourseService);
+  private readonly ngbModal = inject(NgbModal);
+  private readonly simpleModalService = inject(SimpleModalService);
   private readonly pageScrollService = inject(PageScrollService);
-  private authService = inject(AuthService);
-  private navigationService = inject(NavigationService);
-  private logService = inject(LogService);
+  private readonly authService = inject(AuthService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly logService = inject(LogService);
 
   // enum
   FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
@@ -153,7 +153,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestionsSorted: number[] = [];
 
-  private backendUrl: string = environment.backendUrl;
+  private readonly backendUrl: string = environment.backendUrl;
 
   constructor() {
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
@@ -188,7 +188,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           this.isSubmissionFormsDisabled = true;
         }
 
-        const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+        const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
         this.authService.getAuthUser(nextUrl).subscribe({
           next: (auth: AuthInfo) => {
             const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
@@ -400,7 +400,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           } else if (resp.status === 403) {
             if (loginRequired && !auth.user) {
               // There is no logged in user for a valid, used registration key, redirect to login page
-              window.location.href = `${this.backendUrl}${auth.loginUrl}`;
+              globalThis.location.href = `${this.backendUrl}${auth.loginUrl}`;
             } else {
               this.simpleModalService.openInformationModal(
                 'Not Authorised To Access!',
