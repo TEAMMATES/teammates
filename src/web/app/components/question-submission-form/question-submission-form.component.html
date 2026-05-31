@@ -397,7 +397,8 @@
                             class="btn-add-comment btn btn-light btn-sm"
                             (click)="addNewParticipantCommentToResponse(i)"
                             [disabled]="
-                              isFormsDisabled || recipientSubmissionFormModel.status === ResponseSubmissionStatus.NEW
+                              isFormsDisabled ||
+                              isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)
                             "
                           >
                             <i class="fas fa-comment"></i> [Optional] Comment on your response
