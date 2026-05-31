@@ -1076,8 +1076,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       return;
     }
 
-    // dummy vars to check that both student and session has been loaded
-    if (!this.personEmail || !this.feedbackSessionTimezone) {
+    if (!this.feedbackSessionId) {
       return;
     }
 
