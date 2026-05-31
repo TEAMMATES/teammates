@@ -124,7 +124,7 @@ export interface FeedbackResponseRequest extends BasicRequest {
 }
 
 export interface FeedbackResponsesRequest extends BasicRequest {
-  responses: FeedbackResponseRequest[];
+  questionResponses: { [index: string]: FeedbackResponseRequest[] };
 }
 
 export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {

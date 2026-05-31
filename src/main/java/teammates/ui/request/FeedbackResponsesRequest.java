@@ -1,7 +1,8 @@
 package teammates.ui.request;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -13,23 +14,33 @@ import teammates.common.util.SanitizationHelper;
  */
 public class FeedbackResponsesRequest extends BasicRequest {
 
-    private List<FeedbackResponseRequest> responses = new ArrayList<>();
+    private Map<UUID, List<FeedbackResponseRequest>> questionResponses;
 
-    public List<FeedbackResponseRequest> getResponses() {
-        return responses;
+    public Map<UUID, List<FeedbackResponseRequest>> getQuestionResponses() {
+        return questionResponses;
     }
 
-    public void setResponses(List<FeedbackResponseRequest> responses) {
-        this.responses = responses;
-    }
-
-    public List<String> getRecipients() {
-        return responses.stream().map(FeedbackResponseRequest::getRecipient).toList();
+    public void setQuestionResponses(Map<UUID, List<FeedbackResponseRequest>> questionResponses) {
+        this.questionResponses = questionResponses;
     }
 
     @Override
-    public void validate() {
-        // No validation necessary; each response entities will be validated separately
+    public void validate() throws InvalidHttpRequestBodyException {
+        assertTrue(questionResponses != null, "Question responses cannot be null");
+        assertTrue(!questionResponses.isEmpty(), "Question responses cannot be empty");
+
+        for (Map.Entry<UUID, List<FeedbackResponseRequest>> entry : questionResponses.entrySet()) {
+            UUID questionId = entry.getKey();
+            List<FeedbackResponseRequest> responses = entry.getValue();
+
+            assertTrue(questionId != null, "Question ID cannot be null");
+            assertTrue(responses != null, "Responses cannot be null");
+
+            for (FeedbackResponseRequest response : responses) {
+                assertTrue(response != null, "Response cannot be null");
+                response.validate();
+            }
+        }
     }
 
     /**
