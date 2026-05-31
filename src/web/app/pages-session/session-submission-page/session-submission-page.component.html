@@ -140,9 +140,10 @@
         <label class="col-md-2 text-md-end">Group by:</label>
         <div id="group-by" class="col-md-10 text-md-start">
           <select
+            #viewSelect
             class="w-25 form-control form-select"
             id="select-group-by"
-            (change)="toggleViewChange(castAsSelectElement($event.target).value)"
+            (change)="toggleViewChange(viewSelect.value)"
             [attr.aria-label]="'Select group by view'"
           >
             @for (entry of allSessionViews | keyvalue; track entry) {

@@ -44,7 +44,6 @@ import {
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
-import { castAsSelectElement } from '../../../types/event-target-caster';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { giverCommentToCommentRowModel } from '../../components/comment-box/comment-row-model-mapper';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
@@ -103,8 +102,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   private navigationService = inject(NavigationService);
   private logService = inject(LogService);
 
-  readonly castAsSelectElement: typeof castAsSelectElement;
-
   // enum
   FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
   FeedbackQuestionType!: typeof FeedbackQuestionType;
@@ -161,7 +158,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor() {
-    this.castAsSelectElement = castAsSelectElement;
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
     this.FeedbackQuestionType = FeedbackQuestionType;
     this.Intent = Intent;
