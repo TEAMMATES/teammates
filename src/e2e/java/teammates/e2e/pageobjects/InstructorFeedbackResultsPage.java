@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -419,7 +420,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                     }
                 }
                 return true;
-            } catch (NoSuchElementException e) {
+            } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
                 return false;
             }
         });
@@ -434,24 +435,28 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private WebElement findMatchingRow(WebElement table, String[] expectedRowValues) {
-        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.size() < expectedRowValues.length) {
-                continue;
-            }
-            boolean isMatch = true;
-            for (int i = 0; i < expectedRowValues.length; i++) {
-                if (!expectedRowValues[i].equals(cells.get(i).getText())) {
-                    isMatch = false;
-                    break;
+        try {
+            List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+            for (WebElement row : rows) {
+                List<WebElement> cells = row.findElements(By.tagName("td"));
+                if (cells.size() < expectedRowValues.length) {
+                    continue;
+                }
+                boolean isMatch = true;
+                for (int i = 0; i < expectedRowValues.length; i++) {
+                    if (!expectedRowValues[i].equals(cells.get(i).getText())) {
+                        isMatch = false;
+                        break;
+                    }
+                }
+                if (isMatch) {
+                    return row;
                 }
             }
-            if (isMatch) {
-                return row;
-            }
+            return null;
+        } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
+            return null;
         }
-        return null;
     }
 
     public void verifyQnViewStatsHidden(FeedbackQuestion question) {
