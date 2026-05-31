@@ -111,6 +111,7 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
         click(getSubmitAllQuestionsButton());
+        waitForPageToLoad();
         StringBuilder expectedSb = new StringBuilder();
         for (int unansweredQuestion : unansweredQuestions) {
             expectedSb.append(unansweredQuestion).append(", ");
