@@ -8,7 +8,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -26,10 +25,8 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading={[Function Boolean]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -54,11 +51,9 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -169,7 +164,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -187,10 +181,8 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading={[Function Boolean]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -215,11 +207,9 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -327,7 +317,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -345,10 +334,8 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading={[Function Boolean]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -373,11 +360,9 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -485,7 +470,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId={[Function String]}
   courseInstitute={[Function String]}
   courseName={[Function String]}
@@ -503,10 +487,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   formattedSessionClosingTime={[Function String]}
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading="false"
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -531,11 +513,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -776,7 +756,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -794,10 +773,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading="false"
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -822,11 +799,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -1006,7 +981,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
-        inviewport=""
       >
         <div
           class="card"
@@ -1050,10 +1024,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -1079,10 +1053,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      Other students in the course can see your response, but not the name of the recipient, or your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, but not the name of the recipient, or your name 
                   </li>
                 </ul>
@@ -1093,7 +1071,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -1108,6 +1088,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -1291,6 +1272,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -1313,7 +1295,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-text"
-        inviewport=""
       >
         <div
           class="card"
@@ -1357,10 +1338,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -1386,23 +1367,33 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      Your team members can see your response, but not the name of the recipient, or your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, but not the name of the recipient, or your name 
                   </li>
                 </ul>
               </div>
-              <tm-text-question-instruction />
-              <tm-text-question-constraint />
+              <tm-text-question-instruction
+                style=""
+              />
+              <tm-text-question-constraint
+                style=""
+              />
               <div
                 class="row margin-top-30px margin-bottom-0px"
               >
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -1417,6 +1408,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -1547,6 +1539,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -1569,7 +1562,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-mcq-2"
-        inviewport=""
       >
         <div
           class="card"
@@ -1609,10 +1601,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -1638,10 +1630,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving teams can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
@@ -1652,7 +1648,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -1670,13 +1668,18 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 class="col-12 constraint-margins"
               >
               </div>
+              <div
+                class="alert alert-warning"
+                role="alert"
+                style=""
+              >
+              </div>
             </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-msq"
-        inviewport=""
       >
         <div
           class="card"
@@ -1720,10 +1723,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -1749,15 +1752,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-msq-question-constraint>
+              <tm-msq-question-constraint
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -1798,7 +1807,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -1813,6 +1824,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -1982,6 +1994,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -2004,7 +2017,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-numscale"
-        inviewport=""
       >
         <div
           class="card"
@@ -2048,10 +2060,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -2077,23 +2089,33 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-num-scale-question-instruction />
-              <tm-num-scale-question-constraint />
+              <tm-num-scale-question-instruction
+                style=""
+              />
+              <tm-num-scale-question-constraint
+                style=""
+              />
               <div
                 class="row margin-top-30px margin-bottom-0px"
               >
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -2108,6 +2130,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -2197,6 +2220,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -2219,7 +2243,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-constsum"
-        inviewport=""
       >
         <div
           class="card"
@@ -2263,10 +2286,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -2292,15 +2315,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-constsum-recipients-question-instruction>
+              <tm-constsum-recipients-question-instruction
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -2328,7 +2357,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -2343,6 +2374,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -2405,7 +2437,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               <div
                 class="col-12 constraint-margins"
               >
-                <tm-constsum-recipients-question-constraint>
+                <tm-constsum-recipients-question-constraint
+                  style=""
+                >
                   <div
                     class="row"
                   >
@@ -2426,6 +2460,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -2448,7 +2483,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-contrib"
-        inviewport=""
       >
         <div
           class="card"
@@ -2492,10 +2526,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -2521,15 +2555,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-contribution-question-instruction>
+              <tm-contribution-question-instruction
+                style=""
+              >
                 <p
                   class="text-start fw-bold mt-3 mb-0"
                 >
@@ -2555,7 +2595,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -2570,6 +2612,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -2880,11 +2923,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               <div
                 class="col-12 constraint-margins"
               >
-                <tm-contribution-question-constraint>
+                <tm-contribution-question-constraint
+                  style=""
+                >
                 </tm-contribution-question-constraint>
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -2907,7 +2953,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rubric"
-        inviewport=""
       >
         <div
           class="card"
@@ -2951,10 +2996,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -2980,10 +3025,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
@@ -2994,7 +3043,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -3009,6 +3060,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -3244,6 +3296,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -3266,7 +3319,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-options"
-        inviewport=""
       >
         <div
           class="card"
@@ -3310,10 +3362,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -3339,15 +3391,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-rank-options-question-instruction>
+              <tm-rank-options-question-instruction
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -3388,7 +3446,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -3403,6 +3463,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -3526,6 +3587,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -3548,7 +3610,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-recipients"
-        inviewport=""
       >
         <div
           class="card"
@@ -3592,10 +3653,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -3621,15 +3682,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-rank-recipients-question-instruction>
+              <tm-rank-recipients-question-instruction
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -3670,7 +3737,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -3685,6 +3754,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -3750,13 +3820,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               <div
                 class="col-12 constraint-margins"
               >
-                <tm-rank-recipients-question-constraint>
+                <tm-rank-recipients-question-constraint
+                  style=""
+                >
                   <div>
                   </div>
                 </tm-rank-recipients-question-constraint>
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -3814,7 +3887,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -3832,10 +3904,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading="false"
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
@@ -3860,11 +3930,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -4044,7 +4112,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
-        inviewport=""
       >
         <div
           class="card"
@@ -4088,10 +4155,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -4117,10 +4184,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      Other students in the course can see your response, but not the name of the recipient, or your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, but not the name of the recipient, or your name 
                   </li>
                 </ul>
@@ -4131,7 +4202,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -4146,6 +4219,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -4334,6 +4408,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -4357,7 +4432,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-text"
-        inviewport=""
       >
         <div
           class="card"
@@ -4401,10 +4475,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -4430,23 +4504,33 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      Your team members can see your response, but not the name of the recipient, or your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, but not the name of the recipient, or your name 
                   </li>
                 </ul>
               </div>
-              <tm-text-question-instruction />
-              <tm-text-question-constraint />
+              <tm-text-question-instruction
+                style=""
+              />
+              <tm-text-question-constraint
+                style=""
+              />
               <div
                 class="row margin-top-30px margin-bottom-0px"
               >
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -4461,6 +4545,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -4593,6 +4678,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -4616,7 +4702,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-mcq-2"
-        inviewport=""
       >
         <div
           class="card"
@@ -4656,10 +4741,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -4685,10 +4770,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving teams can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
@@ -4699,7 +4788,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -4717,13 +4808,18 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 class="col-12 constraint-margins"
               >
               </div>
+              <div
+                class="alert alert-warning"
+                role="alert"
+                style=""
+              >
+              </div>
             </div>
           </div>
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-msq"
-        inviewport=""
       >
         <div
           class="card"
@@ -4767,10 +4863,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -4796,15 +4892,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-msq-question-constraint>
+              <tm-msq-question-constraint
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -4845,7 +4947,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -4860,6 +4964,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -5034,6 +5139,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -5057,7 +5163,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-numscale"
-        inviewport=""
       >
         <div
           class="card"
@@ -5101,10 +5206,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -5130,23 +5235,33 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-num-scale-question-instruction />
-              <tm-num-scale-question-constraint />
+              <tm-num-scale-question-instruction
+                style=""
+              />
+              <tm-num-scale-question-constraint
+                style=""
+              />
               <div
                 class="row margin-top-30px margin-bottom-0px"
               >
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -5161,6 +5276,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -5251,6 +5367,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -5274,7 +5391,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-constsum"
-        inviewport=""
       >
         <div
           class="card"
@@ -5318,10 +5434,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -5347,15 +5463,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-constsum-recipients-question-instruction>
+              <tm-constsum-recipients-question-instruction
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -5383,7 +5505,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -5398,6 +5522,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -5461,7 +5586,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               <div
                 class="col-12 constraint-margins"
               >
-                <tm-constsum-recipients-question-constraint>
+                <tm-constsum-recipients-question-constraint
+                  style=""
+                >
                   <div
                     class="row"
                   >
@@ -5482,6 +5609,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -5505,7 +5633,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-contrib"
-        inviewport=""
       >
         <div
           class="card"
@@ -5549,10 +5676,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -5578,15 +5705,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-contribution-question-instruction>
+              <tm-contribution-question-instruction
+                style=""
+              >
                 <p
                   class="text-start fw-bold mt-3 mb-0"
                 >
@@ -5612,7 +5745,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -5627,6 +5762,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -5938,11 +6074,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               <div
                 class="col-12 constraint-margins"
               >
-                <tm-contribution-question-constraint>
+                <tm-contribution-question-constraint
+                  style=""
+                >
                 </tm-contribution-question-constraint>
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -5966,7 +6105,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rubric"
-        inviewport=""
       >
         <div
           class="card"
@@ -6010,10 +6148,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -6039,10 +6177,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
@@ -6053,7 +6195,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -6068,6 +6212,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -6313,6 +6458,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -6336,7 +6482,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-options"
-        inviewport=""
       >
         <div
           class="card"
@@ -6380,10 +6525,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -6409,15 +6554,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-rank-options-question-instruction>
+              <tm-rank-options-question-instruction
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -6458,7 +6609,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -6473,6 +6626,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -6597,6 +6751,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -6620,7 +6775,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-recipients"
-        inviewport=""
       >
         <div
           class="card"
@@ -6664,10 +6818,10 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           >
             <div
               class="card-body"
-              style=""
             >
               <div
                 class="card mb-3"
+                style=""
               >
                 <div
                   class="card-header"
@@ -6693,15 +6847,21 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <ul
                   class="visibility-list text-secondary"
                 >
-                  <li>
+                  <li
+                    style=""
+                  >
                      The receiving students can see your response, the name of the recipient, and your name 
                   </li>
-                  <li>
+                  <li
+                    style=""
+                  >
                      Instructors in this course can see your response, the name of the recipient, and your name 
                   </li>
                 </ul>
               </div>
-              <tm-rank-recipients-question-instruction>
+              <tm-rank-recipients-question-instruction
+                style=""
+              >
                 <div
                   class="text-info"
                 >
@@ -6742,7 +6902,9 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="col"
                 >
-                  <p>
+                  <p
+                    style=""
+                  >
                     <span
                       class="ngb-tooltip-class font-bold"
                       ngbtooltip="The party being evaluated or given feedback to"
@@ -6757,6 +6919,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               >
                 <div
                   class="row"
+                  style=""
                 >
                   <div
                     class="col-md-5 col-xs-12 margin-top-20px"
@@ -6823,13 +6986,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               <div
                 class="col-12 constraint-margins"
               >
-                <tm-rank-recipients-question-constraint>
+                <tm-rank-recipients-question-constraint
+                  style=""
+                >
                   <div>
                   </div>
                 </tm-rank-recipients-question-constraint>
               </div>
               <div
                 class="row"
+                style=""
               >
                 <div
                   class="col-12 text-center"
@@ -6890,7 +7056,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -6908,10 +7073,8 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading={[Function Boolean]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -6936,11 +7099,9 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -7049,7 +7210,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   allSessionViews={[Function Object]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  castAsSelectElement={[Function Function]}
   courseId=""
   courseInstitute=""
   courseName=""
@@ -7067,10 +7227,8 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
-  isCourseLoading={[Function Boolean]}
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
@@ -7095,11 +7253,9 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div

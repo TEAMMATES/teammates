@@ -605,8 +605,7 @@ public class FeedbackSubmitPage extends AppPage {
                 return null;
             }
         });
-        // Scroll to the question to ensure that the details are fully loaded
-        scrollElementToCenter(questionForm);
+
         waitForPageToLoad();
         return questionForm;
     }
@@ -728,7 +727,6 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {
-        scrollElementToCenter(commentSection);
         waitForElementPresence(By.tagName("editor"));
         writeToRichTextEditor(commentSection.findElement(By.tagName("editor")), comment);
     }
@@ -771,9 +769,7 @@ public class FeedbackSubmitPage extends AppPage {
     private WebElement getTextResponseEditor(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
-        WebElement editor = questionForm.findElements(By.tagName("tm-rich-text-editor")).get(recipientIndex);
-        scrollElementToCenter(editor);
-        return editor;
+        return questionForm.findElements(By.tagName("tm-rich-text-editor")).get(recipientIndex);
     }
 
     private String getResponseLengthText(int qnNumber, String recipient) {
