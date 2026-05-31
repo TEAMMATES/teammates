@@ -386,16 +386,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           this.showMobileSubmissionNote();
         }),
         switchMap(() =>
-          forkJoin([
-            this.loadCourseInfoData$(),
-            this.loadPersonNameData$(),
-            this.loadFeedbackQuestionsData$().pipe(
-              catchError((resp: ErrorMessageOutput) => {
-                this.handleError(resp);
-                return of([]);
-              }),
-            ),
-          ]),
+          forkJoin([this.loadCourseInfoData$(), this.loadPersonNameData$(), this.loadFeedbackQuestionsData$()]),
         ),
         finalize(() => {
           this.isFeedbackSessionLoading = false;
@@ -449,11 +440,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Loads feedback questions to submit.
    */
   loadFeedbackQuestions(): void {
-    this.loadFeedbackQuestionsData$().subscribe({
-      error: (resp: ErrorMessageOutput) => {
-        this.handleError(resp);
-      },
-    });
+    this.loadFeedbackQuestionsData$().subscribe();
   }
 
   private loadFeedbackQuestionsData$(): Observable<QuestionSubmissionFormModel[]> {
@@ -516,6 +503,10 @@ export class SessionSubmissionPageComponent implements OnInit {
           this.scrollToModeratedQuestion();
         }),
         map(() => this.questionSubmissionForms),
+        catchError((resp: ErrorMessageOutput) => {
+          this.handleError(resp);
+          return of([]);
+        }),
         finalize(() => {
           this.isFeedbackSessionQuestionsLoading = false;
         }),
