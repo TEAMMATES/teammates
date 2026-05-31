@@ -47,6 +47,7 @@ import teammates.storage.entity.User;
 import teammates.storage.entity.responses.FeedbackRankRecipientsResponse;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.FeedbackResponsesRequest.FeedbackResponseRequest;
 
 /**
  * Handles operations related to feedback responses.
@@ -205,7 +206,7 @@ public final class FeedbackResponsesLogic {
      * Submits feedback responses from a student or the student's team for a feedback question.
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
-            FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
+            FeedbackQuestion feedbackQuestion, Student student, List<FeedbackResponseRequest> submitResponses)
             throws InvalidOperationException, InvalidParametersException {
         if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
                 && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
@@ -218,14 +219,14 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> existingResponses = getFeedbackResponsesFromStudentOrTeamForQuestion(
                 feedbackQuestion, student);
 
-        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, student, submitRequest);
+        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, student, submitResponses);
     }
 
     /**
      * Submits feedback responses from an instructor for a feedback question.
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
-            FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            FeedbackQuestion feedbackQuestion, Instructor instructor, List<FeedbackResponseRequest> submitResponses)
             throws InvalidOperationException, InvalidParametersException {
         if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
                 && feedbackQuestion.getGiverType() != QuestionGiverType.SESSION_CREATOR) {
@@ -236,12 +237,58 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> existingResponses = getFeedbackResponsesFromInstructorForQuestion(
                 feedbackQuestion, instructor);
 
-        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, null, submitRequest);
+        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, null, submitResponses);
+    }
+
+    /**
+     * Submits feedback responses from a student or the student's team for one or more feedback questions
+     * in the same feedback session.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
+            FeedbackSession feedbackSession, Student student, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        List<FeedbackResponse> submittedResponses = new ArrayList<>();
+        for (Map.Entry<UUID, List<FeedbackResponseRequest>> entry : submitRequest.getQuestionResponses().entrySet()) {
+            FeedbackQuestion feedbackQuestion = fqLogic.getFeedbackQuestion(entry.getKey());
+            if (feedbackQuestion == null) {
+                throw new InvalidOperationException("The feedback question does not exist.");
+            }
+            if (!feedbackQuestion.getFeedbackSession().getId().equals(feedbackSession.getId())) {
+                throw new InvalidOperationException("The feedback question does not belong to the feedback session.");
+            }
+
+            submittedResponses.addAll(submitFeedbackResponsesFromStudent(feedbackQuestion, student, entry.getValue()));
+        }
+
+        return submittedResponses;
+    }
+
+    /**
+     * Submits feedback responses from an instructor for one or more feedback questions in the same feedback session.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
+            FeedbackSession feedbackSession, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        List<FeedbackResponse> submittedResponses = new ArrayList<>();
+        for (Map.Entry<UUID, List<FeedbackResponseRequest>> entry : submitRequest.getQuestionResponses().entrySet()) {
+            FeedbackQuestion feedbackQuestion = fqLogic.getFeedbackQuestion(entry.getKey());
+            if (feedbackQuestion == null) {
+                throw new InvalidOperationException("The feedback question does not exist.");
+            }
+            if (!feedbackQuestion.getFeedbackSession().getId().equals(feedbackSession.getId())) {
+                throw new InvalidOperationException("The feedback question does not belong to the feedback session.");
+            }
+
+            submittedResponses.addAll(submitFeedbackResponsesFromInstructor(
+                    feedbackQuestion, instructor, entry.getValue()));
+        }
+
+        return submittedResponses;
     }
 
     private List<FeedbackResponse> submitFeedbackResponses(FeedbackQuestion feedbackQuestion,
             ResponseGiver responseGiver, List<FeedbackResponse> existingResponses, @Nullable Student student,
-            FeedbackResponsesRequest submitRequest)
+            List<FeedbackResponseRequest> submitResponses)
             throws InvalidOperationException, InvalidParametersException {
         FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
         Optional<List<String>> dynamicallyGeneratedOptions = fqLogic.getDynamicallyGeneratedOptions(
@@ -264,7 +311,11 @@ public final class FeedbackResponsesLogic {
         Map<ResponseRecipient, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
         existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
 
-        for (String recipient : submitRequest.getRecipients()) {
+        List<String> recipients = submitResponses.stream()
+                .map(FeedbackResponseRequest::getRecipient)
+                .toList();
+
+        for (String recipient : recipients) {
             if (recipient == null || !recipientsByIdentifier.containsKey(recipient)) {
                 throw new InvalidOperationException(
                         "The recipient " + recipient + " is not a valid recipient of the question");
@@ -273,7 +324,7 @@ public final class FeedbackResponsesLogic {
 
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
-        for (var responseRequest : submitRequest.getResponses()) {
+        for (FeedbackResponseRequest responseRequest : submitResponses) {
             String recipient = responseRequest.getRecipient();
             ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
@@ -320,7 +371,6 @@ public final class FeedbackResponsesLogic {
         }
 
         // Delete responses that are deleted by the user
-        List<String> recipients = submitRequest.getRecipients();
         List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
                 .filter(entry -> !recipients.contains(entry.getKey().getIdentifier()))
                 .map(Entry::getValue)

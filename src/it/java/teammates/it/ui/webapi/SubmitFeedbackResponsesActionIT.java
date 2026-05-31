@@ -6,7 +6,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.BeforeMethod;
@@ -42,6 +44,7 @@ import teammates.ui.webapi.SubmitFeedbackResponsesAction;
  */
 public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedbackResponsesAction> {
     private DataBundle typicalBundle;
+    private FeedbackQuestion currentQuestionForSubmission;
 
     @Override
     @BeforeMethod
@@ -148,9 +151,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private String[] buildSubmissionParams(FeedbackQuestion question, Intent intent) {
-        String questionId = question != null ? question.getId().toString() : "";
+        currentQuestionForSubmission = question;
+        String sessionId = question != null ? question.getFeedbackSession().getId().toString() : UUID.randomUUID().toString();
 
-        return new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId, Const.ParamsNames.INTENT,
+        return new String[] {Const.ParamsNames.FEEDBACK_SESSION_ID, sessionId, Const.ParamsNames.INTENT,
                 intent.toString()};
     }
 
@@ -209,11 +213,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         }
 
         FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        requestBody.setQuestionResponses(Map.of(currentQuestionForSubmission.getId(), responses));
         return requestBody;
     }
 
-    private List<FeedbackResponseData> callExecute(FeedbackResponsesRequest requestBody, String[] submissionParams) {
+    private List<FeedbackResponseData> callExecute(FeedbackResponsesRequest requestBody,
+                                                   String[] submissionParams) {
         SubmitFeedbackResponsesAction action = getAction(requestBody, submissionParams);
         JsonResult result = getJsonResult(action);
 
@@ -356,24 +361,25 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         verifyHttpParameterFailureAcl(submissionParams);
 
-        ______TS("Failure with instructors: feedback question does not exist");
+        ______TS("Failure with instructors: feedback session does not exist");
         setStartTime(session, -1);
         setEndTime(session, 3);
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000"};
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000"};
 
         verifyEntityNotFoundAcl(submissionParams);
 
-        ______TS("Failure with students: no feedback question parameter");
+        ______TS("Failure with students: no feedback session parameter");
         loginStudent("student1InCourse1");
         setStartTime(session, -1);
         setEndTime(session, 3);
 
         questionNumber = 2;
         FeedbackQuestion question = getQuestion(session, questionNumber);
-        submissionParams = new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString()};
+        submissionParams = new String[] {Const.ParamsNames.FEEDBACK_SESSION_ID,
+                question.getFeedbackSession().getId().toString()};
 
         verifyHttpParameterFailureAcl(submissionParams);
 
@@ -602,10 +608,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String[] submissionParams = new String[] {Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString()};
         verifyHttpParameterFailure(submissionParams);
 
-        ______TS("Failure: feedback question does not exist");
+        ______TS("Failure: feedback session does not exist");
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000"};
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000"};
         verifyEntityNotFound(submissionParams);
 
         ______TS("Failure: no request body");
@@ -624,11 +630,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         // Null recipient
         List<String> nullEmail = Collections.singletonList(null);
         FeedbackResponsesRequest requestBody = buildRequestBody(nullEmail);
-        verifyInvalidOperation(requestBody, submissionParams);
+        verifyHttpRequestBodyFailure(requestBody, submissionParams);
 
         // Empty String recipient
         requestBody = buildRequestBody(Collections.singletonList(""));
-        verifyInvalidOperation(requestBody, submissionParams);
+        verifyHttpRequestBodyFailure(requestBody, submissionParams);
 
         ______TS("Success: question has no existing responses");
         Instructor instructorGiver = loginInstructor("instructor1OfCourse1");

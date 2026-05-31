@@ -360,29 +360,29 @@ describe('FeedbackResponsesService', () => {
 
   it('should call put when submitting a feedback response', () => {
     const paramMap: Record<string, string> = {
-      questionid: '[dummy question ID]',
+      fsid: '[dummy session ID]',
     };
-    const dummyRequest: FeedbackResponsesRequest = { responses: [] };
+    const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
     const dummyAdditionalParams: { [key: string]: string } = {};
-    service.submitFeedbackResponses(paramMap['questionid'], dummyRequest, dummyAdditionalParams);
+    service.submitFeedbackResponses(paramMap['fsid'], dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 
   it('should include additional parameters when submitting a feedback response', () => {
     const dummyIntent: Intent = Intent.STUDENT_SUBMISSION;
     const paramMap: Record<string, string> = {
-      questionid: '[dummy question ID]',
+      fsid: '[dummy session ID]',
       intent: dummyIntent,
       key: '[dummy registration key]',
       moderatedperson: '',
     };
-    const dummyRequest: FeedbackResponsesRequest = { responses: [] };
+    const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
     const dummyAdditionalParams: { [key: string]: string } = {
       intent: dummyIntent,
       key: paramMap['key'],
       moderatedperson: paramMap['moderatedperson'],
     };
-    service.submitFeedbackResponses(paramMap['questionid'], dummyRequest, dummyAdditionalParams);
+    service.submitFeedbackResponses(paramMap['fsid'], dummyRequest, dummyAdditionalParams);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
   });
 

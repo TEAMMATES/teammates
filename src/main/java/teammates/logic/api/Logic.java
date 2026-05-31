@@ -1342,21 +1342,21 @@ public class Logic {
     }
 
     /**
-     * Submits feedback responses from a student or the student's team for a feedback question.
+     * Submits feedback responses from a student or the student's team for one or more feedback questions.
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
-            FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
+            FeedbackSession feedbackSession, Student student, FeedbackResponsesRequest submitRequest)
             throws InvalidOperationException, InvalidParametersException {
-        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackSession, student, submitRequest);
     }
 
     /**
-     * Submits feedback responses from an instructor for a feedback question.
+     * Submits feedback responses from an instructor for one or more feedback questions.
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
-            FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            FeedbackSession feedbackSession, Instructor instructor, FeedbackResponsesRequest submitRequest)
             throws InvalidOperationException, InvalidParametersException {
-        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackSession, instructor, submitRequest);
     }
 
     /**

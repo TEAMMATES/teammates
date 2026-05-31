@@ -833,9 +833,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         savingRequests.push(
           this.feedbackResponsesService
             .submitFeedbackResponses(
-              questionSubmissionFormModel.feedbackQuestionId,
+              this.feedbackSessionId,
               {
-                responses,
+                questionResponses: {
+                  [questionSubmissionFormModel.feedbackQuestionId]: responses,
+                },
               },
               {
                 intent: this.intent,

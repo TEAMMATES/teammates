@@ -40,6 +40,7 @@ import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.FeedbackResponsesRequest.FeedbackResponseRequest;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -336,9 +337,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Student recipient = getTypicalStudent();
         recipient.setEmail("recipient@email.com");
         ResponseRecipient responseRecipient = new ResponseRecipient(recipient);
-        FeedbackResponsesRequest request = new FeedbackResponsesRequest();
-        request.setResponses(List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipient.getEmail(), new FeedbackTextResponseDetails("new response"), "new comment")));
+        List<FeedbackResponseRequest> request = List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                recipient.getEmail(), new FeedbackTextResponseDetails("new response"), "new comment"));
 
         when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
                 .thenReturn(List.of());
@@ -377,9 +377,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
                 new ResponseGiver(giver), responseRecipientToDelete, new FeedbackTextResponseDetails("deleted response"));
         question.addFeedbackResponse(existingResponseToKeep);
         question.addFeedbackResponse(existingResponseToDelete);
-        FeedbackResponsesRequest request = new FeedbackResponsesRequest();
-        request.setResponses(List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipientToKeep.getEmail(), new FeedbackTextResponseDetails("updated response"), "updated comment")));
+        List<FeedbackResponseRequest> request = List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                recipientToKeep.getEmail(), new FeedbackTextResponseDetails("updated response"), "updated comment"));
 
         when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
                 .thenReturn(List.of(existingResponseToKeep, existingResponseToDelete));
@@ -404,9 +403,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         question.setId(UUID.randomUUID());
         question.setGiverType(QuestionGiverType.STUDENTS);
         Student giver = getTypicalStudent();
-        FeedbackResponsesRequest request = new FeedbackResponsesRequest();
-        request.setResponses(List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                "invalid@email.com", new FeedbackTextResponseDetails("response"))));
+        List<FeedbackResponseRequest> request = List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                "invalid@email.com", new FeedbackTextResponseDetails("response")));
 
         when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
                 .thenReturn(List.of());
@@ -430,7 +428,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Student giver = getTypicalStudent();
 
         InvalidOperationException exception = assertThrows(InvalidOperationException.class,
-                () -> frLogic.submitFeedbackResponsesFromStudent(question, giver, new FeedbackResponsesRequest()));
+                () -> frLogic.submitFeedbackResponsesFromStudent(question, giver, List.of()));
 
         assertEquals("Feedback question is not answerable for students", exception.getMessage());
         verify(frDb, never()).getFeedbackResponsesFromGiverForQuestion(any(UUID.class), any(UUID.class), any());
@@ -446,7 +444,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Instructor giver = getTypicalInstructor();
 
         InvalidOperationException exception = assertThrows(InvalidOperationException.class,
-                () -> frLogic.submitFeedbackResponsesFromInstructor(question, giver, new FeedbackResponsesRequest()));
+                () -> frLogic.submitFeedbackResponsesFromInstructor(
+                        question, giver, List.of()));
 
         assertEquals("Feedback question is not answerable for instructors", exception.getMessage());
         verify(frDb, never()).getFeedbackResponsesFromGiverForQuestion(any(UUID.class), any(UUID.class), any());

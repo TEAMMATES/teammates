@@ -1067,12 +1067,8 @@ describe('SessionSubmissionPageComponent', () => {
 
     const responseSpy = vi
       .spyOn(feedbackResponsesService, 'submitFeedbackResponses')
-      .mockImplementation((id: string) => {
-        if (id === testQuestionSubmissionForm1.feedbackQuestionId) {
-          return of({ responses: [testResponse1], requestId: '10' });
-        }
-        return of({ responses: [testResponse2], requestId: '20' });
-      });
+      .mockReturnValueOnce(of({ responses: [testResponse1], requestId: '10' }))
+      .mockReturnValueOnce(of({ responses: [testResponse2], requestId: '20' }));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
@@ -1080,15 +1076,17 @@ describe('SessionSubmissionPageComponent', () => {
     expect(responseSpy).toHaveBeenCalledTimes(2);
     expect(responseSpy).toHaveBeenNthCalledWith(
       1,
-      'feedback-question-id-mcq',
+      component.feedbackSessionId,
       {
-        responses: [
-          {
-            recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
-            responseDetails: testResponseDetails1,
-            giverComment: 'comment text here',
-          },
-        ],
+        questionResponses: {
+          'feedback-question-id-mcq': [
+            {
+              recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
+              responseDetails: testResponseDetails1,
+              giverComment: 'comment text here',
+            },
+          ],
+        },
       },
       {
         intent: 'STUDENT_SUBMISSION',
@@ -1098,9 +1096,11 @@ describe('SessionSubmissionPageComponent', () => {
       },
     );
     expect(responseSpy).toHaveBeenLastCalledWith(
-      'feedback-question-id-text',
+      component.feedbackSessionId,
       {
-        responses: [], // do not call for empty response details
+        questionResponses: {
+          'feedback-question-id-text': [], // do not call for empty response details
+        },
       },
       {
         intent: 'STUDENT_SUBMISSION',
@@ -1141,15 +1141,17 @@ describe('SessionSubmissionPageComponent', () => {
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(
       1,
-      testQuestionSubmissionForm1.feedbackQuestionId,
+      component.feedbackSessionId,
       {
-        responses: [
-          {
-            recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
-            responseDetails: testResponseDetails1,
-            giverComment: 'comment text here',
-          },
-        ],
+        questionResponses: {
+          [testQuestionSubmissionForm1.feedbackQuestionId]: [
+            {
+              recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
+              responseDetails: testResponseDetails1,
+              giverComment: 'comment text here',
+            },
+          ],
+        },
       },
       {
         intent: 'STUDENT_SUBMISSION',
