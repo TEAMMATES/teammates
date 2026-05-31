@@ -501,11 +501,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       return;
     }
 
-    // The question body is expanded by default, but it still runs an enter animation.
-    // Scroll once after render and once after the expansion animation settles.
-    this.pageScrollService.scrollToAnchor(this.moderatedQuestionId);
-    const questionExpandAnimationBufferMs = 350;
-    setTimeout(() => this.pageScrollService.scrollToAnchor(this.moderatedQuestionId), questionExpandAnimationBufferMs);
+    setTimeout(() => this.pageScrollService.scrollToAnchor(this.moderatedQuestionId), 350);
   }
 
   /**
