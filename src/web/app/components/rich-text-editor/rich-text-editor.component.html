@@ -1,15 +1,13 @@
-<div inViewport (inViewportAction)="renderEditor($event)">
-  @if (render()) {
-    <editor
-      class="editor"
-      [ngClass]="{ 'editor-disabled': isDisabled }"
-      [init]="init"
-      [ngModel]="richText"
-      (ngModelChange)="richTextChange.emit($event)"
-      [attr.placeholder]="placeholderText"
-    >
-    </editor>
-  }
+<div>
+  <editor
+    class="editor"
+    [ngClass]="{ 'editor-disabled': isDisabled }"
+    [readonly]="isDisabled"
+    [init]="init"
+    [ngModel]="richText"
+    (ngModelChange)="richTextChange.emit($event)"
+    [attr.placeholder]="placeholderText"
+  />
   @if (hasCharacterLimit) {
     <div>
       {{
