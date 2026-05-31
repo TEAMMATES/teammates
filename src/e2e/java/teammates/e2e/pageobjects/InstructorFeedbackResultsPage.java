@@ -1030,31 +1030,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return parentPanel;
     }
 
-    private void expandQuestionPanel(WebElement questionPanel) {
-        if (!isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.className("card-header")));
-            waitUntilAnimationFinish();
-        }
-    }
-
-    private void hideQuestionPanel(WebElement questionPanel) {
-        if (isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.className("card-header")));
-            waitUntilAnimationFinish();
-        }
-    }
-
-    private boolean isQuestionPanelExpanded(WebElement questionPanel) {
-        if (!questionPanel.findElements(By.cssSelector("div.collapse.show")).isEmpty()) {
-            return true;
-        }
-        if (!questionPanel.findElements(By.cssSelector("div.collapse")).isEmpty()) {
-            return false;
-        }
-
-        throw new RuntimeException("Question panel does not have expected collapse structure.");
-    }
-
     private String getQuestionText(WebElement questionPanel) {
         return questionPanel.findElement(By.className("question-text")).getText().trim();
     }
