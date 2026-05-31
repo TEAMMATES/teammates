@@ -1076,7 +1076,7 @@ describe('SessionSubmissionPageComponent', () => {
     );
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms);
 
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenCalledWith(
@@ -1096,7 +1096,6 @@ describe('SessionSubmissionPageComponent', () => {
       },
       {
         intent: 'STUDENT_SUBMISSION',
-        singlerecipientidforsubmission: '',
         key: 'reg-key',
         moderatedperson: '',
       },
@@ -1133,7 +1132,7 @@ describe('SessionSubmissionPageComponent', () => {
     });
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms);
 
     expect(responseSpy).toHaveBeenCalledTimes(1);
     expect(responseSpy).toHaveBeenNthCalledWith(
@@ -1155,7 +1154,6 @@ describe('SessionSubmissionPageComponent', () => {
         intent: 'STUDENT_SUBMISSION',
         key: 'reg-key',
         moderatedperson: '',
-        singlerecipientidforsubmission: '',
       },
     );
 
@@ -1188,7 +1186,7 @@ describe('SessionSubmissionPageComponent', () => {
     const simpleModalSpy = vi.spyOn(simpleModalService, 'openInformationModal');
     const ngbModalSpy = vi.spyOn(ngbModal, 'open');
 
-    component.saveFeedbackResponses(component.questionSubmissionForms, null);
+    component.saveFeedbackResponses(component.questionSubmissionForms);
 
     expect(simpleModalSpy).toHaveBeenCalledWith(
       'Saving Failed',

@@ -793,10 +793,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    *
    * @param questionSubmissionForms An array of question submission forms to be saved
-   * @param recipientId The recipient identifier of the selected recipient when saving responses for this recipient
-   * only. This parameter will be null when saving responses for all questions or saving responses for one question.
    */
-  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
+  saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[]): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const questionResponses: Record<string, FeedbackResponseRequest[]> = {};
@@ -846,7 +844,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
     this.submitFeedbackResponses(
       questionResponses,
-      recipientId,
       questionSubmissionForms,
       notYetAnsweredQuestions,
       failToSaveQuestions,
@@ -855,7 +852,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   private submitFeedbackResponses(
     questionResponses: Record<string, FeedbackResponseRequest[]>,
-    recipientId: string | null,
     questionSubmissionForms: QuestionSubmissionFormModel[],
     notYetAnsweredQuestions: Set<number>,
     failToSaveQuestions: Record<number, string>,
@@ -869,7 +865,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           intent: this.intent,
           key: this.regKey,
           moderatedperson: this.moderatedPerson,
-          singlerecipientidforsubmission: recipientId?.toString() || '',
         },
       )
       .pipe(
@@ -1062,7 +1057,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         questionsToRecipient.has(questionSubmissionFormModel.questionNumber),
     );
 
-    this.saveFeedbackResponses(recipientQSForms, recipientId);
+    this.saveFeedbackResponses(recipientQSForms);
   }
 
   private addQuestionForRecipient(recipientId: string, questionId: any): void {
