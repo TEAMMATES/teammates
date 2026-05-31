@@ -14,7 +14,7 @@ import {
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails,
   FeedbackResponse,
-  FeedbackResponses,
+  FeedbackQuestionResponses,
   MessageOutput,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
@@ -196,18 +196,22 @@ export class FeedbackResponsesService {
   }
 
   /**
-   * Submits a list of feedback responses for a feedback question by calling API.
+   * Submits feedback responses for one or more feedback questions in a feedback session by calling API.
    */
   submitFeedbackResponses(
-    questionId: string,
+    feedbackSessionId: string,
     request: FeedbackResponsesRequest,
-    additionalParams: { [key: string]: string } = {},
-  ): Observable<FeedbackResponses> {
+    params: {
+      intent: Intent;
+      key: string;
+      moderatedperson: string;
+    },
+  ): Observable<FeedbackQuestionResponses> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSES,
       {
-        questionid: questionId,
-        ...additionalParams,
+        fsid: feedbackSessionId,
+        ...params,
       },
       request,
     );

@@ -125,10 +125,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
   get isSaved(): boolean {
-    return (
-      this.model.recipientSubmissionForms.length > 0 &&
-      this.model.recipientSubmissionForms.every((form) => form.status === ResponseSubmissionStatus.SAVED)
-    );
+    return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
   }
 
   @Input()
@@ -397,9 +394,21 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
     this.model.recipientSubmissionForms[index] = {
       ...this.model.recipientSubmissionForms[index],
-      status: ResponseSubmissionStatus.MODIFIED,
       [field]: data,
     };
+
+    if (
+      this.model.recipientSubmissionForms[index].responseId ||
+      !this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
+        this.model.questionType,
+        this.model.recipientSubmissionForms[index].responseDetails,
+      )
+    ) {
+      this.model.recipientSubmissionForms[index].status = ResponseSubmissionStatus.MODIFIED;
+    } else {
+      // Response details is empty and response has not been saved before
+      this.model.recipientSubmissionForms[index].status = ResponseSubmissionStatus.NEW;
+    }
 
     this.updateIsValidByQuestionConstraint();
     this.formModelChange.emit(this.model);

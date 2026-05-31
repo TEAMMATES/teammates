@@ -300,7 +300,7 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('sets isSaved to false if some response has changed', () => {
+  it('sets isSaved to true if some response has changed', () => {
     component.model.recipientSubmissionForms.push(
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
@@ -308,7 +308,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.isSaved).toBeFalsy();
+    expect(component.isSaved).toBeTruthy();
   });
 
   it('sets isSaved to false if no response has changed and all responses are empty', () => {

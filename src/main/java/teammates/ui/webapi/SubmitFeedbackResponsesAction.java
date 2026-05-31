@@ -6,6 +6,7 @@ import java.util.UUID;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
@@ -15,16 +16,16 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackResponsesData;
+import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Submits a list of feedback responses to a feedback question.
+ * Submits feedback responses for one or more feedback questions in a feedback session.
  *
- * <p>This action is meant to completely overwrite the feedback responses that are previously attached to the
- * same feedback question.
+ * <p>For each submitted question, the submitted responses are treated as the complete final set from the giver.
+ * Any existing responses not included in the submission will be removed.
  */
 public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
@@ -36,22 +37,22 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     }
 
     @Override
-    void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-
-        final FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
+    void checkSpecificAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
-        FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
-        verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
+        if (!StringHelper.isEmpty(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON))) {
+            validateModerationVisibilityForSubmittedQuestions(feedbackSession,
+                    getAndValidateRequestBody(FeedbackResponsesRequest.class));
+        }
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
+            Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
@@ -59,7 +60,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), false);
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -75,12 +76,10 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-
-        final FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("The feedback question does not exist.");
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
         List<FeedbackResponse> output;
@@ -89,21 +88,23 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
-            log.info("Student " + student.getId() + " is submitting feedback responses for question "
-                    + feedbackQuestion.getId() + " in session " + feedbackQuestion.getFeedbackSession().getId());
+            Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
+            log.info("Student " + student.getId() + " is submitting feedback responses for "
+                    + submitRequest.getQuestionResponses().size() + " question(s) in session "
+                    + feedbackSession.getId());
             try {
-                output = logic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+                output = logic.submitFeedbackResponsesFromStudent(feedbackSession, student, submitRequest);
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
             }
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
-            log.info("Instructor " + instructor.getId() + " is submitting feedback responses for question "
-                    + feedbackQuestion.getId() + " in session " + feedbackQuestion.getFeedbackSession().getId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), false);
+            log.info("Instructor " + instructor.getId() + " is submitting feedback responses for "
+                    + submitRequest.getQuestionResponses().size() + " question(s) in session "
+                    + feedbackSession.getId());
             try {
-                output = logic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+                output = logic.submitFeedbackResponsesFromInstructor(feedbackSession, instructor, submitRequest);
             } catch (InvalidParametersException e) {
                 throw new InvalidHttpRequestBodyException(e);
             }
@@ -112,7 +113,22 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        return new JsonResult(FeedbackResponsesData.createFromEntity(output));
+        return new JsonResult(FeedbackQuestionResponsesData.createFromEntity(output));
+    }
+
+    private void validateModerationVisibilityForSubmittedQuestions(
+            FeedbackSession feedbackSession, FeedbackResponsesRequest submitRequest)
+            throws UnauthorizedAccessException {
+        for (UUID questionId : submitRequest.getQuestionResponses().keySet()) {
+            FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(questionId);
+            if (feedbackQuestion == null) {
+                throw new EntityNotFoundException("The feedback question does not exist.");
+            }
+            if (!feedbackQuestion.getFeedbackSession().getId().equals(feedbackSession.getId())) {
+                throw new InvalidHttpParameterException("The feedback question does not belong to the feedback session.");
+            }
+            verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
+        }
     }
 
 }

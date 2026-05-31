@@ -188,7 +188,7 @@
                 [isSubmissionDisabled]="isSubmissionFormsDisabled"
                 [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                 [isSavingResponses]="isSavingResponses"
-                (responsesSave)="saveFeedbackResponses([$event], entry.key)"
+                (responsesSave)="saveFeedbackResponses([$event])"
                 (deleteCommentEvent)="deleteParticipantComment(i, $event)"
                 [isQuestionCountOne]="isQuestionCountOne"
                 [currentSelectedSessionView]="currentSelectedSessionView"
@@ -236,7 +236,7 @@
             [isSubmissionDisabled]="isSubmissionFormsDisabled"
             [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
             [isSavingResponses]="isSavingResponses"
-            (responsesSave)="saveFeedbackResponses([$event], null)"
+            (responsesSave)="saveFeedbackResponses([$event])"
             (deleteCommentEvent)="deleteParticipantComment(i, $event)"
             [isQuestionCountOne]="isQuestionCountOne"
           ></tm-question-submission-form>
@@ -258,7 +258,7 @@
           [isSubmissionDisabled]="isSubmissionFormsDisabled"
           [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
           [isSavingResponses]="isSavingResponses"
-          (responsesSave)="saveFeedbackResponses([$event], null)"
+          (responsesSave)="saveFeedbackResponses([$event])"
           (deleteCommentEvent)="deleteParticipantComment(i, $event)"
           [isQuestionCountOne]="isQuestionCountOne"
           [currentSelectedSessionView]="currentSelectedSessionView"
@@ -294,7 +294,7 @@
               type="submit"
               class="btn btn-success"
               ngbTooltip="You can save your responses at any time and come back later to continue."
-              (click)="saveFeedbackResponses(questionSubmissionForms, null)"
+              (click)="saveFeedbackResponses(questionSubmissionForms)"
               [disabled]="isSavingResponses || isSubmissionFormsDisabled"
             >
               @if (isSavingResponses) {

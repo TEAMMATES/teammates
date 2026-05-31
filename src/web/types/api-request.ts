@@ -118,13 +118,14 @@ export interface FeedbackResponseDetails {
 }
 
 export interface FeedbackResponseRequest extends BasicRequest {
+  responseId?: string;
   recipient: string;
   responseDetails: FeedbackResponseDetails;
   giverComment: string;
 }
 
 export interface FeedbackResponsesRequest extends BasicRequest {
-  responses: FeedbackResponseRequest[];
+  questionResponses: { [index: string]: FeedbackResponseRequest[] };
 }
 
 export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {
