@@ -297,8 +297,8 @@ public final class FeedbackResponsesLogic {
         Map<String, ResponseRecipient> recipientsByIdentifier = recipientsOfTheQuestion.stream()
                 .collect(Collectors.toMap(ResponseRecipient::getIdentifier, recipient -> recipient));
 
-        Map<ResponseRecipient, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
-        existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
+        Map<UUID, FeedbackResponse> existingResponsesById = new HashMap<>();
+        existingResponses.forEach(response -> existingResponsesById.put(response.getId(), response));
 
         List<String> recipients = submitResponses.stream()
                 .map(FeedbackResponseRequest::getRecipient)
@@ -312,15 +312,21 @@ public final class FeedbackResponsesLogic {
         }
 
         List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+        Set<UUID> submittedResponseIds = new HashSet<>();
 
         for (FeedbackResponseRequest responseRequest : submitResponses) {
             String recipient = responseRequest.getRecipient();
             ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
+            UUID responseId = responseRequest.getResponseId();
 
-            if (existingResponsesPerRecipient.containsKey(responseRecipient)) {
+            if (responseId != null) {
+                FeedbackResponse existingFeedbackResponse = existingResponsesById.get(responseId);
+                if (existingFeedbackResponse == null) {
+                    throw new InvalidOperationException("The response " + responseId + " does not exist.");
+                }
                 // Update the existing response
-                FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(responseRecipient);
+                submittedResponseIds.add(responseId);
                 existingFeedbackResponse.setGiver(responseGiver);
                 existingFeedbackResponse.setRecipient(responseRecipient);
                 existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
@@ -360,8 +366,8 @@ public final class FeedbackResponsesLogic {
         }
 
         // Delete responses that are deleted by the user
-        List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
-                .filter(entry -> !recipients.contains(entry.getKey().getIdentifier()))
+        List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesById.entrySet().stream()
+                .filter(entry -> !submittedResponseIds.contains(entry.getKey()))
                 .map(Entry::getValue)
                 .toList();
 

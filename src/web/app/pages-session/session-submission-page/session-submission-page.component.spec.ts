@@ -1081,6 +1081,7 @@ describe('SessionSubmissionPageComponent', () => {
         questionResponses: {
           'feedback-question-id-mcq': [
             {
+              responseId: testMcqRecipientSubmissionForm.responseId,
               recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
               responseDetails: testResponseDetails1,
               giverComment: 'comment text here',
@@ -1146,6 +1147,7 @@ describe('SessionSubmissionPageComponent', () => {
         questionResponses: {
           [testQuestionSubmissionForm1.feedbackQuestionId]: [
             {
+              responseId: testMcqRecipientSubmissionForm.responseId,
               recipient: testMcqRecipientSubmissionForm.recipientIdentifier,
               responseDetails: testResponseDetails1,
               giverComment: 'comment text here',

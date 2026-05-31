@@ -1,11 +1,14 @@
 package teammates.ui.request;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.SanitizationHelper;
 
@@ -36,9 +39,17 @@ public class FeedbackResponsesRequest extends BasicRequest {
             assertTrue(questionId != null, "Question ID cannot be null");
             assertTrue(responses != null, "Responses cannot be null");
 
+            Set<UUID> submittedResponseIds = new HashSet<>();
+            Set<String> submittedRecipients = new HashSet<>();
+
             for (FeedbackResponseRequest response : responses) {
                 assertTrue(response != null, "Response cannot be null");
                 response.validate();
+                UUID responseId = response.getResponseId();
+                if (responseId != null) {
+                    assertTrue(submittedResponseIds.add(responseId), "Response IDs cannot be duplicated");
+                }
+                assertTrue(submittedRecipients.add(response.getRecipient()), "Recipients cannot be duplicated");
             }
         }
     }
@@ -48,16 +59,20 @@ public class FeedbackResponsesRequest extends BasicRequest {
      */
     public static class FeedbackResponseRequest extends BasicRequest {
 
+        @Nullable
+        private UUID responseId;
         private String recipient;
         private FeedbackResponseDetails responseDetails;
         private String giverComment;
 
         public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails) {
-            this(recipient, responseDetails, null);
+            this(null, recipient, responseDetails, null);
         }
 
         @JsonCreator
-        public FeedbackResponseRequest(String recipient, FeedbackResponseDetails responseDetails, String giverComment) {
+        public FeedbackResponseRequest(
+                UUID responseId, String recipient, FeedbackResponseDetails responseDetails, String giverComment) {
+            this.responseId = responseId;
             this.recipient = recipient;
             this.responseDetails = responseDetails;
             this.giverComment = giverComment == null
@@ -69,6 +84,10 @@ public class FeedbackResponsesRequest extends BasicRequest {
         public void validate() throws InvalidHttpRequestBodyException {
             assertTrue(recipient != null && !recipient.isEmpty(), "Recipient cannot be empty");
             assertTrue(responseDetails != null, "Response details cannot be null");
+        }
+
+        public UUID getResponseId() {
+            return responseId;
         }
 
         public String getRecipient() {

@@ -178,7 +178,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private List<String> extractStudentTeams(List<Student> students) {
-        return students.stream().map(Student::getTeamName).toList();
+        return students.stream().map(Student::getTeamName).distinct().toList();
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
@@ -240,10 +240,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void validateOutputForStudentRecipientsByTeam(List<FeedbackResponseData> responses, String giverTeam,
                                                           List<Student> recipients) {
-        int responsesSize = responses.size();
-        assertEquals(recipients.size(), responsesSize);
-
         List<String> recipientTeams = extractStudentTeams(recipients);
+        int responsesSize = responses.size();
+        assertEquals(recipientTeams.size(), responsesSize);
 
         validateOutput(responses, giverTeam, recipientTeams);
     }

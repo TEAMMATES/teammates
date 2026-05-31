@@ -250,6 +250,47 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
+    void testExecute_duplicateResponseId_throwsInvalidHttpRequestBodyException() {
+        loginAsStudent(stubStudent.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        UUID duplicateResponseId = UUID.randomUUID();
+        List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                duplicateResponseId, recipientStudent1.getEmail(), new FeedbackTextResponseDetails("test"), null));
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                duplicateResponseId, recipientStudent2.getEmail(), new FeedbackTextResponseDetails("test"), null));
+
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
+
+        verifyHttpRequestBodyFailure(requestBody, params);
+    }
+
+    @Test
+    void testExecute_duplicateRecipient_throwsInvalidHttpRequestBodyException() {
+        loginAsStudent(stubStudent.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                UUID.randomUUID(), recipientStudent1.getEmail(), new FeedbackTextResponseDetails("test"), null));
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                UUID.randomUUID(), recipientStudent1.getEmail(), new FeedbackTextResponseDetails("test"), null));
+
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
+
+        verifyHttpRequestBodyFailure(requestBody, params);
+    }
+
+    @Test
     void testExecute_invalidRecipient_throwsInvalidOperationException() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
 

@@ -819,6 +819,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
           if (!isFeedbackResponseDetailsEmpty) {
             responses.push({
+              responseId: recipientSubmissionFormModel.responseId,
               recipient: recipientSubmissionFormModel.recipientIdentifier,
               responseDetails: recipientSubmissionFormModel.responseDetails,
               giverComment: recipientSubmissionFormModel.commentByGiver?.commentEditFormModel.commentText ?? '',
