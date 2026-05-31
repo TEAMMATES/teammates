@@ -130,6 +130,7 @@
               [description]="model.questionDescription"
               (descriptionChange)="triggerModelChange('questionDescription', $event)"
               [isDescriptionDisabled]="!model.isEditable"
+              [shouldRenderDescriptionEditor]="!model.isCollapsed"
             ></tm-question-edit-brief-description-form>
             <div class="padding-15px">
               @if (model.questionType === FeedbackQuestionType.TEXT) {
