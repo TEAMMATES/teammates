@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { Editor, EditorEvent, RawEditorOptions } from 'tinymce';
 
 const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
@@ -24,7 +23,7 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   selector: 'tm-rich-text-editor',
   templateUrl: './rich-text-editor.component.html',
   styleUrls: ['./rich-text-editor.component.scss'],
-  imports: [DestroyableDirective, InViewportDirective, EditorComponent, NgClass, FormsModule],
+  imports: [EditorComponent, NgClass, FormsModule],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: '/tinymce/tinymce.min.js' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -55,7 +54,6 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
   // the argument passed to tinymce.init() in native JavaScript
   init: RawEditorOptions = {};
 
-  render = signal(false);
   private editorInstance?: Editor;
 
   defaultToolbar: string =
@@ -174,13 +172,5 @@ export class RichTextEditorComponent implements OnInit, OnChanges {
     const wordCountApi = editor.plugins['wordcount'];
     const currentCharacterCount = wordCountApi['body'].getCharacterCount();
     return currentCharacterCount;
-  }
-
-  renderEditor(event: any): void {
-    // If the editor has not been rendered before, render it once it gets into the viewport
-    // However, do not destroy it when it gets out of the viewport
-    if (event.visible && !this.render()) {
-      this.render.set(true);
-    }
   }
 }
