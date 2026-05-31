@@ -69,7 +69,7 @@ exports[`RejectWithReasonModal > should show empty title and body 1`] = `
               placeholder=""
             >
               <textarea
-                id="tiny-angular_31630362021780208347404"
+                id="tinymce-editor-id-1"
                 style="visibility: hidden;"
               />
             </editor>

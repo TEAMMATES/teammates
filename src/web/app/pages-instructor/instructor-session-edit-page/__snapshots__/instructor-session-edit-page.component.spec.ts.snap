@@ -705,7 +705,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         placeholder=""
                       >
                         <textarea
-                          id="tiny-angular_65386273711780208347580"
+                          id="tinymce-editor-id-1"
                           style="visibility: hidden;"
                         />
                       </editor>
@@ -2079,7 +2079,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                                     placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                                   >
                                     <textarea
-                                      id="tiny-angular_95694342821780208347599"
+                                      id="tinymce-editor-id-2"
                                       style="visibility: hidden;"
                                     />
                                   </editor>
@@ -2795,7 +2795,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                                     placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                                   >
                                     <textarea
-                                      id="tiny-angular_31324994731780208347606"
+                                      id="tinymce-editor-id-1"
                                       style="visibility: hidden;"
                                     />
                                   </editor>
@@ -3941,7 +3941,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                         placeholder=""
                       >
                         <textarea
-                          id="tiny-angular_29806889541780208347757"
+                          id="tinymce-editor-id-1"
                           style="visibility: hidden;"
                         />
                       </editor>
@@ -5278,7 +5278,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                                 placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                               >
                                 <textarea
-                                  id="tiny-angular_7799952851780208347763"
+                                  id="tinymce-editor-id-1"
                                   style="visibility: hidden;"
                                 />
                               </editor>

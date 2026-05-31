@@ -1,3 +1,6 @@
+import { expect } from 'vitest';
+import tinyMceIdNormalizerSerializer from './serializers/tinymce-id-normalizer.serializer';
+
 class MockIntersectionObserver implements IntersectionObserver {
   readonly root: Element | Document | null = null;
   readonly rootMargin = '';
@@ -21,3 +24,5 @@ class MockResizeObserver implements ResizeObserver {
 }
 
 globalThis.ResizeObserver = MockResizeObserver;
+
+expect.addSnapshotSerializer(tinyMceIdNormalizerSerializer);

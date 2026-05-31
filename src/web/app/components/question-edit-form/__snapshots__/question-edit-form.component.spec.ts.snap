@@ -183,7 +183,7 @@ exports[`QuestionEditFormComponent > should snap with default view 1`] = `
                             placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                           >
                             <textarea
-                              id="tiny-angular_11780460841780208347422"
+                              id="tinymce-editor-id-1"
                               style="visibility: hidden;"
                             />
                           </editor>

@@ -221,7 +221,7 @@ exports[`NotificationEditFormComponent > should snap with default view 1`] = `
                     placeholder=""
                   >
                     <textarea
-                      id="tiny-angular_91560566621780208347448"
+                      id="tinymce-editor-id-1"
                       style="visibility: hidden;"
                     />
                   </editor>
@@ -882,7 +882,7 @@ exports[`NotificationEditFormComponent > should snap with notification 1`] = `
                     placeholder=""
                   >
                     <textarea
-                      id="tiny-angular_13263393531780208347505"
+                      id="tinymce-editor-id-1"
                       style="visibility: hidden;"
                     />
                   </editor>
@@ -1543,7 +1543,7 @@ exports[`NotificationEditFormComponent > should snap with notification that has 
                     placeholder=""
                   >
                     <textarea
-                      id="tiny-angular_86760945941780208347550"
+                      id="tinymce-editor-id-1"
                       style="visibility: hidden;"
                     />
                   </editor>

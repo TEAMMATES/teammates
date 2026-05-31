@@ -233,7 +233,7 @@ exports[`AdminNotificationsPageComponent > should snap when notification edit fo
                         placeholder=""
                       >
                         <textarea
-                          id="tiny-angular_6687151751780208347613"
+                          id="tinymce-editor-id-1"
                           style="visibility: hidden;"
                         />
                       </editor>
@@ -914,7 +914,7 @@ exports[`AdminNotificationsPageComponent > should snap when notifications are lo
                         placeholder=""
                       >
                         <textarea
-                          id="tiny-angular_78325958331780208347518"
+                          id="tinymce-editor-id-1"
                           style="visibility: hidden;"
                         />
                       </editor>
@@ -1602,7 +1602,7 @@ exports[`AdminNotificationsPageComponent > should snap when notifications failed
                         placeholder=""
                       >
                         <textarea
-                          id="tiny-angular_27988381741780208347569"
+                          id="tinymce-editor-id-1"
                           style="visibility: hidden;"
                         />
                       </editor>
@@ -2288,7 +2288,7 @@ exports[`AdminNotificationsPageComponent > should snap with default view 1`] = `
                         placeholder=""
                       >
                         <textarea
-                          id="tiny-angular_27405392421780208347462"
+                          id="tinymce-editor-id-1"
                           style="visibility: hidden;"
                         />
                       </editor>
