@@ -723,7 +723,9 @@ public class FeedbackSubmitPage extends AppPage {
 
     private WebElement getCommentSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
-        return getQuestionForm(qnNumber).findElement(By.id("comment-section-qn-" + qnNumber + "-idx-" + recipientIndex));
+        String commentSectionSelector = "[data-testid='comment-section-qn-" + qnNumber + "-idx-" + recipientIndex + "']";
+        return getQuestionForm(qnNumber)
+                .findElement(By.cssSelector(commentSectionSelector));
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {

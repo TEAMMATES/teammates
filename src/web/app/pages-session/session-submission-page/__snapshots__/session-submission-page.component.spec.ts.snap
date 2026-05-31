@@ -1166,7 +1166,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-1-idx-0"
+                  data-testid="comment-section-qn-1-idx-0"
                 >
                   <div>
                     <div
@@ -1191,7 +1191,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                   </div>
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-1-idx-0"
+                    data-testid="comment-section-qn-1-idx-0"
                   >
                     <div>
                       <tm-comment-row>
@@ -1416,7 +1416,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-3-idx-0"
+                  data-testid="comment-section-qn-3-idx-0"
                 >
                   <div>
                     <div
@@ -1441,7 +1441,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                   </div>
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-3-idx-0"
+                    data-testid="comment-section-qn-3-idx-0"
                   >
                     <div>
                       <tm-comment-row>
@@ -1844,7 +1844,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-4-idx-0"
+                  data-testid="comment-section-qn-4-idx-0"
                 >
                   <div>
                     <div
@@ -1869,7 +1869,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                   </div>
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-4-idx-0"
+                    data-testid="comment-section-qn-4-idx-0"
                   >
                     <div>
                       <tm-comment-row>
@@ -2120,11 +2120,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-5-idx-0"
+                  data-testid="comment-section-qn-5-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-5-idx-0"
+                    data-testid="comment-section-qn-5-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -2325,11 +2325,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-6-idx-0"
+                  data-testid="comment-section-qn-6-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-6-idx-0"
+                    data-testid="comment-section-qn-6-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -2794,11 +2794,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-7-idx-0"
+                  data-testid="comment-section-qn-7-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-7-idx-0"
+                    data-testid="comment-section-qn-7-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -3149,11 +3149,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-8-idx-0"
+                  data-testid="comment-section-qn-8-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-8-idx-0"
+                    data-testid="comment-section-qn-8-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -3425,11 +3425,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-9-idx-0"
+                  data-testid="comment-section-qn-9-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-9-idx-0"
+                    data-testid="comment-section-qn-9-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -3646,11 +3646,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-10-idx-0"
+                  data-testid="comment-section-qn-10-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-10-idx-0"
+                    data-testid="comment-section-qn-10-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -4147,7 +4147,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-1-idx-0"
+                  data-testid="comment-section-qn-1-idx-0"
                 >
                   <div>
                     <div
@@ -4172,7 +4172,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                   </div>
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-1-idx-0"
+                    data-testid="comment-section-qn-1-idx-0"
                   >
                     <div>
                       <tm-comment-row>
@@ -4400,7 +4400,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-3-idx-0"
+                  data-testid="comment-section-qn-3-idx-0"
                 >
                   <div>
                     <div
@@ -4425,7 +4425,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                   </div>
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-3-idx-0"
+                    data-testid="comment-section-qn-3-idx-0"
                   >
                     <div>
                       <tm-comment-row>
@@ -4834,7 +4834,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-4-idx-0"
+                  data-testid="comment-section-qn-4-idx-0"
                 >
                   <div>
                     <div
@@ -4859,7 +4859,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                   </div>
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-4-idx-0"
+                    data-testid="comment-section-qn-4-idx-0"
                   >
                     <div>
                       <tm-comment-row>
@@ -5113,11 +5113,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-5-idx-0"
+                  data-testid="comment-section-qn-5-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-5-idx-0"
+                    data-testid="comment-section-qn-5-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -5320,11 +5320,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-6-idx-0"
+                  data-testid="comment-section-qn-6-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-6-idx-0"
+                    data-testid="comment-section-qn-6-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -5791,11 +5791,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-7-idx-0"
+                  data-testid="comment-section-qn-7-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-7-idx-0"
+                    data-testid="comment-section-qn-7-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -6157,11 +6157,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-8-idx-0"
+                  data-testid="comment-section-qn-8-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-8-idx-0"
+                    data-testid="comment-section-qn-8-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -6435,11 +6435,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-9-idx-0"
+                  data-testid="comment-section-qn-9-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-9-idx-0"
+                    data-testid="comment-section-qn-9-idx-0"
                   >
                     <div
                       style="display: inline-block;"
@@ -6658,11 +6658,11 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 </div>
                 <div
                   class="col-12 margin-bottom-20px margin-top-10px"
-                  id="comment-section-qn-10-idx-0"
+                  data-testid="comment-section-qn-10-idx-0"
                 >
                   <div
                     class="col-12 margin-bottom-20px margin-top-10px"
-                    id="comment-section-qn-10-idx-0"
+                    data-testid="comment-section-qn-10-idx-0"
                   >
                     <div
                       style="display: inline-block;"

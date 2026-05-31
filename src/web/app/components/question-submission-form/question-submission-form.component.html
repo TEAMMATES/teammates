@@ -309,7 +309,7 @@
               }
             </div>
             <div
-              id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}"
+              [attr.data-testid]="'comment-section-qn-' + model.questionNumber + '-idx-' + i"
               class="col-12 margin-bottom-20px margin-top-10px"
             >
               @if (recipientSubmissionFormModel.commentByGiver) {
@@ -348,7 +348,7 @@
                 </div>
               }
               <div
-                id="comment-section-qn-{{ model.questionNumber }}-idx-{{ i }}"
+                [attr.data-testid]="'comment-section-qn-' + model.questionNumber + '-idx-' + i"
                 class="col-12 margin-bottom-20px margin-top-10px"
               >
                 @if (hasExistingGiverComment(recipientSubmissionFormModel.commentByGiver)) {
