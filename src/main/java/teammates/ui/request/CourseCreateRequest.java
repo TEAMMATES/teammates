@@ -10,8 +10,8 @@ public class CourseCreateRequest extends CourseBasicRequest {
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
         super.validate();
-        assertTrue(courseId != null, "Course ID should not be null");
-        assertTrue(institute != null, "Institute should not be null");
+        validateTrue(courseId != null, "Course ID should not be null");
+        validateTrue(institute != null, "Institute should not be null");
     }
 
     public String getCourseId() {

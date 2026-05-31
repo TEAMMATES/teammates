@@ -63,9 +63,9 @@ public class AccountCreateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(this.instructorEmail != null, "email cannot be null");
-        assertTrue(this.instructorName != null, "name cannot be null");
-        assertTrue(this.instructorInstitution != null, "institute cannot be null");
+        validateTrue(this.instructorEmail != null, "email cannot be null");
+        validateTrue(this.instructorName != null, "name cannot be null");
+        validateTrue(this.instructorInstitution != null, "institute cannot be null");
 
         List<String> errors = new ArrayList<>();
 
@@ -84,6 +84,6 @@ public class AccountCreateRequest extends BasicRequest {
             errors.add(instituteError);
         }
 
-        assertTrue(errors.isEmpty(), StringHelper.toString(errors));
+        validateTrue(errors.isEmpty(), StringHelper.toString(errors));
     }
 }

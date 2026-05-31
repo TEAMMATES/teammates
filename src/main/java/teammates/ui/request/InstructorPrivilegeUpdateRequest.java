@@ -11,7 +11,7 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(privileges != null, "Privileges cannot be null");
+        validateTrue(privileges != null, "Privileges cannot be null");
     }
 
     public InstructorPrivileges getPrivileges() {

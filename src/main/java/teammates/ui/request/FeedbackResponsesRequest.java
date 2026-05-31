@@ -30,27 +30,27 @@ public class FeedbackResponsesRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(questionResponses != null, "Question responses cannot be null");
-        assertTrue(!questionResponses.isEmpty(), "Question responses cannot be empty");
+        validateTrue(questionResponses != null, "Question responses cannot be null");
+        validateTrue(!questionResponses.isEmpty(), "Question responses cannot be empty");
 
         for (Map.Entry<UUID, List<FeedbackResponseRequest>> entry : questionResponses.entrySet()) {
             UUID questionId = entry.getKey();
             List<FeedbackResponseRequest> responses = entry.getValue();
 
-            assertTrue(questionId != null, "Question ID cannot be null");
-            assertTrue(responses != null, "Responses cannot be null");
+            validateTrue(questionId != null, "Question ID cannot be null");
+            validateTrue(responses != null, "Responses cannot be null");
 
             Set<UUID> submittedResponseIds = new HashSet<>();
             Set<String> submittedRecipients = new HashSet<>();
 
             for (FeedbackResponseRequest response : responses) {
-                assertTrue(response != null, "Response cannot be null");
+                validateTrue(response != null, "Response cannot be null");
                 response.validate();
                 UUID responseId = response.getResponseId();
                 if (responseId != null) {
-                    assertTrue(submittedResponseIds.add(responseId), "Response IDs cannot be duplicated");
+                    validateTrue(submittedResponseIds.add(responseId), "Response IDs cannot be duplicated");
                 }
-                assertTrue(submittedRecipients.add(response.getRecipient()), "Recipients cannot be duplicated");
+                validateTrue(submittedRecipients.add(response.getRecipient()), "Recipients cannot be duplicated");
             }
         }
     }
@@ -83,8 +83,8 @@ public class FeedbackResponsesRequest extends BasicRequest {
 
         @Override
         public void validate() throws InvalidHttpRequestBodyException {
-            assertTrue(recipient != null && !recipient.isEmpty(), "Recipient cannot be empty");
-            assertTrue(responseDetails != null, "Response details cannot be null");
+            validateTrue(recipient != null && !recipient.isEmpty(), "Recipient cannot be empty");
+            validateTrue(responseDetails != null, "Response details cannot be null");
         }
 
         public UUID getResponseId() {
