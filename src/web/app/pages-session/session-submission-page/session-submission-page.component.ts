@@ -32,7 +32,7 @@ import {
   FeedbackQuestionRecipients,
   FeedbackQuestionType,
   FeedbackResponse,
-  FeedbackResponses,
+  FeedbackQuestionResponses,
   FeedbackSession,
   FeedbackSessionLogType,
   FeedbackSessionSubmissionStatus,
@@ -848,9 +848,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               },
             )
             .pipe(
-              tap((resp: FeedbackResponses) => {
+              tap((resp: FeedbackQuestionResponses) => {
+                const submittedQuestionResponses: FeedbackResponse[] =
+                  resp.questionResponses[questionSubmissionFormModel.feedbackQuestionId] ?? [];
                 const responsesMap: Record<string, FeedbackResponse> = {};
-                resp.responses.forEach((response: FeedbackResponse) => {
+                submittedQuestionResponses.forEach((response: FeedbackResponse) => {
                   responsesMap[response.recipientIdentifier] = response;
                 });
                 requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';

@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.SanitizationHelper;
 

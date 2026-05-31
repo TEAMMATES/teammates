@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -37,8 +38,8 @@ import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
-import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 
@@ -169,6 +170,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
             return new ResponseRecipient(stubStudent.getTeam());
         }
         return new ResponseRecipient();
+    }
+
+    private List<FeedbackResponseData> flattenResponses(FeedbackQuestionResponsesData result) {
+        return result.getQuestionResponses().values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
     @Test
@@ -345,10 +352,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        FeedbackResponseData responseData = result.getResponses().get(0);
+        assertEquals(1, submittedResponses.size());
+        FeedbackResponseData responseData = submittedResponses.get(0);
         assertEquals(stubStudent.getEmail(), responseData.getGiverIdentifier());
         assertEquals(recipientStudent1.getEmail(), responseData.getRecipientIdentifier());
 
@@ -388,10 +396,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        FeedbackResponseData responseData = result.getResponses().get(0);
+        assertEquals(1, submittedResponses.size());
+        FeedbackResponseData responseData = submittedResponses.get(0);
         assertEquals(stubInstructor.getEmail(), responseData.getGiverIdentifier());
         assertEquals(recipientInstructor1.getEmail(), responseData.getRecipientIdentifier());
 
@@ -447,9 +456,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
+        assertEquals(1, submittedResponses.size());
         verify(mockLogic).submitFeedbackResponsesFromStudent(
                 any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
@@ -481,10 +491,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        assertEquals(stubStudent.getTeamName(), result.getResponses().get(0).getGiverIdentifier());
+        assertEquals(1, submittedResponses.size());
+        assertEquals(stubStudent.getTeamName(), submittedResponses.get(0).getGiverIdentifier());
         verify(mockLogic).submitFeedbackResponsesFromStudent(
                 any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
@@ -521,9 +532,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(2, result.getResponses().size());
+        assertEquals(2, submittedResponses.size());
     }
 
     @Test
@@ -557,9 +569,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(2, result.getResponses().size());
+        assertEquals(2, submittedResponses.size());
     }
 
     @Test
@@ -590,10 +603,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        assertEquals(teamName, result.getResponses().get(0).getRecipientIdentifier());
+        assertEquals(1, submittedResponses.size());
+        assertEquals(teamName, submittedResponses.get(0).getRecipientIdentifier());
     }
 
     @Test
@@ -649,9 +663,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(2, result.getResponses().size());
+        assertEquals(2, submittedResponses.size());
     }
 
     @Test

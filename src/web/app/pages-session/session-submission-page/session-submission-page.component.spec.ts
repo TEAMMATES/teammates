@@ -1067,8 +1067,22 @@ describe('SessionSubmissionPageComponent', () => {
 
     const responseSpy = vi
       .spyOn(feedbackResponsesService, 'submitFeedbackResponses')
-      .mockReturnValueOnce(of({ responses: [testResponse1], requestId: '10' }))
-      .mockReturnValueOnce(of({ responses: [testResponse2], requestId: '20' }));
+      .mockReturnValueOnce(
+        of({
+          questionResponses: {
+            'feedback-question-id-mcq': [testResponse1],
+          },
+          requestId: '10',
+        }),
+      )
+      .mockReturnValueOnce(
+        of({
+          questionResponses: {
+            'feedback-question-id-text': [testResponse2],
+          },
+          requestId: '20',
+        }),
+      );
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
@@ -1133,7 +1147,12 @@ describe('SessionSubmissionPageComponent', () => {
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
     const responseSpy = vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockImplementation(() => {
-      return of({ responses: [testResponse1], requestId: '10' });
+      return of({
+        questionResponses: {
+          [testQuestionSubmissionForm1.feedbackQuestionId]: [testResponse1],
+        },
+        requestId: '10',
+      });
     });
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 

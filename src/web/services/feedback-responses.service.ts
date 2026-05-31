@@ -14,7 +14,7 @@ import {
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails,
   FeedbackResponse,
-  FeedbackResponses,
+  FeedbackQuestionResponses,
   MessageOutput,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
@@ -202,7 +202,7 @@ export class FeedbackResponsesService {
     feedbackSessionId: string,
     request: FeedbackResponsesRequest,
     additionalParams: { [key: string]: string } = {},
-  ): Observable<FeedbackResponses> {
+  ): Observable<FeedbackQuestionResponses> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSES,
       {

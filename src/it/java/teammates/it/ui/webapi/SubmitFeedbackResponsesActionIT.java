@@ -32,8 +32,8 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
-import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.JsonResult;
@@ -224,8 +224,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         SubmitFeedbackResponsesAction action = getAction(requestBody, submissionParams);
         JsonResult result = getJsonResult(action);
 
-        FeedbackResponsesData output = (FeedbackResponsesData) result.getOutput();
-        return output.getResponses();
+        FeedbackQuestionResponsesData output = (FeedbackQuestionResponsesData) result.getOutput();
+        return output.getQuestionResponses().values().stream()
+                .flatMap(List::stream)
+                .toList();
     }
 
     private void validateOutputForStudentRecipientsByEmail(List<FeedbackResponseData> responses, String giverEmail,

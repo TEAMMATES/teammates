@@ -16,7 +16,7 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackResponsesData;
+import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -113,7 +113,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        return new JsonResult(FeedbackResponsesData.createFromEntity(output));
+        return new JsonResult(FeedbackQuestionResponsesData.createFromEntity(output));
     }
 
     private void validateModerationVisibilityForSubmittedQuestions(
