@@ -8,7 +8,7 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import { PerQuestionViewResponsesComponent } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.component';
 import { SingleStatisticsComponent } from '../../components/question-responses/single-statistics/single-statistics.component';
 import { QuestionTextWithInfoComponent } from '../../components/question-text-with-info/question-text-with-info.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Instructor sessions results page question view.
@@ -17,8 +17,8 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   selector: 'tm-instructor-session-result-question-view',
   templateUrl: './instructor-session-result-question-view.component.html',
   styleUrls: ['./instructor-session-result-question-view.component.scss'],
-  animations: [collapseAnim],
   imports: [
+    NgbCollapse,
     QuestionTextWithInfoComponent,
     PanelChevronComponent,
     LoadingSpinnerDirective,
