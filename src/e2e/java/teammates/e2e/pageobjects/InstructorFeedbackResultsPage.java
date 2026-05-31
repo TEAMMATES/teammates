@@ -1,7 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
@@ -428,7 +428,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(expectedTableBodyValues.length <= rows.size());
         for (String[] expectedRow : expectedTableBodyValues) {
             WebElement matchingRow = findMatchingRow(table, expectedRow);
-            assertNull(matchingRow, "Expected row not found");
+            assertNotNull(matchingRow, "Expected row not found");
             verifyTableRowValues(matchingRow, expectedRow);
         }
     }
