@@ -607,7 +607,6 @@ describe('SessionSubmissionPageComponent', () => {
     component.formattedSessionOpeningTime = 'Sun, 01 Apr, 2012, 11:59 PM +08';
     component.formattedSessionClosingTime = 'Mon, 02 Apr, 2012, 11:59 PM +08';
     component.feedbackSessionInstructions = 'Please give your feedback based on the following questions.';
-    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -626,7 +625,6 @@ describe('SessionSubmissionPageComponent', () => {
       testRankOptionsQuestionSubmissionForm,
       testRankRecipientsQuestionSubmissionForm,
     ];
-    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
     fixture.detectChanges();
@@ -647,7 +645,6 @@ describe('SessionSubmissionPageComponent', () => {
       testRankRecipientsQuestionSubmissionForm,
     ];
     component.isSubmissionFormsDisabled = true;
-    component.isCourseLoading = false;
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
     fixture.detectChanges();

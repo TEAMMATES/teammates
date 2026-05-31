@@ -143,7 +143,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   isModerationHintExpanded = false;
   moderatedQuestionId = '';
 
-  isCourseLoading = true;
   isFeedbackSessionLoading = true;
   isFeedbackSessionQuestionsLoading = true;
   hasFeedbackSessionQuestionsLoadingFailed = false;
@@ -267,7 +266,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   private loadCourseInfoData$(): Observable<Course | null> {
-    this.isCourseLoading = true;
     let request: Observable<Course>;
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
@@ -281,7 +279,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         request = this.courseService.getCourseAsInstructor(this.courseId, this.regKey);
         break;
       default:
-        this.isCourseLoading = false;
         return of(null);
     }
 
@@ -291,9 +288,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         this.courseInstitute = resp.institute;
       }),
       catchError(() => of(null)),
-      finalize(() => {
-        this.isCourseLoading = false;
-      }),
     );
   }
 
