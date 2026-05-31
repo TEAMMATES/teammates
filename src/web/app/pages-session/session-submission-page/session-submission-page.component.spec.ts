@@ -1193,7 +1193,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(simpleModalSpy).toHaveBeenCalledWith(
       'Saving Failed',
       SimpleModalType.DANGER,
-      'An error occurred and your responses could not be saved. backend error',
+      'An error occurred and your responses could not be saved. Error details: backend error',
     );
     expect(ngbModalSpy).toHaveBeenCalledTimes(1);
   });
