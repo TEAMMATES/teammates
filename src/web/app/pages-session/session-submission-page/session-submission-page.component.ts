@@ -805,17 +805,26 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
       questionSubmissionFormModel.recipientSubmissionForms.forEach(
         (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
-          if (!recipientSubmissionFormModel.isValid) {
+          // Consider untouched questions to be valid
+          // Untouched questions are those that are not filled in and are not saved before
+          const isValid =
+            recipientSubmissionFormModel.status === ResponseSubmissionStatus.NEW ||
+            recipientSubmissionFormModel.isValid;
+
+          if (!isValid) {
             failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
               'Invalid responses provided. Please check question constraints.';
             hasValidationErrorInQuestion = true;
             return;
           }
 
-          const isFeedbackResponseDetailsEmpty: boolean =
-            recipientSubmissionFormModel.status === ResponseSubmissionStatus.NEW;
-
-          if (!isFeedbackResponseDetailsEmpty) {
+          if (
+            !this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
+              questionSubmissionFormModel.questionType,
+              recipientSubmissionFormModel.responseDetails,
+            )
+          ) {
+            // Only include non-empty responses in the request, empty responses will be deleted in the backend
             responses.push({
               responseId: recipientSubmissionFormModel.responseId,
               recipient: recipientSubmissionFormModel.recipientIdentifier,
@@ -827,7 +836,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       );
 
       const isQuestionFullyAnswered = responses.length > 0;
-      if (!hasValidationErrorInQuestion) {
+      if (!hasValidationErrorInQuestion && isQuestionFullyAnswered) {
         questionResponses[questionSubmissionFormModel.feedbackQuestionId] = responses;
       }
 
@@ -898,6 +907,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     ? this.getGiverCommentModel(correspondingResp.giverComment)
                     : undefined;
                 } else {
+                  // empty response is deleted in the backend, reset the form model to default state
                   recipientSubmissionFormModel.responseId = '';
                   recipientSubmissionFormModel.status = ResponseSubmissionStatus.NEW;
                   recipientSubmissionFormModel.commentByGiver = undefined;

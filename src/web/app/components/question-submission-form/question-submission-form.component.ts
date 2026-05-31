@@ -125,10 +125,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
   get isSaved(): boolean {
-    return (
-      this.model.recipientSubmissionForms.length > 0 &&
-      this.model.recipientSubmissionForms.every((form) => form.status === ResponseSubmissionStatus.SAVED)
-    );
+    return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
   }
 
   @Input()

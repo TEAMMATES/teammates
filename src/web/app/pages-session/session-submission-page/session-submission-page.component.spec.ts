@@ -1063,7 +1063,6 @@ describe('SessionSubmissionPageComponent', () => {
     testQuestionSubmissionForm1.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
-    testQuestionSubmissionForm2.recipientSubmissionForms[0].status = ResponseSubmissionStatus.NEW;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseId = '';
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
@@ -1093,7 +1092,7 @@ describe('SessionSubmissionPageComponent', () => {
               giverComment: 'comment text here',
             },
           ],
-          'feedback-question-id-text': [], // do not call if status is NEW (unanswered)
+          // do not call for testQuestionSubmissionForm2 since it is empty
         },
       },
       {
