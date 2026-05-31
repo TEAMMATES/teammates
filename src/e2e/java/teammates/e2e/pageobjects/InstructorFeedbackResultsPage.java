@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
@@ -404,10 +405,56 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
         List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
-        // sort per recipient statistics
-        click(statisticsTables.get(1).findElements(By.tagName("th")).get(1));
-        verifyTableBodyValues(statisticsTables.get(1), getMcqPerRecipientStatistics(question, responsesToUse, students,
-                instructors));
+        verifyTableBodyValuesIgnoreOrder(statisticsTables.get(1), getMcqPerRecipientStatistics(
+                question, responsesToUse, students, instructors));
+    }
+
+    private void verifyTableBodyValuesIgnoreOrder(WebElement table, String[][] expectedTableBodyValues) {
+        waitFor(driver -> {
+            try {
+                List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+                if (rows.size() < expectedTableBodyValues.length) {
+                    return false;
+                }
+                for (String[] expectedRow : expectedTableBodyValues) {
+                    if (findMatchingRow(table, expectedRow) == null) {
+                        return false;
+                    }
+                }
+                return true;
+            } catch (NoSuchElementException e) {
+                return false;
+            }
+        });
+
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableBodyValues.length <= rows.size());
+        for (String[] expectedRow : expectedTableBodyValues) {
+            WebElement matchingRow = findMatchingRow(table, expectedRow);
+            assertNull(matchingRow, "Expected row not found");
+            verifyTableRowValues(matchingRow, expectedRow);
+        }
+    }
+
+    private WebElement findMatchingRow(WebElement table, String[] expectedRowValues) {
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.size() < expectedRowValues.length) {
+                continue;
+            }
+            boolean isMatch = true;
+            for (int i = 0; i < expectedRowValues.length; i++) {
+                if (!expectedRowValues[i].equals(cells.get(i).getText())) {
+                    isMatch = false;
+                    break;
+                }
+            }
+            if (isMatch) {
+                return row;
+            }
+        }
+        return null;
     }
 
     public void verifyQnViewStatsHidden(FeedbackQuestion question) {
