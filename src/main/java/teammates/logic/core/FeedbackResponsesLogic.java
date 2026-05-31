@@ -207,6 +207,11 @@ public final class FeedbackResponsesLogic {
     public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
             FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
             throws InvalidOperationException, InvalidParametersException {
+        if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
+                && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
+            throw new InvalidOperationException("Feedback question is not answerable for students");
+        }
+
         ResponseGiver responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                 ? new ResponseGiver(student.getTeam())
                 : new ResponseGiver(student);
@@ -222,6 +227,11 @@ public final class FeedbackResponsesLogic {
     public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
             FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
             throws InvalidOperationException, InvalidParametersException {
+        if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
+                && feedbackQuestion.getGiverType() != QuestionGiverType.SESSION_CREATOR) {
+            throw new InvalidOperationException("Feedback question is not answerable for instructors");
+        }
+
         ResponseGiver responseGiver = new ResponseGiver(instructor);
         List<FeedbackResponse> existingResponses = getFeedbackResponsesFromInstructorForQuestion(
                 feedbackQuestion, instructor);

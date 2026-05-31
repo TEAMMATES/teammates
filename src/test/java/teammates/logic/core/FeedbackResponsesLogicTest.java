@@ -421,6 +421,38 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testSubmitFeedbackResponsesFromStudent_nonStudentGiverType_throwsInvalidOperationException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
+        question.setId(UUID.randomUUID());
+        question.setGiverType(QuestionGiverType.INSTRUCTORS);
+        Student giver = getTypicalStudent();
+
+        InvalidOperationException exception = assertThrows(InvalidOperationException.class,
+                () -> frLogic.submitFeedbackResponsesFromStudent(question, giver, new FeedbackResponsesRequest()));
+
+        assertEquals("Feedback question is not answerable for students", exception.getMessage());
+        verify(frDb, never()).getFeedbackResponsesFromGiverForQuestion(any(UUID.class), any(UUID.class), any());
+    }
+
+    @Test
+    public void testSubmitFeedbackResponsesFromInstructor_nonInstructorGiverType_throwsInvalidOperationException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
+        question.setId(UUID.randomUUID());
+        question.setGiverType(QuestionGiverType.STUDENTS);
+        Instructor giver = getTypicalInstructor();
+
+        InvalidOperationException exception = assertThrows(InvalidOperationException.class,
+                () -> frLogic.submitFeedbackResponsesFromInstructor(question, giver, new FeedbackResponsesRequest()));
+
+        assertEquals("Feedback question is not answerable for instructors", exception.getMessage());
+        verify(frDb, never()).getFeedbackResponsesFromGiverForQuestion(any(UUID.class), any(UUID.class), any());
+    }
+
+    @Test
     public void testHasGiverRespondedForSession_hasResponded() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);

@@ -446,15 +446,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         verifyCanAccess(submissionParams);
 
-        ______TS("Failure with student: student answers question with incorrect giver");
-        setStartTime(session, -1);
-        setEndTime(session, 3);
-
-        questionNumber = 4;
-        submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
-
-        verifyCannotAccess(submissionParams);
-
         ______TS("Failure with student: student logged out");
         logoutUser();
         setStartTime(session, -1);
@@ -523,16 +514,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-
-        ______TS("Failure with instructor: instructor answers question with incorrect giver");
-        loginInstructor("instructor1OfCourse1");
-        setStartTime(session, -1);
-        setEndTime(session, 3);
-
-        questionNumber = 1;
-        submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
-
-        verifyCannotAccess(submissionParams);
 
         ______TS("Failure with instructor: instructor logged out");
         logoutUser();
