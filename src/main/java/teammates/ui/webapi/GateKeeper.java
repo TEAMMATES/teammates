@@ -1,11 +1,9 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
@@ -197,32 +195,6 @@ final class GateKeeper {
                                                   + "] is not accessible to instructor [" + instructor.getEmail()
                                                   + "] for privilege [" + privilegeName + "] on section ["
                                                   + sectionName + "]");
-        }
-    }
-
-    /**
-     * Verifies that the feedback question is for student to answer.
-     */
-    void verifyAnswerableForStudent(FeedbackQuestion feedbackQuestion)
-            throws UnauthorizedAccessException {
-        verifyNotNull(feedbackQuestion, "feedback question");
-
-        if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for students", true);
-        }
-    }
-
-    /**
-     * Verifies that the feedback question is for instructor to answer.
-     */
-    void verifyAnswerableForInstructor(FeedbackQuestion feedbackQuestion)
-            throws UnauthorizedAccessException {
-        verifyNotNull(feedbackQuestion, "feedback question");
-
-        if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.SESSION_CREATOR) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors", true);
         }
     }
 

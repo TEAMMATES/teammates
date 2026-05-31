@@ -52,12 +52,10 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
                                                 feedbackQuestion.getCourseId());
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), true);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), true);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
@@ -68,21 +66,14 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
     @Override
     public JsonResult execute() {
-        FeedbackQuestion feedbackQuestion = null;
-        String courseId;
+        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        UUID feedbackQuestionId;
-
-        feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-
-        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-
-        if (feedbackQuestion != null) {
-            courseId = feedbackQuestion.getCourseId();
-        } else {
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
         }
 
+        String courseId = feedbackQuestion.getCourseId();
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         ResponseGiver responseGiver;

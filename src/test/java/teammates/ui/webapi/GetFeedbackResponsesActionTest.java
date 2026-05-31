@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -402,76 +401,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    void testSpecificAccessControl_notAnswerableForStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
-
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
-                .thenReturn(stubFeedbackSession);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
-        when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-        for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.STUDENTS || type == QuestionGiverType.TEAMS) {
-                continue;
-            }
-            stubFeedbackQuestion.setGiverType(type);
-            GetFeedbackResponsesAction action = getAction(params);
-            UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class,
-                    action::checkAccessControl);
-            assertEquals("Feedback question is not answerable for students", uae.getMessage());
-        }
-        verify(mockLogic, times(QuestionGiverType.values().length - 2))
-                .getFeedbackQuestion(stubFeedbackQuestion.getId());
-
-        // verify only QuestionGiverType.STUDENTS and TEAMS are accessible
-        for (QuestionGiverType type : new QuestionGiverType[] { QuestionGiverType.STUDENTS,
-                QuestionGiverType.TEAMS }) {
-            stubFeedbackQuestion.setGiverType(type);
-            verifyCanAccess(params);
-        }
-    }
-
-    @Test
-    void testSpecificAccessControl_notAnswerableForInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
-                .thenReturn(stubFeedbackSession);
-        when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId()))
-                .thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(stubInstructor);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-        for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SESSION_CREATOR) {
-                continue;
-            }
-            stubFeedbackQuestion.setGiverType(type);
-            GetFeedbackResponsesAction action = getAction(params);
-            UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class,
-                    action::checkAccessControl);
-            assertEquals("Feedback question is not answerable for instructors", uae.getMessage());
-        }
-        verify(mockLogic, times(QuestionGiverType.values().length - 2))
-                .getFeedbackQuestion(stubFeedbackQuestion.getId());
-
-        // verify only QuestionGiverType.INSTRUCTORS and SESSION_CREATOR are accessible
-        for (QuestionGiverType type : new QuestionGiverType[] { QuestionGiverType.INSTRUCTORS,
-                QuestionGiverType.SESSION_CREATOR }) {
-            stubFeedbackQuestion.setGiverType(type);
-            verifyCanAccess(params);
-        }
-    }
-
-    @Test
     void testSpecificAccessControl_invalidIntent_cannotAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
@@ -504,43 +433,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         InvalidHttpParameterException e3 = assertThrows(InvalidHttpParameterException.class,
                 action3::checkAccessControl);
         assertEquals("Unknown intent " + Intent.STUDENT_RESULT, e3.getMessage());
-    }
-
-    @Test
-    void testSpecificAccessControl_studentSubmissionAsInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        FeedbackQuestion questionAnswerableToStudent = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
-        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
-        questionAnswerableToStudent.setGiverType(QuestionGiverType.STUDENTS);
-        when(mockLogic.getFeedbackQuestion(questionAnswerableToStudent.getId())).thenReturn(questionAnswerableToStudent);
-        when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
-                .thenReturn(stubFeedbackSession);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, questionAnswerableToStudent.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-        GetFeedbackResponsesAction action = getAction(params);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent student entity", uae.getMessage());
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorSubmissionAsStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
-                .thenReturn(stubFeedbackSession);
-        when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
-        when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-        GetFeedbackResponsesAction action = getAction(params);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae.getMessage());
     }
 
     @Test

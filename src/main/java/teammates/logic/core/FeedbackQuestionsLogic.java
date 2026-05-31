@@ -448,6 +448,12 @@ public final class FeedbackQuestionsLogic {
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(question.getCourseId());
         CourseRoster courseRoster = new CourseRoster(students, instructors);
 
+        // If the giver is not of the correct type, then return an empty set as
+        // there are no valid recipients for this giver.
+        if (!isGiverValidForQuestion(question, responseGiver)) {
+            return Collections.emptySet();
+        }
+
         return getRecipientsOfQuestion(question, responseGiver, courseRoster);
     }
 
@@ -573,7 +579,6 @@ public final class FeedbackQuestionsLogic {
                 return Set.of(new ResponseRecipient(student.getTeam()));
             }
 
-            // TODO: check why instructors are allowed to have OWN_TEAM as recipient type, and whether this case can happen
             return Set.of();
         case OWN_TEAM_MEMBERS:
             String teamName = responseGiver.getTeamName();
@@ -632,6 +637,17 @@ public final class FeedbackQuestionsLogic {
 
         // Shift question numbers down for all questions after the deleted one
         shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);
+    }
+
+    private boolean isGiverValidForQuestion(FeedbackQuestion question, ResponseGiver giver) {
+        QuestionGiverType giverType = question.getGiverType();
+        return switch (giverType) {
+        case STUDENTS -> giver.isGiverStudent();
+        case INSTRUCTORS -> giver.isGiverInstructor();
+        case TEAMS -> giver.isGiverTeam();
+        case SESSION_CREATOR -> giver.isGiverInstructor()
+                && giver.getGiverUser().getEmail().equals(question.getFeedbackSession().getCreatorEmail());
+        };
     }
 
     // Shifts all question numbers after questionNumberToShiftFrom down by one.
