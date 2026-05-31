@@ -1065,31 +1065,21 @@ describe('SessionSubmissionPageComponent', () => {
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
-    const responseSpy = vi
-      .spyOn(feedbackResponsesService, 'submitFeedbackResponses')
-      .mockReturnValueOnce(
-        of({
-          questionResponses: {
-            'feedback-question-id-mcq': [testResponse1],
-          },
-          requestId: '10',
-        }),
-      )
-      .mockReturnValueOnce(
-        of({
-          questionResponses: {
-            'feedback-question-id-text': [testResponse2],
-          },
-          requestId: '20',
-        }),
-      );
+    const responseSpy = vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockReturnValueOnce(
+      of({
+        questionResponses: {
+          'feedback-question-id-mcq': [testResponse1],
+          'feedback-question-id-text': [testResponse2],
+        },
+        requestId: '10',
+      }),
+    );
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
-    expect(responseSpy).toHaveBeenCalledTimes(2);
-    expect(responseSpy).toHaveBeenNthCalledWith(
-      1,
+    expect(responseSpy).toHaveBeenCalledTimes(1);
+    expect(responseSpy).toHaveBeenCalledWith(
       component.feedbackSessionId,
       {
         questionResponses: {
@@ -1101,19 +1091,6 @@ describe('SessionSubmissionPageComponent', () => {
               giverComment: 'comment text here',
             },
           ],
-        },
-      },
-      {
-        intent: 'STUDENT_SUBMISSION',
-        singlerecipientidforsubmission: '',
-        key: 'reg-key',
-        moderatedperson: '',
-      },
-    );
-    expect(responseSpy).toHaveBeenLastCalledWith(
-      component.feedbackSessionId,
-      {
-        questionResponses: {
           'feedback-question-id-text': [], // do not call for empty response details
         },
       },
@@ -1182,7 +1159,7 @@ describe('SessionSubmissionPageComponent', () => {
       },
     );
 
-    // only the valid response is saved
+    // valid questions are submitted; invalid ones are shown in the completion modal
     expect(mockModalRef.componentInstance.questions).toEqual([
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
@@ -1193,6 +1170,32 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].status).toBe(
       ResponseSubmissionStatus.MODIFIED,
     );
+  });
+
+  it('should show one backend error modal when batch save fails', () => {
+    const testResponseDetails1: any = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    component.questionSubmissionForms = [testQuestionSubmissionForm1];
+
+    vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'backend error',
+        },
+      })),
+    );
+    const simpleModalSpy = vi.spyOn(simpleModalService, 'openInformationModal');
+    const ngbModalSpy = vi.spyOn(ngbModal, 'open');
+
+    component.saveFeedbackResponses(component.questionSubmissionForms, null);
+
+    expect(simpleModalSpy).toHaveBeenCalledWith(
+      'Saving Failed',
+      SimpleModalType.DANGER,
+      'An error occurred and your responses could not be saved. backend error',
+    );
+    expect(ngbModalSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should delete participant comment', () => {
