@@ -646,7 +646,8 @@ public final class FeedbackQuestionsLogic {
         case INSTRUCTORS -> giver.isGiverInstructor();
         case TEAMS -> giver.isGiverTeam();
         case SESSION_CREATOR -> giver.isGiverInstructor()
-                && giver.getGiverUser().getEmail().equals(question.getFeedbackSession().getCreatorEmail());
+                && SanitizationHelper.areEmailsEqual(
+                        giver.getGiverUser().getEmail(), question.getFeedbackSession().getCreatorEmail());
         };
     }
 
