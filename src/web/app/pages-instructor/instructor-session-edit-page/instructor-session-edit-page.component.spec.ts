@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
@@ -270,7 +269,6 @@ describe('InstructorSessionEditPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
       providers: [
         FormatDateDetailPipe,
         InstructorRoleNamePipe,
