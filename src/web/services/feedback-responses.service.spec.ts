@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { FeedbackResponsesService, SubmitFeedbackResponsesParams } from './feedback-responses.service';
+import { FeedbackResponsesService } from './feedback-responses.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
@@ -359,16 +359,6 @@ describe('FeedbackResponsesService', () => {
   });
 
   it('should call put when submitting a feedback response', () => {
-    const paramMap: Record<string, string> = {
-      fsid: '[dummy session ID]',
-    };
-    const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
-    const dummyParams: Partial<SubmitFeedbackResponsesParams> = {};
-    service.submitFeedbackResponses(paramMap['fsid'], dummyRequest, dummyParams);
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.RESPONSES, paramMap, dummyRequest);
-  });
-
-  it('should include additional parameters when submitting a feedback response', () => {
     const dummyIntent: Intent = Intent.STUDENT_SUBMISSION;
     const paramMap: Record<string, string> = {
       fsid: '[dummy session ID]',
@@ -377,7 +367,7 @@ describe('FeedbackResponsesService', () => {
       moderatedperson: '',
     };
     const dummyRequest: FeedbackResponsesRequest = { questionResponses: {} };
-    const dummyParams: Partial<SubmitFeedbackResponsesParams> = {
+    const dummyParams = {
       intent: dummyIntent,
       key: paramMap['key'],
       moderatedperson: paramMap['moderatedperson'],

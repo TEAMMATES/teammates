@@ -47,12 +47,6 @@ export interface FeedbackResponsesResponse {
   responses: FeedbackResponse[];
 }
 
-export interface SubmitFeedbackResponsesParams {
-  intent: Intent;
-  key: string;
-  moderatedperson: string;
-}
-
 /**
  * Handles feedback response settings provision.
  */
@@ -207,7 +201,11 @@ export class FeedbackResponsesService {
   submitFeedbackResponses(
     feedbackSessionId: string,
     request: FeedbackResponsesRequest,
-    params: Partial<SubmitFeedbackResponsesParams> = {},
+    params: {
+      intent: Intent;
+      key: string;
+      moderatedperson: string;
+    },
   ): Observable<FeedbackQuestionResponses> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSES,
