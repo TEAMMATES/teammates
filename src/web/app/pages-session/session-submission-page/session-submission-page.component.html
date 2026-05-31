@@ -181,8 +181,6 @@
             @if (entry.value.has(questionSubmissionForm.questionNumber)) {
               <tm-question-submission-form
                 [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                inViewport
-                (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                 [(formModel)]="questionSubmissionForms[i]"
                 [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                 [isSubmissionDisabled]="isSubmissionFormsDisabled"
@@ -216,7 +214,7 @@
         </div>
       }
       <h1 class="my-3">Ungrouped Questions</h1>
-      @if (ungroupableQuestions.size === 0) {
+      @if (ungroupableQuestionsSorted.length === 0) {
         <div class="card">
           <h2 class="my-2 mx-2">There are no ungroupable questions</h2>
         </div>
@@ -229,8 +227,6 @@
         @if (ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)) {
           <tm-question-submission-form
             [attr.id]="questionSubmissionForm.feedbackQuestionId"
-            inViewport
-            (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
             [(formModel)]="questionSubmissionForms[i]"
             [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
             [isSubmissionDisabled]="isSubmissionFormsDisabled"
@@ -251,8 +247,6 @@
       ) {
         <tm-question-submission-form
           [attr.id]="questionSubmissionForm.feedbackQuestionId"
-          inViewport
-          (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
           [(formModel)]="questionSubmissionForms[i]"
           [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
           [isSubmissionDisabled]="isSubmissionFormsDisabled"

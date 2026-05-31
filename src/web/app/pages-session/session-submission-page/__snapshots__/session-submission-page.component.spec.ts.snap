@@ -26,7 +26,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -58,7 +57,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -187,7 +185,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -219,7 +216,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -345,7 +341,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -377,7 +372,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -503,7 +497,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   formattedSessionClosingTime={[Function String]}
   formattedSessionOpeningTime={[Function String]}
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -535,7 +528,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -794,7 +786,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -826,7 +817,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -1006,7 +996,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
-        inviewport=""
       >
         <div
           class="card"
@@ -1313,7 +1302,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-text"
-        inviewport=""
       >
         <div
           class="card"
@@ -1569,7 +1557,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-mcq-2"
-        inviewport=""
       >
         <div
           class="card"
@@ -1676,7 +1663,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-msq"
-        inviewport=""
       >
         <div
           class="card"
@@ -2004,7 +1990,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-numscale"
-        inviewport=""
       >
         <div
           class="card"
@@ -2219,7 +2204,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-constsum"
-        inviewport=""
       >
         <div
           class="card"
@@ -2448,7 +2432,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-contrib"
-        inviewport=""
       >
         <div
           class="card"
@@ -2907,7 +2890,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rubric"
-        inviewport=""
       >
         <div
           class="card"
@@ -3266,7 +3248,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-options"
-        inviewport=""
       >
         <div
           class="card"
@@ -3548,7 +3529,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-recipients"
-        inviewport=""
       >
         <div
           class="card"
@@ -3832,7 +3812,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading="false"
@@ -3864,7 +3843,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -4044,7 +4022,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
-        inviewport=""
       >
         <div
           class="card"
@@ -4357,7 +4334,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-text"
-        inviewport=""
       >
         <div
           class="card"
@@ -4616,7 +4592,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-mcq-2"
-        inviewport=""
       >
         <div
           class="card"
@@ -4723,7 +4698,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-msq"
-        inviewport=""
       >
         <div
           class="card"
@@ -5057,7 +5031,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-numscale"
-        inviewport=""
       >
         <div
           class="card"
@@ -5274,7 +5247,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-constsum"
-        inviewport=""
       >
         <div
           class="card"
@@ -5505,7 +5477,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-contrib"
-        inviewport=""
       >
         <div
           class="card"
@@ -5966,7 +5937,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rubric"
-        inviewport=""
       >
         <div
           class="card"
@@ -6336,7 +6306,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-options"
-        inviewport=""
       >
         <div
           class="card"
@@ -6620,7 +6589,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       </tm-question-submission-form>
       <tm-question-submission-form
         id="feedback-question-id-rank-recipients"
-        inviewport=""
       >
         <div
           class="card"
@@ -6908,7 +6876,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -6940,7 +6907,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
@@ -7067,7 +7033,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionQuestionsLoadingFailed="false"
-  hasLoadedAllRecipients="false"
   instructorService={[Function _InstructorService]}
   intent={[Function String]}
   isCourseLoading={[Function Boolean]}
@@ -7099,7 +7064,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
-  ungroupableQuestions={[Function Set]}
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
