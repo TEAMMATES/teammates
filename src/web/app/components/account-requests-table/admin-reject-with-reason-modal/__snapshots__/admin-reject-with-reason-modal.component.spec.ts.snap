@@ -63,9 +63,16 @@ exports[`RejectWithReasonModal > should show empty title and body 1`] = `
         <tm-rich-text-editor
           id="rejection-reason-body"
         >
-          <div
-            inviewport=""
-          >
+          <div>
+            <editor
+              class="editor ng-untouched ng-pristine ng-valid"
+              placeholder=""
+            >
+              <textarea
+                id="tiny-angular_31630362021780208347404"
+                style="visibility: hidden;"
+              />
+            </editor>
           </div>
         </tm-rich-text-editor>
       </div>

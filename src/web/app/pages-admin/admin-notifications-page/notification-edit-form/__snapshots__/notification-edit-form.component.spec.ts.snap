@@ -215,9 +215,16 @@ exports[`NotificationEditFormComponent > should snap with default view 1`] = `
               <tm-rich-text-editor
                 id="notification-message"
               >
-                <div
-                  inviewport=""
-                >
+                <div>
+                  <editor
+                    class="editor ng-untouched ng-pristine ng-valid"
+                    placeholder=""
+                  >
+                    <textarea
+                      id="tiny-angular_91560566621780208347448"
+                      style="visibility: hidden;"
+                    />
+                  </editor>
                 </div>
               </tm-rich-text-editor>
             </div>
@@ -869,9 +876,16 @@ exports[`NotificationEditFormComponent > should snap with notification 1`] = `
               <tm-rich-text-editor
                 id="notification-message"
               >
-                <div
-                  inviewport=""
-                >
+                <div>
+                  <editor
+                    class="editor ng-untouched ng-pristine ng-valid"
+                    placeholder=""
+                  >
+                    <textarea
+                      id="tiny-angular_13263393531780208347505"
+                      style="visibility: hidden;"
+                    />
+                  </editor>
                 </div>
               </tm-rich-text-editor>
             </div>
@@ -1523,9 +1537,16 @@ exports[`NotificationEditFormComponent > should snap with notification that has 
               <tm-rich-text-editor
                 id="notification-message"
               >
-                <div
-                  inviewport=""
-                >
+                <div>
+                  <editor
+                    class="editor ng-untouched ng-pristine ng-valid"
+                    placeholder=""
+                  >
+                    <textarea
+                      id="tiny-angular_86760945941780208347550"
+                      style="visibility: hidden;"
+                    />
+                  </editor>
                 </div>
               </tm-rich-text-editor>
             </div>

@@ -699,9 +699,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                   <tm-rich-text-editor
                     id="instructions"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor editor-disabled ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tiny-angular_65386273711780208347580"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                       <div>
                          2000 characters left 
                       </div>
@@ -2066,9 +2073,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                               class="col-md-10"
                             >
                               <tm-rich-text-editor>
-                                <div
-                                  inviewport=""
-                                >
+                                <div>
+                                  <editor
+                                    class="editor ng-untouched ng-pristine ng-valid"
+                                    placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
+                                  >
+                                    <textarea
+                                      id="tiny-angular_95694342821780208347599"
+                                      style="visibility: hidden;"
+                                    />
+                                  </editor>
                                   <div>
                                      2000 characters left 
                                   </div>
@@ -2775,9 +2789,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                               class="col-md-10"
                             >
                               <tm-rich-text-editor>
-                                <div
-                                  inviewport=""
-                                >
+                                <div>
+                                  <editor
+                                    class="editor ng-untouched ng-pristine ng-valid"
+                                    placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
+                                  >
+                                    <textarea
+                                      id="tiny-angular_31324994731780208347606"
+                                      style="visibility: hidden;"
+                                    />
+                                  </editor>
                                   <div>
                                      2000 characters left 
                                   </div>
@@ -3914,9 +3935,16 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                   <tm-rich-text-editor
                     id="instructions"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor editor-disabled ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tiny-angular_29806889541780208347757"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                       <div>
                          2000 characters left 
                       </div>
@@ -5244,9 +5272,16 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                           class="col-md-10"
                         >
                           <tm-rich-text-editor>
-                            <div
-                              inviewport=""
-                            >
+                            <div>
+                              <editor
+                                class="editor ng-untouched ng-pristine ng-valid"
+                                placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
+                              >
+                                <textarea
+                                  id="tiny-angular_7799952851780208347763"
+                                  style="visibility: hidden;"
+                                />
+                              </editor>
                               <div>
                                  2000 characters left 
                               </div>

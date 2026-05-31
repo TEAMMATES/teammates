@@ -227,9 +227,16 @@ exports[`AdminNotificationsPageComponent > should snap when notification edit fo
                   <tm-rich-text-editor
                     id="notification-message"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tiny-angular_6687151751780208347613"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -901,9 +908,16 @@ exports[`AdminNotificationsPageComponent > should snap when notifications are lo
                   <tm-rich-text-editor
                     id="notification-message"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tiny-angular_78325958331780208347518"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -1582,9 +1596,16 @@ exports[`AdminNotificationsPageComponent > should snap when notifications failed
                   <tm-rich-text-editor
                     id="notification-message"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tiny-angular_27988381741780208347569"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                     </div>
                   </tm-rich-text-editor>
                 </div>
@@ -2261,9 +2282,16 @@ exports[`AdminNotificationsPageComponent > should snap with default view 1`] = `
                   <tm-rich-text-editor
                     id="notification-message"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tiny-angular_27405392421780208347462"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                     </div>
                   </tm-rich-text-editor>
                 </div>
