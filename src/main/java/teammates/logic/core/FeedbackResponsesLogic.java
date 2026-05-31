@@ -279,6 +279,7 @@ public final class FeedbackResponsesLogic {
             ResponseGiver responseGiver, List<FeedbackResponse> existingResponses, @Nullable Student student,
             List<FeedbackResponseRequest> submitResponses)
             throws InvalidOperationException, InvalidParametersException {
+        // TODO: Optimise logic to reduce the number of calls to the database.
         FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
         Optional<List<String>> dynamicallyGeneratedOptions = fqLogic.getDynamicallyGeneratedOptions(
                 feedbackQuestion, student);
