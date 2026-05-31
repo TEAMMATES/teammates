@@ -153,8 +153,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestionsSorted: number[] = [];
 
-  studentId: string | undefined = '';
-
   private backendUrl: string = environment.backendUrl;
 
   constructor() {
@@ -297,7 +295,6 @@ export class SessionSubmissionPageComponent implements OnInit {
           const userId = this.moderatedPerson || this.previewAsPerson;
           return this.studentService.getStudent({ courseId: this.courseId, userId }).pipe(
             tap((student: Student) => {
-              this.studentId = student.userId;
               this.personName = student.name;
               this.personEmail = student.email;
               this.logStudentAccess();
@@ -307,7 +304,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         }
         return this.studentService.getStudent({ courseId: this.courseId, regKey: this.regKey }).pipe(
           tap((student: Student) => {
-            this.studentId = student.userId;
             this.personName = student.name;
             this.personEmail = student.email;
             this.logStudentAccess();
