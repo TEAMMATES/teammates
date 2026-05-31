@@ -621,43 +621,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testSpecificAccessControl_notAnswerableForStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.STUDENTS || type == QuestionGiverType.TEAMS) {
-                continue;
-            }
-            spyFeedbackQuestion.setGiverType(type);
-            verifyCannotAccess(params);
-        }
-    }
-
-    @Test
-    void testSpecificAccessControl_notAnswerableForInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SESSION_CREATOR) {
-                continue;
-            }
-            spyFeedbackQuestion.setGiverType(type);
-            verifyCannotAccess(params);
-        }
-    }
-
-    @Test
     void testSpecificAccessControl_instructorWithoutSubmitPrivilege_cannotAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now().minus(Duration.ofDays(2)));

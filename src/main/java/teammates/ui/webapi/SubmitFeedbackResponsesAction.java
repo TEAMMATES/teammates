@@ -51,7 +51,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
@@ -60,7 +59,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId(), false);
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");

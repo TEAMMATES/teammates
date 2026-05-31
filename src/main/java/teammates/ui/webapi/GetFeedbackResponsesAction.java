@@ -27,12 +27,8 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        FeedbackQuestion feedbackQuestion = null;
-
-        UUID feedbackQuestionId;
-
-        feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
@@ -47,12 +43,10 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             Student student = getStudentOfCourseForSubmission(feedbackSession.getCourseId(), false);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), false);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
@@ -63,12 +57,8 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        FeedbackQuestion feedbackQuestion = null;
-
-        UUID feedbackQuestionId;
-
-        feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
