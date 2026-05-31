@@ -1001,8 +1001,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private boolean isQuestionPanelExpanded(WebElement questionPanel) {
-        return questionPanel.findElements(By.id("response-table")).size()
-                + questionPanel.findElements(By.id("no-responses")).size() > 0;
+        if (!questionPanel.findElements(By.cssSelector("div.collapse.show")).isEmpty()) {
+            return true;
+        }
+        if (!questionPanel.findElements(By.cssSelector("div.collapse")).isEmpty()) {
+            return false;
+        }
+
+        throw new RuntimeException("Question panel does not have expected collapse structure.");
     }
 
     private String getQuestionText(WebElement questionPanel) {
