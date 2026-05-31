@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,7 +25,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.Course;
@@ -35,12 +33,8 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
-import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
-import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.request.FeedbackResponsesRequest;
-import teammates.ui.request.FeedbackResponsesRequest.FeedbackResponseRequest;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -50,13 +44,12 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     private FeedbackResponsesDb frDb;
-    private FeedbackQuestionsLogic fqLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         frDb = mock(FeedbackResponsesDb.class);
         UsersLogic usersLogic = mock(UsersLogic.class);
-        fqLogic = mock(FeedbackQuestionsLogic.class);
+        FeedbackQuestionsLogic fqLogic = mock(FeedbackQuestionsLogic.class);
         ResponseInstructorCommentsLogic frcLogic = mock(ResponseInstructorCommentsLogic.class);
         frLogic.initLogicDependencies(frDb, usersLogic, fqLogic, frcLogic);
         when(fqLogic.getDynamicallyGeneratedOptions(any(FeedbackQuestion.class), any()))
@@ -324,131 +317,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         assertEquals(1, result.size());
         assertEquals(response, result.get(0));
         verify(frDb, times(1)).getFeedbackResponsesFromGiverForQuestion(questionId, student.getId(), null);
-    }
-
-    @Test
-    public void testSubmitFeedbackResponsesFromStudent_noExistingResponses_createsResponse() throws Exception {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setId(UUID.randomUUID());
-        question.setGiverType(QuestionGiverType.STUDENTS);
-        Student giver = getTypicalStudent();
-        Student recipient = getTypicalStudent();
-        recipient.setEmail("recipient@email.com");
-        ResponseRecipient responseRecipient = new ResponseRecipient(recipient);
-        List<FeedbackResponseRequest> request = List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipient.getEmail(), new FeedbackTextResponseDetails("new response"), "new comment"));
-
-        when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
-                .thenReturn(List.of());
-        when(fqLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(Set.of(responseRecipient));
-        when(frDb.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
-        List<FeedbackResponse> result = frLogic.submitFeedbackResponsesFromStudent(question, giver, request);
-
-        assertEquals(1, result.size());
-        assertEquals(giver.getEmail(), result.get(0).getGiver().getIdentifier());
-        assertEquals(recipient.getEmail(), result.get(0).getRecipient().getIdentifier());
-        assertEquals("new comment", result.get(0).getGiverComment());
-        verify(frDb).createFeedbackResponse(any(FeedbackResponse.class));
-    }
-
-    @Test
-    public void testSubmitFeedbackResponsesFromStudent_existingResponses_updatesAndDeletes() throws Exception {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setId(UUID.randomUUID());
-        question.setGiverType(QuestionGiverType.STUDENTS);
-        Student giver = getTypicalStudent();
-        Student recipientToKeep = getTypicalStudent();
-        recipientToKeep.setEmail("keep@email.com");
-        Student recipientToDelete = getTypicalStudent();
-        recipientToDelete.setEmail("delete@email.com");
-        ResponseRecipient responseRecipientToKeep = new ResponseRecipient(recipientToKeep);
-        ResponseRecipient responseRecipientToDelete = new ResponseRecipient(recipientToDelete);
-        FeedbackResponse existingResponseToKeep = FeedbackResponse.makeResponse(
-                new ResponseGiver(giver), responseRecipientToKeep, new FeedbackTextResponseDetails("old response"),
-                "old comment");
-        FeedbackResponse existingResponseToDelete = FeedbackResponse.makeResponse(
-                new ResponseGiver(giver), responseRecipientToDelete, new FeedbackTextResponseDetails("deleted response"));
-        question.addFeedbackResponse(existingResponseToKeep);
-        question.addFeedbackResponse(existingResponseToDelete);
-        List<FeedbackResponseRequest> request = List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipientToKeep.getEmail(), new FeedbackTextResponseDetails("updated response"), "updated comment"));
-
-        when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
-                .thenReturn(List.of(existingResponseToKeep, existingResponseToDelete));
-        when(fqLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(Set.of(responseRecipientToKeep, responseRecipientToDelete));
-
-        List<FeedbackResponse> result = frLogic.submitFeedbackResponsesFromStudent(question, giver, request);
-
-        assertEquals(1, result.size());
-        assertEquals("updated response", ((FeedbackTextResponseDetails) result.get(0).getFeedbackResponseDetailsCopy())
-                .getAnswer());
-        assertEquals("updated comment", result.get(0).getGiverComment());
-        verify(frDb, never()).createFeedbackResponse(any(FeedbackResponse.class));
-        verify(frDb).deleteFeedbackResponse(existingResponseToDelete);
-    }
-
-    @Test
-    public void testSubmitFeedbackResponsesFromStudent_invalidRecipient_throwsInvalidOperationException() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setId(UUID.randomUUID());
-        question.setGiverType(QuestionGiverType.STUDENTS);
-        Student giver = getTypicalStudent();
-        List<FeedbackResponseRequest> request = List.of(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                "invalid@email.com", new FeedbackTextResponseDetails("response")));
-
-        when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), giver.getId(), null))
-                .thenReturn(List.of());
-        when(fqLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(Set.of());
-
-        InvalidOperationException exception = assertThrows(InvalidOperationException.class,
-                () -> frLogic.submitFeedbackResponsesFromStudent(question, giver, request));
-
-        assertEquals("The recipient invalid@email.com is not a valid recipient of the question", exception.getMessage());
-        verify(frDb, never()).createFeedbackResponse(any(FeedbackResponse.class));
-    }
-
-    @Test
-    public void testSubmitFeedbackResponsesFromStudent_nonStudentGiverType_throwsInvalidOperationException() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setId(UUID.randomUUID());
-        question.setGiverType(QuestionGiverType.INSTRUCTORS);
-        Student giver = getTypicalStudent();
-
-        InvalidOperationException exception = assertThrows(InvalidOperationException.class,
-                () -> frLogic.submitFeedbackResponsesFromStudent(question, giver, List.of()));
-
-        assertEquals("Feedback question is not answerable for students", exception.getMessage());
-        verify(frDb, never()).getFeedbackResponsesFromGiverForQuestion(any(UUID.class), any(UUID.class), any());
-    }
-
-    @Test
-    public void testSubmitFeedbackResponsesFromInstructor_nonInstructorGiverType_throwsInvalidOperationException() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setId(UUID.randomUUID());
-        question.setGiverType(QuestionGiverType.STUDENTS);
-        Instructor giver = getTypicalInstructor();
-
-        InvalidOperationException exception = assertThrows(InvalidOperationException.class,
-                () -> frLogic.submitFeedbackResponsesFromInstructor(
-                        question, giver, List.of()));
-
-        assertEquals("Feedback question is not answerable for instructors", exception.getMessage());
-        verify(frDb, never()).getFeedbackResponsesFromGiverForQuestion(any(UUID.class), any(UUID.class), any());
     }
 
     @Test

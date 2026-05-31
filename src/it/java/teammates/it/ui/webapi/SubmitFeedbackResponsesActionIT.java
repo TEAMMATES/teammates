@@ -152,7 +152,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private String[] buildSubmissionParams(FeedbackQuestion question, Intent intent) {
         currentQuestionForSubmission = question;
-        String sessionId = question != null ? question.getFeedbackSession().getId().toString() : UUID.randomUUID().toString();
+        String sessionId = question != null
+                ? question.getFeedbackSession().getId().toString()
+                : UUID.randomUUID().toString();
 
         return new String[] {Const.ParamsNames.FEEDBACK_SESSION_ID, sessionId, Const.ParamsNames.INTENT,
                 intent.toString()};

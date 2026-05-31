@@ -203,44 +203,6 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Submits feedback responses from a student or the student's team for a feedback question.
-     */
-    public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
-            FeedbackQuestion feedbackQuestion, Student student, List<FeedbackResponseRequest> submitResponses)
-            throws InvalidOperationException, InvalidParametersException {
-        if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
-            throw new InvalidOperationException("Feedback question is not answerable for students");
-        }
-
-        ResponseGiver responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                ? new ResponseGiver(student.getTeam())
-                : new ResponseGiver(student);
-        List<FeedbackResponse> existingResponses = getFeedbackResponsesFromStudentOrTeamForQuestion(
-                feedbackQuestion, student);
-
-        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, student, submitResponses);
-    }
-
-    /**
-     * Submits feedback responses from an instructor for a feedback question.
-     */
-    public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
-            FeedbackQuestion feedbackQuestion, Instructor instructor, List<FeedbackResponseRequest> submitResponses)
-            throws InvalidOperationException, InvalidParametersException {
-        if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.SESSION_CREATOR) {
-            throw new InvalidOperationException("Feedback question is not answerable for instructors");
-        }
-
-        ResponseGiver responseGiver = new ResponseGiver(instructor);
-        List<FeedbackResponse> existingResponses = getFeedbackResponsesFromInstructorForQuestion(
-                feedbackQuestion, instructor);
-
-        return submitFeedbackResponses(feedbackQuestion, responseGiver, existingResponses, null, submitResponses);
-    }
-
-    /**
      * Submits feedback responses from a student or the student's team for one or more feedback questions
      * in the same feedback session.
      */
@@ -253,11 +215,26 @@ public final class FeedbackResponsesLogic {
             if (feedbackQuestion == null) {
                 throw new InvalidOperationException("The feedback question does not exist.");
             }
+
             if (!feedbackQuestion.getFeedbackSession().getId().equals(feedbackSession.getId())) {
                 throw new InvalidOperationException("The feedback question does not belong to the feedback session.");
             }
 
-            submittedResponses.addAll(submitFeedbackResponsesFromStudent(feedbackQuestion, student, entry.getValue()));
+            if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
+                    && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
+                throw new InvalidOperationException("Feedback question is not answerable for students");
+            }
+
+            ResponseGiver responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                    ? new ResponseGiver(student.getTeam())
+                    : new ResponseGiver(student);
+            List<FeedbackResponse> existingResponses = getFeedbackResponsesFromStudentOrTeamForQuestion(
+                    feedbackQuestion, student);
+
+            List<FeedbackResponse> responses = submitFeedbackResponses(
+                    feedbackQuestion, responseGiver, existingResponses, student, entry.getValue());
+
+            submittedResponses.addAll(responses);
         }
 
         return submittedResponses;
@@ -275,12 +252,24 @@ public final class FeedbackResponsesLogic {
             if (feedbackQuestion == null) {
                 throw new InvalidOperationException("The feedback question does not exist.");
             }
+
             if (!feedbackQuestion.getFeedbackSession().getId().equals(feedbackSession.getId())) {
                 throw new InvalidOperationException("The feedback question does not belong to the feedback session.");
             }
 
-            submittedResponses.addAll(submitFeedbackResponsesFromInstructor(
-                    feedbackQuestion, instructor, entry.getValue()));
+            if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
+                    && feedbackQuestion.getGiverType() != QuestionGiverType.SESSION_CREATOR) {
+                throw new InvalidOperationException("Feedback question is not answerable for instructors");
+            }
+
+            ResponseGiver responseGiver = new ResponseGiver(instructor);
+            List<FeedbackResponse> existingResponses = getFeedbackResponsesFromInstructorForQuestion(
+                    feedbackQuestion, instructor);
+
+            List<FeedbackResponse> responses = submitFeedbackResponses(
+                    feedbackQuestion, responseGiver, existingResponses, null, entry.getValue());
+
+            submittedResponses.addAll(responses);
         }
 
         return submittedResponses;
