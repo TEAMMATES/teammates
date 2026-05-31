@@ -322,9 +322,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                   Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
-        // re-expand question panel to reset sorting order
-        hideQuestionPanel(questionPanel);
-        expandQuestionPanel(questionPanel);
         verifyStatistics(questionPanel, question, responses, instructors, students);
     }
 
