@@ -1528,8 +1528,6 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
  * Structure for example of responder rubric submission form model
  */
 export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionFormModel = {
-  isLoading: false,
-  isLoaded: true,
   isTabExpanded: true,
   recipientList: [
     {

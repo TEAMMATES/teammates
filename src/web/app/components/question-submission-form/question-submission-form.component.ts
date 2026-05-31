@@ -31,7 +31,6 @@ import { createNewCommentRowModel } from '../comment-box/comment-row-model-mappe
 import type { CommentRowModel, GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment.model';
 import { CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
-import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
 import { ConstsumRecipientsQuestionConstraintComponent } from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { ContributionQuestionConstraintComponent } from '../question-types/question-constraint/contribution-question-constraint.component';
@@ -73,7 +72,6 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   imports: [
     NgClass,
     PanelChevronComponent,
-    LoadingSpinnerDirective,
     ContributionQuestionInstructionComponent,
     TextQuestionInstructionComponent,
     NumScaleQuestionInstructionComponent,
@@ -143,6 +141,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
+    this.isEveryRecipientSorted = false;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       model.giverType,
       model.recipientType,
@@ -189,8 +188,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
-    isLoading: false,
-    isLoaded: false,
     isTabExpanded: true,
     feedbackQuestionId: '',
 
@@ -258,7 +255,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this.model.isLoaded && !this.isEveryRecipientSorted) {
+    if (this.model.recipientList.length > 0 && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
   }

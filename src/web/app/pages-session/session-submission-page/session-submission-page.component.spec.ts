@@ -243,8 +243,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -269,8 +267,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: false,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -294,8 +290,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -324,8 +318,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>(),
   };
@@ -351,8 +343,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
@@ -381,8 +371,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
@@ -406,8 +394,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
@@ -441,8 +427,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
@@ -466,8 +450,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
@@ -493,8 +475,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isLoading: false,
-    isLoaded: true,
     isTabExpanded: true,
     isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };

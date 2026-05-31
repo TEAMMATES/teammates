@@ -49,9 +49,6 @@ export interface QuestionSubmissionFormModel {
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
 
-  isLoading: boolean;
-  isLoaded: boolean;
-
   isTabExpandedForRecipients: Map<string, boolean>;
 
   isTabExpanded: boolean;

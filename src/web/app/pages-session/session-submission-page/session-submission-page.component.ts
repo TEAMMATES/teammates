@@ -474,8 +474,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         tap((response: FeedbackQuestionsResponse) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             this.questionSubmissionForms.push({
-              isLoading: false,
-              isLoaded: false,
               isTabExpanded: true,
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
@@ -574,7 +572,6 @@ export class SessionSubmissionPageComponent implements OnInit {
           if (existingResponses) {
             this.populateSubmissionForms(model, existingResponses);
           }
-          model.isLoaded = true;
         }),
         map(() => undefined),
       );

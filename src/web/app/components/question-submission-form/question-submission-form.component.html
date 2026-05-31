@@ -25,7 +25,7 @@
 
   @if (shouldTabExpand()) {
     <div @collapseAnim>
-      <div class="card-body" *tmIsLoading="model.isLoading">
+      <div class="card-body">
         @if (model.questionDescription) {
           <div class="card mb-3">
             <div class="card-header">
@@ -459,7 +459,7 @@
             ></tm-constsum-recipients-question-constraint>
           }
         </div>
-        @if (!model.recipientList.length && model.isLoaded) {
+        @if (!model.recipientList.length) {
           <div class="alert alert-warning" role="alert">
             @if (model.recipientType === QuestionRecipientType.OWN_TEAM_MEMBERS) {
               <span
