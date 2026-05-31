@@ -798,7 +798,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveFeedbackResponses(questionSubmissionForms: QuestionSubmissionFormModel[], recipientId: string | null): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
-    const requestIds: Record<string, string> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
@@ -855,7 +854,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 submittedQuestionResponses.forEach((response: FeedbackResponse) => {
                   responsesMap[response.recipientIdentifier] = response;
                 });
-                requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
                 questionSubmissionFormModel.recipientSubmissionForms.forEach(
                   (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
