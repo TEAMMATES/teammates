@@ -18,6 +18,7 @@ import {
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
 import { FormatDateUtil } from '../../utils/format-date.service.util';
+import {instructorRoleToName} from "../../utils/instructor-role-name.util";
 
 export enum ExtensionModalType {
   EXTEND,
@@ -36,7 +37,6 @@ export class ExtensionConfirmModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private tableComparatorService = inject(TableComparatorService);
   private formatDateUtil = inject(FormatDateUtil);
-  private instructorRoleNamePipe = inject(InstructorRoleNamePipe);
 
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
@@ -213,7 +213,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
         {
           value: instructorData.role,
           displayValue: instructorData.role
-            ? this.instructorRoleNamePipe.transform(instructorData.role)
+            ? instructorRoleToName(instructorData.role)
             : instructorData.role,
         },
         {
