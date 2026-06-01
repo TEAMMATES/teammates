@@ -29,6 +29,7 @@ import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pip
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
+import {publishStatusNameToString} from "../../utils/publish-status-name.util";
 
 export type MutateEvent = {
   idx: number;
@@ -60,7 +61,6 @@ export class SessionsTableComponent implements OnInit {
   private simpleModalService = inject(SimpleModalService);
   private formatDateDetailPipe = inject(FormatDateDetailPipe);
   private formatDateBriefPipe = inject(FormatDateBriefPipe);
-  private publishStatusName = inject(PublishStatusNamePipe);
   private publishStatusTooltip = inject(PublishStatusTooltipPipe);
   private submissionStatusTooltip = inject(SubmissionStatusTooltipPipe);
   private submissionStatusName = inject(SubmissionStatusNamePipe);
@@ -266,7 +266,7 @@ export class SessionsTableComponent implements OnInit {
         ...this.createRowData(
           this.createCellWithToolTip(
             this.publishStatusTooltip.transform(publishStatus),
-            this.publishStatusName.transform(publishStatus),
+            publishStatusNameToString(publishStatus),
           ),
         ),
         ...this.createRowData(this.createCellWithResponseRateComponent(sessionTableRowModel)),

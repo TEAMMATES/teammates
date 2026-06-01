@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { JoinState } from '../../../types/api-output';
+import {joinStateToString} from "../../utils/join-state.util";
 
 /**
  * Pipe to handle the display of join state in the student list component.
@@ -10,13 +11,6 @@ export class JoinStatePipe implements PipeTransform {
    * Transforms {@code JoinState} to a join state display for the student list component.
    */
   transform(joinState?: JoinState): any {
-    switch (joinState) {
-      case JoinState.JOINED:
-        return 'Joined';
-      case JoinState.NOT_JOINED:
-        return 'Yet to Join';
-      default:
-        return 'Unknown';
-    }
+    return joinStateToString(joinState)
   }
 }
