@@ -2,14 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import {
-  AccountRequest,
-  AccountRequests,
-  JoinLink,
-  MessageOutput,
-  AccountRequestStatus,
-  Account,
-} from '../types/api-output';
+import { AccountRequest, AccountRequests, MessageOutput, AccountRequestStatus, Account } from '../types/api-output';
 import {
   AccountCreateRequest,
   AccountRequestUpdateRequest,
@@ -61,16 +54,6 @@ export class AccountService {
       id,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
-  }
-
-  /**
-   * Resets an account request by calling API.
-   */
-  resetAccountRequest(id: string): Observable<JoinLink> {
-    const paramMap: Record<string, string> = {
-      id,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
   }
 
   /**
