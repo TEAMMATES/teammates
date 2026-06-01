@@ -1,19 +1,20 @@
 package teammates.ui.webapi;
 
-import java.util.List;
+import java.util.Set;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.CourseSectionNamesData;
+import teammates.ui.output.CourseSectionsData;
 
 /**
- * Gets the section names of a course.
+ * Gets the sections of a course.
  */
-public class GetCourseSectionNamesAction extends Action {
+public class GetCourseSectionsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -33,11 +34,10 @@ public class GetCourseSectionNamesAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
-            return new JsonResult(new CourseSectionNamesData(sectionNames));
+            Set<Section> sections = logic.getSectionsForCourse(courseId);
+            return new JsonResult(new CourseSectionsData(sections));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
     }
-
 }

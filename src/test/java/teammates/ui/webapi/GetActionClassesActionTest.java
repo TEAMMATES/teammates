@@ -103,7 +103,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 SendEmailWorkerAction.class,
                 GetInstructorsAction.class,
                 SearchInstructorsAction.class,
-                GetCourseSectionNamesAction.class,
+                GetCourseSectionsAction.class,
                 ResetAccountAction.class,
                 FeedbackSessionOpenedRemindersAction.class,
                 FeedbackSessionOpeningSoonRemindersAction.class,
