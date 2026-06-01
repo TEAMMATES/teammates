@@ -16,6 +16,7 @@ import {
   SortableTableHeaderColorScheme,
   SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
+import { HighlighterUtil } from '../../utils/highlighter.util.service';
 
 /**
  * Model of row of student data containing details about a student and their section.
@@ -40,7 +41,7 @@ export class StudentListComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private courseService = inject(CourseService);
   private simpleModalService = inject(SimpleModalService);
-  private searchTermsHighlighterPipe = inject(SearchTermsHighlighterPipe);
+  private highlighterUtil = inject(HighlighterUtil);
 
   @Input() courseId = '';
   @Input() useGrayHeading = true;
@@ -143,7 +144,7 @@ export class StudentListComponent implements OnInit {
         const rowData: SortableTableCellData[] = [
           {
             value: studentModel.student.sectionName,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: this.highlighterUtil.searchTermsHighlighter(
               studentModel.student.sectionName,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
@@ -151,7 +152,7 @@ export class StudentListComponent implements OnInit {
           },
           {
             value: studentModel.student.teamName,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: this.highlighterUtil.searchTermsHighlighter(
               studentModel.student.teamName,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
@@ -159,7 +160,7 @@ export class StudentListComponent implements OnInit {
           },
           {
             value: studentModel.student.name,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: this.highlighterUtil.searchTermsHighlighter(
               studentModel.student.name,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
@@ -170,7 +171,7 @@ export class StudentListComponent implements OnInit {
           },
           {
             value: studentModel.student.email,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: this.highlighterUtil.searchTermsHighlighter(
               studentModel.student.email,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
