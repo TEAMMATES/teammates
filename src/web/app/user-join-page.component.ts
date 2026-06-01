@@ -81,7 +81,7 @@ export class UserJoinPageComponent implements OnInit {
               return;
             }
             const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
             modalRef.componentInstance.errorMessage = resp.error.message;
           },
         });
@@ -102,7 +102,7 @@ export class UserJoinPageComponent implements OnInit {
 
         if (resp.status >= 500) {
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
           modalRef.componentInstance.errorMessage = errorMessage;
         } else {
           this.simpleModalService.openInformationModal('ERROR', SimpleModalType.DANGER, errorMessage);
@@ -133,7 +133,7 @@ export class UserJoinPageComponent implements OnInit {
             this.validUrl = false;
           } else {
             const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
             modalRef.componentInstance.errorMessage = resp.error.message;
           }
         },
