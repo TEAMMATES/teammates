@@ -251,7 +251,7 @@ describe('SessionResultPageComponent', () => {
     });
   });
 
-  it('should load info and create log for unused reg key that is allowed', () => {
+  it('should load info and create log', () => {
     const testValidity: RegkeyValidity = {
       isAllowedAccess: true,
       isUsed: false,
