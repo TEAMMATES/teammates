@@ -43,10 +43,10 @@
       <div class="col-6">
         <label for="session-dropdown" class="fw-bold">Feedback Session Name (Optional)</label>
         <select id="session-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedSession">
-          <option [ngValue]="{ feedbackSessionName: '', sessionId: '' }"></option>
+          <option [ngValue]="{ sessionId: '' }"></option>
           @for (session of feedbackSessions | keyvalue; track session) {
-            <option [ngValue]="{ feedbackSessionName: session.key, sessionId: session.value.feedbackSessionId }">
-              {{ session.key }}
+            <option [ngValue]="{ sessionId: session.key }">
+              {{ session.value.feedbackSessionName }}
             </option>
           }
         </select>

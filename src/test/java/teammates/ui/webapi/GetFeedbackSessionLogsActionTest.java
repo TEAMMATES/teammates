@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,7 +20,6 @@ import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionLogData;
-import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
 
 /**
@@ -33,6 +33,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     private Student student2;
 
     private FeedbackSession fs1;
+    private FeedbackSession fs2;
 
     private long startTime;
     private long endTime;
@@ -51,7 +52,6 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
     @BeforeMethod
     void setUp() {
-        FeedbackSession fs2;
         endTime = Instant.now().toEpochMilli();
         startTime = endTime - (Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
 
@@ -195,13 +195,13 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
 
         FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
-        List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
+        Map<String, List<FeedbackSessionLogData>> fsLogs = fslData.getFeedbackSessionLogs();
 
         // Course has 2 feedback sessions
         assertEquals(fsLogs.size(), 2);
 
-        List<FeedbackSessionLogEntryData> fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
-        List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
+        List<FeedbackSessionLogData> fsLogEntries1 = fsLogs.get(fs1.getId().toString());
+        List<FeedbackSessionLogData> fsLogEntries2 = fsLogs.get(fs2.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 3);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1.getEmail());
@@ -233,8 +233,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
         assertEquals(fsLogs.size(), 2);
 
-        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
-        fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
+        fsLogEntries1 = fsLogs.get(fs1.getId().toString());
+        fsLogEntries2 = fsLogs.get(fs2.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 1);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1.getEmail());
@@ -261,9 +261,10 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fsLogs = fslData.getFeedbackSessionLogs();
 
         assertEquals(fsLogs.size(), 2);
-        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
+        List<FeedbackSessionLogData> fs2LogEntries = fsLogs.get(fs2.getId().toString());
+        assertEquals(fs2LogEntries.size(), 0);
 
-        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
+        fsLogEntries1 = fsLogs.get(fs1.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 3);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1.getEmail());
@@ -289,9 +290,10 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fsLogs = fslData.getFeedbackSessionLogs();
 
         assertEquals(fsLogs.size(), 2);
-        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
+        fs2LogEntries = fsLogs.get(fs2.getId().toString());
+        assertEquals(fs2LogEntries.size(), 0);
 
-        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
+        fsLogEntries1 = fsLogs.get(fs1.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 1);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1.getEmail());

@@ -10,7 +10,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   FeedbackSession,
-  FeedbackSessionLog,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -92,28 +91,22 @@ describe('InstructorStudentActivityLogsComponent', () => {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-  const testLogs1: FeedbackSessionLog = {
-    feedbackSessionData: testFeedbackSession,
-    feedbackSessionLogEntries: [
-      {
-        feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000001',
-        user: testStudent,
-        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
-        timestamp: 0,
-      },
-    ],
-  };
-  const testLogs2: FeedbackSessionLog = {
-    feedbackSessionData: testFeedbackSession,
-    feedbackSessionLogEntries: [
-      {
-        feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000002',
-        user: testStudent,
-        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
-        timestamp: 0,
-      },
-    ],
-  };
+  const testLogs1 = [
+    {
+      feedbackSessionLogId: '00000000-0000-4000-8000-000000000001',
+      user: testStudent,
+      feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
+      timestamp: 0,
+    },
+  ];
+  const testLogs2 = [
+    {
+      feedbackSessionLogId: '00000000-0000-4000-8000-000000000002',
+      user: testStudent,
+      feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
+      timestamp: 0,
+    },
+  ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -151,7 +144,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeTo: { hour: 15, minute: 0 },
       selectedStudent: { userId: 'doe-john' },
       logTypes: [FeedbackSessionLogType.SUBMISSION, FeedbackSessionLogType.ACCESS],
-      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
+      selectedSession: { sessionId: undefined },
       showActions: false,
       showInactions: false,
     };
@@ -224,9 +217,13 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy = vi
-      .spyOn(logService, 'searchFeedbackSessionLog')
-      .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
+    const logSpy = vi.spyOn(logService, 'searchFeedbackSessionLog').mockReturnValue(
+      of({
+        feedbackSessionLogs: {
+          [testFeedbackSession.feedbackSessionId]: [...testLogs1, ...testLogs2],
+        },
+      }),
+    );
     const timeSpy = vi.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
@@ -239,12 +236,13 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeTo: { hour: 23, minute: 59 },
       selectedStudent: { userId: testStudent.userId },
       logTypes: [FeedbackSessionLogType.SUBMISSION],
-      selectedSession: { feedbackSessionName: '', sessionId: '' },
+      selectedSession: { sessionId: '' },
       showActions: true,
       showInactions: false,
     };
     component.course = testCourse1;
     component.students = [testStudent];
+    component.feedbackSessions.set(testFeedbackSession.feedbackSessionId, testFeedbackSession);
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
@@ -266,15 +264,13 @@ describe('InstructorStudentActivityLogsComponent', () => {
       sessionId: '',
     });
 
-    expect(component.searchResults.length).toEqual(2);
+    expect(component.searchResults.length).toEqual(1);
 
     const timestamp: string = timezoneService.formatToString(0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
 
-    for (let i = 0; i < 2; i += 1) {
-      expect(component.searchResults[i].isTabExpanded).toBeTruthy();
-      expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
-      // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
-    }
+    expect(component.searchResults[0].isTabExpanded).toBeTruthy();
+    expect(component.searchResults[0].logColumnsData).toEqual(resultColumns);
+    // Testing that the LogType is converted correctly.
+    expect(component.searchResults[0].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
   });
 });

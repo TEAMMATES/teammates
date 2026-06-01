@@ -1,40 +1,39 @@
 package teammates.ui.output;
 
-import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
-import teammates.storage.entity.FeedbackSession;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.storage.entity.FeedbackSessionLog;
-import teammates.storage.entity.User;
 
 /**
- * The response log of a single feedback session.
+ * The session log of a student for a single feedback session.
  */
 public class FeedbackSessionLogData {
-    private final FeedbackSessionData feedbackSessionData;
-    private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
+    private final UUID feedbackSessionLogId;
+    private final UserData user;
+    private final FeedbackSessionLogType feedbackSessionLogType;
+    private final long timestamp;
 
-    public FeedbackSessionLogData(FeedbackSession feedbackSession, List<FeedbackSessionLog> logEntries,
-            Map<String, User> usersMap) {
-        FeedbackSessionData fsData = new FeedbackSessionData(feedbackSession);
-        List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()
-                .map(log -> {
-                    User user = usersMap.get(log.getUser().getEmail());
-                    return new FeedbackSessionLogEntryData(log, user);
-                })
-                .toList();
-        this.feedbackSessionData = fsData;
-        this.feedbackSessionLogEntries = fsLogEntryDatas;
+    public FeedbackSessionLogData(FeedbackSessionLog logEntry) {
+        this.feedbackSessionLogId = logEntry.getId();
+        this.user = new UserData(logEntry.getUser());
+        this.feedbackSessionLogType = logEntry.getFeedbackSessionLogType();
+        this.timestamp = logEntry.getTimestamp().toEpochMilli();
     }
 
-    public FeedbackSessionData getFeedbackSessionData() {
-        return feedbackSessionData;
+    public UUID getFeedbackSessionLogId() {
+        return feedbackSessionLogId;
     }
 
-    /**
-     * Returns all feedback session log entries.
-     */
-    public List<FeedbackSessionLogEntryData> getFeedbackSessionLogEntries() {
-        return feedbackSessionLogEntries;
+    public UserData getUser() {
+        return user;
+    }
+
+    public FeedbackSessionLogType getFeedbackSessionLogType() {
+        return feedbackSessionLogType;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
     }
 }

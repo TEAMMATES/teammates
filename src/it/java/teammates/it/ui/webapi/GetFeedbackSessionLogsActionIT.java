@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,7 +18,6 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionLogData;
-import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
 import teammates.ui.webapi.GetFeedbackSessionLogsAction;
 import teammates.ui.webapi.JsonResult;
@@ -54,6 +54,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         Course course = typicalBundle.courses.get("course1");
         String courseId = course.getId();
         FeedbackSession fsa1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession fsa2 = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student2 = typicalBundle.students.get("student2InCourse1");
         String student1Email = student1.getEmail();
@@ -131,17 +132,14 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
 
         FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
-        List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
+        Map<String, List<FeedbackSessionLogData>> fsLogs = fslData.getFeedbackSessionLogs();
 
         // Course has 6 feedback sessions, last 4 of which have no log entries
         assertEquals(fsLogs.size(), 6);
-        assertEquals(fsLogs.get(2).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(3).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(4).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(5).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.values().stream().mapToInt(List::size).filter(size -> size == 0).count(), 4);
 
-        List<FeedbackSessionLogEntryData> fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
-        List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
+        List<FeedbackSessionLogData> fsLogEntries1 = fsLogs.get(fsa1.getId().toString());
+        List<FeedbackSessionLogData> fsLogEntries2 = fsLogs.get(fsa2.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 3);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1Email);
@@ -172,13 +170,10 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         fsLogs = fslData.getFeedbackSessionLogs();
 
         assertEquals(fsLogs.size(), 6);
-        assertEquals(fsLogs.get(2).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(3).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(4).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(5).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.values().stream().mapToInt(List::size).filter(size -> size == 0).count(), 4);
 
-        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
-        fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
+        fsLogEntries1 = fsLogs.get(fsa1.getId().toString());
+        fsLogEntries2 = fsLogs.get(fsa2.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 1);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1Email);
@@ -205,13 +200,10 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         fsLogs = fslData.getFeedbackSessionLogs();
 
         assertEquals(fsLogs.size(), 6);
-        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(2).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(3).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(4).getFeedbackSessionLogEntries().size(), 0);
-        assertEquals(fsLogs.get(5).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.get(fsa2.getId().toString()).size(), 0);
+        assertEquals(fsLogs.values().stream().mapToInt(List::size).filter(size -> size == 0).count(), 5);
 
-        fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
+        fsLogEntries1 = fsLogs.get(fsa1.getId().toString());
 
         assertEquals(fsLogEntries1.size(), 3);
         assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1Email);

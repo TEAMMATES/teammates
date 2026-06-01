@@ -15,7 +15,6 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionLog,
-  FeedbackSessionLogEntry,
   FeedbackSessionLogs,
   FeedbackSessionLogType,
   FeedbackSessions,
@@ -67,7 +66,6 @@ interface SelectedStudent {
 }
 
 interface SelectedSession {
-  feedbackSessionName?: string;
   sessionId?: string;
 }
 
@@ -129,7 +127,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsTimeTo: getDefaultTimeFormat(),
     logTypes: [FeedbackSessionLogType.ACCESS, FeedbackSessionLogType.SUBMISSION],
     selectedStudent: { userId: '' },
-    selectedSession: { feedbackSessionName: '', sessionId: '' },
+    selectedSession: { sessionId: '' },
     showActions: true,
     showInactions: false,
   };
@@ -143,7 +141,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   };
   dateToday: DateFormat = getDefaultDateFormat();
   earliestSearchDate: DateFormat = getDefaultDateFormat();
-  studentLogsMap: Map<string, FeedbackSessionLogEntry[]> = new Map();
+  studentLogsMap: Map<string, FeedbackSessionLog[]> = new Map();
   students: Student[] = [];
   feedbackSessions: Map<string, FeedbackSession> = new Map();
   searchResults: FeedbackSessionLogModel[] = [];
@@ -236,38 +234,35 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       )
       .subscribe({
         next: (logs: FeedbackSessionLogs) => {
-          if (this.formModel.selectedSession.feedbackSessionName === '') {
-            logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
-              log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-                const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(log, entry.user.userId),
+          if (this.formModel.selectedSession.sessionId === '') {
+            Object.entries(logs.feedbackSessionLogs).forEach(([feedbackSessionId, entries]) => {
+              entries.forEach((entry: FeedbackSessionLog) => {
+                const arr: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(
+                  this.getStudentKey(feedbackSessionId, entry.user.userId),
                 );
                 if (arr) {
                   arr.push(entry);
                 } else {
-                  this.studentLogsMap.set(this.getStudentKey(log, entry.user.userId), [entry]);
+                  this.studentLogsMap.set(this.getStudentKey(feedbackSessionId, entry.user.userId), [entry]);
                 }
               });
-              this.searchResults.push(this.toFeedbackSessionLogModel(log));
+              this.searchResults.push(this.toFeedbackSessionLogModel(feedbackSessionId, entries));
             });
           } else {
-            const targetFeedbackSessionLog = logs.feedbackSessionLogs.find(
-              (log: FeedbackSessionLog) =>
-                log.feedbackSessionData.feedbackSessionName === this.formModel.selectedSession.feedbackSessionName,
-            );
-
-            if (targetFeedbackSessionLog) {
-              targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
-                const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(targetFeedbackSessionLog, entry.user.userId),
+            const selectedSessionId = this.formModel.selectedSession.sessionId || '';
+            const targetEntries = logs.feedbackSessionLogs[selectedSessionId];
+            if (targetEntries) {
+              targetEntries.forEach((entry: FeedbackSessionLog) => {
+                const arr: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(
+                  this.getStudentKey(selectedSessionId, entry.user.userId),
                 );
                 if (arr) {
                   arr.push(entry);
                 } else {
-                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.user.userId), [entry]);
+                  this.studentLogsMap.set(this.getStudentKey(selectedSessionId, entry.user.userId), [entry]);
                 }
               });
-              this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));
+              this.searchResults.push(this.toFeedbackSessionLogModel(selectedSessionId, targetEntries));
             }
           }
         },
@@ -300,7 +295,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
       next: (feedbackSessions: FeedbackSessions) => {
         feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
-          this.feedbackSessions.set(fs.feedbackSessionName, fs);
+          this.feedbackSessions.set(fs.feedbackSessionId, fs);
         });
       },
       error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
@@ -339,8 +334,13 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
-  private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
-    const fsName = log.feedbackSessionData.feedbackSessionName;
+  private toFeedbackSessionLogModel(
+    feedbackSessionId: string,
+    feedbackSessionLogEntries: FeedbackSessionLog[],
+  ): FeedbackSessionLogModel {
+    const feedbackSession = this.feedbackSessions.get(feedbackSessionId);
+    const fsName = feedbackSession ? feedbackSession.feedbackSessionName : feedbackSessionId;
+    const timeZone = feedbackSession ? feedbackSession.timeZone : this.course.timeZone;
 
     return {
       feedbackSessionName: fsName,
@@ -361,7 +361,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             return true;
           }
 
-          const studentKey = this.getStudentKey(log, student.userId);
+          const studentKey = this.getStudentKey(feedbackSessionId, student.userId);
 
           if (this.studentLogsMap.has(studentKey)) {
             if (this.formModel.showInactions) {
@@ -376,15 +376,15 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         .flatMap((student: Student) => {
           let status: string;
           let dataStyle = 'font-family:monospace; white-space:pre;';
-          const studentKey = this.getStudentKey(log, student.userId);
+          const studentKey = this.getStudentKey(feedbackSessionId, student.userId);
 
-          const entries: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(studentKey);
+          const entries: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(studentKey);
           const rows: any[] = [];
           if (entries) {
-            entries.forEach((entry: FeedbackSessionLogEntry) => {
+            entries.forEach((entry: FeedbackSessionLog) => {
               const timestamp: string = this.timezoneService.formatToString(
                 entry.timestamp,
-                log.feedbackSessionData.timeZone,
+                timeZone,
                 this.LOGS_DATE_TIME_FORMAT,
               );
               status = `${this.logTypeToActivityDisplay(entry.feedbackSessionLogType)} at ${timestamp}`;
@@ -417,8 +417,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           return rows;
         }),
       isTabExpanded:
-        (log.feedbackSessionLogEntries.length !== 0 && this.formModel.showActions) ||
-        (log.feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),
+        (feedbackSessionLogEntries.length !== 0 && this.formModel.showActions) ||
+        (feedbackSessionLogEntries.length === 0 && this.formModel.showInactions),
     };
   }
 
@@ -454,8 +454,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
-  private getStudentKey(log: FeedbackSessionLog, userId: string): string {
-    return `${log.feedbackSessionData.feedbackSessionName}-${userId}`;
+  private getStudentKey(feedbackSessionId: string, userId: string): string {
+    return `${feedbackSessionId}-${userId}`;
   }
 
   /**

@@ -2,11 +2,10 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
@@ -15,8 +14,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
-import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -101,36 +98,20 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         List<FeedbackSessionLog> fsLogEntries = logic.getOrderedFeedbackSessionLogs(courseId, userId,
                 feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-        Map<String, User> usersMap = new HashMap<>();
-        List<Student> students = logic.getStudentsForCourse(courseId);
-        students.forEach(student -> usersMap.put(student.getEmail(), student));
 
-        Map<String, FeedbackSession> sessionsMap = new HashMap<>();
         List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        feedbackSessions.forEach(fs -> sessionsMap.put(fs.getName(), fs));
+        Set<UUID> feedbackSessionIds = new HashSet<>();
+        feedbackSessions.forEach(fs -> feedbackSessionIds.add(fs.getId()));
 
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
             FeedbackSessionLogType logType = logEntry.getFeedbackSessionLogType();
-            // log entry may reference a soft-deleted feedback session which is not in sessionsMap
-            String sessionName = logEntry.getFeedbackSession().getName();
+            // log entry may reference a soft-deleted feedback session which is not in feedbackSessionIds
+            UUID sessionId = logEntry.getFeedbackSession().getId();
 
-            return convertedFslTypes.contains(logType) && sessionsMap.containsKey(sessionName);
+            return convertedFslTypes.contains(logType) && feedbackSessionIds.contains(sessionId);
         }).toList();
 
-        Map<String, List<FeedbackSessionLog>> groupedEntries = groupFeedbackSessionLogs(fsLogEntries);
-        feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getName(), new ArrayList<>()));
-
-        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, usersMap, sessionsMap);
+        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(fsLogEntries);
         return new JsonResult(fslData);
-    }
-
-    private Map<String, List<FeedbackSessionLog>> groupFeedbackSessionLogs(
-            List<FeedbackSessionLog> fsLogEntries) {
-        Map<String, List<FeedbackSessionLog>> groupedEntries = new LinkedHashMap<>();
-        for (FeedbackSessionLog fsLogEntry : fsLogEntries) {
-            String fsName = fsLogEntry.getFeedbackSession().getName();
-            groupedEntries.computeIfAbsent(fsName, k -> new ArrayList<>()).add(fsLogEntry);
-        }
-        return groupedEntries;
     }
 }
