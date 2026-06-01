@@ -4,7 +4,6 @@ import { inject, Injectable } from '@angular/core';
 import { AuthInfo } from '../types/api-output';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
-import { NavigationService } from '../services/navigation.service';
 
 /**
  * Guards routes based on user roles.
@@ -15,7 +14,6 @@ import { NavigationService } from '../services/navigation.service';
 })
 export class RoleGuard implements CanActivate, CanActivateChild {
   private authService = inject(AuthService);
-  private navigationService = inject(NavigationService);
   private backendUrl: string = environment.backendUrl;
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -30,7 +28,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
 
         const isRoleMatch = this.matchRole(authInfo, expectedRole);
         if (!isRoleMatch) {
-          this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
+          this.redirectToUnauthorized();
           return false;
         }
         return true;
@@ -58,6 +56,10 @@ export class RoleGuard implements CanActivate, CanActivateChild {
   }
 
   private redirectToLogin(authInfo: AuthInfo, backendUrl: string) {
-    window.location.href = `${backendUrl}${authInfo.loginUrl}`;
+    globalThis.location.href = `${backendUrl}${authInfo.loginUrl}`;
+  }
+
+  private redirectToUnauthorized() {
+    globalThis.location.href = '/web/unauthorized';
   }
 }

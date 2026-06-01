@@ -74,7 +74,6 @@ export class ClickOutsideDirective {
     RouterOutlet,
   ],
 })
-
 export class PageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);

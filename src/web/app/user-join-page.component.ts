@@ -51,10 +51,8 @@ export class UserJoinPageComponent implements OnInit {
         this.entityType = 'instructor';
       }
 
-      // Join course is protected by the auth guard only, so just read from resolver data.
-      const authInfo = this.route.snapshot.data['authInfo'];
+      const authInfo = this.authService.authInfo$.value;
       if (!authInfo?.user) {
-        this.isLoading = false;
         this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
         return;
       }
@@ -93,6 +91,7 @@ export class UserJoinPageComponent implements OnInit {
       next: () => {
         // Clear auth cache to ensure user's auth info is re-fetched.
         this.authService.clearAuthCache();
+        this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
       },
       error: (resp: ErrorMessageOutput) => {
         const errorMessage = resp.error.message;

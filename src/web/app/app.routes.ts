@@ -35,9 +35,6 @@ const routes: Routes = [
         ],
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
-        resolve: {
-          authInfo: AuthInfoResolver,
-        },
         runGuardsAndResolvers: 'always',
       },
       {
@@ -112,6 +109,23 @@ const routes: Routes = [
         canActivateChild: [RoleGuard],
         data: {
           role: 'maintainer',
+        },
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'unauthorized',
+        component: AuthenticatedPageComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./page-unauthorized-warning/unauthorized-warning-page.component').then(
+                (m) => m.UnauthorizedWarningPageComponent,
+              ),
+          },
+        ],
+        resolve: {
+          authInfo: AuthInfoResolver,
         },
         runGuardsAndResolvers: 'always',
       },

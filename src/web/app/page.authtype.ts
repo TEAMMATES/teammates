@@ -12,5 +12,5 @@ export enum PageAuthType {
   /**
    * Page is accessible only to authenticated users with specific roles (e.g., instructor, student, admin, maintainer).
    */
-  ROLE_BASED_AUTHENTICATED
+  ROLE_BASED_AUTHENTICATED,
 }
