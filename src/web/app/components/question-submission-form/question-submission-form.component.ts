@@ -31,7 +31,6 @@ import { createNewCommentRowModel } from '../comment-box/comment-row-model-mappe
 import type { CommentRowModel, GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment.model';
 import { CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
-import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
 import { ConstsumRecipientsQuestionConstraintComponent } from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { ContributionQuestionConstraintComponent } from '../question-types/question-constraint/contribution-question-constraint.component';
@@ -56,11 +55,11 @@ import { NumScaleQuestionInstructionComponent } from '../question-types/question
 import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
 import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
 import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * The question submission form for a question.
@@ -69,11 +68,10 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   selector: 'tm-question-submission-form',
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgClass,
+    NgbCollapse,
     PanelChevronComponent,
-    LoadingSpinnerDirective,
     ContributionQuestionInstructionComponent,
     TextQuestionInstructionComponent,
     NumScaleQuestionInstructionComponent,
@@ -143,6 +141,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
+    this.isEveryRecipientSorted = false;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       model.giverType,
       model.recipientType,
@@ -189,8 +188,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
-    isLoading: false,
-    isLoaded: false,
     isTabExpanded: true,
     feedbackQuestionId: '',
 
@@ -258,7 +255,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this.model.isLoaded && !this.isEveryRecipientSorted) {
+    if (this.model.recipientList.length > 0 && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
   }

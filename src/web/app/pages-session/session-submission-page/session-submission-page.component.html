@@ -97,7 +97,7 @@
   </div>
 }
 
-<div class="card card-plain" *tmIsLoading="isCourseLoading || isFeedbackSessionLoading">
+<div class="card card-plain" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card card-plain">
     <div class="card-body">
       <div class="row text-center">
@@ -140,9 +140,10 @@
         <label class="col-md-2 text-md-end">Group by:</label>
         <div id="group-by" class="col-md-10 text-md-start">
           <select
+            #viewSelect
             class="w-25 form-control form-select"
             id="select-group-by"
-            (change)="toggleViewChange(castAsSelectElement($event.target).value)"
+            (change)="toggleViewChange(viewSelect.value)"
             [attr.aria-label]="'Select group by view'"
           >
             @for (entry of allSessionViews | keyvalue; track entry) {
@@ -181,8 +182,6 @@
             @if (entry.value.has(questionSubmissionForm.questionNumber)) {
               <tm-question-submission-form
                 [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                inViewport
-                (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
                 [(formModel)]="questionSubmissionForms[i]"
                 [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
                 [isSubmissionDisabled]="isSubmissionFormsDisabled"
@@ -216,7 +215,7 @@
         </div>
       }
       <h1 class="my-3">Ungrouped Questions</h1>
-      @if (ungroupableQuestions.size === 0) {
+      @if (ungroupableQuestionsSorted.length === 0) {
         <div class="card">
           <h2 class="my-2 mx-2">There are no ungroupable questions</h2>
         </div>
@@ -229,8 +228,6 @@
         @if (ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)) {
           <tm-question-submission-form
             [attr.id]="questionSubmissionForm.feedbackQuestionId"
-            inViewport
-            (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
             [(formModel)]="questionSubmissionForms[i]"
             [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
             [isSubmissionDisabled]="isSubmissionFormsDisabled"
@@ -251,8 +248,6 @@
       ) {
         <tm-question-submission-form
           [attr.id]="questionSubmissionForm.feedbackQuestionId"
-          inViewport
-          (inViewportAction)="loadRecipientsAndResponses($event, questionSubmissionForm)"
           [(formModel)]="questionSubmissionForms[i]"
           [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
           [isSubmissionDisabled]="isSubmissionFormsDisabled"

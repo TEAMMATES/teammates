@@ -15,7 +15,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^21.2.13",
     "@angular/cdk": "^21.2.11",
     "@angular/common": "^21.2.13",
     "@angular/compiler": "^21.2.13",
@@ -23,7 +22,6 @@
     "@angular/forms": "^21.2.13",
     "@angular/localize": "^21.2.13",
     "@angular/platform-browser": "^21.2.13",
-    "@angular/platform-browser-dynamic": "^21.2.13",
     "@angular/router": "^21.2.13",
     "@handsontable/angular-wrapper": "^17.0.0",
     "@ng-bootstrap/ng-bootstrap": "^20.0.0",
@@ -33,7 +31,6 @@
     "handsontable": "^17.0.0",
     "moment-timezone": "^0.6.0",
     "ng-dynamic-component": "^10.8.2",
-    "ng-in-viewport": "^16.1.0",
     "ngx-captcha": "^14.0.0",
     "rxjs": "~7.8.2",
     "tinymce": "^8.5.1",
