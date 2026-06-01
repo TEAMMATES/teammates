@@ -27,8 +27,8 @@ import { FormatDateDetailPipe } from '../../components/teammates-common/format-d
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
-import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 import { FormatDateUtil } from '../../utils/format-date.service.util';
+import { sessionSubmissionStatusDisplay } from '../../utils/session-submission-status.util';
 
 interface StudentCourse {
   course: Course;
@@ -98,8 +98,6 @@ export class StudentHomePageComponent implements OnInit {
   hasCoursesLoadingFailed = false;
 
   sortBy: SortBy = SortBy.COURSE_CREATION_DATE;
-
-  sessionSubmissionStatusPipe = new SubmissionStatusPipe();
 
   constructor() {
     this.SortBy = SortBy;
@@ -265,7 +263,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatus(session: StudentSession): string {
     const hasStudentExtension = this.hasStudentExtension(session.session);
-    return this.sessionSubmissionStatusPipe.transform(
+    return sessionSubmissionStatusDisplay(
       session.isOpened,
       session.isWaitingToOpen,
       session.isSubmitted,
