@@ -54,13 +54,17 @@ public class JsonUtilsTest extends BaseTestCase {
     @Test
     public void testFeedbackQuestionDetailsAdaptor_withConstSumConcreteTypes_shouldDeserialize() {
         String optionsQuestionJson = "{\"questionType\":\"CONSTSUM_OPTIONS\",\"questionText\":\"Q\","
-                + "\"distributeToRecipients\":false,\"pointsPerOption\":false,\"points\":100,\"constSumOptions\":[\"A\",\"B\"]}";
-        FeedbackQuestionDetails optionsDetails = JsonUtils.fromJson(optionsQuestionJson, FeedbackQuestionDetails.class);
+                + "\"distributeToRecipients\":false,\"pointsPerOption\":false,\"points\":100,"
+                + "\"constSumOptions\":[\"A\",\"B\"]}";
+        FeedbackQuestionDetails optionsDetails = JsonUtils
+                .fromJson(optionsQuestionJson, FeedbackQuestionDetails.class);
         assertEquals(FeedbackQuestionType.CONSTSUM_OPTIONS, optionsDetails.getQuestionType());
 
         String recipientsQuestionJson = "{\"questionType\":\"CONSTSUM_RECIPIENTS\",\"questionText\":\"Q\","
-                + "\"distributeToRecipients\":true,\"pointsPerOption\":true,\"points\":100,\"constSumOptions\":[]}";
-        FeedbackQuestionDetails recipientsDetails = JsonUtils.fromJson(recipientsQuestionJson, FeedbackQuestionDetails.class);
+                + "\"distributeToRecipients\":true,\"pointsPerOption\":true,\"points\":100,"
+                + "\"constSumOptions\":[]}";
+        FeedbackQuestionDetails recipientsDetails = JsonUtils
+                .fromJson(recipientsQuestionJson, FeedbackQuestionDetails.class);
         assertEquals(FeedbackQuestionType.CONSTSUM_RECIPIENTS, recipientsDetails.getQuestionType());
     }
 }
