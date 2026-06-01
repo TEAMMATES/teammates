@@ -721,9 +721,9 @@ export function calculateRubricQuestionStatistics(
   stats.isWeightStatsVisible = stats.hasWeights && stats.weights.length > 0 && stats.weights[0].length > 0;
 
   const emptyAnswers: number[][] = [];
-  for (let i = 0; i < question.rubricSubQuestions.length; i += 1) {
+  for (const _ of question.rubricSubQuestions) {
     const subQuestionAnswers: number[] = [];
-    for (let j = 0; j < question.rubricChoices.length; j += 1) {
+    for (const _ of question.rubricChoices) {
       subQuestionAnswers.push(0);
     }
     emptyAnswers.push(subQuestionAnswers);
@@ -875,12 +875,12 @@ function calculatePercentages(answers: number[][]): number[][] {
 // Calculate sum of non-null values for each column
 function sumValidValuesByColumn(matrix: number[][]): number[] {
   const sums: number[] = [];
-  for (let c = 0; c < matrix[0].length; c += 1) {
+  for (const c of matrix[0].keys()) {
     let sum = 0;
-    for (let r = 0; r < matrix.length; r += 1) {
-      sum += matrix[r][c] === null ? 0 : matrix[r][c];
+    for (const r of matrix) {
+      sum += r[c] ?? 0;
     }
-    sums[c] = sum;
+    sums.push(sum)
   }
   return sums;
 }
@@ -888,12 +888,12 @@ function sumValidValuesByColumn(matrix: number[][]): number[] {
 // Count number of non-null values for each column
 function countValidValuesByColumn(matrix: number[][]): number[] {
   const counts: number[] = [];
-  for (let c = 0; c < matrix[0].length; c += 1) {
+  for (const c of matrix[0].keys()) {
     let count = 0;
-    for (let r = 0; r < matrix.length; r += 1) {
-      count += matrix[r][c] === null ? 0 : 1;
+    for (const r of matrix) {
+      count += r[c] === null ? 0 : 1;
     }
-    counts[c] = count;
+    counts.push(count)
   }
   return counts;
 }

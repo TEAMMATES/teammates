@@ -403,8 +403,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       (value: string | EnrollStatus) => typeof value === 'string',
     );
 
-    for (let i = 0; i < statuses.length; i += 1) {
-      studentLists.push([]);
+    for (const _ of statuses) {
+          studentLists.push([]);
     }
 
     const emailToIndexMap: Map<string, number> = new Map();

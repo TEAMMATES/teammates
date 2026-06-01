@@ -64,7 +64,7 @@ module.exports = defineConfig(
       '@typescript-eslint/no-deprecated': 'warn',
       // The rules below are mostly stylistic rules that are deemed reasonable to be disabled.
       // They can be re-enabled in the future if desired.
-      '@typescript-eslint/prefer-for-of': 'off',
+      // '@typescript-eslint/prefer-for-of': 'off',
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/consistent-indexed-object-style': 'off',
       '@typescript-eslint/consistent-generic-constructors': 'off',
