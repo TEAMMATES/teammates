@@ -17,7 +17,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -73,8 +72,7 @@ public class GetCourseSessionResultsActionTest extends BaseActionTest<GetCourseS
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
         when(mockLogic.getSessionResults(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(instructorStub.getEmail()), isNull(), isNull(),
-                eq(FeedbackResultFetchType.BOTH))).thenReturn(resultsStub);
+                eq(instructorStub.getEmail()), isNull(), isNull())).thenReturn(resultsStub);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),

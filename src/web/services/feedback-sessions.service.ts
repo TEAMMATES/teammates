@@ -364,7 +364,6 @@ export class FeedbackSessionsService {
     feedbackSessionId: string;
     questionId?: string;
     groupBySection?: string;
-    sectionByGiverReceiver?: string;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
@@ -376,10 +375,6 @@ export class FeedbackSessionsService {
 
     if (queryParams.groupBySection) {
       paramMap['frgroupbysection'] = queryParams.groupBySection;
-    }
-
-    if (queryParams.sectionByGiverReceiver) {
-      paramMap['sectionByGiverReceiver'] = queryParams.sectionByGiverReceiver;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);

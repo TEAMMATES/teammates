@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
@@ -39,8 +38,6 @@ public class GetCourseSessionResultsAction extends Action {
 
         UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
-                getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -49,7 +46,7 @@ public class GetCourseSessionResultsAction extends Action {
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor.getEmail(),
-                questionId, selectedSection, fetchType);
+                questionId, selectedSection);
 
         return new JsonResult(SessionResultsData.init(bundle));
     }

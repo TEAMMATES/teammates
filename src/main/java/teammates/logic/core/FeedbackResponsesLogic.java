@@ -17,7 +17,6 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackMissingResponse;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -702,12 +701,11 @@ public final class FeedbackResponsesLogic {
      * @param instructorEmail the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
-     * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, String instructorEmail,
-            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
+            @Nullable UUID questionId, @Nullable String sectionName) {
 
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
@@ -722,9 +720,9 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> allResponses;
         // load all response for instructors and passively filter them later
         if (questionId == null) {
-            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName, fetchType);
+            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName);
         } else {
-            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionName, fetchType);
+            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionName);
         }
         RequestTracer.checkRemainingTime();
 
@@ -1057,17 +1055,15 @@ public final class FeedbackResponsesLogic {
      * @param feedbackSession the session
      * @param courseId the course ID of the session
      * @param sectionName if null, will retrieve all responses in the session
-     * @param fetchType if not null, will retrieve responses by giver, receiver sections, or both
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
-            FeedbackSession feedbackSession, String courseId, @Nullable String sectionName,
-            @Nullable FeedbackResultFetchType fetchType) {
+            FeedbackSession feedbackSession, String courseId, @Nullable String sectionName) {
         List<FeedbackResponse> responses = frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
         if (sectionName == null) {
             return responses;
         } else {
-            return filterResponsesBySection(responses, sectionName, fetchType);
+            return filterResponsesBySection(responses, sectionName);
         }
     }
 
@@ -1076,53 +1072,41 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackQuestionId the question UUID
      * @param sectionName if null, will retrieve all responses for the question
-     * @param fetchType if not null, will retrieve responses by giver, receiver sections, or both
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
-            UUID feedbackQuestionId, @Nullable String sectionName, FeedbackResultFetchType fetchType) {
+            UUID feedbackQuestionId, @Nullable String sectionName) {
         List<FeedbackResponse> responses = frDb.getResponsesForQuestion(feedbackQuestionId);
         if (sectionName == null) {
             return responses;
         } else {
-            return filterResponsesBySection(responses, sectionName, fetchType);
+            return filterResponsesBySection(responses, sectionName);
         }
     }
 
-    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses,
-                                                            String sectionName,
-                                                            FeedbackResultFetchType fetchType) {
-        boolean filterByGiver = fetchType == FeedbackResultFetchType.BOTH
-                || fetchType == FeedbackResultFetchType.GIVER;
-        boolean filterByRecipient = fetchType == FeedbackResultFetchType.BOTH
-                || fetchType == FeedbackResultFetchType.RECEIVER;
-
+    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses, String sectionName) {
         List<FeedbackResponse> filteredResponses = new ArrayList<>();
         for (FeedbackResponse response : responses) {
             ResponseGiver giver = response.getGiver();
             ResponseRecipient recipient = response.getRecipient();
-            boolean isGiverInSection = false;
-            if (filterByGiver) {
-                if (giver.isGiverTeam()) {
-                    isGiverInSection = giver.getGiverTeam().getSection().getName().equals(sectionName);
-                } else if (giver.getGiverUser() instanceof Student giverStudent) {
-                    isGiverInSection = giverStudent.getSection().getName().equals(sectionName);
-                } else {
-                    // instructor
-                    isGiverInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
-                }
+            boolean isGiverInSection;
+            if (giver.isGiverTeam()) {
+                isGiverInSection = giver.getGiverTeam().getSection().getName().equals(sectionName);
+            } else if (giver.getGiverUser() instanceof Student giverStudent) {
+                isGiverInSection = giverStudent.getSection().getName().equals(sectionName);
+            } else {
+                // instructor
+                isGiverInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
             }
 
-            boolean isRecipientInSection = false;
-            if (filterByRecipient) {
-                if (recipient.isRecipientTeam()) {
-                    isRecipientInSection = recipient.getRecipientTeam().getSection().getName().equals(sectionName);
-                } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
-                    isRecipientInSection = recipientStudent.getSection().getName().equals(sectionName);
-                } else {
-                    // instructor
-                    isRecipientInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
-                }
+            boolean isRecipientInSection;
+            if (recipient.isRecipientTeam()) {
+                isRecipientInSection = recipient.getRecipientTeam().getSection().getName().equals(sectionName);
+            } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
+                isRecipientInSection = recipientStudent.getSection().getName().equals(sectionName);
+            } else {
+                // instructor
+                isRecipientInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
             }
 
             if (isGiverInSection || isRecipientInSection) {

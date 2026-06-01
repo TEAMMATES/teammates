@@ -12,7 +12,6 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -1188,14 +1187,13 @@ public class Logic {
      * @param instructorEmail the email of the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
-     * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, String instructorEmail,
-            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
+            @Nullable UUID questionId, @Nullable String sectionName) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructorEmail, questionId, sectionName, fetchType);
+                feedbackSession, instructorEmail, questionId, sectionName);
     }
 
     /**
