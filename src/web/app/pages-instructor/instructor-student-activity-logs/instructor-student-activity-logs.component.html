@@ -32,9 +32,9 @@
     <div class="row form-group">
       <div class="col-6">
         <label for="student-name-dropdown" class="fw-bold">Student Name (Optional)</label>
-        <select id="student-name-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedStudent">
+        <select id="student-name-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedUserId">
           @for (student of students; track student) {
-            <option [ngValue]="{ userId: student.userId }">
+            <option [ngValue]="student.userId">
               {{ student.name }} {{ student.email ? '<' + student.email + '>' : '' }}
             </option>
           }
@@ -42,10 +42,10 @@
       </div>
       <div class="col-6">
         <label for="session-dropdown" class="fw-bold">Feedback Session Name (Optional)</label>
-        <select id="session-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedSession">
-          <option [ngValue]="{ sessionId: '' }"></option>
+        <select id="session-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedSessionId">
+          <option [ngValue]="''"></option>
           @for (session of feedbackSessions | keyvalue; track session) {
-            <option [ngValue]="{ sessionId: session.key }">
+            <option [ngValue]="session.key">
               {{ session.value.feedbackSessionName }}
             </option>
           }

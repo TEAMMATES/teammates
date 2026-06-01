@@ -50,8 +50,8 @@ interface SearchLogsFormModel {
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
   logTypes: FeedbackSessionLogType[];
-  selectedSession: SelectedSession;
-  selectedStudent: SelectedStudent;
+  selectedSessionId: string;
+  selectedUserId: string;
   showActions: boolean;
   showInactions: boolean;
 }
@@ -59,14 +59,6 @@ interface SearchLogsFormModel {
 interface LogType {
   label: string;
   value: FeedbackSessionLogType;
-}
-
-interface SelectedStudent {
-  userId?: string;
-}
-
-interface SelectedSession {
-  sessionId?: string;
 }
 
 /**
@@ -99,13 +91,13 @@ interface FeedbackSessionLogModel {
   ],
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private courseService = inject(CourseService);
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private studentService = inject(StudentService);
-  private logsService = inject(LogService);
-  private timezoneService = inject(TimezoneService);
-  private statusMessageService = inject(StatusMessageService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly courseService = inject(CourseService);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly studentService = inject(StudentService);
+  private readonly logsService = inject(LogService);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly statusMessageService = inject(StatusMessageService);
 
   readonly castAsInputElement = castAsInputElement;
 
@@ -126,8 +118,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
     logTypes: [FeedbackSessionLogType.ACCESS, FeedbackSessionLogType.SUBMISSION],
-    selectedStudent: { userId: '' },
-    selectedSession: { sessionId: '' },
+    selectedUserId: '',
+    selectedSessionId: '',
     showActions: true,
     showInactions: false,
   };
@@ -224,8 +216,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         searchFrom,
         searchUntil,
         logTypes: this.formModel.logTypes,
-        userId: this.formModel.selectedStudent.userId,
-        sessionId: this.formModel.selectedSession.sessionId,
+        userId: this.formModel.selectedUserId,
+        sessionId: this.formModel.selectedSessionId,
       })
       .pipe(
         finalize(() => {
@@ -234,7 +226,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       )
       .subscribe({
         next: (logs: FeedbackSessionLogs) => {
-          if (this.formModel.selectedSession.sessionId === '') {
+          if (this.formModel.selectedSessionId === '') {
             this.feedbackSessions.forEach((_: FeedbackSession, feedbackSessionId: string) => {
               const entries: FeedbackSessionLog[] = logs.feedbackSessionLogs[feedbackSessionId] || [];
               entries.forEach((entry: FeedbackSessionLog) => {
@@ -250,7 +242,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
               this.searchResults.push(this.toFeedbackSessionLogModel(feedbackSessionId, entries));
             });
           } else {
-            const selectedSessionId = this.formModel.selectedSession.sessionId || '';
+            const selectedSessionId = this.formModel.selectedSessionId || '';
             const targetEntries: FeedbackSessionLog[] = logs.feedbackSessionLogs[selectedSessionId] || [];
             targetEntries.forEach((entry: FeedbackSessionLog) => {
               const arr: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(
@@ -352,7 +344,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       ],
       logRowsData: this.students
         .filter((student: Student) => {
-          if (this.formModel.selectedStudent.userId && this.formModel.selectedStudent.userId != student.userId) {
+          if (this.formModel.selectedUserId && this.formModel.selectedUserId != student.userId) {
             return false;
           }
 

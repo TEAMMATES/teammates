@@ -182,7 +182,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap when searching for
             id="student-name-dropdown"
           >
             <option
-              value="0: Object"
+              value="0: 00000000-0000-4000-8000-000000000001"
             >
                Doe John &lt;doejohn@email.com&gt; 
             </option>
@@ -202,7 +202,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap when searching for
             id="session-dropdown"
           >
             <option
-              value="0: Object"
+              value="0: "
             />
           </select>
         </div>
@@ -799,7 +799,7 @@ exports[`InstructorStudentActivityLogsComponent > should snap with results of a 
             id="session-dropdown"
           >
             <option
-              value="0: Object"
+              value="0: "
             />
           </select>
         </div>
