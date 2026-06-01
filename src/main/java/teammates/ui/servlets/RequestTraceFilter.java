@@ -1,7 +1,7 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -13,19 +13,22 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
+import org.eclipse.jetty.http.BadMessageException;
 
 import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * Extracts trace ID of HTTP requests.
+ * Extracts request ID of HTTP requests.
  */
 public class RequestTraceFilter implements Filter {
 
     private static final Logger log = Logger.getLogger();
+    private final SecureRandom random = new SecureRandom();
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -43,7 +46,7 @@ public class RequestTraceFilter implements Filter {
         if (requestId == null) {
             // Generate random hexadecimal string of length 32
             byte[] resBuf = new byte[16];
-            new Random().nextBytes(resBuf);
+            random.nextBytes(resBuf);
             traceId = Hex.encodeHexString(resBuf);
         } else {
             // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
@@ -53,6 +56,8 @@ public class RequestTraceFilter implements Filter {
                 spanId = traceAndSpan[1].split(";")[0];
             }
         }
+
+        response.setHeader(Const.HeaderNames.REQUEST_ID, traceId);
 
         // Worker / Cron requests (from Cloud Tasks with bearer token) may run longer.
         // For these requests, we set the limit to 10 minutes minus a small grace period.
@@ -71,12 +76,9 @@ public class RequestTraceFilter implements Filter {
         try {
             // Make sure that all parameters are valid UTF-8
             request.getParameterMap();
-        } catch (RuntimeException e) {
-            if ("BadMessageException".equals(e.getClass().getSimpleName())) {
-                throwError(request, response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
-                return;
-            }
-            throw e;
+        } catch (BadMessageException e) {
+            throwError(request, response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+            return;
         }
 
         chain.doFilter(req, resp);
