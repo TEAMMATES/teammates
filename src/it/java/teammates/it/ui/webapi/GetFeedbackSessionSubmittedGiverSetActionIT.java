@@ -3,14 +3,13 @@ package teammates.it.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import com.google.common.collect.Sets;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
@@ -67,7 +66,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         JsonResult result = getJsonResult(pageAction);
 
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
-        Set<UUID> expectedStudentGivers = Sets.newHashSet(
+        Set<UUID> expectedStudentGivers = Set.of(
                 typicalBundle.students.get("student1InCourse1").getId(),
                 typicalBundle.students.get("student2InCourse1").getId(),
                 typicalBundle.students.get("student3InCourse1").getId());
@@ -77,19 +76,19 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
                 .map(Student::getId)
                 .filter(studentId -> !expectedStudentGivers.contains(studentId))
                 .collect(Collectors.toSet());
-        assertEquals(Sets.newHashSet(
+        assertEquals(Set.of(
                 typicalBundle.students.get("student1InCourse1").getId(),
                 typicalBundle.students.get("student2InCourse1").getId(),
                 typicalBundle.students.get("student3InCourse1").getId()),
-                Sets.newHashSet(output.getStudentGivers()));
+                new HashSet<>(output.getStudentGivers()));
         Set<UUID> expectedInstructorNonGivers = typicalBundle.instructors.values()
                 .stream()
                 .filter(instructor -> instructor.getCourseId().equals(fsa.getCourseId()))
                 .map(Instructor::getId)
                 .collect(Collectors.toSet());
         assertEquals(Collections.emptySet(), output.getInstructorGivers());
-        assertEquals(expectedStudentNonGivers, Sets.newHashSet(output.getStudentNonGivers()));
-        assertEquals(expectedInstructorNonGivers, Sets.newHashSet(output.getInstructorNonGivers()));
+        assertEquals(expectedStudentNonGivers, new HashSet<>(output.getStudentNonGivers()));
+        assertEquals(expectedInstructorNonGivers, new HashSet<>(output.getInstructorNonGivers()));
 
         ______TS("Session with student questions only should not produce instructor non-givers");
         FeedbackSession fsb = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
@@ -101,7 +100,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         JsonResult session2Result = getJsonResult(session2Action);
         FeedbackSessionSubmittedGiverSet session2Output = (FeedbackSessionSubmittedGiverSet) session2Result.getOutput();
 
-        Set<UUID> expectedSession2StudentGivers = Sets.newHashSet(typicalBundle.students.get("student1InCourse1").getId());
+        Set<UUID> expectedSession2StudentGivers = Set.of(typicalBundle.students.get("student1InCourse1").getId());
         Set<UUID> expectedSession2StudentNonGivers = typicalBundle.students.values()
                 .stream()
                 .filter(student -> student.getCourseId().equals(fsb.getCourseId()))
@@ -110,9 +109,9 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
                 .collect(Collectors.toSet());
 
         assertEquals(expectedSession2StudentGivers,
-                Sets.newHashSet(session2Output.getStudentGivers()));
+                new HashSet<>(session2Output.getStudentGivers()));
         assertEquals(expectedSession2StudentNonGivers,
-                Sets.newHashSet(session2Output.getStudentNonGivers()));
+                new HashSet<>(session2Output.getStudentNonGivers()));
         assertEquals(Collections.emptySet(), session2Output.getInstructorNonGivers());
     }
 
