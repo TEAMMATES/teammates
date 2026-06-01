@@ -118,6 +118,8 @@ export class UserJoinPageComponent implements OnInit {
       )
       .subscribe({
         next: () => {
+          // Clear auth cache to ensure user's auth info is re-fetched.
+          this.authService.clearAuthCache();
           this.navigationService.navigateByURL('/web/instructor');
         },
         error: (resp: ErrorMessageOutput) => {
