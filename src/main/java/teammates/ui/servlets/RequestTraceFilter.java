@@ -41,7 +41,7 @@ public class RequestTraceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
 
         String requestId = request.getHeader("X-Cloud-Trace-Context");
-        String traceId;
+        String traceId; // TODO: rename to requestId and remove dependency on Cloud Trace format
         if (requestId == null) {
             // Generate random hexadecimal string of length 32
             byte[] resBuf = new byte[16];
