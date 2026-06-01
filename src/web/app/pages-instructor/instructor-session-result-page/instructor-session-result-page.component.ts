@@ -396,7 +396,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
             groupBySection: sectionName,
-            sectionByGiverReceiver: 'both',
           });
         }),
       )

@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
@@ -58,7 +57,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         SessionResultsData output = (SessionResultsData) result.getOutput();
 
         SessionResultsData expected = SessionResultsData.init(logic.getSessionResults(
-                feedbackSession, instructor.getEmail(), null, null, FeedbackResultFetchType.BOTH));
+                feedbackSession, instructor, null, null));
 
         assertEquals(expected.getQuestions().size(), output.getQuestions().size());
     }
