@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -66,10 +67,10 @@ public class CreateFeedbackSessionLogAction extends Action {
         }
 
         Instant now = Instant.now(clock);
-        Student student = getStudentFromRequest(feedbackSession.getCourseId());
+        User user = getStudentFromRequest(feedbackSession.getCourseId());
 
         try {
-            logic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);
+            logic.createFeedbackSessionLog(feedbackSession, user, convertedFslType, now);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpParameterException(ipe);
         }

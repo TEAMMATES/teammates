@@ -9,7 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackSessionLogsDb;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Handles operations related to feedback sessions.
@@ -46,9 +46,9 @@ public final class FeedbackSessionLogsLogic {
      * Creates feedback session log.
      */
     public FeedbackSessionLog createFeedbackSessionLog(
-            FeedbackSession feedbackSession, Student student,
+            FeedbackSession feedbackSession, User user,
             FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
-        FeedbackSessionLog fsLog = new FeedbackSessionLog(student, feedbackSession, logType, timestamp);
+        FeedbackSessionLog fsLog = new FeedbackSessionLog(user, feedbackSession, logType, timestamp);
 
         validateFeedbackSessionLog(fsLog);
 
@@ -65,14 +65,14 @@ public final class FeedbackSessionLogsLogic {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
-     * student's email.
+     * user's email.
      *
-     * @param studentId        Can be null
+     * @param userId           Can be null
      * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID userId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
-        return fslDb.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
+        return fslDb.getOrderedFeedbackSessionLogs(courseId, userId, feedbackSessionId, startTime,
                 endTime);
     }
 

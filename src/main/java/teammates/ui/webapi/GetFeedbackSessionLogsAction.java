@@ -2,11 +2,10 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
@@ -15,7 +14,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -83,53 +81,37 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        UUID userId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
         UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         if (logic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("Course not found");
         }
 
-        if (studentId != null && logic.getStudent(studentId) == null) {
-            throw new EntityNotFoundException("Student not found");
+        if (userId != null && logic.getUser(userId) == null) {
+            throw new EntityNotFoundException("User not found");
         }
 
         if (feedbackSessionId != null && logic.getFeedbackSession(feedbackSessionId) == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        List<FeedbackSessionLog> fsLogEntries = logic.getOrderedFeedbackSessionLogs(courseId, studentId,
+        List<FeedbackSessionLog> fsLogEntries = logic.getOrderedFeedbackSessionLogs(courseId, userId,
                 feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-        Map<String, Student> studentsMap = new HashMap<>();
-        List<Student> students = logic.getStudentsForCourse(courseId);
-        students.forEach(student -> studentsMap.put(student.getEmail(), student));
 
-        Map<String, FeedbackSession> sessionsMap = new HashMap<>();
         List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        feedbackSessions.forEach(fs -> sessionsMap.put(fs.getName(), fs));
+        Set<UUID> feedbackSessionIds = new HashSet<>();
+        feedbackSessions.forEach(fs -> feedbackSessionIds.add(fs.getId()));
 
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {
             FeedbackSessionLogType logType = logEntry.getFeedbackSessionLogType();
-            // log entry may reference a soft-deleted feedback session which is not in sessionsMap
-            String sessionName = logEntry.getFeedbackSession().getName();
+            // log entry may reference a soft-deleted feedback session which is not in feedbackSessionIds
+            UUID sessionId = logEntry.getFeedbackSession().getId();
 
-            return convertedFslTypes.contains(logType) && sessionsMap.containsKey(sessionName);
+            return convertedFslTypes.contains(logType) && feedbackSessionIds.contains(sessionId);
         }).toList();
 
-        Map<String, List<FeedbackSessionLog>> groupedEntries = groupFeedbackSessionLogs(fsLogEntries);
-        feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getName(), new ArrayList<>()));
-
-        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
+        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(fsLogEntries);
         return new JsonResult(fslData);
-    }
-
-    private Map<String, List<FeedbackSessionLog>> groupFeedbackSessionLogs(
-            List<FeedbackSessionLog> fsLogEntries) {
-        Map<String, List<FeedbackSessionLog>> groupedEntries = new LinkedHashMap<>();
-        for (FeedbackSessionLog fsLogEntry : fsLogEntries) {
-            String fsName = fsLogEntry.getFeedbackSession().getName();
-            groupedEntries.computeIfAbsent(fsName, k -> new ArrayList<>()).add(fsLogEntry);
-        }
-        return groupedEntries;
     }
 }

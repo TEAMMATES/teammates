@@ -217,12 +217,10 @@ public final class DataBundleLogic {
 
         for (FeedbackSessionLog log : sessionLogs) {
             log.setId(UUID.randomUUID());
-            FeedbackSession fs = log.getSessionId() == null
-                    ? null : sessionsMap.get(log.getSessionId());
+            FeedbackSession fs = sessionsMap.get(log.getSessionId());
             log.setFeedbackSession(fs);
-            Student student = log.getStudentId() == null
-                    ? null : (Student) usersMap.get(log.getStudentId());
-            log.setStudent(student);
+            User user = usersMap.get(log.getUserId());
+            log.setUser(user);
         }
 
         for (Notification notification : notifications) {

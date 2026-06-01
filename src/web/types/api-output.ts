@@ -304,19 +304,14 @@ export interface FeedbackSessionAuditLogDetails extends LogDetails {
 }
 
 export interface FeedbackSessionLog {
-  feedbackSessionData: FeedbackSession;
-  feedbackSessionLogEntries: FeedbackSessionLogEntry[];
-}
-
-export interface FeedbackSessionLogEntry {
-  feedbackSessionLogEntryId: string;
-  studentData: Student;
+  feedbackSessionLogId: string;
+  user: User;
   feedbackSessionLogType: FeedbackSessionLogType;
   timestamp: number;
 }
 
 export interface FeedbackSessionLogs extends ApiOutput {
-  feedbackSessionLogs: FeedbackSessionLog[];
+  feedbackSessionLogs: { [index: string]: FeedbackSessionLog[] };
 }
 
 export interface FeedbackSessions extends ApiOutput {
@@ -615,6 +610,13 @@ export interface UsageStatistics extends ApiOutput {
 
 export interface UsageStatisticsRange extends ApiOutput {
   result: UsageStatistics[];
+}
+
+export interface User extends ApiOutput {
+  userId: string;
+  email: string;
+  courseId: string;
+  name: string;
 }
 
 export interface UserInfo {

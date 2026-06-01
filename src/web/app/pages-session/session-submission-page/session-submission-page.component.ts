@@ -140,7 +140,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   isFeedbackSessionLoading = true;
   isFeedbackSessionQuestionsLoading = true;
   hasFeedbackSessionQuestionsLoadingFailed = false;
-  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  retryAttempts: number;
 
   isQuestionCountOne = false;
 
@@ -153,6 +153,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   private readonly backendUrl: string = environment.backendUrl;
 
   constructor() {
+    this.retryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
     this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
     this.FeedbackQuestionType = FeedbackQuestionType;
     this.Intent = Intent;
@@ -873,6 +874,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           });
 
           this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+          this.logStudentSubmission();
         },
         error: (resp: ErrorMessageOutput) => {
           const contextMessage = resp.error?.message ?? 'An unknown error occurred.';
@@ -1076,6 +1078,27 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.logService
       .createFeedbackSessionLog({
         logType: FeedbackSessionLogType.ACCESS,
+        key: this.regKey,
+        feedbackSessionId: this.feedbackSessionId,
+      })
+      .subscribe();
+  }
+
+  /**
+   * Logs student submission after successful response submission.
+   */
+  logStudentSubmission(): void {
+    if (this.intent !== Intent.STUDENT_SUBMISSION) {
+      return;
+    }
+
+    if (!this.feedbackSessionId) {
+      return;
+    }
+
+    this.logService
+      .createFeedbackSessionLog({
+        logType: FeedbackSessionLogType.SUBMISSION,
         key: this.regKey,
         feedbackSessionId: this.feedbackSessionId,
       })

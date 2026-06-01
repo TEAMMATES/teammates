@@ -1,16 +1,17 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
+import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   FeedbackSession,
-  FeedbackSessionLog,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -25,6 +26,8 @@ import { ColumnData } from '../../components/sortable-table/sortable-table.compo
 describe('InstructorStudentActivityLogsComponent', () => {
   let component: InstructorStudentActivityLogsComponent;
   let fixture: ComponentFixture<InstructorStudentActivityLogsComponent>;
+  let courseService: CourseService;
+  let feedbackSessionsService: FeedbackSessionsService;
   let studentService: StudentService;
   let logService: LogService;
   let timezoneService: TimezoneService;
@@ -92,38 +95,55 @@ describe('InstructorStudentActivityLogsComponent', () => {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-  const testLogs1: FeedbackSessionLog = {
-    feedbackSessionData: testFeedbackSession,
-    feedbackSessionLogEntries: [
-      {
-        feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000001',
-        studentData: testStudent,
-        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
-        timestamp: 0,
-      },
-    ],
-  };
-  const testLogs2: FeedbackSessionLog = {
-    feedbackSessionData: testFeedbackSession,
-    feedbackSessionLogEntries: [
-      {
-        feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000002',
-        studentData: testStudent,
-        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
-        timestamp: 0,
-      },
-    ],
-  };
+  const testLogs1 = [
+    {
+      feedbackSessionLogId: '00000000-0000-4000-8000-000000000001',
+      user: testStudent,
+      feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
+      timestamp: 0,
+    },
+  ];
+  const testLogs2 = [
+    {
+      feedbackSessionLogId: '00000000-0000-4000-8000-000000000002',
+      user: testStudent,
+      feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
+      timestamp: 0,
+    },
+  ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParams: of({ courseid: testCourse1.courseId }),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InstructorStudentActivityLogsComponent);
+    courseService = TestBed.inject(CourseService);
+    feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     studentService = TestBed.inject(StudentService);
     logService = TestBed.inject(LogService);
     timezoneService = TestBed.inject(TimezoneService);
+
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
+      of({ feedbackSessions: [testFeedbackSession] }),
+    );
+    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+      of({
+        students: [testStudent],
+      }),
+    );
+
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -132,38 +152,46 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with default fields', () => {
-    expect(fixture).toMatchSnapshot();
+  it('should load form data after initialization', () => {
+    const searchButton: HTMLButtonElement = fixture.debugElement.nativeElement.querySelector('#search-button');
+
+    expect(component.isLoading).toBe(false);
+    expect(component.course.courseId).toEqual(testCourse1.courseId);
+    expect(component.students).toHaveLength(2);
+    expect(component.feedbackSessions.size).toEqual(1);
+    expect(searchButton.disabled).toBe(false);
   });
 
-  it('should snap when page is still loading', () => {
+  it('should show loading indicator when page is loading', () => {
     component.isLoading = true;
     fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
+
+    const loadingContainer = fixture.debugElement.nativeElement.querySelector('.loading-container');
+    expect(loadingContainer).toBeTruthy();
   });
 
-  it('should snap when searching for details in search form', () => {
+  it('should disable search button while loading', () => {
     component.course = testCourse1;
     component.formModel = {
       logsDateFrom: { year: 1997, month: 9, day: 11 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      selectedStudent: { userId: 'doe-john' },
+      selectedUserId: 'doe-john',
       logTypes: [FeedbackSessionLogType.SUBMISSION, FeedbackSessionLogType.ACCESS],
-      selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
+      selectedSessionId: '',
       showActions: false,
       showInactions: false,
     };
     component.students = [testStudent];
-    component.isLoading = false;
-    component.isSearching = true;
+    component.isLoading = true;
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    const searchButton: HTMLButtonElement = fixture.debugElement.nativeElement.querySelector('#search-button');
+    expect(searchButton).toBeFalsy();
   });
 
-  it('should snap with results of a search', () => {
+  it('should render search results', () => {
     component.searchResults = [
       {
         feedbackSessionName: 'Feedback session 1',
@@ -188,63 +216,53 @@ describe('InstructorStudentActivityLogsComponent', () => {
       },
     ];
     component.isLoading = false;
-    component.isSearching = false;
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    const cards = fixture.debugElement.nativeElement.querySelectorAll('#logs-output .card');
+    expect(cards.length).toEqual(2);
   });
 
-  it('should load all students of selected course has on select', () => {
-    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
-      of({
-        students: [testStudent],
-      }),
-    );
+  it('should load course, feedback sessions, and students together on init', () => {
+    const courseSpy = vi.spyOn(courseService, 'getCourseAsInstructor');
+    const feedbackSessionSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor');
+    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse');
 
-    component.loadStudents(testCourse1.courseId);
-
+    expect(courseSpy).toHaveBeenCalledWith(testCourse1.courseId);
+    expect(feedbackSessionSpy).toHaveBeenCalledWith(testCourse1.courseId);
+    expect(studentSpy).toHaveBeenCalledWith({ courseId: testCourse1.courseId });
+    expect(component.course).toEqual(testCourse1);
+    expect(component.feedbackSessions.get(testFeedbackSession.feedbackSessionId)).toEqual(testFeedbackSession);
     expect(component.students[0]).toEqual(emptyStudent);
     expect(component.students[1]).toEqual(testStudent);
-    expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: testCourse1.courseId });
-  });
-
-  it('should load students from cache if present', () => {
-    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
-      of({
-        students: [testStudent],
-      }),
-    );
-
-    component.students = [emptyStudent];
-    component.loadStudents(testCourse1.courseId);
-
-    expect(component.students.length).toEqual(1);
-    expect(component.students[0]).toEqual(emptyStudent);
-    expect(studentSpy).not.toHaveBeenCalled();
+    expect(component.isLoading).toBe(false);
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy = vi
-      .spyOn(logService, 'searchFeedbackSessionLog')
-      .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
+    const logSpy = vi.spyOn(logService, 'searchFeedbackSessionLog').mockReturnValue(
+      of({
+        feedbackSessionLogs: {
+          [testFeedbackSession.feedbackSessionId]: [...testLogs1, ...testLogs2],
+        },
+      }),
+    );
     const timeSpy = vi.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
-    component.isLoading = false;
-    component.isSearching = false;
     component.formModel = {
       logsDateFrom: { year: 2020, month: 12, day: 30 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      selectedStudent: { userId: testStudent.userId },
+      selectedUserId: testStudent.userId,
       logTypes: [FeedbackSessionLogType.SUBMISSION],
-      selectedSession: { feedbackSessionName: '', sessionId: '' },
+      selectedSessionId: '',
       showActions: true,
       showInactions: false,
     };
     component.course = testCourse1;
     component.students = [testStudent];
+    component.feedbackSessions.set(testFeedbackSession.feedbackSessionId, testFeedbackSession);
+    component.isLoading = false;
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
@@ -266,15 +284,43 @@ describe('InstructorStudentActivityLogsComponent', () => {
       sessionId: '',
     });
 
-    expect(component.searchResults.length).toEqual(2);
+    expect(component.searchResults.length).toEqual(1);
 
     const timestamp: string = timezoneService.formatToString(0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
 
-    for (let i = 0; i < 2; i += 1) {
-      expect(component.searchResults[i].isTabExpanded).toBeTruthy();
-      expect(component.searchResults[i].logColumnsData).toEqual(resultColumns);
-      // Testing that the LogType is converted correctly.
-      expect(component.searchResults[i].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
-    }
+    expect(component.searchResults[0].isTabExpanded).toBeTruthy();
+    expect(component.searchResults[0].logColumnsData).toEqual(resultColumns);
+    // Testing that the LogType is converted correctly.
+    expect(component.searchResults[0].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
+  });
+
+  it('should include selected feedback sessions even when they have no log entries', () => {
+    vi.spyOn(logService, 'searchFeedbackSessionLog').mockReturnValue(
+      of({
+        feedbackSessionLogs: {},
+      }),
+    );
+
+    component.formModel = {
+      logsDateFrom: { year: 2020, month: 12, day: 30 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2020, month: 12, day: 31 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      selectedUserId: '',
+      logTypes: [FeedbackSessionLogType.SUBMISSION],
+      selectedSessionId: '',
+      showActions: true,
+      showInactions: false,
+    };
+    component.course = testCourse1;
+    component.students = [testStudent];
+    component.feedbackSessions.set(testFeedbackSession.feedbackSessionId, testFeedbackSession);
+    fixture.detectChanges();
+
+    component.search();
+
+    expect(component.searchResults.length).toEqual(1);
+    expect(component.searchResults[0].feedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
+    expect(component.searchResults[0].logRowsData.length).toEqual(0);
   });
 });
