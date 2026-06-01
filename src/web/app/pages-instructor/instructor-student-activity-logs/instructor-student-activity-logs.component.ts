@@ -3,6 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -17,7 +18,6 @@ import {
   FeedbackSessionLog,
   FeedbackSessionLogs,
   FeedbackSessionLogType,
-  FeedbackSessions,
   Student,
 } from '../../../types/api-output';
 import {
@@ -138,7 +138,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   feedbackSessions: Map<string, FeedbackSession> = new Map();
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading = true;
-  isSearching = false;
 
   constructor() {
     this.SortBy = SortBy;
@@ -148,9 +147,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       const courseId = queryParams.courseid;
       this.loadControlPanel();
-      this.loadCourse(courseId);
-      this.loadFeedbackSessions(courseId);
-      this.loadStudents(courseId);
+      this.loadData(courseId);
     });
   }
 
@@ -194,7 +191,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
     this.studentLogsMap = new Map();
     this.searchResults = [];
-    this.isSearching = true;
+    this.isLoading = true;
 
     const timeZone: string = this.course.timeZone;
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
@@ -221,7 +218,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       })
       .pipe(
         finalize(() => {
-          this.isSearching = false;
+          this.isLoading = false;
         }),
       )
       .subscribe({
@@ -263,66 +260,57 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       });
   }
 
-  /**
-   * Load the course based on the course id
-   */
-  private loadCourse(courseId: string): void {
-    this.courseService
-      .getCourseAsInstructor(courseId)
+  private loadData(courseId: string): void {
+    this.isLoading = true;
+    this.course = {
+      courseId: '',
+      courseName: '',
+      institute: '',
+      timeZone: '',
+      creationTimestamp: 0,
+      deletionTimestamp: 0,
+    };
+    this.feedbackSessions = new Map();
+    this.students = [];
+
+    forkJoin({
+      course: this.courseService.getCourseAsInstructor(courseId),
+      feedbackSessions: this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId),
+      students: this.studentService.getStudentsFromCourse({ courseId }),
+    })
       .pipe(
         finalize(() => {
           this.isLoading = false;
         }),
       )
       .subscribe({
-        next: (course: Course) => {
+        next: ({ course, feedbackSessions, students }) => {
           this.course = course;
+          this.feedbackSessions = new Map(
+            feedbackSessions.feedbackSessions.map((fs: FeedbackSession) => [fs.feedbackSessionId, fs]),
+          );
+          this.students = this.toStudentSelectionList(students.students);
         },
         error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
       });
   }
 
-  private loadFeedbackSessions(courseId: string): void {
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe({
-      next: (feedbackSessions: FeedbackSessions) => {
-        feedbackSessions.feedbackSessions.forEach((fs: FeedbackSession) => {
-          this.feedbackSessions.set(fs.feedbackSessionId, fs);
-        });
-      },
-      error: (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message),
-    });
-  }
+  private toStudentSelectionList(students: Student[]): Student[] {
+    const emptyStudent: Student = {
+      userId: '',
+      courseId: '',
+      email: '',
+      name: '',
+      sectionName: '',
+      teamName: '',
+      institute: '',
+      courseName: '',
+    };
 
-  /**
-   * Load all students for the selected course
-   */
-  loadStudents(courseId: string): void {
-    if (this.students.length === 0) {
-      this.isLoading = true;
-      this.studentService
-        .getStudentsFromCourse({ courseId })
-        .pipe(
-          finalize(() => {
-            this.isLoading = false;
-          }),
-        )
-        .subscribe(({ students }: { students: Student[] }) => {
-          const emptyStudent: Student = {
-            userId: '',
-            courseId: '',
-            email: '',
-            name: '',
-            sectionName: '',
-            teamName: '',
-            institute: '',
-            courseName: '',
-          };
-          students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+    const sortedStudents = [...students].sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
 
-          // Student with no name is selectable to search for all students since the field is optional
-          this.students = [emptyStudent, ...students];
-        });
-    }
+    // Student with no name is selectable to search for all students since the field is optional
+    return [emptyStudent, ...sortedStudents];
   }
 
   private toFeedbackSessionLogModel(

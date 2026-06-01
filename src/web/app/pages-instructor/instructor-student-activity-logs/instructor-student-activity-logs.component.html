@@ -129,7 +129,7 @@
             id="search-button"
             class="float-end btn btn-primary"
             (click)="search()"
-            [disabled]="course.courseId === '' || isSearching"
+            [disabled]="isLoading"
           >
             Search
           </button>
@@ -139,7 +139,7 @@
   </div>
 </div>
 <div id="logs-output">
-  <div *tmIsLoading="isSearching">
+  <div *tmIsLoading="isLoading">
     @for (results of searchResults; track results) {
       <div>
         <div
