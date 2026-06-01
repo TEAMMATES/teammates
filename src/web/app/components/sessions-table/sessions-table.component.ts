@@ -33,6 +33,7 @@ import { publishStatusNameToString } from '../../utils/publish-status-name.util'
 import { submissionStatusTooltipToString } from '../../utils/submissions-status-tool-tip.util';
 import { submissionsStatusNameToString } from '../../utils/submissions-status-name.util';
 import { publishStatusTooltipUtilToString } from '../../utils/publish-status-tooltip.util';
+import { FormatDateUtil } from '../../utils/format-date.service.util';
 
 export type MutateEvent = {
   idx: number;
@@ -62,8 +63,7 @@ export type Index = number;
 export class SessionsTableComponent implements OnInit {
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
-  private formatDateDetailPipe = inject(FormatDateDetailPipe);
-  private formatDateBriefPipe = inject(FormatDateBriefPipe);
+  private formatDateUtil = inject(FormatDateUtil);
 
   // enum
   SortBy!: typeof SortBy;
@@ -348,8 +348,8 @@ export class SessionsTableComponent implements OnInit {
         component: CellWithToolTipComponent,
         componentData: () => {
           return {
-            toolTip: this.formatDateDetailPipe.transform(timestamp, timeZone),
-            value: this.formatDateBriefPipe.transform(timestamp, timeZone),
+            toolTip: this.formatDateUtil.formatDateDetail(timestamp, timeZone),
+            value: this.formatDateUtil.formatDateBrief(timestamp, timeZone),
           };
         },
       },
