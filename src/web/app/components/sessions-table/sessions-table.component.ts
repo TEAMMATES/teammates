@@ -31,6 +31,7 @@ import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
 import { publishStatusNameToString } from '../../utils/publish-status-name.util';
 import { submissionStatusTooltipToString } from '../../utils/submissions-status-tool-tip.util';
+import { submissionsStatusNameToString } from '../../utils/submissions-status-name.util';
 
 export type MutateEvent = {
   idx: number;
@@ -63,7 +64,6 @@ export class SessionsTableComponent implements OnInit {
   private formatDateDetailPipe = inject(FormatDateDetailPipe);
   private formatDateBriefPipe = inject(FormatDateBriefPipe);
   private publishStatusTooltip = inject(PublishStatusTooltipPipe);
-  private submissionStatusName = inject(SubmissionStatusNamePipe);
 
   // enum
   SortBy!: typeof SortBy;
@@ -260,7 +260,7 @@ export class SessionsTableComponent implements OnInit {
         ...this.createRowData(
           this.createCellWithToolTip(
             submissionStatusTooltipToString(submissionStatus),
-            this.submissionStatusName.transform(submissionStatus),
+            submissionsStatusNameToString(submissionStatus),
           ),
         ),
         ...this.createRowData(

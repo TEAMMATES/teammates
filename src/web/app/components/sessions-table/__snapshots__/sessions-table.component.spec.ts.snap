@@ -32,7 +32,6 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
   simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function _SubmissionStatusNamePipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -551,7 +550,6 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
   simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function _SubmissionStatusNamePipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -1036,7 +1034,6 @@ exports[`SessionsTableComponent > should snap with default fields 1`] = `
   simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function _SubmissionStatusNamePipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
