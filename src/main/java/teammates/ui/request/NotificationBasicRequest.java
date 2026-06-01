@@ -1,6 +1,8 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.datatransfer.NotificationStyle;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.datatransfer.NotificationTargetUser;
 
 /**

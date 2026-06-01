@@ -1,9 +1,12 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.Locale;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 
 /**

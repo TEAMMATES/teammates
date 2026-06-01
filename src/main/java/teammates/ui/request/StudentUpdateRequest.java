@@ -1,6 +1,8 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.SanitizationHelper;
 
 /**

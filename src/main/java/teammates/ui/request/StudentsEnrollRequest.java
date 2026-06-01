@@ -1,9 +1,13 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.HashSet;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.List;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.Set;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**

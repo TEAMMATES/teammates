@@ -1,7 +1,9 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import jakarta.annotation.Nullable;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.datatransfer.InstructorPermissionRole;
 
 /**

@@ -1,8 +1,12 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.time.Instant;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.Map;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.UUID;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.stream.Collectors;
 
 /**

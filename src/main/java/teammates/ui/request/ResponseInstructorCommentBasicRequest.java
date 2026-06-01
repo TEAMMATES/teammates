@@ -1,10 +1,14 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.List;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.CommentVisibilityType;
 
 /**

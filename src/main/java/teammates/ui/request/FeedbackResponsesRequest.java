@@ -1,16 +1,25 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.HashSet;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.List;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.Map;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.Set;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import java.util.UUID;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import jakarta.annotation.Nullable;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.SanitizationHelper;
 
 /**

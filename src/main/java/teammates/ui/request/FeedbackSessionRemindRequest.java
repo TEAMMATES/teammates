@@ -1,5 +1,6 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
