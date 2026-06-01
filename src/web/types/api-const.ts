@@ -40,7 +40,7 @@ export enum QuestionTypeStructures {
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS = "{\"questionType\":\"CONTRIB\",\"answer\":-999}",
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS = "{\"questionType\":\"CONSTSUM_OPTIONS\",\"questionText\":\"\",\"constSumOptions\":[\"\",\"\"],\"distributeToRecipients\":false,\"pointsPerOption\":false,\"forceUnevenDistribution\":false,\"distributePointsFor\":\"None\",\"points\":100}",
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS = "{\"questionType\":\"CONSTSUM_RECIPIENTS\",\"questionText\":\"\",\"constSumOptions\":[],\"distributeToRecipients\":true,\"pointsPerOption\":false,\"forceUnevenDistribution\":false,\"distributePointsFor\":\"None\",\"points\":100}",
-  DEFAULT_CONSTSUM_RESPONSE_DETAILS = "{\"questionType\":\"CONSTSUM\",\"answers\":[]}",
+  DEFAULT_CONSTSUM_RESPONSE_DETAILS = "{\"questionType\":\"CONSTSUM_OPTIONS\",\"answers\":[]}",
   DEFAULT_MCQ_QUESTION_DETAILS = "{\"questionType\":\"MCQ\",\"questionText\":\"\",\"hasAssignedWeights\":false,\"mcqWeights\":[],\"mcqOtherWeight\":0.0,\"mcqChoices\":[],\"otherEnabled\":false,\"questionDropdownEnabled\":false,\"generateOptionsFor\":\"NONE\"}",
   DEFAULT_MCQ_RESPONSE_DETAILS = "{\"questionType\":\"MCQ\",\"answer\":\"\",\"isOther\":false,\"otherFieldContent\":\"\"}",
   DEFAULT_MSQ_QUESTION_DETAILS = "{\"questionType\":\"MSQ\",\"questionText\":\"\",\"msqChoices\":[],\"otherEnabled\":false,\"hasAssignedWeights\":false,\"msqWeights\":[],\"msqOtherWeight\":0.0,\"generateOptionsFor\":\"NONE\",\"maxSelectableChoices\":-2147483648,\"minSelectableChoices\":-2147483648}",
