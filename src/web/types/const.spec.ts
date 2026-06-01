@@ -119,7 +119,7 @@ describe('Constants', () => {
   // 3. There is either answer or answers field (depending on question type)
   // They are sufficient to ascertain that the correct structure is generated
   it('should generate response details correctly', () => {
-    expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM);
+    expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM_OPTIONS);
     expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().answers).toBeTruthy();
 
     expect(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONTRIB);

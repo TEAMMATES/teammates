@@ -39,7 +39,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [20],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -55,7 +55,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [80],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "participantComment": "Instructor 1 comment",
           "instructorComments": []
@@ -105,7 +105,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [30],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -123,7 +123,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [20],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -141,7 +141,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [30],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -159,7 +159,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [10],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -177,7 +177,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [10],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -406,7 +406,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [80, 20],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "participantComment": "Student 2 comment",
           "instructorComments": []
@@ -425,7 +425,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [19, 81],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },

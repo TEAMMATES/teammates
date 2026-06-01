@@ -595,7 +595,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [2, 8],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -612,7 +612,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [3, 7],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -629,7 +629,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [5, 5],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -646,7 +646,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [5, 5],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -663,7 +663,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [9, 1],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -680,7 +680,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [6, 4],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -697,7 +697,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [4, 6],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },
@@ -714,7 +714,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     recipientSection: '',
     responseDetails: {
       answers: [7, 3],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     } as FeedbackConstantSumResponseDetails,
     instructorComments: [],
   },

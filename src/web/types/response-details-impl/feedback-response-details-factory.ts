@@ -33,7 +33,8 @@ export class FeedbackResponseDetailsFactory {
    */
   static fromApiOutput(details: FeedbackResponseDetails): AbstractFeedbackResponseDetails<FeedbackQuestionDetails> {
     switch (details.questionType) {
-      case FeedbackQuestionType.CONSTSUM:
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return new FeedbackConstantSumResponseDetailsImpl(details as FeedbackConstantSumResponseDetails);
       case FeedbackQuestionType.CONTRIB:
         return new FeedbackContributionResponseDetailsImpl(details as FeedbackContributionResponseDetails);

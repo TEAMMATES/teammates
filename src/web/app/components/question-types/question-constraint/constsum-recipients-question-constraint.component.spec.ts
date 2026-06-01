@@ -18,7 +18,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
     recipientIdentifier: 'recipient123',
     status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    responseDetails: { questionType: FeedbackQuestionType.CONSTSUM },
+    responseDetails: { questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS },
   });
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
 
   it('allAnswers: should return 0 if the answers array is empty', () => {
     const details: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [],
     };
     const form = formBuilder.responseDetails(details).build();
@@ -49,7 +49,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
 
   it('allAnswers: should return the first answer if it exists', () => {
     const details: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [5, 10, 15],
     };
     const form = formBuilder.responseDetails(details).build();
@@ -60,13 +60,13 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
 
   it('allAnswers: should return the first answers of multiple forms', () => {
     const detailsOne: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [5, 10, 15],
     };
     const formOne = formBuilder.responseDetails(detailsOne).build();
 
     const detailsTwo: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [3, 6, 9],
     };
     const formTwo = formBuilder.responseDetails(detailsTwo).build();

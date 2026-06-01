@@ -13,7 +13,7 @@ export class FeedbackConstantSumResponseDetailsImpl
   implements FeedbackConstantSumResponseDetails
 {
   answers: number[] = [];
-  questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM;
+  questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
 
   constructor(apiOutput: FeedbackConstantSumResponseDetails) {
     super();

@@ -151,7 +151,7 @@ describe('SessionSubmissionPageComponent', () => {
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answers: [7, 13],
-      questionType: FeedbackQuestionType.CONSTSUM,
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
     } as FeedbackConstantSumResponseDetails,
     status: ResponseSubmissionStatus.SAVED,
     isValid: true,
