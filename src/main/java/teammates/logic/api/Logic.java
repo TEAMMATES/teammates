@@ -145,18 +145,6 @@ public class Logic {
     }
 
     /**
-     * Creates/Resets the account request with the given id
-     * such that it is not registered.
-     *
-     * @return account request that is unregistered with the
-     *         id.
-     */
-    public AccountRequest resetAccountRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        return accountRequestLogic.resetAccountRequest(id);
-    }
-
-    /**
      * Deletes account request by id.
      *
      * <ul>

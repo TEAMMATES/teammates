@@ -114,7 +114,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateFeedbackQuestionAction.class,
                 UpdateFeedbackQuestionAction.class,
                 SearchAccountRequestsAction.class,
-                ResetAccountRequestAction.class,
                 CalculateUsageStatisticsAction.class,
                 CleanupFeedbackSessionLogsAction.class,
                 GetUsageStatisticsAction.class,

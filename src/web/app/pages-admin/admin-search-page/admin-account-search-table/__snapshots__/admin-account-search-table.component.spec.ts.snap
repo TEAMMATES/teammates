@@ -6,7 +6,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
   accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -206,18 +205,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
             </td>
           </tr>
@@ -369,18 +356,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-1"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
             </td>
           </tr>
@@ -418,7 +393,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
   accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function _SimpleModalService]}
@@ -620,18 +594,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
             </td>
           </tr>
@@ -785,18 +747,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-1"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
             </td>
           </tr>
@@ -834,7 +784,6 @@ exports[`AdminAccountSearchTableComponent > should snap with an expanded account
   accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -1034,18 +983,6 @@ exports[`AdminAccountSearchTableComponent > should snap with an expanded account
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
             </td>
           </tr>

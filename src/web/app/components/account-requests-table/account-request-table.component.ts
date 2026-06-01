@@ -25,10 +25,10 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
   imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
 })
 export class AccountRequestTableComponent {
-  private statusMessageService = inject(StatusMessageService);
-  private simpleModalService = inject(SimpleModalService);
-  private accountService = inject(AccountService);
-  private ngbModal = inject(NgbModal);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly accountService = inject(AccountService);
+  private readonly ngbModal = inject(NgbModal);
 
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
