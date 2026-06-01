@@ -243,6 +243,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
     component.course = testCourse1;
     component.students = [testStudent];
     component.feedbackSessions.set(testFeedbackSession.feedbackSessionId, testFeedbackSession);
+    component.isLoading = false;
+    component.isSearching = false;
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
@@ -272,5 +274,35 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(component.searchResults[0].logColumnsData).toEqual(resultColumns);
     // Testing that the LogType is converted correctly.
     expect(component.searchResults[0].logRowsData[0][0].value).toEqual(`Submitted responses at ${timestamp}`);
+  });
+
+  it('should include selected feedback sessions even when they have no log entries', () => {
+    vi.spyOn(logService, 'searchFeedbackSessionLog').mockReturnValue(
+      of({
+        feedbackSessionLogs: {},
+      }),
+    );
+
+    component.formModel = {
+      logsDateFrom: { year: 2020, month: 12, day: 30 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2020, month: 12, day: 31 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      selectedStudent: { userId: '' },
+      logTypes: [FeedbackSessionLogType.SUBMISSION],
+      selectedSession: { sessionId: '' },
+      showActions: true,
+      showInactions: false,
+    };
+    component.course = testCourse1;
+    component.students = [testStudent];
+    component.feedbackSessions.set(testFeedbackSession.feedbackSessionId, testFeedbackSession);
+    fixture.detectChanges();
+
+    component.search();
+
+    expect(component.searchResults.length).toEqual(1);
+    expect(component.searchResults[0].feedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
+    expect(component.searchResults[0].logRowsData.length).toEqual(0);
   });
 });

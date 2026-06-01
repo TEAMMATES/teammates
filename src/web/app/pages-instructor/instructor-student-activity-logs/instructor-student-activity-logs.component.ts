@@ -235,7 +235,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       .subscribe({
         next: (logs: FeedbackSessionLogs) => {
           if (this.formModel.selectedSession.sessionId === '') {
-            Object.entries(logs.feedbackSessionLogs).forEach(([feedbackSessionId, entries]) => {
+            this.feedbackSessions.forEach((_: FeedbackSession, feedbackSessionId: string) => {
+              const entries: FeedbackSessionLog[] = logs.feedbackSessionLogs[feedbackSessionId] || [];
               entries.forEach((entry: FeedbackSessionLog) => {
                 const arr: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(
                   this.getStudentKey(feedbackSessionId, entry.user.userId),
@@ -250,20 +251,18 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             });
           } else {
             const selectedSessionId = this.formModel.selectedSession.sessionId || '';
-            const targetEntries = logs.feedbackSessionLogs[selectedSessionId];
-            if (targetEntries) {
-              targetEntries.forEach((entry: FeedbackSessionLog) => {
-                const arr: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(selectedSessionId, entry.user.userId),
-                );
-                if (arr) {
-                  arr.push(entry);
-                } else {
-                  this.studentLogsMap.set(this.getStudentKey(selectedSessionId, entry.user.userId), [entry]);
-                }
-              });
-              this.searchResults.push(this.toFeedbackSessionLogModel(selectedSessionId, targetEntries));
-            }
+            const targetEntries: FeedbackSessionLog[] = logs.feedbackSessionLogs[selectedSessionId] || [];
+            targetEntries.forEach((entry: FeedbackSessionLog) => {
+              const arr: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(
+                this.getStudentKey(selectedSessionId, entry.user.userId),
+              );
+              if (arr) {
+                arr.push(entry);
+              } else {
+                this.studentLogsMap.set(this.getStudentKey(selectedSessionId, entry.user.userId), [entry]);
+              }
+            });
+            this.searchResults.push(this.toFeedbackSessionLogModel(selectedSessionId, targetEntries));
           }
         },
         error: (e: ErrorMessageOutput) => {
