@@ -154,11 +154,11 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
-  it('should execute GET when getting course section names', () => {
+  it('should execute GET when getting course sections', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
-    service.getCourseSectionNames(paramMap['courseid']);
+    service.getCourseSections(paramMap['courseid']);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
   });
 });

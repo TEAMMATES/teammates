@@ -28,7 +28,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   ContributionStatistics,
   ContributionStatisticsEntry,
-  CourseSectionNames,
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -85,20 +84,20 @@ const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
   providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorSessionResultPageComponent implements OnInit {
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private feedbackSessionActionsService = inject(FeedbackSessionActionsService);
-  private feedbackQuestionsService = inject(FeedbackQuestionsService);
-  private courseService = inject(CourseService);
-  private fileSaveService = inject(FileSaveService);
-  private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
-  private route = inject(ActivatedRoute);
-  private timezoneService = inject(TimezoneService);
-  private simpleModalService = inject(SimpleModalService);
-  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
-  private navigationService = inject(NavigationService);
-  private statusMessageService = inject(StatusMessageService);
-  private commentService = inject(InstructorCommentService);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly feedbackSessionActionsService = inject(FeedbackSessionActionsService);
+  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private readonly courseService = inject(CourseService);
+  private readonly fileSaveService = inject(FileSaveService);
+  private readonly studentService = inject(StudentService);
+  private readonly instructorService = inject(InstructorService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
+  private readonly navigationService = inject(NavigationService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly commentService = inject(InstructorCommentService);
 
   // enum
   InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
@@ -232,15 +231,15 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.isFeedbackSessionLoading = false;
 
           // load section tabs
-          this.courseService.getCourseSectionNames(this.courseId).subscribe({
-            next: (courseSectionNames: CourseSectionNames) => {
+          this.courseService.getCourseSections(this.courseId).subscribe({
+            next: (courseSections) => {
               this.sectionsModel['None'] = {
                 questions: [],
                 hasPopulated: false,
                 isTabExpanded: false,
               };
-              for (const sectionName of courseSectionNames.sectionNames) {
-                this.sectionsModel[sectionName] = {
+              for (const section of courseSections.sections) {
+                this.sectionsModel[section.sectionName] = {
                   questions: [],
                   hasPopulated: false,
                   isTabExpanded: false,
@@ -593,7 +592,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * Handle print view button event.
    */
   printViewHandler(): void {
-    window.print();
+    globalThis.print();
   }
 
   /**
