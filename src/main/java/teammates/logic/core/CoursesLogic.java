@@ -6,6 +6,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -258,21 +259,16 @@ public final class CoursesLogic {
     }
 
     /**
-     * Gets a list of section names for the given {@code courseId}.
+     * Gets the sections for the given {@code courseId}.
      */
-    public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
-        assert courseId != null;
+    public Set<Section> getSectionsForCourse(String courseId) throws EntityDoesNotExistException {
         Course course = getCourse(courseId);
 
         if (course == null) {
             throw new EntityDoesNotExistException("Trying to get section names for a non-existent course.");
         }
 
-        return course.getSections()
-                .stream()
-                .map(Section::getName)
-                .sorted()
-                .toList();
+        return course.getSections();
     }
 
     /**

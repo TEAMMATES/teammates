@@ -346,11 +346,11 @@ public class Logic {
     }
 
     /**
-     * Gets a list of section names for the given {@code courseId}.
+     * Gets the sections for the given {@code courseId}.
      */
-    public List<String> getSectionNamesForCourse(String courseId)
+    public Set<Section> getSectionsForCourse(String courseId)
             throws EntityDoesNotExistException {
-        return coursesLogic.getSectionNamesForCourse(courseId);
+        return coursesLogic.getSectionsForCourse(courseId);
     }
 
     /**

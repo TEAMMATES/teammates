@@ -68,8 +68,13 @@ export interface Courses extends ApiOutput {
   courses: Course[];
 }
 
-export interface CourseSectionNames extends ApiOutput {
-  sectionNames: string[];
+export interface CourseSection extends ApiOutput {
+  sectionId: string;
+  sectionName: string;
+}
+
+export interface CourseSections extends ApiOutput {
+  sections: CourseSection[];
 }
 
 export interface DeadlineExtensions extends ApiOutput {
