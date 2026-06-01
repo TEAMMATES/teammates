@@ -139,8 +139,6 @@ public final class Const {
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
 
-        public static final String FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER = "frsessionbygiverreceiver";
-
         public static final String PREVIEWAS = "previewas";
 
         public static final String USER_ID = "userid";
@@ -188,6 +186,7 @@ public final class Const {
         public static final String WEB_VERSION = "X-WEB-VERSION";
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
         public static final String AUTHORIZATION_KEY = "Authorization";
+        public static final String REQUEST_ID = "X-Request-Id";
     }
 
     /**

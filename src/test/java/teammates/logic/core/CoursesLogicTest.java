@@ -108,41 +108,6 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetSectionNamesForCourse_shouldReturnListOfSectionNames_success() throws EntityDoesNotExistException {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        Section s1 = getTypicalSection();
-        s1.setName("test-sectionName1");
-        course.addSection(s1);
-        Section s2 = getTypicalSection();
-        s2.setName("test-sectionName2");
-        course.addSection(s2);
-
-        when(coursesDb.getCourse(courseId)).thenReturn(course);
-
-        List<String> sectionNames = coursesLogic.getSectionNamesForCourse(courseId);
-
-        verify(coursesDb, times(1)).getCourse(courseId);
-
-        List<String> expectedSectionNames = List.of("test-sectionName1", "test-sectionName2");
-
-        assertEquals(expectedSectionNames, sectionNames);
-    }
-
-    @Test
-    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException() {
-        String courseId = getTypicalCourse().getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(null);
-
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> coursesLogic.getSectionNamesForCourse(courseId));
-
-        assertEquals("Trying to get section names for a non-existent course.", ex.getMessage());
-    }
-
-    @Test
     public void testCreateCourse_shouldReturnCreatedCourse_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Course course = getTypicalCourse();

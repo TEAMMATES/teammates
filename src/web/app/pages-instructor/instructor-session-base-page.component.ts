@@ -634,7 +634,7 @@ export abstract class InstructorSessionBasePageComponent {
 
   openErrorReportModal(resp: ErrorMessageOutput): void {
     const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
-    modal.componentInstance.requestId = resp.error.requestId;
+    modal.componentInstance.requestId = resp.headers?.get('X-Request-Id');
     modal.componentInstance.errorMessage = resp.error.message;
   }
 

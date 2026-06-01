@@ -5,7 +5,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 /**
  * The output format for privilege of an instructor.
  */
-public class InstructorPrivilegeData extends ApiOutput {
+public class InstructorPrivilegeData implements ApiOutput {
 
     private final InstructorPrivileges privileges;
 

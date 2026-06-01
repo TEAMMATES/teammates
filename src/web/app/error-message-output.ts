@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { MessageOutput } from '../types/api-output';
 
 /**
@@ -6,4 +7,5 @@ import { MessageOutput } from '../types/api-output';
 export interface ErrorMessageOutput {
   error: MessageOutput;
   status: number;
+  headers?: HttpHeaders;
 }

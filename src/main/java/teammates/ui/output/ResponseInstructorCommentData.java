@@ -10,7 +10,7 @@ import teammates.storage.entity.ResponseInstructorComment;
 /**
  * The API output format of {@link ResponseInstructorComment}.
  */
-public class ResponseInstructorCommentData extends ApiOutput {
+public class ResponseInstructorCommentData implements ApiOutput {
     private UUID responseInstructorCommentId;
 
     private String commentGiverName;

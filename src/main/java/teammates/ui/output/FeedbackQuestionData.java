@@ -23,7 +23,7 @@ import teammates.storage.entity.FeedbackQuestion;
 /**
  * The API output format of {@link FeedbackQuestion}.
  */
-public class FeedbackQuestionData extends ApiOutput {
+public class FeedbackQuestionData implements ApiOutput {
     private final UUID feedbackQuestionId;
     private int questionNumber;
     private final String questionBrief;

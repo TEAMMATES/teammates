@@ -28,7 +28,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   ContributionStatistics,
   ContributionStatisticsEntry,
-  CourseSectionNames,
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -232,15 +231,15 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.isFeedbackSessionLoading = false;
 
           // load section tabs
-          this.courseService.getCourseSectionNames(this.courseId).subscribe({
-            next: (courseSectionNames: CourseSectionNames) => {
+          this.courseService.getCourseSections(this.courseId).subscribe({
+            next: (courseSections) => {
               this.sectionsModel['None'] = {
                 questions: [],
                 hasPopulated: false,
                 isTabExpanded: false,
               };
-              for (const sectionName of courseSectionNames.sectionNames) {
-                this.sectionsModel[sectionName] = {
+              for (const section of courseSections.sections) {
+                this.sectionsModel[section.sectionName] = {
                   questions: [],
                   hasPopulated: false,
                   isTabExpanded: false,
@@ -397,7 +396,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
             groupBySection: sectionName,
-            sectionByGiverReceiver: 'both',
           });
         }),
       )
@@ -593,7 +591,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
    * Handle print view button event.
    */
   printViewHandler(): void {
-    window.print();
+    globalThis.print();
   }
 
   /**

@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * The API output format for OngoingSessions.
  */
-public class OngoingSessionsData extends ApiOutput {
+public class OngoingSessionsData implements ApiOutput {
 
     private int totalOngoingSessions;
     private int totalOpenSessions;

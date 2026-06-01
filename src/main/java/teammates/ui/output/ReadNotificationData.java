@@ -7,7 +7,7 @@ import teammates.storage.entity.ReadNotification;
 /**
  * Output format of a read notification.
  */
-public class ReadNotificationData extends ApiOutput {
+public class ReadNotificationData implements ApiOutput {
     private final UUID readNotificationId;
     private final UUID accountId;
     private final UUID notificationId;
