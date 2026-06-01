@@ -8,7 +8,7 @@ import teammates.storage.entity.Section;
 /**
  * The API output format of a list of sections.
  */
-public class CourseSectionsData extends ApiOutput {
+public class CourseSectionsData implements ApiOutput {
     private List<CourseSectionData> sections;
 
     public CourseSectionsData(Set<Section> sections) {
