@@ -16,8 +16,10 @@ import { Response } from '../question-statistics.model';
 
 export class ResponseDetailsTypeChecker {
   static isConstSum(d: FeedbackResponseDetails): d is FeedbackConstantSumResponseDetails {
-    return d.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS
-      || d.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS;
+    return (
+      d.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS ||
+      d.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS
+    );
   }
 
   static isContrib(d: FeedbackResponseDetails): d is FeedbackContributionResponseDetails {
