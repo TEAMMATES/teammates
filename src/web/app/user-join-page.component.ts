@@ -51,12 +51,8 @@ export class UserJoinPageComponent implements OnInit {
         this.entityType = 'instructor';
       }
 
-      const authInfo = this.authService.authInfo$.value;
-      if (!authInfo?.user) {
-        this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-        return;
-      }
-      this.userId = authInfo.user.id;
+      const authInfo = this.authService.authInfo();
+      this.userId = authInfo?.user?.id ?? '';
 
       this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
         next: (resp: JoinStatus) => {

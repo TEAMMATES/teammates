@@ -185,7 +185,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           this.isSubmissionFormsDisabled = true;
         }
 
-        const authInfo = this.route.parent?.snapshot.data['authInfo'] ?? this.authService.authInfo$.value;
+        const authInfo = this.route.parent?.snapshot.data['authInfo'] ?? this.authService.authInfo();
         const isPreviewOrModeration = !!(authInfo?.user && (this.moderatedPerson || this.previewAsPerson));
         if (authInfo?.user) {
           this.loggedInUser = authInfo.user.id;

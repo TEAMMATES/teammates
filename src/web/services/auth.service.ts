@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
@@ -17,14 +17,14 @@ export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
 
-  readonly authInfo$ = new BehaviorSubject<AuthInfo | null>(null);
+  readonly authInfo = signal<AuthInfo | null>(null);
 
   /**
    * Gets the user authentication information.
    * Returns the cached value if the user is already authenticated, otherwise fetches from the server.
    */
   getAuthUser(nextUrl?: string): Observable<AuthInfo> {
-    const cached = this.authInfo$.value;
+    const cached = this.authInfo();
     if (cached?.user) {
       return of(cached);
     }
@@ -36,14 +36,14 @@ export class AuthService {
 
     return this.httpRequestService
       .get<AuthInfo>(ResourceEndpoints.AUTH, params)
-      .pipe(tap((authInfo: AuthInfo) => this.authInfo$.next(authInfo)));
+      .pipe(tap((authInfo: AuthInfo) => this.authInfo.set(authInfo)));
   }
 
   /**
    * Clears the cached authentication information.
    */
   clearAuthCache(): void {
-    this.authInfo$.next(null);
+    this.authInfo.set(null);
   }
 
   /**

@@ -143,11 +143,7 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let authInfo = this.authService.authInfo$.value;
-    if (!authInfo) {
-      authInfo = this.route.snapshot.data['authInfo'];
-    }
-
+    const authInfo = this.authService.authInfo() ?? this.route.snapshot.data['authInfo'];
     const user = authInfo?.user;
     if (user) {
       this.user = user.id;
