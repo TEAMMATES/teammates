@@ -42,7 +42,6 @@ public class RequestTraceFilter implements Filter {
 
         String requestId = request.getHeader("X-Cloud-Trace-Context");
         String traceId;
-        String spanId = null;
         if (requestId == null) {
             // Generate random hexadecimal string of length 32
             byte[] resBuf = new byte[16];
@@ -52,9 +51,6 @@ public class RequestTraceFilter implements Filter {
             // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
             String[] traceAndSpan = requestId.split("/", 2);
             traceId = traceAndSpan[0];
-            if (traceAndSpan.length == 2) {
-                spanId = traceAndSpan[1].split(";")[0];
-            }
         }
 
         response.setHeader(Const.HeaderNames.REQUEST_ID, traceId);
@@ -65,7 +61,7 @@ public class RequestTraceFilter implements Filter {
         boolean isAutomatedWorkerOrCronRequest = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request);
         int timeoutInSeconds = isAutomatedWorkerOrCronRequest ? 10 * 60 - 5 : 60;
 
-        RequestTracer.init(traceId, spanId, timeoutInSeconds);
+        RequestTracer.init(traceId, timeoutInSeconds);
 
         if (Config.MAINTENANCE) {
             throwError(request, response, HttpStatus.SC_SERVICE_UNAVAILABLE,

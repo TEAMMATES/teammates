@@ -28,17 +28,6 @@ public final class RequestTracer {
     }
 
     /**
-     * Returns the span ID of the current request.
-     */
-    public static String getSpanId() {
-        RequestTrace trace = THREAD_LOCAL.get();
-        if (trace == null) {
-            return null;
-        }
-        return trace.spanId;
-    }
-
-    /**
      * Returns the remaining time (in millis) until the current request times out.
      */
     private static long getRemainingTimeMillis() {
@@ -74,19 +63,17 @@ public final class RequestTracer {
     /**
      * Initializes the request with an ID and the timeout value (in seconds).
      */
-    public static void init(String traceId, String spanId, int timeoutInSeconds) {
-        THREAD_LOCAL.set(new RequestTrace(traceId, spanId, timeoutInSeconds));
+    public static void init(String traceId, int timeoutInSeconds) {
+        THREAD_LOCAL.set(new RequestTrace(traceId, timeoutInSeconds));
     }
 
     private static final class RequestTrace {
         private final String traceId;
-        private final String spanId;
         private final long initTimestamp;
         private final long timeoutTimestamp;
 
-        private RequestTrace(String traceId, String spanId, int timeoutInSeconds) {
+        private RequestTrace(String traceId, int timeoutInSeconds) {
             this.traceId = traceId;
-            this.spanId = spanId;
             this.initTimestamp = Instant.now().toEpochMilli();
             this.timeoutTimestamp = Instant.now().plus(timeoutInSeconds, ChronoUnit.SECONDS).toEpochMilli();
         }
