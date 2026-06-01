@@ -260,9 +260,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         fsLogs = fslData.getFeedbackSessionLogs();
 
-        assertEquals(fsLogs.size(), 2);
-        List<FeedbackSessionLogData> fs2LogEntries = fsLogs.get(fs2.getId().toString());
-        assertEquals(fs2LogEntries.size(), 0);
+        assertEquals(fsLogs.size(), 1);
 
         fsLogEntries1 = fsLogs.get(fs1.getId().toString());
 
@@ -289,9 +287,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         fsLogs = fslData.getFeedbackSessionLogs();
 
-        assertEquals(fsLogs.size(), 2);
-        fs2LogEntries = fsLogs.get(fs2.getId().toString());
-        assertEquals(fs2LogEntries.size(), 0);
+        assertEquals(fsLogs.size(), 1);
 
         fsLogEntries1 = fsLogs.get(fs1.getId().toString());
 
