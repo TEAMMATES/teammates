@@ -87,7 +87,7 @@ export class UserJoinPageComponent implements OnInit {
       next: () => {
         // Clear auth cache to ensure user's auth info is re-fetched.
         this.authService.clearAuthCache();
-        this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
+        this.navigationService.navigateByURL(`/web/${this.entityType}`);
       },
       error: (resp: ErrorMessageOutput) => {
         const errorMessage = resp.error.message;

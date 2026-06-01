@@ -190,6 +190,8 @@ describe('UserJoinPageComponent', () => {
     );
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
+    vi.spyOn(authService, 'authInfo').mockReturnValue(mockAuthInfo);
+
     component.ngOnInit();
 
     queryParamsSubject.next({
@@ -251,6 +253,7 @@ describe('UserJoinPageComponent creating account', () => {
   let courseService: CourseService;
   let timezoneService: TimezoneService;
   let queryParamsSubject: Subject<any>;
+  let authService: AuthService;
 
   const mockAuthInfo = {
     user: {
@@ -291,6 +294,7 @@ describe('UserJoinPageComponent creating account', () => {
     accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
     timezoneService = TestBed.inject(TimezoneService);
+    authService = TestBed.inject(AuthService);
   });
 
   it('should create account and join course when join course button is clicked on', () => {
@@ -328,6 +332,8 @@ describe('UserJoinPageComponent creating account', () => {
       }),
     );
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
+
+    vi.spyOn(authService, 'authInfo').mockReturnValue(mockAuthInfo);
 
     component.ngOnInit();
 

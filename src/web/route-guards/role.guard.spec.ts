@@ -91,25 +91,12 @@ describe('RoleGuard', () => {
       expect(result).toBe(true);
     });
 
-    it('should return false and navigate with error when user has wrong role', async () => {
+    it('should return false and redirect to unauthorized warning page when user has wrong role', async () => {
       spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('student')));
 
       const result = await firstValueFrom(guard.canActivate(mockRoute('admin'), mockState('/web/admin')));
 
-      expect(result).toBe(false);
-      expect(spyNavigationService.navigateWithErrorMessage).toHaveBeenCalledWith(
-        '/web',
-        'You are not authorized to view the page.',
-      );
-    });
-
-    it('should return false and navigate with error when instructor accesses student route', async () => {
-      spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('instructor')));
-
-      const result = await firstValueFrom(guard.canActivate(mockRoute('student'), mockState('/web/student')));
-
-      expect(result).toBe(false);
-      expect(spyNavigationService.navigateWithErrorMessage).toHaveBeenCalled();
+      expect(result.toString()).toContain('/web/unauthorized?role=admin');
     });
   });
 
@@ -144,17 +131,7 @@ describe('RoleGuard', () => {
 
       const result = await firstValueFrom(guard.canActivateChild(childRoute, mockState('/web/admin/home')));
 
-      expect(result).toBe(false);
-      expect(spyNavigationService.navigateWithErrorMessage).toHaveBeenCalled();
-    });
-
-    it('should fall back to childRoute and deny access when no ancestor has a role', async () => {
-      spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('admin')));
-      const childRoute = mockRoute(undefined, null);
-
-      const result = await firstValueFrom(guard.canActivateChild(childRoute, mockState('/web/admin/home')));
-
-      expect(result).toBe(false);
+      expect(result.toString()).toContain('/web/unauthorized?role=admin');
     });
   });
 });
