@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { InstructorPermissionRole } from '../../../types/api-output';
-import {instructorRoleToName} from "../../utils/instructor-role-name.util";
+import { instructorRoleToName } from '../../utils/instructor-role-name.util';
 
 /**
  * Pipe to handle the transformation of an InstructorPermissionRole to a name.

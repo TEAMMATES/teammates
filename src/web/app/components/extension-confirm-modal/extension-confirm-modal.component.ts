@@ -18,7 +18,7 @@ import {
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
 import { FormatDateUtil } from '../../utils/format-date.service.util';
-import {instructorRoleToName} from "../../utils/instructor-role-name.util";
+import { instructorRoleToName } from '../../utils/instructor-role-name.util';
 
 export enum ExtensionModalType {
   EXTEND,
@@ -212,9 +212,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: instructorData.role,
-          displayValue: instructorData.role
-            ? instructorRoleToName(instructorData.role)
-            : instructorData.role,
+          displayValue: instructorData.role ? instructorRoleToName(instructorData.role) : instructorData.role,
         },
         {
           value: instructorData.extensionDeadline,
