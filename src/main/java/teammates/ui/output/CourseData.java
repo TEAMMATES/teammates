@@ -10,7 +10,7 @@ import teammates.storage.entity.Course;
 /**
  * The API output format of a course.
  */
-public class CourseData extends ApiOutput {
+public class CourseData implements ApiOutput {
 
     private final String courseId;
     private final String courseName;

@@ -188,6 +188,7 @@ public final class Const {
         public static final String WEB_VERSION = "X-WEB-VERSION";
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
         public static final String AUTHORIZATION_KEY = "Authorization";
+        public static final String REQUEST_ID = "X-Request-Id";
     }
 
     /**

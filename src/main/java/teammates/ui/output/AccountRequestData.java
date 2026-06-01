@@ -12,7 +12,7 @@ import teammates.storage.entity.AccountRequest;
 /**
  * Output format of account request data.
  */
-public class AccountRequestData extends ApiOutput {
+public class AccountRequestData implements ApiOutput {
     private final UUID accountRequestId;
     private final String email;
     private final String name;

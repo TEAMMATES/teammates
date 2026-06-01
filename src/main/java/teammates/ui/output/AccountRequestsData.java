@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * The API output format of a list of account requests.
  */
-public class AccountRequestsData extends ApiOutput {
+public class AccountRequestsData implements ApiOutput {
 
     private List<AccountRequestData> accountRequests;
 

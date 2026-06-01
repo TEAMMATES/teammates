@@ -8,7 +8,7 @@ import teammates.common.datatransfer.SubmittedGiverSetBundle;
 /**
  * The API output format of all givers who submitted a feedback session.
  */
-public class FeedbackSessionSubmittedGiverSet extends ApiOutput {
+public class FeedbackSessionSubmittedGiverSet implements ApiOutput {
     private final Set<UUID> studentGivers;
     private final Set<UUID> instructorGivers;
     private final Set<UUID> studentNonGivers;

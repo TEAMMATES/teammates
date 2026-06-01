@@ -3,7 +3,7 @@ package teammates.ui.output;
 /**
  * The API output format for the regenerate key request.
  */
-public class RegenerateKeyData extends ApiOutput {
+public class RegenerateKeyData implements ApiOutput {
     private final String message;
     private final String newRegistrationKey;
 

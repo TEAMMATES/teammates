@@ -7,7 +7,7 @@ import teammates.common.datatransfer.EnrollResults;
 /**
  * The API output wrapper for enroll results.
  */
-public class EnrollStudentsData extends ApiOutput {
+public class EnrollStudentsData implements ApiOutput {
 
     private StudentsData studentsData;
     private List<EnrollErrorResults> unsuccessfulEnrolls;

@@ -7,7 +7,7 @@ import teammates.storage.entity.UsageStatistics;
 /**
  * The API output format of {@link UsageStatistics}.
  */
-public class UsageStatisticsData extends ApiOutput {
+public class UsageStatisticsData implements ApiOutput {
 
     private final UUID usageStatisticsId;
     private final long startTime;

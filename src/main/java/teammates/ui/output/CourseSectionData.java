@@ -7,7 +7,7 @@ import teammates.storage.entity.Section;
 /**
  * The API output format of a section.
  */
-public class CourseSectionData extends ApiOutput {
+public class CourseSectionData implements ApiOutput {
     private UUID sectionId;
     private String sectionName;
 

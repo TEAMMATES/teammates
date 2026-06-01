@@ -12,7 +12,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.RequestTracer;
 import teammates.ui.output.ApiOutput;
 import teammates.ui.output.MessageOutput;
 
@@ -53,7 +52,6 @@ public class JsonResult extends ActionResult {
 
     @Override
     public void send(HttpServletResponse resp) throws IOException {
-        output.setRequestId(RequestTracer.getTraceId());
         for (Cookie cookie : cookies) {
             cookie.setSecure(!Config.IS_DEV_SERVER);
             resp.addCookie(cookie);

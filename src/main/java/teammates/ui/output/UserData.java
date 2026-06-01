@@ -7,7 +7,7 @@ import teammates.storage.entity.User;
 /**
  * The API output format of {@link User}.
  */
-public class UserData extends ApiOutput {
+public class UserData implements ApiOutput {
     private final UUID userId;
     private final String email;
     private final String courseId;

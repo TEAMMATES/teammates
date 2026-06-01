@@ -10,7 +10,7 @@ import teammates.storage.entity.Account;
 /**
  * Output format of account data.
  */
-public class AccountData extends ApiOutput {
+public class AccountData implements ApiOutput {
 
     private final UUID accountId;
     private final String googleId;
