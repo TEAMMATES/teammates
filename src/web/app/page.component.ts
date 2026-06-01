@@ -18,7 +18,7 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/n
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
-import { AuthInfo, NotificationTargetUser } from '../types/api-output';
+import { NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
@@ -26,6 +26,7 @@ import { TeammatesRouterDirective } from './components/teammates-router/teammate
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
 import { AuthService } from '../services/auth.service';
+import { PageAuthType } from './page.authtype';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -91,12 +92,12 @@ export class PageComponent implements OnInit {
   isInstructor = false;
   isAdmin = false;
   isMaintainer = false;
-  @Input() isAuthNeeded = true;
-  @Input() authInfo: AuthInfo | null = null;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
   @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
+  @Input() pageAuthType: PageAuthType = PageAuthType.PUBLIC;
+  PageAuthType = PageAuthType;
 
   readonly isNetworkOnline = signal(navigator.onLine);
   readonly isCookieEnabled = signal(navigator.cookieEnabled);
@@ -144,10 +145,15 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const user = this.authInfo?.user;
+    let authInfo = this.authService.authInfo$.value;
+    if (!authInfo) {
+      authInfo = this.route.snapshot.data['authInfo'];
+    }
+
+    const user = authInfo?.user;
     if (user) {
       this.user = user.id;
-      if (this.authInfo?.masquerade) {
+      if (authInfo?.masquerade) {
         this.user += ' (M)';
       }
       this.isStudent = user.isStudent;
@@ -195,23 +201,27 @@ export class PageComponent implements OnInit {
   }
 
   get isValidUser(): boolean {
-    const hasRole = this.hasRole;
-    const isLoggedIn = !!this.user;
-
-    // Logged in but not known to TEAMMATES
-    if (isLoggedIn && !hasRole) {
-      return false;
+    switch (this.pageAuthType) {
+      case PageAuthType.PUBLIC:
+        return true;
+      case PageAuthType.AUTHENTICATED:
+        return this.isLoggedIn;
+      case PageAuthType.ROLE_BASED_AUTHENTICATED:
+        return this.isLoggedIn && this.hasRole;
+      default:
+        return false;
     }
-
-    // Public pages
-    if (!this.isAuthNeeded) {
-      return true;
-    }
-
-    return isLoggedIn && hasRole;
   }
 
   get hasRole(): boolean {
     return this.isStudent || this.isInstructor || this.isAdmin || this.isMaintainer;
+  }
+
+  get isLoggedIn(): boolean {
+    return !!this.user;
+  }
+
+  get shouldShowUnknownUserWarning(): boolean {
+    return !this.isValidUser && !this.hasRole;
   }
 }

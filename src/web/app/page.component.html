@@ -126,7 +126,7 @@
         </div>
       </div>
     }
-    @if (user && !hasRole) {
+    @if (shouldShowUnknownUserWarning) {
       <div>
         <div class="row">
           <div class="alert alert-danger col-sm-8 offset-sm-2">
@@ -171,6 +171,10 @@
     @if (isValidUser) {
       <router-outlet></router-outlet>
     }
+    <div>Page Auth Type: {{ PageAuthType[pageAuthType] }}</div>
+    <div>isLoggedIn: {{ isLoggedIn }}</div>
+    <div>hasRole: {{ hasRole }}</div>
+    <div>User: {{ user }}</div>
   </div>
 </main>
 <footer class="footer">

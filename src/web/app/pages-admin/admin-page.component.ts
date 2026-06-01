@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
-import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../../types/api-output';
+import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for admin pages.
@@ -12,8 +11,6 @@ import { AuthInfo } from '../../types/api-output';
   imports: [PageComponent],
 })
 export class AdminPageComponent {
-  private authService = inject(AuthService);
-
   navItems: any[] = [
     {
       url: '/web/admin',
@@ -45,5 +42,5 @@ export class AdminPageComponent {
       ],
     },
   ];
-  authInfo: AuthInfo | null = this.authService.authInfo$.value;
+  pageAuthType = PageAuthType.ROLE_BASED_AUTHENTICATED;
 }

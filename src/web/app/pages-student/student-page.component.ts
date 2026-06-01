@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
+import { Component } from '@angular/core';
+import { NotificationTargetUser } from '../../types/api-output';
 import { PageComponent } from '../page.component';
-import { AuthService } from '../../services/auth.service';
+import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for student pages.
@@ -12,8 +12,6 @@ import { AuthService } from '../../services/auth.service';
   imports: [PageComponent],
 })
 export class StudentPageComponent {
-  private authService = inject(AuthService);
-
   navItems: any[] = [
     {
       url: '/web/student',
@@ -29,5 +27,5 @@ export class StudentPageComponent {
     },
   ];
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.STUDENT;
-  authInfo: AuthInfo | null = this.authService.authInfo$.value;
+  pageAuthType = PageAuthType.ROLE_BASED_AUTHENTICATED;
 }

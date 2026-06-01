@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { PageComponent } from '../page.component';
-import { AuthService } from '../../services/auth.service';
-import { AuthInfo } from '../../types/api-output';
+import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for maintainer pages.
@@ -13,8 +12,6 @@ import { AuthInfo } from '../../types/api-output';
   imports: [PageComponent],
 })
 export class MaintainerPageComponent {
-  private authService = inject(AuthService);
-
   navItems: any[] = [
     {
       url: '/web/maintainer',
@@ -29,5 +26,5 @@ export class MaintainerPageComponent {
       display: 'Usage Statistics',
     },
   ];
-  authInfo: AuthInfo | null = this.authService.authInfo$.value;
+  pageAuthType = PageAuthType.ROLE_BASED_AUTHENTICATED;
 }

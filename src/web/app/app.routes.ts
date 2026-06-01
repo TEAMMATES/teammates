@@ -9,6 +9,7 @@ import { StudentPageComponent } from './pages-student/student-page.component';
 import { RoleGuard } from '../route-guards/role.guard';
 import { AuthGuard } from '../route-guards/auth.guard';
 import { AuthInfoResolver } from '../route-guards/authinfo.resolver';
+import { AuthenticatedPageComponent } from './authenticated-page.component';
 
 const routes: Routes = [
   {
@@ -21,10 +22,11 @@ const routes: Routes = [
         resolve: {
           authInfo: AuthInfoResolver,
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'join',
-        component: PublicPageComponent,
+        component: AuthenticatedPageComponent,
         children: [
           {
             path: '',
@@ -36,6 +38,7 @@ const routes: Routes = [
         resolve: {
           authInfo: AuthInfoResolver,
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'sessions',
@@ -66,6 +69,7 @@ const routes: Routes = [
         resolve: {
           authInfo: AuthInfoResolver,
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'student',
@@ -76,6 +80,7 @@ const routes: Routes = [
         data: {
           role: 'student',
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'instructor',
@@ -86,6 +91,7 @@ const routes: Routes = [
         data: {
           role: 'instructor',
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'admin',
@@ -96,6 +102,7 @@ const routes: Routes = [
         data: {
           role: 'admin',
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'maintainer',
@@ -106,6 +113,7 @@ const routes: Routes = [
         data: {
           role: 'maintainer',
         },
+        runGuardsAndResolvers: 'always',
       },
       {
         path: '**',

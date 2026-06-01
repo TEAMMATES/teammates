@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
-import { AuthService } from '../../services/auth.service';
+import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for static pages.
@@ -11,8 +11,6 @@ import { AuthService } from '../../services/auth.service';
   imports: [PageComponent],
 })
 export class StaticPageComponent {
-  private authService = inject(AuthService);
-
   navItems: any[] = [
     {
       url: '/web/front',
@@ -52,5 +50,5 @@ export class StaticPageComponent {
       ],
     },
   ];
-  authInfo = this.authService.authInfo$.value;
+  pageAuthType = PageAuthType.PUBLIC;
 }

@@ -91,18 +91,8 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse({ key: this.key }).subscribe({
       next: () => {
-        // Clear and refresh auth cache to ensure user's role is updated.
+        // Clear auth cache to ensure user's auth info is re-fetched.
         this.authService.clearAuthCache();
-        this.authService.getAuthUser().subscribe({
-          next: () => {
-            this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
-          },
-          error: (resp: ErrorMessageOutput) => {
-            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
-            modalRef.componentInstance.errorMessage = resp.error.message;
-          },
-        });
       },
       error: (resp: ErrorMessageOutput) => {
         const errorMessage = resp.error.message;
