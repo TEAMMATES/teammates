@@ -11,7 +11,7 @@ import teammates.storage.entity.Notification;
 /**
  * The API output format of a notification.
  */
-public class NotificationData extends ApiOutput {
+public class NotificationData implements ApiOutput {
 
     private UUID notificationId;
     private long startTimestamp;

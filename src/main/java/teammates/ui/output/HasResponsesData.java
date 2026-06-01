@@ -8,7 +8,7 @@ import jakarta.annotation.Nullable;
 /**
  * The API output format to represent if there are responses.
  */
-public class HasResponsesData extends ApiOutput {
+public class HasResponsesData implements ApiOutput {
     private final boolean hasResponses; // Used for single entry hasResponses check.
     @Nullable
     private final Map<String, Boolean> hasResponsesBySession; // Used for multi-session hasResponses check.

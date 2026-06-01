@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Output format of read notifications.
  */
-public class ReadNotificationsData extends ApiOutput {
+public class ReadNotificationsData implements ApiOutput {
 
     private final List<UUID> readNotifications;
 

@@ -8,7 +8,7 @@ import teammates.storage.entity.Notification;
 /**
  * The API output for a list of notifications.
  */
-public class NotificationsData extends ApiOutput {
+public class NotificationsData implements ApiOutput {
     private final List<NotificationData> notifications;
 
     public NotificationsData(List<Notification> notifications) {

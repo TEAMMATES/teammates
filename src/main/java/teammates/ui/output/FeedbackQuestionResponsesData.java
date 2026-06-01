@@ -12,7 +12,7 @@ import teammates.storage.entity.FeedbackResponse;
 /**
  * The API output format for submitted {@link FeedbackResponse}, grouped by question.
  */
-public class FeedbackQuestionResponsesData extends ApiOutput {
+public class FeedbackQuestionResponsesData implements ApiOutput {
 
     private Map<UUID, List<FeedbackResponseData>> questionResponses;
 

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * The API output format of a list of section names (as strings).
  */
-public class CourseSectionNamesData extends ApiOutput {
+public class CourseSectionNamesData implements ApiOutput {
     private List<String> sectionNames;
 
     public CourseSectionNamesData(List<String> sectionNames) {

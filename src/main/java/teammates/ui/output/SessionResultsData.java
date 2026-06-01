@@ -27,7 +27,7 @@ import teammates.storage.entity.User;
 /**
  * API output format for session results, including statistics.
  */
-public class SessionResultsData extends ApiOutput {
+public class SessionResultsData implements ApiOutput {
 
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 

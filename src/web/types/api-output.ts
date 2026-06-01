@@ -31,7 +31,6 @@ export interface ActionClasses extends ApiOutput {
 }
 
 export interface ApiOutput {
-  requestId?: string;
 }
 
 export interface AuthInfo extends ApiOutput {

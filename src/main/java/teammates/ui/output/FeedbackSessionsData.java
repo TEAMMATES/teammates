@@ -13,7 +13,7 @@ import teammates.storage.entity.FeedbackSession;
 /**
  * The API output format of a list of {@link FeedbackSession}.
  */
-public class FeedbackSessionsData extends ApiOutput {
+public class FeedbackSessionsData implements ApiOutput {
     private final List<FeedbackSessionData> feedbackSessions;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

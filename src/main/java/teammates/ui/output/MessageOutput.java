@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * Generic output format for message-producing endpoint.
  */
-public class MessageOutput extends ApiOutput {
+public class MessageOutput implements ApiOutput {
 
     private final String message;
 

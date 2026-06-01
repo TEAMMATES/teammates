@@ -8,7 +8,7 @@ import teammates.storage.entity.Course;
 /**
  * The API output for a list of courses.
  */
-public class CoursesData extends ApiOutput {
+public class CoursesData implements ApiOutput {
 
     private List<CourseData> courses;
 

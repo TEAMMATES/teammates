@@ -10,7 +10,7 @@ import teammates.storage.entity.FeedbackSessionLog;
 /**
  * The API output format for logs on all feedback sessions in a course.
  */
-public class FeedbackSessionLogsData extends ApiOutput {
+public class FeedbackSessionLogsData implements ApiOutput {
 
     private final Map<String, List<FeedbackSessionLogData>> feedbackSessionLogs;
 
