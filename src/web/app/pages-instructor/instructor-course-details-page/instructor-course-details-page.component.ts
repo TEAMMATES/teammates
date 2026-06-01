@@ -29,7 +29,7 @@ import { StudentListRowModel, StudentListComponent } from '../../components/stud
 import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {joinStateToString} from "../../utils/join-state.util";
+import { joinStateToString } from '../../utils/join-state.util';
 
 interface CourseDetailsBundle {
   course: Course;

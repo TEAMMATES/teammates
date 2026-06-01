@@ -22,7 +22,7 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {joinStateToString} from "../../utils/join-state.util";
+import { joinStateToString } from '../../utils/join-state.util';
 
 interface StudentIndexedData {
   [key: string]: Student[];

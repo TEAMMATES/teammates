@@ -29,7 +29,7 @@ import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pip
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
-import {publishStatusNameToString} from "../../utils/publish-status-name.util";
+import { publishStatusNameToString } from '../../utils/publish-status-name.util';
 
 export type MutateEvent = {
   idx: number;

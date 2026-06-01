@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { FeedbackSessionPublishStatus } from '../../../types/api-output';
-import {publishStatusNameToString} from "../../utils/publish-status-name.util";
+import { publishStatusNameToString } from '../../utils/publish-status-name.util';
 
 /**
  * Pipe to handle the display of {@code FeedbackSessionPublishStatus}.

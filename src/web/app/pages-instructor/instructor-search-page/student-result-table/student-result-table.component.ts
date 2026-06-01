@@ -3,7 +3,7 @@ import { TableComparatorService } from '../../../../services/table-comparator.se
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { StudentListRowModel, StudentListComponent } from '../../../components/student-list/student-list.component';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
-import {joinStateToString} from "../../../utils/join-state.util";
+import { joinStateToString } from '../../../utils/join-state.util';
 
 /**
  * Search result for a list of students in a course

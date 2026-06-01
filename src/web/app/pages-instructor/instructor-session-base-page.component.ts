@@ -39,7 +39,7 @@ import {
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../components/sortable-table/sortable-table.component';
 import { ErrorMessageOutput } from '../error-message-output';
-import {publishStatusNameToString} from "../utils/publish-status-name.util";
+import { publishStatusNameToString } from '../utils/publish-status-name.util';
 
 /**
  * The base page for session related page.

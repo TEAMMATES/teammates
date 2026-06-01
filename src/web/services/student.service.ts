@@ -9,7 +9,7 @@ import { ResourceEndpoints } from '../types/api-const';
 import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
-import {joinStateToString} from "../app/utils/join-state.util";
+import { joinStateToString } from '../app/utils/join-state.util';
 
 /**
  * Handles student related logic provision.
