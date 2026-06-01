@@ -1184,16 +1184,16 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @param feedbackSession the feedback session
-     * @param instructorEmail the email of the instructor requesting for the session result
+     * @param instructor the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
-            FeedbackSession feedbackSession, String instructorEmail,
+            FeedbackSession feedbackSession, Instructor instructor,
             @Nullable UUID questionId, @Nullable String sectionName) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructorEmail, questionId, sectionName);
+                feedbackSession, instructor, questionId, sectionName);
     }
 
     /**

@@ -698,13 +698,13 @@ public final class FeedbackResponsesLogic {
      * Gets the session result for a feedback session.
      *
      * @param feedbackSession the feedback session
-     * @param instructorEmail the instructor viewing the feedback session
+     * @param instructor the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
-            FeedbackSession feedbackSession, String instructorEmail,
+            FeedbackSession feedbackSession, Instructor instructor,
             @Nullable UUID questionId, @Nullable String sectionName) {
 
         String courseId = feedbackSession.getCourseId();
@@ -725,9 +725,6 @@ public final class FeedbackResponsesLogic {
             allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionName);
         }
         RequestTracer.checkRemainingTime();
-
-        // consider the current viewing user
-        Instructor instructor = usersLogic.getInstructorForEmail(courseId, instructorEmail);
 
         return buildResultsBundle(true, sectionName, instructor, roster, allQuestions, allResponses, false);
     }

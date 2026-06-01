@@ -45,7 +45,7 @@ public class GetCourseSessionResultsAction extends Action {
         }
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor.getEmail(),
+        SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor,
                 questionId, selectedSection);
 
         return new JsonResult(SessionResultsData.init(bundle));
