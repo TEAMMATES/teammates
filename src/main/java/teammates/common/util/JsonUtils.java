@@ -306,7 +306,7 @@ public final class JsonUtils {
                 case TEXT -> MAPPER.treeToValue(node, FeedbackTextQuestion.class);
                 case RUBRIC -> MAPPER.treeToValue(node, FeedbackRubricQuestion.class);
                 case CONTRIB -> MAPPER.treeToValue(node, FeedbackContributionQuestion.class);
-                case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
+                case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
                         MAPPER.treeToValue(node, FeedbackConstantSumQuestion.class);
                 case NUMSCALE -> MAPPER.treeToValue(node, FeedbackNumericalScaleQuestion.class);
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
@@ -334,7 +334,7 @@ public final class JsonUtils {
                 case TEXT -> MAPPER.treeToValue(node, FeedbackTextResponse.class);
                 case RUBRIC -> MAPPER.treeToValue(node, FeedbackRubricResponse.class);
                 case CONTRIB -> MAPPER.treeToValue(node, FeedbackContributionResponse.class);
-                case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
+                case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
                         MAPPER.treeToValue(node, FeedbackConstantSumResponse.class);
                 case NUMSCALE -> MAPPER.treeToValue(node, FeedbackNumericalScaleResponse.class);
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);

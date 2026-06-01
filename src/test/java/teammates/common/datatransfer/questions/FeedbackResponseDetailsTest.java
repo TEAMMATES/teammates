@@ -20,4 +20,11 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         assertEquals("updated", frd.getAnswerString());
         assertEquals("original", frdDeep.getAnswerString());
     }
+
+    @Test
+    public void testConstSumResponseDetails_defaultType_shouldBeConstSumOptions() {
+        FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
+
+        assertEquals(FeedbackQuestionType.CONSTSUM_OPTIONS, details.getQuestionType());
+    }
 }

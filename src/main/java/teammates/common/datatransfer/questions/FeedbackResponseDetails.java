@@ -25,7 +25,7 @@ import teammates.common.util.JsonUtils;
         @JsonSubTypes.Type(value = FeedbackNumericalScaleResponseDetails.class, name = "NUMSCALE"),
         @JsonSubTypes.Type(
                 value = FeedbackConstantSumResponseDetails.class,
-                names = {"CONSTSUM", "CONSTSUM_OPTIONS", "CONSTSUM_RECIPIENTS"}),
+                names = {"CONSTSUM_OPTIONS", "CONSTSUM_RECIPIENTS"}),
         @JsonSubTypes.Type(value = FeedbackContributionResponseDetails.class, name = "CONTRIB"),
         @JsonSubTypes.Type(value = FeedbackRubricResponseDetails.class, name = "RUBRIC"),
         @JsonSubTypes.Type(value = FeedbackRankOptionsResponseDetails.class, name = "RANK_OPTIONS"),

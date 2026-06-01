@@ -539,7 +539,8 @@ public class FeedbackResultsPage extends AppPage {
         case RANK_OPTIONS:
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
-        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
             return getConstSumOptionsAnsString(
                     (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);

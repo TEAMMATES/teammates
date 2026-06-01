@@ -11,7 +11,7 @@ public class FeedbackConstantSumResponseDetails extends FeedbackResponseDetails 
     private List<Integer> answers;
 
     public FeedbackConstantSumResponseDetails() {
-        super(FeedbackQuestionType.CONSTSUM);
+        super(FeedbackQuestionType.CONSTSUM_OPTIONS);
         answers = new ArrayList<>();
     }
 

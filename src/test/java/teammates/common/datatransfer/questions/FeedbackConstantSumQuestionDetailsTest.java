@@ -19,6 +19,13 @@ import teammates.test.BaseTestCase;
 public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
     @Test
+    public void testConstructor_defaultType_shouldBeConstSumOptions() {
+        FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
+
+        assertEquals(FeedbackQuestionType.CONSTSUM_OPTIONS, constantSumQuestionDetails.getQuestionType());
+    }
+
+    @Test
     public void testValidateResponseDetails_amongRecipientsValidAnswer_shouldReturnEmptyErrorList() {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(true);

@@ -388,7 +388,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         case MSQ:
         case RUBRIC:
         case RANK_OPTIONS:
-        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
         case CONTRIB:
             return; // TODO: Find way to test different statistics efficiently.
         default:
@@ -810,7 +811,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         case RANK_OPTIONS:
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
-        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
             return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);
         case CONTRIB:

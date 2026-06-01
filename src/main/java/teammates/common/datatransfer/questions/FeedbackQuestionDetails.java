@@ -29,7 +29,7 @@ import teammates.storage.entity.FeedbackQuestion;
         @JsonSubTypes.Type(value = FeedbackNumericalScaleQuestionDetails.class, name = "NUMSCALE"),
         @JsonSubTypes.Type(
                 value = FeedbackConstantSumQuestionDetails.class,
-                names = {"CONSTSUM", "CONSTSUM_OPTIONS", "CONSTSUM_RECIPIENTS"}),
+                names = {"CONSTSUM_OPTIONS", "CONSTSUM_RECIPIENTS"}),
         @JsonSubTypes.Type(value = FeedbackContributionQuestionDetails.class, name = "CONTRIB"),
         @JsonSubTypes.Type(value = FeedbackRubricQuestionDetails.class, name = "RUBRIC"),
         @JsonSubTypes.Type(value = FeedbackRankOptionsQuestionDetails.class, name = "RANK_OPTIONS"),

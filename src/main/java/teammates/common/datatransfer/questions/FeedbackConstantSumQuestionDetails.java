@@ -65,7 +65,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     }
 
     public FeedbackConstantSumQuestionDetails(String questionText) {
-        super(FeedbackQuestionType.CONSTSUM, questionText);
+        super(FeedbackQuestionType.CONSTSUM_OPTIONS, questionText);
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = false;
         this.pointsPerOption = false;

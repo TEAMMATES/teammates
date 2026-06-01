@@ -1,0 +1,56 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samuelfangjw" id="20260602-constsum-question-type-split-1">
+        <sql>
+            UPDATE feedback_questions
+            SET question_details = jsonb_set(
+                question_details::jsonb,
+                '{questionType}',
+                to_jsonb(CASE
+                    WHEN COALESCE((question_details::jsonb -&gt;&gt; 'distributeToRecipients')::boolean, false)
+                        THEN 'CONSTSUM_RECIPIENTS'
+                    ELSE 'CONSTSUM_OPTIONS'
+                END),
+                false
+            )::text
+            WHERE question_details::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM';
+
+            UPDATE feedback_responses fr
+            SET answer = jsonb_set(
+                fr.answer::jsonb,
+                '{questionType}',
+                to_jsonb(fq.question_details::jsonb -&gt;&gt; 'questionType'),
+                false
+            )::text
+            FROM feedback_questions fq
+            WHERE fr.question_id = fq.id
+              AND fr.answer::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM'
+              AND fq.question_details::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+        </sql>
+        <rollback>
+            <sql>
+                UPDATE feedback_questions
+                SET question_details = jsonb_set(
+                    question_details::jsonb,
+                    '{questionType}',
+                    to_jsonb('CONSTSUM'::text),
+                    false
+                )::text
+                WHERE question_details::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+
+                UPDATE feedback_responses
+                SET answer = jsonb_set(
+                    answer::jsonb,
+                    '{questionType}',
+                    to_jsonb('CONSTSUM'::text),
+                    false
+                )::text
+                WHERE answer::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

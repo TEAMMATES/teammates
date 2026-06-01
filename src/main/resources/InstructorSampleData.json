@@ -356,7 +356,7 @@
       "id": "00000000-0000-4000-8000-000000000609",
       "questionNumber": 9,
       "questionDetails": {
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_OPTIONS",
         "questionText": "How important are the following factors to you? Give points accordingly.",
         "distributeToRecipients": false,
         "pointsPerOption": false,
@@ -376,7 +376,7 @@
       "id": "00000000-0000-4000-8000-000000000610",
       "questionNumber": 10,
       "questionDetails": {
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_RECIPIENTS",
         "questionText": "Split points among your team members and yourself, according to how much you think each member has contributed.",
         "distributeToRecipients": true,
         "pointsPerOption": true,
@@ -549,7 +549,7 @@
       "id": "00000000-0000-4000-8000-000000000620",
       "questionNumber": 1,
       "questionDetails": {
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_RECIPIENTS",
         "questionText": "Distribute points among team members based on their contributions on the user documentation so far.",
         "distributeToRecipients": true,
         "pointsPerOption": true,
@@ -2142,7 +2142,7 @@
       },
       "answer": {
         "answers": [80],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2157,7 +2157,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2172,7 +2172,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2187,7 +2187,7 @@
       },
       "answer": {
         "answers": [120],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2202,7 +2202,7 @@
       },
       "answer": {
         "answers": [80],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2217,7 +2217,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2232,7 +2232,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2247,7 +2247,7 @@
       },
       "answer": {
         "answers": [120],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2262,7 +2262,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2277,7 +2277,7 @@
       },
       "answer": {
         "answers": [120],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2292,7 +2292,7 @@
       },
       "answer": {
         "answers": [80],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2307,7 +2307,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2322,7 +2322,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2337,7 +2337,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2352,7 +2352,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2367,7 +2367,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2382,7 +2382,7 @@
       },
       "answer": {
         "answers": [60],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2397,7 +2397,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2412,7 +2412,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2427,7 +2427,7 @@
       },
       "answer": {
         "answers": [140],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2442,7 +2442,7 @@
       },
       "answer": {
         "answers": [60],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2457,7 +2457,7 @@
       },
       "answer": {
         "answers": [140],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2472,7 +2472,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2487,7 +2487,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2502,7 +2502,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2517,7 +2517,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2532,7 +2532,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2547,7 +2547,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2562,7 +2562,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2577,7 +2577,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2592,7 +2592,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -2607,7 +2607,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000620"
     },
@@ -3762,7 +3762,7 @@
       },
       "answer": {
         "answers": [20, 80],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000609"
     },
@@ -3777,7 +3777,7 @@
       },
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -3792,7 +3792,7 @@
       },
       "answer": {
         "answers": [120],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -3807,7 +3807,7 @@
       },
       "answer": {
         "answers": [90],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -3822,7 +3822,7 @@
       },
       "answer": {
         "answers": [90],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -4107,7 +4107,7 @@
       },
       "answer": {
         "answers": [45, 55],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000609"
     },
@@ -4122,7 +4122,7 @@
       },
       "answer": {
         "answers": [110],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -4137,7 +4137,7 @@
       },
       "answer": {
         "answers": [90],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -4152,7 +4152,7 @@
       },
       "answer": {
         "answers": [50],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },
@@ -4167,7 +4167,7 @@
       },
       "answer": {
         "answers": [150],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000610"
     },

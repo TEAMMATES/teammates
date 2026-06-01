@@ -171,7 +171,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
                     feedbackQuestionDetails
             );
             break;
-        case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
+        case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
             feedbackQuestion = new FeedbackConstantSumQuestion(
                     questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
@@ -417,4 +417,3 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return showResponsesTo.contains(userType);
     }
 }
-

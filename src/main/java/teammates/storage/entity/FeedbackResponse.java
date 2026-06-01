@@ -119,7 +119,7 @@ public abstract class FeedbackResponse extends BaseEntity {
                     giver, recipient, responseDetails, giverComment
             );
             break;
-        case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
+        case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
             feedbackResponse = new FeedbackConstantSumResponse(
                     giver, recipient, responseDetails, giverComment
             );
