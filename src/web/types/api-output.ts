@@ -310,7 +310,7 @@ export interface FeedbackSessionLog {
 
 export interface FeedbackSessionLogEntry {
   feedbackSessionLogEntryId: string;
-  studentData: Student;
+  user: User;
   feedbackSessionLogType: FeedbackSessionLogType;
   timestamp: number;
 }
@@ -615,6 +615,13 @@ export interface UsageStatistics extends ApiOutput {
 
 export interface UsageStatisticsRange extends ApiOutput {
   result: UsageStatistics[];
+}
+
+export interface User extends ApiOutput {
+  userId: string;
+  email: string;
+  courseId: string;
+  name: string;
 }
 
 export interface UserInfo {

@@ -4,20 +4,20 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.storage.entity.FeedbackSessionLog;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * The session log of a student for a single feedback session.
  */
 public class FeedbackSessionLogEntryData {
     private final UUID feedbackSessionLogEntryId;
-    private final StudentData studentData;
+    private final UserData user;
     private final FeedbackSessionLogType feedbackSessionLogType;
     private final long timestamp;
 
-    public FeedbackSessionLogEntryData(FeedbackSessionLog logEntry, Student student) {
+    public FeedbackSessionLogEntryData(FeedbackSessionLog logEntry, User user) {
         this.feedbackSessionLogEntryId = logEntry.getId();
-        this.studentData = new StudentData(student);
+        this.user = new UserData(user);
         this.feedbackSessionLogType = logEntry.getFeedbackSessionLogType();
         this.timestamp = logEntry.getTimestamp().toEpochMilli();
     }
@@ -26,8 +26,8 @@ public class FeedbackSessionLogEntryData {
         return feedbackSessionLogEntryId;
     }
 
-    public StudentData getStudentData() {
-        return studentData;
+    public UserData getUser() {
+        return user;
     }
 
     public FeedbackSessionLogType getFeedbackSessionLogType() {

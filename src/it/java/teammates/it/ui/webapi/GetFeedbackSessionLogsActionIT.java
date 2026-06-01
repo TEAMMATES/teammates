@@ -144,17 +144,17 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
 
         assertEquals(fsLogEntries1.size(), 3);
-        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2Email);
+        assertEquals(fsLogEntries1.get(1).getUser().getEmail(), student2Email);
         assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2Email);
+        assertEquals(fsLogEntries1.get(2).getUser().getEmail(), student2Email);
         assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         assertEquals(fsLogEntries2.size(), 2);
-        assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries2.get(0).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries2.get(1).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         ______TS("Success case: should accept optional student Id");
@@ -181,13 +181,13 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
 
         assertEquals(fsLogEntries1.size(), 1);
-        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
 
         assertEquals(fsLogEntries2.size(), 2);
-        assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries2.get(0).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries2.get(1).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         ______TS("Success case: should accept optional feedback session");
@@ -214,11 +214,11 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
 
         assertEquals(fsLogEntries1.size(), 3);
-        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
+        assertEquals(fsLogEntries1.get(0).getUser().getEmail(), student1Email);
         assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2Email);
+        assertEquals(fsLogEntries1.get(1).getUser().getEmail(), student2Email);
         assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2Email);
+        assertEquals(fsLogEntries1.get(2).getUser().getEmail(), student2Email);
         assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
     }
 

@@ -240,12 +240,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
               log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
                 const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(log, entry.studentData.userId),
+                  this.getStudentKey(log, entry.user.userId),
                 );
                 if (arr) {
                   arr.push(entry);
                 } else {
-                  this.studentLogsMap.set(this.getStudentKey(log, entry.studentData.userId), [entry]);
+                  this.studentLogsMap.set(this.getStudentKey(log, entry.user.userId), [entry]);
                 }
               });
               this.searchResults.push(this.toFeedbackSessionLogModel(log));
@@ -259,14 +259,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             if (targetFeedbackSessionLog) {
               targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
                 const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(targetFeedbackSessionLog, entry.studentData.userId),
+                  this.getStudentKey(targetFeedbackSessionLog, entry.user.userId),
                 );
                 if (arr) {
                   arr.push(entry);
                 } else {
-                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.userId), [
-                    entry,
-                  ]);
+                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.user.userId), [entry]);
                 }
               });
               this.searchResults.push(this.toFeedbackSessionLogModel(targetFeedbackSessionLog));

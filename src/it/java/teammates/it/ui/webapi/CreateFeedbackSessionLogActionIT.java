@@ -85,7 +85,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
         assertEquals(1, persistedAccessLogs.size());
         assertEquals(fs1.getId(), persistedAccessLogs.get(0).getFeedbackSession().getId());
-        assertEquals(student1.getId(), persistedAccessLogs.get(0).getStudent().getId());
+        assertEquals(student1.getId(), persistedAccessLogs.get(0).getUser().getId());
         assertEquals(FeedbackSessionLogType.ACCESS, persistedAccessLogs.get(0).getFeedbackSessionLogType());
 
         ______TS("Success case: typical submission");
@@ -104,7 +104,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Instant.now().plusSeconds(60));
         assertEquals(1, persistedSubmissionLogs.size());
         assertEquals(fs2.getId(), persistedSubmissionLogs.get(0).getFeedbackSession().getId());
-        assertEquals(student2.getId(), persistedSubmissionLogs.get(0).getStudent().getId());
+        assertEquals(student2.getId(), persistedSubmissionLogs.get(0).getUser().getId());
         assertEquals(FeedbackSessionLogType.SUBMISSION,
                 persistedSubmissionLogs.get(0).getFeedbackSessionLogType());
 

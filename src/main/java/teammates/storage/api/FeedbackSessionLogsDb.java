@@ -15,7 +15,7 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Handles CRUD operations for feedback session logs.
@@ -44,12 +44,12 @@ public final class FeedbackSessionLogsDb {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
-     * student's email.
+     * user's email.
      *
-     * @param studentId        Can be null
+     * @param userId           Can be null
      * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID userId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
 
         assert courseId != null;
@@ -60,12 +60,12 @@ public final class FeedbackSessionLogsDb {
         CriteriaQuery<FeedbackSessionLog> cr = cb.createQuery(FeedbackSessionLog.class);
         Root<FeedbackSessionLog> root = cr.from(FeedbackSessionLog.class);
         Join<FeedbackSessionLog, FeedbackSession> feedbackSessionJoin = root.join("feedbackSession");
-        Join<FeedbackSessionLog, Student> studentJoin = root.join("student");
+        Join<FeedbackSessionLog, User> userJoin = root.join("user");
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (studentId != null) {
-            predicates.add(cb.equal(studentJoin.get("id"), studentId));
+        if (userId != null) {
+            predicates.add(cb.equal(userJoin.get("id"), userId));
         }
 
         if (feedbackSessionId != null) {
@@ -77,7 +77,7 @@ public final class FeedbackSessionLogsDb {
         predicates.add(cb.lessThan(root.get("timestamp"), endTime));
 
         cr.select(root).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(root.get("timestamp")),
-                cb.asc(studentJoin.get("email")));
+                cb.asc(userJoin.get("email")));
         return HibernateUtil.createQuery(cr).getResultList();
     }
 

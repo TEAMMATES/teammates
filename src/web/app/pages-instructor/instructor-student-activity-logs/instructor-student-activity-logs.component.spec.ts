@@ -97,7 +97,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     feedbackSessionLogEntries: [
       {
         feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000001',
-        studentData: testStudent,
+        user: testStudent,
         feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
@@ -108,7 +108,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     feedbackSessionLogEntries: [
       {
         feedbackSessionLogEntryId: '00000000-0000-4000-8000-000000000002',
-        studentData: testStudent,
+        user: testStudent,
         feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },

@@ -16,6 +16,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -83,26 +84,26 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        UUID userId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
         UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         if (logic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("Course not found");
         }
 
-        if (studentId != null && logic.getStudent(studentId) == null) {
-            throw new EntityNotFoundException("Student not found");
+        if (userId != null && logic.getUser(userId) == null) {
+            throw new EntityNotFoundException("User not found");
         }
 
         if (feedbackSessionId != null && logic.getFeedbackSession(feedbackSessionId) == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        List<FeedbackSessionLog> fsLogEntries = logic.getOrderedFeedbackSessionLogs(courseId, studentId,
+        List<FeedbackSessionLog> fsLogEntries = logic.getOrderedFeedbackSessionLogs(courseId, userId,
                 feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-        Map<String, Student> studentsMap = new HashMap<>();
+        Map<String, User> usersMap = new HashMap<>();
         List<Student> students = logic.getStudentsForCourse(courseId);
-        students.forEach(student -> studentsMap.put(student.getEmail(), student));
+        students.forEach(student -> usersMap.put(student.getEmail(), student));
 
         Map<String, FeedbackSession> sessionsMap = new HashMap<>();
         List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
@@ -119,7 +120,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         Map<String, List<FeedbackSessionLog>> groupedEntries = groupFeedbackSessionLogs(fsLogEntries);
         feedbackSessions.forEach(fs -> groupedEntries.putIfAbsent(fs.getName(), new ArrayList<>()));
 
-        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, studentsMap, sessionsMap);
+        FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries, usersMap, sessionsMap);
         return new JsonResult(fslData);
     }
 
