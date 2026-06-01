@@ -11,7 +11,7 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.EnrollStudentsData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentsEnrollRequest;
 

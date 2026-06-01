@@ -6,7 +6,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.NotificationData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * Action: Gets a notification by ID.

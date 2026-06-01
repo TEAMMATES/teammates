@@ -23,7 +23,7 @@ import teammates.storage.entity.Team;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateStudentAction;
