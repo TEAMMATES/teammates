@@ -14,9 +14,9 @@ import {
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { GroupedResponsesComponent } from '../grouped-responses/grouped-responses.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Component to display list of responses in GRQ/RGQ view.
@@ -25,8 +25,8 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
   selector: 'tm-grq-rgq-view-responses',
   templateUrl: './grq-rgq-view-responses.component.html',
   styleUrls: ['./grq-rgq-view-responses.component.scss'],
-  animations: [collapseAnim],
   imports: [
+    NgbCollapse,
     PanelChevronComponent,
     NgTemplateOutlet,
     ResponseModerationButtonComponent,

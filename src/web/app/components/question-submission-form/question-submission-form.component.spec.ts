@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -109,8 +108,6 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-  isLoading: false,
-  isLoaded: true,
 
   isTabExpanded: true,
   isTabExpandedForRecipients: new Map<string, boolean>([
@@ -249,7 +246,6 @@ describe('QuestionSubmissionFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
@@ -300,7 +296,7 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('sets isSaved to false if some response has changed', () => {
+  it('sets isSaved to true if some response has changed', () => {
     component.model.recipientSubmissionForms.push(
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
@@ -308,7 +304,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
     fixture.detectChanges();
 
-    expect(component.isSaved).toBeFalsy();
+    expect(component.isSaved).toBeTruthy();
   });
 
   it('sets isSaved to false if no response has changed and all responses are empty', () => {

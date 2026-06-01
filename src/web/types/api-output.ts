@@ -212,6 +212,10 @@ export interface FeedbackQuestionRecipients extends ApiOutput {
   recipients: FeedbackQuestionRecipient[];
 }
 
+export interface FeedbackQuestionResponses extends ApiOutput {
+  questionResponses: { [index: string]: FeedbackResponse[] };
+}
+
 export interface FeedbackQuestions extends ApiOutput {
   questions: FeedbackQuestion[];
 }

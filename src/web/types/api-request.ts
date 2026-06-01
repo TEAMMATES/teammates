@@ -32,6 +32,7 @@ export interface CourseBasicRequest extends BasicRequest {
 
 export interface CourseCreateRequest extends CourseBasicRequest {
   courseId: string;
+  institute: string;
 }
 
 export interface CourseUpdateRequest extends CourseBasicRequest {
@@ -117,13 +118,14 @@ export interface FeedbackResponseDetails {
 }
 
 export interface FeedbackResponseRequest extends BasicRequest {
+  responseId?: string;
   recipient: string;
   responseDetails: FeedbackResponseDetails;
   giverComment: string;
 }
 
 export interface FeedbackResponsesRequest extends BasicRequest {
-  responses: FeedbackResponseRequest[];
+  questionResponses: { [index: string]: FeedbackResponseRequest[] };
 }
 
 export interface FeedbackRubricResponseDetails extends FeedbackResponseDetails {

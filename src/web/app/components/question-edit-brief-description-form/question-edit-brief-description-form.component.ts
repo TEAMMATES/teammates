@@ -13,6 +13,9 @@ import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.co
 })
 export class QuestionEditBriefDescriptionFormComponent {
   @Input()
+  shouldRenderDescriptionEditor = true;
+
+  @Input()
   isBriefDisabled = false;
 
   @Input()

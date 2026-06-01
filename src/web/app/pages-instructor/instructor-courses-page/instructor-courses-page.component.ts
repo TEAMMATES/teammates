@@ -252,10 +252,11 @@ export class InstructorCoursesPageComponent implements OnInit {
   createNewCourse(): void {
     this.courseFormModel.isSaving = true;
     this.courseService
-      .createCourse(this.courseFormModel.course.institute, {
+      .createCourse({
         courseName: this.courseFormModel.course.courseName,
         timeZone: this.courseFormModel.course.timeZone,
         courseId: this.courseFormModel.course.courseId,
+        institute: this.courseFormModel.course.institute,
       })
       .pipe(
         finalize(() => {
@@ -334,10 +335,11 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.copyProgressPercentage = 0;
 
     this.courseService
-      .createCourse(result.newCourseInstitute, {
+      .createCourse({
         courseName: result.newCourseName,
         timeZone: result.newTimeZone,
         courseId: result.newCourseId,
+        institute: result.newCourseInstitute,
       })
       .subscribe({
         next: () => {

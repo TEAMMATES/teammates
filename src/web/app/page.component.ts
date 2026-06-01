@@ -1,4 +1,4 @@
-import { Location, NgStyle, AsyncPipe } from '@angular/common';
+import { Location, NgStyle } from '@angular/common';
 import {
   Component,
   Directive,
@@ -10,14 +10,12 @@ import {
   Output,
   forwardRef,
   inject,
+  signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { fromEvent, merge, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
 import { AuthInfo, NotificationTargetUser } from '../types/api-output';
@@ -36,7 +34,7 @@ const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for St
  */
 @Directive({ selector: '[tmClickOutside]' })
 export class ClickOutsideDirective {
-  private elementRef = inject(ElementRef);
+  private readonly elementRef = inject(ElementRef);
 
   @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
@@ -73,16 +71,16 @@ export class ClickOutsideDirective {
     NotificationBannerComponent,
     LoadingSpinnerDirective,
     RouterOutlet,
-    AsyncPipe,
   ],
 })
+
 export class PageComponent implements OnInit {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private title = inject(Title);
-  private ngbModal = inject(NgbModal);
-  private statusMessageService = inject(StatusMessageService);
-  private authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly title = inject(Title);
+  private readonly ngbModal = inject(NgbModal);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly authService = inject(AuthService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -100,34 +98,18 @@ export class PageComponent implements OnInit {
   @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
 
+  readonly isNetworkOnline = signal(navigator.onLine);
+  readonly isCookieEnabled = signal(navigator.cookieEnabled);
+
   isCollapsed = true;
-  isUnsupportedBrowser = false;
-  isCookieDisabled = false;
-  browser = '';
-  isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
   logoutUrl = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
-
-  /**
-   * Minimum versions of browsers supported.
-   *
-   * Angular browser support: https://angular.io/guide/browser-support
-   *
-   * Bootstrap 5 browser support: https://getbootstrap.com/docs/5.2/getting-started/browsers-devices/
-   */
-  minimumVersions: Record<string, number> = {
-    Chrome: 87,
-    Firefox: 86,
-    Safari: 13,
-    Edge: 88,
-  };
 
   constructor() {
     const location = inject(Location);
 
     this.NotificationTargetUser = NotificationTargetUser;
-    this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
@@ -146,11 +128,8 @@ export class PageComponent implements OnInit {
       this.logoutUrl += `?frontendUrl=${environment.frontendUrl}`;
     }
 
-    this.isNetworkOnline$ = merge(
-      of(navigator.onLine),
-      fromEvent(window, 'online').pipe(map(() => true)),
-      fromEvent(window, 'offline').pipe(map(() => false)),
-    );
+    globalThis.addEventListener('online', () => this.isNetworkOnline.set(true));
+    globalThis.addEventListener('offline', () => this.isNetworkOnline.set(false));
 
     // Close open modal(s) when moving backward or forward through history in the browser page
     location.subscribe(() => {
@@ -183,14 +162,6 @@ export class PageComponent implements OnInit {
     }
   }
 
-  private checkBrowserVersion(): void {
-    const browser: any = uaParser(navigator.userAgent).browser;
-    this.browser = `${browser.name} ${browser.version}`;
-    this.isUnsupportedBrowser =
-      !this.minimumVersions[browser.name] || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
-    this.isCookieDisabled = !navigator.cookieEnabled;
-  }
-
   /**
    * Method to toggle the isCollapsed property when an item on the navbar is clicked,
    * when the user is using a mobile device.
@@ -219,7 +190,7 @@ export class PageComponent implements OnInit {
   }
 
   logout(): void {
-    window.location.href = this.logoutUrl;
+    globalThis.location.href = this.logoutUrl;
     this.authService.clearAuthCache();
   }
 

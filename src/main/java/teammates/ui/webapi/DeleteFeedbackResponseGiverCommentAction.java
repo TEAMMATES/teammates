@@ -41,7 +41,6 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmi
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseForSubmission(courseId, false);
-            gateKeeper.verifyAnswerableForStudent(question);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             checkAccessControlForStudentFeedbackSubmission(student, session);
             verifySessionOpenExceptForModeration(session, student);
@@ -49,7 +48,6 @@ public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmi
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId, false);
-            gateKeeper.verifyAnswerableForInstructor(question);
             verifyInstructorCanSeeQuestionIfInModeration(question);
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);

@@ -305,9 +305,16 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>
@@ -1831,9 +1838,16 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>
@@ -3357,9 +3371,16 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>
@@ -4864,9 +4885,16 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>
@@ -6394,9 +6422,16 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>
@@ -7920,9 +7955,16 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>
@@ -9446,9 +9488,16 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                     <tm-rich-text-editor
                       id="instructions"
                     >
-                      <div
-                        inviewport=""
-                      >
+                      <div>
+                        <editor
+                          class="editor ng-untouched ng-pristine ng-valid"
+                          placeholder=""
+                        >
+                          <textarea
+                            id="tinymce-editor-id-1"
+                            style="visibility: hidden;"
+                          />
+                        </editor>
                         <div>
                            2000 characters left 
                         </div>

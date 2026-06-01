@@ -62,6 +62,7 @@ import teammates.storage.entity.Team;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -305,34 +306,17 @@ public class Logic {
     }
 
     /**
-     * Creates a course.
-     *
-     * @param course the course to create.
-     * @return the created course.
-     * @throws InvalidParametersException   if the course is not valid.
-     * @throws EntityAlreadyExistsException if the course already exists.
-     */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourse(course);
-    }
-
-    /**
      * Creates a course and an associated instructor for the course.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor
-     * privileges.
-     *
-     * @param instructorGoogleId the Google ID of the instructor creating the
-     *                           course.
-     * @param course             the course to create.
+     * @param courseCreator      the account of the instructor creating the course.
+     * @param courseCreateRequest the course creation details.
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public Course createCourseAndInstructor(String instructorGoogleId, Course course)
+    public Course createCourseAndInstructor(
+            Account courseCreator, CourseCreateRequest courseCreateRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+        return coursesLogic.createCourseAndInstructor(courseCreator, courseCreateRequest);
     }
 
     /**
@@ -1358,21 +1342,21 @@ public class Logic {
     }
 
     /**
-     * Submits feedback responses from a student or the student's team for a feedback question.
+     * Submits feedback responses from a student or the student's team for one or more feedback questions.
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
-            FeedbackQuestion feedbackQuestion, Student student, FeedbackResponsesRequest submitRequest)
+            FeedbackSession feedbackSession, Student student, FeedbackResponsesRequest submitRequest)
             throws InvalidOperationException, InvalidParametersException {
-        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackQuestion, student, submitRequest);
+        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackSession, student, submitRequest);
     }
 
     /**
-     * Submits feedback responses from an instructor for a feedback question.
+     * Submits feedback responses from an instructor for one or more feedback questions.
      */
     public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
-            FeedbackQuestion feedbackQuestion, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            FeedbackSession feedbackSession, Instructor instructor, FeedbackResponsesRequest submitRequest)
             throws InvalidOperationException, InvalidParametersException {
-        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackQuestion, instructor, submitRequest);
+        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackSession, instructor, submitRequest);
     }
 
     /**
