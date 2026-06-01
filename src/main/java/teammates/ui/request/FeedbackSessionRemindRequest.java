@@ -45,10 +45,10 @@ public class FeedbackSessionRemindRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(courseId != null, "Course ID cannot be null");
-        assertTrue(feedbackSessionName != null, "Feedback session name cannot be null");
-        assertTrue(usersToRemind != null, "List of users to remind cannot be null");
-        assertTrue(usersToRemind.length != 0, "List of users to remind cannot be empty");
+        validateTrue(courseId != null, "Course ID cannot be null");
+        validateTrue(feedbackSessionName != null, "Feedback session name cannot be null");
+        validateTrue(usersToRemind != null, "List of users to remind cannot be null");
+        validateTrue(usersToRemind.length != 0, "List of users to remind cannot be empty");
     }
 
 }

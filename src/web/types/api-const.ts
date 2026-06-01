@@ -65,7 +65,6 @@ export enum ResourceEndpoints {
   ACCOUNT_RESET = "/webapi/account/reset",
   ACCOUNT_REQUEST = "/webapi/account/request",
   ACCOUNT_REQUESTS = "/webapi/account/requests",
-  ACCOUNT_REQUEST_RESET = "/webapi/account/request/reset",
   ACCOUNT_REQUEST_REJECT = "/webapi/account/request/rejection",
   ACCOUNT_REQUEST_APPROVE = "/webapi/account/request/approval",
   RESPONSE_COMMENT = "/webapi/responsecomment",

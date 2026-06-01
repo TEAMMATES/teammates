@@ -235,7 +235,6 @@ export class SessionResultPageComponent implements OnInit {
               this.studentId = student.userId;
               this.personName = student.name;
               this.personEmail = student.email;
-              this.logStudentView();
             });
         } else {
           this.studentService
@@ -244,7 +243,6 @@ export class SessionResultPageComponent implements OnInit {
               this.studentId = student.userId;
               this.personName = student.name;
               this.personEmail = student.email;
-              this.logStudentView();
             });
         }
         break;
@@ -393,8 +391,7 @@ export class SessionResultPageComponent implements OnInit {
       return;
     }
 
-    // dummy vars to check that both student and session has been loaded
-    if (!this.personEmail || !this.session.courseId) {
+    if (!this.feedbackSessionId) {
       return;
     }
 

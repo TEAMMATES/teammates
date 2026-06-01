@@ -44,11 +44,6 @@ describe('AdminAccountSearchTableComponent', () => {
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 
-  const resetModalContent = `Are you sure you want to reset the account request for
-        <strong>name</strong> with email <strong>email</strong> from
-        <strong>institute</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-  const resetModalTitle = 'Reset account request for <strong>name</strong>?';
   const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>name</strong> with email <strong>email</strong> from
         <strong>institute</strong>?`;
@@ -184,88 +179,6 @@ describe('AdminAccountSearchTableComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(deleteModalTitle, SimpleModalType.DANGER, deleteModalContent);
-  });
-
-  it('should show success message when resetting account request is successful', () => {
-    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
-    registeredAccountRequestResult.registrationLink = 'registrationLink';
-    registeredAccountRequestResult.registeredAtText = 'registeredTime';
-    component.accountRequests = [registeredAccountRequestResult];
-
-    component.searchString = 'test';
-    fixture.detectChanges();
-
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
-
-    vi.spyOn(accountService, 'resetAccountRequest').mockReturnValue(
-      of({
-        joinLink: 'joinlink',
-      }),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('Reset successful. An email has been sent to email.');
-      });
-
-    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
-    resetButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-    expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
-  });
-
-  it('should show error message when resetting account request is unsuccessful', () => {
-    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
-    registeredAccountRequestResult.registrationLink = 'registrationLink';
-    registeredAccountRequestResult.registeredAtText = 'registeredTime';
-    component.accountRequests = [registeredAccountRequestResult];
-
-    component.searchString = 'test';
-    fixture.detectChanges();
-
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
-
-    vi.spyOn(accountService, 'resetAccountRequest').mockReturnValue(
-      throwError(() => ({
-        error: {
-          message: 'This is the error message.',
-        },
-      })),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
-    resetButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-    expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
   });
 
   it('should display comment modal', () => {

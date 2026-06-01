@@ -203,7 +203,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -356,7 +356,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -509,7 +509,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -795,7 +795,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -3773,7 +3773,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -6789,7 +6789,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -6943,7 +6943,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
   regKey={[Function String]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}

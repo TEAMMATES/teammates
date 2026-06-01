@@ -159,25 +159,6 @@
                       </button>
                     </div>
                   </span>
-                  <div
-                    class="ngb-tooltip-class"
-                    [ngbTooltip]="
-                      accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'
-                    "
-                    placement="top"
-                  >
-                    <button
-                      id="reset-account-request-{{ i }}"
-                      class="btn btn-primary"
-                      [disabled]="!accountRequest.registeredAtText || isResettingAccount[i]"
-                      (click)="$event.stopPropagation(); resetAccountRequest(accountRequest, i)"
-                    >
-                      @if (isResettingAccount[i]) {
-                        <tm-ajax-loading></tm-ajax-loading>
-                      }
-                      Reset
-                    </button>
-                  </div>
                 </div>
               </td>
             </tr>

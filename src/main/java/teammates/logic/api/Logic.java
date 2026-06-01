@@ -145,18 +145,6 @@ public class Logic {
     }
 
     /**
-     * Creates/Resets the account request with the given id
-     * such that it is not registered.
-     *
-     * @return account request that is unregistered with the
-     *         id.
-     */
-    public AccountRequest resetAccountRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        return accountRequestLogic.resetAccountRequest(id);
-    }
-
-    /**
      * Deletes account request by id.
      *
      * <ul>
@@ -1481,9 +1469,9 @@ public class Logic {
      * Creates feedback session log.
      */
     public FeedbackSessionLog createFeedbackSessionLog(
-            FeedbackSession feedbackSession, Student student,
+            FeedbackSession feedbackSession, User user,
             FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
-        return feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSession, student, logType, timestamp);
+        return feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSession, user, logType, timestamp);
     }
 
     /**
@@ -1496,14 +1484,14 @@ public class Logic {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
-     * student's email.
+     * user's email.
      *
-     * @param studentId         Can be null
+     * @param userId            Can be null
      * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID userId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
-        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, userId, feedbackSessionId, startTime,
                 endTime);
     }
 }

@@ -9,8 +9,8 @@ public class CourseBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(courseName != null, "Course name should not be null");
-        assertTrue(timeZone != null, "Time zone should not be null");
+        validateTrue(courseName != null, "Course name should not be null");
+        validateTrue(timeZone != null, "Time zone should not be null");
     }
 
     public String getCourseName() {

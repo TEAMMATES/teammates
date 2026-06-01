@@ -35,10 +35,10 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
   ],
 })
 export class AdminAccountSearchTableComponent implements OnChanges {
-  private statusMessageService = inject(StatusMessageService);
-  private simpleModalService = inject(SimpleModalService);
-  private accountService = inject(AccountService);
-  private ngbModal = inject(NgbModal);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly accountService = inject(AccountService);
+  private readonly ngbModal = inject(NgbModal);
 
   @Input()
   accountRequests: AccountRequestSearchResult[] = [];
@@ -48,13 +48,11 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
   isRejectingAccount: boolean[] = [];
   isApprovingAccount: boolean[] = [];
-  isResettingAccount: boolean[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['accountRequests']) {
       this.isRejectingAccount = new Array(this.accountRequests.length).fill(false);
       this.isApprovingAccount = new Array(this.accountRequests.length).fill(false);
-      this.isResettingAccount = new Array(this.accountRequests.length).fill(false);
     }
   }
 
@@ -129,42 +127,6 @@ export class AdminAccountSearchTableComponent implements OnChanges {
         this.isApprovingAccount[index] = false;
       },
     });
-  }
-
-  resetAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
-    this.isResettingAccount[index] = true;
-    const modalContent = `Are you sure you want to reset the account request for
-        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.institute}</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Reset account request for <strong>${accountRequest.name}</strong>?`,
-      SimpleModalType.WARNING,
-      modalContent,
-    );
-
-    modalRef.dismissed.subscribe(() => {
-      this.isResettingAccount[index] = false;
-    });
-
-    modalRef.result.then(
-      () => {
-        this.accountService.resetAccountRequest(accountRequest.accountRequestId).subscribe({
-          next: () => {
-            this.statusMessageService.showSuccessToast(
-              `Reset successful. An email has been sent to ${accountRequest.email}.`,
-            );
-            accountRequest.registeredAtText = '';
-            this.isResettingAccount[index] = false;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-            this.isResettingAccount[index] = false;
-          },
-        });
-      },
-      () => {},
-    );
   }
 
   deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {

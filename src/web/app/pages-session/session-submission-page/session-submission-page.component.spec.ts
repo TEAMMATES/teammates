@@ -10,6 +10,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
+import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
@@ -33,6 +34,7 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackSession,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackTextResponseDetails,
@@ -520,6 +522,7 @@ describe('SessionSubmissionPageComponent', () => {
   let feedbackQuestionsService: FeedbackQuestionsService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
+  let logService: LogService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -551,6 +554,7 @@ describe('SessionSubmissionPageComponent', () => {
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     simpleModalService = TestBed.inject(SimpleModalService);
     ngbModal = TestBed.inject(NgbModal);
+    logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -878,6 +882,7 @@ describe('SessionSubmissionPageComponent', () => {
         requestId: '10',
       }),
     );
+    const logSpy = vi.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('Successful'));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
@@ -911,6 +916,12 @@ describe('SessionSubmissionPageComponent', () => {
     ]);
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
+    expect(logSpy).toHaveBeenCalledTimes(1);
+    expect(logSpy).toHaveBeenCalledWith({
+      logType: FeedbackSessionLogType.SUBMISSION,
+      key: 'reg-key',
+      feedbackSessionId: '00000000-0000-4000-8000-000000000001',
+    });
   });
 
   it('should submit empty question responses to delete saved responses', () => {

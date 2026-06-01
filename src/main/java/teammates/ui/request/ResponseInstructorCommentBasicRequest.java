@@ -28,8 +28,8 @@ class ResponseInstructorCommentBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(commentText != null, "Comment Text cannot be null");
-        assertTrue(!commentText.trim().isEmpty(), "Comment Text cannot be empty");
+        validateTrue(commentText != null, "Comment Text cannot be null");
+        validateTrue(!commentText.trim().isEmpty(), "Comment Text cannot be empty");
     }
 
     public String getCommentText() {

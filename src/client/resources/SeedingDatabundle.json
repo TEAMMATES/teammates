@@ -3323,119 +3323,119 @@
       "id": "00000000-0000-4000-8000-000000001301",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-13)T09:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001302",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-13)T10:30:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001303",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-12)T08:15:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001304",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-12)T09:45:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student3Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001305",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-11)T14:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000603",
+      "userId": "00000000-0000-4000-8000-000000000603",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student3Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001306",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-11)T15:20:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000603",
+      "userId": "00000000-0000-4000-8000-000000000603",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session1InCourse2Log1": {
       "id": "00000000-0000-4000-8000-000000001308",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-13)T10:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000611",
+      "userId": "00000000-0000-4000-8000-000000000611",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student1Session1InCourse2Log2": {
       "id": "00000000-0000-4000-8000-000000001309",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-13)T11:30:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000611",
+      "userId": "00000000-0000-4000-8000-000000000611",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student2Session1InCourse2Log1": {
       "id": "00000000-0000-4000-8000-000000001310",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-12)T09:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000612",
+      "userId": "00000000-0000-4000-8000-000000000612",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student2Session1InCourse2Log2": {
       "id": "00000000-0000-4000-8000-000000001311",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-12)T10:15:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000612",
+      "userId": "00000000-0000-4000-8000-000000000612",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student1Session1InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001313",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-13)T13:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000621",
+      "userId": "00000000-0000-4000-8000-000000000621",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student1Session1InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001314",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-13)T14:30:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000621",
+      "userId": "00000000-0000-4000-8000-000000000621",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student2Session1InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001315",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-12)T10:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000622",
+      "userId": "00000000-0000-4000-8000-000000000622",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student2Session1InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001316",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-12)T11:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000622",
+      "userId": "00000000-0000-4000-8000-000000000622",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student3Session2InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001317",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-59)T13:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000623",
+      "userId": "00000000-0000-4000-8000-000000000623",
       "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "student3Session2InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001318",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-58)T14:45:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000623",
+      "userId": "00000000-0000-4000-8000-000000000623",
       "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "student1Session2InCourse3ViewResult": {
       "id": "00000000-0000-4000-8000-000000001319",
       "feedbackSessionLogType": "VIEW_RESULT",
       "timestamp": "seed.d(-20)T09:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000621",
+      "userId": "00000000-0000-4000-8000-000000000621",
       "sessionId": "00000000-0000-4000-8000-000000000709"
     }
   }

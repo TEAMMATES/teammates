@@ -30,12 +30,12 @@ public class FeedbackSessionLog extends BaseEntity {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "studentId", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private Student student;
+    private User user;
 
-    @Column(nullable = false, insertable = false, updatable = false)
-    private UUID studentId;
+    @Column(name = "userId", nullable = false, insertable = false, updatable = false)
+    private UUID userId;
 
     @ManyToOne
     @JoinColumn(name = "sessionId", nullable = false)
@@ -56,10 +56,10 @@ public class FeedbackSessionLog extends BaseEntity {
         // required by Hibernate
     }
 
-    public FeedbackSessionLog(Student student, FeedbackSession feedbackSession,
+    public FeedbackSessionLog(User user, FeedbackSession feedbackSession,
             FeedbackSessionLogType feedbackSessionLogType, Instant timestamp) {
         this.setId(UUID.randomUUID());
-        this.setStudent(student);
+        this.setUser(user);
         this.setFeedbackSession(feedbackSession);
         this.setFeedbackSessionLogType(feedbackSessionLogType);
         this.setTimestamp(timestamp);
@@ -73,20 +73,20 @@ public class FeedbackSessionLog extends BaseEntity {
         this.id = id;
     }
 
-    public Student getStudent() {
-        return student;
+    public User getUser() {
+        return user;
     }
 
-    public UUID getStudentId() {
-        return studentId;
+    public UUID getUserId() {
+        return userId;
     }
 
     /**
-     * Sets the student of the feedback session log.
+     * Sets the user of the feedback session log.
      */
-    public void setStudent(Student student) {
-        this.student = student;
-        this.studentId = student == null ? null : student.getId();
+    public void setUser(User user) {
+        this.user = user;
+        this.userId = user == null ? null : user.getId();
     }
 
     public FeedbackSession getFeedbackSession() {
@@ -123,7 +123,7 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FeedbackSessionLog [id=" + id + ", student=" + student + ", feedbackSession=" + feedbackSession
+        return "FeedbackSessionLog [id=" + id + ", user=" + user + ", feedbackSession=" + feedbackSession
                 + ", feedbackSessionLogType=" + feedbackSessionLogType.getLabel() + ", timestamp=" + timestamp + "]";
     }
 
@@ -149,8 +149,8 @@ public class FeedbackSessionLog extends BaseEntity {
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
 
-        if (this.student == null) {
-            errors.add("Student for feedback session log does not exist");
+        if (this.user == null) {
+            errors.add("User for feedback session log does not exist");
         }
 
         if (this.feedbackSession == null) {
@@ -165,8 +165,8 @@ public class FeedbackSessionLog extends BaseEntity {
             return errors;
         }
 
-        if (!Objects.equals(this.student.getCourseId(), this.feedbackSession.getCourseId())) {
-            errors.add("Student and feedback session for feedback session log do not belong to the same course");
+        if (!Objects.equals(this.user.getCourseId(), this.feedbackSession.getCourseId())) {
+            errors.add("User and feedback session for feedback session log do not belong to the same course");
         }
 
         return errors;
