@@ -33,7 +33,6 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
   submissionStatusName={[Function _SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -553,7 +552,6 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
   submissionStatusName={[Function _SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -1039,7 +1037,6 @@ exports[`SessionsTableComponent > should snap with default fields 1`] = `
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
   submissionStatusName={[Function _SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
