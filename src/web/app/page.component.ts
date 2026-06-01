@@ -96,7 +96,6 @@ export class PageComponent implements OnInit {
   @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
   @Input() pageAuthType: PageAuthType = PageAuthType.PUBLIC;
-  PageAuthType = PageAuthType;
 
   readonly isNetworkOnline = signal(navigator.onLine);
   readonly isCookieEnabled = signal(navigator.cookieEnabled);
@@ -218,9 +217,5 @@ export class PageComponent implements OnInit {
 
   get isLoggedIn(): boolean {
     return !!this.user;
-  }
-
-  get shouldShowUnknownUserWarning(): boolean {
-    return !this.isValidUser && !this.hasRole;
   }
 }

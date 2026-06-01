@@ -28,7 +28,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
 
         const isRoleMatch = this.matchRole(authInfo, expectedRole);
         if (!isRoleMatch) {
-          this.redirectToUnauthorized();
+          this.redirectToUnauthorized(expectedRole);
           return false;
         }
         return true;
@@ -59,7 +59,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     globalThis.location.href = `${backendUrl}${authInfo.loginUrl}`;
   }
 
-  private redirectToUnauthorized() {
-    globalThis.location.href = '/web/unauthorized';
+  private redirectToUnauthorized(expectedRole: string) {
+    globalThis.location.href = `/web/unauthorized?role=${expectedRole}`;
   }
 }

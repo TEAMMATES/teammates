@@ -124,9 +124,8 @@ const routes: Routes = [
               ),
           },
         ],
-        resolve: {
-          authInfo: AuthInfoResolver,
-        },
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         runGuardsAndResolvers: 'always',
       },
       {

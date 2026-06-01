@@ -1,28 +1,38 @@
-import { Component, inject } from '@angular/core';
-import { NavigationService } from '../../services/navigation.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
 
 @Component({
   selector: 'tm-unauthorized-warning-page',
-  styleUrl: './unauthorized-warning-page.component.css',
+  styleUrls: ['./unauthorized-warning-page.component.scss'],
   templateUrl: './unauthorized-warning-page.component.html',
+  imports: [TeammatesRouterDirective],
 })
-export class UnauthorizedWarningPageComponent {
+export class UnauthorizedWarningPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  private readonly navigationService = inject(NavigationService);
 
-  entityType = '';
+  role = '';
+  reason = '';
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.entityType = queryParams.entitytype;
-
-      // Join course is protected by the auth guard only, so just read from resolver data.
-      const authInfo = this.route.snapshot.data['authInfo'];
-      if (!authInfo?.user) {
-        this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-        return;
-      }
+      this.role = queryParams.role;
+      this.reason = this.getUnauthorizedReason();
     });
+  }
+
+  private getUnauthorizedReason(): string {
+    switch (this.role) {
+      case 'instructor':
+        return 'You are not an instructor of any course.';
+      case 'student':
+        return 'You are not enrolled as a student in any course.';
+      case 'admin':
+        return 'You need to be an admin to access this page.';
+      case 'maintainer':
+        return 'You need to be a maintainer to access this page.';
+      default:
+        return 'You do not have the required role to access this page.';
+    }
   }
 }

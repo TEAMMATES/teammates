@@ -186,10 +186,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         }
 
         const authInfo = this.route.parent?.snapshot.data['authInfo'] ?? this.authService.authInfo$.value;
-        if (!authInfo) {
-          this.navigationService.navigateWithErrorMessage('/web/front', 'You are not authorized to view this page.');
-          return;
-        }
         const isPreviewOrModeration = !!(authInfo?.user && (this.moderatedPerson || this.previewAsPerson));
         if (authInfo?.user) {
           this.loggedInUser = authInfo.user.id;
