@@ -57,6 +57,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
@@ -95,7 +96,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private timezoneService = inject(TimezoneService);
   private simpleModalService = inject(SimpleModalService);
-  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
   private navigationService = inject(NavigationService);
   private statusMessageService = inject(StatusMessageService);
   private commentService = inject(InstructorCommentService);
@@ -489,7 +489,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
    */
   preprocessComments(responses: ResponseOutput[], questionShowResponsesTo: FeedbackVisibilityType[]): void {
     responses.forEach((response: ResponseOutput) => {
-      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         this.session.timeZone,
