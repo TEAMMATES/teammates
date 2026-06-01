@@ -126,23 +126,23 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(instructions != null, "Instructions cannot be null");
-        assertTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
-        assertTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");
+        validateTrue(instructions != null, "Instructions cannot be null");
+        validateTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
+        validateTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");
 
-        assertTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
+        validateTrue(sessionVisibleSetting != null, "sessionVisibleSetting cannot be null");
         if (sessionVisibleSetting == SessionVisibleSetting.CUSTOM) {
-            assertTrue(customSessionVisibleTimestamp != null,
+            validateTrue(customSessionVisibleTimestamp != null,
                     "Session visible timestamp should not be null");
-            assertTrue(customSessionVisibleTimestamp > 0L,
+            validateTrue(customSessionVisibleTimestamp > 0L,
                     "Session visible timestamp should be more than zero");
         }
 
-        assertTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
+        validateTrue(responseVisibleSetting != null, "responseVisibleSetting cannot be null");
         if (responseVisibleSetting == ResponseVisibleSetting.CUSTOM) {
-            assertTrue(customResponseVisibleTimestamp != null,
+            validateTrue(customResponseVisibleTimestamp != null,
                     "Response visible timestamp should not be null");
-            assertTrue(customResponseVisibleTimestamp > 0L,
+            validateTrue(customResponseVisibleTimestamp > 0L,
                     "Response visible timestamp should be more than zero");
         }
     }

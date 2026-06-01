@@ -30,14 +30,14 @@ public class StudentUpdateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(getName() != null, "name cannot be null");
-        assertTrue(getEmail() != null, "email cannot be null");
-        assertTrue(this.team != null, "team cannot be null");
-        assertFalse(getTeam().trim().isEmpty(), "team cannot be blank");
-        assertTrue(this.section != null, "section cannot be null");
-        assertFalse(getSection().trim().isEmpty(), "section cannot be blank");
-        assertTrue(getComments() != null, "comments cannot be null");
-        assertTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");
+        validateTrue(getName() != null, "name cannot be null");
+        validateTrue(getEmail() != null, "email cannot be null");
+        validateTrue(this.team != null, "team cannot be null");
+        validateFalse(getTeam().trim().isEmpty(), "team cannot be blank");
+        validateTrue(this.section != null, "section cannot be null");
+        validateFalse(getSection().trim().isEmpty(), "section cannot be blank");
+        validateTrue(getComments() != null, "comments cannot be null");
+        validateTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");
     }
 
     public String getName() {

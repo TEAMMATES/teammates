@@ -64,12 +64,12 @@ public class NotificationBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(startTimestamp > 0L, "Start timestamp should be greater than zero");
-        assertTrue(endTimestamp > 0L, "End timestamp should be greater than zero");
-        assertTrue(style != null, "Notification style cannot be null");
-        assertTrue(targetUser != null, "Notification target user cannot be null");
-        assertTrue(title != null, "Notification title cannot be null");
-        assertTrue(!title.trim().isEmpty(), "Notification title cannot be empty");
-        assertTrue(message != null, "Notification message cannot be null");
+        validateTrue(startTimestamp > 0L, "Start timestamp should be greater than zero");
+        validateTrue(endTimestamp > 0L, "End timestamp should be greater than zero");
+        validateTrue(style != null, "Notification style cannot be null");
+        validateTrue(targetUser != null, "Notification target user cannot be null");
+        validateTrue(title != null, "Notification title cannot be null");
+        validateTrue(!title.trim().isEmpty(), "Notification title cannot be empty");
+        validateTrue(message != null, "Notification message cannot be null");
     }
 }
