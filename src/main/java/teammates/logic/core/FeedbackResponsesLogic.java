@@ -775,8 +775,7 @@ public final class FeedbackResponsesLogic {
         if (user instanceof Instructor instructor) {
             boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.INSTRUCTORS
                     || question.getGiverType() == QuestionGiverType.SESSION_CREATOR
-                            && SanitizationHelper.areEmailsEqual(
-                                    question.getFeedbackSession().getCreatorEmail(), instructor.getEmail());
+                            && question.getFeedbackSession().isCreator(instructor);
             boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToInstructor(question)
                     && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS;
             return isRelevantAsGiver || isRelevantAsRecipient;
