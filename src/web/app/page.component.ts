@@ -18,7 +18,7 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/n
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
-import { NotificationTargetUser } from '../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
@@ -143,23 +143,29 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const authInfo = this.authService.authInfo() ?? this.route.snapshot.data['authInfo'];
-    const user = authInfo?.user;
-    if (user) {
-      this.user = user.id;
-      if (authInfo?.masquerade) {
-        this.user += ' (M)';
-      }
-      this.isStudent = user.isStudent;
-      this.isInstructor = user.isInstructor;
-      this.isAdmin = user.isAdmin;
-      this.isMaintainer = user.isMaintainer;
-    } else {
-      this.isStudent = false;
-      this.isInstructor = false;
-      this.isAdmin = false;
-      this.isMaintainer = false;
-    }
+    this.authService.getAuthUser().subscribe({
+      next: (authInfo: AuthInfo) => {
+        const user = authInfo.user;
+        if (user) {
+          this.user = user.id;
+          if (authInfo.masquerade) {
+            this.user += ' (M)';
+          }
+          this.isStudent = user.isStudent;
+          this.isInstructor = user.isInstructor;
+          this.isAdmin = user.isAdmin;
+          this.isMaintainer = user.isMaintainer;
+        } else {
+          this.isStudent = false;
+          this.isInstructor = false;
+          this.isAdmin = false;
+          this.isMaintainer = false;
+        }
+      },
+      error: () => {
+        // Do nothing, the user will simply be treated as not logged in.
+      },
+    });
   }
 
   /**

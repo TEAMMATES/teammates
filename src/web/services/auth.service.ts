@@ -17,7 +17,7 @@ export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
 
-  readonly authInfo = signal<AuthInfo | null>(null);
+  readonly authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
 
   /**
    * Gets the user authentication information.
@@ -43,7 +43,7 @@ export class AuthService {
    * Clears the cached authentication information.
    */
   clearAuthCache(): void {
-    this.authInfo.set(null);
+    this.authInfo.set({ loginUrl: '/', masquerade: false });
   }
 
   /**

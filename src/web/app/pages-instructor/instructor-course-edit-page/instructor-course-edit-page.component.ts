@@ -201,7 +201,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   loadCurrInstructorInfo(): void {
     const authInfo = this.authService.authInfo();
-    this.currInstructorGoogleId = authInfo?.user === undefined ? '' : authInfo.user.id;
+    this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
   }
 
   /**

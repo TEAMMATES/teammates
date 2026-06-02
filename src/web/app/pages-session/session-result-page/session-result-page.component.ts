@@ -130,9 +130,9 @@ export class SessionResultPageComponent implements OnInit {
           this.intent = Intent.INSTRUCTOR_RESULT;
         }
 
-        const authInfo = this.route.parent?.snapshot.data['authInfo'] ?? this.authService.authInfo();
-        const isPreview = !!(authInfo?.user && this.previewAsPerson);
-        if (authInfo?.user) {
+        const authInfo = this.authService.authInfo();
+        const isPreview = !!(authInfo.user && this.previewAsPerson);
+        if (authInfo.user) {
           this.loggedInUser = authInfo.user.id;
         }
         // prevent having both key and previewas parameters in URL

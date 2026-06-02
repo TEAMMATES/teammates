@@ -8,7 +8,6 @@ import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { RoleGuard } from '../route-guards/role.guard';
 import { AuthGuard } from '../route-guards/auth.guard';
-import { AuthInfoResolver } from '../route-guards/authinfo.resolver';
 import { AuthenticatedPageComponent } from './authenticated-page.component';
 
 const routes: Routes = [
@@ -19,10 +18,6 @@ const routes: Routes = [
         path: 'front',
         component: StaticPageComponent,
         loadChildren: () => import('./pages-static/static.routes'),
-        resolve: {
-          authInfo: AuthInfoResolver,
-        },
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'join',
@@ -63,10 +58,6 @@ const routes: Routes = [
             },
           },
         ],
-        resolve: {
-          authInfo: AuthInfoResolver,
-        },
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'student',
