@@ -157,7 +157,6 @@
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "demo.course",
       "name": "Session with different question types",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "instructions": "Please give your feedback based on the following questions.",
       "createdAt": "demo.date1T00:00:00Z",
       "startTime": "demo.date1T00:00:00Z",
@@ -171,13 +170,13 @@
       "isClosedEmailSent": true,
       "isPublishedEmailSent": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000101"
     },
     "session2": {
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "demo.course",
       "name": "First team feedback session (percentage-based)",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "instructions": "Please give your feedback based on the following questions.",
       "createdAt": "demo.date1T00:00:00Z",
       "startTime": "demo.date1T00:00:00Z",
@@ -191,13 +190,13 @@
       "isClosedEmailSent": true,
       "isPublishedEmailSent": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000101"
     },
     "session3": {
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "demo.course",
       "name": "Second team feedback session (point-based)",
-      "creatorEmail": "teammates.demo.instructor@demo.course",
       "instructions": "Please give your feedback based on the following questions.",
       "createdAt": "demo.date1T00:00:00Z",
       "startTime": "demo.date1T00:00:00Z",
@@ -211,7 +210,8 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000101"
     }
   },
   "feedbackQuestions": {

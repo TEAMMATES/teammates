@@ -187,7 +187,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.FRes.CS2104",
       "name": "First Session",
-      "creatorEmail": "fres.instr@gmail.tmt",
       "instructions": "Instructions for first session",
       "startTime": "2012-04-01T16:00:00Z",
       "endTime": "2026-04-30T16:00:00Z",
@@ -201,7 +200,8 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-04-01T23:59:00Z"
+      "createdAt": "2012-04-01T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     }
   },
   "feedbackQuestions": {
@@ -241,7 +241,7 @@
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
-        "mcqOtherWeight": 0.0,
+        "mcqOtherWeight": 0,
         "mcqChoices": ["UI", "Algo"],
         "otherEnabled": true,
         "questionDropdownEnabled": false,
@@ -265,7 +265,7 @@
         "otherEnabled": false,
         "hasAssignedWeights": false,
         "msqWeights": [],
-        "msqOtherWeight": 0.0,
+        "msqOtherWeight": 0,
         "generateOptionsFor": "STUDENTS",
         "maxSelectableChoices": -2147483648,
         "minSelectableChoices": -2147483648,
@@ -380,9 +380,9 @@
       "questionDetails": {
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
-          [1.0, 2.0, 3.0, 4.0, 5.0],
+          [1, 2, 3, 4, 5],
           [0.01, 0.02, 0.03, 0.04, 0.05],
-          [2.0, 1.0, 0.0, -1.0, -2.0]
+          [2, 1, 0, -1, -2]
         ],
         "rubricChoices": ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
         "rubricSubQuestions": [

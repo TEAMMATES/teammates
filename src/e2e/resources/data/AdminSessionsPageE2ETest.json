@@ -47,7 +47,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Open feedback session",
-      "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T22:00:00Z",
@@ -61,13 +60,13 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Awaiting feedback session",
-      "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T22:00:00Z",
@@ -81,13 +80,13 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Future feedback session",
-      "creatorEmail": "asess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T22:00:00Z",
@@ -101,7 +100,8 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     }
   }
 }
