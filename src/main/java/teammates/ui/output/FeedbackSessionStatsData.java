@@ -3,7 +3,7 @@ package teammates.ui.output;
 /**
  * API output of Feedback Session Stats.
  */
-public class FeedbackSessionStatsData extends ApiOutput {
+public class FeedbackSessionStatsData implements ApiOutput {
 
     private final int submittedTotal;
     private final int expectedTotal;

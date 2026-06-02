@@ -22,10 +22,10 @@ import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
@@ -70,7 +70,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     // For testing comment
     private FeedbackResponse responseWithComment;
-    private FeedbackResponseComment comment;
+    private ResponseInstructorComment comment;
 
     @Override
     protected void prepareTestData() {
@@ -123,11 +123,11 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         );
 
         responseWithComment = testData.feedbackResponses.get("qn2response1");
-        comment = testData.feedbackResponseComments.get("qn2Comment2");
+        comment = testData.responseInstructorComments.get("qn2Comment2");
         // Update the comment via API to ensure updatedAt differs from createdAt
         // (The frontend only shows "edited by" when lastEditedAt !== createdAt)
         String updatedCommentText = comment.getCommentText() + " (edited)";
-        updateFeedbackResponseComment(comment.getId(), updatedCommentText, instructor.getGoogleId());
+        updateResponseInstructorComment(comment.getId(), updatedCommentText, instructor.getGoogleId());
         // Update local object to match the new comment text in the database
         comment.setCommentText(updatedCommentText);
     }

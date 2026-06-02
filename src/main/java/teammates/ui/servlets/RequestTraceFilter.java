@@ -1,7 +1,7 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.util.Random;
+import java.security.SecureRandom;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -13,19 +13,22 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
+import org.eclipse.jetty.http.BadMessageException;
 
 import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * Extracts trace ID of HTTP requests.
+ * Extracts request ID of HTTP requests.
  */
 public class RequestTraceFilter implements Filter {
 
     private static final Logger log = Logger.getLogger();
+    private final SecureRandom random = new SecureRandom();
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
@@ -38,21 +41,19 @@ public class RequestTraceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
 
         String requestId = request.getHeader("X-Cloud-Trace-Context");
-        String traceId;
-        String spanId = null;
+        String traceId; // TODO: rename to requestId and remove dependency on Cloud Trace format
         if (requestId == null) {
             // Generate random hexadecimal string of length 32
             byte[] resBuf = new byte[16];
-            new Random().nextBytes(resBuf);
+            random.nextBytes(resBuf);
             traceId = Hex.encodeHexString(resBuf);
         } else {
             // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
             String[] traceAndSpan = requestId.split("/", 2);
             traceId = traceAndSpan[0];
-            if (traceAndSpan.length == 2) {
-                spanId = traceAndSpan[1].split(";")[0];
-            }
         }
+
+        response.setHeader(Const.HeaderNames.REQUEST_ID, traceId);
 
         // Worker / Cron requests (from Cloud Tasks with bearer token) may run longer.
         // For these requests, we set the limit to 10 minutes minus a small grace period.
@@ -60,7 +61,7 @@ public class RequestTraceFilter implements Filter {
         boolean isAutomatedWorkerOrCronRequest = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request);
         int timeoutInSeconds = isAutomatedWorkerOrCronRequest ? 10 * 60 - 5 : 60;
 
-        RequestTracer.init(traceId, spanId, timeoutInSeconds);
+        RequestTracer.init(traceId, timeoutInSeconds);
 
         if (Config.MAINTENANCE) {
             throwError(request, response, HttpStatus.SC_SERVICE_UNAVAILABLE,
@@ -71,12 +72,9 @@ public class RequestTraceFilter implements Filter {
         try {
             // Make sure that all parameters are valid UTF-8
             request.getParameterMap();
-        } catch (RuntimeException e) {
-            if ("BadMessageException".equals(e.getClass().getSimpleName())) {
-                throwError(request, response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
-                return;
-            }
-            throw e;
+        } catch (BadMessageException e) {
+            throwError(request, response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+            return;
         }
 
         chain.doFilter(req, resp);

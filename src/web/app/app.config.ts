@@ -2,7 +2,6 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { provideProtractorTestingSupport } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown';
@@ -14,7 +13,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(NgbDropdownModule, FormsModule, NgbDatepickerModule),
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),
-    provideAnimations(),
     provideZoneChangeDetection(),
     provideProtractorTestingSupport(),
     provideRouter(routes),

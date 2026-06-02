@@ -2,10 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { of, throwError } from 'rxjs';
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
@@ -25,11 +22,9 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
   ResponseVisibleSetting,
-  SessionResults,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 
 describe('QuestionResponsePanelComponent', () => {
@@ -196,15 +191,12 @@ describe('QuestionResponsePanelComponent', () => {
     otherResponses: [],
     isLoading: false,
     isLoaded: false,
-    hasResponse: true,
     hasResponseButNotVisibleForPreview: false,
     hasCommentNotVisibleForPreview: false,
   };
 
   let component: QuestionResponsePanelComponent;
   let fixture: ComponentFixture<QuestionResponsePanelComponent>;
-  let feedbackSessionsService: FeedbackSessionsService;
-  let statusMessageService: StatusMessageService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -212,8 +204,6 @@ describe('QuestionResponsePanelComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(QuestionResponsePanelComponent);
-    feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
-    statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -251,7 +241,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [[]],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: false,
       },
@@ -308,7 +297,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [[]],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: false,
       },
@@ -334,11 +322,10 @@ describe('QuestionResponsePanelComponent', () => {
               {
                 commentGiverName: 'comment-giver-name-1',
                 lastEditorName: 'comment-editor-name',
-                feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+                responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
                 commentText: 'this is a text',
                 createdAt: 1402775804,
                 lastEditedAt: 1402775804,
-                isVisibilityFollowingFeedbackQuestion: true,
                 showGiverNameTo: [],
                 showCommentTo: [],
               },
@@ -348,7 +335,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [[]],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: false,
       },
@@ -456,7 +442,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: false,
       },
@@ -499,7 +484,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: false,
       },
@@ -521,7 +505,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [[]],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: true,
         hasCommentNotVisibleForPreview: false,
       },
@@ -547,11 +530,10 @@ describe('QuestionResponsePanelComponent', () => {
               {
                 commentGiverName: 'comment-giver-name-1',
                 lastEditorName: 'comment-editor-name',
-                feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+                responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
                 commentText: 'this is a text',
                 createdAt: 1402775804,
                 lastEditedAt: 1402775804,
-                isVisibilityFollowingFeedbackQuestion: true,
                 showGiverNameTo: [],
                 showCommentTo: [],
               },
@@ -561,7 +543,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [[]],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: true,
       },
@@ -590,7 +571,6 @@ describe('QuestionResponsePanelComponent', () => {
         otherResponses: [[]],
         isLoading: false,
         isLoaded: true,
-        hasResponse: true,
         hasResponseButNotVisibleForPreview: false,
         hasCommentNotVisibleForPreview: false,
       },
@@ -598,54 +578,6 @@ describe('QuestionResponsePanelComponent', () => {
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
-  });
-
-  it('should load the recipients and responses of a question if not yet loaded', () => {
-    component.session = testFeedbackSession;
-    component.questions = [testFeedbackQuestionModel];
-    const testFeedbackSessionResult: SessionResults = {
-      questions: [
-        {
-          feedbackQuestion: testQuestion1,
-          questionStatistics: '',
-          allResponses: [],
-          hasResponseButNotVisibleForPreview: false,
-          hasCommentNotVisibleForPreview: false,
-          responsesToSelf: [],
-          responsesFromSelf: [],
-          otherResponses: [],
-        },
-      ],
-    };
-
-    const fsSpy = vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
-      .mockReturnValue(of(testFeedbackSessionResult));
-    component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
-
-    expect(fsSpy).toHaveBeenCalledTimes(1);
-    expect(fsSpy).toHaveBeenLastCalledWith({
-      intent: 'STUDENT_RESULT',
-      feedbackSessionId: testFeedbackSession.feedbackSessionId,
-      questionId: testQuestion1.feedbackQuestionId,
-      key: '',
-      previewAs: '',
-    });
-    expect(testFeedbackQuestionModel.isLoading).toBe(false);
-    expect(testFeedbackQuestionModel.isLoaded).toBe(true);
-    expect(testFeedbackQuestionModel.hasResponse).toBe(true);
-  });
-
-  it('should not load the recipients and responses of a question if already loaded', () => {
-    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-
-    testFeedbackQuestionModel.isLoaded = true;
-    component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
-
-    testFeedbackQuestionModel.isLoading = true;
-    component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
-
-    expect(fsSpy).not.toHaveBeenCalled();
   });
 
   it('canUserSeeResponses: should allow instructors to see responses when intent is INSTRUCTOR_RESULT', () => {
@@ -663,68 +595,24 @@ describe('QuestionResponsePanelComponent', () => {
     expect(canSee).toBe(false);
   });
 
-  it('loadQuestionResults: should not re-fetch data if question is already loaded', () => {
-    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+  it('canUserSeeResponses: should allow students when responses are visible to recipients and instructors', () => {
+    component.intent = Intent.STUDENT_RESULT;
+    testFeedbackQuestionModel.feedbackQuestion.showResponsesTo = [
+      FeedbackVisibilityType.RECIPIENT,
+      FeedbackVisibilityType.INSTRUCTORS,
+    ];
 
-    const testQuestionModel: FeedbackQuestionModel = {
-      ...testFeedbackQuestionModel,
-      isLoaded: true,
-    };
-    component.loadQuestionResults(testQuestionModel);
+    const canSee = component.canUserSeeResponses(testFeedbackQuestionModel);
 
-    expect(fsSpy).not.toHaveBeenCalled();
+    expect(canSee).toBe(true);
   });
 
-  it('loadQuestionResults: should handle no responses correctly and not show toast if errorMessage not set', () => {
-    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
+  it('should render a preloaded question response card', () => {
+    component.session = testFeedbackSession;
+    component.questions = [{ ...testFeedbackQuestionModel, isLoaded: true }];
 
-    testFeedbackQuestionModel.isLoaded = false;
+    fixture.detectChanges();
 
-    fsSpy.mockReturnValue(
-      of({
-        questions: [],
-      } as SessionResults),
-    );
-
-    component.loadQuestionResults(testFeedbackQuestionModel);
-
-    expect(testFeedbackQuestionModel.hasResponse).toBe(false);
-    expect(toastSpy).not.toHaveBeenCalled();
-  });
-
-  it('loadQuestionResults: should handle no responses correctly and show success toast if errorMessage is set', () => {
-    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
-
-    testFeedbackQuestionModel.isLoaded = false;
-    testFeedbackQuestionModel.errorMessage = 'Error occurred';
-
-    fsSpy.mockReturnValue(
-      of({
-        questions: [],
-      } as SessionResults),
-    );
-
-    component.loadQuestionResults(testFeedbackQuestionModel);
-
-    expect(testFeedbackQuestionModel.hasResponse).toBe(false);
-    expect(toastSpy).toHaveBeenCalledWith(
-      `Question ${testFeedbackQuestionModel.feedbackQuestion.questionNumber} has no responses.`,
-    );
-  });
-
-  it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
-    const errorMessage = 'An error occurred';
-    testFeedbackQuestionModel.isLoaded = false;
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
-      throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput),
-    );
-    const showErrorToastSpy = vi.spyOn(statusMessageService, 'showErrorToast');
-
-    component.loadQuestionResults(testFeedbackQuestionModel);
-
-    expect(testFeedbackQuestionModel.errorMessage).toBe(errorMessage);
-    expect(showErrorToastSpy).toHaveBeenCalledWith(errorMessage);
+    expect(fixture.nativeElement.querySelector('#question-1-responses')).toBeTruthy();
   });
 });

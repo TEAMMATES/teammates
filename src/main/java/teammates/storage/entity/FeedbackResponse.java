@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -52,7 +53,10 @@ public abstract class FeedbackResponse extends BaseEntity {
     private UUID questionId;
 
     @OneToMany(mappedBy = "feedbackResponse")
-    private Set<FeedbackResponseComment> feedbackResponseComments = new HashSet<>();
+    private Set<ResponseInstructorComment> responseInstructorComments = new HashSet<>();
+
+    @Column(columnDefinition = "TEXT")
+    private String giverComment;
 
     @Embedded
     private ResponseGiver giver;
@@ -68,11 +72,12 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     protected FeedbackResponse(
-            ResponseGiver giver, ResponseRecipient recipient
+            ResponseGiver giver, ResponseRecipient recipient, @Nullable String giverComment
     ) {
         this.setId(UUID.randomUUID());
         this.giver = giver;
         this.recipient = recipient;
+        this.giverComment = giverComment;
     }
 
     /**
@@ -82,51 +87,61 @@ public abstract class FeedbackResponse extends BaseEntity {
             ResponseGiver giver, ResponseRecipient recipient,
             FeedbackResponseDetails responseDetails
     ) {
+        return makeResponse(giver, recipient, responseDetails, null);
+    }
+
+    /**
+     * Creates a feedback response according to its {@code FeedbackQuestionType}.
+     */
+    public static FeedbackResponse makeResponse(
+            ResponseGiver giver, ResponseRecipient recipient,
+            FeedbackResponseDetails responseDetails, @Nullable String giverComment
+    ) {
         FeedbackResponse feedbackResponse = null;
         switch (responseDetails.getQuestionType()) {
         case TEXT:
             feedbackResponse = new FeedbackTextResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case MCQ:
             feedbackResponse = new FeedbackMcqResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case MSQ:
             feedbackResponse = new FeedbackMsqResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case NUMSCALE:
             feedbackResponse = new FeedbackNumericalScaleResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
             feedbackResponse = new FeedbackConstantSumResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case CONTRIB:
             feedbackResponse = new FeedbackContributionResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case RUBRIC:
             feedbackResponse = new FeedbackRubricResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case RANK_OPTIONS:
             feedbackResponse = new FeedbackRankOptionsResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         case RANK_RECIPIENTS:
             feedbackResponse = new FeedbackRankRecipientsResponse(
-                    giver, recipient, responseDetails
+                    giver, recipient, responseDetails, giverComment
             );
             break;
         }
@@ -160,9 +175,9 @@ public abstract class FeedbackResponse extends BaseEntity {
     /**
      * Add a comment to the feedback response.
      */
-    public void addFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
-        this.feedbackResponseComments.add(feedbackResponseComment);
-        feedbackResponseComment.setFeedbackResponse(this);
+    public void addResponseInstructorComment(ResponseInstructorComment responseInstructorComment) {
+        this.responseInstructorComments.add(responseInstructorComment);
+        responseInstructorComment.setFeedbackResponse(this);
     }
 
     public UUID getId() {
@@ -205,12 +220,20 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.questionId = feedbackQuestion == null ? null : feedbackQuestion.getId();
     }
 
-    public Set<FeedbackResponseComment> getFeedbackResponseComments() {
-        return feedbackResponseComments;
+    public Set<ResponseInstructorComment> getResponseInstructorComments() {
+        return responseInstructorComments;
     }
 
-    public void setFeedbackResponseComments(Set<FeedbackResponseComment> feedbackResponseComments) {
-        this.feedbackResponseComments = feedbackResponseComments;
+    public void setResponseInstructorComments(Set<ResponseInstructorComment> responseInstructorComments) {
+        this.responseInstructorComments = responseInstructorComments;
+    }
+
+    public String getGiverComment() {
+        return giverComment;
+    }
+
+    public void setGiverComment(String giverComment) {
+        this.giverComment = giverComment;
     }
 
     public Instant getUpdatedAt() {

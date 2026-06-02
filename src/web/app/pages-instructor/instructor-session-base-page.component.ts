@@ -501,7 +501,7 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackQuestionsService
       .getFeedbackQuestions({
         feedbackSessionId: model.feedbackSession.feedbackSessionId,
-        intent: Intent.INSTRUCTOR_RESULT,
+        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackQuestions: FeedbackQuestions) => {
@@ -512,7 +512,6 @@ export abstract class InstructorSessionBasePageComponent {
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
               model.feedbackSession.feedbackSessionId,
-              Intent.FULL_DETAIL,
               true,
               true,
               questions,
@@ -637,7 +636,7 @@ export abstract class InstructorSessionBasePageComponent {
 
   openErrorReportModal(resp: ErrorMessageOutput): void {
     const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
-    modal.componentInstance.requestId = resp.error.requestId;
+    modal.componentInstance.requestId = resp.headers?.get('X-Request-Id');
     modal.componentInstance.errorMessage = resp.error.message;
   }
 

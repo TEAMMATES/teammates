@@ -12,11 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.HibernateUtil;
@@ -27,6 +29,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -51,17 +54,52 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() throws EntityDoesNotExistException {
+    public void testGetSubmittedGiverSet_hasGivers_findsGivers() throws EntityDoesNotExistException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        Set<String> expectedGivers = new HashSet<>();
+        Set<UUID> expectedStudentGivers = new HashSet<>();
+        Set<UUID> expectedStudentNonGivers;
+        Set<UUID> expectedInstructorNonGivers = typicalDataBundle.instructors.values()
+                .stream()
+                .filter(instructor -> instructor.getCourseId().equals(fs.getCourseId()))
+                .map(Instructor::getId)
+                .collect(Collectors.toSet());
 
-        expectedGivers.add(typicalDataBundle.students.get("student1InCourse1").getEmail());
-        expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
-        expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student1InCourse1").getId());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student2InCourse1").getId());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student3InCourse1").getId());
+        expectedStudentNonGivers = typicalDataBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fs.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
 
-        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getId());
-        assertEquals(expectedGivers.size(), givers.size());
-        assertEquals(expectedGivers, givers);
+        SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSet(fs.getId());
+        assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
+        assertTrue(givers.instructorGiverIds().isEmpty());
+        assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
+        assertEquals(expectedInstructorNonGivers, new HashSet<>(givers.instructorNonGiverIds()));
+    }
+
+    @Test
+    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorNonGivers()
+            throws EntityDoesNotExistException {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
+
+        Set<UUID> expectedStudentGivers = Set.of(typicalDataBundle.students.get("student1InCourse1").getId());
+        Set<UUID> expectedStudentNonGivers = typicalDataBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fs.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
+
+        SubmittedGiverSetBundle givers = fsLogic.getSubmittedGiverSet(fs.getId());
+
+        assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
+        assertTrue(givers.instructorGiverIds().isEmpty());
+        assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
+        assertTrue(givers.instructorNonGiverIds().isEmpty());
     }
 
     @Test

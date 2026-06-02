@@ -58,11 +58,10 @@
             {
               "commentGiverName": "Instructor1 Course1",
               "lastEditorName": "Instructor1 Course1",
-              "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000006a",
+              "responseInstructorCommentId": "00000000-0000-0000-0000-00000000006a",
               "commentText": "Instructor 1 comment to student 1 self feedback",
               "createdAt": 1772409540000,
               "lastEditedAt": 1333411140000,
-              "isVisibilityFollowingFeedbackQuestion": false,
               "showGiverNameTo": [],
               "showCommentTo": []
             }

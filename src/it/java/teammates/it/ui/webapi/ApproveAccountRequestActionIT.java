@@ -9,8 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -18,7 +16,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
@@ -126,45 +123,6 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
-    }
-
-    @Test
-    void testExecute_existingApprovedRequestWithSameEmailAndInstitute_throwsInvalidOperationException()
-            throws Exception {
-        logic.createAccountRequest("name", "duplicate@email.com",
-                "dupInstitute", AccountRequestStatus.APPROVED, "comments");
-        AccountRequest accountRequest = logic.createAccountRequest("name", "duplicate@email.com",
-                "dupInstitute", AccountRequestStatus.PENDING, "comments");
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
-
-        InvalidOperationException ipe = verifyInvalidOperation(params);
-        assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
-                + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
-        verifyNoEmailsSent();
-    }
-
-    @Test
-    void testExecute_existingInstructorWithSameEmailAndInstitute_throwsInvalidOperationException()
-            throws Exception {
-        String email = "existing-instructor@email.com";
-        String institute = "dupInstitute";
-        Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
-        logic.createCourse(course);
-
-        Instructor existingInstructor = new Instructor(course, "name", email, true, "display-name",
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
-        logic.createInstructor(existingInstructor);
-
-        AccountRequest accountRequest = logic.createAccountRequest("name", email,
-                institute, AccountRequestStatus.PENDING, "comments");
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
-
-        InvalidOperationException ipe = verifyInvalidOperation(params);
-        assertEquals(String.format("An instructor with email %s and institute %s already exists. "
-                + "Please reject or delete the account request instead.",
-                accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
-        verifyNoEmailsSent();
     }
 
     @Test

@@ -79,12 +79,10 @@ describe('CourseService', () => {
       courseId: 'test-id',
       courseName: 'test-name',
       timeZone: 'test-zone',
+      institute: 'test-institute',
     };
-    const paramMap: { [key: string]: string } = {
-      instructorinstitution: 'test-institute',
-    };
-    service.createCourse('test-institute', request);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap, request);
+    service.createCourse(request);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.COURSE, {}, request);
   });
 
   it('should execute PUT to update course', () => {
@@ -156,11 +154,11 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
-  it('should execute GET when getting course section names', () => {
+  it('should execute GET when getting course sections', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
-    service.getCourseSectionNames(paramMap['courseid']);
+    service.getCourseSections(paramMap['courseid']);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
   });
 });

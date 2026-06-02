@@ -760,7 +760,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 3,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
@@ -793,7 +793,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 5,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -810,7 +810,7 @@
       },
       "description": "Feedback question with no responses",
       "questionNumber": 6,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -827,7 +827,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 7,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -906,6 +906,7 @@
         "questionType": "TEXT",
         "answer": "Student 1 self feedback."
       },
+      "giverComment": "Student 1 comment to student 1 self feedback",
       "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1": {
@@ -985,7 +986,7 @@
       "questionId": "00000000-0000-4000-8001-000000000800"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -994,22 +995,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000901"
-    },
-    "comment2ToResponse1ForQ1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Student 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
@@ -1022,8 +1007,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
@@ -1036,8 +1019,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000903"
@@ -1050,8 +1031,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000905"
@@ -1085,49 +1064,49 @@
       "id": "00000000-0000-4000-8000-000000001301",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session2Log1": {
       "id": "00000000-0000-4000-8000-000000001302",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:01Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "student1Session2Log2": {
       "id": "00000000-0000-4000-8000-000000001303",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "2012-01-01T12:00:02Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "student2Session1Log1": {
       "id": "00000000-0000-4000-8000-000000001304",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:03Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1Log2": {
       "id": "00000000-0000-4000-8000-000000001305",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "2012-01-01T12:00:04Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1InAnotherCourse": {
       "id": "00000000-0000-4000-8000-000000001306",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:05Z",
-      "studentId": "00000000-0000-4000-8000-000000000605",
+      "userId": "00000000-0000-4000-8000-000000000605",
       "sessionId": "00000000-0000-4000-8000-000000000707"
     },
     "outOfRangeLog": {
       "id": "00000000-0000-4000-8000-000000001307",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2010-01-01T00:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   }

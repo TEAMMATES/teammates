@@ -3,10 +3,6 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -15,9 +11,12 @@ import static org.mockito.Mockito.when;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -25,8 +24,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -40,8 +37,9 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
-import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
 
@@ -70,7 +68,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @BeforeMethod
-    void setUp() {
+    void setUp() throws Exception {
         stubStudent = getTypicalStudent();
         stubStudent.setTeam(getTypicalTeam());
         stubInstructor = getTypicalInstructor();
@@ -108,6 +106,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(stubInstructor);
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(spyFeedbackQuestion.getId())).thenReturn(spyFeedbackQuestion);
         when(mockLogic.getStudentsForCourse(stubCourse.getId()))
                 .thenReturn(List.of(stubStudent, recipientStudent1, recipientStudent2));
@@ -115,6 +114,68 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(List.of(stubInstructor, recipientInstructor1));
         when(mockLogic.getDeadlineForUser(any(FeedbackSession.class), any()))
                 .thenAnswer(invocation -> ((FeedbackSession) invocation.getArgument(0)).getEndTime());
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenAnswer(invocation -> getSubmittedResponses(
+                        getResponseGiver(spyFeedbackQuestion, invocation.getArgument(1)),
+                        invocation.getArgument(2)));
+        when(mockLogic.submitFeedbackResponsesFromInstructor(
+                any(FeedbackSession.class), any(Instructor.class), any(FeedbackResponsesRequest.class)))
+                .thenAnswer(invocation -> getSubmittedResponses(
+                        new ResponseGiver((Instructor) invocation.getArgument(1)),
+                        invocation.getArgument(2)));
+    }
+
+    private ResponseGiver getResponseGiver(FeedbackQuestion feedbackQuestion, Student student) {
+        return feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                ? new ResponseGiver(student.getTeam())
+                : new ResponseGiver(student);
+    }
+
+    private FeedbackResponsesRequest getRequestBody(
+            List<FeedbackResponsesRequest.FeedbackResponseRequest> responses) {
+        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
+        requestBody.setQuestionResponses(Map.of(spyFeedbackQuestion.getId(), responses));
+        return requestBody;
+    }
+
+    private List<FeedbackResponse> getSubmittedResponses(
+            ResponseGiver responseGiver, FeedbackResponsesRequest submitRequest) {
+        List<FeedbackResponse> responses = new ArrayList<>();
+        for (List<FeedbackResponsesRequest.FeedbackResponseRequest> responseRequests
+                : submitRequest.getQuestionResponses().values()) {
+            for (FeedbackResponsesRequest.FeedbackResponseRequest responseRequest : responseRequests) {
+                FeedbackResponse response = FeedbackResponse.makeResponse(
+                        responseGiver,
+                        getResponseRecipient(responseRequest.getRecipient()),
+                        responseRequest.getResponseDetails());
+                spyFeedbackQuestion.addFeedbackResponse(response);
+                responses.add(response);
+            }
+        }
+        return responses;
+    }
+
+    private ResponseRecipient getResponseRecipient(String recipient) {
+        if (recipientStudent1.getEmail().equals(recipient)) {
+            return new ResponseRecipient(recipientStudent1);
+        }
+        if (recipientStudent2.getEmail().equals(recipient)) {
+            return new ResponseRecipient(recipientStudent2);
+        }
+        if (recipientInstructor1.getEmail().equals(recipient)) {
+            return new ResponseRecipient(recipientInstructor1);
+        }
+        if (stubStudent.getTeamName().equals(recipient)) {
+            return new ResponseRecipient(stubStudent.getTeam());
+        }
+        return new ResponseRecipient();
+    }
+
+    private List<FeedbackResponseData> flattenResponses(FeedbackQuestionResponsesData result) {
+        return result.getQuestionResponses().values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 
     @Test
@@ -131,34 +192,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_invalidIntent_throwsInvalidHttpParameterException() {
-        loginAsStudent(stubStudent.getGoogleId());
-
-        String[] paramsStudentResult = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-        };
-        verifyHttpParameterFailure(paramsStudentResult);
-
-        String[] paramsInstructorResult = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-        };
-        verifyHttpParameterFailure(paramsInstructorResult);
-
-        String[] paramsFullDetail = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-        verifyHttpParameterFailure(paramsFullDetail);
-    }
-
-    @Test
     void testExecute_noRequestBody_throwsInvalidHttpRequestBodyException() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -166,74 +204,118 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     }
 
     @Test
-    void testExecute_nullRecipient_throwsInvalidOperationException() {
+    void testExecute_nullResponsesForQuestion_throwsInvalidHttpRequestBodyException() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
-                .thenReturn(List.of());
-        Set<ResponseRecipient> recipients = Set.of();
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
+        Map<UUID, List<FeedbackResponsesRequest.FeedbackResponseRequest>> questionResponses = new HashMap<>();
+        questionResponses.put(spyFeedbackQuestion.getId(), null);
+        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
+        requestBody.setQuestionResponses(questionResponses);
+
+        verifyHttpRequestBodyFailure(requestBody, params);
+    }
+
+    @Test
+    void testExecute_nullRecipient_throwsInvalidHttpRequestBodyException() {
+        loginAsStudent(stubStudent.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 null, new FeedbackTextResponseDetails("test")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
-        verifyInvalidOperation(requestBody, params);
+        verifyHttpRequestBodyFailure(requestBody, params);
     }
 
     @Test
-    void testExecute_emptyRecipient_throwsInvalidOperationException() {
+    void testExecute_emptyRecipient_throwsInvalidHttpRequestBodyException() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-
-        when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
-                .thenReturn(List.of());
-        Set<ResponseRecipient> recipients = Set.of();
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 "", new FeedbackTextResponseDetails("test")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
-        verifyInvalidOperation(requestBody, params);
+        verifyHttpRequestBodyFailure(requestBody, params);
     }
 
     @Test
-    void testExecute_invalidRecipient_throwsInvalidOperationException() {
+    void testExecute_duplicateResponseId_throwsInvalidHttpRequestBodyException() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        Set<ResponseRecipient> recipients = Set.of(new ResponseRecipient(recipientStudent1));
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
+        UUID duplicateResponseId = UUID.randomUUID();
+        List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                duplicateResponseId, recipientStudent1.getEmail(), new FeedbackTextResponseDetails("test"), null));
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                duplicateResponseId, recipientStudent2.getEmail(), new FeedbackTextResponseDetails("test"), null));
+
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
+
+        verifyHttpRequestBodyFailure(requestBody, params);
+    }
+
+    @Test
+    void testExecute_duplicateRecipient_throwsInvalidHttpRequestBodyException() {
+        loginAsStudent(stubStudent.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                UUID.randomUUID(), recipientStudent1.getEmail(), new FeedbackTextResponseDetails("test"), null));
+        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
+                UUID.randomUUID(), recipientStudent1.getEmail(), new FeedbackTextResponseDetails("test"), null));
+
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
+
+        verifyHttpRequestBodyFailure(requestBody, params);
+    }
+
+    @Test
+    void testExecute_invalidRecipient_throwsInvalidOperationException() throws Exception {
+        loginAsStudent(stubStudent.getGoogleId());
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        when(mockLogic.submitFeedbackResponsesFromStudent(
+                any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class)))
+                .thenThrow(new InvalidOperationException(
+                        "The recipient invalid@email.com is not a valid recipient of the question"));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 "invalid@email.com", new FeedbackTextResponseDetails("test")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         verifyInvalidOperation(requestBody, params);
     }
@@ -243,7 +325,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -261,30 +343,25 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Response for " + recipientStudent1.getEmail()));
         spyFeedbackQuestion.addFeedbackResponse(createdResponse);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenReturn(createdResponse);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 recipientStudent1.getEmail(),
                 new FeedbackTextResponseDetails("Response for " + recipientStudent1.getEmail())));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        FeedbackResponseData responseData = result.getResponses().get(0);
+        assertEquals(1, submittedResponses.size());
+        FeedbackResponseData responseData = submittedResponses.get(0);
         assertEquals(stubStudent.getEmail(), responseData.getGiverIdentifier());
         assertEquals(recipientStudent1.getEmail(), responseData.getRecipientIdentifier());
 
-        verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
-        verify(mockLogic).getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class));
-        verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver().getIdentifier().equals(stubStudent.getEmail())
-                        && response.getRecipient().getIdentifier().equals(recipientStudent1.getEmail())));
+        verify(mockLogic).submitFeedbackResponsesFromStudent(
+                any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
@@ -292,7 +369,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         loginAsInstructor(stubInstructor.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
@@ -310,30 +387,25 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 new ResponseRecipient(recipientInstructor1),
                 new FeedbackTextResponseDetails("Response for " + recipientInstructor1.getEmail()));
         spyFeedbackQuestion.addFeedbackResponse(createdResponse);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenReturn(createdResponse);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 recipientInstructor1.getEmail(),
                 new FeedbackTextResponseDetails("Response for " + recipientInstructor1.getEmail())));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        FeedbackResponseData responseData = result.getResponses().get(0);
+        assertEquals(1, submittedResponses.size());
+        FeedbackResponseData responseData = submittedResponses.get(0);
         assertEquals(stubInstructor.getEmail(), responseData.getGiverIdentifier());
         assertEquals(recipientInstructor1.getEmail(), responseData.getRecipientIdentifier());
 
-        verify(mockLogic).getFeedbackResponsesFromInstructorForQuestion(spyFeedbackQuestion, stubInstructor);
-        verify(mockLogic).getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class));
-        verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver().getIdentifier().equals(stubInstructor.getEmail())
-                        && response.getRecipient().getIdentifier().equals(recipientInstructor1.getEmail())));
+        verify(mockLogic).submitFeedbackResponsesFromInstructor(
+                any(FeedbackSession.class), any(Instructor.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
@@ -341,7 +413,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -375,29 +447,21 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Updated response 1"));
         spyFeedbackQuestion.addFeedbackResponse(updatedResponse);
-        when(mockLogic.updateFeedbackResponseCascade(any(FeedbackResponse.class)))
-                .thenReturn(updatedResponse);
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 recipientStudent1.getEmail(),
                 new FeedbackTextResponseDetails("Updated response 1")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        verify(mockLogic).updateFeedbackResponseCascade(any(FeedbackResponse.class));
-        verify(mockLogic).deleteFeedbackResponsesAndCommentsCascade(existingResponse2);
-        verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
-        verify(mockLogic).getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class));
-        verify(mockLogic).updateFeedbackResponseCascade(argThat(response ->
-                response.getGiver().getIdentifier().equals(stubStudent.getEmail())
-                        && response.getRecipient().getIdentifier().equals(recipientStudent1.getEmail())));
-        verify(mockLogic).deleteFeedbackResponsesAndCommentsCascade(existingResponse2);
+        assertEquals(1, submittedResponses.size());
+        verify(mockLogic).submitFeedbackResponsesFromStudent(
+                any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
@@ -406,7 +470,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -419,65 +483,30 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 recipientStudent1.getEmail(),
                 new FeedbackTextResponseDetails("Team response")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        assertEquals(stubStudent.getTeamName(), result.getResponses().get(0).getGiverIdentifier());
-        verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver() != null
-                        && response.getGiver().getIdentifier().equals(stubStudent.getTeamName())));
+        assertEquals(1, submittedResponses.size());
+        assertEquals(stubStudent.getTeamName(), submittedResponses.get(0).getGiverIdentifier());
+        verify(mockLogic).submitFeedbackResponsesFromStudent(
+                any(FeedbackSession.class), any(Student.class), any(FeedbackResponsesRequest.class));
     }
 
     @Test
-    void testExecute_questionSpecificValidationFails_throwsInvalidHttpRequestBodyException() {
-        loginAsStudent(stubStudent.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
-                .thenReturn(List.of());
-
-        Set<ResponseRecipient> recipients = Set.of(new ResponseRecipient(recipientStudent1));
-        when(mockLogic.getRecipientsOfQuestion(any(FeedbackQuestion.class), any(ResponseGiver.class)))
-                .thenReturn(recipients);
-
-        FeedbackTextQuestionDetails mockDetails = mock(FeedbackTextQuestionDetails.class);
-        when(mockDetails.validateResponsesDetails(anyList(), anyInt())).thenReturn(List.of("Validation error"));
-        when(spyFeedbackQuestion.getQuestionDetailsCopy()).thenReturn(mockDetails);
-
-        List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
-        responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
-                recipientStudent1.getEmail(),
-                new FeedbackTextResponseDetails("test")));
-
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
-
-        verifyHttpRequestBodyFailure(requestBody, params);
-    }
-
-    @Test
-    void testExecute_tooManyRecipients_success() throws Exception {
+    void testExecute_tooManyRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
         spyFeedbackQuestion.setNumOfEntitiesToGiveFeedbackTo(1);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -491,8 +520,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(recipients);
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -502,21 +529,21 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 recipientStudent2.getEmail(),
                 new FeedbackTextResponseDetails("Response 2")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(2, result.getResponses().size());
+        assertEquals(2, submittedResponses.size());
     }
 
     @Test
-    void testExecute_multipleRecipients_success() throws Exception {
+    void testExecute_multipleRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -531,9 +558,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 recipientStudent1.getEmail(),
@@ -542,22 +566,22 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 recipientStudent2.getEmail(),
                 new FeedbackTextResponseDetails("Response for " + recipientStudent2.getEmail())));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(2, result.getResponses().size());
+        assertEquals(2, submittedResponses.size());
     }
 
     @Test
-    void testExecute_teamBasedRecipients_success() throws Exception {
+    void testExecute_teamBasedRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
         spyFeedbackQuestion.setRecipientType(QuestionRecipientType.TEAMS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -571,22 +595,19 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
-
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
                 teamName,
                 new FeedbackTextResponseDetails("Team recipient response")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(1, result.getResponses().size());
-        assertEquals(teamName, result.getResponses().get(0).getRecipientIdentifier());
+        assertEquals(1, submittedResponses.size());
+        assertEquals(teamName, submittedResponses.get(0).getRecipientIdentifier());
     }
 
     @Test
@@ -594,7 +615,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         loginAsStudent(stubStudent.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, "invalid-uuid",
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "invalid-uuid",
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -603,21 +624,20 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 recipientStudent1.getEmail(),
                 new FeedbackTextResponseDetails("test")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
-        assertEquals("Expected UUID value for questionid parameter, but found: [invalid-uuid]", ihpe.getMessage());
+        assertEquals("Expected UUID value for fsid parameter, but found: [invalid-uuid]", ihpe.getMessage());
     }
 
     @Test
-    void testExecute_maxPossibleRecipients_success() throws Exception {
+    void testExecute_maxPossibleRecipients_success() {
         loginAsStudent(stubStudent.getGoogleId());
         spyFeedbackQuestion.setNumOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -631,8 +651,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 .thenReturn(recipients);
 
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
-        when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
-                .thenAnswer(invocation -> invocation.getArgument(0));
 
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
         responses.add(new FeedbackResponsesRequest.FeedbackResponseRequest(
@@ -642,66 +660,29 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 recipientStudent2.getEmail(),
                 new FeedbackTextResponseDetails("Response 2")));
 
-        FeedbackResponsesRequest requestBody = new FeedbackResponsesRequest();
-        requestBody.setResponses(responses);
+        FeedbackResponsesRequest requestBody = getRequestBody(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
+        FeedbackQuestionResponsesData result = (FeedbackQuestionResponsesData) getJsonResult(action).getOutput();
+        List<FeedbackResponseData> submittedResponses = flattenResponses(result);
 
-        assertEquals(2, result.getResponses().size());
+        assertEquals(2, submittedResponses.size());
     }
 
     @Test
-    void testSpecificAccessControl_questionDoesNotExist_throwsEntityNotFoundException() {
+    void testSpecificAccessControl_sessionDoesNotExist_throwsEntityNotFoundException() {
         loginAsStudent(stubStudent.getGoogleId());
 
-        when(mockLogic.getFeedbackQuestion(spyFeedbackQuestion.getId())).thenReturn(null);
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId())).thenReturn(null);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         SubmitFeedbackResponsesAction action = getAction(params);
         EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::checkAccessControl);
-        assertEquals("The feedback question does not exist.", enfe.getMessage());
-    }
-
-    @Test
-    void testSpecificAccessControl_notAnswerableForStudent_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-        };
-
-        for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.STUDENTS || type == QuestionGiverType.TEAMS) {
-                continue;
-            }
-            spyFeedbackQuestion.setGiverType(type);
-            verifyCannotAccess(params);
-        }
-    }
-
-    @Test
-    void testSpecificAccessControl_notAnswerableForInstructor_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        for (QuestionGiverType type : QuestionGiverType.values()) {
-            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SELF) {
-                continue;
-            }
-            spyFeedbackQuestion.setGiverType(type);
-            verifyCannotAccess(params);
-        }
+        assertEquals("The feedback session does not exist.", enfe.getMessage());
     }
 
     @Test
@@ -719,7 +700,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
@@ -736,7 +717,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -752,7 +733,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
@@ -772,7 +753,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -792,7 +773,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -813,7 +794,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -834,7 +815,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -848,7 +829,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.PREVIEWAS, stubInstructor.getId().toString(),
         };
@@ -869,7 +850,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -889,29 +870,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-        };
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testSpecificAccessControl_instructorWithModeratorPrivilege_canAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        spyFeedbackQuestion.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
-        spyFeedbackQuestion.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));
-        spyFeedbackQuestion.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
-
-        when(mockLogic.getInstructorOfCourse(stubCourse.getId(), stubInstructor.getId()))
-                .thenReturn(stubInstructor);
-
-        spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getId().toString(),
         };
 
         verifyCanAccess(params);
@@ -930,28 +890,12 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.USER, stubStudent.getGoogleId(),
         };
 
         verifyCanMasquerade(stubStudent.getGoogleId(), params);
-    }
-
-    @Test
-    void testSpecificAccessControl_studentModerationAttempt_cannotAccess() {
-        loginAsStudent(stubStudent.getGoogleId());
-        stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
-
-        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, UUID.randomUUID().toString(),
-        };
-
-        verifyCannotAccess(params);
     }
 
     @Test
@@ -961,7 +905,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 

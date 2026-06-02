@@ -82,8 +82,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         when(mockEmailGenerator.generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
-                updatedStudent.getEmail(),
+                updatedStudent,
                 EmailType.STUDENT_EMAIL_CHANGED
         )).thenReturn(mockEmail);
         mockEmailSender.setShouldFail(false);
@@ -98,8 +97,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudent(eq(student.getId()), any());
 
         verify(mockEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
-                updatedStudent.getEmail(),
+                updatedStudent,
                 EmailType.STUDENT_EMAIL_CHANGED
         );
         verifyNumberOfEmailsSent(1);
@@ -119,8 +117,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         when(mockEmailGenerator.generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
-                updatedStudent.getEmail(),
+                updatedStudent,
                 EmailType.STUDENT_EMAIL_CHANGED
         )).thenReturn(mockEmail);
         mockEmailSender.setShouldFail(true);
@@ -135,8 +132,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).updateStudent(eq(student.getId()), any());
 
         verify(mockEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
-                course.getId(),
-                updatedStudent.getEmail(),
+                updatedStudent,
                 EmailType.STUDENT_EMAIL_CHANGED
         );
 

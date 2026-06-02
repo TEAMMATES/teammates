@@ -1,13 +1,17 @@
 package teammates.logic.core;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,13 +21,13 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.Student;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -38,7 +42,6 @@ public final class FeedbackSessionsLogic {
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
     private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
-
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
     private FeedbackSessionsDb fsDb;
@@ -150,11 +153,11 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     * Gets submitted givers partitioned by giver type under a feedback session.
      *
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+    public SubmittedGiverSetBundle getSubmittedGiverSet(
             UUID feedbackSessionId) throws EntityDoesNotExistException {
         FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -162,15 +165,80 @@ public final class FeedbackSessionsLogic {
                 String.format("Feedback session with id %s not found.", feedbackSessionId));
         }
 
-        return getGiverSetThatAnsweredFeedbackSession(feedbackSession);
+        return getSubmittedGiverSet(feedbackSession);
     }
 
-    private Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession feedbackSession) {
-        return feedbackSession.getFeedbackQuestions().stream()
-                .flatMap(question -> question.getFeedbackResponses().stream())
-                .map(FeedbackResponse::getGiver)
-                .map(ResponseGiver::getIdentifier)
-                .collect(Collectors.toUnmodifiableSet());
+    private SubmittedGiverSetBundle getSubmittedGiverSet(FeedbackSession feedbackSession) {
+        Set<FeedbackQuestion> questions = feedbackSession.getFeedbackQuestions();
+        boolean hasQuestionsForStudents = fqLogic.hasFeedbackQuestionsForStudents(questions);
+        boolean hasQuestionsForIndividualStudents = fqLogic.hasFeedbackQuestionsForGiverType(
+                questions, QuestionGiverType.STUDENTS);
+        boolean shouldCountTeamResponsesAsStudentSubmissions = hasQuestionsForStudents
+                && !hasQuestionsForIndividualStudents;
+        boolean hasQuestionsForInstructors = fqLogic.hasFeedbackQuestionsForInstructors(questions, false);
+
+        List<Student> students = usersLogic.getStudentsForCourse(feedbackSession.getCourseId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(feedbackSession.getCourseId());
+        Map<UUID, Set<UUID>> studentIdsByTeamId = students.stream()
+                .filter(student -> student.getTeam() != null)
+                .collect(Collectors.groupingBy(student -> student.getTeam().getId(),
+                        Collectors.mapping(Student::getId, Collectors.toCollection(HashSet::new))));
+
+        Set<UUID> studentGiverIds = new TreeSet<>();
+        Set<UUID> instructorGiverIds = new TreeSet<>();
+        Set<UUID> studentNonGiverIds = new TreeSet<>();
+        Set<UUID> instructorNonGiverIds = new TreeSet<>();
+
+        // Populate giver sets
+        for (FeedbackQuestion question : feedbackSession.getFeedbackQuestions()) {
+            for (FeedbackResponse response : question.getFeedbackResponses()) {
+                ResponseGiver responseGiver = response.getGiver();
+
+                if (responseGiver.isGiverStudent()) {
+                    studentGiverIds.add(responseGiver.getGiverUserId());
+                } else if (responseGiver.isGiverInstructor()) {
+                    instructorGiverIds.add(responseGiver.getGiverUserId());
+                } else if (responseGiver.isGiverTeam()) {
+                    // For team-only sessions, one team response marks all team members as submitted.
+                    if (shouldCountTeamResponsesAsStudentSubmissions) {
+                        addStudentGiversForTeamResponse(response, studentIdsByTeamId, studentGiverIds);
+                    }
+                } else {
+                    log.warning("Unknown giver type for response: " + response.getId());
+                }
+            }
+        }
+
+        // Populate non-giver sets
+        if (hasQuestionsForStudents) {
+            Set<UUID> allStudentIds = students.stream()
+                    .map(Student::getId)
+                    .collect(Collectors.toSet());
+            studentNonGiverIds.addAll(allStudentIds);
+            studentNonGiverIds.removeAll(studentGiverIds);
+        }
+
+        if (hasQuestionsForInstructors) {
+            Set<UUID> allInstructorIds = instructors.stream()
+                    .map(Instructor::getId)
+                    .collect(Collectors.toSet());
+            instructorNonGiverIds.addAll(allInstructorIds);
+            instructorNonGiverIds.removeAll(instructorGiverIds);
+        }
+
+        return new SubmittedGiverSetBundle(studentGiverIds, instructorGiverIds, studentNonGiverIds, instructorNonGiverIds);
+    }
+
+    private void addStudentGiversForTeamResponse(FeedbackResponse response, Map<UUID, Set<UUID>> studentIdsByTeamId,
+            Set<UUID> studentGiverIds) {
+        UUID giverTeamId = response.getGiver().getGiverTeamId();
+        Set<UUID> memberStudentIds = studentIdsByTeamId.get(giverTeamId);
+        if (memberStudentIds == null || memberStudentIds.isEmpty()) {
+            log.warning("No students found for team giver response: " + response.getId());
+            return;
+        }
+
+        studentGiverIds.addAll(memberStudentIds);
     }
 
     /**
@@ -463,101 +531,66 @@ public final class FeedbackSessionsLogic {
      *         sent as they are published
      */
     public List<FeedbackSession> getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent() {
-        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
-
-        for (FeedbackSession session : sessions) {
-            // automated emails are required only for custom publish times
-            if (session.isPublished()
-                    && !TimeHelper.isSpecialTime(session.getResultsVisibleFromTime())
-                    && session.getCourse().getDeletedAt() == null) {
-                sessionsToSendEmailsFor.add(session);
-            }
-        }
-        log.info(String.format("Number of sessions under consideration after filtering: %d",
-                sessionsToSendEmailsFor.size()));
-        return sessionsToSendEmailsFor;
+        log.info(String.format("Number of sessions to send published emails for: %d", sessions.size()));
+        return sessions;
     }
 
     /**
-     * Returns a list of sessions that are going to close within the next 24 hours.
+     * Returns sessions in the reminder window before the closing time.
      */
     public List<FeedbackSession> getFeedbackSessionsClosingWithinTimeLimit() {
-        List<FeedbackSession> requiredSessions = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosingSoonEmail();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
+        List<FeedbackSession> filteredSessions = new ArrayList<>();
         for (FeedbackSession session : sessions) {
-            if (session.isClosingWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
-                    && session.getCourse().getDeletedAt() == null) {
-                requiredSessions.add(session);
+            if (Duration.between(session.getStartTime(), session.getEndTime())
+                    .compareTo(Duration.ofHours(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)) > 0) {
+                filteredSessions.add(session);
             }
         }
 
         log.info(String.format("Number of sessions under consideration after filtering: %d",
-                requiredSessions.size()));
-        return requiredSessions;
+                filteredSessions.size()));
+        return filteredSessions;
     }
 
     /**
-     * Returns a list of sessions that are going to open in 24 hours.
+     * Returns sessions in the reminder window before the opening time.
      */
     public List<FeedbackSession> getFeedbackSessionsOpeningWithinTimeLimit() {
-        List<FeedbackSession> requiredSessions = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
-        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
-
-        for (FeedbackSession session : sessions) {
-            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
-                    && session.getCourse().getDeletedAt() == null) {
-                requiredSessions.add(session);
-            }
-        }
-
-        log.info(String.format("Number of sessions under consideration after filtering: %d",
-                requiredSessions.size()));
-        return requiredSessions;
+        log.info(String.format("Number of sessions to send opening soon emails for: %d", sessions.size()));
+        return sessions;
     }
 
     /**
-     * Returns a list of sessions that were closed within past hour.
+     * Returns a list of sessions that were closed recently.
      */
-    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
-        List<FeedbackSession> requiredSessions = new ArrayList<>();
+    public List<FeedbackSession> getFeedbackSessionsClosedRecently() {
+        List<FeedbackSession> filteredSessions = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingClosedEmail();
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSession session : sessions) {
-            // is session closed in the past 1 hour
-            if (session.isClosedWithinPastHour()
-                    && session.getCourse().getDeletedAt() == null) {
-                requiredSessions.add(session);
+            if (session.isClosedWithin(Const.FEEDBACK_SESSION_REMINDER_EMAIL_REDUNDANCY_WINDOW)) {
+                filteredSessions.add(session);
             }
         }
         log.info(String.format("Number of sessions under consideration after filtering: %d",
-                requiredSessions.size()));
-        return requiredSessions;
+                filteredSessions.size()));
+        return filteredSessions;
     }
 
     /**
-     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * Gets a list of undeleted feedback sessions which opened recently
      * and need an open email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsWhichNeedOpenedEmailsToBeSent() {
-        List<FeedbackSession> sessionsToSendEmailsFor = new ArrayList<>();
         List<FeedbackSession> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenedEmail();
-        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
-
-        for (FeedbackSession session : sessions) {
-            if (session.isOpened() && session.getCourse().getDeletedAt() == null) {
-                sessionsToSendEmailsFor.add(session);
-            }
-        }
-
-        log.info(String.format("Number of sessions under consideration after filtering: %d",
-                sessionsToSendEmailsFor.size()));
-        return sessionsToSendEmailsFor;
+        log.info(String.format("Number of sessions to send opened emails for: %d", sessions.size()));
+        return sessions;
     }
 
     /**
@@ -597,7 +630,9 @@ public final class FeedbackSessionsLogic {
      * Gets the actual number of submissions for a feedback session.
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
-        return getGiverSetThatAnsweredFeedbackSession(fs).size();
+        SubmittedGiverSetBundle submittedGiverSetBundle = getSubmittedGiverSet(fs);
+        return submittedGiverSetBundle.studentGiverIds().size()
+                + submittedGiverSetBundle.instructorGiverIds().size();
     }
 
     private void validateFeedbackSession(FeedbackSession feedbackSession)

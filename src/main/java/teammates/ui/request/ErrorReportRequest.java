@@ -19,9 +19,9 @@ public class ErrorReportRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(content != null, "content cannot be null");
-        assertTrue(subject != null, "subject cannot be null");
-        assertTrue(requestId != null, "requestId cannot be null");
+        validateTrue(content != null, "content cannot be null");
+        validateTrue(subject != null, "subject cannot be null");
+        validateTrue(requestId != null, "requestId cannot be null");
     }
 
     public String getContent() {

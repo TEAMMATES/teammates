@@ -33,6 +33,8 @@ public final class Const {
     public static final Charset ENCODING = StandardCharsets.UTF_8;
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
+    public static final Duration FEEDBACK_SESSION_REMINDER_EMAIL_REDUNDANCY_WINDOW = Duration.ofHours(2);
+    public static final Duration FEEDBACK_SESSION_EVENT_EMAIL_LOOKBACK_WINDOW = Duration.ofDays(2);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
     public static final Duration STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD = Duration.ofDays(90);
     public static final Duration COOKIE_VALIDITY_PERIOD = Duration.ofDays(7);
@@ -137,8 +139,6 @@ public final class Const {
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
 
-        public static final String FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER = "frsessionbygiverreceiver";
-
         public static final String PREVIEWAS = "previewas";
 
         public static final String USER_ID = "userid";
@@ -173,7 +173,7 @@ public final class Const {
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
-        public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
+        public static final String NOTIFICATION_IS_FETCHING_ACTIVE = "isfetchingactive";
     }
 
     /**
@@ -186,6 +186,7 @@ public final class Const {
         public static final String WEB_VERSION = "X-WEB-VERSION";
         public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
         public static final String AUTHORIZATION_KEY = "Authorization";
+        public static final String REQUEST_ID = "X-Request-Id";
     }
 
     /**
@@ -306,10 +307,10 @@ public final class Const {
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
         public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
-        public static final String ACCOUNT_REQUEST_RESET = ACCOUNT_REQUEST + "/reset";
         public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";
         public static final String ACCOUNT_REQUEST_APPROVAL = ACCOUNT_REQUEST + "/approval";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
+        public static final String RESPONSE_GIVER_COMMENT = URI_PREFIX + "/response/givercomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
@@ -317,7 +318,8 @@ public final class Const {
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
-        public static final String RESULT = URI_PREFIX + "/result";
+        public static final String COURSE_SESSION_RESULTS = URI_PREFIX + "/session/results/course";
+        public static final String USER_SESSION_RESULTS = URI_PREFIX + "/session/results/user";
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String USER_KEY = URI_PREFIX + "/user/key";

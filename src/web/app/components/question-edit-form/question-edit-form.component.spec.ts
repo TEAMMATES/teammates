@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuestionEditFormModel } from './question-edit-form-model';
 import { QuestionEditFormComponent } from './question-edit-form.component';
 import { EXAMPLE_ESSAY_QUESTION_MODEL } from '../../pages-help/instructor-help-page/instructor-help-questions-section/instructor-help-questions-data';
@@ -12,7 +11,6 @@ describe('QuestionEditFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 

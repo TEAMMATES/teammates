@@ -52,18 +52,6 @@ describe('RichTextEditorComponent', () => {
     expect(component.getCurrentCharacterCount(mockEditor)).toBe(123);
   });
 
-  it('should render editor when visible', () => {
-    component.render.set(false);
-    component.renderEditor({ visible: true });
-    expect(component.render()).toBe(true);
-  });
-
-  it('should not render editor when not visible', () => {
-    component.render.set(false);
-    component.renderEditor({ visible: false });
-    expect(component.render()).toBe(false);
-  });
-
   it('should define setup function when character limit is enabled', () => {
     component.hasCharacterLimit = true;
     component.ngOnInit();

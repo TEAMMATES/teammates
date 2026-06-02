@@ -12,6 +12,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeReque
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -66,8 +67,17 @@ public class LoginServlet extends AuthServlet {
         if (uic == null || !uic.isValid()) {
             return true;
         }
-        boolean isAccountValid = accountsLogic.getAccount(uic.getAccountId()) != null;
-        return !isAccountValid;
+
+        try {
+            HibernateUtil.beginTransaction();
+            boolean isAccountInvalid = accountsLogic.getAccount(uic.getAccountId()) == null;
+            HibernateUtil.commitTransaction();
+            return isAccountInvalid;
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            log.warning("Failed to verify account from cookie", e);
+            return true;
+        }
     }
 
 }

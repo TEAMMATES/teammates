@@ -44,15 +44,7 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000016d",
-            "commentText": "Student 1 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 1 comment",
           "instructorComments": []
         },
         {
@@ -73,24 +65,15 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000042",
-            "commentText": "Student 2 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 2 comment",
           "instructorComments": [
             {
               "commentGiverName": "Instructor1 Course1",
               "lastEditorName": "Instructor1 Course1",
-              "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000043",
+              "responseInstructorCommentId": "00000000-0000-0000-0000-000000000043",
               "commentText": "Instructor 1 comment to student 2",
               "createdAt": 1451692740000,
               "lastEditedAt": 1451692740000,
-              "isVisibilityFollowingFeedbackQuestion": false,
               "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT_TEAM_MEMBERS"],
               "showCommentTo": ["GIVER", "RECIPIENT", "STUDENTS", "INSTRUCTORS"]
             }
@@ -114,15 +97,7 @@
             "otherFieldContent": "",
             "questionType": "MCQ"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000041",
-            "commentText": "Student 3 comment",
-            "createdAt": 1451692740000,
-            "lastEditedAt": 1451692740000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 3 comment",
           "instructorComments": []
         },
         {

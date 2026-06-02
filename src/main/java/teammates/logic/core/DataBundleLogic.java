@@ -16,13 +16,13 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -86,7 +86,7 @@ public final class DataBundleLogic {
         Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
-        Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<ResponseInstructorComment> responseComments = dataBundle.responseInstructorComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
@@ -217,12 +217,10 @@ public final class DataBundleLogic {
 
         for (FeedbackSessionLog log : sessionLogs) {
             log.setId(UUID.randomUUID());
-            FeedbackSession fs = log.getSessionId() == null
-                    ? null : sessionsMap.get(log.getSessionId());
+            FeedbackSession fs = sessionsMap.get(log.getSessionId());
             log.setFeedbackSession(fs);
-            Student student = log.getStudentId() == null
-                    ? null : (Student) usersMap.get(log.getStudentId());
-            log.setStudent(student);
+            User user = usersMap.get(log.getUserId());
+            log.setUser(user);
         }
 
         for (Notification notification : notifications) {
@@ -247,10 +245,10 @@ public final class DataBundleLogic {
             deadlineExtension.setUser(user);
         }
 
-        for (FeedbackResponseComment responseComment : responseComments) {
+        for (ResponseInstructorComment responseComment : responseComments) {
             responseComment.setId(UUID.randomUUID());
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
-            fr.addFeedbackResponseComment(responseComment);
+            fr.addResponseInstructorComment(responseComment);
 
             ResponseGiver giver = responseComment.getGiver();
             if (giver != null) {
@@ -300,7 +298,7 @@ public final class DataBundleLogic {
         Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
         Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
         Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
-        Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
+        Collection<ResponseInstructorComment> responseComments = dataBundle.responseInstructorComments.values();
         Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
+import { Course, Courses, CourseSections, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 /**
@@ -85,11 +85,8 @@ export class CourseService {
   /**
    * Creates a course by calling API.
    */
-  createCourse(institute: string, request: CourseCreateRequest): Observable<Course> {
-    const paramMap: Record<string, string> = {
-      instructorinstitution: institute,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.COURSE, paramMap, request);
+  createCourse(request: CourseCreateRequest): Observable<Course> {
+    return this.httpRequestService.post(ResourceEndpoints.COURSE, {}, request);
   }
 
   /**
@@ -167,9 +164,9 @@ export class CourseService {
   }
 
   /**
-   * Gets a list of course section names.
+   * Gets the sections for a course.
    */
-  getCourseSectionNames(courseId: string): Observable<any> {
+  getCourseSections(courseId: string): Observable<CourseSections> {
     const paramsMap: Record<string, string> = {
       courseid: courseId,
     };

@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -28,9 +30,9 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
 
@@ -321,9 +323,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                   Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
         WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
-        // re-expand question panel to reset sorting order
-        hideQuestionPanel(questionPanel);
-        expandQuestionPanel(questionPanel);
         verifyStatistics(questionPanel, question, responses, instructors, students);
     }
 
@@ -404,10 +403,60 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<FeedbackResponse> responsesToUse = filterMissingResponses(responses);
         List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
         verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
-        // sort per recipient statistics
-        click(statisticsTables.get(1).findElements(By.tagName("th")).get(1));
-        verifyTableBodyValues(statisticsTables.get(1), getMcqPerRecipientStatistics(question, responsesToUse, students,
-                instructors));
+        verifyTableBodyValuesIgnoreOrder(statisticsTables.get(1), getMcqPerRecipientStatistics(
+                question, responsesToUse, students, instructors));
+    }
+
+    private void verifyTableBodyValuesIgnoreOrder(WebElement table, String[][] expectedTableBodyValues) {
+        waitFor(driver -> {
+            try {
+                List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+                if (rows.size() < expectedTableBodyValues.length) {
+                    return false;
+                }
+                for (String[] expectedRow : expectedTableBodyValues) {
+                    if (findMatchingRow(table, expectedRow) == null) {
+                        return false;
+                    }
+                }
+                return true;
+            } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
+                return false;
+            }
+        });
+
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableBodyValues.length <= rows.size());
+        for (String[] expectedRow : expectedTableBodyValues) {
+            WebElement matchingRow = findMatchingRow(table, expectedRow);
+            assertNotNull(matchingRow, "Expected row not found");
+            verifyTableRowValues(matchingRow, expectedRow);
+        }
+    }
+
+    private WebElement findMatchingRow(WebElement table, String[] expectedRowValues) {
+        try {
+            List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+            for (WebElement row : rows) {
+                List<WebElement> cells = row.findElements(By.tagName("td"));
+                if (cells.size() < expectedRowValues.length) {
+                    continue;
+                }
+                boolean isMatch = true;
+                for (int i = 0; i < expectedRowValues.length; i++) {
+                    if (!expectedRowValues[i].equals(cells.get(i).getText())) {
+                        isMatch = false;
+                        break;
+                    }
+                }
+                if (isMatch) {
+                    return row;
+                }
+            }
+            return null;
+        } catch (NoSuchElementException | StaleElementReferenceException | IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     public void verifyQnViewStatsHidden(FeedbackQuestion question) {
@@ -487,7 +536,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).isEmpty());
     }
 
-    public void verifyQnViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyQnViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                     FeedbackResponse response, Collection<Instructor> instructors,
                                     Collection<Student> students) {
         selectViewType(QUESTION_VIEW);
@@ -505,7 +554,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment);
     }
 
-    public void verifyGqrViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyGqrViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -525,7 +574,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment);
     }
 
-    public void verifyRqgViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyRqgViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -545,7 +594,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyResponseRowComment(responseRow, comment);
     }
 
-    public void verifyGrqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyGrqViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -564,7 +613,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment);
     }
 
-    public void verifyRgqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
+    public void verifyRgqViewComment(FeedbackQuestion question, ResponseInstructorComment comment,
                                      FeedbackResponse response,
                                      Collection<Instructor> instructors,
                                      Collection<Student> students, boolean isGroupedByTeam) {
@@ -582,7 +631,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment);
     }
 
-    private void verifyResponseRowComment(WebElement responseRow, FeedbackResponseComment comment) {
+    private void verifyResponseRowComment(WebElement responseRow, ResponseInstructorComment comment) {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
@@ -592,7 +641,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyGroupedResponseComment(WebElement groupedResponses, int qnNum,
-                                              FeedbackResponseComment comment) {
+                                              ResponseInstructorComment comment) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
         String editor = comment.getLastEditedBy().getDisplayName();
@@ -984,25 +1033,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
             parentPanel = getTeamPanel(sectionPanel, team);
         }
         return parentPanel;
-    }
-
-    private void expandQuestionPanel(WebElement questionPanel) {
-        if (!isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.className("card-header")));
-            waitUntilAnimationFinish();
-        }
-    }
-
-    private void hideQuestionPanel(WebElement questionPanel) {
-        if (isQuestionPanelExpanded(questionPanel)) {
-            click(questionPanel.findElement(By.className("card-header")));
-            waitUntilAnimationFinish();
-        }
-    }
-
-    private boolean isQuestionPanelExpanded(WebElement questionPanel) {
-        return questionPanel.findElements(By.id("response-table")).size()
-                + questionPanel.findElements(By.id("no-responses")).size() > 0;
     }
 
     private String getQuestionText(WebElement questionPanel) {

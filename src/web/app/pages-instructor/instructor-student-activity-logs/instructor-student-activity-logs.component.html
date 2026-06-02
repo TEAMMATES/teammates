@@ -32,9 +32,9 @@
     <div class="row form-group">
       <div class="col-6">
         <label for="student-name-dropdown" class="fw-bold">Student Name (Optional)</label>
-        <select id="student-name-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedStudent">
+        <select id="student-name-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedUserId">
           @for (student of students; track student) {
-            <option [ngValue]="{ userId: student.userId }">
+            <option [ngValue]="student.userId">
               {{ student.name }} {{ student.email ? '<' + student.email + '>' : '' }}
             </option>
           }
@@ -42,11 +42,11 @@
       </div>
       <div class="col-6">
         <label for="session-dropdown" class="fw-bold">Feedback Session Name (Optional)</label>
-        <select id="session-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedSession">
-          <option [ngValue]="{ feedbackSessionName: '', sessionId: '' }"></option>
+        <select id="session-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedSessionId">
+          <option [ngValue]="''"></option>
           @for (session of feedbackSessions | keyvalue; track session) {
-            <option [ngValue]="{ feedbackSessionName: session.key, sessionId: session.value.feedbackSessionId }">
-              {{ session.key }}
+            <option [ngValue]="session.key">
+              {{ session.value.feedbackSessionName }}
             </option>
           }
         </select>
@@ -125,12 +125,7 @@
             />
             Show inactions
           </label>
-          <button
-            id="search-button"
-            class="float-end btn btn-primary"
-            (click)="search()"
-            [disabled]="course.courseId === '' || isSearching"
-          >
+          <button id="search-button" class="float-end btn btn-primary" (click)="search()" [disabled]="isLoading">
             Search
           </button>
         </div>
@@ -139,7 +134,7 @@
   </div>
 </div>
 <div id="logs-output">
-  <div *tmIsLoading="isSearching">
+  <div *tmIsLoading="isLoading">
     @for (results of searchResults; track results) {
       <div>
         <div

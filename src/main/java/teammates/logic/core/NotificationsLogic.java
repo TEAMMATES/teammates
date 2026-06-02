@@ -4,6 +4,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -119,37 +120,23 @@ public final class NotificationsLogic {
     }
 
     /**
-     * Gets all notifications.
-     */
-    public List<Notification> getAllNotifications() {
-        return notificationsDb.getAllNotifications();
-    }
-
-    /**
      * Gets a list of notifications.
      *
-     * @return a list of notifications with the specified {@code targetUser}.
+     * @return a list of notifications with the specified {@code targetUsers}.
+     *         If {@code isActiveOnly} is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified {@code targetUsers} are returned.
      */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        assert targetUser != null;
-        return notificationsDb.getActiveNotificationsByTargetUser(targetUser);
-    }
-
-    /**
-     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        assert targetUsers != null;
-        assert accountId != null;
-        return notificationsDb.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
+        Objects.requireNonNull(targetUsers);
+        return notificationsDb.getNotificationsByTargetUsers(targetUsers, isActiveOnly);
     }
 
     /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
-        assert accountId != null;
+        Objects.requireNonNull(accountId);
         return notificationsDb.getReadNotificationsByAccountId(accountId);
     }
 

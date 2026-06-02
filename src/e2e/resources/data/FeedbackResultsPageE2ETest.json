@@ -596,6 +596,7 @@
         "recipientType": "STUDENT",
         "recipientUserId": "00000000-0000-4000-8000-000000000602"
       },
+      "giverComment": "Alice comment to Benny",
       "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "qn3response2": {
@@ -630,6 +631,7 @@
         "recipientType": "STUDENT",
         "recipientUserId": "00000000-0000-4000-8000-000000000601"
       },
+      "giverComment": "Benny comment to Alice",
       "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "qn3responseB": {
@@ -663,6 +665,7 @@
       "recipient": {
         "recipientType": "NO_SPECIFIC_RECIPIENT"
       },
+      "giverComment": "Danny comment",
       "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "qn4responseA": {
@@ -1237,7 +1240,7 @@
       "questionId": "00000000-0000-4000-8000-000000000811"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000961",
       "giver": {
@@ -1247,8 +1250,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor first comment to Alice",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
       "createdAt": "2026-02-02T23:59:00Z",
@@ -1263,60 +1264,10 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor second comment to Alice",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
       "createdAt": "2026-03-01T23:59:00Z",
       "responseId": "00000000-0000-4000-8000-000000000903"
-    },
-    "qn3Comment1": {
-      "id": "00000000-0000-4000-8000-000000000963",
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000602"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000602"
-      },
-      "commentText": "Benny comment to Alice",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000911"
-    },
-    "qn3Comment2": {
-      "id": "00000000-0000-4000-8000-000000000964",
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Alice comment to Benny",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
-      "showCommentTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000909"
-    },
-    "qn4Comment1": {
-      "id": "00000000-0000-4000-8000-000000000965",
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000605"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000605"
-      },
-      "commentText": "Danny comment",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
-      "showCommentTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "createdAt": "2026-03-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000913"
     }
   },
   "notifications": {},

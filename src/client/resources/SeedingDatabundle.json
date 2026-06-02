@@ -1689,6 +1689,7 @@
         "questionType": "TEXT",
         "answer": "I have made solid progress with recursion and feel confident about basic tree traversals. Higher-order functions like map and filter are becoming second nature, though I still struggle with environment model diagrams for deeply nested closures."
       },
+      "giverComment": "Thank you for the feedback, Prof. Khan. I have started the supplementary exercises and they are really helpful for understanding nested closures.",
       "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1InSession1InCourse1": {
@@ -2437,6 +2438,7 @@
         "questionType": "TEXT",
         "answer": "I took the lead on designing the class diagram and implementing the core Parser module. I also set up the CI/CD pipeline and reviewed three pull requests from teammates during Sprint 1."
       },
+      "giverComment": "Thanks Dr. Vasquez! I will make sure to improve the developer guide documentation for Sprint 2.",
       "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response2ForQ1InSession1InCourse2": {
@@ -3232,7 +3234,7 @@
       "questionId": "00000000-0000-4000-8000-000000000827"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResp1ForQ1InSession1InCourse1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -3241,22 +3243,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Excellent self-awareness, Mei Lin. Your identification of closures as a growth area is spot on. I recommend working through the supplementary exercises on environment model diagrams.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000901"
-    },
-    "comment2ToResp1ForQ1InSession1InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Thank you for the feedback, Prof. Khan. I have started the supplementary exercises and they are really helpful for understanding nested closures.",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
@@ -3269,8 +3255,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Good progress, Carlos. Consider pairing up with a classmate to practice environment model walkthroughs before the midterm.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
@@ -3283,8 +3267,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Thank you for this evaluation. The peer feedback process is important for team development.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000904"
@@ -3297,22 +3279,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000503"
       },
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000934"
-    },
-    "comment2ToResp1ForQ1InSession1InCourse2": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000611"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000611"
-      },
-      "commentText": "Thanks Dr. Vasquez! I will make sure to improve the developer guide documentation for Sprint 2.",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000934"
@@ -3325,8 +3291,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000505"
       },
       "commentText": "Thoughtful feedback, Amara. Encouraging your partner to consider edge cases earlier is exactly the kind of constructive observation we value.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000961"
@@ -3339,8 +3303,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Thank you for the positive feedback. I will continue to incorporate more interactive examples in my teaching.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000925"
@@ -3353,8 +3315,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "This rubric evaluation aligns well with my own observations. Carlos has been steadily improving his communication in team settings.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000919"
@@ -3367,8 +3327,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000503"
       },
       "commentText": "Good evaluation. I notice Anya has been very consistent in following coding standards. Encourage her to also share her documentation practices with the team.",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000949"
@@ -3425,119 +3383,119 @@
       "id": "00000000-0000-4000-8000-000000001301",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-13)T09:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001302",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-13)T10:30:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001303",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-12)T08:15:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001304",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-12)T09:45:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student3Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001305",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-11)T14:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000603",
+      "userId": "00000000-0000-4000-8000-000000000603",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student3Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001306",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-11)T15:20:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000603",
+      "userId": "00000000-0000-4000-8000-000000000603",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session1InCourse2Log1": {
       "id": "00000000-0000-4000-8000-000000001308",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-13)T10:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000611",
+      "userId": "00000000-0000-4000-8000-000000000611",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student1Session1InCourse2Log2": {
       "id": "00000000-0000-4000-8000-000000001309",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-13)T11:30:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000611",
+      "userId": "00000000-0000-4000-8000-000000000611",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student2Session1InCourse2Log1": {
       "id": "00000000-0000-4000-8000-000000001310",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-12)T09:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000612",
+      "userId": "00000000-0000-4000-8000-000000000612",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student2Session1InCourse2Log2": {
       "id": "00000000-0000-4000-8000-000000001311",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-12)T10:15:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000612",
+      "userId": "00000000-0000-4000-8000-000000000612",
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student1Session1InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001313",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-13)T13:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000621",
+      "userId": "00000000-0000-4000-8000-000000000621",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student1Session1InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001314",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-13)T14:30:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000621",
+      "userId": "00000000-0000-4000-8000-000000000621",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student2Session1InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001315",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-12)T10:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000622",
+      "userId": "00000000-0000-4000-8000-000000000622",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student2Session1InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001316",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-12)T11:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000622",
+      "userId": "00000000-0000-4000-8000-000000000622",
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student3Session2InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001317",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "seed.d(-59)T13:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000623",
+      "userId": "00000000-0000-4000-8000-000000000623",
       "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "student3Session2InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001318",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "seed.d(-58)T14:45:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000623",
+      "userId": "00000000-0000-4000-8000-000000000623",
       "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "student1Session2InCourse3ViewResult": {
       "id": "00000000-0000-4000-8000-000000001319",
       "feedbackSessionLogType": "VIEW_RESULT",
       "timestamp": "seed.d(-20)T09:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000621",
+      "userId": "00000000-0000-4000-8000-000000000621",
       "sessionId": "00000000-0000-4000-8000-000000000709"
     }
   }

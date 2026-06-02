@@ -50,8 +50,9 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     protected void setUp() throws Exception {
         super.setUp();
 
-        course = getTypicalCourse();
-        coursesLogic.createCourse(course);
+        Course typicalCourse = getTypicalCourse();
+        course = coursesLogic.createCourse(
+                typicalCourse.getId(), typicalCourse.getName(), typicalCourse.getTimeZone(), typicalCourse.getInstitute());
 
         Section section = coursesLogic.createSection(course, "section-name");
         team = coursesLogic.createTeam(section, "team-name");

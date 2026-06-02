@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UserUpdateException;
@@ -13,6 +11,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.RegenerateKeyData;
 
 /**
@@ -29,10 +28,6 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
     public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
             SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
-    /** Message indicating that the key regeneration was unsuccessful. */
-    public static final String UNSUCCESSFUL_REGENERATION =
-            "Regeneration of the user's key was unsuccessful.";
-
     /** Message indicating that the key regeneration was successful, but corresponding email could not be sent. */
     public static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
             SUCCESSFUL_REGENERATION + " but the email failed to send.";
@@ -47,7 +42,7 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (UserUpdateException ex) {
-            return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(ex);
         }
 
         boolean emailSent = sendEmail(updatedUser);
@@ -66,8 +61,7 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
         EmailType emailType = user.getUserType() == UserType.STUDENT
                 ? EmailType.STUDENT_COURSE_LINKS_REGENERATED
                 : EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED;
-        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
-                user.getCourseId(), user.getEmail(), emailType);
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(user, emailType);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

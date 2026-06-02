@@ -27,14 +27,14 @@ public class DeadlineExtensionsUpdateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(userDeadlines != null, "deadlines for users cannot be null");
+        validateTrue(userDeadlines != null, "deadlines for users cannot be null");
 
         for (Map.Entry<UUID, Long> entry : userDeadlines.entrySet()) {
             UUID userId = entry.getKey();
             Long deadlineMillis = entry.getValue();
 
-            assertTrue(userId != null, "user ID cannot be null");
-            assertTrue(deadlineMillis != null && deadlineMillis > 0,
+            validateTrue(userId != null, "user ID cannot be null");
+            validateTrue(deadlineMillis != null && deadlineMillis > 0,
                     "user deadline must be a positive epoch milli value");
         }
     }

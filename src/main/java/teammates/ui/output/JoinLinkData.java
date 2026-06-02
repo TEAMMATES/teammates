@@ -3,7 +3,7 @@ package teammates.ui.output;
 /**
  * Output format for join link.
  */
-public class JoinLinkData extends ApiOutput {
+public class JoinLinkData implements ApiOutput {
     private final String joinLink;
 
     public JoinLinkData(String joinLink) {

@@ -44,6 +44,7 @@ module.exports = defineConfig(
           ignoreRestSiblings: true,
         },
       ],
+      '@typescript-eslint/consistent-type-definitions': 'off',
       '@angular-eslint/component-selector': [
         'error',
         {
@@ -65,7 +66,6 @@ module.exports = defineConfig(
       // They can be re-enabled in the future if desired.
       '@typescript-eslint/prefer-for-of': 'off',
       '@typescript-eslint/no-empty-function': 'off',
-      '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/consistent-indexed-object-style': 'off',
       '@typescript-eslint/consistent-generic-constructors': 'off',
       // The rules below are temporarily disabled to allow gradual migration to the recommended ruleset.

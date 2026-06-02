@@ -145,7 +145,6 @@ describe('SearchService', () => {
       sectionLevel: {},
       sessionLevel: {},
     },
-    requestId: 'checkyourprivilege',
   };
 
   const mockPrivilegeB: InstructorPrivilege = {
@@ -163,7 +162,6 @@ describe('SearchService', () => {
       sectionLevel: {},
       sessionLevel: {},
     },
-    requestId: '123gyijuyol56w8refw123ce8f5',
   };
 
   const mockPrivilegeC: InstructorPrivilege = {
@@ -181,7 +179,6 @@ describe('SearchService', () => {
       sectionLevel: {},
       sessionLevel: {},
     },
-    requestId: '98pa78342kjnk22s1213rsdff4',
   };
 
   const mockCourse: Course = {
@@ -191,11 +188,10 @@ describe('SearchService', () => {
     timeZone: 'UTC',
     creationTimestamp: 1585487897502,
     deletionTimestamp: 0,
-    requestId: '5e80aa3c00007918934385f5',
   };
 
   const mockAccountRequest: AccountRequest = {
-    id: '132efa02-b208-4195-a262-a8eae25ceb95',
+    accountRequestId: '132efa02-b208-4195-a262-a8eae25ceb95',
     registrationKey: 'regkey',
     createdAt: 1585487897502,
     name: 'Test Instructor',
@@ -311,7 +307,7 @@ describe('SearchService', () => {
     };
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
-    expect(result.id).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
+    expect(result.accountRequestId).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
     expect(result.email).toBe('test@example.com');
     expect(result.institute).toBe('Test Institute');
     expect(result.name).toBe('Test Instructor');

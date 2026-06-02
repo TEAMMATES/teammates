@@ -139,7 +139,7 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should load correct notification for a given API output', () => {
-    vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
+    const getNotificationsSpy = vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       of({
         notifications: [testNotificationOne],
       }),
@@ -147,6 +147,10 @@ describe('AdminNotificationsPageComponent', () => {
 
     component.loadNotifications();
 
+    expect(getNotificationsSpy).toHaveBeenCalledWith({
+      targetUsers: [NotificationTargetUser.STUDENT, NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL],
+      isFetchingActive: false,
+    });
     expect(component.notificationsTableRowModels.length).toEqual(1);
     expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(
       testNotificationOne.notificationId,

@@ -135,7 +135,7 @@ public final class FeedbackQuestionsLogic {
         }
 
         if (isCreator) {
-            hasQuestions = hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.SELF);
+            hasQuestions = hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.SESSION_CREATOR);
         }
 
         return hasQuestions;
@@ -155,7 +155,7 @@ public final class FeedbackQuestionsLogic {
         if (SanitizationHelper.areEmailsEqual(feedbackSession.getCreatorEmail(), userEmail)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSession, QuestionGiverType.SELF));
+                        feedbackSession, QuestionGiverType.SESSION_CREATOR));
         }
 
         return questions;
@@ -448,6 +448,12 @@ public final class FeedbackQuestionsLogic {
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(question.getCourseId());
         CourseRoster courseRoster = new CourseRoster(students, instructors);
 
+        // If the giver is not of the correct type, then return an empty set as
+        // there are no valid recipients for this giver.
+        if (!isGiverValidForQuestion(question, responseGiver)) {
+            return Collections.emptySet();
+        }
+
         return getRecipientsOfQuestion(question, responseGiver, courseRoster);
     }
 
@@ -573,7 +579,6 @@ public final class FeedbackQuestionsLogic {
                 return Set.of(new ResponseRecipient(student.getTeam()));
             }
 
-            // TODO: check why instructors are allowed to have OWN_TEAM as recipient type, and whether this case can happen
             return Set.of();
         case OWN_TEAM_MEMBERS:
             String teamName = responseGiver.getTeamName();
@@ -632,6 +637,18 @@ public final class FeedbackQuestionsLogic {
 
         // Shift question numbers down for all questions after the deleted one
         shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);
+    }
+
+    private boolean isGiverValidForQuestion(FeedbackQuestion question, ResponseGiver giver) {
+        QuestionGiverType giverType = question.getGiverType();
+        return switch (giverType) {
+        case STUDENTS -> giver.isGiverStudent();
+        case INSTRUCTORS -> giver.isGiverInstructor();
+        case TEAMS -> giver.isGiverTeam();
+        case SESSION_CREATOR -> giver.isGiverInstructor()
+                && SanitizationHelper.areEmailsEqual(
+                        giver.getGiverUser().getEmail(), question.getFeedbackSession().getCreatorEmail());
+        };
     }
 
     // Shifts all question numbers after questionNumberToShiftFrom down by one.
@@ -716,7 +733,7 @@ public final class FeedbackQuestionsLogic {
                     .map(ResponseGiver::new)
                     .toList();
             break;
-        case SELF:
+        case SESSION_CREATOR:
             FeedbackSession feedbackSession =
                     feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
             Instructor instructorGiver = courseRoster.getInstructorForEmail(feedbackSession.getCreatorEmail());

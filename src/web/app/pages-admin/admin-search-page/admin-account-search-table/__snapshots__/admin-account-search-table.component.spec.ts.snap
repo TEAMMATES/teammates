@@ -6,7 +6,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
   accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -206,19 +205,28 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
             </td>
           </tr>
           <tr>
@@ -348,19 +356,28 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-1"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>
@@ -376,7 +393,6 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
   accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function _SimpleModalService]}
@@ -578,19 +594,28 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
             </td>
           </tr>
           <tr>
@@ -722,19 +747,28 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-1"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>
@@ -750,7 +784,6 @@ exports[`AdminAccountSearchTableComponent > should snap with an expanded account
   accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -950,19 +983,28 @@ exports[`AdminAccountSearchTableComponent > should snap with an expanded account
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                     Reset 
-                  </button>
-                </div>
               </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
             </td>
           </tr>
         </tbody>

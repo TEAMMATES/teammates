@@ -67,7 +67,10 @@
               </div>
               @if (response.allResponses[0].participantComment) {
                 <tm-comment-row
-                  [model]="response.allResponses[0].participantComment | commentToCommentRowModel: session.timeZone"
+                  [model]="
+                    response.allResponses[0].participantComment
+                      | giverCommentToCommentRowModel: response.feedbackQuestion.showResponsesTo
+                  "
                   [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
                   [isDisabled]="true"
                   [isVisibilityOptionEnabled]="false"

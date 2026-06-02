@@ -54,14 +54,6 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
-        case INSTRUCTOR_RESULT:
-            instructor = getInstructorOfCourseForResult(courseId);
-            checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
-            break;
-        case STUDENT_RESULT:
-            student = getStudentOfCourseForResult(courseId);
-            checkAccessControlForStudentFeedbackResult(student, feedbackSession);
-            break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
@@ -96,7 +88,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                 dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
-        case FULL_DETAIL, INSTRUCTOR_RESULT, STUDENT_RESULT:
+        case FULL_DETAIL:
             questions = logic.getFeedbackQuestionsForSession(feedbackSession);
             break;
         default:
@@ -117,7 +109,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                 })
                 .toList();
 
-        if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
+        if (intent == Intent.STUDENT_SUBMISSION) {
             for (FeedbackQuestionData questionData : questionDatas) {
                 questionData.hideInformationForStudent();
             }

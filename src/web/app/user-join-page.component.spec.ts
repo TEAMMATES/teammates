@@ -128,9 +128,16 @@ describe('UserJoinPageComponent', () => {
       throwError(() => ({
         error: {
           message: errorMessage,
-          requestId,
         },
         status: 502,
+        headers: {
+          get: (headerName: string) => {
+            if (headerName === 'X-Request-Id') {
+              return requestId;
+            }
+            return null;
+          },
+        },
       })),
     );
 

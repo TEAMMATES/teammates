@@ -127,6 +127,7 @@ public class Instructor extends User {
         return getClass().hashCode();
     }
 
+    @Override
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getRegKey())

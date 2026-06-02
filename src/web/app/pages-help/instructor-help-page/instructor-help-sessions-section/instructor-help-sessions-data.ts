@@ -26,7 +26,7 @@ import {
   DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
+import type { CommentEditFormModel } from '../../../components/comment-box/comment.model';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import { SessionEditFormModel } from '../../../components/session-edit-form/session-edit-form-model';
 import { RecycleBinFeedbackSessionRowModel } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
@@ -79,7 +79,6 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
 export const EXAMPLE_COMMENT_EDIT_FORM_MODEL: CommentEditFormModel = {
   commentText: '',
 
-  isUsingCustomVisibilities: false,
   showCommentTo: [],
   showGiverNameTo: [],
 };
@@ -118,11 +117,10 @@ export const EXAMPLE_RESPONSE_WITH_COMMENT: ResponseOutput = {
     {
       commentGiverName: 'Instructor',
       lastEditorName: 'Instructor',
-      feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+      responseInstructorCommentId: '00000000-0000-4000-8000-000000000001',
       commentText: 'Good to know!',
       createdAt: 1,
       lastEditedAt: 1,
-      isVisibilityFollowingFeedbackQuestion: true,
       showGiverNameTo: [CommentVisibilityType.GIVER],
       showCommentTo: [CommentVisibilityType.GIVER],
     },
@@ -225,9 +223,9 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
     isReadOnly: true,
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        isUsingCustomVisibilities: true,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -239,9 +237,9 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
     isReadOnly: true,
     commentRows: [],
     newCommentRow: {
+      commentType: 'new',
       commentEditFormModel: {
         commentText: '',
-        isUsingCustomVisibilities: false,
         showCommentTo: [],
         showGiverNameTo: [],
       },
@@ -424,7 +422,6 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [
     otherResponses: [],
     isLoaded: true,
     isLoading: false,
-    hasResponse: true,
     hasResponseButNotVisibleForPreview: false,
     hasCommentNotVisibleForPreview: false,
   },

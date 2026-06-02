@@ -6,7 +6,7 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { GqrRqgViewResponsesComponent } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Instructor sessions results page RQG view.
@@ -15,8 +15,8 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
   selector: 'tm-instructor-session-result-rqg-view',
   templateUrl: './instructor-session-result-rqg-view.component.html',
   styleUrls: ['./instructor-session-result-rqg-view.component.scss'],
-  animations: [collapseAnim],
   imports: [
+    NgbCollapse,
     PanelChevronComponent,
     LoadingSpinnerDirective,
     LoadingRetryComponent,

@@ -8,7 +8,7 @@ import teammates.common.datatransfer.logs.GeneralLogEntry;
 /**
  * The API output format for general logs for query action.
  */
-public class GeneralLogsData extends ApiOutput {
+public class GeneralLogsData implements ApiOutput {
     private final List<GeneralLogEntry> logEntries;
     private final boolean hasNextPage;
 

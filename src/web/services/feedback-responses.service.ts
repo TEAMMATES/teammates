@@ -14,7 +14,8 @@ import {
   FeedbackRankRecipientsResponseDetails,
   FeedbackResponseDetails,
   FeedbackResponse,
-  FeedbackResponses,
+  FeedbackQuestionResponses,
+  MessageOutput,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
   ResponseOutput,
@@ -195,20 +196,41 @@ export class FeedbackResponsesService {
   }
 
   /**
-   * Submits a list of feedback responses for a feedback question by calling API.
+   * Submits feedback responses for one or more feedback questions in a feedback session by calling API.
    */
   submitFeedbackResponses(
-    questionId: string,
+    feedbackSessionId: string,
     request: FeedbackResponsesRequest,
-    additionalParams: { [key: string]: string } = {},
-  ): Observable<FeedbackResponses> {
+    params: {
+      intent: Intent;
+      key: string;
+      moderatedperson: string;
+    },
+  ): Observable<FeedbackQuestionResponses> {
     return this.httpRequestService.put(
       ResourceEndpoints.RESPONSES,
       {
-        questionid: questionId,
-        ...additionalParams,
+        fsid: feedbackSessionId,
+        ...params,
       },
       request,
     );
+  }
+
+  /**
+   * Deletes a giver comment by clearing it from its feedback response.
+   */
+  deleteGiverComment(params: {
+    responseId: string;
+    intent: Intent;
+    key: string;
+    moderatedPerson: string;
+  }): Observable<MessageOutput> {
+    return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_GIVER_COMMENT, {
+      responseid: params.responseId,
+      intent: params.intent,
+      key: params.key,
+      moderatedperson: params.moderatedPerson,
+    });
   }
 }

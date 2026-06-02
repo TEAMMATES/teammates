@@ -637,7 +637,7 @@
   "feedbackQuestions": {},
   "notifications": {},
   "readNotifications": {},
-  "feedbackResponseComments": {},
+  "responseInstructorComments": {},
   "students": {
     "student1InCourse1": {
       "email": "student1incourse1@gmail.tmt",

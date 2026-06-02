@@ -2,14 +2,13 @@ package teammates.ui.output;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import teammates.storage.entity.FeedbackResponse;
 
 /**
  * The API output format of a list of {@link FeedbackResponse}.
  */
-public class FeedbackResponsesData extends ApiOutput {
+public class FeedbackResponsesData implements ApiOutput {
 
     private List<FeedbackResponseData> responses;
 
@@ -25,7 +24,7 @@ public class FeedbackResponsesData extends ApiOutput {
      *  Creates FeedbackResponsesData from a list of FeedbackResponse.
      */
     public static FeedbackResponsesData createFromEntity(List<FeedbackResponse> responses) {
-        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList()));
+        return new FeedbackResponsesData(responses.stream().map(FeedbackResponseData::new).toList());
     }
 
     public void setResponses(List<FeedbackResponseData> responses) {

@@ -67,7 +67,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         assertEquals("Successful", response1.getMessage());
         assertTrue(session.isClosedEmailSent());
 
-        verifySpecifiedTasksAdded("send-email-queue", 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
 
         ______TS("Success Case: no sessions to consider (`session` already sent closed email)");
         session.setClosedEmailSent(true);
@@ -81,7 +81,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         assertEquals("Successful", response2.getMessage());
         verifyNoTasksAdded();
 
-        ______TS("Success Case: no sessions to consider (`session` closed more than 1 hour ago)");
+        ______TS("Success Case: email task added (`session` closed more than 1 hour ago but within redundancy window)");
         session.setClosedEmailSent(false);
         session.setEndTime(now.minusSeconds(thirtyMin * 3));
         session.setGracePeriod(noGracePeriod);
@@ -91,6 +91,19 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         MessageOutput response3 = (MessageOutput) actionOutput3.getOutput();
 
         assertEquals("Successful", response3.getMessage());
+        assertTrue(session.isClosedEmailSent());
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
+
+        ______TS("Success Case: no sessions to consider (`session` closed outside redundancy window)");
+        session.setClosedEmailSent(false);
+        session.setEndTime(now.minusSeconds(thirtyMin * 5));
+        session.setGracePeriod(noGracePeriod);
+
+        FeedbackSessionClosedRemindersAction action4 = getAction(params);
+        JsonResult actionOutput4 = getJsonResult(action4);
+        MessageOutput response4 = (MessageOutput) actionOutput4.getOutput();
+
+        assertEquals("Successful", response4.getMessage());
         verifyNoTasksAdded();
     }
 

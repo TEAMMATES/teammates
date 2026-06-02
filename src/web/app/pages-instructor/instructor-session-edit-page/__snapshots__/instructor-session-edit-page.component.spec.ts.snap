@@ -699,9 +699,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                   <tm-rich-text-editor
                     id="instructions"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor editor-disabled ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tinymce-editor-id-1"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                       <div>
                          2000 characters left 
                       </div>
@@ -2008,7 +2015,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
               </div>
             </button>
             <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
+              class="collapse show"
             >
               <div
                 class="card-body"
@@ -2066,12 +2073,17 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                               class="col-md-10"
                             >
                               <tm-rich-text-editor>
-                                <div
-                                  inviewport=""
-                                >
-                                  <div
-                                    style=""
+                                <div>
+                                  <editor
+                                    class="editor ng-untouched ng-pristine ng-valid"
+                                    placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                                   >
+                                    <textarea
+                                      id="tinymce-editor-id-2"
+                                      style="visibility: hidden;"
+                                    />
+                                  </editor>
+                                  <div>
                                      2000 characters left 
                                   </div>
                                 </div>
@@ -2083,9 +2095,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       <div
                         class="padding-15px"
                       >
-                        <tm-text-question-edit-details-form
-                          style=""
-                        >
+                        <tm-text-question-edit-details-form>
                           <div
                             class="row padding-15px"
                           >
@@ -2153,7 +2163,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       >
                         <span
                           class="text-wrap"
-                          style=""
                         >
                            Students in this course will give feedback on 
                           <i
@@ -2174,7 +2183,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           ngbdropdown=""
-                          style=""
                         >
                           <div
                             class="text-wrap dropdown-item"
@@ -2191,7 +2199,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           ngbdropdown=""
-                          style=""
                         >
                           <div
                             class="text-wrap dropdown-item"
@@ -2208,7 +2215,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           ngbdropdown=""
-                          style=""
                         >
                           <div
                             class="text-wrap dropdown-item"
@@ -2239,7 +2245,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     </div>
                     <div
                       class="row margin-top-15px align-items-center"
-                      style=""
                     >
                       <div
                         class="offset-1 col-md-4 text-md-end"
@@ -2312,9 +2317,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
                       >
-                        <span
-                          style=""
-                        >
+                        <span>
                           Custom visibility options
                         </span>
                       </button>
@@ -2330,7 +2333,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -2340,7 +2342,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -2350,7 +2351,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -2360,7 +2360,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -2370,7 +2369,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -2381,11 +2379,9 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         <li
                           aria-hidden="true"
                           class="dropdown-divider"
-                          style=""
                         />
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -2401,7 +2397,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       <table
                         aria-label="Custom Visibility Options Table"
                         class="table margin-top-15px background-color-white table-striped"
-                        style=""
                       >
                         <thead>
                           <tr>
@@ -2581,14 +2576,10 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       <ul
                         class="text-muted background-color-warning"
                       >
-                        <li
-                          style=""
-                        >
+                        <li>
                            Your team members can see your response, but not the name of the recipient, or your name 
                         </li>
-                        <li
-                          style=""
-                        >
+                        <li>
                            Instructors in this course can see your response, but not the name of the recipient, or your name 
                         </li>
                       </ul>
@@ -2597,7 +2588,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                 </tm-visibility-panel>
                 <div
                   class="row margin-top-15px"
-                  style=""
                 >
                   <div
                     class="col-12 text-end"
@@ -2741,7 +2731,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
               </div>
             </button>
             <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
+              class="collapse show"
             >
               <div
                 class="card-body"
@@ -2799,12 +2789,17 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                               class="col-md-10"
                             >
                               <tm-rich-text-editor>
-                                <div
-                                  inviewport=""
-                                >
-                                  <div
-                                    style=""
+                                <div>
+                                  <editor
+                                    class="editor ng-untouched ng-pristine ng-valid"
+                                    placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                                   >
+                                    <textarea
+                                      id="tinymce-editor-id-1"
+                                      style="visibility: hidden;"
+                                    />
+                                  </editor>
+                                  <div>
                                      2000 characters left 
                                   </div>
                                 </div>
@@ -2816,9 +2811,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       <div
                         class="padding-15px"
                       >
-                        <tm-text-question-edit-details-form
-                          style=""
-                        >
+                        <tm-text-question-edit-details-form>
                           <div
                             class="row padding-15px"
                           >
@@ -2886,7 +2879,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       >
                         <span
                           class="text-wrap"
-                          style=""
                         >
                            Students in this course will give feedback on 
                           <i
@@ -2907,7 +2899,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           ngbdropdown=""
-                          style=""
                         >
                           <div
                             class="text-wrap dropdown-item"
@@ -2924,7 +2915,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           ngbdropdown=""
-                          style=""
                         >
                           <div
                             class="text-wrap dropdown-item"
@@ -2941,7 +2931,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           ngbdropdown=""
-                          style=""
                         >
                           <div
                             class="text-wrap dropdown-item"
@@ -2972,7 +2961,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                     </div>
                     <div
                       class="row margin-top-15px align-items-center"
-                      style=""
                     >
                       <div
                         class="offset-1 col-md-4 text-md-end"
@@ -3045,9 +3033,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         id="btn-question-visibility"
                         ngbdropdowntoggle=""
                       >
-                        <span
-                          style=""
-                        >
+                        <span>
                           Custom visibility options
                         </span>
                       </button>
@@ -3063,7 +3049,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -3073,7 +3058,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -3083,7 +3067,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -3093,7 +3076,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -3103,7 +3085,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         </li>
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -3114,11 +3095,9 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         <li
                           aria-hidden="true"
                           class="dropdown-divider"
-                          style=""
                         />
                         <li
                           class="text-wrap dropdown-item"
-                          style=""
                         >
                           <button
                             class="dropdown-button"
@@ -3134,7 +3113,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       <table
                         aria-label="Custom Visibility Options Table"
                         class="table margin-top-15px background-color-white table-striped"
-                        style=""
                       >
                         <thead>
                           <tr>
@@ -3314,14 +3292,10 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                       <ul
                         class="text-muted background-color-warning"
                       >
-                        <li
-                          style=""
-                        >
+                        <li>
                            Your team members can see your response, but not the name of the recipient, or your name 
                         </li>
-                        <li
-                          style=""
-                        >
+                        <li>
                            Instructors in this course can see your response, but not the name of the recipient, or your name 
                         </li>
                       </ul>
@@ -3330,7 +3304,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                 </tm-visibility-panel>
                 <div
                   class="row margin-top-15px"
-                  style=""
                 >
                   <div
                     class="col-12 text-end"
@@ -3962,9 +3935,16 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                   <tm-rich-text-editor
                     id="instructions"
                   >
-                    <div
-                      inviewport=""
-                    >
+                    <div>
+                      <editor
+                        class="editor editor-disabled ng-untouched ng-pristine ng-valid"
+                        placeholder=""
+                      >
+                        <textarea
+                          id="tinymce-editor-id-1"
+                          style="visibility: hidden;"
+                        />
+                      </editor>
                       <div>
                          2000 characters left 
                       </div>
@@ -5234,7 +5214,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
           </div>
         </button>
         <div
-          class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
+          class="collapse show"
         >
           <div
             class="card-body"
@@ -5292,12 +5272,17 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                           class="col-md-10"
                         >
                           <tm-rich-text-editor>
-                            <div
-                              inviewport=""
-                            >
-                              <div
-                                style=""
+                            <div>
+                              <editor
+                                class="editor ng-untouched ng-pristine ng-valid"
+                                placeholder="More details about the question e.g. "In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.""
                               >
+                                <textarea
+                                  id="tinymce-editor-id-1"
+                                  style="visibility: hidden;"
+                                />
+                              </editor>
+                              <div>
                                  2000 characters left 
                               </div>
                             </div>
@@ -5309,9 +5294,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                   <div
                     class="padding-15px"
                   >
-                    <tm-text-question-edit-details-form
-                      style=""
-                    >
+                    <tm-text-question-edit-details-form>
                       <div
                         class="row padding-15px"
                       >
@@ -5377,9 +5360,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     id="btn-feedback-path"
                     ngbdropdowntoggle=""
                   >
-                    <span
-                      style=""
-                    >
+                    <span>
                       Custom feedback path
                     </span>
                   </button>
@@ -5395,7 +5376,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       ngbdropdown=""
-                      style=""
                     >
                       <div
                         class="text-wrap dropdown-item"
@@ -5412,7 +5392,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       ngbdropdown=""
-                      style=""
                     >
                       <div
                         class="text-wrap dropdown-item"
@@ -5429,7 +5408,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       ngbdropdown=""
-                      style=""
                     >
                       <div
                         class="text-wrap dropdown-item"
@@ -5460,7 +5438,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                 </div>
                 <div
                   class="row margin-top-15px"
-                  style=""
                 >
                   <div
                     class="col-sm-6 mb-2 mb-sm-0"
@@ -5492,7 +5469,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                             Instructors in this course
                           </option>
                           <option
-                            value="1: SELF"
+                            value="1: SESSION_CREATOR"
                           >
                             Feedback session creator (i.e., me)
                           </option>
@@ -5601,7 +5578,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                 </div>
                 <div
                   class="row margin-top-15px align-items-center"
-                  style=""
                 >
                   <div
                     class="offset-1 col-md-4 text-md-end"
@@ -5674,9 +5650,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     id="btn-question-visibility"
                     ngbdropdowntoggle=""
                   >
-                    <span
-                      style=""
-                    >
+                    <span>
                       Custom visibility options
                     </span>
                   </button>
@@ -5692,7 +5666,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5702,7 +5675,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5712,7 +5684,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5722,7 +5693,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5732,7 +5702,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5742,7 +5711,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     </li>
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5753,11 +5721,9 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                     <li
                       aria-hidden="true"
                       class="dropdown-divider"
-                      style=""
                     />
                     <li
                       class="text-wrap dropdown-item"
-                      style=""
                     >
                       <button
                         class="dropdown-button"
@@ -5773,7 +5739,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                   <table
                     aria-label="Custom Visibility Options Table"
                     class="table margin-top-15px background-color-white table-striped"
-                    style=""
                   >
                     <thead>
                       <tr>
@@ -5987,9 +5952,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                   <ul
                     class="text-muted background-color-warning"
                   >
-                    <li
-                      style=""
-                    >
+                    <li>
                       No-one can see your responses
                     </li>
                   </ul>
@@ -5998,7 +5961,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
             </tm-visibility-panel>
             <div
               class="row margin-top-15px"
-              style=""
             >
               <div
                 class="col-12 text-end"

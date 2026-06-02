@@ -12,13 +12,14 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -33,11 +34,11 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.NotificationsLogic;
+import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
@@ -46,13 +47,13 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -60,10 +61,12 @@ import teammates.storage.entity.Team;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
-import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -82,7 +85,7 @@ public class Logic {
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
+    final ResponseInstructorCommentsLogic responseInstructorCommentsLogic = ResponseInstructorCommentsLogic.inst();
     final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     final FeedbackSessionLogsLogic feedbackSessionLogsLogic = FeedbackSessionLogsLogic.inst();
     final UsageStatisticsLogic usageStatisticsLogic = UsageStatisticsLogic.inst();
@@ -138,18 +141,6 @@ public class Logic {
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
             throws InvalidParametersException {
         return accountRequestLogic.updateAccountRequest(accountRequest);
-    }
-
-    /**
-     * Creates/Resets the account request with the given id
-     * such that it is not registered.
-     *
-     * @return account request that is unregistered with the
-     *         id.
-     */
-    public AccountRequest resetAccountRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        return accountRequestLogic.resetAccountRequest(id);
     }
 
     /**
@@ -302,34 +293,17 @@ public class Logic {
     }
 
     /**
-     * Creates a course.
-     *
-     * @param course the course to create.
-     * @return the created course.
-     * @throws InvalidParametersException   if the course is not valid.
-     * @throws EntityAlreadyExistsException if the course already exists.
-     */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourse(course);
-    }
-
-    /**
      * Creates a course and an associated instructor for the course.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * {@code instructorGoogleId} already has an account and instructor
-     * privileges.
-     *
-     * @param instructorGoogleId the Google ID of the instructor creating the
-     *                           course.
-     * @param course             the course to create.
+     * @param courseCreator      the account of the instructor creating the course.
+     * @param courseCreateRequest the course creation details.
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public Course createCourseAndInstructor(String instructorGoogleId, Course course)
+    public Course createCourseAndInstructor(
+            Account courseCreator, CourseCreateRequest courseCreateRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+        return coursesLogic.createCourseAndInstructor(courseCreator, courseCreateRequest);
     }
 
     /**
@@ -371,11 +345,11 @@ public class Logic {
     }
 
     /**
-     * Gets a list of section names for the given {@code courseId}.
+     * Gets the sections for the given {@code courseId}.
      */
-    public List<String> getSectionNamesForCourse(String courseId)
+    public Set<Section> getSectionsForCourse(String courseId)
             throws EntityDoesNotExistException {
-        return coursesLogic.getSectionNamesForCourse(courseId);
+        return coursesLogic.getSectionsForCourse(courseId);
     }
 
     /**
@@ -537,13 +511,13 @@ public class Logic {
     }
 
     /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     * Gets submitted givers partitioned by giver type under a feedback session.
      *
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+    public SubmittedGiverSetBundle getSubmittedGiverSet(
             UUID feedbackSessionId) throws EntityDoesNotExistException {
-        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
+        return feedbackSessionsLogic.getSubmittedGiverSet(feedbackSessionId);
     }
 
     /**
@@ -1121,8 +1095,16 @@ public class Logic {
         usersLogic.deleteInstructorCascade(userId);
     }
 
-    public List<Notification> getAllNotifications() {
-        return notificationsLogic.getAllNotifications();
+    /**
+     * Gets a list of notifications.
+     *
+     * @return a list of notifications with the specified {@code targetUsers}.
+     *         If {@code isActiveOnly} is true, only active notifications are returned.
+     *         Otherwise, all notifications for the specified {@code targetUsers} are returned.
+     */
+    public List<Notification> getNotificationsByTargetUsers(
+            List<NotificationTargetUser> targetUsers, boolean isActiveOnly) {
+        return notificationsLogic.getNotificationsByTargetUsers(targetUsers, isActiveOnly);
     }
 
     /**
@@ -1165,22 +1147,6 @@ public class Logic {
     }
 
     /**
-     * Returns active notification for general users and the specified
-     * {@code targetUser}.
-     */
-    public List<Notification> getActiveNotificationsByTargetUser(NotificationTargetUser targetUser) {
-        return notificationsLogic.getActiveNotificationsByTargetUser(targetUser);
-    }
-
-    /**
-     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
-     */
-    public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
-        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
-    }
-
-    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.
@@ -1218,17 +1184,16 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @param feedbackSession the feedback session
-     * @param instructorEmail the email of the instructor requesting for the session result
+     * @param instructor the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
-     * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
-            FeedbackSession feedbackSession, String instructorEmail,
-            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
+            FeedbackSession feedbackSession, Instructor instructor,
+            @Nullable UUID questionId, @Nullable String sectionName) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructorEmail, questionId, sectionName, fetchType);
+                feedbackSession, instructor, questionId, sectionName);
     }
 
     /**
@@ -1236,15 +1201,13 @@ public class Logic {
      *
      * @param feedbackSession the feedback session
      * @param user the user viewing the feedback session
-     * @param questionId if not null, will only return partial bundle for the question
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, User user,
-            @Nullable UUID questionId, boolean isPreviewResults) {
+            FeedbackSession feedbackSession, User user, boolean isPreviewResults) {
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, user, questionId, isPreviewResults);
+                feedbackSession, user, isPreviewResults);
     }
 
     /**
@@ -1328,20 +1291,12 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback response.
+     * Deletes the giver comment for a feedback response by clearing it.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return created feedback response
-     * @throws InvalidParametersException   if the response is not valid
-     * @throws EntityAlreadyExistsException if the response already exist
+     * @throws EntityDoesNotExistException if the feedback response does not exist
      */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        assert feedbackResponse != null;
-        return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
+    public FeedbackResponse deleteFeedbackResponseGiverComment(UUID frId) throws EntityDoesNotExistException {
+        return feedbackResponsesLogic.deleteFeedbackResponseGiverComment(frId);
     }
 
     /**
@@ -1373,13 +1328,31 @@ public class Logic {
     }
 
     /**
+     * Submits feedback responses from a student or the student's team for one or more feedback questions.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromStudent(
+            FeedbackSession feedbackSession, Student student, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        return feedbackResponsesLogic.submitFeedbackResponsesFromStudent(feedbackSession, student, submitRequest);
+    }
+
+    /**
+     * Submits feedback responses from an instructor for one or more feedback questions.
+     */
+    public List<FeedbackResponse> submitFeedbackResponsesFromInstructor(
+            FeedbackSession feedbackSession, Instructor instructor, FeedbackResponsesRequest submitRequest)
+            throws InvalidOperationException, InvalidParametersException {
+        return feedbackResponsesLogic.submitFeedbackResponsesFromInstructor(feedbackSession, instructor, submitRequest);
+    }
+
+    /**
      * Gets an feedback response comment by feedback response comment id.
      *
      * @param id of feedback response comment.
      * @return the specified feedback response comment.
      */
-    public FeedbackResponseComment getFeedbackResponseComment(UUID id) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseComment(id);
+    public ResponseInstructorComment getResponseInstructorComment(UUID id) {
+        return responseInstructorCommentsLogic.getResponseInstructorComment(id);
     }
 
     /**
@@ -1387,30 +1360,10 @@ public class Logic {
      *
      * @throws EntityDoesNotExistException if the comment does not exist
      */
-    public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
-            FeedbackResponseCommentUpdateRequest updateRequest, ResponseGiver updater)
+    public ResponseInstructorComment updateResponseInstructorComment(UUID frcId,
+            ResponseInstructorCommentUpdateRequest updateRequest, ResponseGiver updater)
             throws EntityDoesNotExistException {
-        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updater);
-    }
-
-    /**
-     * Updates a feedback response and comments by {@link FeedbackResponse}.
-     *
-     * <p>
-     * Cascade updates its associated feedback response comment
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return updated feedback response
-     * @throws InvalidParametersException  if attributes to update are not valid
-     */
-    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException {
-        assert feedbackResponse != null;
-
-        return feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
+        return responseInstructorCommentsLogic.updateResponseInstructorComment(frcId, updateRequest, updater);
     }
 
     /**
@@ -1428,31 +1381,25 @@ public class Logic {
     }
 
     /**
-     * Gets the comment associated with the response.
-     */
-    public FeedbackResponseComment getFeedbackResponseCommentForResponseFromParticipant(
-            UUID feedbackResponseId) {
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
-    }
-
-    /**
      * Creates a feedback response comment.
      *
-     * @throws EntityAlreadyExistsException if the comment alreadty exists
+     * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException   if the comment is invalid
      */
-    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackResponseCommentsLogic.createFeedbackResponseComment(frc);
+    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, ResponseGiver giver,
+            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return responseInstructorCommentsLogic.createResponseInstructorComment(
+                feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);
     }
 
     /**
-     * Deletes a feedbackResponseComment.
+    * Deletes a responseInstructorComment.
      *
      * <p>Fails silently if the comment does not exist.</p>
      */
-    public void deleteFeedbackResponseComment(UUID frcId) {
-        feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
+    public void deleteResponseInstructorComment(UUID frcId) {
+        responseInstructorCommentsLogic.deleteResponseInstructorComment(frcId);
     }
 
     /**
@@ -1485,10 +1432,10 @@ public class Logic {
     }
 
     /**
-     * Returns a list of sessions that were closed within past hour.
+     * Returns a list of sessions that were closed recently.
      */
-    public List<FeedbackSession> getFeedbackSessionsClosedWithinThePastHour() {
-        return feedbackSessionsLogic.getFeedbackSessionsClosedWithinThePastHour();
+    public List<FeedbackSession> getFeedbackSessionsClosedRecently() {
+        return feedbackSessionsLogic.getFeedbackSessionsClosedRecently();
     }
 
     /**
@@ -1520,9 +1467,9 @@ public class Logic {
      * Creates feedback session log.
      */
     public FeedbackSessionLog createFeedbackSessionLog(
-            FeedbackSession feedbackSession, Student student,
+            FeedbackSession feedbackSession, User user,
             FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
-        return feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSession, student, logType, timestamp);
+        return feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSession, user, logType, timestamp);
     }
 
     /**
@@ -1535,14 +1482,14 @@ public class Logic {
     /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
-     * student's email.
+     * user's email.
      *
-     * @param studentId         Can be null
+     * @param userId            Can be null
      * @param feedbackSessionId Can be null
      */
-    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID studentId,
+    public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID userId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
-        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
+        return feedbackSessionLogsLogic.getOrderedFeedbackSessionLogs(courseId, userId, feedbackSessionId, startTime,
                 endTime);
     }
 }

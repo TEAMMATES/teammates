@@ -16,6 +16,7 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -131,4 +132,12 @@ public class WebApiServletExceptionHandlerTest extends BaseTestCase {
         assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, resp.getStatus());
     }
 
+    @Test
+    public void testUnexpectedServerException_internalServerError() throws Exception {
+        MockHttpServletResponse resp = new MockHttpServletResponse();
+
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR,
+                handleException(resp, new UnexpectedServerException("unexpected")));
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, resp.getStatus());
+    }
 }

@@ -3,13 +3,13 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
 } from './question-submission-form-model';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { createBuilder } from '../../../test-helpers/generic-builder';
@@ -29,7 +29,6 @@ import {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
-  FeedbackResponseComment,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
@@ -41,7 +40,6 @@ import {
 import { DEFAULT_TEXT_RESPONSE_DETAILS } from '../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
-import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseId: 'response-id-1',
@@ -49,8 +47,8 @@ const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseDetails: {
     answer: 5,
   } as FeedbackNumericalScaleResponseDetails,
+  status: ResponseSubmissionStatus.SAVED,
   isValid: true,
-  isModified: false,
 };
 
 const formResponse2: FeedbackResponseRecipientSubmissionFormModel = {
@@ -59,8 +57,8 @@ const formResponse2: FeedbackResponseRecipientSubmissionFormModel = {
   responseDetails: {
     answer: 4,
   } as FeedbackNumericalScaleResponseDetails,
+  status: ResponseSubmissionStatus.SAVED,
   isValid: true,
-  isModified: false,
 };
 
 const formResponse3: FeedbackResponseRecipientSubmissionFormModel = {
@@ -69,8 +67,8 @@ const formResponse3: FeedbackResponseRecipientSubmissionFormModel = {
   responseDetails: {
     answer: 3,
   } as FeedbackNumericalScaleResponseDetails,
+  status: ResponseSubmissionStatus.SAVED,
   isValid: true,
-  isModified: false,
 };
 
 const formResponse4: FeedbackResponseRecipientSubmissionFormModel = {
@@ -79,8 +77,8 @@ const formResponse4: FeedbackResponseRecipientSubmissionFormModel = {
   responseDetails: {
     answer: 2,
   } as FeedbackNumericalScaleResponseDetails,
+  status: ResponseSubmissionStatus.SAVED,
   isValid: true,
-  isModified: false,
 };
 
 const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -110,8 +108,6 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-  isLoading: false,
-  isLoaded: true,
 
   isTabExpanded: true,
   isTabExpandedForRecipients: new Map<string, boolean>([
@@ -142,30 +138,8 @@ describe('QuestionSubmissionFormComponent', () => {
       answer: 'answer',
     } as FeedbackTextResponseDetails,
     recipientIdentifier: 'testIdentifier',
+    status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    isModified: false,
-  });
-
-  const commentRowModelBuilder = createBuilder<CommentRowModel>({
-    commentEditFormModel: {
-      commentText: 'test comment text',
-      isUsingCustomVisibilities: false,
-      showCommentTo: [],
-      showGiverNameTo: [],
-    },
-    isEditing: false,
-  });
-
-  const feedbackResponseCommentBuilder = createBuilder<FeedbackResponseComment>({
-    commentGiverName: 'test-giver-name',
-    lastEditorName: 'test-editor-name',
-    commentText: 'comment-text',
-    showCommentTo: [],
-    showGiverNameTo: [],
-    lastEditedAt: 0,
-    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000000',
-    createdAt: 0,
-    isVisibilityFollowingFeedbackQuestion: true,
   });
 
   const feedbackResponseTextDetailsBuilder = createBuilder<FeedbackTextResponseDetails>({
@@ -272,7 +246,6 @@ describe('QuestionSubmissionFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
@@ -323,37 +296,15 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('sets hasResponseChanged to true if any response has changed', () => {
+  it('sets isSaved to true if some response has changed', () => {
     component.model.recipientSubmissionForms.push(
-      recipientSubmissionFormBuilder.isModified(true).build(),
-      recipientSubmissionFormBuilder.isModified(false).build(),
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
     );
 
     fixture.detectChanges();
 
-    expect(component.hasResponseChanged).toBeTruthy();
-  });
-
-  it('sets hasResponseChanged to false if no response has changed', () => {
-    component.model.recipientSubmissionForms.push(
-      recipientSubmissionFormBuilder.isModified(false).build(),
-      recipientSubmissionFormBuilder.isModified(false).build(),
-    );
-
-    fixture.detectChanges();
-
-    expect(component.hasResponseChanged).toBeFalsy();
-  });
-
-  it('sets isSaved to false if some response has changed', () => {
-    component.model.recipientSubmissionForms.push(
-      recipientSubmissionFormBuilder.isModified(false).build(),
-      recipientSubmissionFormBuilder.isModified(true).build(),
-    );
-
-    fixture.detectChanges();
-
-    expect(component.isSaved).toBeFalsy();
+    expect(component.isSaved).toBeTruthy();
   });
 
   it('sets isSaved to false if no response has changed and all responses are empty', () => {
@@ -362,15 +313,15 @@ describe('QuestionSubmissionFormComponent', () => {
         recipientIdentifier: '',
         responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
         responseId: '',
+        status: ResponseSubmissionStatus.NEW,
         isValid: true,
-        isModified: false,
       },
       {
         recipientIdentifier: '',
         responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
         responseId: '',
+        status: ResponseSubmissionStatus.NEW,
         isValid: true,
-        isModified: false,
       },
     );
 
@@ -545,10 +496,12 @@ describe('QuestionSubmissionFormComponent', () => {
       component.addNewParticipantCommentToResponse(3);
 
       expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', {
+        commentType: 'new',
         commentEditFormModel: {
           commentText: '',
+          showCommentTo: ['GIVER'],
+          showGiverNameTo: ['GIVER'],
         },
-
         isEditing: true,
       });
     },
@@ -563,68 +516,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
       component.cancelAddingNewParticipantComment(3);
 
-      expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', null);
-    },
-  );
-
-  it(
-    'discardEditedParticipantComment: should not call triggerRecipientSubmissionFormChange' +
-      'if commentModel is undefined',
-    () => {
-      component.model.recipientSubmissionForms = [recipientSubmissionFormBuilder.recipientIdentifier('testid').build()];
-      const triggerRecipientSubmissionFormChangeSpy = vi
-        .spyOn(component, 'triggerRecipientSubmissionFormChange')
-        .mockReturnValue();
-
-      component.discardEditedParticipantComment(0);
-
-      expect(triggerRecipientSubmissionFormChangeSpy).not.toHaveBeenCalled();
-    },
-  );
-
-  it(
-    'discardEditedParticipantComment: should not call triggerRecipientSubmissionFormChange if' +
-      'originalComment in commentModel is undefined',
-    () => {
-      const recipientSubmissionForm = recipientSubmissionFormBuilder.build();
-      recipientSubmissionForm.commentByGiver = commentRowModelBuilder.build();
-      component.model.recipientSubmissionForms = [recipientSubmissionForm];
-
-      const triggerRecipientSubmissionFormChangeSpy = vi
-        .spyOn(component, 'triggerRecipientSubmissionFormChange')
-        .mockReturnValue();
-
-      component.discardEditedParticipantComment(0);
-
-      expect(triggerRecipientSubmissionFormChangeSpy).not.toHaveBeenCalled();
-    },
-  );
-
-  it(
-    'discardEditedParticipantComment: should call triggerRecipientSubmissionFormChange if' +
-      'originalComment in commentModel is defined',
-    () => {
-      const recipientSubmissionForm = recipientSubmissionFormBuilder.build();
-      const commentModel = commentRowModelBuilder.build();
-      const feedbackResponseComment = feedbackResponseCommentBuilder.build();
-
-      recipientSubmissionForm.commentByGiver = commentModel;
-      recipientSubmissionForm.commentByGiver.originalComment = feedbackResponseComment;
-
-      component.model.recipientSubmissionForms = [recipientSubmissionForm];
-      const triggerRecipientSubmissionFormChangeSpy = vi
-        .spyOn(component, 'triggerRecipientSubmissionFormChange')
-        .mockReturnValue();
-
-      component.discardEditedParticipantComment(0);
-
-      expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(0, 'commentByGiver', {
-        ...commentModel,
-        commentEditFormModel: {
-          commentText: commentModel.originalComment?.commentText,
-        },
-        isEditing: false,
-      });
+      expect(triggerRecipientSubmissionFormChangeSpy).toHaveBeenCalledWith(3, 'commentByGiver', undefined);
     },
   );
 
@@ -638,8 +530,8 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('saveFeedbackResponses: should emit responsesSave event', () => {
-    const form1 = recipientSubmissionFormBuilder.isModified(true).build();
-    const form2 = recipientSubmissionFormBuilder.build();
+    const form1 = { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED };
+    const form2 = { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW };
     component.model.recipientSubmissionForms = [form1, form2];
 
     let emittedModel: QuestionSubmissionFormModel | undefined;
@@ -793,6 +685,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackResponseTextDetailsBuilder.answer('').build())
           .build(),
         recipientSubmissionFormBuilder
@@ -816,12 +709,11 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
-          .isModified(false)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackResponseTextDetailsBuilder.answer('some answer').build())
           .build(),
         recipientSubmissionFormBuilder
           .recipientIdentifier('someid')
-          .isModified(false)
           .responseDetails(feedbackResponseTextDetailsBuilder.answer('').build())
           .build(),
       ];
@@ -841,6 +733,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackResponseTextDetailsBuilder.answer('').build())
           .build(),
       ];
@@ -861,6 +754,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackResponseMcqDetailsBuilder.answer('').build())
           .build(),
         recipientSubmissionFormBuilder
@@ -885,6 +779,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackResponseMcqDetailsBuilder.answer('some answer').build())
           .build(),
         recipientSubmissionFormBuilder
@@ -909,6 +804,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackResponseMcqDetailsBuilder.answer('').build())
           .build(),
       ];
@@ -929,6 +825,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackMsqResponseDetailsBuilder.answers([]).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -953,6 +850,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackMsqResponseDetailsBuilder.answers(['some answer']).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -977,6 +875,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackMsqResponseDetailsBuilder.answers([]).build())
           .build(),
       ];
@@ -997,6 +896,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(
             feedbackNumericalScaleResponseDetailsBuilder.answer(NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED).build(),
           )
@@ -1023,6 +923,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackNumericalScaleResponseDetailsBuilder.answer(1).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -1049,6 +950,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(
             feedbackNumericalScaleResponseDetailsBuilder.answer(NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED).build(),
           )
@@ -1071,6 +973,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([]).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -1095,6 +998,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([1]).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -1119,6 +1023,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([]).build())
           .build(),
       ];
@@ -1139,6 +1044,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackRubricResponseDetailsBuilder.answer([]).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -1163,6 +1069,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackRubricResponseDetailsBuilder.answer([1]).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -1187,6 +1094,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([]).build())
           .build(),
       ];
@@ -1207,6 +1115,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.SAVED)
           .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([1]).build())
           .build(),
         recipientSubmissionFormBuilder
@@ -1231,6 +1140,7 @@ describe('QuestionSubmissionFormComponent', () => {
       component.model.recipientSubmissionForms = [
         recipientSubmissionFormBuilder
           .recipientIdentifier(recipientId)
+          .status(ResponseSubmissionStatus.NEW)
           .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([]).build())
           .build(),
       ];
@@ -1271,8 +1181,8 @@ describe('QuestionSubmissionFormComponent', () => {
       responseDetails: {
         answers: [1],
       } as FeedbackConstantSumResponseDetails,
+      status: ResponseSubmissionStatus.SAVED,
       isValid: true,
-      isModified: false,
     };
     component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
     component.model.recipientSubmissionForms = [form];
@@ -1287,8 +1197,8 @@ describe('QuestionSubmissionFormComponent', () => {
       responseId: 'response-id',
       recipientIdentifier: 'harris-barry-id',
       responseDetails: {} as FeedbackContributionResponseDetails,
+      status: ResponseSubmissionStatus.SAVED,
       isValid: true,
-      isModified: false,
     };
 
     component.model.questionType = FeedbackQuestionType.CONTRIB;
@@ -1304,8 +1214,8 @@ describe('QuestionSubmissionFormComponent', () => {
       responseId: 'response-id',
       recipientIdentifier: 'harris-barry-id',
       responseDetails: {} as FeedbackRankRecipientsResponseDetails,
+      status: ResponseSubmissionStatus.SAVED,
       isValid: true,
-      isModified: false,
     };
 
     component.model.questionType = FeedbackQuestionType.RANK_RECIPIENTS;

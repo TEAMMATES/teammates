@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.http.HttpStatus;
-
 import teammates.storage.entity.Account;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.ReadNotificationsData;
@@ -25,11 +23,7 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
-        if (account == null) {
-            // This should not happen as the user is authenticated
-            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
+        Account account = getCurrentAccount();
         List<UUID> readNotifications =
                 logic.getReadNotificationsByAccountId(account.getId()).stream()
                         .map(n -> n.getNotification().getId())

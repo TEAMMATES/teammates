@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
@@ -89,23 +88,6 @@ public final class AccountRequestsLogic {
      */
     public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
         return accountRequestDb.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
-    }
-
-    /**
-     * Creates/resets the account request with the given id such that it is not registered.
-     */
-    public AccountRequest resetAccountRequest(UUID id)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        AccountRequest accountRequest = accountRequestDb.getAccountRequest(id);
-
-        if (accountRequest == null) {
-            throw new EntityDoesNotExistException("Failed to reset since AccountRequest with "
-                    + "the given id cannot be found.");
-        }
-        accountRequest.setRegisteredAt(null);
-        validateAccountRequest(accountRequest);
-
-        return accountRequest;
     }
 
     /**

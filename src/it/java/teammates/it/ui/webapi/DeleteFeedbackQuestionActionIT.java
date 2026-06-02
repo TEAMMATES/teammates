@@ -13,8 +13,8 @@ import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 
 /**
@@ -49,7 +49,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackResponse fr1 = typicalBundle.feedbackResponses.get("response1ForQ1");
         FeedbackResponse fr2 = typicalBundle.feedbackResponses.get("response2ForQ1");
-        FeedbackResponseComment frc1 = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
+        ResponseInstructorComment frc1 = typicalBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
         FeedbackQuestion typicalQuestion =
                 logic.getFeedbackQuestion(fq1.getId());
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
@@ -76,7 +76,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         assertNull(logic.getFeedbackResponse(fr1.getId()));
         assertNull(logic.getFeedbackResponse(fr2.getId()));
         // feedback response comments to the responses are deleted
-        assertNull(logic.getFeedbackResponseComment(frc1.getId()));
+        assertNull(logic.getResponseInstructorComment(frc1.getId()));
     }
 
     @Override

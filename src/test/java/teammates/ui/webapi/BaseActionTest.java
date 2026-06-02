@@ -247,7 +247,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Action c = getAction(params);
         try {
             c.checkAccessControl();
-        } catch (UnauthorizedAccessException e) {
+        } catch (UnauthorizedAccessException | InvalidHttpRequestBodyException e) {
             throw new RuntimeException(e);
         }
     }

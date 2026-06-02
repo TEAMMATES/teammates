@@ -21,6 +21,8 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
@@ -34,6 +36,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -412,6 +415,84 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         int result = fsLogic.getActualTotalSubmission(session);
 
         assertEquals(0, result);
+    }
+
+    @Test
+    public void testGetSubmittedGiverSet_hasIndividualAndTeamQuestions_ignoresTeamResponsesForStudentSubmissions()
+            throws EntityDoesNotExistException {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        UUID sessionId = UUID.randomUUID();
+        session.setId(sessionId);
+
+        FeedbackQuestion studentQuestion = getTypicalFeedbackQuestionForSession(session);
+        studentQuestion.setGiverType(QuestionGiverType.STUDENTS);
+        FeedbackQuestion teamQuestion = getTypicalFeedbackQuestionForSession(session);
+        teamQuestion.setGiverType(QuestionGiverType.TEAMS);
+        session.setFeedbackQuestions(Set.of(studentQuestion, teamQuestion));
+
+        Team team = new Team("Team A");
+        Student student1 = getTypicalStudent();
+        student1.setId(UUID.randomUUID());
+        student1.setTeam(team);
+        Student student2 = getTypicalStudent();
+        student2.setId(UUID.randomUUID());
+        student2.setTeam(team);
+
+        FeedbackResponse teamResponse = getTypicalFeedbackResponseForQuestion(teamQuestion);
+        teamResponse.setGiver(new ResponseGiver(team));
+        teamQuestion.addFeedbackResponse(teamResponse);
+
+        when(fsDb.getFeedbackSession(sessionId)).thenReturn(session);
+        when(usersLogic.getStudentsForCourse(course.getId())).thenReturn(List.of(student1, student2));
+        when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(List.of());
+        when(fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())).thenReturn(true);
+        when(fqLogic.hasFeedbackQuestionsForGiverType(session.getFeedbackQuestions(), QuestionGiverType.STUDENTS))
+                .thenReturn(true);
+        when(fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), false)).thenReturn(false);
+
+        SubmittedGiverSetBundle submittedGiverSet = fsLogic.getSubmittedGiverSet(sessionId);
+
+        assertTrue(submittedGiverSet.studentGiverIds().isEmpty());
+        assertEquals(Set.of(student1.getId(), student2.getId()), submittedGiverSet.studentNonGiverIds());
+    }
+
+    @Test
+    public void testGetSubmittedGiverSet_teamOnlyQuestions_teamResponseMarksAllMembersSubmitted()
+            throws EntityDoesNotExistException {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        UUID sessionId = UUID.randomUUID();
+        session.setId(sessionId);
+
+        FeedbackQuestion teamQuestion = getTypicalFeedbackQuestionForSession(session);
+        teamQuestion.setGiverType(QuestionGiverType.TEAMS);
+        session.setFeedbackQuestions(Set.of(teamQuestion));
+
+        Team team = new Team("Team A");
+        Student student1 = getTypicalStudent();
+        student1.setId(UUID.randomUUID());
+        student1.setTeam(team);
+        Student student2 = getTypicalStudent();
+        student2.setId(UUID.randomUUID());
+        student2.setTeam(team);
+
+        FeedbackResponse teamResponse = getTypicalFeedbackResponseForQuestion(teamQuestion);
+        teamResponse.setGiver(new ResponseGiver(team));
+        teamQuestion.addFeedbackResponse(teamResponse);
+
+        when(fsDb.getFeedbackSession(sessionId)).thenReturn(session);
+        when(usersLogic.getStudentsForCourse(course.getId())).thenReturn(List.of(student1, student2));
+        when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(List.of());
+        when(fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())).thenReturn(true);
+        when(fqLogic.hasFeedbackQuestionsForGiverType(session.getFeedbackQuestions(), QuestionGiverType.STUDENTS))
+                .thenReturn(false);
+        when(fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), false)).thenReturn(false);
+
+        SubmittedGiverSetBundle submittedGiverSet = fsLogic.getSubmittedGiverSet(sessionId);
+
+        assertEquals(Set.of(student1.getId(), student2.getId()), submittedGiverSet.studentGiverIds());
+        assertTrue(submittedGiverSet.studentNonGiverIds().isEmpty());
     }
 
     @Test

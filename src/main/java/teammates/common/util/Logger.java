@@ -314,10 +314,6 @@ public final class Logger {
                     "projects/" + Config.APP_ID + "/traces/" + RequestTracer.getTraceId());
         }
 
-        if (RequestTracer.getSpanId() != null) {
-            payload.put("logging.googleapis.com/spanId", RequestTracer.getSpanId());
-        }
-
         return payload;
     }
 

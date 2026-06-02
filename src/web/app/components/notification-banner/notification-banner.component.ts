@@ -1,9 +1,10 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { forkJoin } from 'rxjs';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Notification, Notifications, NotificationTargetUser } from '../../../types/api-output';
+import { Notification, Notifications, NotificationTargetUser, ReadNotifications } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { NotificationStyleClassPipe } from '../teammates-common/notification-style-class.pipe';
 
@@ -44,15 +45,34 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
   }
 
   fetchNotifications(): void {
-    this.notificationService
-      .getUnreadNotificationsForTargetUser(this.notificationTargetUser)
-      .subscribe((response: Notifications) => {
-        this.notifications = response.notifications;
+    forkJoin({
+      readNotifications: this.notificationService.getReadNotifications(),
+      notifications: this.notificationService.getNotifications({
+        targetUsers: this.getTargetUsers(),
+        isFetchingActive: true,
+      }),
+    }).subscribe(
+      ({
+        readNotifications,
+        notifications,
+      }: {
+        readNotifications: ReadNotifications;
+        notifications: Notifications;
+      }) => {
+        const readNotificationsSet = new Set(readNotifications.readNotifications);
+        this.notifications = notifications.notifications.filter(
+          (notification: Notification) => !readNotificationsSet.has(notification.notificationId),
+        );
         if (this.notifications.length > 0) {
           this.cdr.detectChanges();
           this.isShown = true;
         }
-      });
+      },
+    );
+  }
+
+  private getTargetUsers(): NotificationTargetUser[] {
+    return Array.from(new Set([this.notificationTargetUser, NotificationTargetUser.GENERAL]));
   }
 
   markNotificationAsRead(notification: Notification): void {

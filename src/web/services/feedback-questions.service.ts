@@ -64,36 +64,34 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        paths.set(QuestionGiverType.SELF, [
-          QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
-          QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
+        paths.set(QuestionGiverType.SESSION_CREATOR, [
+          QuestionRecipientType.STUDENTS,
           QuestionRecipientType.INSTRUCTORS,
-          QuestionRecipientType.TEAMS_EXCLUDING_SELF,
-          QuestionRecipientType.TEAMS_IN_SAME_SECTION,
+          QuestionRecipientType.TEAMS,
         ]);
         paths.set(QuestionGiverType.STUDENTS, [
+          QuestionRecipientType.STUDENTS,
           QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
           QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
           QuestionRecipientType.INSTRUCTORS,
+          QuestionRecipientType.TEAMS,
           QuestionRecipientType.TEAMS_EXCLUDING_SELF,
           QuestionRecipientType.TEAMS_IN_SAME_SECTION,
           QuestionRecipientType.OWN_TEAM_MEMBERS,
           QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
         ]);
         paths.set(QuestionGiverType.INSTRUCTORS, [
-          QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
-          QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
+          QuestionRecipientType.STUDENTS,
           QuestionRecipientType.INSTRUCTORS,
-          QuestionRecipientType.TEAMS_EXCLUDING_SELF,
-          QuestionRecipientType.TEAMS_IN_SAME_SECTION,
+          QuestionRecipientType.TEAMS,
         ]);
         paths.set(QuestionGiverType.TEAMS, [
-          QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
+          QuestionRecipientType.STUDENTS,
           QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
           QuestionRecipientType.INSTRUCTORS,
+          QuestionRecipientType.TEAMS,
           QuestionRecipientType.TEAMS_EXCLUDING_SELF,
           QuestionRecipientType.TEAMS_IN_SAME_SECTION,
-          QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
         ]);
         break;
       case FeedbackQuestionType.TEXT:
@@ -103,16 +101,11 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        paths.set(QuestionGiverType.SELF, [
+        paths.set(QuestionGiverType.SESSION_CREATOR, [
           QuestionRecipientType.SELF,
           QuestionRecipientType.STUDENTS,
-          QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
-          QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
           QuestionRecipientType.INSTRUCTORS,
           QuestionRecipientType.TEAMS,
-          QuestionRecipientType.TEAMS_EXCLUDING_SELF,
-          QuestionRecipientType.TEAMS_IN_SAME_SECTION,
-          QuestionRecipientType.OWN_TEAM,
           QuestionRecipientType.NONE,
         ]);
 
@@ -134,24 +127,18 @@ export class FeedbackQuestionsService {
         paths.set(QuestionGiverType.INSTRUCTORS, [
           QuestionRecipientType.SELF,
           QuestionRecipientType.STUDENTS,
-          QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
           QuestionRecipientType.INSTRUCTORS,
           QuestionRecipientType.TEAMS,
-          QuestionRecipientType.TEAMS_IN_SAME_SECTION,
-          QuestionRecipientType.OWN_TEAM,
           QuestionRecipientType.NONE,
         ]);
 
         paths.set(QuestionGiverType.TEAMS, [
           QuestionRecipientType.SELF,
           QuestionRecipientType.STUDENTS,
-          QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
-          QuestionRecipientType.STUDENTS_IN_SAME_SECTION,
           QuestionRecipientType.INSTRUCTORS,
           QuestionRecipientType.TEAMS,
           QuestionRecipientType.TEAMS_EXCLUDING_SELF,
           QuestionRecipientType.TEAMS_IN_SAME_SECTION,
-          QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
           QuestionRecipientType.NONE,
         ]);
         break;
@@ -171,7 +158,7 @@ export class FeedbackQuestionsService {
         break;
       case FeedbackQuestionType.RANK_RECIPIENTS:
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        paths.set(QuestionGiverType.SELF, [QuestionRecipientType.INSTRUCTORS]);
+        paths.set(QuestionGiverType.SESSION_CREATOR, [QuestionRecipientType.INSTRUCTORS]);
         paths.set(QuestionGiverType.STUDENTS, [
           QuestionRecipientType.INSTRUCTORS,
           QuestionRecipientType.OWN_TEAM_MEMBERS,
@@ -186,7 +173,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.RANK_OPTIONS:
       case FeedbackQuestionType.RUBRIC:
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        paths.set(QuestionGiverType.SELF, [
+        paths.set(QuestionGiverType.SESSION_CREATOR, [
           QuestionRecipientType.NONE,
           QuestionRecipientType.SELF,
           QuestionRecipientType.INSTRUCTORS,

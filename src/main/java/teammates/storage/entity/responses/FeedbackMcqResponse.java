@@ -1,5 +1,6 @@
 package teammates.storage.entity.responses;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
@@ -27,9 +28,9 @@ public class FeedbackMcqResponse extends FeedbackResponse {
 
     public FeedbackMcqResponse(
             ResponseGiver giver, ResponseRecipient recipient,
-            FeedbackResponseDetails responseDetails
+            FeedbackResponseDetails responseDetails, @Nullable String giverComment
     ) {
-        super(giver, recipient);
+        super(giver, recipient, giverComment);
         this.setAnswer((FeedbackMcqResponseDetails) responseDetails);
     }
 

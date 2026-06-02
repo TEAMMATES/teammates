@@ -28,11 +28,11 @@ public class StudentEnrollRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(name != null && !name.isEmpty(), "Student name cannot be empty");
-        assertTrue(email != null && !email.isEmpty(), "Student email cannot be empty");
-        assertTrue(team != null && !team.isEmpty(), "Team cannot be empty");
-        assertTrue(section != null, "Section cannot be null");
-        assertTrue(comments != null, "Comments cannot be null");
+        validateTrue(name != null && !name.isEmpty(), "Student name cannot be empty");
+        validateTrue(email != null && !email.isEmpty(), "Student email cannot be empty");
+        validateTrue(team != null && !team.isEmpty(), "Team cannot be empty");
+        validateTrue(section != null, "Section cannot be null");
+        validateTrue(comments != null, "Comments cannot be null");
     }
 
     public String getName() {
