@@ -209,8 +209,6 @@
         "questionText": "Split points among the teams, according to how well you think each team did.",
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 100,
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": false,
         "forceUnevenDistribution": true,
         "distributePointsFor": "All options"
@@ -231,8 +229,6 @@
         "questionText": "Split points among the teams, according to how creative you think each team was.",
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 20,
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": true,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None"

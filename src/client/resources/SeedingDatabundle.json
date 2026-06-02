@@ -1138,7 +1138,6 @@
       "id": "00000000-0000-4000-8000-000000000808",
       "questionDetails": {
         "constSumOptions": ["Code Quality", "Testing", "Documentation", "User Interface"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -1347,8 +1346,6 @@
     "qn3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000818",
       "questionDetails": {
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -1537,7 +1534,6 @@
       "id": "00000000-0000-4000-8000-000000000827",
       "questionDetails": {
         "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",

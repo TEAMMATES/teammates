@@ -358,7 +358,6 @@
       "questionDetails": {
         "questionType": "CONSTSUM_OPTIONS",
         "questionText": "How important are the following factors to you? Give points accordingly.",
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "points": 100,
         "constSumOptions": ["Grades", "Fun"]
@@ -378,10 +377,8 @@
       "questionDetails": {
         "questionType": "CONSTSUM_RECIPIENTS",
         "questionText": "Split points among your team members and yourself, according to how much you think each member has contributed.",
-        "distributeToRecipients": true,
         "pointsPerOption": true,
-        "points": 100,
-        "constSumOptions": []
+        "points": 100
       },
       "description": "",
       "giverType": "STUDENTS",
@@ -551,10 +548,8 @@
       "questionDetails": {
         "questionType": "CONSTSUM_RECIPIENTS",
         "questionText": "Distribute points among team members based on their contributions on the user documentation so far.",
-        "distributeToRecipients": true,
         "pointsPerOption": true,
-        "points": 100,
-        "constSumOptions": []
+        "points": 100
       },
       "description": "If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on.",
       "giverType": "STUDENTS",

@@ -303,7 +303,6 @@
     "qn6": {
       "questionDetails": {
         "constSumOptions": ["Grades", "Fun"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -323,8 +322,6 @@
     },
     "qn7": {
       "questionDetails": {
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": true,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
