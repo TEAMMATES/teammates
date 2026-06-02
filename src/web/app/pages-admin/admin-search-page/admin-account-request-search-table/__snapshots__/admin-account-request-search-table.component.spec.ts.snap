@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`AdminAccountRequestSearchTableComponent > should display account requests with no reset or expand links button 1`] = `
-<tm-admin-account-search-table
+<tm-admin-account-request-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
   isApprovingAccountRequest={[Function Array]}
@@ -384,11 +384,11 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
       </table>
     </div>
   </div>
-</tm-admin-account-search-table>
+</tm-admin-account-request-search-table>
 `;
 
 exports[`AdminAccountRequestSearchTableComponent > should display account requests with reset button and expandable links buttons 1`] = `
-<tm-admin-account-search-table
+<tm-admin-account-request-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
   isApprovingAccountRequest={[Function Array]}
@@ -775,11 +775,11 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
       </table>
     </div>
   </div>
-</tm-admin-account-search-table>
+</tm-admin-account-request-search-table>
 `;
 
 exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded account requests table 1`] = `
-<tm-admin-account-search-table
+<tm-admin-account-request-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
   isApprovingAccountRequest={[Function Array]}
@@ -1011,5 +1011,5 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
       </table>
     </div>
   </div>
-</tm-admin-account-search-table>
+</tm-admin-account-request-search-table>
 `;
