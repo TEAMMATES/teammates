@@ -243,7 +243,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.IFRep.CS2104",
       "name": "First Session",
-      "creatorEmail": "ifrep.instr1@gmail.tmt",
       "instructions": "Instructions for first session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
@@ -257,13 +256,13 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "Open Session 2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "tm.e2e.IFRep.CS2103",
       "name": "First Session",
-      "creatorEmail": "ifrep.instr1@gmail.tmt",
       "instructions": "Instructions for first session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
@@ -277,7 +276,8 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true
+      "isPublishedEmailEnabled": true,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     }
   },
   "feedbackQuestions": {

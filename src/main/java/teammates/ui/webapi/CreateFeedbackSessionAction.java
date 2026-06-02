@@ -85,7 +85,7 @@ public class CreateFeedbackSessionAction extends Action {
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
-                instructor.getEmail(),
+                instructor,
                 createRequest.getInstructions(),
                 startTime,
                 endTime,

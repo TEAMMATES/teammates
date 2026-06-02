@@ -174,7 +174,7 @@ public class BaseTestCase {
         Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
         Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
         FeedbackSession feedbackSession = new FeedbackSession("test-feedbacksession",
-                "test@teammates.tmt",
+                null,
                 "<p>test-instructions</p>",
                 startTime,
                 endTime,
