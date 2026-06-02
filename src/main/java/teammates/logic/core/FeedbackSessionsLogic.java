@@ -20,7 +20,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -619,8 +618,8 @@ public final class FeedbackSessionsLogic {
         } else {
             // No questions for instructors. There must be questions for creator.
             List<Instructor> creators = instructors.stream()
-                    .filter(instructor -> SanitizationHelper.areEmailsEqual(fs.getCreatorEmail(), instructor.getEmail()))
-                    .collect(Collectors.toList());
+                    .filter(fs::isCreator)
+                    .toList();
             expectedTotal += creators.size();
         }
         return expectedTotal;
