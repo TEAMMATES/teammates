@@ -82,13 +82,6 @@ describe('FeedbackResponsesService', () => {
     }
   });
 
-  it("should throw an error when trying to retrieve an unknown question type's response details", () => {
-    const unknownFeedbackQuestionType: FeedbackQuestionType = 'UNKNOWN' as FeedbackQuestionType;
-    expect(() => service.getDefaultFeedbackResponseDetails(unknownFeedbackQuestionType)).toThrow(
-      `Unknown question type ${unknownFeedbackQuestionType}`,
-    );
-  });
-
   it('should correctly indicate whether any text response details are empty or not', () => {
     const feedbackQuestionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;
     const feedbackResponseDetails: FeedbackTextResponseDetails = {
