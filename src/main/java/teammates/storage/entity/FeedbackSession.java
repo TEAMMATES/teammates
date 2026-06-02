@@ -517,10 +517,10 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Checks if user with {@code userEmail} is the creator.
+     * Checks if user is the creator.
      */
-    public boolean isCreator(String userEmail) {
-        return SanitizationHelper.areEmailsEqual(creatorEmail, userEmail);
+    public boolean isCreator(Instructor instructor) {
+        return SanitizationHelper.areEmailsEqual(creatorEmail, instructor.getEmail());
     }
 
     /**
