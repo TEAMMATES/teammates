@@ -1,0 +1,66 @@
+<div
+  #combobox="ngCombobox"
+  class="searchable-combobox position-relative w-100"
+  ngCombobox
+  filterMode="manual"
+  [disabled]="disabled"
+  (focusout)="onComboboxFocusOut($event)"
+>
+  <input
+    #comboboxInput
+    ngComboboxInput
+    class="form-control form-select w-100 searchable-combobox-input"
+    type="text"
+    autocomplete="off"
+    [id]="inputId"
+    [value]="inputValue()"
+    (valueChange)="onInputValueChange($event)"
+    (click)="onInputClick(combobox)"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [attr.aria-label]="ariaLabel"
+  />
+
+  @if (clearable && hasSelectedDisplayValue && !disabled) {
+    <button
+      class="btn-close searchable-combobox-clear"
+      type="button"
+      aria-label="Clear selection"
+      (click)="clearSelection($event)"
+    ></button>
+  }
+
+  <ng-template ngComboboxPopupContainer>
+    <div class="searchable-combobox-popup w-100 overflow-hidden bg-white border rounded shadow">
+      <div
+        class="searchable-combobox-options bg-white py-1 fw-normal"
+        ngListbox
+        data-testid="searchable-combobox-options"
+        [values]="selectedValues()"
+        (valuesChange)="onValuesChange($event)"
+        [disabled]="disabled"
+        focusMode="activedescendant"
+        selectionMode="explicit"
+      >
+        @for (option of filteredOptions(); track option.value; let optionIndex = $index) {
+          <div
+            class="searchable-combobox-option px-3 py-2"
+            ngOption
+            data-testid="searchable-combobox-option"
+            [value]="option.value"
+            [label]="option.label"
+            [disabled]="option.disabled"
+            [ngClass]="{
+              'searchable-combobox-option-selected': isSelected(option),
+              'text-secondary pe-none': option.disabled,
+            }"
+          >
+            {{ option.label }}
+          </div>
+        } @empty {
+          <div class="searchable-combobox-empty text-secondary px-3 py-2">No matching options</div>
+        }
+      </div>
+    </div>
+  </ng-template>
+</div>
