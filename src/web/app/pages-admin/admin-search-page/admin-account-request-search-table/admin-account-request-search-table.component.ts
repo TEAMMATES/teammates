@@ -21,9 +21,9 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
  * Account requests table component for admin search.
  */
 @Component({
-  selector: 'tm-admin-account-search-table',
-  templateUrl: './admin-account-search-table.component.html',
-  styleUrls: ['./admin-account-search-table.component.scss'],
+  selector: 'tm-admin-account-request-search-table',
+  templateUrl: './admin-account-request-search-table.component.html',
+  styleUrls: ['./admin-account-request-search-table.component.scss'],
   imports: [
     NgbTooltip,
     NgbCollapse,
@@ -34,7 +34,7 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
     SearchTermsHighlighterPipe,
   ],
 })
-export class AdminAccountSearchTableComponent implements OnChanges {
+export class AdminAccountRequestSearchTableComponent implements OnChanges {
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly simpleModalService = inject(SimpleModalService);
   private readonly accountService = inject(AccountService);
@@ -47,12 +47,12 @@ export class AdminAccountSearchTableComponent implements OnChanges {
   searchString = '';
 
   isRejectingAccount: boolean[] = [];
-  isApprovingAccount: boolean[] = [];
+  isApprovingAccountRequest: boolean[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['accountRequests']) {
       this.isRejectingAccount = new Array(this.accountRequests.length).fill(false);
-      this.isApprovingAccount = new Array(this.accountRequests.length).fill(false);
+      this.isApprovingAccountRequest = new Array(this.accountRequests.length).fill(false);
     }
   }
 
@@ -113,18 +113,18 @@ export class AdminAccountSearchTableComponent implements OnChanges {
   }
 
   approveAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
-    this.isApprovingAccount[index] = true;
+    this.isApprovingAccountRequest[index] = true;
     this.accountService.approveAccountRequest(accountRequest.accountRequestId).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
           `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`,
         );
-        this.isApprovingAccount[index] = false;
+        this.isApprovingAccountRequest[index] = false;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isApprovingAccount[index] = false;
+        this.isApprovingAccountRequest[index] = false;
       },
     });
   }

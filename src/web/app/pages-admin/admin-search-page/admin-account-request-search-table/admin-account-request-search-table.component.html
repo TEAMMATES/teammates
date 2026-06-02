@@ -114,11 +114,11 @@
                       !accountRequest.status ||
                       accountRequest.status === 'APPROVED' ||
                       accountRequest.status === 'REGISTERED' ||
-                      isApprovingAccount[i]
+                      isApprovingAccountRequest[i]
                     "
                     (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"
                   >
-                    @if (isApprovingAccount[i]) {
+                    @if (isApprovingAccountRequest[i]) {
                       <tm-ajax-loading></tm-ajax-loading>
                     }
                     Approve

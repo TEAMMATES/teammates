@@ -34,7 +34,7 @@ export class AccountRequestTableComponent {
   accountRequests: AccountRequestTableRowModel[] = [];
 
   isRejectingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
-  isApprovingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
+  isApprovingAccountRequest: boolean[] = new Array(this.accountRequests.length).fill(false);
 
   editAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
@@ -71,18 +71,18 @@ export class AccountRequestTableComponent {
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
-    this.isApprovingAccount[index] = true;
+    this.isApprovingAccountRequest[index] = true;
     this.accountService.approveAccountRequest(accountRequest.id).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
           `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`,
         );
-        this.isApprovingAccount[index] = false;
+        this.isApprovingAccountRequest[index] = false;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isApprovingAccount[index] = false;
+        this.isApprovingAccountRequest[index] = false;
       },
     });
   }
