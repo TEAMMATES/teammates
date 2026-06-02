@@ -67,7 +67,8 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "accountId": "00000000-0000-4000-8000-000000000001"
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "id": "00000000-0000-4000-8000-000000000501"
     },
     "instructor2": {
       "courseId": "tm.e2e.FContrQn.CS1101",
@@ -90,7 +91,8 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "accountId": "00000000-0000-4000-8000-000000000001"
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "id": "00000000-0000-4000-8000-000000000502"
     }
   },
   "students": {
@@ -173,7 +175,7 @@
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "creatorId": "instructor"
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -192,7 +194,7 @@
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "creatorId": "instructor2"
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     }
   },
   "feedbackQuestions": {

@@ -73,7 +73,8 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "accountId": "00000000-0000-4000-8000-000000000001"
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "id": "00000000-0000-4000-8000-000000000501"
     },
     "instructor2": {
       "courseId": "tm.e2e.FRankRcptQn.CS2104",
@@ -96,7 +97,8 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "accountId": "00000000-0000-4000-8000-000000000002"
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "id": "00000000-0000-4000-8000-000000000502"
     },
     "instructor3": {
       "courseId": "tm.e2e.FRankRcptQn.CS1101",
@@ -119,7 +121,8 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "accountId": "00000000-0000-4000-8000-000000000001"
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "id": "00000000-0000-4000-8000-000000000503"
     }
   },
   "students": {
@@ -202,7 +205,7 @@
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "creatorId": "instructor"
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -221,7 +224,7 @@
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "creatorId": "instructor3"
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     }
   },
   "feedbackQuestions": {
