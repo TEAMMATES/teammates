@@ -8,7 +8,6 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
   castAsInputElement="undefined"
-  castAsTextAreaElement="undefined"
 >
   <div
     class="modal-header bg-primary"
@@ -118,7 +117,6 @@ exports[`RejectWithReasonModal > should show populated data 1`] = `
   accountRequestName={[Function String]}
   activeModal={[Function NgbActiveModal]}
   castAsInputElement="undefined"
-  castAsTextAreaElement="undefined"
 >
   <div
     class="modal-header bg-primary"
