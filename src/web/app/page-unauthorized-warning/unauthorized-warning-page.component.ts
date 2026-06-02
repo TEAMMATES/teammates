@@ -2,6 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
 
+/**
+ * Component for unauthorized warning page based on user role.
+ */
 @Component({
   selector: 'tm-unauthorized-warning-page',
   styleUrls: ['./unauthorized-warning-page.component.scss'],
