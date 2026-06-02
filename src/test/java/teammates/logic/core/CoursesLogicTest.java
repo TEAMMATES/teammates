@@ -143,7 +143,10 @@ public class CoursesLogicTest extends BaseTestCase {
     public void testCreateCourseAndInstructor_withCourseCreateRequest_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         String instructorGoogleId = "creator-google-id";
-        Account courseCreator = new Account(instructorGoogleId, "Creator Name", "creator@example.com");
+        Account courseCreator = getTypicalAccount();
+        courseCreator.setGoogleId(instructorGoogleId);
+        courseCreator.setName("Course Creator");
+        courseCreator.setEmail("course-creator@email.tmt");
         CourseCreateRequest request = new CourseCreateRequest();
         request.setCourseId(" course-id ");
         request.setCourseName("Course Name");
