@@ -18,8 +18,9 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
@@ -433,7 +434,7 @@ public class FeedbackResultsPage extends AppPage {
         return appendOptions(additionalInfo, questionDetails.getOptions()).toString();
     }
 
-    private String getConstSumOptionsAddInfo(FeedbackConstantSumQuestionDetails questionDetails) {
+    private String getConstSumOptionsAddInfo(FeedbackConstantSumOptionsQuestionDetails questionDetails) {
         StringBuilder additionalInfo = new StringBuilder("Distribute points (among options) question options:");
         additionalInfo.append(TestProperties.LINE_SEPARATOR);
         additionalInfo = appendOptions(additionalInfo, questionDetails.getConstSumOptions());
@@ -447,7 +448,7 @@ public class FeedbackResultsPage extends AppPage {
         return additionalInfo.toString();
     }
 
-    private String getConstSumRecipientsAddInfo(FeedbackConstantSumQuestionDetails questionDetails) {
+    private String getConstSumRecipientsAddInfo(FeedbackConstantSumRecipientsQuestionDetails questionDetails) {
         StringBuilder additionalInfo = new StringBuilder("Distribute points (among recipients) question");
         additionalInfo.append(TestProperties.LINE_SEPARATOR);
         if (questionDetails.isPointsPerOption()) {
@@ -517,10 +518,10 @@ public class FeedbackResultsPage extends AppPage {
             return "Rank (recipients) question";
         case CONSTSUM_OPTIONS:
             return getConstSumOptionsAddInfo(
-                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+                    (FeedbackConstantSumOptionsQuestionDetails) question.getQuestionDetailsCopy());
         case CONSTSUM_RECIPIENTS:
             return getConstSumRecipientsAddInfo(
-                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+                    (FeedbackConstantSumRecipientsQuestionDetails) question.getQuestionDetailsCopy());
         default:
             throw new AssertionError(
                     "Unknown question type: " + question.getQuestionType());
@@ -540,10 +541,11 @@ public class FeedbackResultsPage extends AppPage {
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
         case CONSTSUM_OPTIONS:
-        case CONSTSUM_RECIPIENTS:
             return getConstSumOptionsAnsString(
-                    (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
-                    (FeedbackConstantSumResponseDetails) response);
+                    (FeedbackConstantSumOptionsQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackConstantSumOptionsResponseDetails) response);
+        case CONSTSUM_RECIPIENTS:
+            return response.getAnswerString();
         case RUBRIC:
         case CONTRIB:
             return "";
@@ -563,11 +565,8 @@ public class FeedbackResultsPage extends AppPage {
         return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
-    private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
-            FeedbackConstantSumResponseDetails responseDetails) {
-        if (question.isDistributeToRecipients()) {
-            return responseDetails.getAnswerString();
-        }
+    private String getConstSumOptionsAnsString(FeedbackConstantSumOptionsQuestionDetails question,
+            FeedbackConstantSumOptionsResponseDetails responseDetails) {
         List<String> options = question.getConstSumOptions();
         List<Integer> answers = responseDetails.getAnswers();
         List<String> answerStrings = new ArrayList<>();

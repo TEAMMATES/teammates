@@ -117,9 +117,8 @@ export interface ExceptionLogDetails extends LogDetails {
   loggerSourceLocation: SourceLocation;
 }
 
-export interface FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
+export interface FeedbackConstantSumOptionsQuestionDetails extends FeedbackQuestionDetails {
   constSumOptions: string[];
-  distributeToRecipients: boolean;
   pointsPerOption: boolean;
   forceUnevenDistribution: boolean;
   distributePointsFor: string;
@@ -128,7 +127,18 @@ export interface FeedbackConstantSumQuestionDetails extends FeedbackQuestionDeta
   maxPoint?: number;
 }
 
-export interface FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
+export interface FeedbackConstantSumOptionsResponseDetails extends FeedbackResponseDetails {
+  answers: number[];
+}
+
+export interface FeedbackConstantSumRecipientsQuestionDetails extends FeedbackQuestionDetails {
+  pointsPerOption: boolean;
+  forceUnevenDistribution: boolean;
+  distributePointsFor: string;
+  points: number;
+}
+
+export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
 }
 

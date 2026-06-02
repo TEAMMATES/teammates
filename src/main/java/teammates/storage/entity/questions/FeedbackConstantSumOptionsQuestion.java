@@ -11,26 +11,26 @@ import jakarta.persistence.Entity;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
- * Represents a constant sum question.
+ * Represents a constant sum options question.
  */
 @Entity
-public class FeedbackConstantSumQuestion extends FeedbackQuestion {
+public class FeedbackConstantSumOptionsQuestion extends FeedbackQuestion {
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    @Convert(converter = FeedbackConstantSumQuestionDetailsConverter.class)
-    private FeedbackConstantSumQuestionDetails questionDetails;
+    @Convert(converter = FeedbackConstantSumOptionsQuestionDetailsConverter.class)
+    private FeedbackConstantSumOptionsQuestionDetails questionDetails;
 
-    protected FeedbackConstantSumQuestion() {
+    protected FeedbackConstantSumOptionsQuestion() {
         // required by Hibernate
     }
 
-    public FeedbackConstantSumQuestion(
+    public FeedbackConstantSumOptionsQuestion(
             Integer questionNumber,
             String description, QuestionGiverType giverType, QuestionRecipientType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<ViewerType> showResponsesTo,
@@ -39,7 +39,7 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
     ) {
         super(questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
-        setFeedBackQuestionDetails((FeedbackConstantSumQuestionDetails) feedbackQuestionDetails);
+        setFeedBackQuestionDetails((FeedbackConstantSumOptionsQuestionDetails) feedbackQuestionDetails);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
     }
 
     @Override
-    public FeedbackConstantSumQuestion makeDeepCopy() {
-        return new FeedbackConstantSumQuestion(
+    public FeedbackConstantSumOptionsQuestion makeDeepCopy() {
+        return new FeedbackConstantSumOptionsQuestion(
                 this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
@@ -64,28 +64,28 @@ public class FeedbackConstantSumQuestion extends FeedbackQuestion {
 
     @Override
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        this.questionDetails = (FeedbackConstantSumQuestionDetails) questionDetails;
+        this.questionDetails = (FeedbackConstantSumOptionsQuestionDetails) questionDetails;
     }
 
     @Override
     public String toString() {
-        return "FeedbackConstantSumQuestion [id=" + super.getId()
+        return "FeedbackConstantSumOptionsQuestion [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
-    public void setFeedBackQuestionDetails(FeedbackConstantSumQuestionDetails questionDetails) {
+    public void setFeedBackQuestionDetails(FeedbackConstantSumOptionsQuestionDetails questionDetails) {
         this.questionDetails = questionDetails;
     }
 
-    public FeedbackConstantSumQuestionDetails getFeedbackQuestionDetails() {
+    public FeedbackConstantSumOptionsQuestionDetails getFeedbackQuestionDetails() {
         return questionDetails;
     }
 
     /**
-     * Converter for FeedbackConstantSumQuestion specific attributes.
+     * Converter for FeedbackConstantSumOptionsQuestion specific attributes.
      */
     @Converter
-    public static class FeedbackConstantSumQuestionDetailsConverter
+    public static class FeedbackConstantSumOptionsQuestionDetailsConverter
             extends FeedbackQuestionDetailsConverter {
     }
 }

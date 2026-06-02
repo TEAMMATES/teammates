@@ -7,7 +7,12 @@ import {
 } from '../../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
 import { ResponseDetailsTypeChecker } from '../../../../types/response-details-impl/response-details-caster';
-import { ConstsumQuestionResponseComponent } from '../../question-types/question-response/constsum-question-response.component';
+import {
+  ConstsumOptionsQuestionResponseComponent,
+} from '../../question-types/question-response/constsum-options-question-response.component';
+import {
+  ConstsumRecipientsQuestionResponseComponent,
+} from '../../question-types/question-response/constsum-recipients-question-response.component';
 import { ContributionQuestionResponseComponent } from '../../question-types/question-response/contribution-question-response.component';
 import { McqQuestionResponseComponent } from '../../question-types/question-response/mcq-question-response.component';
 import { MsqQuestionResponseComponent } from '../../question-types/question-response/msq-question-response.component';
@@ -26,7 +31,8 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
   imports: [
     ContributionQuestionResponseComponent,
     TextQuestionResponseComponent,
-    ConstsumQuestionResponseComponent,
+    ConstsumOptionsQuestionResponseComponent,
+    ConstsumRecipientsQuestionResponseComponent,
     NumScaleQuestionResponseComponent,
     RubricQuestionResponseComponent,
     RankOptionsQuestionResponseComponent,

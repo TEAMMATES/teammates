@@ -10,7 +10,8 @@ import { FeedbackRankRecipientsQuestionDetailsImpl } from './feedback-rank-recip
 import { FeedbackRubricQuestionDetailsImpl } from './feedback-rubric-question-details.impl';
 import { FeedbackTextQuestionDetailsImpl } from './feedback-text-question-details.impl';
 import {
-  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
   FeedbackContributionQuestionDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
@@ -34,9 +35,11 @@ export class FeedbackQuestionDetailsFactory {
   static fromApiOutput(details: FeedbackQuestionDetails): AbstractFeedbackQuestionDetails {
     switch (details.questionType) {
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        return new FeedbackConstantSumOptionsQuestionDetailsImpl(details as FeedbackConstantSumQuestionDetails);
+        return new FeedbackConstantSumOptionsQuestionDetailsImpl(details as FeedbackConstantSumOptionsQuestionDetails);
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        return new FeedbackConstantSumRecipientsQuestionDetailsImpl(details as FeedbackConstantSumQuestionDetails);
+        return new FeedbackConstantSumRecipientsQuestionDetailsImpl(
+          details as FeedbackConstantSumRecipientsQuestionDetails,
+        );
       case FeedbackQuestionType.CONTRIB:
         return new FeedbackContributionQuestionDetailsImpl(details as FeedbackContributionQuestionDetails);
       case FeedbackQuestionType.MCQ:

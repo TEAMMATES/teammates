@@ -6,7 +6,10 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
+import {
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+} from '../../../../types/api-output';
 import { calculateConstsumOptionsQuestionStatistics } from '../../../utils/question-statistics.util';
 import { ConstsumOptionsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
@@ -21,9 +24,9 @@ import { ConstsumOptionsQuestionStatistics, Response } from '../../../../types/q
 export class ConstsumOptionsQuestionStatisticsComponent implements OnChanges {
   // enum
   @Input()
-  question: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
+  question: FeedbackConstantSumOptionsQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
   @Input()
-  responses: Response<FeedbackConstantSumResponseDetails>[] = [];
+  responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = [];
   @Input()
   isStudent = false;
 

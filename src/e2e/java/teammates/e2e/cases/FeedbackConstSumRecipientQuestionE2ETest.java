@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsResponseDetails;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
@@ -49,8 +49,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")
                 .makeDeepCopy();
         feedbackSession.addFeedbackQuestion(loadedQuestion);
-        FeedbackConstantSumQuestionDetails questionDetails =
-                (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
+        FeedbackConstantSumRecipientsQuestionDetails questionDetails =
+                (FeedbackConstantSumRecipientsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyConstSumQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -63,7 +63,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
 
         ______TS("copy question");
         FeedbackQuestion copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackConstantSumQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
+        questionDetails = (FeedbackConstantSumRecipientsQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
         feedbackEditPage.waitForPageToLoad();
@@ -75,7 +75,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
+        questionDetails = (FeedbackConstantSumRecipientsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setPointsPerOption(true);
         questionDetails.setPoints(1000);
         questionDetails.setDistributePointsFor("At least some options");
@@ -96,7 +96,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         Student receiver = testData.students.get("benny.tmms@FCSumRcptQn.CS2104");
         Student receiver2 = testData.students.get("charlie.tmms@FCSumRcptQn.CS2104");
         feedbackSubmitPage.verifyConstSumQuestion(1, "",
-                (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
+                (FeedbackConstantSumRecipientsQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         FeedbackResponse response = getResponse(question, receiver.getTeam(), 49);
@@ -126,7 +126,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
     }
 
     private FeedbackResponse getResponse(FeedbackQuestion question, Team receiver, Integer answer) {
-        FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
+        FeedbackConstantSumRecipientsResponseDetails details = new FeedbackConstantSumRecipientsResponseDetails();
         details.setAnswers(Arrays.asList(answer));
         ResponseGiver giver = new ResponseGiver(student);
         ResponseRecipient recipient = new ResponseRecipient(receiver);

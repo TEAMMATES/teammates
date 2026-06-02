@@ -19,6 +19,27 @@
             )::text
             WHERE question_details::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM';
 
+            UPDATE feedback_questions
+            SET dtype = CASE question_details::jsonb -&gt;&gt; 'questionType'
+                WHEN 'CONSTSUM_OPTIONS' THEN 'FeedbackConstantSumOptionsQuestion'
+                WHEN 'CONSTSUM_RECIPIENTS' THEN 'FeedbackConstantSumRecipientsQuestion'
+            END
+            WHERE question_details::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+
+            UPDATE feedback_questions
+            SET question_details = (question_details::jsonb - 'distributeToRecipients')::text
+            WHERE question_details::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM_OPTIONS';
+
+            UPDATE feedback_questions
+            SET question_details = (
+                question_details::jsonb
+                    - 'distributeToRecipients'
+                    - 'constSumOptions'
+                    - 'minPoint'
+                    - 'maxPoint'
+            )::text
+            WHERE question_details::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM_RECIPIENTS';
+
             UPDATE feedback_responses fr
             SET answer = jsonb_set(
                 fr.answer::jsonb,
@@ -30,9 +51,50 @@
             WHERE fr.question_id = fq.id
               AND fr.answer::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM'
               AND fq.question_details::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+
+            UPDATE feedback_responses fr
+            SET dtype = CASE fq.question_details::jsonb -&gt;&gt; 'questionType'
+                WHEN 'CONSTSUM_OPTIONS' THEN 'FeedbackConstantSumOptionsResponse'
+                WHEN 'CONSTSUM_RECIPIENTS' THEN 'FeedbackConstantSumRecipientsResponse'
+            END
+            FROM feedback_questions fq
+            WHERE fr.question_id = fq.id
+              AND fr.answer::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS')
+              AND fq.question_details::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
         </sql>
         <rollback>
             <sql>
+                UPDATE feedback_questions
+                SET dtype = 'FeedbackConstantSumQuestion'
+                WHERE question_details::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+
+                UPDATE feedback_responses
+                SET dtype = 'FeedbackConstantSumResponse'
+                WHERE answer::jsonb -&gt;&gt; 'questionType' IN ('CONSTSUM_OPTIONS', 'CONSTSUM_RECIPIENTS');
+
+                UPDATE feedback_questions
+                SET question_details = jsonb_set(
+                    question_details::jsonb,
+                    '{distributeToRecipients}',
+                    to_jsonb(false),
+                    true
+                )::text
+                WHERE question_details::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM_OPTIONS';
+
+                UPDATE feedback_questions
+                SET question_details = jsonb_set(
+                    jsonb_set(
+                        question_details::jsonb,
+                        '{distributeToRecipients}',
+                        to_jsonb(true),
+                        true
+                    ),
+                    '{constSumOptions}',
+                    to_jsonb(ARRAY[]::text[]),
+                    true
+                )::text
+                WHERE question_details::jsonb -&gt;&gt; 'questionType' = 'CONSTSUM_RECIPIENTS';
+
                 UPDATE feedback_questions
                 SET question_details = jsonb_set(
                     question_details::jsonb,

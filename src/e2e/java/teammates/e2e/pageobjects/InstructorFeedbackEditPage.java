@@ -19,11 +19,13 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
@@ -640,25 +642,25 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveQuestionButton(questionNum);
     }
 
-    public void verifyConstSumQuestionDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
-        if (!questionDetails.isDistributeToRecipients()) {
-            verifyOptions(questionNum, questionDetails.getConstSumOptions());
+    public void verifyConstSumQuestionDetails(int questionNum, FeedbackQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackConstantSumOptionsQuestionDetails optionsQuestionDetails) {
+            verifyOptions(questionNum, optionsQuestionDetails.getConstSumOptions());
         }
 
-        if (questionDetails.isPointsPerOption()) {
+        if (isConstSumPointsPerOption(questionDetails)) {
             assertTrue(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
             assertEquals(getConstSumPerOptionPointsInput(questionNum).getAttribute("value"),
-                    Integer.toString(questionDetails.getPoints()));
+                    Integer.toString(getConstSumPoints(questionDetails)));
             assertFalse(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
         } else {
             assertTrue(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
             assertEquals(getConstSumTotalPointsInput(questionNum).getAttribute("value"),
-                    Integer.toString(questionDetails.getPoints()));
+                    Integer.toString(getConstSumPoints(questionDetails)));
             assertFalse(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
         }
 
-        if (questionDetails.isForceUnevenDistribution()) {
-            String distributeFor = questionDetails.getDistributePointsFor();
+        if (isConstSumForceUnevenDistribution(questionDetails)) {
+            String distributeFor = getConstSumDistributePointsFor(questionDetails);
             assertTrue(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
             assertEquals(getSelectedDropdownOptionText(getConstSumUnevenDistributionDropdown(questionNum)).trim(),
                     "All options".equals(distributeFor) ? "Every option" : distributeFor);
@@ -680,13 +682,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void addConstSumQuestion(FeedbackQuestion feedbackQuestion) {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackConstantSumQuestionDetails questionDetails =
-                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
         inputConstSumDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
 
-    public void editConstSumQuestion(int questionNum, FeedbackConstantSumQuestionDetails csQuestionDetails) {
+    public void editConstSumQuestion(int questionNum, FeedbackQuestionDetails csQuestionDetails) {
         clickEditQuestionButton(questionNum);
         inputConstSumDetails(questionNum, csQuestionDetails);
         clickSaveQuestionButton(questionNum);
@@ -1479,25 +1480,53 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-dropdown"));
     }
 
-    private void inputConstSumDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
-        if (!questionDetails.isDistributeToRecipients()) {
-            inputOptions(questionNum, questionDetails.getConstSumOptions());
+    private void inputConstSumDetails(int questionNum, FeedbackQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackConstantSumOptionsQuestionDetails optionsQuestionDetails) {
+            inputOptions(questionNum, optionsQuestionDetails.getConstSumOptions());
         }
-        if (questionDetails.isPointsPerOption()) {
+        if (isConstSumPointsPerOption(questionDetails)) {
             click(getConstSumPerOptionPointsRadioBtn(questionNum));
-            fillTextBox(getConstSumPerOptionPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+            fillTextBox(getConstSumPerOptionPointsInput(questionNum), Integer.toString(getConstSumPoints(questionDetails)));
         } else {
             click(getConstSumTotalPointsRadioBtn(questionNum));
-            fillTextBox(getConstSumTotalPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+            fillTextBox(getConstSumTotalPointsInput(questionNum), Integer.toString(getConstSumPoints(questionDetails)));
         }
-        String distributeFor = questionDetails.getDistributePointsFor();
-        if (questionDetails.isForceUnevenDistribution()) {
+        String distributeFor = getConstSumDistributePointsFor(questionDetails);
+        if (isConstSumForceUnevenDistribution(questionDetails)) {
             markOptionAsSelected(getConstSumUnevenDistributionCheckbox(questionNum));
             selectDropdownOptionByText(getConstSumUnevenDistributionDropdown(questionNum),
                     "All options".equals(distributeFor) ? "Every option" : distributeFor);
         } else {
             markOptionAsUnselected(getConstSumUnevenDistributionCheckbox(questionNum));
         }
+    }
+
+    private boolean isConstSumPointsPerOption(FeedbackQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackConstantSumOptionsQuestionDetails optionsQuestionDetails) {
+            return optionsQuestionDetails.isPointsPerOption();
+        }
+        return ((FeedbackConstantSumRecipientsQuestionDetails) questionDetails).isPointsPerOption();
+    }
+
+    private boolean isConstSumForceUnevenDistribution(FeedbackQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackConstantSumOptionsQuestionDetails optionsQuestionDetails) {
+            return optionsQuestionDetails.isForceUnevenDistribution();
+        }
+        return ((FeedbackConstantSumRecipientsQuestionDetails) questionDetails).isForceUnevenDistribution();
+    }
+
+    private int getConstSumPoints(FeedbackQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackConstantSumOptionsQuestionDetails optionsQuestionDetails) {
+            return optionsQuestionDetails.getPoints();
+        }
+        return ((FeedbackConstantSumRecipientsQuestionDetails) questionDetails).getPoints();
+    }
+
+    private String getConstSumDistributePointsFor(FeedbackQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackConstantSumOptionsQuestionDetails optionsQuestionDetails) {
+            return optionsQuestionDetails.getDistributePointsFor();
+        }
+        return ((FeedbackConstantSumRecipientsQuestionDetails) questionDetails).getDistributePointsFor();
     }
 
     private WebElement getZeroSumCheckbox(int questionNum) {

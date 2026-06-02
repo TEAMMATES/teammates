@@ -24,7 +24,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.storage.entity.responses.FeedbackConstantSumResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumOptionsResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumRecipientsResponse;
 import teammates.storage.entity.responses.FeedbackContributionResponse;
 import teammates.storage.entity.responses.FeedbackMcqResponse;
 import teammates.storage.entity.responses.FeedbackMsqResponse;
@@ -119,8 +120,13 @@ public abstract class FeedbackResponse extends BaseEntity {
                     giver, recipient, responseDetails, giverComment
             );
             break;
-        case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
-            feedbackResponse = new FeedbackConstantSumResponse(
+        case CONSTSUM_OPTIONS:
+            feedbackResponse = new FeedbackConstantSumOptionsResponse(
+                    giver, recipient, responseDetails, giverComment
+            );
+            break;
+        case CONSTSUM_RECIPIENTS:
+            feedbackResponse = new FeedbackConstantSumRecipientsResponse(
                     giver, recipient, responseDetails, giverComment
             );
             break;

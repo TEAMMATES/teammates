@@ -4,7 +4,8 @@ import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
@@ -22,7 +23,8 @@ import {
 } from '../types/api-output';
 import { FeedbackResponsesRequest, Intent } from '../types/api-request';
 import {
-  DEFAULT_CONSTSUM_RESPONSE_DETAILS,
+  DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
@@ -78,9 +80,9 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.RUBRIC:
         return DEFAULT_RUBRIC_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+        return DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+        return DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS();
     }
   }
 
@@ -125,18 +127,16 @@ export class FeedbackResponsesService {
       }
       case FeedbackQuestionType.RUBRIC: {
         const rubricDetails: FeedbackRubricResponseDetails = details as FeedbackRubricResponseDetails;
-        return (
-          rubricDetails.answer.length === 0 ||
-          rubricDetails.answer.every((val: number) => val === RUBRIC_ANSWER_NOT_CHOSEN)
-        );
+        return rubricDetails.answer.every((val: number) => val === RUBRIC_ANSWER_NOT_CHOSEN);
       }
       case FeedbackQuestionType.CONSTSUM_OPTIONS: {
-        const constsumDetails: FeedbackConstantSumResponseDetails = details as FeedbackConstantSumResponseDetails;
+        const constsumDetails: FeedbackConstantSumOptionsResponseDetails =
+          details as FeedbackConstantSumOptionsResponseDetails;
         return constsumDetails.answers.length === 0;
       }
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS: {
-        const constsumRecipientsDetails: FeedbackConstantSumResponseDetails =
-          details as FeedbackConstantSumResponseDetails;
+        const constsumRecipientsDetails: FeedbackConstantSumRecipientsResponseDetails =
+          details as FeedbackConstantSumRecipientsResponseDetails;
         return constsumRecipientsDetails.answers.length === 0;
       }
       default:

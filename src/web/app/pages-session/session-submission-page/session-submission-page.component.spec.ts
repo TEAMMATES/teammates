@@ -16,8 +16,8 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
   AuthInfo,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
@@ -152,7 +152,7 @@ describe('SessionSubmissionPageComponent', () => {
     responseDetails: {
       answers: [7, 13],
       questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumRecipientsResponseDetails,
     status: ResponseSubmissionStatus.SAVED,
     isValid: true,
   };
@@ -356,13 +356,11 @@ describe('SessionSubmissionPageComponent', () => {
     questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
     questionDetails: {
       questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
-      constSumOptions: ['option 1', 'option 2'],
-      distributeToRecipients: true,
       pointsPerOption: true,
       forceUnevenDistribution: false,
       distributePointsFor: 'distribute points for',
       points: 20,
-    } as FeedbackConstantSumQuestionDetails,
+    } as FeedbackConstantSumRecipientsQuestionDetails,
     giverType: QuestionGiverType.INSTRUCTORS,
     recipientType: QuestionRecipientType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],

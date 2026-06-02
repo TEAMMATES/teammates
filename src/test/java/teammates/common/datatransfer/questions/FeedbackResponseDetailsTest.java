@@ -23,7 +23,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
 
     @Test
     public void testConstSumResponseDetails_defaultType_shouldBeConstSumOptions() {
-        FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
+        FeedbackConstantSumOptionsResponseDetails details = new FeedbackConstantSumOptionsResponseDetails();
 
         assertEquals(FeedbackQuestionType.CONSTSUM_OPTIONS, details.getQuestionType());
     }

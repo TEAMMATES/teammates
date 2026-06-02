@@ -10,8 +10,9 @@ public enum FeedbackQuestionType {
     MSQ(FeedbackMsqQuestionDetails.class, FeedbackMsqResponseDetails.class),
     NUMSCALE(FeedbackNumericalScaleQuestionDetails.class, FeedbackNumericalScaleResponseDetails.class),
 
-    CONSTSUM_OPTIONS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
-    CONSTSUM_RECIPIENTS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+    CONSTSUM_OPTIONS(FeedbackConstantSumOptionsQuestionDetails.class, FeedbackConstantSumOptionsResponseDetails.class),
+    CONSTSUM_RECIPIENTS(FeedbackConstantSumRecipientsQuestionDetails.class,
+            FeedbackConstantSumRecipientsResponseDetails.class),
 
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),

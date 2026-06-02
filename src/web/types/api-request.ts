@@ -60,7 +60,11 @@ export interface ErrorReportRequest extends BasicRequest {
   content: string;
 }
 
-export interface FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
+export interface FeedbackConstantSumOptionsResponseDetails extends FeedbackResponseDetails {
+  answers: number[];
+}
+
+export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
 }
 

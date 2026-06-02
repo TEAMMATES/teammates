@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Contains specific structure and processing logic for constant sum feedback responses.
+ * Contains specific structure and processing logic for constant sum recipients feedback responses.
  */
-public class FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
+public class FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
     private List<Integer> answers;
 
-    public FeedbackConstantSumResponseDetails() {
-        super(FeedbackQuestionType.CONSTSUM_OPTIONS);
+    public FeedbackConstantSumRecipientsResponseDetails() {
+        super(FeedbackQuestionType.CONSTSUM_RECIPIENTS);
         answers = new ArrayList<>();
     }
 
@@ -34,7 +34,7 @@ public class FeedbackConstantSumResponseDetails extends FeedbackResponseDetails 
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof FeedbackConstantSumResponseDetails other)) {
+        if (!(obj instanceof FeedbackConstantSumRecipientsResponseDetails other)) {
             return false;
         }
         return getQuestionType() == other.getQuestionType()

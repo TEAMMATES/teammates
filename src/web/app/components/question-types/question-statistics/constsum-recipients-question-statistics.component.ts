@@ -7,8 +7,8 @@ import {
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   QuestionRecipientType,
 } from '../../../../types/api-output';
 import { calculateConstsumRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
@@ -24,9 +24,9 @@ import { ConstsumRecipientsQuestionStatistics, Response } from '../../../../type
 })
 export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges {
   @Input()
-  question: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
+  question: FeedbackConstantSumRecipientsQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
   @Input()
-  responses: Response<FeedbackConstantSumResponseDetails>[] = [];
+  responses: Response<FeedbackConstantSumRecipientsResponseDetails>[] = [];
   @Input()
   recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
   @Input()

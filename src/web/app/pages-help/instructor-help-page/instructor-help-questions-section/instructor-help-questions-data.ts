@@ -1,8 +1,8 @@
 import {
   ContributionStatistics,
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -534,9 +534,8 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
 /**
  * Structure for example of distrution point option question detail
  */
-export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSumQuestionDetails = {
+export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSumOptionsQuestionDetails = {
   constSumOptions: ['Option A', 'Option B'],
-  distributeToRecipients: false,
   pointsPerOption: false,
   forceUnevenDistribution: false,
   distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
@@ -596,7 +595,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [2, 8],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -613,7 +612,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [3, 7],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -630,7 +629,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [5, 5],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -647,7 +646,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [5, 5],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -664,7 +663,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [9, 1],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -681,7 +680,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [6, 4],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -698,7 +697,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [4, 6],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
   {
@@ -715,7 +714,7 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] =
     responseDetails: {
       answers: [7, 3],
       questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    } as FeedbackConstantSumResponseDetails,
+    } as FeedbackConstantSumOptionsResponseDetails,
     instructorComments: [],
   },
 ];

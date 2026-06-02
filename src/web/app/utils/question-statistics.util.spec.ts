@@ -12,8 +12,9 @@ import {
   RubricQuestionStatistics,
 } from '../../types/question-statistics.model';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
@@ -50,10 +51,10 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../types/feedback-response-
 describe('Question Statistics Utility Functions', () => {
   describe('calculateConstsumOptionsQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
-      const question: FeedbackConstantSumQuestionDetails = {
+      const question: FeedbackConstantSumOptionsQuestionDetails = {
         constSumOptions: ['optionA', 'optionB', 'optionC'],
       } as any;
-      const responses: Response<FeedbackConstantSumResponseDetails>[] = JSON.parse(
+      const responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = JSON.parse(
         JSON.stringify(constsumOptionQuestionResponses.responses),
       );
 
@@ -83,7 +84,7 @@ describe('Question Statistics Utility Functions', () => {
 
   describe('calculateConstsumRecipientsQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
-      const responses: Response<FeedbackConstantSumResponseDetails>[] = [
+      const responses: Response<FeedbackConstantSumRecipientsResponseDetails>[] = [
         {
           giver: 'Alice',
           giverTeam: 'Team 1',

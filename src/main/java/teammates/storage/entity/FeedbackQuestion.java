@@ -30,7 +30,8 @@ import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
-import teammates.storage.entity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumOptionsQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumRecipientsQuestion;
 import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.storage.entity.questions.FeedbackMcqQuestion;
 import teammates.storage.entity.questions.FeedbackMsqQuestion;
@@ -171,8 +172,15 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
                     feedbackQuestionDetails
             );
             break;
-        case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
-            feedbackQuestion = new FeedbackConstantSumQuestion(
+        case CONSTSUM_OPTIONS:
+            feedbackQuestion = new FeedbackConstantSumOptionsQuestion(
+                    questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case CONSTSUM_RECIPIENTS:
+            feedbackQuestion = new FeedbackConstantSumRecipientsQuestion(
                     questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails

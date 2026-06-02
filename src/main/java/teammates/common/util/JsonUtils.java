@@ -19,7 +19,8 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.User;
-import teammates.storage.entity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumOptionsQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumRecipientsQuestion;
 import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.storage.entity.questions.FeedbackMcqQuestion;
 import teammates.storage.entity.questions.FeedbackMsqQuestion;
@@ -28,7 +29,8 @@ import teammates.storage.entity.questions.FeedbackRankOptionsQuestion;
 import teammates.storage.entity.questions.FeedbackRankRecipientsQuestion;
 import teammates.storage.entity.questions.FeedbackRubricQuestion;
 import teammates.storage.entity.questions.FeedbackTextQuestion;
-import teammates.storage.entity.responses.FeedbackConstantSumResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumOptionsResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumRecipientsResponse;
 import teammates.storage.entity.responses.FeedbackContributionResponse;
 import teammates.storage.entity.responses.FeedbackMcqResponse;
 import teammates.storage.entity.responses.FeedbackMsqResponse;
@@ -306,8 +308,8 @@ public final class JsonUtils {
                 case TEXT -> MAPPER.treeToValue(node, FeedbackTextQuestion.class);
                 case RUBRIC -> MAPPER.treeToValue(node, FeedbackRubricQuestion.class);
                 case CONTRIB -> MAPPER.treeToValue(node, FeedbackContributionQuestion.class);
-                case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
-                        MAPPER.treeToValue(node, FeedbackConstantSumQuestion.class);
+                case CONSTSUM_OPTIONS -> MAPPER.treeToValue(node, FeedbackConstantSumOptionsQuestion.class);
+                case CONSTSUM_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackConstantSumRecipientsQuestion.class);
                 case NUMSCALE -> MAPPER.treeToValue(node, FeedbackNumericalScaleQuestion.class);
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsQuestion.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsQuestion.class);
@@ -334,8 +336,8 @@ public final class JsonUtils {
                 case TEXT -> MAPPER.treeToValue(node, FeedbackTextResponse.class);
                 case RUBRIC -> MAPPER.treeToValue(node, FeedbackRubricResponse.class);
                 case CONTRIB -> MAPPER.treeToValue(node, FeedbackContributionResponse.class);
-                case CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS ->
-                        MAPPER.treeToValue(node, FeedbackConstantSumResponse.class);
+                case CONSTSUM_OPTIONS -> MAPPER.treeToValue(node, FeedbackConstantSumOptionsResponse.class);
+                case CONSTSUM_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackConstantSumRecipientsResponse.class);
                 case NUMSCALE -> MAPPER.treeToValue(node, FeedbackNumericalScaleResponse.class);
                 case RANK_OPTIONS -> MAPPER.treeToValue(node, FeedbackRankOptionsResponse.class);
                 case RANK_RECIPIENTS -> MAPPER.treeToValue(node, FeedbackRankRecipientsResponse.class);

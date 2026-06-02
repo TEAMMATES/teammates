@@ -1,5 +1,6 @@
 import {
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
@@ -15,11 +16,12 @@ import {
 import { Response } from '../question-statistics.model';
 
 export class ResponseDetailsTypeChecker {
-  static isConstSum(d: FeedbackResponseDetails): d is FeedbackConstantSumResponseDetails {
-    return (
-      d.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS ||
-      d.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS
-    );
+  static isConstSumOptions(d: FeedbackResponseDetails): d is FeedbackConstantSumOptionsResponseDetails {
+    return d.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS;
+  }
+
+  static isConstSumRecipients(d: FeedbackResponseDetails): d is FeedbackConstantSumRecipientsResponseDetails {
+    return d.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS;
   }
 
   static isContrib(d: FeedbackResponseDetails): d is FeedbackContributionResponseDetails {
@@ -56,11 +58,20 @@ export class ResponseDetailsTypeChecker {
 }
 
 export class ResponseOutputCaster {
-  static constSum(rs: ResponseOutput[]): Response<FeedbackConstantSumResponseDetails>[] {
+  static constSumOptions(rs: ResponseOutput[]): Response<FeedbackConstantSumOptionsResponseDetails>[] {
     return rs.map((r) => {
       return {
         ...r,
-        responseDetails: r.responseDetails as FeedbackConstantSumResponseDetails,
+        responseDetails: r.responseDetails as FeedbackConstantSumOptionsResponseDetails,
+      };
+    });
+  }
+
+  static constSumRecipients(rs: ResponseOutput[]): Response<FeedbackConstantSumRecipientsResponseDetails>[] {
+    return rs.map((r) => {
+      return {
+        ...r,
+        responseDetails: r.responseDetails as FeedbackConstantSumRecipientsResponseDetails,
       };
     });
   }

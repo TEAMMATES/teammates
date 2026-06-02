@@ -1,5 +1,8 @@
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
-import { FeedbackConstantSumResponseDetailsImpl } from './feedback-constsum-response-details.impl';
+import {
+  FeedbackConstantSumOptionsResponseDetailsImpl,
+  FeedbackConstantSumRecipientsResponseDetailsImpl,
+} from './feedback-constsum-response-details.impl';
 import { FeedbackContributionResponseDetailsImpl } from './feedback-contribution-response-details.impl';
 import { FeedbackMcqResponseDetailsImpl } from './feedback-mcq-response-details.impl';
 import { FeedbackMsqResponseDetailsImpl } from './feedback-msq-response-details.impl';
@@ -9,7 +12,8 @@ import { FeedbackRankRecipientsResponseDetailsImpl } from './feedback-rank-recip
 import { FeedbackRubricResponseDetailsImpl } from './feedback-rubric-response-details.impl';
 import { FeedbackTextResponseDetailsImpl } from './feedback-text-response-details.impl';
 import {
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
@@ -34,8 +38,11 @@ export class FeedbackResponseDetailsFactory {
   static fromApiOutput(details: FeedbackResponseDetails): AbstractFeedbackResponseDetails<FeedbackQuestionDetails> {
     switch (details.questionType) {
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return new FeedbackConstantSumOptionsResponseDetailsImpl(details as FeedbackConstantSumOptionsResponseDetails);
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        return new FeedbackConstantSumResponseDetailsImpl(details as FeedbackConstantSumResponseDetails);
+        return new FeedbackConstantSumRecipientsResponseDetailsImpl(
+          details as FeedbackConstantSumRecipientsResponseDetails,
+        );
       case FeedbackQuestionType.CONTRIB:
         return new FeedbackContributionResponseDetailsImpl(details as FeedbackContributionResponseDetails);
       case FeedbackQuestionType.MCQ:
