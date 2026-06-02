@@ -4,7 +4,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
   isRejectingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   simpleModalService={[Function _SimpleModalService]}
@@ -284,7 +284,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
 <tm-account-request-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
   isRejectingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   simpleModalService={[Function _SimpleModalService]}

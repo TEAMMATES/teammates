@@ -4,7 +4,7 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
 <tm-admin-account-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
   isRejectingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
@@ -391,7 +391,7 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
 <tm-admin-account-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
   isRejectingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString={[Function String]}
@@ -782,7 +782,7 @@ exports[`AdminAccountSearchTableComponent > should snap with an expanded account
 <tm-admin-account-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
   isRejectingAccount={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
