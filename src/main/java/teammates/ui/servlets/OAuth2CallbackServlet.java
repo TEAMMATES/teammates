@@ -151,15 +151,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return null;
         }
 
-        String oidcGoogleIssuer = Config.OIDC_GOOGLE_ISSUER;
-        assert oidcGoogleIssuer != null;
-        if (!oidcGoogleIssuer.equals(payload.getIssuer())) {
-            log.warning("Invalid issuer: " + payload.getIssuer());
-            logAndPrintError(req, resp, HttpStatus.SC_UNAUTHORIZED, "Invalid ID token issuer");
-            return null;
-        }
-
-        return new AuthResult(payload.getIssuer(), payload.getSubject(), payload.getEmail(), nextUrl);
+        return new AuthResult(Const.OidcIssuers.GOOGLE, payload.getSubject(), payload.getEmail(), nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)

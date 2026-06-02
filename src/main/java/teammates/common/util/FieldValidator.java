@@ -65,7 +65,7 @@ public final class FieldValidator {
 
     public static final Set<String> OIDC_ISSUER_ACCEPTED_VALUES =
             Collections.unmodifiableSet(
-                    Set.of(Config.OIDC_GOOGLE_ISSUER, Const.OidcIssuers.DEVELOPMENT));
+                    Set.of(Const.OidcIssuers.GOOGLE, Const.OidcIssuers.DEVELOPMENT));
 
     /*
      * =======================================================================

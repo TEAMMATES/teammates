@@ -232,6 +232,7 @@ public final class Const {
      */
     public static class OidcIssuers {
         public static final String DEVELOPMENT = "teammates-dev";
+        public static final String GOOGLE = "https://accounts.google.com";
     }
 
     /**
