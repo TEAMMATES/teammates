@@ -8,31 +8,34 @@
   <div>
     <label><b>Name:</b></label>
     <input
+      #requestNameInput
       id="request-name"
       type="text"
       class="form-control"
       [value]="accountRequestName"
-      (input)="accountRequestName = castAsInputElement($event.target).value"
+      (input)="accountRequestName = requestNameInput.value"
     />
   </div>
   <div>
     <label><b>Email:</b></label>
     <input
+      #requestEmailInput
       id="request-email"
       type="text"
       class="form-control"
       [value]="accountRequestEmail"
-      (input)="accountRequestEmail = castAsInputElement($event.target).value"
+      (input)="accountRequestEmail = requestEmailInput.value"
     />
   </div>
   <div>
     <label><b>Institution, Country:</b></label>
     <input
+      #requestInstitutionInput
       id="request-institution"
       type="text"
       class="form-control"
       [value]="accountRequestInstitution"
-      (input)="accountRequestInstitution = castAsInputElement($event.target).value"
+      (input)="accountRequestInstitution = requestInstitutionInput.value"
     />
   </div>
   <div class="row">

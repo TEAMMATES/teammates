@@ -50,20 +50,16 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
 
   it('should allow number input with less than or equal to 9 digits', () => {
     const inputElement = fixture.debugElement.query(By.css('#max-point')).nativeElement as HTMLInputElement;
-    const inputEvent = new InputEvent('input');
-    inputElement.dispatchEvent(inputEvent);
-    (inputEvent.target as HTMLInputElement).value = '12345';
-    component.restrictIntegerInputLength(inputEvent, 'points');
-    expect((inputEvent.target as HTMLInputElement).value).toEqual('12345');
+    inputElement.value = '12345';
+    component.restrictIntegerInputLength(inputElement, 'points');
+    expect(inputElement.value).toEqual('12345');
   });
 
   it('should restrict number input with more than 9 digits to 9 digits', () => {
     const inputElement = fixture.debugElement.query(By.css('#max-point')).nativeElement as HTMLInputElement;
-    const inputEvent = new InputEvent('input');
-    inputElement.dispatchEvent(inputEvent);
-    (inputEvent.target as HTMLInputElement).value = '123456789012345';
-    component.restrictIntegerInputLength(inputEvent, 'points');
-    expect((inputEvent.target as HTMLInputElement).value).toEqual('123456789');
+    inputElement.value = '123456789012345';
+    component.restrictIntegerInputLength(inputElement, 'points');
+    expect(inputElement.value).toEqual('123456789');
   });
 
   it('should have default questionNumber value of 0', () => {

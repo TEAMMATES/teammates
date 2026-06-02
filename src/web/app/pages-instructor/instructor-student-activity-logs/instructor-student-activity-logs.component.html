@@ -15,11 +15,12 @@
           @for (logType of LOG_TYPES; track logType.value) {
             <div class="form-check">
               <input
+                #logTypeCheckbox
                 class="form-check-input"
                 type="checkbox"
                 [id]="'activity-type-' + logType.value"
                 [checked]="isLogTypeSelected(logType.value)"
-                (change)="onLogTypeToggle(logType.value, castAsInputElement($event.target).checked)"
+                (change)="onLogTypeToggle(logType.value, logTypeCheckbox.checked)"
               />
               <label class="form-check-label" [for]="'activity-type-' + logType.value">
                 {{ logType.label }}
@@ -105,23 +106,25 @@
         <div class="form-check" style="margin-top: 30px">
           <label class="form-check-label">
             <input
+              #showActionsCheckbox
               id="show-actions"
               class="form-check-input"
               type="checkbox"
               name="showActions"
               [checked]="formModel.showActions"
-              (click)="triggerModelChange('showActions', castAsInputElement($event.target).checked)"
+              (click)="triggerModelChange('showActions', showActionsCheckbox.checked)"
             />
             Show actions
           </label>
           <label class="form-check-label" style="margin-left: 40px">
             <input
+              #showInactionsCheckbox
               id="show-inactions"
               class="form-check-input"
               type="checkbox"
               name="showInactions"
               [checked]="formModel.showInactions"
-              (click)="triggerModelChange('showInactions', castAsInputElement($event.target).checked)"
+              (click)="triggerModelChange('showInactions', showInactionsCheckbox.checked)"
             />
             Show inactions
           </label>

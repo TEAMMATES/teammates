@@ -1,7 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
-import { castAsInputElement } from '../../../../types/event-target-caster';
 
 /**
  * Modal to select reject account requests with reason.
@@ -12,8 +11,6 @@ import { castAsInputElement } from '../../../../types/event-target-caster';
 })
 export class EditRequestModalComponent {
   activeModal = inject(NgbActiveModal);
-
-  readonly castAsInputElement = castAsInputElement;
 
   @Input()
   accountRequestName = '';
