@@ -1174,10 +1174,10 @@ public class Logic {
      * instructor can view/submit.
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
-            FeedbackSession feedbackSession, String instructorEmail) {
+            FeedbackSession feedbackSession, Instructor instructor) {
         assert feedbackSession != null;
 
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructorEmail);
+        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor);
     }
 
     /**

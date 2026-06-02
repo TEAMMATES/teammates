@@ -130,31 +130,6 @@ public final class DataBundleLogic {
             section.addTeam(team);
         }
 
-        for (FeedbackSession session : sessions) {
-            UUID placeholderId = session.getId();
-            session.setId(UUID.randomUUID());
-            sessionsMap.put(placeholderId, session);
-            Course course = coursesMap.get(session.getCourseId());
-            session.setCourse(course);
-            course.addFeedbackSession(session);
-        }
-
-        for (FeedbackQuestion question : questions) {
-            UUID placeholderId = question.getId();
-            question.setId(UUID.randomUUID());
-            questionMap.put(placeholderId, question);
-            FeedbackSession fs = sessionsMap.get(question.getSessionId());
-            fs.addFeedbackQuestion(question);
-        }
-
-        for (FeedbackResponse response : responses) {
-            UUID placeholderId = response.getId();
-            response.setId(UUID.randomUUID());
-            responseMap.put(placeholderId, response);
-            FeedbackQuestion fq = questionMap.get(response.getQuestionId());
-            fq.addFeedbackResponse(response);
-        }
-
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
@@ -172,6 +147,35 @@ public final class DataBundleLogic {
                 instructor.setAccount(account);
             }
             instructor.generateNewRegistrationKey();
+        }
+
+        for (FeedbackSession session : sessions) {
+            UUID placeholderId = session.getId();
+            session.setId(UUID.randomUUID());
+            sessionsMap.put(placeholderId, session);
+            Course course = coursesMap.get(session.getCourseId());
+            session.setCourse(course);
+            User creator = usersMap.get(session.getCreatorId());
+            if (creator instanceof Instructor instructor) {
+                session.setSessionCreator(instructor);
+            }
+            course.addFeedbackSession(session);
+        }
+
+        for (FeedbackQuestion question : questions) {
+            UUID placeholderId = question.getId();
+            question.setId(UUID.randomUUID());
+            questionMap.put(placeholderId, question);
+            FeedbackSession fs = sessionsMap.get(question.getSessionId());
+            fs.addFeedbackQuestion(question);
+        }
+
+        for (FeedbackResponse response : responses) {
+            UUID placeholderId = response.getId();
+            response.setId(UUID.randomUUID());
+            responseMap.put(placeholderId, response);
+            FeedbackQuestion fq = questionMap.get(response.getQuestionId());
+            fq.addFeedbackResponse(response);
         }
 
         for (Student student : students) {
@@ -309,10 +313,10 @@ public final class DataBundleLogic {
         persistEntities(courses);
         persistEntities(sections);
         persistEntities(teams);
-        persistEntities(sessions);
-        persistEntities(questions);
         persistEntities(instructors);
         persistEntities(students);
+        persistEntities(sessions);
+        persistEntities(questions);
         persistEntities(responses);
         persistEntities(responseComments);
         persistEntities(sessionLogs);

@@ -371,7 +371,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         Instant startTime = Instant.now().minus(Duration.ofDays(3));
         Instant endTime = Instant.now().minus(Duration.ofDays(1));
         FeedbackSession fs = new FeedbackSession("Template feedback session",
-                "test@teammates.tmt",
+                null,
                 "test-instructions",
                 startTime,
                 endTime,

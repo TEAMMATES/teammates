@@ -12,8 +12,9 @@ import {
   RubricQuestionStatistics,
 } from '../../types/question-statistics.model';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
@@ -50,10 +51,10 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../types/feedback-response-
 describe('Question Statistics Utility Functions', () => {
   describe('calculateConstsumOptionsQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
-      const question: FeedbackConstantSumQuestionDetails = {
+      const question: FeedbackConstantSumOptionsQuestionDetails = {
         constSumOptions: ['optionA', 'optionB', 'optionC'],
       } as any;
-      const responses: Response<FeedbackConstantSumResponseDetails>[] = JSON.parse(
+      const responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = JSON.parse(
         JSON.stringify(constsumOptionQuestionResponses.responses),
       );
 
@@ -83,7 +84,7 @@ describe('Question Statistics Utility Functions', () => {
 
   describe('calculateConstsumRecipientsQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
-      const responses: Response<FeedbackConstantSumResponseDetails>[] = [
+      const responses: Response<FeedbackConstantSumRecipientsResponseDetails>[] = [
         {
           giver: 'Alice',
           giverTeam: 'Team 1',
@@ -95,7 +96,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [2],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -109,7 +110,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [3],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -123,7 +124,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [5],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -137,7 +138,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [5],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -151,7 +152,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [9],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -165,7 +166,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [6],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -179,7 +180,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [4],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -193,7 +194,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [7],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -207,7 +208,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [2],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -221,7 +222,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [5],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -235,7 +236,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [7],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
         {
@@ -249,7 +250,7 @@ describe('Question Statistics Utility Functions', () => {
           recipientSection: '',
           responseDetails: {
             answers: [9],
-            questionType: FeedbackQuestionType.CONSTSUM,
+            questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
           },
         },
       ];

@@ -25,7 +25,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -145,14 +144,14 @@ public final class FeedbackQuestionsLogic {
      * Gets a {@code List} of all questions for the given session that instructors can view/submit.
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
-            FeedbackSession feedbackSession, String userEmail) {
+            FeedbackSession feedbackSession, Instructor instructor) {
         List<FeedbackQuestion> questions = new ArrayList<>();
 
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
                     feedbackSession, QuestionGiverType.INSTRUCTORS));
 
-        if (SanitizationHelper.areEmailsEqual(feedbackSession.getCreatorEmail(), userEmail)) {
+        if (feedbackSession.isCreator(instructor)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
                         feedbackSession, QuestionGiverType.SESSION_CREATOR));
@@ -645,9 +644,8 @@ public final class FeedbackQuestionsLogic {
         case STUDENTS -> giver.isGiverStudent();
         case INSTRUCTORS -> giver.isGiverInstructor();
         case TEAMS -> giver.isGiverTeam();
-        case SESSION_CREATOR -> giver.isGiverInstructor()
-                && SanitizationHelper.areEmailsEqual(
-                        giver.getGiverUser().getEmail(), question.getFeedbackSession().getCreatorEmail());
+        case SESSION_CREATOR -> giver.getGiverUser() instanceof Instructor instructor
+                && question.getFeedbackSession().isCreator(instructor);
         };
     }
 
@@ -736,7 +734,7 @@ public final class FeedbackQuestionsLogic {
         case SESSION_CREATOR:
             FeedbackSession feedbackSession =
                     feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
-            Instructor instructorGiver = courseRoster.getInstructorForEmail(feedbackSession.getCreatorEmail());
+            Instructor instructorGiver = feedbackSession.getSessionCreator();
             // If the instructorGiver is null, they have been deleted,
             // so we return an empty list of givers instead of a giver with null user.
             possibleGivers = instructorGiver != null

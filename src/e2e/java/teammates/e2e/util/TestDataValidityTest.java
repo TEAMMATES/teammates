@@ -121,11 +121,6 @@ public class TestDataValidityTest extends BaseTestCase {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid session course ID: " + session.getCourseId());
                     }
-
-                    if (!isValidTestEmail(session.getCreatorEmail())) {
-                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid session creator email: " + session.getCreatorEmail());
-                    }
                 });
 
                 dataBundle.feedbackResponses.forEach((id, response) -> {

@@ -4,7 +4,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import {
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
 } from '../../../../types/api-output';
 
 /**
@@ -17,7 +17,7 @@ import {
   imports: [FormsModule, NgbTooltip],
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
-  extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
+  extends QuestionEditDetailsFormComponent<FeedbackConstantSumRecipientsQuestionDetails>
   implements OnChanges
 {
   // enum

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import {
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
@@ -16,7 +16,7 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
 })
 export class ConstsumOptionsQuestionInstructionComponent {
   @Input()
-  questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
+  questionDetails: FeedbackConstantSumOptionsQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
 
   // enum
   FeedbackConstantSumDistributePointsType!: typeof FeedbackConstantSumDistributePointsType;

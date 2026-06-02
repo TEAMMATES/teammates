@@ -1,7 +1,9 @@
 import { QuestionTypeStructures } from './api-const';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
@@ -53,25 +55,33 @@ export const DEFAULT_CONTRIBUTION_RESPONSE_DETAILS: () => FeedbackContributionRe
 /**
  * Structure for default constant sum (among options) question details.
  */
-export const DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
-  (): FeedbackConstantSumQuestionDetails => {
+export const DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS: () => FeedbackConstantSumOptionsQuestionDetails =
+  (): FeedbackConstantSumOptionsQuestionDetails => {
     return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS);
   };
 
 /**
  * Structure for default constant sum (among recipient) question details.
  */
-export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
-  (): FeedbackConstantSumQuestionDetails => {
+export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstantSumRecipientsQuestionDetails =
+  (): FeedbackConstantSumRecipientsQuestionDetails => {
     return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS);
   };
 
 /**
  * Structure for default constant sum question response details.
  */
-export const DEFAULT_CONSTSUM_RESPONSE_DETAILS: () => FeedbackConstantSumResponseDetails =
-  (): FeedbackConstantSumResponseDetails => {
-    return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_RESPONSE_DETAILS);
+export const DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS: () => FeedbackConstantSumOptionsResponseDetails =
+  (): FeedbackConstantSumOptionsResponseDetails => {
+    return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS);
+  };
+
+/**
+ * Structure for default constant sum recipients question response details.
+ */
+export const DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS: () => FeedbackConstantSumRecipientsResponseDetails =
+  (): FeedbackConstantSumRecipientsResponseDetails => {
+    return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS);
   };
 
 /**

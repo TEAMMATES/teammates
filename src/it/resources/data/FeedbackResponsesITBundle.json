@@ -571,7 +571,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "course-1",
       "name": "First feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -584,13 +583,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "course-1",
       "name": "Second feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2026-04-28T22:00:00Z",
@@ -603,13 +602,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "unpublishedSession1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "course-1",
       "name": "Unpublished feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2026-04-28T22:00:00Z",
@@ -622,13 +621,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "course-1",
       "name": "Ongoing session 1 in course 1",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-19T22:00:00Z",
       "endTime": "2012-01-25T22:00:00Z",
@@ -641,13 +640,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "course-1",
       "name": "Ongoing session 2 in course 1",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-26T22:00:00Z",
       "endTime": "2012-02-02T22:00:00Z",
@@ -660,13 +659,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000706",
       "courseId": "course-1",
       "name": "Ongoing session 3 in course 1",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-26T10:00:00Z",
       "endTime": "2012-01-27T10:00:00Z",
@@ -679,13 +678,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "course-3",
       "name": "Ongoing session 1 in course 3",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-27T22:00:00Z",
       "endTime": "2012-02-02T22:00:00Z",
@@ -698,13 +697,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000506"
     },
     "ongoingSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "course-3",
       "name": "Ongoing session 2 in course 3",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-19T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -717,7 +716,8 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000506"
     }
   },
   "feedbackQuestions": {
@@ -825,7 +825,7 @@
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
-        "mcqOtherWeight": 0.0,
+        "mcqOtherWeight": 0,
         "mcqChoices": ["Great", "Perfect"],
         "otherEnabled": false,
         "questionDropdownEnabled": false,

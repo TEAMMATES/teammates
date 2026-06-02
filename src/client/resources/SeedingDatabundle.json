@@ -862,7 +862,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "CS1101S",
       "name": "Midterm Peer Review",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "Please provide thoughtful and constructive feedback for each question below. Your responses will help your peers improve.",
       "startTime": "seed.d(-14)T08:00:00Z",
       "endTime": "seed.d(+30)T22:00:00Z",
@@ -875,13 +874,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "CS1101S",
       "name": "Team Project Milestone 1",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "Evaluate your team members' contributions to Milestone 1. Be honest but respectful in your assessments.",
       "startTime": "seed.d(-30)T08:00:00Z",
       "endTime": "seed.d(+14)T22:00:00Z",
@@ -894,13 +893,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "CS1101S",
       "name": "Final Peer Evaluation",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "This is the final evaluation of the semester. Please rank and rate your teammates comprehensively.",
       "startTime": "seed.d(+45)T08:00:00Z",
       "endTime": "seed.d(+75)T22:00:00Z",
@@ -913,13 +912,13 @@
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "CS1101S",
       "name": "Instructor Feedback",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "Please share your honest feedback about the instruction quality and course content.",
       "startTime": "seed.d(-60)T08:00:00Z",
       "endTime": "seed.d(-30)T22:00:00Z",
@@ -932,13 +931,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "CS2103T",
       "name": "Sprint 1 Review",
-      "creatorEmail": "elena@teammates.tmt",
       "instructions": "Reflect on Sprint 1 and evaluate your teammates. Focus on concrete examples of contribution.",
       "startTime": "seed.d(-14)T08:00:00Z",
       "endTime": "seed.d(+30)T22:00:00Z",
@@ -951,13 +950,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     },
     "session2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000706",
       "courseId": "CS2103T",
       "name": "Sprint 2 Review",
-      "creatorEmail": "elena@teammates.tmt",
       "instructions": "Evaluate your team's performance during Sprint 2. Consider code quality, collaboration, and process adherence.",
       "startTime": "seed.d(-30)T08:00:00Z",
       "endTime": "seed.d(+14)T22:00:00Z",
@@ -970,13 +969,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     },
     "session3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "CS2103T",
       "name": "Final Team Assessment",
-      "creatorEmail": "elena@teammates.tmt",
       "instructions": "Provide your final assessment of all team members. This evaluation covers the entire project duration.",
       "startTime": "seed.d(+45)T08:00:00Z",
       "endTime": "seed.d(+75)T22:00:00Z",
@@ -989,13 +988,13 @@
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     },
     "session1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000708",
       "courseId": "CS2040DE",
       "name": "Lab Partner Evaluation",
-      "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Evaluate your lab partner's problem-solving skills and collaboration during the laboratory sessions.",
       "startTime": "seed.d(-14)T12:00:00Z",
       "endTime": "seed.d(+30)T22:00:00Z",
@@ -1008,13 +1007,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000709",
       "courseId": "CS2040DE",
       "name": "Algorithm Design Review",
-      "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Evaluate your peer's algorithm design quality, correctness analysis, and presentation clarity.",
       "startTime": "seed.d(-60)T12:00:00Z",
       "endTime": "seed.d(-30)T12:00:00Z",
@@ -1027,13 +1026,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000710",
       "courseId": "CS2040DE",
       "name": "End-of-Term Feedback",
-      "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Share your thoughts on the course, your team's work on the final project, and any suggestions for improvement.",
       "startTime": "seed.d(+45)T08:00:00Z",
       "endTime": "seed.d(+75)T22:00:00Z",
@@ -1046,7 +1045,8 @@
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     }
   },
   "feedbackQuestions": {
@@ -1198,12 +1198,11 @@
       "id": "00000000-0000-4000-8000-000000000808",
       "questionDetails": {
         "constSumOptions": ["Code Quality", "Testing", "Documentation", "User Interface"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "points": 100,
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_OPTIONS",
         "questionText": "Distribute 100 points among the following project aspects based on their importance to your team."
       },
       "description": "Distribute points among project aspects",
@@ -1407,13 +1406,11 @@
     "qn3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000818",
       "questionDetails": {
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "points": 100,
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_RECIPIENTS",
         "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
       },
       "description": "Effort distribution among teammates",
@@ -1597,12 +1594,11 @@
       "id": "00000000-0000-4000-8000-000000000827",
       "questionDetails": {
         "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "points": 100,
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_OPTIONS",
         "questionText": "Allocate 100 points to reflect the relative time you spent studying each topic."
       },
       "description": "Time allocation across topics",
@@ -2818,7 +2814,7 @@
       },
       "answer": {
         "answers": [55],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2833,7 +2829,7 @@
       },
       "answer": {
         "answers": [45],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2848,7 +2844,7 @@
       },
       "answer": {
         "answers": [60],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2863,7 +2859,7 @@
       },
       "answer": {
         "answers": [40],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2878,7 +2874,7 @@
       },
       "answer": {
         "answers": [50],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2893,7 +2889,7 @@
       },
       "answer": {
         "answers": [50],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -3199,7 +3195,7 @@
       },
       "answer": {
         "answers": [30, 25, 20, 25],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000827"
     },
@@ -3214,7 +3210,7 @@
       },
       "answer": {
         "answers": [20, 30, 30, 20],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000827"
     },
@@ -3229,7 +3225,7 @@
       },
       "answer": {
         "answers": [25, 25, 25, 25],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000827"
     }

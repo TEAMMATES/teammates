@@ -220,7 +220,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     public void testGetFeedbackQuestionsForInstructors_instructorIsCreator_success() {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        fs.setCreatorEmail("instr1@teammates.tmt");
+        Instructor instructor = mock(Instructor.class);
+        fs.setSessionCreator(instructor);
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
@@ -234,17 +235,19 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SESSION_CREATOR)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr1@teammates.tmt");
+        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, instructor);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(actualQuestions));
+        assertTrue(actualQuestions.containsAll(expectedQuestions));
     }
 
     @Test
     public void testGetFeedbackQuestionsForInstructors_instructorIsNotCreator_success() {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        fs.setCreatorEmail("instr1@teammates.tmt");
+        Instructor creator = mock(Instructor.class);
+        fs.setSessionCreator(creator);
+        Instructor instructor = mock(Instructor.class);
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
@@ -258,10 +261,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SESSION_CREATOR)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr2@teammates.tmt");
+        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, instructor);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(actualQuestions));
+        assertTrue(actualQuestions.containsAll(expectedQuestions));
     }
 
     private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {

@@ -18,8 +18,8 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
@@ -388,7 +388,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         case MSQ:
         case RUBRIC:
         case RANK_OPTIONS:
-        case CONSTSUM:
+        case CONSTSUM_OPTIONS:
+        case CONSTSUM_RECIPIENTS:
         case CONTRIB:
             return; // TODO: Find way to test different statistics efficiently.
         default:
@@ -810,9 +811,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         case RANK_OPTIONS:
             return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
-        case CONSTSUM:
-            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
-                    (FeedbackConstantSumResponseDetails) response);
+        case CONSTSUM_OPTIONS:
+            return getConstSumOptionsAnsString((FeedbackConstantSumOptionsQuestionDetails) question.getQuestionDetailsCopy(),
+                    (FeedbackConstantSumOptionsResponseDetails) response);
+        case CONSTSUM_RECIPIENTS:
+            return response.getAnswerString();
         case CONTRIB:
             return getContribAnsString((FeedbackContributionResponseDetails) response);
         default:
@@ -842,11 +845,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return String.join(TestProperties.LINE_SEPARATOR, answerStrings);
     }
 
-    private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
-                                               FeedbackConstantSumResponseDetails responseDetails) {
-        if (question.isDistributeToRecipients()) {
-            return responseDetails.getAnswerString();
-        }
+    private String getConstSumOptionsAnsString(FeedbackConstantSumOptionsQuestionDetails question,
+                                               FeedbackConstantSumOptionsResponseDetails responseDetails) {
         List<String> options = question.getConstSumOptions();
         List<Integer> answers = responseDetails.getAnswers();
         List<String> answerStrings = new ArrayList<>();

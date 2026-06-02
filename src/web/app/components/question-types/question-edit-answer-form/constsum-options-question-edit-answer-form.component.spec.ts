@@ -3,26 +3,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConstsumOptionsQuestionEditAnswerFormComponent } from './constsum-options-question-edit-answer-form.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
   FeedbackQuestionType,
 } from '../../../../types/api-output';
-import { DEFAULT_CONSTSUM_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 
 describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
   let component: ConstsumOptionsQuestionEditAnswerFormComponent;
   let fixture: ComponentFixture<ConstsumOptionsQuestionEditAnswerFormComponent>;
 
-  const feedbackConstantSumResponseDetailsBuilder = createBuilder<FeedbackConstantSumResponseDetails>({
+  const feedbackConstantSumResponseDetailsBuilder = createBuilder<FeedbackConstantSumOptionsResponseDetails>({
     questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     answers: [],
   });
 
-  const feedbackConstantSumQuestionDetailsBuilder = createBuilder<FeedbackConstantSumQuestionDetails>({
+  const feedbackConstantSumQuestionDetailsBuilder = createBuilder<FeedbackConstantSumOptionsQuestionDetails>({
     questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     questionText: '',
     constSumOptions: [],
-    distributeToRecipients: false,
     pointsPerOption: false,
     forceUnevenDistribution: false,
     distributePointsFor: '',
@@ -32,7 +31,7 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConstsumOptionsQuestionEditAnswerFormComponent);
     component = fixture.componentInstance;
-    component.responseDetails = DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+    component.responseDetails = DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS();
     component.questionDetails = feedbackConstantSumQuestionDetailsBuilder
       .constSumOptions(['Option 1', 'Option 2'])
       .build();

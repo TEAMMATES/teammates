@@ -147,7 +147,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.FRubricQn.CS2104",
       "name": "First Session",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2028-04-30T22:00:00Z",
@@ -161,13 +160,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-04-01T23:59:00Z"
+      "createdAt": "2012-04-01T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "tm.e2e.FRubricQn.CS1101",
       "name": "Second Session",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2028-04-30T22:00:00Z",
@@ -181,7 +180,8 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-04-01T23:59:00Z"
+      "createdAt": "2012-04-01T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     }
   },
   "feedbackQuestions": {
@@ -190,7 +190,7 @@
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
           [1.01, -0.99],
-          [100.0, -200.0]
+          [100, -200]
         ],
         "rubricChoices": ["Yes", "No"],
         "rubricSubQuestions": ["This student has done a good job.", "This student has tried his/her best."],

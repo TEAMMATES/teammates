@@ -12,11 +12,12 @@
       </div>
       <div class="form-group">
         <input
+          #rejectionReasonTitleInput
           id="rejection-reason-title"
           type="text"
           class="form-control"
           [value]="rejectionReasonTitle"
-          (input)="rejectionReasonTitle = castAsInputElement($event.target).value"
+          (input)="rejectionReasonTitle = rejectionReasonTitleInput.value"
         />
       </div>
       <div>

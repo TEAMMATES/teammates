@@ -182,7 +182,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.IHome.CS2104",
       "name": "First Feedback Session",
-      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T04:00:00Z",
       "endTime": "2027-04-30T16:00:00Z",
@@ -196,13 +195,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "Second Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "tm.e2e.IHome.CS2104",
       "name": "Second Feedback Session",
-      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-03-29T04:00:00Z",
       "endTime": "2012-05-01T04:00:00Z",
@@ -216,13 +215,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "Third Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "tm.e2e.IHome.CS2104",
       "name": "Third Feedback Session",
-      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-10T16:00:00Z",
       "endTime": "2012-04-30T16:00:00Z",
@@ -236,13 +235,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "Fourth Feedback Session": {
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "tm.e2e.IHome.CS2104",
       "name": "Fourth Feedback Session",
-      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-05T04:00:00Z",
       "endTime": "2012-04-20T04:00:00Z",
@@ -256,13 +255,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "CS1101 Session": {
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "tm.e2e.IHome.CS1101",
       "name": "CS1101 Session",
-      "creatorEmail": "ihome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-05T04:00:00Z",
       "endTime": "2012-04-20T04:00:00Z",
@@ -276,7 +275,8 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     }
   },
   "feedbackQuestions": {

@@ -203,12 +203,12 @@ public class CoursesLogicTest extends BaseTestCase {
     public void testDeleteCourse_shouldDeleteCourse_success() {
         Course course = getTypicalCourse();
 
-        FeedbackSession fs = new FeedbackSession("test-fs", "test@email.com",
+        FeedbackSession fs = new FeedbackSession("test-fs", null,
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
                 false, false);
         course.addFeedbackSession(fs);
 
-        FeedbackSession softDeletedFs = new FeedbackSession("soft-deleted-fs", "test@email.com",
+        FeedbackSession softDeletedFs = new FeedbackSession("soft-deleted-fs", null,
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
                 false, false);
         softDeletedFs.setDeletedAt(Instant.now());

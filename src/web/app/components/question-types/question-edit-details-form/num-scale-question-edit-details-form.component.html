@@ -2,6 +2,7 @@
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
     <input
+      #minScaleInput
       id="min-value"
       type="number"
       class="form-control"
@@ -9,7 +10,7 @@
       (paste)="onPaste($event)"
       min="1"
       max="999999999"
-      (input)="restrictIntegerInputLength($event, 'minScale')"
+      (input)="restrictIntegerInputLength(minScaleInput, 'minScale')"
       [ngModel]="model.minScale"
       (ngModelChange)="triggerModelChange('minScale', $event)"
       [disabled]="!isEditable"
@@ -19,6 +20,7 @@
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
     <input
+      #stepInput
       id="increment-value"
       type="number"
       (keypress)="onFloatInput($event)"
@@ -26,7 +28,7 @@
       [ngModel]="model.step"
       (ngModelChange)="triggerModelChange('step', $event)"
       [disabled]="!isEditable"
-      (input)="restrictFloatInputLength($event, 'step')"
+      (input)="restrictFloatInputLength(stepInput, 'step')"
       step="any"
       min="0"
       max="999999999"
@@ -36,6 +38,7 @@
   <div class="col-sm-4">
     <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
     <input
+      #maxScaleInput
       id="max-value"
       type="number"
       class="form-control"
@@ -43,7 +46,7 @@
       (paste)="onPaste($event)"
       min="1"
       max="999999999"
-      (input)="restrictIntegerInputLength($event, 'maxScale')"
+      (input)="restrictIntegerInputLength(maxScaleInput, 'maxScale')"
       [ngModel]="model.maxScale"
       (ngModelChange)="triggerModelChange('maxScale', $event)"
       [disabled]="!isEditable"

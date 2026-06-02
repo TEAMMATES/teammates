@@ -139,7 +139,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "typical-course-id",
       "name": "First feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -152,13 +151,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "typical-course-id",
       "name": "Second feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2026-04-28T22:00:00Z",
@@ -171,7 +170,8 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     }
   },
   "feedbackQuestions": {

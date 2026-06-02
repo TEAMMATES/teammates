@@ -143,7 +143,7 @@ public class RemindFeedbackSessionSubmissionActionTest
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
         Instant afterNow = nearestHour.plus(3, java.time.temporal.ChronoUnit.HOURS);
         FeedbackSession fs = new FeedbackSession("published-feedback-session",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 beforeNow, afterNow,
                 beforeNow, afterNow,
                 Duration.ofHours(0), false, false);
@@ -156,7 +156,7 @@ public class RemindFeedbackSessionSubmissionActionTest
     private FeedbackSession generateClosedSessionInCourse(Course course, Instructor instructor) {
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
         FeedbackSession fs = new FeedbackSession("unpublished-feedback-session",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 beforeNow,
                 beforeNow,
                 beforeNow, beforeNow,

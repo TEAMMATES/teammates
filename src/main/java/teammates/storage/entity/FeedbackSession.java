@@ -48,8 +48,13 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String creatorEmail;
+    @Column(insertable = false, updatable = false)
+    private UUID creatorId;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "creatorId")
+    private Instructor sessionCreator;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String instructions;
@@ -106,12 +111,12 @@ public class FeedbackSession extends BaseEntity {
         // required by Hibernate
     }
 
-    public FeedbackSession(String name, String creatorEmail, String instructions, Instant startTime,
+    public FeedbackSession(String name, Instructor sessionCreator, String instructions, Instant startTime,
             Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
             boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled) {
         this.setId(UUID.randomUUID());
         this.setName(name);
-        this.setCreatorEmail(creatorEmail);
+        this.setSessionCreator(sessionCreator);
         this.setInstructions(StringUtils.defaultString(instructions));
         this.setStartTime(startTime);
         this.setEndTime(endTime);
@@ -136,16 +141,12 @@ public class FeedbackSession extends BaseEntity {
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField(
                 "time for the session to become visible", sessionVisibleFromTime), errors);
 
-        addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("creator's email", creatorEmail), errors);
-
         // Early return if any null fields
         if (!errors.isEmpty()) {
             return errors;
         }
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForFeedbackSessionName(name), errors);
-
-        addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(creatorEmail), errors);
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForGracePeriod(gracePeriod), errors);
 
@@ -238,11 +239,23 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public String getCreatorEmail() {
-        return creatorEmail;
+        return sessionCreator == null ? null : sessionCreator.getEmail();
     }
 
-    public void setCreatorEmail(String creatorEmail) {
-        this.creatorEmail = SanitizationHelper.sanitizeEmail(creatorEmail);
+    public UUID getCreatorId() {
+        return creatorId;
+    }
+
+    public Instructor getSessionCreator() {
+        return sessionCreator;
+    }
+
+    /**
+     * Sets the session creator.
+     */
+    public void setSessionCreator(Instructor sessionCreator) {
+        this.sessionCreator = sessionCreator;
+        this.creatorId = sessionCreator == null ? null : sessionCreator.getId();
     }
 
     public String getInstructions() {
@@ -384,7 +397,7 @@ public class FeedbackSession extends BaseEntity {
     @Override
     public String toString() {
         return "FeedbackSession [id=" + id + ", courseId=" + course.getId() + ", name=" + name
-                + ", creatorEmail=" + creatorEmail
+                + ", sessionCreator=" + sessionCreator
                 + ", instructions=" + instructions + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", sessionVisibleFromTime=" + sessionVisibleFromTime
                 + ", resultsVisibleFromTime=" + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod
@@ -517,10 +530,10 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Checks if user with {@code userEmail} is the creator.
+     * Checks if user is the creator.
      */
-    public boolean isCreator(String userEmail) {
-        return SanitizationHelper.areEmailsEqual(creatorEmail, userEmail);
+    public boolean isCreator(Instructor instructor) {
+        return sessionCreator != null && sessionCreator.equals(instructor);
     }
 
     /**
