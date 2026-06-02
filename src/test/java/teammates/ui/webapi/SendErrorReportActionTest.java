@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.ErrorReportRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link SendErrorReportAction}.

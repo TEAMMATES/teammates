@@ -26,7 +26,7 @@ import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnexpectedServerException;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
