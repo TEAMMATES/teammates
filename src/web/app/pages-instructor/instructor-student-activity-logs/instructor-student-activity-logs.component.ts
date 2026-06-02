@@ -28,7 +28,6 @@ import {
   TimeFormat,
   Milliseconds,
 } from '../../../types/datetime-const';
-import { castAsInputElement } from '../../../types/event-target-caster';
 import { SortBy } from '../../../types/sort-properties';
 import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -98,8 +97,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   private readonly logsService = inject(LogService);
   private readonly timezoneService = inject(TimezoneService);
   private readonly statusMessageService = inject(StatusMessageService);
-
-  readonly castAsInputElement = castAsInputElement;
 
   LOGS_DATE_TIME_FORMAT = 'ddd, DD MMM YYYY hh:mm:ss A';
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD: number = ApiConst.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD;

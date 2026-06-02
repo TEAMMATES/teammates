@@ -5,7 +5,6 @@ import { ResponseInstructorCommentService } from '../../../../services/feedback-
 import { StringHelper } from '../../../../services/string-helper';
 import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
-import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import type { CommentEditFormModel } from '../comment.model';
@@ -35,8 +34,6 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
   private readonly commentService = inject(ResponseInstructorCommentService);
-
-  readonly castAsInputElement: typeof castAsInputElement;
 
   // enum
   CommentVisibilityType!: typeof CommentVisibilityType;
@@ -87,7 +84,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   visibilityStateMachine: CommentVisibilityStateMachine;
 
   constructor() {
-    this.castAsInputElement = castAsInputElement;
     this.CommentVisibilityType = CommentVisibilityType;
     this.CommentVisibilityControl = CommentVisibilityControl;
     this.CommentRowMode = CommentRowMode;

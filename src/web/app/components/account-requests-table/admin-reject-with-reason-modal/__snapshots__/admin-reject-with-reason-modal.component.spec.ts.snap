@@ -5,7 +5,6 @@ exports[`RejectWithReasonModal > should show empty title and body 1`] = `
   accountRequestEmail=""
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
-  castAsInputElement="undefined"
   existingAccount={[Function Object]}
   rejectionReasonBody={[Function String]}
   rejectionReasonTitle={[Function String]}

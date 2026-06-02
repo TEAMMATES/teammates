@@ -1,14 +1,11 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FeedbackQuestionDetails } from '../../../../types/api-output';
-import { castAsInputElement } from '../../../../types/event-target-caster';
 
 /**
  * The abstract question details edit form component.
  */
 @Directive()
 export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> {
-  readonly castAsInputElement = castAsInputElement;
-
   model!: D;
 
   @Input()
@@ -67,19 +64,17 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     }
   }
 
-  restrictIntegerInputLength(event: Event, field: keyof D): void {
-    const target = castAsInputElement(event.target);
-    if (target.value != null && target.value.length > 9) {
-      target.value = target.value.substring(0, 9);
-      this.triggerModelChange(field, parseInt(target.value, 10) as any);
+  restrictIntegerInputLength(input: HTMLInputElement, field: keyof D): void {
+    if (input.value != null && input.value.length > 9) {
+      input.value = input.value.substring(0, 9);
+      this.triggerModelChange(field, parseInt(input.value, 10) as any);
     }
   }
 
-  restrictFloatInputLength(event: Event, field: keyof D): void {
-    const target = castAsInputElement(event.target);
-    if (target.value != null && target.value.length > 9) {
-      target.value = target.value.substring(0, 9);
-      this.triggerModelChange(field, parseFloat(target.value) as any);
+  restrictFloatInputLength(input: HTMLInputElement, field: keyof D): void {
+    if (input.value != null && input.value.length > 9) {
+      input.value = input.value.substring(0, 9);
+      this.triggerModelChange(field, parseFloat(input.value) as any);
     }
   }
 }
