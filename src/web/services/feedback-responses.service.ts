@@ -81,8 +81,6 @@ export class FeedbackResponsesService {
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return DEFAULT_CONSTSUM_RESPONSE_DETAILS();
-      default:
-        throw new Error(`Unknown question type ${questionType}`);
     }
   }
 

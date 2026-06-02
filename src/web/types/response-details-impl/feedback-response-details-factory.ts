@@ -52,8 +52,6 @@ export class FeedbackResponseDetailsFactory {
         return new FeedbackRubricResponseDetailsImpl(details as FeedbackRubricResponseDetails);
       case FeedbackQuestionType.TEXT:
         return new FeedbackTextResponseDetailsImpl(details as FeedbackTextResponseDetails);
-      default:
-        throw new Error(`Unknown question type: ${details.questionType}`);
     }
   }
 }
