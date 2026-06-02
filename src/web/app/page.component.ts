@@ -27,6 +27,7 @@ import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
 import { AuthService } from '../services/auth.service';
 import { PageAuthType } from './page.authtype';
+import { finalize } from 'rxjs/operators';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -143,29 +144,37 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getAuthUser().subscribe({
-      next: (authInfo: AuthInfo) => {
-        const user = authInfo.user;
-        if (user) {
-          this.user = user.id;
-          if (authInfo.masquerade) {
-            this.user += ' (M)';
+    this.isFetchingAuthDetails = true;
+    this.authService
+      .getAuthUser()
+      .pipe(
+        finalize(() => {
+          this.isFetchingAuthDetails = false;
+        }),
+      )
+      .subscribe({
+        next: (authInfo: AuthInfo) => {
+          const user = authInfo.user;
+          if (user) {
+            this.user = user.id;
+            if (authInfo.masquerade) {
+              this.user += ' (M)';
+            }
+            this.isStudent = user.isStudent;
+            this.isInstructor = user.isInstructor;
+            this.isAdmin = user.isAdmin;
+            this.isMaintainer = user.isMaintainer;
+          } else {
+            this.isStudent = false;
+            this.isInstructor = false;
+            this.isAdmin = false;
+            this.isMaintainer = false;
           }
-          this.isStudent = user.isStudent;
-          this.isInstructor = user.isInstructor;
-          this.isAdmin = user.isAdmin;
-          this.isMaintainer = user.isMaintainer;
-        } else {
-          this.isStudent = false;
-          this.isInstructor = false;
-          this.isAdmin = false;
-          this.isMaintainer = false;
-        }
-      },
-      error: () => {
-        // Do nothing, the user will simply be treated as not logged in.
-      },
-    });
+        },
+        error: () => {
+          // Do nothing, the user will be treated as not logged in.
+        },
+      });
   }
 
   /**

@@ -17,7 +17,7 @@ describe('UnauthorizedWarningPageComponent', () => {
           useValue: {
             queryParams: queryParams$.asObservable(),
           },
-        }
+        },
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(UnauthorizedWarningPageComponent);
