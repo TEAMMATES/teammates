@@ -72,7 +72,7 @@ export class StudentHomePageComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private tableComparatorService = inject(TableComparatorService);
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
 
   private readonly timezoneService = inject(TimezoneService);
 
@@ -276,7 +276,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionEndDate({ session }: StudentSession): string {
     const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
-    return this.formatDateUtil.formatDateDetailed(submissionEndDate, session.timeZone);
+    return this.dateFormatService.formatDateDetailed(submissionEndDate, session.timeZone);
   }
 
   getSubmissionEndDateTooltip({ session }: StudentSession): string {
@@ -284,7 +284,7 @@ export class StudentHomePageComponent implements OnInit {
     if (!hasStudentExtension) {
       return '';
     }
-    const originalEndTime = this.formatDateUtil.formatDateDetailed(session.submissionEndTimestamp, session.timeZone);
+    const originalEndTime = this.dateFormatService.formatDateDetailed(session.submissionEndTimestamp, session.timeZone);
     return (
       `The session's original end date is ${originalEndTime}.` +
       ' An instructor has granted you an extension to this date.'

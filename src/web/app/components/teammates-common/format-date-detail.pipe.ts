@@ -6,12 +6,12 @@ import { DateFormatService } from '../../../services/format-date.service';
  */
 @Pipe({ name: 'formatDateDetail' })
 export class FormatDateDetailPipe implements PipeTransform {
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
 
   /**
    * Transforms a timestamp to a date string in detail.
    */
   transform(timestamp: number, timeZone: string): string {
-    return this.formatDateUtil.formatDateDetailed(timestamp, timeZone);
+    return this.dateFormatService.formatDateDetailed(timestamp, timeZone);
   }
 }

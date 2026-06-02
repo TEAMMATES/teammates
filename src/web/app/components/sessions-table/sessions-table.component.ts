@@ -3,7 +3,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
 import { ResponseRateComponent } from './cell-with-response-rate.component';
 import { CellWithToolTipComponent } from './cell-with-tooltip.component';
-import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -46,12 +45,11 @@ export type Index = number;
   templateUrl: './sessions-table.component.html',
   styleUrls: ['./sessions-table.component.scss'],
   imports: [SortableTableComponent],
-  providers: [PublishStatusTooltipPipe],
 })
 export class SessionsTableComponent implements OnInit {
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
 
   // enum
   SortBy!: typeof SortBy;
@@ -336,8 +334,8 @@ export class SessionsTableComponent implements OnInit {
         component: CellWithToolTipComponent,
         componentData: () => {
           return {
-            toolTip: this.formatDateUtil.formatDateDetailed(timestamp, timeZone),
-            value: this.formatDateUtil.formatDateBrief(timestamp, timeZone),
+            toolTip: this.dateFormatService.formatDateDetailed(timestamp, timeZone),
+            value: this.dateFormatService.formatDateBrief(timestamp, timeZone),
           };
         },
       },

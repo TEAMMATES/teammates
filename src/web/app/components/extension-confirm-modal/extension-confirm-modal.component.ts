@@ -36,7 +36,7 @@ export enum ExtensionModalType {
 export class ExtensionConfirmModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private tableComparatorService = inject(TableComparatorService);
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
 
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
@@ -166,7 +166,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: studentData.extensionDeadline,
-          displayValue: this.formatDateUtil.formatDateDetailed(
+          displayValue: this.dateFormatService.formatDateDetailed(
             studentData.extensionDeadline,
             this.feedbackSessionTimeZone,
           ),
@@ -216,7 +216,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: instructorData.extensionDeadline,
-          displayValue: this.formatDateUtil.formatDateDetailed(
+          displayValue: this.dateFormatService.formatDateDetailed(
             instructorData.extensionDeadline,
             this.feedbackSessionTimeZone,
           ),

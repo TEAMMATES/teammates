@@ -4,7 +4,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DateFormatService } from './format-date.service';
 import { TimezoneService } from './timezone.service';
 
-describe('FormatDateUtil', () => {
+describe('DateFormatService', () => {
   let util: DateFormatService;
   let timezoneService: TimezoneService;
 

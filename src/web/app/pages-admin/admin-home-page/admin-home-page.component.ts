@@ -26,7 +26,7 @@ export class AdminHomePageComponent implements OnInit {
   private accountService = inject(AccountService);
   private statusMessageService = inject(StatusMessageService);
   private timezoneService = inject(TimezoneService);
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
 
   instructorDetails = '';
   instructorName = '';
@@ -159,9 +159,9 @@ export class AdminHomePageComponent implements OnInit {
         email: request.email,
         status: request.status,
         instituteAndCountry: request.institute,
-        createdAtText: this.formatDateUtil.formatDateDetailed(request.createdAt, timezone),
+        createdAtText: this.dateFormatService.formatDateDetailed(request.createdAt, timezone),
         registeredAtText: request.registeredAt
-          ? this.formatDateUtil.formatDateDetailed(request.registeredAt, timezone)
+          ? this.dateFormatService.formatDateDetailed(request.registeredAt, timezone)
           : '',
         comments: request.comments || '',
         registrationLink: '',

@@ -38,7 +38,7 @@ enum DateTime {
 export class IndividualExtensionDateModalComponent {
   activeModal = inject(NgbActiveModal);
   private simpleModalService = inject(SimpleModalService);
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
   private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
@@ -163,7 +163,7 @@ export class IndividualExtensionDateModalComponent {
   }
 
   private adjustToFeedbackSessionTimeZone(time: number): string {
-    return this.formatDateUtil.formatDateDetailed(time, this.feedbackSessionTimeZone);
+    return this.dateFormatService.formatDateDetailed(time, this.feedbackSessionTimeZone);
   }
 
   isValidForm(): boolean {

@@ -5,12 +5,12 @@ import { DateFormatService } from '../../../services/format-date.service';
  */
 @Pipe({ name: 'formatDateBrief' })
 export class FormatDateBriefPipe implements PipeTransform {
-  private formatDateUtil = inject(DateFormatService);
+  private dateFormatService = inject(DateFormatService);
 
   /**
    * Transforms a timestamp to a date string briefly.
    */
   transform(timestamp: number, timeZone: string): string {
-    return this.formatDateUtil.formatDateBrief(timestamp, timeZone);
+    return this.dateFormatService.formatDateBrief(timestamp, timeZone);
   }
 }
