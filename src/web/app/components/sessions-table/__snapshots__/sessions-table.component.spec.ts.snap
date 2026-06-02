@@ -13,7 +13,7 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
@@ -529,7 +529,7 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
@@ -1011,7 +1011,7 @@ exports[`SessionsTableComponent > should snap with default fields 1`] = `
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"

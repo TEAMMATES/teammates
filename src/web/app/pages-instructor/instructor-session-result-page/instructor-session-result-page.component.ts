@@ -85,19 +85,19 @@ const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
   providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorSessionResultPageComponent implements OnInit {
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private feedbackSessionActionsService = inject(FeedbackSessionActionsService);
-  private feedbackQuestionsService = inject(FeedbackQuestionsService);
-  private courseService = inject(CourseService);
-  private fileSaveService = inject(FileSaveService);
-  private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
-  private route = inject(ActivatedRoute);
-  private timezoneService = inject(TimezoneService);
-  private simpleModalService = inject(SimpleModalService);
-  private navigationService = inject(NavigationService);
-  private statusMessageService = inject(StatusMessageService);
-  private commentService = inject(InstructorCommentService);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly feedbackSessionActionsService = inject(FeedbackSessionActionsService);
+  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private readonly courseService = inject(CourseService);
+  private readonly fileSaveService = inject(FileSaveService);
+  private readonly studentService = inject(StudentService);
+  private readonly instructorService = inject(InstructorService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly commentService = inject(InstructorCommentService);
 
   // enum
   InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;

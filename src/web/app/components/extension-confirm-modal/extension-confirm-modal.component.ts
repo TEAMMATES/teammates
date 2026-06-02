@@ -17,7 +17,7 @@ import {
 } from '../sortable-table/sortable-table.component';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
-import { FormatDateUtil } from '../../utils/format-date.service.util';
+import { DateFormatService } from '../../../services/format-date.service';
 import { instructorRoleToName } from '../../utils/instructor-role-name.util';
 
 export enum ExtensionModalType {
@@ -36,7 +36,7 @@ export enum ExtensionModalType {
 export class ExtensionConfirmModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private tableComparatorService = inject(TableComparatorService);
-  private formatDateUtil = inject(FormatDateUtil);
+  private formatDateUtil = inject(DateFormatService);
 
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
@@ -166,7 +166,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: studentData.extensionDeadline,
-          displayValue: this.formatDateUtil.formatDateDetail(
+          displayValue: this.formatDateUtil.formatDateDetailed(
             studentData.extensionDeadline,
             this.feedbackSessionTimeZone,
           ),
@@ -216,7 +216,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: instructorData.extensionDeadline,
-          displayValue: this.formatDateUtil.formatDateDetail(
+          displayValue: this.formatDateUtil.formatDateDetailed(
             instructorData.extensionDeadline,
             this.feedbackSessionTimeZone,
           ),

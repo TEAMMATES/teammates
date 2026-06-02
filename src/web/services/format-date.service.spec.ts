@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { FormatDateUtil } from './format-date.service.util';
-import { TimezoneService } from '../../services/timezone.service';
+import { DateFormatService } from './format-date.service';
+import { TimezoneService } from './timezone.service';
 
 describe('FormatDateUtil', () => {
-  let util: FormatDateUtil;
+  let util: DateFormatService;
   let timezoneService: TimezoneService;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('FormatDateUtil', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
-    util = TestBed.inject(FormatDateUtil);
+    util = TestBed.inject(DateFormatService);
     timezoneService = TestBed.inject(TimezoneService);
   });
 
@@ -37,7 +37,7 @@ describe('FormatDateUtil', () => {
   it('formatDateDetail should call formatToString with "ddd, DD MMM YYYY, hh:mm A z" format', () => {
     vi.spyOn(timezoneService, 'formatToString').mockReturnValue('Mon, 01 Jun 2026, 03:00 PM SGT');
 
-    const result = util.formatDateDetail(1748772000000, 'Asia/Singapore');
+    const result = util.formatDateDetailed(1748772000000, 'Asia/Singapore');
 
     expect(timezoneService.formatToString).toHaveBeenCalledWith(
       1748772000000,

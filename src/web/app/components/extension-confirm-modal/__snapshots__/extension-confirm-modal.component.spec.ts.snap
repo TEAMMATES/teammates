@@ -8,7 +8,7 @@ exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.DELETE branch 
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
   instructorRowsData={[Function Array]}
@@ -381,7 +381,7 @@ exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.SESSION_DELETE
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
   instructorRowsData={[Function Array]}
@@ -742,7 +742,7 @@ exports[`ExtensionConfirmModalComponent > should snap with the extended students
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
   instructorRowsData={[Function Array]}
@@ -1189,7 +1189,7 @@ exports[`ExtensionConfirmModalComponent > use ngOnInit to initialise 1`] = `
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
   instructorRowsData={[Function Array]}

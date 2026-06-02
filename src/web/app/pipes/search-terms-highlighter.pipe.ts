@@ -1,10 +1,8 @@
-import { inject, Pipe, PipeTransform } from '@angular/core';
-import { HighlighterUtil } from '../utils/highlighter.util.service';
+import { Pipe, PipeTransform } from '@angular/core';
+import { textToHighlighting } from '../utils/highlighter.util';
 
 @Pipe({ name: 'highlighter' })
 export class SearchTermsHighlighterPipe implements PipeTransform {
-  private highlighterUtil = inject(HighlighterUtil);
-
   /**
    * Transforms text to add highlighting styling.
    *
@@ -15,6 +13,6 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
    * @returns transformed text with styling added if search terms were found
    */
   transform(value: string, searchStr: string, isPartialMatch?: boolean): string {
-    return this.highlighterUtil.searchTermsHighlighter(value, searchStr, isPartialMatch);
+    return textToHighlighting(value, searchStr, isPartialMatch);
   }
 }

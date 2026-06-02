@@ -24,16 +24,11 @@ import {
   SortableTableHeaderColorScheme,
   SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
-import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
-import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
-import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
-import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
-import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
 import { publishStatusNameToString } from '../../utils/publish-status-name.util';
 import { submissionStatusTooltipToString } from '../../utils/submissions-status-tool-tip.util';
 import { submissionsStatusNameToString } from '../../utils/submissions-status-name.util';
 import { publishStatusTooltipUtilToString } from '../../utils/publish-status-tooltip.util';
-import { FormatDateUtil } from '../../utils/format-date.service.util';
+import { DateFormatService } from '../../../services/format-date.service';
 
 export type MutateEvent = {
   idx: number;
@@ -51,19 +46,12 @@ export type Index = number;
   templateUrl: './sessions-table.component.html',
   styleUrls: ['./sessions-table.component.scss'],
   imports: [SortableTableComponent],
-  providers: [
-    FormatDateDetailPipe,
-    FormatDateBriefPipe,
-    PublishStatusNamePipe,
-    PublishStatusTooltipPipe,
-    SubmissionStatusNamePipe,
-    SubmissionStatusTooltipPipe,
-  ],
+  providers: [PublishStatusTooltipPipe],
 })
 export class SessionsTableComponent implements OnInit {
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
-  private formatDateUtil = inject(FormatDateUtil);
+  private formatDateUtil = inject(DateFormatService);
 
   // enum
   SortBy!: typeof SortBy;
@@ -348,7 +336,7 @@ export class SessionsTableComponent implements OnInit {
         component: CellWithToolTipComponent,
         componentData: () => {
           return {
-            toolTip: this.formatDateUtil.formatDateDetail(timestamp, timeZone),
+            toolTip: this.formatDateUtil.formatDateDetailed(timestamp, timeZone),
             value: this.formatDateUtil.formatDateBrief(timestamp, timeZone),
           };
         },

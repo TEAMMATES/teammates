@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
-import { FormatDateUtil } from '../../utils/format-date.service.util';
+import { DateFormatService } from '../../../services/format-date.service';
 /**
  * Pipe to handle the display of feedback session start and end time in brief.
  */
 @Pipe({ name: 'formatDateBrief' })
 export class FormatDateBriefPipe implements PipeTransform {
-  private formatDateUtil = inject(FormatDateUtil);
+  private formatDateUtil = inject(DateFormatService);
 
   /**
    * Transforms a timestamp to a date string briefly.

@@ -15,7 +15,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
@@ -165,7 +165,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
@@ -360,7 +360,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
   extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
@@ -630,7 +630,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
   extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
@@ -781,7 +781,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
   extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
-  formatDateUtil={[Function _FormatDateUtil]}
+  formatDateUtil={[Function _DateFormatService]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}

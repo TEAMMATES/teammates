@@ -27,7 +27,7 @@ import { FormatDateDetailPipe } from '../../components/teammates-common/format-d
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
-import { FormatDateUtil } from '../../utils/format-date.service.util';
+import { DateFormatService } from '../../../services/format-date.service';
 import { sessionSubmissionStatusDisplay } from '../../utils/session-submission-status.util';
 
 interface StudentCourse {
@@ -72,7 +72,7 @@ export class StudentHomePageComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private tableComparatorService = inject(TableComparatorService);
-  private formatDateUtil = inject(FormatDateUtil);
+  private formatDateUtil = inject(DateFormatService);
 
   private readonly timezoneService = inject(TimezoneService);
 
@@ -276,7 +276,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionEndDate({ session }: StudentSession): string {
     const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
-    return this.formatDateUtil.formatDateDetail(submissionEndDate, session.timeZone);
+    return this.formatDateUtil.formatDateDetailed(submissionEndDate, session.timeZone);
   }
 
   getSubmissionEndDateTooltip({ session }: StudentSession): string {
@@ -284,7 +284,7 @@ export class StudentHomePageComponent implements OnInit {
     if (!hasStudentExtension) {
       return '';
     }
-    const originalEndTime = this.formatDateUtil.formatDateDetail(session.submissionEndTimestamp, session.timeZone);
+    const originalEndTime = this.formatDateUtil.formatDateDetailed(session.submissionEndTimestamp, session.timeZone);
     return (
       `The session's original end date is ${originalEndTime}.` +
       ' An instructor has granted you an extension to this date.'
