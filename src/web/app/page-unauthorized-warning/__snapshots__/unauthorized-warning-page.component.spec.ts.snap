@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Unauthorized Warning Page > should match snapshot when admin role is set 1`] = `
+exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when admin role is set 1`] = `
 <tm-unauthorized-warning-page
   reason={[Function String]}
   role={[Function String]}
@@ -48,7 +48,7 @@ exports[`Unauthorized Warning Page > should match snapshot when admin role is se
 </tm-unauthorized-warning-page>
 `;
 
-exports[`Unauthorized Warning Page > should match snapshot when student role is set 1`] = `
+exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when student role is set 1`] = `
 <tm-unauthorized-warning-page
   reason={[Function String]}
   role={[Function String]}
