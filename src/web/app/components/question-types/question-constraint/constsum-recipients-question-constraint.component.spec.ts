@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConstsumRecipientsQuestionConstraintComponent } from './constsum-recipients-question-constraint.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
-import { FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
+import { FeedbackConstantSumRecipientsResponseDetails } from '../../../../types/api-output';
 import { FeedbackQuestionType } from '../../../../types/api-request';
 import {
   FeedbackResponseRecipientSubmissionFormModel,
@@ -18,7 +18,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
     recipientIdentifier: 'recipient123',
     status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-    responseDetails: { questionType: FeedbackQuestionType.CONSTSUM },
+    responseDetails: { questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS },
   });
 
   beforeEach(() => {
@@ -37,8 +37,8 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   });
 
   it('allAnswers: should return 0 if the answers array is empty', () => {
-    const details: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+    const details: FeedbackConstantSumRecipientsResponseDetails = {
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [],
     };
     const form = formBuilder.responseDetails(details).build();
@@ -48,8 +48,8 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   });
 
   it('allAnswers: should return the first answer if it exists', () => {
-    const details: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+    const details: FeedbackConstantSumRecipientsResponseDetails = {
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [5, 10, 15],
     };
     const form = formBuilder.responseDetails(details).build();
@@ -59,14 +59,14 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   });
 
   it('allAnswers: should return the first answers of multiple forms', () => {
-    const detailsOne: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+    const detailsOne: FeedbackConstantSumRecipientsResponseDetails = {
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [5, 10, 15],
     };
     const formOne = formBuilder.responseDetails(detailsOne).build();
 
-    const detailsTwo: FeedbackConstantSumResponseDetails = {
-      questionType: FeedbackQuestionType.CONSTSUM,
+    const detailsTwo: FeedbackConstantSumRecipientsResponseDetails = {
+      questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       answers: [3, 6, 9],
     };
     const formTwo = formBuilder.responseDetails(detailsTwo).build();

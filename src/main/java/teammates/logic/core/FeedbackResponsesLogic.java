@@ -31,7 +31,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -775,8 +774,7 @@ public final class FeedbackResponsesLogic {
         if (user instanceof Instructor instructor) {
             boolean isRelevantAsGiver = question.getGiverType() == QuestionGiverType.INSTRUCTORS
                     || question.getGiverType() == QuestionGiverType.SESSION_CREATOR
-                            && SanitizationHelper.areEmailsEqual(
-                                    question.getFeedbackSession().getCreatorEmail(), instructor.getEmail());
+                            && question.getFeedbackSession().isCreator(instructor);
             boolean isRelevantAsRecipient = isResponseOfFeedbackQuestionVisibleToInstructor(question)
                     && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS;
             return isRelevantAsGiver || isRelevantAsRecipient;
@@ -1184,7 +1182,7 @@ public final class FeedbackResponsesLogic {
 
         if (question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)) {
             for (Student studentInTeam : courseRoster.getTeamToMembers().get(student.getTeamName())) {
-                if (SanitizationHelper.areEmailsEqual(studentInTeam.getEmail(), student.getEmail())) {
+                if (Objects.equals(studentInTeam, student)) {
                     continue;
                 }
                 List<FeedbackResponse> responses =

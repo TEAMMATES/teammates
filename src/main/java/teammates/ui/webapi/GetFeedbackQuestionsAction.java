@@ -82,7 +82,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getInstructorOfCourseForSubmission(feedbackSession.getCourseId(), true);
-            questions = logic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
+            questions = logic.getFeedbackQuestionsForInstructors(feedbackSession, instructor);
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, null);
                 dynamicallyGeneratedOptions.put(question.getId(), options);

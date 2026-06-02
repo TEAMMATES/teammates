@@ -36,7 +36,7 @@ describe('CommentEditFormComponent', () => {
 
     it('should remove anonymous hash from giver and recipient when response is provided', () => {
       const feedbackResponseDetails: FeedbackResponseDetails = {
-        questionType: FeedbackQuestionType.CONSTSUM,
+        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       };
       const commentOutputs: ResponseInstructorComment[] = [];
       component.response = {

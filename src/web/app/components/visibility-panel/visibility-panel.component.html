@@ -83,14 +83,9 @@
                 @for (visibilityControl of VisibilityControl | enumToArray; track visibilityControl) {
                   <td class="text-center">
                     <input
+                      #visibilityCheckbox
                       type="checkbox"
-                      (click)="
-                        modifyVisibilityControl(
-                          castAsInputElement($event.target).checked,
-                          visibilityType,
-                          visibilityControl
-                        )
-                      "
+                      (click)="modifyVisibilityControl(visibilityCheckbox.checked, visibilityType, visibilityControl)"
                       [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
                       [disabled]="
                         !visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable

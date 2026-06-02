@@ -1,8 +1,8 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
@@ -10,14 +10,13 @@ import { calculateConstsumOptionsQuestionStatistics } from '../../app/utils/ques
 import { Response } from '../question-statistics.model';
 
 /**
- * Concrete implementation of {@link FeedbackConstantSumQuestionDetails}.
+ * Concrete implementation of {@link FeedbackConstantSumOptionsQuestionDetails}.
  */
 export class FeedbackConstantSumOptionsQuestionDetailsImpl
   extends AbstractFeedbackQuestionDetails
-  implements FeedbackConstantSumQuestionDetails
+  implements FeedbackConstantSumOptionsQuestionDetails
 {
   constSumOptions: string[] = ['', ''];
-  distributeToRecipients = false;
   pointsPerOption = false;
   forceUnevenDistribution = false;
   distributePointsFor: string = FeedbackConstantSumDistributePointsType.NONE;
@@ -27,7 +26,7 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl
   minPoint: number | undefined = undefined;
   maxPoint: number | undefined = undefined;
 
-  constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
+  constructor(apiOutput: FeedbackConstantSumOptionsQuestionDetails) {
     super();
     this.constSumOptions = apiOutput.constSumOptions;
     this.pointsPerOption = apiOutput.pointsPerOption;
@@ -45,10 +44,12 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
-    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackConstantSumQuestionDetails;
+    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackConstantSumOptionsQuestionDetails;
     const responses = question.allResponses
       // Missing response is meaningless for statistics
-      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackConstantSumResponseDetails>[];
+      .filter(
+        (response) => !response.isMissingResponse,
+      ) as unknown as Response<FeedbackConstantSumOptionsResponseDetails>[];
 
     if (responses.length === 0) {
       // skip stats for no response

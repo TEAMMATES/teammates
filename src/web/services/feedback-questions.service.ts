@@ -362,8 +362,6 @@ export class FeedbackQuestionsService {
         return true;
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
         return true;
-      default:
-        throw new Error(`Unsupported question type: ${type}`);
     }
   }
 
@@ -597,9 +595,6 @@ export class FeedbackQuestionsService {
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
         };
-
-      default:
-        throw new Error(`Unsupported question type ${type}`);
     }
   }
 

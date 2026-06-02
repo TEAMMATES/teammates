@@ -284,7 +284,7 @@
               }
               @if (
                 QuestionDetailsTypeChecker.isConstSumOptions(model.questionDetails) &&
-                ResponseDetailsTypeChecker.isConstSum(recipientSubmissionFormModel.responseDetails)
+                ResponseDetailsTypeChecker.isConstSumOptions(recipientSubmissionFormModel.responseDetails)
               ) {
                 <tm-constsum-options-question-edit-answer-form
                   [questionDetails]="model.questionDetails"
@@ -297,7 +297,7 @@
               }
               @if (
                 QuestionDetailsTypeChecker.isConstSumRecipients(model.questionDetails) &&
-                ResponseDetailsTypeChecker.isConstSum(recipientSubmissionFormModel.responseDetails)
+                ResponseDetailsTypeChecker.isConstSumRecipients(recipientSubmissionFormModel.responseDetails)
               ) {
                 <tm-constsum-recipients-question-edit-answer-form
                   [responseDetails]="recipientSubmissionFormModel.responseDetails"

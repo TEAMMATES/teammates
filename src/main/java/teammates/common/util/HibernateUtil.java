@@ -33,7 +33,8 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
-import teammates.storage.entity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumOptionsQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumRecipientsQuestion;
 import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.storage.entity.questions.FeedbackMcqQuestion;
 import teammates.storage.entity.questions.FeedbackMsqQuestion;
@@ -42,7 +43,8 @@ import teammates.storage.entity.questions.FeedbackRankOptionsQuestion;
 import teammates.storage.entity.questions.FeedbackRankRecipientsQuestion;
 import teammates.storage.entity.questions.FeedbackRubricQuestion;
 import teammates.storage.entity.questions.FeedbackTextQuestion;
-import teammates.storage.entity.responses.FeedbackConstantSumResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumOptionsResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumRecipientsResponse;
 import teammates.storage.entity.responses.FeedbackContributionResponse;
 import teammates.storage.entity.responses.FeedbackMcqResponse;
 import teammates.storage.entity.responses.FeedbackMsqResponse;
@@ -70,7 +72,8 @@ public final class HibernateUtil {
             Section.class,
             Team.class,
             FeedbackQuestion.class,
-            FeedbackConstantSumQuestion.class,
+            FeedbackConstantSumOptionsQuestion.class,
+            FeedbackConstantSumRecipientsQuestion.class,
             FeedbackContributionQuestion.class,
             FeedbackMcqQuestion.class,
             FeedbackMsqQuestion.class,
@@ -81,7 +84,8 @@ public final class HibernateUtil {
             FeedbackTextQuestion.class,
             DeadlineExtension.class,
             FeedbackResponse.class,
-            FeedbackConstantSumResponse.class,
+            FeedbackConstantSumOptionsResponse.class,
+            FeedbackConstantSumRecipientsResponse.class,
             FeedbackContributionResponse.class,
             FeedbackMcqResponse.class,
             FeedbackMsqResponse.class,

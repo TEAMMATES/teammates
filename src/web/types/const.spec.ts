@@ -10,7 +10,8 @@ import {
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-  DEFAULT_CONSTSUM_RESPONSE_DETAILS,
+  DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_QUESTION_DETAILS,
@@ -119,8 +120,13 @@ describe('Constants', () => {
   // 3. There is either answer or answers field (depending on question type)
   // They are sufficient to ascertain that the correct structure is generated
   it('should generate response details correctly', () => {
-    expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM);
-    expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().answers).toBeTruthy();
+    expect(DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM_OPTIONS);
+    expect(DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS().answers).toBeTruthy();
+
+    expect(DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS().questionType).toEqual(
+      FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+    );
+    expect(DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS().answers).toBeTruthy();
 
     expect(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONTRIB);
     expect(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS().answer).toBeTruthy();
