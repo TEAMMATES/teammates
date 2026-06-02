@@ -4,8 +4,10 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -14,7 +16,6 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
@@ -34,7 +35,8 @@ public enum QuestionTypeStructures {
     DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(new FeedbackContributionResponseDetails()),
     DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(getConstSumOptionsQuestionStruct()),
     DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(getConstSumRecipientsQuestionStruct()),
-    DEFAULT_CONSTSUM_RESPONSE_DETAILS(new FeedbackConstantSumResponseDetails()),
+    DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS(new FeedbackConstantSumOptionsResponseDetails()),
+    DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS(new FeedbackConstantSumRecipientsResponseDetails()),
     DEFAULT_MCQ_QUESTION_DETAILS(new FeedbackMcqQuestionDetails("")),
     DEFAULT_MCQ_RESPONSE_DETAILS(new FeedbackMcqResponseDetails()),
     DEFAULT_MSQ_QUESTION_DETAILS(new FeedbackMsqQuestionDetails("")),
@@ -62,18 +64,14 @@ public enum QuestionTypeStructures {
         return value;
     }
 
-    private static FeedbackConstantSumQuestionDetails getConstSumOptionsQuestionStruct() {
-        FeedbackConstantSumQuestionDetails details = new FeedbackConstantSumQuestionDetails("");
-        details.setQuestionType(FeedbackQuestionType.CONSTSUM_OPTIONS);
+    private static FeedbackConstantSumOptionsQuestionDetails getConstSumOptionsQuestionStruct() {
+        FeedbackConstantSumOptionsQuestionDetails details = new FeedbackConstantSumOptionsQuestionDetails("");
         details.setConstSumOptions(Arrays.asList("", ""));
         return details;
     }
 
-    private static FeedbackConstantSumQuestionDetails getConstSumRecipientsQuestionStruct() {
-        FeedbackConstantSumQuestionDetails details = new FeedbackConstantSumQuestionDetails("");
-        details.setQuestionType(FeedbackQuestionType.CONSTSUM_RECIPIENTS);
-        details.setDistributeToRecipients(true);
-        return details;
+    private static FeedbackConstantSumRecipientsQuestionDetails getConstSumRecipientsQuestionStruct() {
+        return new FeedbackConstantSumRecipientsQuestionDetails("");
     }
 
 }

@@ -8,7 +8,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 import { StatusMessageService } from '../../../../services/status-message.service';
 import {
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
 } from '../../../../types/api-output';
 
 /**
@@ -21,7 +21,7 @@ import {
   imports: [CdkDropList, CdkDrag, CdkDragHandle, ConstsumOptionsFieldComponent, FormsModule, NgbTooltip],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
-  extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
+  extends QuestionEditDetailsFormComponent<FeedbackConstantSumOptionsQuestionDetails>
   implements OnChanges
 {
   private statusMessageService = inject(StatusMessageService);

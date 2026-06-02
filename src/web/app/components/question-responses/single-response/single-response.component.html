@@ -8,14 +8,21 @@
 }
 
 @if (
-  (QuestionDetailsTypeChecker.isConstSumOptions(questionDetails) ||
-    QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails)) &&
-  ResponseDetailsTypeChecker.isConstSum(responseDetails)
+  QuestionDetailsTypeChecker.isConstSumOptions(questionDetails) &&
+  ResponseDetailsTypeChecker.isConstSumOptions(responseDetails)
 ) {
-  <tm-constsum-question-response
+  <tm-constsum-options-question-response
     [responseDetails]="responseDetails"
     [questionDetails]="questionDetails"
-  ></tm-constsum-question-response>
+  ></tm-constsum-options-question-response>
+}
+@if (
+  QuestionDetailsTypeChecker.isConstSumRecipients(questionDetails) &&
+  ResponseDetailsTypeChecker.isConstSumRecipients(responseDetails)
+) {
+  <tm-constsum-recipients-question-response
+    [responseDetails]="responseDetails"
+  ></tm-constsum-recipients-question-response>
 }
 @if (QuestionDetailsTypeChecker.isNumscale(questionDetails) && ResponseDetailsTypeChecker.isNumscale(responseDetails)) {
   <tm-num-scale-question-response [responseDetails]="responseDetails"></tm-num-scale-question-response>

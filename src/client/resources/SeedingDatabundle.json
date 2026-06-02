@@ -1138,12 +1138,11 @@
       "id": "00000000-0000-4000-8000-000000000808",
       "questionDetails": {
         "constSumOptions": ["Code Quality", "Testing", "Documentation", "User Interface"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "points": 100,
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_OPTIONS",
         "questionText": "Distribute 100 points among the following project aspects based on their importance to your team."
       },
       "description": "Distribute points among project aspects",
@@ -1347,13 +1346,11 @@
     "qn3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000818",
       "questionDetails": {
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "points": 100,
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_RECIPIENTS",
         "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
       },
       "description": "Effort distribution among teammates",
@@ -1537,12 +1534,11 @@
       "id": "00000000-0000-4000-8000-000000000827",
       "questionDetails": {
         "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "points": 100,
-        "questionType": "CONSTSUM",
+        "questionType": "CONSTSUM_OPTIONS",
         "questionText": "Allocate 100 points to reflect the relative time you spent studying each topic."
       },
       "description": "Time allocation across topics",
@@ -2758,7 +2754,7 @@
       },
       "answer": {
         "answers": [55],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2773,7 +2769,7 @@
       },
       "answer": {
         "answers": [45],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2788,7 +2784,7 @@
       },
       "answer": {
         "answers": [60],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2803,7 +2799,7 @@
       },
       "answer": {
         "answers": [40],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2818,7 +2814,7 @@
       },
       "answer": {
         "answers": [50],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -2833,7 +2829,7 @@
       },
       "answer": {
         "answers": [50],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "questionId": "00000000-0000-4000-8000-000000000818"
     },
@@ -3139,7 +3135,7 @@
       },
       "answer": {
         "answers": [30, 25, 20, 25],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000827"
     },
@@ -3154,7 +3150,7 @@
       },
       "answer": {
         "answers": [20, 30, 30, 20],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000827"
     },
@@ -3169,7 +3165,7 @@
       },
       "answer": {
         "answers": [25, 25, 25, 25],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000827"
     }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FeedbackConstantSumQuestionDetails } from '../../../../types/api-output';
+import { FeedbackConstantSumRecipientsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
@@ -11,5 +11,6 @@ import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/
   imports: [],
 })
 export class ConstsumRecipientsQuestionAdditionalInfoComponent {
-  @Input() questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
+  @Input() questionDetails: FeedbackConstantSumRecipientsQuestionDetails =
+    DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
 }

@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,7 +31,8 @@ import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
-import teammates.storage.entity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumOptionsQuestion;
+import teammates.storage.entity.questions.FeedbackConstantSumRecipientsQuestion;
 import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.storage.entity.questions.FeedbackMcqQuestion;
 import teammates.storage.entity.questions.FeedbackMsqQuestion;
@@ -46,6 +48,7 @@ import teammates.storage.entity.questions.FeedbackTextQuestion;
 @Entity
 @Table(name = "FeedbackQuestions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(length = 63)
 public abstract class FeedbackQuestion extends BaseEntity implements Comparable<FeedbackQuestion> {
     @Id
     private UUID id;
@@ -171,8 +174,15 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
                     feedbackQuestionDetails
             );
             break;
-        case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
-            feedbackQuestion = new FeedbackConstantSumQuestion(
+        case CONSTSUM_OPTIONS:
+            feedbackQuestion = new FeedbackConstantSumOptionsQuestion(
+                    questionNumber, description, giverType, recipientType,
+                    numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
+                    feedbackQuestionDetails
+            );
+            break;
+        case CONSTSUM_RECIPIENTS:
+            feedbackQuestion = new FeedbackConstantSumRecipientsQuestion(
                     questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
@@ -417,4 +427,3 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return showResponsesTo.contains(userType);
     }
 }
-

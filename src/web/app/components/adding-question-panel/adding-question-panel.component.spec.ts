@@ -24,7 +24,6 @@ describe('AddingQuestionPanelComponent', () => {
   });
 
   it('should contain anchor element with corresponding search query', () => {
-    expect(Object.keys(component.FeedbackQuestionType)[0]).not.toBe(component.FeedbackQuestionType.CONSTSUM);
     const firstQuestionType = Object.keys(component.FeedbackQuestionType)[0] as FeedbackQuestionType;
     const questionTypeHelpPathPipe = new QuestionTypeHelpPathPipe();
     const questionId = questionTypeHelpPathPipe.transform(firstQuestionType);

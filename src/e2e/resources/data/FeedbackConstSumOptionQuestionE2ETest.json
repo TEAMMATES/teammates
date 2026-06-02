@@ -188,7 +188,6 @@
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
         "constSumOptions": ["Teamwork", "Creativity", "Leadership"],
-        "distributeToRecipients": false,
         "forceUnevenDistribution": true,
         "distributePointsFor": "All options",
         "pointsPerOption": false
@@ -210,7 +209,6 @@
         "questionType": "CONSTSUM_OPTIONS",
         "points": 20,
         "constSumOptions": ["Algo", "UI", "Testing"],
-        "distributeToRecipients": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "pointsPerOption": true

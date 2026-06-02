@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,7 +25,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.storage.entity.responses.FeedbackConstantSumResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumOptionsResponse;
+import teammates.storage.entity.responses.FeedbackConstantSumRecipientsResponse;
 import teammates.storage.entity.responses.FeedbackContributionResponse;
 import teammates.storage.entity.responses.FeedbackMcqResponse;
 import teammates.storage.entity.responses.FeedbackMsqResponse;
@@ -40,6 +42,7 @@ import teammates.storage.entity.responses.FeedbackTextResponse;
 @Entity
 @Table(name = "FeedbackResponses")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(length = 63)
 public abstract class FeedbackResponse extends BaseEntity {
     @Id
     private UUID id;
@@ -119,8 +122,13 @@ public abstract class FeedbackResponse extends BaseEntity {
                     giver, recipient, responseDetails, giverComment
             );
             break;
-        case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
-            feedbackResponse = new FeedbackConstantSumResponse(
+        case CONSTSUM_OPTIONS:
+            feedbackResponse = new FeedbackConstantSumOptionsResponse(
+                    giver, recipient, responseDetails, giverComment
+            );
+            break;
+        case CONSTSUM_RECIPIENTS:
+            feedbackResponse = new FeedbackConstantSumRecipientsResponse(
                     giver, recipient, responseDetails, giverComment
             );
             break;

@@ -73,10 +73,6 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         FeedbackQuestionDetails details =
                 JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), questionType.getQuestionDetailsClass());
         details.setQuestionText(questionBrief);
-        if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
-                || questionType == FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
-            details.setQuestionType(FeedbackQuestionType.CONSTSUM);
-        }
         return details;
     }
 
