@@ -284,7 +284,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private FeedbackSession generateSession1InCourse(Course course, String name) {
         FeedbackSession fs = new FeedbackSession(name,
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
                 Duration.ofHours(10), true, true);
@@ -305,7 +305,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private FeedbackSession generateClosedFeedbackSessionInCourse(Course course, String name) {
         FeedbackSession closedSession = new FeedbackSession(
                 name,
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"),
                 Instant.parse("2025-01-01T00:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"),
