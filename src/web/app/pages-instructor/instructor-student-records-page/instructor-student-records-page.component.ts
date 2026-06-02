@@ -26,6 +26,7 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import { GrqRgqViewResponsesComponent } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -53,7 +54,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
-  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
   private tableComparatorService = inject(TableComparatorService);
   private statusMessageService = inject(StatusMessageService);
   private commentService = inject(InstructorCommentService);
@@ -216,7 +216,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     questionShowResponsesTo: FeedbackVisibilityType[],
   ): void {
     responses.forEach((response: ResponseOutput) => {
-      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         timezone,

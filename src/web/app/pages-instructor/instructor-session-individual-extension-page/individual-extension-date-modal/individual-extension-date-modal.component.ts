@@ -17,6 +17,7 @@ import { DatepickerComponent } from '../../../components/datepicker/datepicker.c
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
+import { DateFormatService } from '../../../../services/date-format.service';
 
 export enum RadioOptions {
   EXTEND_TO = 1,
@@ -37,7 +38,7 @@ enum DateTime {
 export class IndividualExtensionDateModalComponent {
   activeModal = inject(NgbActiveModal);
   private simpleModalService = inject(SimpleModalService);
-  private dateDetailPipe = inject(FormatDateDetailPipe);
+  private dateFormatService = inject(DateFormatService);
   private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
@@ -162,7 +163,7 @@ export class IndividualExtensionDateModalComponent {
   }
 
   private adjustToFeedbackSessionTimeZone(time: number): string {
-    return this.dateDetailPipe.transform(time, this.feedbackSessionTimeZone);
+    return this.dateFormatService.formatDateDetailed(time, this.feedbackSessionTimeZone);
   }
 
   isValidForm(): boolean {
