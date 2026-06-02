@@ -7,9 +7,9 @@ import { PageAuthType } from './page.authtype';
  */
 @Component({
   selector: 'tm-authenticated-page',
-  template: '<tm-page [hideAuthInfo]="false" [pageAuthType]="PageAuthType.AUTHENTICATED"></tm-page>',
+  template: '<tm-page [hideAuthInfo]="false" [pageAuthType]="pageAuthType"></tm-page>',
   imports: [PageComponent],
 })
 export class AuthenticatedPageComponent {
-  PageAuthType = PageAuthType;
+  pageAuthType = PageAuthType.AUTHENTICATED;
 }

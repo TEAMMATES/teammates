@@ -30,12 +30,12 @@ describe('UnauthorizedWarningPageComponent', () => {
 
   it('should return correct reason for instructor role', () => {
     component.role = 'instructor';
-    expect(component['getUnauthorizedReason']()).toBe('You are not an instructor of any course.');
+    expect((component as any).getUnauthorizedReason()).toBe('You are not an instructor of any course.');
   });
 
   it('should return correct reason for student role', () => {
     component.role = 'student';
-    expect(component['getUnauthorizedReason']()).toBe('You are not enrolled as a student in any course.');
+    expect((component as any).getUnauthorizedReason()).toBe('You are not enrolled as a student in any course.');
   });
 
   it('should extract correct query parameters on initialization', () => {
@@ -47,7 +47,7 @@ describe('UnauthorizedWarningPageComponent', () => {
   });
 });
 
-describe('Unauthorized Warning Page', () => {
+describe('UnauthorizedWarningPageComponent snapshot', () => {
   let component: UnauthorizedWarningPageComponent;
   let fixture: ComponentFixture<UnauthorizedWarningPageComponent>;
   let queryParams$: Subject<any>;
