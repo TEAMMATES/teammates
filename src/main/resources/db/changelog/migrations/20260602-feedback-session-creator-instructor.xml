@@ -1,0 +1,52 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260602-feedback-session-creator-instructor-1">
+        <addColumn tableName="feedback_sessions">
+            <column name="creator_id" type="UUID"/>
+        </addColumn>
+
+        <sql>
+            UPDATE feedback_sessions fs
+            SET creator_id = i.id
+            FROM instructors i
+            JOIN users u ON u.id = i.id
+            WHERE u.email = fs.creator_email
+                AND u.course_id = fs.course_id
+        </sql>
+
+        <addForeignKeyConstraint baseColumnNames="creator_id"
+            baseTableName="feedback_sessions"
+            constraintName="FK_feedback_sessions_creator_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="SET NULL"
+            referencedColumnNames="id"
+            referencedTableName="instructors"
+            validate="true"/>
+
+        <dropColumn columnName="creator_email" tableName="feedback_sessions"/>
+
+        <rollback>
+            <addColumn tableName="feedback_sessions">
+                <column name="creator_email" type="VARCHAR(255)"/>
+            </addColumn>
+
+            <sql>
+                UPDATE feedback_sessions fs
+                SET creator_email = u.email
+                FROM users u
+                WHERE u.id = fs.creator_id
+            </sql>
+
+            <dropForeignKeyConstraint baseTableName="feedback_sessions"
+                constraintName="FK_feedback_sessions_creator_id"/>
+
+            <dropColumn columnName="creator_id" tableName="feedback_sessions"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

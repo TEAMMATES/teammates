@@ -181,7 +181,6 @@
   },
   "feedbackSessions": {
     "openSession": {
-      "creatorEmail": "ifsessionpage.instr@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -197,10 +196,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.CS2104",
-      "name": "First Session"
+      "name": "First Session",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "closedSession": {
-      "creatorEmail": "ifsessionpage.instr2@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -216,7 +215,8 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "tm.e2e.CS1101",
-      "name": "Second Session"
+      "name": "Second Session",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     }
   },
   "feedbackQuestions": {

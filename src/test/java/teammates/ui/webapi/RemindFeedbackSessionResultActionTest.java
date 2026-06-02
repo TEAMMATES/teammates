@@ -141,7 +141,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
     private FeedbackSession generatePublishedSessionInCourse(Course course, Instructor instructor) {
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
         FeedbackSession fs = new FeedbackSession("published-feedback-session",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 beforeNow, beforeNow,
                 beforeNow, beforeNow,
                 Duration.ofHours(10), false, false);
@@ -155,7 +155,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         Instant afterNowStartTime = nearestHour.plus(10, java.time.temporal.ChronoUnit.HOURS);
         Instant afterNowEndTime = nearestHour.plus(15, java.time.temporal.ChronoUnit.HOURS);
         FeedbackSession fs = new FeedbackSession("unpublished-feedback-session",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 afterNowStartTime,
                 afterNowEndTime,
                 afterNowStartTime, afterNowEndTime,

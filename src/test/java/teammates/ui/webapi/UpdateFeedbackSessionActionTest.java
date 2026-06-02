@@ -205,7 +205,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor inst) {
         FeedbackSession fs = new FeedbackSession("feedbacksession-1",
-                inst.getEmail(), "generic instructions",
+                inst, "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
                 Duration.ofHours(10), false, false);

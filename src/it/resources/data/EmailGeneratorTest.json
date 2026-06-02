@@ -372,7 +372,6 @@
   },
   "feedbackSessions": {
     "session1InCourse1": {
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -387,10 +386,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "idOfTypicalCourse1",
-      "name": "First feedback session"
+      "name": "First feedback session",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InCourse1": {
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2013-03-20T23:59:00Z",
       "startTime": "2013-06-01T22:00:00Z",
@@ -405,10 +404,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "idOfTypicalCourse1",
-      "name": "Second feedback session"
+      "name": "Second feedback session",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "gracePeriodSession": {
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2013-03-20T23:59:00Z",
       "startTime": "2013-06-01T22:00:00Z",
@@ -423,10 +422,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "idOfTypicalCourse1",
-      "name": "Grace Period Session"
+      "name": "Grace Period Session",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "closedSession": {
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2013-03-20T23:59:00Z",
       "startTime": "2013-06-01T22:00:00Z",
@@ -441,10 +440,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "idOfTypicalCourse1",
-      "name": "Closed Session"
+      "name": "Closed Session",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "empty.session": {
-      "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2013-01-20T23:57:00Z",
       "startTime": "2013-02-02T00:00:00Z",
@@ -461,10 +460,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "idOfTypicalCourse1",
-      "name": "Empty session"
+      "name": "Empty session",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     },
     "awaiting.session": {
-      "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2013-01-20T23:00:00Z",
       "startTime": "2026-04-01T23:00:00Z",
@@ -481,10 +480,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000706",
       "courseId": "idOfTypicalCourse1",
-      "name": "non visible session"
+      "name": "non visible session",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     },
     "session2InCourse2": {
-      "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
@@ -499,10 +498,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "idOfTypicalCourse2",
-      "name": "Not answerable feedback session"
+      "name": "Not answerable feedback session",
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session1InCourse3": {
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -517,10 +516,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000708",
       "courseId": "idOfTypicalCourse3",
-      "name": "First feedback session"
+      "name": "First feedback session",
+      "creatorId": null
     },
     "session2InCourse3": {
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -535,10 +534,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000709",
       "courseId": "idOfTypicalCourse3",
-      "name": "Second feedback session"
+      "name": "Second feedback session",
+      "creatorId": null
     },
     "session1InCourse4": {
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -553,10 +552,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000710",
       "courseId": "idOfTypicalCourse4",
-      "name": "First feedback session"
+      "name": "First feedback session",
+      "creatorId": null
     },
     "session2InCourse4": {
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -571,10 +570,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000711",
       "courseId": "idOfTypicalCourse4",
-      "name": "Second feedback session"
+      "name": "Second feedback session",
+      "creatorId": null
     },
     "session1InTestingNoEmailsSentCourse": {
-      "creatorEmail": "instructor1@noemailcourse.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -591,10 +590,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000712",
       "courseId": "idOfTestingNoEmailsSentCourse",
-      "name": "Feedback session with no emails sent"
+      "name": "Feedback session with no emails sent",
+      "creatorId": null
     },
     "session1InTestingSanitizationCourse": {
-      "creatorEmail": "instructor1@sanitization.tmt",
       "instructions": "unclosed tags </td></div> Attempted script injection '\" <script>alert('hello');</script>",
       "createdAt": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -609,7 +608,8 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000713",
       "courseId": "idOfTestingSanitizationCourse",
-      "name": "Normal feedback session name"
+      "name": "Normal feedback session name",
+      "creatorId": "00000000-0000-4000-8000-000000000508"
     }
   },
   "feedbackQuestions": {},
