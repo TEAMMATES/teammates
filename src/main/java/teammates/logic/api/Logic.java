@@ -12,7 +12,6 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -346,11 +345,11 @@ public class Logic {
     }
 
     /**
-     * Gets a list of section names for the given {@code courseId}.
+     * Gets the sections for the given {@code courseId}.
      */
-    public List<String> getSectionNamesForCourse(String courseId)
+    public Set<Section> getSectionsForCourse(String courseId)
             throws EntityDoesNotExistException {
-        return coursesLogic.getSectionNamesForCourse(courseId);
+        return coursesLogic.getSectionsForCourse(courseId);
     }
 
     /**
@@ -1185,17 +1184,16 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @param feedbackSession the feedback session
-     * @param instructorEmail the email of the instructor requesting for the session result
+     * @param instructor the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
-     * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
-            FeedbackSession feedbackSession, String instructorEmail,
-            @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
+            FeedbackSession feedbackSession, Instructor instructor,
+            @Nullable UUID questionId, @Nullable String sectionName) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructorEmail, questionId, sectionName, fetchType);
+                feedbackSession, instructor, questionId, sectionName);
     }
 
     /**

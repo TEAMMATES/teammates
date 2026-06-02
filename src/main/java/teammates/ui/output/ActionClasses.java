@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * The API output format for retrieving list of action classes.
  */
-public class ActionClasses extends ApiOutput {
+public class ActionClasses implements ApiOutput {
     private final List<String> actionClasses;
 
     public ActionClasses(List<String> actionClasses) {

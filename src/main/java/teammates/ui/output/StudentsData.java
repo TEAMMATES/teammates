@@ -9,7 +9,7 @@ import teammates.storage.entity.Student;
 /**
  * The API output format of a list of {@link StudentData}.
  */
-public class StudentsData extends ApiOutput {
+public class StudentsData implements ApiOutput {
 
     private List<StudentData> students;
 

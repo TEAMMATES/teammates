@@ -145,7 +145,6 @@ describe('SearchService', () => {
       sectionLevel: {},
       sessionLevel: {},
     },
-    requestId: 'checkyourprivilege',
   };
 
   const mockPrivilegeB: InstructorPrivilege = {
@@ -163,7 +162,6 @@ describe('SearchService', () => {
       sectionLevel: {},
       sessionLevel: {},
     },
-    requestId: '123gyijuyol56w8refw123ce8f5',
   };
 
   const mockPrivilegeC: InstructorPrivilege = {
@@ -181,7 +179,6 @@ describe('SearchService', () => {
       sectionLevel: {},
       sessionLevel: {},
     },
-    requestId: '98pa78342kjnk22s1213rsdff4',
   };
 
   const mockCourse: Course = {
@@ -191,7 +188,6 @@ describe('SearchService', () => {
     timeZone: 'UTC',
     creationTimestamp: 1585487897502,
     deletionTimestamp: 0,
-    requestId: '5e80aa3c00007918934385f5',
   };
 
   const mockAccountRequest: AccountRequest = {

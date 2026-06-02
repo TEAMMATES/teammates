@@ -10,7 +10,7 @@ import teammates.storage.entity.ResponseRecipient;
 /**
  * API output for Feedback Question Recipients, which is a collection of {@link FeedbackQuestionRecipientData}.
  */
-public class FeedbackQuestionRecipientsData extends ApiOutput {
+public class FeedbackQuestionRecipientsData implements ApiOutput {
     private List<FeedbackQuestionRecipientData> recipients;
 
     public FeedbackQuestionRecipientsData(Set<ResponseRecipient> recipients) {

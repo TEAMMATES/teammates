@@ -54,27 +54,28 @@ export class UserJoinPageComponent implements OnInit {
       const authInfo = this.authService.authInfo();
       this.userId = authInfo?.user?.id ?? '';
 
-      this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
-        next: (resp: JoinStatus) => {
-          this.hasJoined = resp.hasJoined;
-          if (this.hasJoined) {
-            // The regkey has been used; simply redirect the user to their home page,
-            // regardless of whether the regkey matches or not.
-            this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
-          } else {
-            this.isLoading = false;
-          }
-        },
-        error: (resp: ErrorMessageOutput) => {
-          if (resp.status === 404) {
-            this.validUrl = false;
-            this.isLoading = false;
-            return;
-          }
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        },
+        this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
+          next: (resp: JoinStatus) => {
+            this.hasJoined = resp.hasJoined;
+            if (this.hasJoined) {
+              // The regkey has been used; simply redirect the user to their home page,
+              // regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
+            } else {
+              this.isLoading = false;
+            }
+          },
+          error: (resp: ErrorMessageOutput) => {
+            if (resp.status === 404) {
+              this.validUrl = false;
+              this.isLoading = false;
+              return;
+            }
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          },
+        });
       });
     });
   }
@@ -94,7 +95,7 @@ export class UserJoinPageComponent implements OnInit {
 
         if (resp.status >= 500) {
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
           modalRef.componentInstance.errorMessage = errorMessage;
         } else {
           this.simpleModalService.openInformationModal('ERROR', SimpleModalType.DANGER, errorMessage);
@@ -127,7 +128,7 @@ export class UserJoinPageComponent implements OnInit {
             this.validUrl = false;
           } else {
             const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
             modalRef.componentInstance.errorMessage = resp.error.message;
           }
         },

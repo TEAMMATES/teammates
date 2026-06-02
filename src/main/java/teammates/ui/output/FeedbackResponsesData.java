@@ -8,7 +8,7 @@ import teammates.storage.entity.FeedbackResponse;
 /**
  * The API output format of a list of {@link FeedbackResponse}.
  */
-public class FeedbackResponsesData extends ApiOutput {
+public class FeedbackResponsesData implements ApiOutput {
 
     private List<FeedbackResponseData> responses;
 

@@ -5,7 +5,7 @@ import teammates.storage.entity.ResponseRecipient;
 /**
  * API output for feedback question recipient.
  */
-public class FeedbackQuestionRecipientData extends ApiOutput {
+public class FeedbackQuestionRecipientData implements ApiOutput {
 
     private String name;
     private String identifier;

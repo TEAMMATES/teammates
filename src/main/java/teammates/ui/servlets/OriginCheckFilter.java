@@ -49,6 +49,10 @@ public class OriginCheckFilter implements Filter {
             "ngsw-bypass"
     ));
 
+    private static final String EXPOSED_HEADERS = String.join(", ", Arrays.asList(
+            Const.HeaderNames.REQUEST_ID
+    ));
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
@@ -59,6 +63,7 @@ public class OriginCheckFilter implements Filter {
             response.setHeader("Access-Control-Allow-Methods", ALLOWED_HTTP_METHODS);
             response.setHeader("Access-Control-Allow-Headers", ALLOWED_HEADERS);
             response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Expose-Headers", EXPOSED_HEADERS);
         }
 
         if (Config.CSRF_KEY != null

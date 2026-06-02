@@ -961,7 +961,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.hasFeedbackSessionQuestionsLoadingFailed = true;
     if (this.retryAttempts < 0) {
       const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
-      report.componentInstance.requestId = resp.error.requestId;
+      report.componentInstance.requestId = resp.headers?.get('X-Request-Id');
       report.componentInstance.errorMessage = resp.error.message;
     } else {
       this.statusMessageService.showErrorToast(resp.error.message);

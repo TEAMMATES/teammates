@@ -3,7 +3,7 @@ package teammates.ui.output;
 /**
  * The API output format to represent if the registration key is valid for the logged in user (or lack thereof).
  */
-public class RegkeyValidityData extends ApiOutput {
+public class RegkeyValidityData implements ApiOutput {
     private final boolean isValid;
     private final boolean isUsed;
     private final boolean isAllowedAccess;
