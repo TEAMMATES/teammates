@@ -6,39 +6,39 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
-import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseRecipient;
 
 /**
- * Represents a feedback constant sum response.
+ * Represents a feedback constant sum options response.
  */
 @Entity
-public class FeedbackConstantSumResponse extends FeedbackResponse {
+public class FeedbackConstantSumOptionsResponse extends FeedbackResponse {
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    @Convert(converter = FeedbackConstantSumResponseDetailsConverter.class)
-    private FeedbackConstantSumResponseDetails answer;
+    @Convert(converter = FeedbackConstantSumOptionsResponseDetailsConverter.class)
+    private FeedbackConstantSumOptionsResponseDetails answer;
 
-    protected FeedbackConstantSumResponse() {
+    protected FeedbackConstantSumOptionsResponse() {
         // required by Hibernate
     }
 
-    public FeedbackConstantSumResponse(
+    public FeedbackConstantSumOptionsResponse(
             ResponseGiver giver, ResponseRecipient recipient,
             FeedbackResponseDetails responseDetails, @Nullable String giverComment
     ) {
         super(giver, recipient, giverComment);
-        this.setAnswer((FeedbackConstantSumResponseDetails) responseDetails);
+        this.setAnswer((FeedbackConstantSumOptionsResponseDetails) responseDetails);
     }
 
-    public FeedbackConstantSumResponseDetails getAnswer() {
+    public FeedbackConstantSumOptionsResponseDetails getAnswer() {
         return answer;
     }
 
-    public void setAnswer(FeedbackConstantSumResponseDetails answer) {
+    public void setAnswer(FeedbackConstantSumOptionsResponseDetails answer) {
         this.answer = answer;
     }
 
@@ -49,20 +49,20 @@ public class FeedbackConstantSumResponse extends FeedbackResponse {
 
     @Override
     public void setFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
-        setAnswer(castResponseDetails(responseDetails, FeedbackConstantSumResponseDetails.class));
+        setAnswer(castResponseDetails(responseDetails, FeedbackConstantSumOptionsResponseDetails.class));
     }
 
     @Override
     public String toString() {
-        return "FeedbackConstantSumResponse [id=" + super.getId()
+        return "FeedbackConstantSumOptionsResponse [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
     /**
-     * Converter for FeedbackConstantSumResponse specific attributes.
+     * Converter for FeedbackConstantSumOptionsResponse specific attributes.
      */
     @Converter
-    public static class FeedbackConstantSumResponseDetailsConverter
+    public static class FeedbackConstantSumOptionsResponseDetailsConverter
             extends FeedbackResponseDetailsConverter {
     }
 }

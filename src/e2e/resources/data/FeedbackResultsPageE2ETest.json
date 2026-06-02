@@ -303,7 +303,6 @@
     "qn6": {
       "questionDetails": {
         "constSumOptions": ["Grades", "Fun"],
-        "distributeToRecipients": false,
         "pointsPerOption": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -323,8 +322,6 @@
     },
     "qn7": {
       "questionDetails": {
-        "constSumOptions": [],
-        "distributeToRecipients": true,
         "pointsPerOption": true,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -778,7 +775,7 @@
     "qn6response1": {
       "answer": {
         "answers": [71, 29],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "id": "00000000-0000-4000-8000-000000000922",
       "giver": {
@@ -793,7 +790,7 @@
     "qn6responseA": {
       "answer": {
         "answers": [100, 0],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_OPTIONS"
       },
       "id": "00000000-0000-4000-8000-000000000923",
       "giver": {
@@ -808,7 +805,7 @@
     "qn7response1": {
       "answer": {
         "answers": [49],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000924",
       "giver": {
@@ -823,7 +820,7 @@
     "qn7response2": {
       "answer": {
         "answers": [151],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000925",
       "giver": {
@@ -838,7 +835,7 @@
     "qn7response3": {
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000926",
       "giver": {
@@ -853,7 +850,7 @@
     "qn7responseA": {
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000927",
       "giver": {
@@ -868,7 +865,7 @@
     "qn7responseB": {
       "answer": {
         "answers": [100],
-        "questionType": "CONSTSUM"
+        "questionType": "CONSTSUM_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000928",
       "giver": {

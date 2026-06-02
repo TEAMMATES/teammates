@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-import { FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
+import { FeedbackConstantSumRecipientsResponseDetails } from '../../../../types/api-output';
 import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
 
 /**
@@ -12,7 +12,7 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   templateUrl: './constsum-recipients-question-edit-answer-form.component.html',
   imports: [FormsModule, WheelDisablerDirective],
 })
-export class ConstsumRecipientsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackConstantSumResponseDetails> {
+export class ConstsumRecipientsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackConstantSumRecipientsResponseDetails> {
   Math!: typeof Math;
 
   constructor() {

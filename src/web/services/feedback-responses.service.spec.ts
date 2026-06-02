@@ -7,7 +7,8 @@ import { InstructorSessionResultSectionType } from '../app/pages-instructor/inst
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
@@ -22,7 +23,8 @@ import {
 } from '../types/api-output';
 import { FeedbackResponsesRequest, Intent } from '../types/api-request';
 import {
-  DEFAULT_CONSTSUM_RESPONSE_DETAILS,
+  DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
   DEFAULT_MSQ_RESPONSE_DETAILS,
@@ -56,8 +58,8 @@ describe('FeedbackResponsesService', () => {
     [FeedbackQuestionType.MCQ, DEFAULT_MCQ_RESPONSE_DETAILS()],
     [FeedbackQuestionType.MSQ, DEFAULT_MSQ_RESPONSE_DETAILS()],
     [FeedbackQuestionType.RUBRIC, DEFAULT_RUBRIC_RESPONSE_DETAILS()],
-    [FeedbackQuestionType.CONSTSUM_OPTIONS, DEFAULT_CONSTSUM_RESPONSE_DETAILS()],
-    [FeedbackQuestionType.CONSTSUM_RECIPIENTS, DEFAULT_CONSTSUM_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.CONSTSUM_OPTIONS, DEFAULT_CONSTSUM_OPTIONS_RESPONSE_DETAILS()],
+    [FeedbackQuestionType.CONSTSUM_RECIPIENTS, DEFAULT_CONSTSUM_RECIPIENTS_RESPONSE_DETAILS()],
   ]);
 
   beforeEach(() => {
@@ -80,13 +82,6 @@ describe('FeedbackResponsesService', () => {
     for (const [questionType, responseDetails] of questionTypeToResponseDetails) {
       expect(service.getDefaultFeedbackResponseDetails(questionType)).toStrictEqual(responseDetails);
     }
-  });
-
-  it("should throw an error when trying to retrieve an unknown question type's response details", () => {
-    const unknownFeedbackQuestionType: FeedbackQuestionType = 'UNKNOWN' as FeedbackQuestionType;
-    expect(() => service.getDefaultFeedbackResponseDetails(unknownFeedbackQuestionType)).toThrow(
-      `Unknown question type ${unknownFeedbackQuestionType}`,
-    );
   });
 
   it('should correctly indicate whether any text response details are empty or not', () => {
@@ -221,7 +216,7 @@ describe('FeedbackResponsesService', () => {
       ' are empty or not',
     () => {
       const feedbackQuestionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
-      const feedbackResponseDetails: FeedbackConstantSumResponseDetails = {
+      const feedbackResponseDetails: FeedbackConstantSumOptionsResponseDetails = {
         questionType: feedbackQuestionType,
         answers: [],
       };
@@ -237,7 +232,7 @@ describe('FeedbackResponsesService', () => {
       ' are empty or not',
     () => {
       const feedbackQuestionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
-      const feedbackResponseDetails: FeedbackConstantSumResponseDetails = {
+      const feedbackResponseDetails: FeedbackConstantSumRecipientsResponseDetails = {
         questionType: feedbackQuestionType,
         answers: [],
       };

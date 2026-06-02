@@ -14,8 +14,9 @@ import {
 import {
   ContributionStatistics,
   ContributionStatisticsEntry,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
@@ -38,8 +39,8 @@ import {
 } from '../../types/feedback-response-details';
 
 export function calculateConstsumOptionsQuestionStatistics(
-  question: FeedbackConstantSumQuestionDetails,
-  responses: Response<FeedbackConstantSumResponseDetails>[],
+  question: FeedbackConstantSumOptionsQuestionDetails,
+  responses: Response<FeedbackConstantSumOptionsResponseDetails>[],
 ): ConstsumOptionsQuestionStatistics {
   const stats: ConstsumOptionsQuestionStatistics = {
     pointsPerOption: {},
@@ -71,7 +72,7 @@ export function calculateConstsumOptionsQuestionStatistics(
 }
 
 export function calculateConstsumRecipientsQuestionStatistics(
-  responses: Response<FeedbackConstantSumResponseDetails>[],
+  responses: Response<FeedbackConstantSumRecipientsResponseDetails>[],
   recipientType: QuestionRecipientType,
 ): ConstsumRecipientsQuestionStatistics {
   const stats: ConstsumRecipientsQuestionStatistics = {

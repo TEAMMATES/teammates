@@ -60,7 +60,11 @@ export interface ErrorReportRequest extends BasicRequest {
   content: string;
 }
 
-export interface FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
+export interface FeedbackConstantSumOptionsResponseDetails extends FeedbackResponseDetails {
+  answers: number[];
+}
+
+export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
 }
 
@@ -310,7 +314,6 @@ export enum FeedbackQuestionType {
   MCQ = "MCQ",
   MSQ = "MSQ",
   NUMSCALE = "NUMSCALE",
-  CONSTSUM = "CONSTSUM",
   CONSTSUM_OPTIONS = "CONSTSUM_OPTIONS",
   CONSTSUM_RECIPIENTS = "CONSTSUM_RECIPIENTS",
   CONTRIB = "CONTRIB",

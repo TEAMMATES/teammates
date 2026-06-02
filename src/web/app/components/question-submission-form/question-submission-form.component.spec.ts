@@ -16,8 +16,9 @@ import { createBuilder } from '../../../test-helpers/generic-builder';
 import { mapReplacer, mapReviver } from '../../../test-helpers/json-helpers';
 import testEventEmission from '../../../test-helpers/test-event-emitter';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumOptionsResponseDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
@@ -199,18 +200,17 @@ describe('QuestionSubmissionFormComponent', () => {
     answer: 0,
   });
 
-  const feedbackConstantSumQuestionDetailsBuilder = createBuilder<FeedbackConstantSumQuestionDetails>({
+  const feedbackConstantSumQuestionDetailsBuilder = createBuilder<FeedbackConstantSumOptionsQuestionDetails>({
     questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     questionText: '',
     constSumOptions: [],
-    distributeToRecipients: false,
     pointsPerOption: false,
     forceUnevenDistribution: false,
     distributePointsFor: '',
     points: 0,
   });
 
-  const feedbackConstantSumResponseDetailsBuilder = createBuilder<FeedbackConstantSumResponseDetails>({
+  const feedbackConstantSumResponseDetailsBuilder = createBuilder<FeedbackConstantSumOptionsResponseDetails>({
     questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
     answers: [],
   });
@@ -1180,7 +1180,7 @@ describe('QuestionSubmissionFormComponent', () => {
       recipientIdentifier: 'harris-barry-id',
       responseDetails: {
         answers: [1],
-      } as FeedbackConstantSumResponseDetails,
+      } as FeedbackConstantSumRecipientsResponseDetails,
       status: ResponseSubmissionStatus.SAVED,
       isValid: true,
     };

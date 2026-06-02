@@ -1,8 +1,8 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 import {
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
@@ -10,14 +10,12 @@ import { Response } from '../question-statistics.model';
 import { calculateConstsumRecipientsQuestionStatistics } from '../../app/utils/question-statistics.util';
 
 /**
- * Concrete implementation of {@link FeedbackConstantSumQuestionDetails}.
+ * Concrete implementation of {@link FeedbackConstantSumRecipientsQuestionDetails}.
  */
 export class FeedbackConstantSumRecipientsQuestionDetailsImpl
   extends AbstractFeedbackQuestionDetails
-  implements FeedbackConstantSumQuestionDetails
+  implements FeedbackConstantSumRecipientsQuestionDetails
 {
-  constSumOptions: string[] = [];
-  distributeToRecipients = true;
   pointsPerOption = false;
   forceUnevenDistribution = false;
   distributePointsFor: string = FeedbackConstantSumDistributePointsType.NONE;
@@ -27,23 +25,22 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl
   minPoint: number | undefined = undefined;
   maxPoint: number | undefined = undefined;
 
-  constructor(apiOutput: FeedbackConstantSumQuestionDetails) {
+  constructor(apiOutput: FeedbackConstantSumRecipientsQuestionDetails) {
     super();
-    this.constSumOptions = apiOutput.constSumOptions;
     this.pointsPerOption = apiOutput.pointsPerOption;
     this.forceUnevenDistribution = apiOutput.forceUnevenDistribution;
     this.distributePointsFor = apiOutput.distributePointsFor;
     this.points = apiOutput.points;
     this.questionText = apiOutput.questionText;
-    this.minPoint = apiOutput.minPoint;
-    this.maxPoint = apiOutput.maxPoint;
   }
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
     const responses = question.allResponses
       // Missing response is meaningless for statistics
-      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackConstantSumResponseDetails>[];
+      .filter(
+        (response) => !response.isMissingResponse,
+      ) as unknown as Response<FeedbackConstantSumRecipientsResponseDetails>[];
     const recipientType = question.feedbackQuestion.recipientType;
 
     if (responses.length === 0) {

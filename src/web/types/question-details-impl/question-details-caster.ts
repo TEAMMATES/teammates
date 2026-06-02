@@ -1,5 +1,6 @@
 import {
-  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
   FeedbackContributionQuestionDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMsqQuestionDetails,
@@ -13,11 +14,11 @@ import {
 } from '../api-output';
 
 export class QuestionDetailsTypeChecker {
-  static isConstSumOptions(d: FeedbackQuestionDetails): d is FeedbackConstantSumQuestionDetails {
+  static isConstSumOptions(d: FeedbackQuestionDetails): d is FeedbackConstantSumOptionsQuestionDetails {
     return d.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS;
   }
 
-  static isConstSumRecipients(d: FeedbackQuestionDetails): d is FeedbackConstantSumQuestionDetails {
+  static isConstSumRecipients(d: FeedbackQuestionDetails): d is FeedbackConstantSumRecipientsQuestionDetails {
     return d.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS;
   }
 
