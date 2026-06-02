@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -41,6 +42,7 @@ import teammates.storage.entity.responses.FeedbackTextResponse;
 @Entity
 @Table(name = "FeedbackResponses")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(length = 63)
 public abstract class FeedbackResponse extends BaseEntity {
     @Id
     private UUID id;
