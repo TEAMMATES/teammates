@@ -27,7 +27,7 @@ import { FormatDateDetailPipe } from '../../components/teammates-common/format-d
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
-import { DateFormatService } from '../../../services/format-date.service';
+import { DateFormatService } from '../../../services/date-format.service';
 import { sessionSubmissionStatusDisplay } from '../../utils/session-submission-status.util';
 
 interface StudentCourse {

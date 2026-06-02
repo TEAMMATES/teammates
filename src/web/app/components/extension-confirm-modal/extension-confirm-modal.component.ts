@@ -17,7 +17,7 @@ import {
 } from '../sortable-table/sortable-table.component';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
-import { DateFormatService } from '../../../services/format-date.service';
+import { DateFormatService } from '../../../services/date-format.service';
 import { instructorRoleToName } from '../../utils/instructor-role-name.util';
 
 export enum ExtensionModalType {

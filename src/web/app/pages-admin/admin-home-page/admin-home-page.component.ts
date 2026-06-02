@@ -10,7 +10,7 @@ import { AccountRequestTableRowModel } from '../../components/account-requests-t
 import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { DateFormatService } from '../../../services/format-date.service';
+import { DateFormatService } from '../../../services/date-format.service';
 
 /**
  * Admin home page.

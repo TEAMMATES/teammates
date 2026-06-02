@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
-import { DateFormatService } from '../../../services/format-date.service';
+import { DateFormatService } from '../../../services/date-format.service';
 /**
  * Pipe to handle the display of feedback session start and end time in brief.
  */

@@ -27,7 +27,7 @@ import { publishStatusNameToString } from '../../utils/publish-status-name.util'
 import { submissionStatusTooltipToString } from '../../utils/submissions-status-tool-tip.util';
 import { submissionsStatusNameToString } from '../../utils/submissions-status-name.util';
 import { publishStatusTooltipUtilToString } from '../../utils/publish-status-tooltip.util';
-import { DateFormatService } from '../../../services/format-date.service';
+import { DateFormatService } from '../../../services/date-format.service';
 
 export type MutateEvent = {
   idx: number;

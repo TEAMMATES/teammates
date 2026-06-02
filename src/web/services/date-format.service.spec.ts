@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { DateFormatService } from './format-date.service';
+import { DateFormatService } from './date-format.service';
 import { TimezoneService } from './timezone.service';
 
 describe('DateFormatService', () => {

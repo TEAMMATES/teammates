@@ -17,7 +17,7 @@ import { DatepickerComponent } from '../../../components/datepicker/datepicker.c
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
-import { DateFormatService } from '../../../../services/format-date.service';
+import { DateFormatService } from '../../../../services/date-format.service';
 
 export enum RadioOptions {
   EXTEND_TO = 1,
