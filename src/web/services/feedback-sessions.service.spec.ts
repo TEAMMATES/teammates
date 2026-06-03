@@ -129,6 +129,25 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
   });
 
+  it('should call get when retrieving feedback session submission data', () => {
+    const paramMap: Record<string, string> = {
+      fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
+      intent: Intent.STUDENT_SUBMISSION,
+      key: 'reg-key',
+      moderatedperson: 'moderated-person',
+      previewas: 'preview-person',
+    };
+
+    service.getSessionSubmissionData({
+      feedbackSessionId: paramMap['fsid'],
+      intent: Intent.STUDENT_SUBMISSION,
+      key: paramMap['key'],
+      moderatedPerson: paramMap['moderatedperson'],
+      previewAs: paramMap['previewas'],
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
+  });
+
   it('should call put when moving session to recycle bin', () => {
     const paramMap: Record<string, string> = {
       fsid: '213bccdb-1c83-45b6-8643-2c9ab7b03837',

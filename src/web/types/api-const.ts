@@ -90,6 +90,7 @@ export enum ResourceEndpoints {
   SESSION_REMIND_SUBMISSION = "/webapi/session/remind/submission",
   SESSION_REMIND_RESULT = "/webapi/session/remind/result",
   SESSION_STATS = "/webapi/session/stats",
+  SESSION_SUBMISSION = "/webapi/session/submission",
   SESSION_SUBMITTED_GIVER_SET = "/webapi/session/submitted/giverset",
   SESSIONS = "/webapi/sessions",
   BIN_SESSION = "/webapi/bin/session",

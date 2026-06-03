@@ -14,8 +14,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.SessionSubmissionBundle;
+import teammates.common.datatransfer.SessionSubmissionBundle.QuestionSubmissionBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -27,6 +30,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
@@ -170,6 +174,92 @@ public final class FeedbackQuestionsLogic {
         questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, QuestionGiverType.TEAMS));
         questions.sort(null);
         return questions;
+    }
+
+    /**
+     * Gets all data required for feedback session submission.
+     */
+    public SessionSubmissionBundle getSessionSubmissionBundleForStudent(
+            FeedbackSession feedbackSession, Student student, boolean isPreview, boolean isModeration) {
+        List<FeedbackQuestion> questions = new ArrayList<>(getFeedbackQuestionsForStudents(feedbackSession));
+        Map<UUID, Optional<List<String>>> dynamicallyGeneratedOptions = new HashMap<>();
+        for (FeedbackQuestion question : questions) {
+            dynamicallyGeneratedOptions.put(question.getId(), getDynamicallyGeneratedOptions(question, student));
+        }
+
+        if (isModeration) {
+            questions.removeIf(question -> !canInstructorSeeQuestion(question));
+        }
+
+        List<Student> students = usersLogic.getStudentsForCourse(feedbackSession.getCourseId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(feedbackSession.getCourseId());
+        CourseRoster courseRoster = new CourseRoster(students, instructors);
+
+        List<QuestionSubmissionBundle> questionSubmissionBundles = new ArrayList<>();
+        for (FeedbackQuestion question : questions) {
+            ResponseGiver responseGiver = question.getGiverType() == QuestionGiverType.TEAMS
+                    ? new ResponseGiver(student.getTeam())
+                    : new ResponseGiver(student);
+            Set<ResponseRecipient> recipients = getRecipientsOfQuestion(question, responseGiver, courseRoster);
+            List<FeedbackResponse> responses = isPreview
+                    ? Collections.emptyList()
+                    : frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);
+
+            questionSubmissionBundles.add(new QuestionSubmissionBundle(question,
+                    dynamicallyGeneratedOptions.getOrDefault(question.getId(), Optional.empty()), recipients, responses));
+        }
+
+        normalizeQuestionNumbers(questionSubmissionBundles);
+
+        return new SessionSubmissionBundle(questionSubmissionBundles);
+    }
+
+    /**
+     * Gets all data required for feedback session submission as an instructor.
+     */
+    public SessionSubmissionBundle getSessionSubmissionBundleForInstructor(FeedbackSession feedbackSession,
+            Instructor instructor, boolean isPreview, boolean isModeration) {
+        List<FeedbackQuestion> questions = new ArrayList<>(
+                getFeedbackQuestionsForInstructors(feedbackSession, instructor));
+        Map<UUID, Optional<List<String>>> dynamicallyGeneratedOptions = new HashMap<>();
+        for (FeedbackQuestion question : questions) {
+            dynamicallyGeneratedOptions.put(question.getId(), getDynamicallyGeneratedOptions(question, null));
+        }
+
+        if (isModeration) {
+            questions.removeIf(question -> !canInstructorSeeQuestion(question));
+        }
+
+        List<Student> students = usersLogic.getStudentsForCourse(feedbackSession.getCourseId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(feedbackSession.getCourseId());
+        CourseRoster courseRoster = new CourseRoster(students, instructors);
+
+        List<QuestionSubmissionBundle> questionSubmissionBundles = new ArrayList<>();
+        for (FeedbackQuestion question : questions) {
+            ResponseGiver responseGiver = new ResponseGiver(instructor);
+            Set<ResponseRecipient> recipients = getRecipientsOfQuestion(question, responseGiver, courseRoster);
+            List<FeedbackResponse> responses = isPreview
+                    ? Collections.emptyList()
+                    : frLogic.getFeedbackResponsesFromInstructorForQuestion(question, instructor);
+
+            questionSubmissionBundles.add(new QuestionSubmissionBundle(question,
+                    dynamicallyGeneratedOptions.getOrDefault(question.getId(), Optional.empty()), recipients, responses));
+        }
+        normalizeQuestionNumbers(questionSubmissionBundles);
+
+        return new SessionSubmissionBundle(questionSubmissionBundles);
+    }
+
+    private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
+        return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
+                && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
+                && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+    }
+
+    private void normalizeQuestionNumbers(List<QuestionSubmissionBundle> questionSubmissionBundles) {
+        for (int i = 1; i <= questionSubmissionBundles.size(); i++) {
+            questionSubmissionBundles.get(i - 1).getQuestion().setQuestionNumber(i);
+        }
     }
 
     /**
@@ -447,12 +537,6 @@ public final class FeedbackQuestionsLogic {
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(question.getCourseId());
         CourseRoster courseRoster = new CourseRoster(students, instructors);
 
-        // If the giver is not of the correct type, then return an empty set as
-        // there are no valid recipients for this giver.
-        if (!isGiverValidForQuestion(question, responseGiver)) {
-            return Collections.emptySet();
-        }
-
         return getRecipientsOfQuestion(question, responseGiver, courseRoster);
     }
 
@@ -469,6 +553,10 @@ public final class FeedbackQuestionsLogic {
         QuestionRecipientType recipientType = question.getRecipientType();
         QuestionRecipientType generateOptionsFor = recipientType;
         boolean isInstructorGiver = responseGiver.getGiverUser() instanceof Instructor;
+
+        if (!isGiverValidForQuestion(question, responseGiver)) {
+            return Collections.emptySet();
+        }
 
         switch (recipientType) {
         case SELF:

@@ -16,6 +16,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
@@ -1175,9 +1176,25 @@ public class Logic {
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForInstructors(
             FeedbackSession feedbackSession, Instructor instructor) {
-        assert feedbackSession != null;
-
         return feedbackQuestionsLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor);
+    }
+
+    /**
+     * Gets all data required for feedback session submission.
+     */
+    public SessionSubmissionBundle getSessionSubmissionBundleForStudent(FeedbackSession feedbackSession,
+            Student student, boolean isPreview, boolean isModeration) {
+        return feedbackQuestionsLogic.getSessionSubmissionBundleForStudent(
+                feedbackSession, student, isPreview, isModeration);
+    }
+
+    /**
+     * Gets all data required for feedback session submission as an instructor.
+     */
+    public SessionSubmissionBundle getSessionSubmissionBundleForInstructor(FeedbackSession feedbackSession,
+            Instructor instructor, boolean isPreview, boolean isModeration) {
+        return feedbackQuestionsLogic.getSessionSubmissionBundleForInstructor(
+                feedbackSession, instructor, isPreview, isModeration);
     }
 
     /**

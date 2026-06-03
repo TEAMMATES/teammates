@@ -579,6 +579,16 @@ export interface SessionResults extends ApiOutput {
   questions: QuestionOutput[];
 }
 
+export interface SessionSubmission extends ApiOutput {
+  questions: SessionSubmissionQuestion[];
+}
+
+export interface SessionSubmissionQuestion extends ApiOutput {
+  question: FeedbackQuestion;
+  recipients: FeedbackQuestionRecipient[];
+  responses: FeedbackResponse[];
+}
+
 export interface SourceLocation {
   file: string;
   line: number;

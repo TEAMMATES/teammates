@@ -12,7 +12,6 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -28,7 +27,6 @@ import {
   Course,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
-  FeedbackQuestionRecipients,
   FeedbackQuestionType,
   FeedbackResponse,
   FeedbackQuestionResponses,
@@ -40,7 +38,8 @@ import {
   QuestionRecipientType,
   RegkeyValidity,
   Student,
-  FeedbackQuestions,
+  SessionSubmission,
+  SessionSubmissionQuestion,
 } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
@@ -85,7 +84,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly timezoneService = inject(TimezoneService);
-  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
   private readonly feedbackResponsesService = inject(FeedbackResponsesService);
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
   private readonly submissionReceiptService = inject(SubmissionReceiptService);
@@ -433,8 +431,8 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.recipientQuestionMap = new Map<string, Set<number>>();
     this.ungroupableQuestionsSorted = [];
 
-    return this.feedbackQuestionsService
-      .getFeedbackQuestions({
+    return this.feedbackSessionsService
+      .getSessionSubmissionData({
         feedbackSessionId: this.feedbackSessionId,
         intent: this.intent,
         key: this.regKey,
@@ -442,45 +440,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         previewAs: this.previewAsPerson,
       })
       .pipe(
-        tap((response: FeedbackQuestions) => {
-          response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
-            this.questionSubmissionForms.push({
-              isTabExpanded: true,
-              feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
-
-              questionNumber: feedbackQuestion.questionNumber,
-              questionBrief: feedbackQuestion.questionBrief,
-              questionDescription: feedbackQuestion.questionDescription,
-
-              giverType: feedbackQuestion.giverType,
-              recipientType: feedbackQuestion.recipientType,
-              recipientList: [],
-              recipientSubmissionForms: [],
-
-              questionType: feedbackQuestion.questionType,
-              questionDetails: feedbackQuestion.questionDetails,
-
-              numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-              customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
-                ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
-                : 0,
-
-              showGiverNameTo: feedbackQuestion.showGiverNameTo,
-              showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-              showResponsesTo: feedbackQuestion.showResponsesTo,
-
-              isTabExpandedForRecipients: new Map<string, boolean>(),
-            });
-          });
-        }),
-        switchMap(() => {
-          if (!this.questionSubmissionForms.length) {
-            return of([]);
-          }
-          return forkJoin(
-            this.questionSubmissionForms.map((model: QuestionSubmissionFormModel) => this.loadQuestionData$(model)),
-          );
-        }),
+        tap((response: SessionSubmission) => this.buildSubmissionForms(response)),
         tap(() => {
           this.ungroupableQuestionsSorted.sort((a: number, b: number) => a - b);
           this.isQuestionCountOne = this.questionSubmissionForms.length === 1;
@@ -497,55 +457,59 @@ export class SessionSubmissionPageComponent implements OnInit {
       );
   }
 
+  private buildSubmissionForms(response: SessionSubmission): void {
+    response.questions.forEach((questionData: SessionSubmissionQuestion) => {
+      const feedbackQuestion: FeedbackQuestion = questionData.question;
+      const model: QuestionSubmissionFormModel = {
+        isTabExpanded: true,
+        feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
+
+        questionNumber: feedbackQuestion.questionNumber,
+        questionBrief: feedbackQuestion.questionBrief,
+        questionDescription: feedbackQuestion.questionDescription,
+
+        giverType: feedbackQuestion.giverType,
+        recipientType: feedbackQuestion.recipientType,
+        recipientList: questionData.recipients.map((recipient: FeedbackQuestionRecipient) => ({
+          recipientIdentifier: recipient.identifier,
+          recipientName: recipient.name,
+          recipientSection: recipient.section,
+          recipientTeam: recipient.team,
+        })),
+        recipientSubmissionForms: [],
+
+        questionType: feedbackQuestion.questionType,
+        questionDetails: feedbackQuestion.questionDetails,
+
+        numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+        customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
+          ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
+          : 0,
+
+        showGiverNameTo: feedbackQuestion.showGiverNameTo,
+        showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+        showResponsesTo: feedbackQuestion.showResponsesTo,
+
+        isTabExpandedForRecipients: new Map<string, boolean>(),
+      };
+
+      this.questionSubmissionForms.push(model);
+      this.addQuestionGrouping(model);
+
+      if (this.previewAsPerson) {
+        this.buildPreviewSubmissionForms(model);
+      } else {
+        this.populateSubmissionForms(model, { responses: questionData.responses });
+      }
+    });
+  }
+
   private scrollToModeratedQuestion(): void {
     if (!this.moderatedQuestionId) {
       return;
     }
 
     setTimeout(() => this.pageScrollService.scrollToAnchor(this.moderatedQuestionId), 350);
-  }
-
-  /**
-   * Loads recipients and responses for a question.
-   */
-  private loadQuestionData$(model: QuestionSubmissionFormModel): Observable<void> {
-    return this.feedbackQuestionsService
-      .loadFeedbackQuestionRecipients({
-        questionId: model.feedbackQuestionId,
-        intent: this.intent,
-        key: this.regKey,
-        moderatedPerson: this.moderatedPerson,
-        previewAs: this.previewAsPerson,
-      })
-      .pipe(
-        tap((response: FeedbackQuestionRecipients) => {
-          model.recipientList = response.recipients.map((recipient: FeedbackQuestionRecipient) => ({
-            recipientIdentifier: recipient.identifier,
-            recipientName: recipient.name,
-            recipientSection: recipient.section,
-            recipientTeam: recipient.team,
-          }));
-          this.addQuestionGrouping(model);
-        }),
-        switchMap(() => {
-          if (this.previewAsPerson) {
-            this.buildPreviewSubmissionForms(model);
-            return of(null);
-          }
-          return this.feedbackResponsesService.getFeedbackResponse({
-            questionId: model.feedbackQuestionId,
-            intent: this.intent,
-            key: this.regKey,
-            moderatedPerson: this.moderatedPerson,
-          });
-        }),
-        tap((existingResponses: FeedbackResponsesResponse | null) => {
-          if (existingResponses) {
-            this.populateSubmissionForms(model, existingResponses);
-          }
-        }),
-        map(() => undefined),
-      );
   }
 
   private buildPreviewSubmissionForms(model: QuestionSubmissionFormModel): void {
