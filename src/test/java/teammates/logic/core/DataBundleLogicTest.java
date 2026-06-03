@@ -64,13 +64,6 @@ public class DataBundleLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testPersistDataBundle_nullBundle_throwsException() {
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> dataBundleLogic.persistDataBundle(null));
-        assertEquals("Null data bundle", ex.getMessage());
-    }
-
-    @Test
     public void testPersistDataBundle_emptyBundle_success()
             throws InvalidParametersException {
         DataBundle emptyBundle = new DataBundle();

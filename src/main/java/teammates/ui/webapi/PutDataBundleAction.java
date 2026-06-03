@@ -27,14 +27,13 @@ public class PutDataBundleAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
+        String dataBundleJson = getRequestBody();
 
         try {
-            dataBundle = logic.persistDataBundle(dataBundle);
+            DataBundle dataBundle = logic.persistDataBundle(dataBundleJson);
+            return new JsonResult(JsonUtils.toJson(dataBundle));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-
-        return new JsonResult(JsonUtils.toJson(dataBundle));
     }
 }

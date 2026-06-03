@@ -137,6 +137,9 @@ public final class AccountsLogic {
         return accountsDb.persistAccount(account);
     }
 
+    /**
+     * Deletes the account with the given ID.
+     */
     public void deleteAccount(UUID accountId) {
         Account account = getAccount(accountId);
         if (account == null) {

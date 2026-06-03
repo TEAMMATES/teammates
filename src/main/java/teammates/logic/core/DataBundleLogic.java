@@ -282,6 +282,14 @@ public final class DataBundleLogic {
     }
 
     /**
+     * Persists the data bundle represented by the given JSON string to the database.
+     */
+    public DataBundle persistDataBundle(String dataBundleJson) throws InvalidParametersException {
+        DataBundle dataBundle = deserializeDataBundle(dataBundleJson);
+        return persistDataBundle(dataBundle);
+    }
+
+    /**
      * Persists data in the given {@link DataBundle} to the database.
      *
      * @throws InvalidParametersException if invalid data is encountered.
@@ -334,7 +342,7 @@ public final class DataBundleLogic {
         if (deletionIds == null) {
             throw new InvalidParametersException("Data bundle deletion IDs DTO is null");
         }
-        
+
         deletionIds.courseIds().forEach(courseId ->
                 coursesLogic.deleteCourse(courseId)
         );

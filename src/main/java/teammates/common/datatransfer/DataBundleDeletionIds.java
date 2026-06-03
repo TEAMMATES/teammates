@@ -5,8 +5,13 @@ import java.util.UUID;
 
 /**
  * Holds the IDs of entities to be deleted.
+ *
+ * @param accountIds the IDs of accounts to be deleted
+ * @param accountRequestIds the IDs of account requests to be deleted
+ * @param courseIds the IDs of courses to be deleted
+ * @param notificationIds the IDs of notifications to be deleted
+ * @param readNotificationIds the IDs of read notifications to be deleted
  */
-// CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
 public record DataBundleDeletionIds(
         List<UUID> accountIds,
         List<UUID> accountRequestIds,

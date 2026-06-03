@@ -1230,6 +1230,14 @@ public class Logic {
     }
 
     /**
+     * Persists the data bundle represented by the given JSON string to the database.
+     */
+    public DataBundle persistDataBundle(String dataBundleJson)
+            throws InvalidParametersException {
+        return dataBundleLogic.persistDataBundle(dataBundleJson);
+    }
+
+    /**
      * Persists the given data bundle to the database.
      */
     public DataBundle persistDataBundle(DataBundle dataBundle)

@@ -43,6 +43,10 @@ public class DataBundle {
     public Map<String, Notification> notifications = new LinkedHashMap<>();
     public Map<String, ReadNotification> readNotifications = new LinkedHashMap<>();
 
+    /**
+     * Converts this data bundle to a {@link DataBundleDeletionIds} containing the IDs of all
+     * relevant entities in this bundle.
+     */
     public DataBundleDeletionIds toDeletionIds() {
         return new DataBundleDeletionIds(
                 accounts.values().stream().map(Account::getId).toList(),
