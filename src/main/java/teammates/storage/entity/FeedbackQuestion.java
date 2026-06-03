@@ -25,6 +25,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -53,6 +55,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "sessionId")
@@ -61,6 +64,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @Column(insertable = false, updatable = false)
     private UUID sessionId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "feedbackQuestion")
     private Set<FeedbackResponse> feedbackResponses = new HashSet<>();
 

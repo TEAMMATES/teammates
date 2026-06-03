@@ -15,6 +15,8 @@ import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Represents an association class between Accounts and Notifications.
  * Keeps track of which Notifications have been read by an Account.
@@ -29,6 +31,7 @@ public class ReadNotification extends BaseEntity {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "account_id", nullable = false)
@@ -37,6 +40,7 @@ public class ReadNotification extends BaseEntity {
     @Column(name = "account_id", nullable = false, insertable = false, updatable = false)
     private UUID accountId;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "notification_id", nullable = false)

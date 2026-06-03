@@ -3,6 +3,8 @@ package teammates.storage.entity;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -25,6 +27,7 @@ public class ResponseRecipient {
     @Column(insertable = false, updatable = false)
     private UUID recipientUserId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "recipientUserId")
     private User recipientUser;
@@ -32,6 +35,7 @@ public class ResponseRecipient {
     @Column(insertable = false, updatable = false)
     private UUID recipientTeamId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "recipientTeamId")
     private Team recipientTeam;

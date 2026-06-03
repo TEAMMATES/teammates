@@ -21,6 +21,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.SanitizationHelper;
 
@@ -33,6 +35,7 @@ public class ResponseInstructorComment extends BaseEntity {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "responseId")

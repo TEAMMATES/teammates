@@ -18,6 +18,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -42,6 +43,7 @@ public abstract class User extends BaseEntity {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "accountId")
@@ -53,6 +55,7 @@ public abstract class User extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private String courseId;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "courseId", nullable = false)

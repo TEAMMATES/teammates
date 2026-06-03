@@ -17,6 +17,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.util.FieldValidator;
 
 /**
@@ -31,11 +33,13 @@ public class DeadlineExtension extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private UUID userId;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "sessionId", nullable = false)

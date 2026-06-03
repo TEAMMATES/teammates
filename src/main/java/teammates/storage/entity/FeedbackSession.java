@@ -24,6 +24,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -40,6 +42,7 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private String courseId;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "courseId", nullable = false)
@@ -51,6 +54,7 @@ public class FeedbackSession extends BaseEntity {
     @Column(insertable = false, updatable = false)
     private UUID creatorId;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "creatorId")
@@ -96,9 +100,11 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailSent;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "feedbackSession")
     private Set<DeadlineExtension> deadlineExtensions = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "feedbackSession")
     private Set<FeedbackQuestion> feedbackQuestions = new HashSet<>();
 

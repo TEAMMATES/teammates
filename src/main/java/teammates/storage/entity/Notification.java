@@ -17,6 +17,8 @@ import jakarta.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.FieldValidator;
@@ -55,6 +57,7 @@ public class Notification extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "notification")
     private Set<ReadNotification> readNotifications = new HashSet<>();
 

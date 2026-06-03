@@ -24,6 +24,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.entity.responses.FeedbackConstantSumOptionsResponse;
 import teammates.storage.entity.responses.FeedbackConstantSumRecipientsResponse;
@@ -47,6 +49,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "questionId")
@@ -55,6 +58,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     @Column(insertable = false, updatable = false)
     private UUID questionId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "feedbackResponse")
     private Set<ResponseInstructorComment> responseInstructorComments = new HashSet<>();
 

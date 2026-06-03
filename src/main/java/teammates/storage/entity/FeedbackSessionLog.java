@@ -18,6 +18,8 @@ import jakarta.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 /**
@@ -29,6 +31,7 @@ public class FeedbackSessionLog extends BaseEntity {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -37,6 +40,7 @@ public class FeedbackSessionLog extends BaseEntity {
     @Column(name = "userId", nullable = false, insertable = false, updatable = false)
     private UUID userId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sessionId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

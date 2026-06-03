@@ -20,6 +20,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.util.FieldValidator;
 
 /**
@@ -33,6 +35,7 @@ public class Team extends BaseEntity {
     @Id
     private UUID id;
 
+    @JsonIgnore
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "sectionId")
@@ -41,6 +44,7 @@ public class Team extends BaseEntity {
     @Column(insertable = false, updatable = false)
     private UUID sectionId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "team")
     private Set<Student> users = new HashSet<>();
 

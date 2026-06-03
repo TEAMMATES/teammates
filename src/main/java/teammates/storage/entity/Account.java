@@ -19,6 +19,8 @@ import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -55,12 +57,15 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private Set<ReadNotification> readNotifications = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private Set<Instructor> instructors = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private Set<Student> students = new HashSet<>();
 
