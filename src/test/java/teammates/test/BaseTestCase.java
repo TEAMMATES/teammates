@@ -31,7 +31,6 @@ import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
@@ -217,28 +216,8 @@ public class BaseTestCase {
                 AccountRequestStatus.PENDING, "");
     }
 
-    protected UsageStatistics getTypicalUsageStatistics() {
-        return getTypicalUsageStatistics(Instant.parse("2011-01-01T00:00:00Z"));
-    }
-
     protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
         return new UsageStatistics(startTime, 60, 2, 2, 2, 2, 2, 0, 0);
-    }
-
-    protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
-        DeadlineExtension de = new DeadlineExtension(
-                getTypicalStudent(),
-                Instant.now());
-        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
-        return de;
-    }
-
-    protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
-        DeadlineExtension de = new DeadlineExtension(
-                getTypicalInstructor(),
-                Instant.now());
-        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
-        return de;
     }
 
     /**
@@ -269,13 +248,6 @@ public class BaseTestCase {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
-    }
-
-    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength)
-            throws ReflectiveOperationException {
-        return (String) invokeMethod(FieldValidator.class, "getPopulatedEmptyStringErrorMessage",
-                new Class<?>[] { String.class, String.class, int.class },
-                null, new Object[] { messageTemplate, fieldName, maxLength });
     }
 
 }

@@ -26,12 +26,8 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
-import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
 import liquibase.command.CommandScope;
@@ -127,8 +123,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         } else if (entity instanceof Notification) {
             return logic.getNotification(((Notification) entity).getId());
         } else if (entity instanceof AccountRequest) {
-            AccountRequest accountRequest = (AccountRequest) entity;
-            return logic.getAccountRequest(accountRequest.getId());
+            return logic.getAccountRequest(((AccountRequest) entity).getId());
         } else if (entity instanceof Instructor) {
             return logic.getInstructor(((Instructor) entity).getId());
         } else if (entity instanceof Student) {
