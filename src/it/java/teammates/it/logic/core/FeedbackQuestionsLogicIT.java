@@ -19,7 +19,6 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.entity.FeedbackQuestion;
@@ -37,12 +36,9 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Test
@@ -56,11 +52,11 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 showTos, showTos, showTos, newQuestionDetails);
         fs.addFeedbackQuestion(newQuestion);
 
-        newQuestion = fqLogic.createFeedbackQuestion(newQuestion);
+        FeedbackQuestion createdQuestion = inTransaction(() -> fqLogic.createFeedbackQuestion(newQuestion));
 
-        FeedbackQuestion actualQuestion = fqLogic.getFeedbackQuestion(newQuestion.getId());
+        FeedbackQuestion actualQuestion = inTransaction(() -> fqLogic.getFeedbackQuestion(createdQuestion.getId()));
 
-        assertEquals(newQuestion, actualQuestion);
+        assertEquals(createdQuestion, actualQuestion);
     }
 
     @Test
@@ -78,7 +74,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6, fq7, fq8, fq9);
 
-        List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
+        List<FeedbackQuestion> actualQuestions = inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(fs));
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
@@ -102,9 +98,9 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         );
         updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
 
-        fqLogic.updateFeedbackQuestionCascade(fq1.getId(), updateRequest);
+        inTransaction(() -> fqLogic.updateFeedbackQuestionCascade(fq1.getId(), updateRequest));
 
-        FeedbackQuestion actualFeedbackQuestion = fqLogic.getFeedbackQuestion(fq1.getId());
+        FeedbackQuestion actualFeedbackQuestion = inTransaction(() -> fqLogic.getFeedbackQuestion(fq1.getId()));
 
         assertEquals(fq1, actualFeedbackQuestion);
     }

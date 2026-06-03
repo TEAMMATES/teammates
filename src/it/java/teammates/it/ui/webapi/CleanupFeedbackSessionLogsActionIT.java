@@ -10,12 +10,11 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import org.testng.annotations.BeforeMethod;
+import org.junit.jupiter.api.BeforeEach;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
@@ -28,12 +27,9 @@ import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
 public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeedbackSessionLogsAction> {
     private DataBundle typicalBundle;
 
-    @Override
-    @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    @BeforeEach
+    void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -65,40 +61,30 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         Instant recentTimestamp = referenceNow.minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD).plusSeconds(1);
         Instant veryRecentTimestamp = referenceNow.minusSeconds(60);
 
-        FeedbackSessionLog oldLog = new FeedbackSessionLog(student, feedbackSession,
-                typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
-                oldTimestamp);
-        HibernateUtil.persist(oldLog);
-
-        FeedbackSessionLog atCutoffLog = new FeedbackSessionLog(student, feedbackSession,
-                typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
-                atCutoffTimestamp);
-        HibernateUtil.persist(atCutoffLog);
-
-        // Create log just inside the 90-day boundary (should be preserved)
-        FeedbackSessionLog boundaryLog = new FeedbackSessionLog(student, feedbackSession,
-                typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
-                boundaryTimestamp);
-        HibernateUtil.persist(boundaryLog);
-
-        // Create log within retention period (should be preserved)
-        FeedbackSessionLog recentLog = new FeedbackSessionLog(student, feedbackSession,
-                typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
-                recentTimestamp);
-        HibernateUtil.persist(recentLog);
-
-        // Create very recent log (should be preserved)
-        FeedbackSessionLog veryRecentLog = new FeedbackSessionLog(student, feedbackSession,
-                typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
-                veryRecentTimestamp);
-        HibernateUtil.persist(veryRecentLog);
-
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
+        FeedbackSessionLog[] logs = inTransaction(() -> new FeedbackSessionLog[] {
+                logic.createFeedbackSessionLog(feedbackSession, student,
+                        typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
+                        oldTimestamp),
+                logic.createFeedbackSessionLog(feedbackSession, student,
+                        typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
+                        atCutoffTimestamp),
+                logic.createFeedbackSessionLog(feedbackSession, student,
+                        typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
+                        boundaryTimestamp),
+                logic.createFeedbackSessionLog(feedbackSession, student,
+                        typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
+                        recentTimestamp),
+                logic.createFeedbackSessionLog(feedbackSession, student,
+                        typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
+                        veryRecentTimestamp),
+        });
+        FeedbackSessionLog oldLog = logs[0];
+        FeedbackSessionLog atCutoffLog = logs[1];
+        FeedbackSessionLog boundaryLog = logs[2];
 
         // Get logs before cleanup to verify our test logs are created
-        List<FeedbackSessionLog> logsBefore = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
-                Instant.EPOCH, referenceNow.plusSeconds(60));
+        List<FeedbackSessionLog> logsBefore = inTransaction(() -> logic.getOrderedFeedbackSessionLogs(
+                course.getId(), null, null, Instant.EPOCH, referenceNow.plusSeconds(60)));
         boolean oldLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getId().equals(oldLog.getId()));
         boolean atCutoffLogExistsBefore = logsBefore.stream().anyMatch(log -> log.getId().equals(atCutoffLog.getId()));
         assertTrue(oldLogExistsBefore, "Old log with timestamp " + oldTimestamp + " should exist before cleanup");
@@ -112,8 +98,8 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         getJsonResult(action);
 
         // Get logs after cleanup
-        List<FeedbackSessionLog> logsAfter = logic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
-                Instant.EPOCH, referenceNow.plusSeconds(60));
+        List<FeedbackSessionLog> logsAfter = inTransaction(() -> logic.getOrderedFeedbackSessionLogs(
+                course.getId(), null, null, Instant.EPOCH, referenceNow.plusSeconds(60)));
 
         // Verify the old log was deleted
         assertFalse(logsAfter.stream().anyMatch(log -> log.getId().equals(oldLog.getId())),

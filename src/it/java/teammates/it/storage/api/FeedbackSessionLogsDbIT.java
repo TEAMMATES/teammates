@@ -28,10 +28,8 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 

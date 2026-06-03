@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.MessageOutput;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.JsonResult;
 public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<DeleteResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -53,7 +49,7 @@ public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<Delete
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertNull(logic.getResponseInstructorComment(frc.getId()));
+        assertNull(inTransaction(() -> logic.getResponseInstructorComment(frc.getId())));
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
 

@@ -7,9 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -24,12 +22,9 @@ import teammates.ui.webapi.JsonResult;
 public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -131,12 +126,10 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
 
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
-        try {
+        inTransaction(() -> {
             logic.resetAccount(student1.getId());
             logic.resetAccount(instructor1.getId());
-        } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        });
 
         logoutUser();
 

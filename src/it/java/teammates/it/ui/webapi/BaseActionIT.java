@@ -24,7 +24,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.api.Logic;
@@ -450,6 +449,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
         instructorPrivileges.updatePrivilege(privilege, true);
         instructor.setPrivileges(instructorPrivileges);
+        inTransaction(() -> logic.getInstructor(instructor.getId()).setPrivileges(instructorPrivileges));
 
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, submissionParams);
@@ -571,8 +571,14 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * {@code userId}.
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
-        assertThrowsInTransaction(UnauthorizedAccessException.class,
-                () -> getAction(addUserToParams(userId, params)).checkAccessControl());
+        Action action;
+        try {
+            action = getAction(addUserToParams(userId, params));
+        } catch (RuntimeException e) {
+            assertTrue(e.getCause() instanceof UnauthorizedAccessException);
+            return;
+        }
+        assertThrowsInTransaction(UnauthorizedAccessException.class, action::checkAccessControl);
     }
 
     // The next few methods are for parsing results
@@ -736,15 +742,16 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (instructor == null) {
             instructor = inTransaction(() -> {
                 Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                    InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
-                return logic.createInstructor(toCreate);
-            });
+                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
+                Instructor createdInstructor = logic.createInstructor(toCreate);
 
-            String googleId = email;
-            String subject = email;
-            String tenantId = "tenant-id";
-            Account account = inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId));
-            instructor.setAccount(account);
+                String googleId = email;
+                String subject = email;
+                String tenantId = "tenant-id";
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                createdInstructor.setAccount(account);
+                return createdInstructor;
+            });
         }
         return instructor;
     }
@@ -752,24 +759,29 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     private Student createTypicalStudent(Course course, String email) {
         Student student = inTransaction(() -> logic.getStudentForEmail(course.getId(), email));
         if (student == null) {
-            Section section = inTransaction(() -> logic.getSection(course.getId(), "section name"));
-            if (section == null) {
-                section = inTransaction(() -> logic.createSection(course, "section name"));
-            }
+            student = inTransaction(() -> {
+                Section section = logic.getSection(course.getId(), "section name");
+                if (section == null) {
+                    section = logic.createSection(course, "section name");
+                }
 
-            final Section finalSection = section;
-            Team team = section.getTeams().stream()
-                    .filter(t -> "team name".equals(t.getName()))
-                    .findFirst()
-                    .orElseGet(() -> inTransaction(() -> logic.createTeam(finalSection, "team name")));
+                Team team = section.getTeams().stream()
+                        .filter(t -> "team name".equals(t.getName()))
+                        .findFirst()
+                        .orElse(null);
+                if (team == null) {
+                    team = logic.createTeam(section, "team name");
+                }
 
-            student = inTransaction(() -> logic.createStudent(course, team, "student-name", email, ""));
+                Student createdStudent = logic.createStudent(course, team, "student-name", email, "");
 
-            String googleId = email;
-            String subject = email;
-            String tenantId = "tenant-id";
-            Account account = inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId));
-            student.setAccount(account);
+                String googleId = email;
+                String subject = email;
+                String tenantId = "tenant-id";
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                createdStudent.setAccount(account);
+                return createdStudent;
+            });
         }
         return student;
     }

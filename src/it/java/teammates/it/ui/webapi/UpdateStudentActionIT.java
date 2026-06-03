@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
@@ -34,12 +33,9 @@ import teammates.ui.webapi.UpdateStudentAction;
 public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -89,13 +85,13 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(1);
 
-        Student updatedStudent = logic.getStudent(student1.getId());
+        Student updatedStudent = inTransaction(() -> logic.getStudent(student1.getId()));
         assertEquals(updatedStudent.getEmail(), newStudentEmail);
         assertEquals(updatedStudent.getTeamName(), newStudentTeam);
         assertEquals(updatedStudent.getComments(), newStudentComments);
 
         EmailWrapper email = getEmailsSent().get(0);
-        String courseName = logic.getCourse(student1.getCourseId()).getName();
+        String courseName = inTransaction(() -> logic.getCourse(student1.getCourseId()).getName());
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 student1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
@@ -222,14 +218,16 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Course course = typicalBundle.courses.get("course1");
         String courseId = studentToJoinMaxSection.getCourseId();
         String sectionInMaxCapacity = "sectionInMaxCapacity";
-        Section section = logic.createSection(course, sectionInMaxCapacity);
-        Team team = logic.createTeam(section, "randomTeamName");
+        inTransaction(() -> {
+            Section section = logic.createSection(course, sectionInMaxCapacity);
+            Team team = logic.createTeam(section, "randomTeamName");
 
-        for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
-            logic.createStudent(course, team, "Name " + i, i + "email@test.com", "cmt" + i);
-        }
+            for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
+                logic.createStudent(course, team, "Name " + i, i + "email@test.com", "cmt" + i);
+            }
+        });
 
-        List<Student> studentList = logic.getStudentsForCourse(courseId);
+        List<Student> studentList = inTransaction(() -> logic.getStudentsForCourse(courseId));
 
         assertEquals(Const.SECTION_SIZE_LIMIT,
                 studentList.stream().filter(student -> student.getSectionName().equals(sectionInMaxCapacity)).count());
@@ -272,15 +270,15 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
         assertEquals("Student has been updated and email sent", emptySectionMsgOutput.getMessage());
 
-        // verify student in database
-        Student actualStudent =
-                logic.getStudentForEmail(student4.getCourseId(), student4.getEmail());
-        assertEquals(student4.getCourse(), actualStudent.getCourse());
-        assertEquals(student4.getName(), actualStudent.getName());
-        assertEquals(student4.getEmail(), actualStudent.getEmail());
-        assertEquals(student4.getTeam(), actualStudent.getTeam());
-        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
-        assertEquals(student4.getComments(), actualStudent.getComments());
+        inTransaction(() -> {
+            Student actualStudent = logic.getStudentForEmail(student4.getCourseId(), student4.getEmail());
+            assertEquals(student4.getCourse().getId(), actualStudent.getCourse().getId());
+            assertEquals(student4.getName(), actualStudent.getName());
+            assertEquals(student4.getEmail(), actualStudent.getEmail());
+            assertEquals(student4.getTeamName(), actualStudent.getTeamName());
+            assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
+            assertEquals(student4.getComments(), actualStudent.getComments());
+        });
 
         resetStudent(student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
     }
@@ -300,10 +298,12 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     }
 
     private void resetStudent(UUID studentId, String originalEmail, Team originalTeam, String originalComments) {
-        Student updatedStudent = logic.getStudent(studentId);
-        updatedStudent.setEmail(originalEmail);
-        updatedStudent.setTeam(originalTeam);
-        updatedStudent.setComments(originalComments);
+        inTransaction(() -> {
+            Student updatedStudent = logic.getStudent(studentId);
+            updatedStudent.setEmail(originalEmail);
+            updatedStudent.setTeam(originalTeam);
+            updatedStudent.setComments(originalComments);
+        });
     }
 
 }

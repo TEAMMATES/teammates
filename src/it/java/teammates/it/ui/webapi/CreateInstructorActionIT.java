@@ -2,7 +2,6 @@ package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -27,18 +25,14 @@ import teammates.ui.webapi.JsonResult;
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
 
         // Ensure the admin account exists for email sending
         String adminEmail = Config.APP_ADMINS.get(0);
-        logic.createAccount(Provider.TEAMMATES_DEV, "validAdminSubject",
-                "validAdminTenant", adminEmail, adminEmail);
-
-        HibernateUtil.flushSession();
+        inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, "validAdminSubject",
+                "validAdminTenant", adminEmail, adminEmail));
     }
 
     @Override
@@ -76,7 +70,8 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         JsonResult response = getJsonResult(action);
         InstructorData instructorData = (InstructorData) response.getOutput();
 
-        Instructor createdInstructor = logic.getInstructorForEmail(course1.getId(), instructorCreateRequest.getEmail());
+        Instructor createdInstructor = inTransaction(() ->
+                logic.getInstructorForEmail(course1.getId(), instructorCreateRequest.getEmail()));
 
         assertEquals(createdInstructor.getName(), instructorCreateRequest.getName());
         assertEquals(createdInstructor.getEmail(), instructorCreateRequest.getEmail());
@@ -105,7 +100,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
                 "instructor3ofCourse1", false);
 
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
-        assertThrows(InvalidOperationException.class, action::execute);
+        assertThrowsInTransaction(InvalidOperationException.class, action::execute);
     }
 
     @Override

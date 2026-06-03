@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.JsonResult;
 public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(loadDataBundle("/GetCoursesActionIT.json"));
-        HibernateUtil.flushSession();
     }
 
     @Override

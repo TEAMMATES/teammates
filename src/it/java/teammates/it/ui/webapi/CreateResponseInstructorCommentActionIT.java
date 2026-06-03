@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -23,12 +22,9 @@ import teammates.ui.webapi.CreateResponseInstructorCommentAction;
 public class CreateResponseInstructorCommentActionIT extends BaseActionIT<CreateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -58,10 +54,11 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
         CreateResponseInstructorCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        ResponseInstructorComment comment = fr.getResponseInstructorComments().stream()
+        ResponseInstructorComment comment = inTransaction(() -> logic.getFeedbackResponse(fr.getId())
+                .getResponseInstructorComments().stream()
                 .filter(frc -> "Instructor result comment".equals(frc.getCommentText()))
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow());
         assertEquals(instructor, comment.getGiver().getGiverUser());
     }
 

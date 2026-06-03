@@ -38,10 +38,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     private Student student;
 
     @BeforeMethod
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    public void setUp() {
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         Section section = new Section("test-section");
         Team team = new Team("test-team");

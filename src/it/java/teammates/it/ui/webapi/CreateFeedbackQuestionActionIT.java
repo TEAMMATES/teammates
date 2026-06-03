@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,7 +15,6 @@ import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -30,12 +30,9 @@ import teammates.ui.webapi.JsonResult;
 public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQuestionAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -92,7 +89,8 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
         assertNotNull(questionResponse.getFeedbackQuestionId());
-        FeedbackQuestion question = logic.getFeedbackQuestion(questionResponse.getFeedbackQuestionId());
+        UUID questionId = questionResponse.getFeedbackQuestionId();
+        FeedbackQuestion question = inTransaction(() -> logic.getFeedbackQuestion(questionId));
         // verify question is created
         assertEquals("this is the description", question.getDescription());
 
@@ -110,7 +108,8 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
         assertNotNull(questionResponse.getFeedbackQuestionId());
-        question = logic.getFeedbackQuestion(questionResponse.getFeedbackQuestionId());
+        UUID customQuestionId = questionResponse.getFeedbackQuestionId();
+        question = inTransaction(() -> logic.getFeedbackQuestion(customQuestionId));
         // verify question is created
         assertEquals(100, question.getNumOfEntitiesToGiveFeedbackTo().intValue());
     }

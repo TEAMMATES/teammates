@@ -2,7 +2,6 @@ package teammates.it.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -35,8 +34,9 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 "A deprecation note",
                 "<p>Deprecation happens in three minutes</p>");
 
-        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
-        assertNull(notificationsLogic.getNotification(invalidNotification.getId()));
+        assertThrowsInTransaction(InvalidParametersException.class,
+                () -> notificationsLogic.createNotification(invalidNotification));
+        assertNull(inTransaction(() -> notificationsLogic.getNotification(invalidNotification.getId())));
     }
 
     @Test
@@ -49,8 +49,9 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 "",
                 "<p>Deprecation happens in three minutes</p>");
 
-        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
-        assertNull(notificationsLogic.getNotification(invalidNotification.getId()));
+        assertThrowsInTransaction(InvalidParametersException.class,
+                () -> notificationsLogic.createNotification(invalidNotification));
+        assertNull(inTransaction(() -> notificationsLogic.getNotification(invalidNotification.getId())));
     }
 
     @Test
@@ -63,8 +64,9 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 "A deprecation note",
                 "");
 
-        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
-        assertNull(notificationsLogic.getNotification(invalidNotification.getId()));
+        assertThrowsInTransaction(InvalidParametersException.class,
+                () -> notificationsLogic.createNotification(invalidNotification));
+        assertNull(inTransaction(() -> notificationsLogic.getNotification(invalidNotification.getId())));
     }
 
     @Test
@@ -81,11 +83,11 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Notification notification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-        notificationsLogic.createNotification(notification);
+        inTransaction(() -> notificationsLogic.createNotification(notification));
 
         UUID notificationId = notification.getId();
-        Notification expectedNotification = notificationsLogic.updateNotification(notificationId, newStartTime, newEndTime,
-                newStyle, newTargetUser, newTitle, newMessage);
+        Notification expectedNotification = inTransaction(() -> notificationsLogic.updateNotification(
+                notificationId, newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage));
 
         assertEquals(notificationId, expectedNotification.getId());
         assertEquals(newStartTime, expectedNotification.getStartTime());
@@ -95,13 +97,13 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(newTitle, expectedNotification.getTitle());
         assertEquals(newMessage, expectedNotification.getMessage());
 
-        Notification actualNotification = notificationsLogic.getNotification(notificationId);
+        Notification actualNotification = inTransaction(() -> notificationsLogic.getNotification(notificationId));
         assertEquals(expectedNotification, actualNotification);
 
         ______TS("failure: update notification that does not exist");
         UUID nonExistentId = generateDifferentUuid(notificationId);
 
-        assertThrows(EntityDoesNotExistException.class, () -> notificationsLogic.updateNotification(nonExistentId,
-                newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage));
+        assertThrowsInTransaction(EntityDoesNotExistException.class, () -> notificationsLogic.updateNotification(
+                nonExistentId, newStartTime, newEndTime, newStyle, newTargetUser, newTitle, newMessage));
     }
 }

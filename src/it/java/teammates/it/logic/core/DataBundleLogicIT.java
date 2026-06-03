@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.opentest4j.AssertionFailedError;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -29,7 +28,6 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
@@ -56,12 +54,6 @@ import teammates.test.FileHelper;
 public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
-
-    @BeforeMethod
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
 
     @Test
     public void testCreateDataBundle_typicalValues_createdCorrectly() throws Exception {
@@ -233,7 +225,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() throws Exception {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
-        dataBundleLogic.persistDataBundle(dataBundle);
+        inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
 
         ______TS("verify notifications persisted correctly");
         Notification notification1 = dataBundle.notifications.get("notification1");
@@ -264,8 +256,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testRemoveDataBundle_typicalValues_removedCorrectly()
                 throws InvalidParametersException {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
-        dataBundleLogic.persistDataBundle(dataBundle);
-        HibernateUtil.flushSession();
+        inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
 
         ______TS("verify notifications persisted correctly");
         Notification notification1 = dataBundle.notifications.get("notification1");
@@ -294,10 +285,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         verifyPresentInDatabase(accountRequest);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
-
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
+        inTransaction(() -> dataBundleLogic.removeDataBundle(dataBundle));
 
         ______TS("verify notification removed correctly");
 

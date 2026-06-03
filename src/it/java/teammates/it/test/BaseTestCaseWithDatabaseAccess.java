@@ -10,7 +10,6 @@ import org.junit.jupiter.api.function.Executable;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
@@ -42,16 +41,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     private final Logic logic = Logic.inst();
 
-    @FunctionalInterface
-    protected interface TransactionSupplier<T> {
-        T get() throws Exception;
-    }
-
-    @FunctionalInterface
-    protected interface TransactionAction {
-        void run() throws Exception;
-    }
-
     @BeforeSuite
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
@@ -72,6 +61,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 .execute();
     }
 
+    /**
+     * Executes the given action within a transaction.
+     */
     protected void inTransaction(TransactionAction action) {
         HibernateUtil.beginTransaction();
         try {
@@ -83,6 +75,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
     }
 
+    /**
+     * Executes the given supplier within a transaction and returns the result.
+     */
     protected <T> T inTransaction(TransactionSupplier<T> action) {
         HibernateUtil.beginTransaction();
         try {
@@ -95,6 +90,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
     }
 
+    /**
+     * Asserts that the given executable throws an exception of the expected type when executed within a transaction.
+     */
     protected <E extends Throwable> E assertThrowsInTransaction(
             Class<E> expectedType, Executable executable) {
         return assertThrows(expectedType, () -> {
@@ -112,12 +110,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     @AfterSuite
     protected static void tearDownSuite() {
         PGSQL.close();
-    }
-
-    @BeforeMethod
-    protected void setUp() throws Exception {
-        // Temporary empty implementation. To be removed.
-        return;
     }
 
     /**
@@ -166,7 +158,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 users
             RESTART IDENTITY CASCADE
             """)
-            .executeUpdate();
+                .executeUpdate();
     }
 
     /**
@@ -215,5 +207,29 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             ret = UUID.randomUUID();
         }
         return ret;
+    }
+
+    /**
+     * Functional interface for executing code within a transaction.
+     *
+     * @param <T> the type of the result returned by the supplier
+     */
+    @FunctionalInterface
+    protected interface TransactionSupplier<T> {
+        /**
+         * Executes the supplier within a transaction and returns the result.
+         */
+        T get() throws Exception;
+    }
+
+    /**
+     * Functional interface for executing code within a transaction that does not return a result.
+     */
+    @FunctionalInterface
+    protected interface TransactionAction {
+        /**
+         * Executes the action within a transaction.
+         */
+        void run() throws Exception;
     }
 }

@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -32,12 +31,6 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     @Override
     String getRequestMethod() {
         return POST;
-    }
-
-    @BeforeMethod
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
     }
 
     @Override
@@ -128,7 +121,8 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
-        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
+        AccountRequest accountRequest =
+                inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute());
@@ -157,7 +151,8 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertNull(output.getComments());
         assertNull(output.getRegisteredAt());
-        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
+        AccountRequest accountRequest =
+                inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute());
@@ -174,9 +169,9 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     @Test
     void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully()
             throws InvalidParametersException {
-        AccountRequest existingAccountRequest = logic.createAccountRequest("Paul Atreides",
+        AccountRequest existingAccountRequest = inTransaction(() -> logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
-                "House Atreides", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it.");
+                "House Atreides", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it."));
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
@@ -192,7 +187,8 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
         assertNotEquals(output.getRegistrationKey(), existingAccountRequest.getRegistrationKey());
-        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(output.getRegistrationKey());
+        AccountRequest accountRequest =
+                inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute());

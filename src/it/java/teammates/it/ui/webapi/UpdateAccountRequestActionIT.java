@@ -13,7 +13,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -31,12 +30,9 @@ import teammates.ui.webapi.UpdateAccountRequestAction;
 public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequestAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -53,8 +49,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Test
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
-        AccountRequest accountRequest = logic.createAccountRequest("name", "email@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
+                "institute", AccountRequestStatus.PENDING, "comments"));
         UUID id = accountRequest.getId();
         String name = "newName";
         String email = "newemail@email.com";
@@ -66,7 +62,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         UpdateAccountRequestAction action = getAction(requestBody, params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), 200);
         AccountRequestData data = (AccountRequestData) result.getOutput();
@@ -98,8 +94,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
 
         ______TS("invalid email");
-        accountRequest = logic.createAccountRequest("name", "email@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments");
+        accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
+                "institute", AccountRequestStatus.PENDING, "comments"));
         id = accountRequest.getId();
         email = "newemail";
         status = accountRequest.getStatus();

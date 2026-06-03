@@ -9,7 +9,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidOperationException;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.JoinCourseAction;
 public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -119,10 +115,10 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     }
 
     private String getRegKeyForStudent(String courseId, String email) {
-        return logic.getStudentForEmail(courseId, email).getRegKey();
+        return inTransaction(() -> logic.getStudentForEmail(courseId, email).getRegKey());
     }
 
     private String getRegKeyForInstructor(String courseId, String email) {
-        return logic.getInstructorForEmail(courseId, email).getRegKey();
+        return inTransaction(() -> logic.getInstructorForEmail(courseId, email).getRegKey());
     }
 }

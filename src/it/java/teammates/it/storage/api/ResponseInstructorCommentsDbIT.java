@@ -31,10 +31,8 @@ public class ResponseInstructorCommentsDbIT extends BaseTestCaseWithDatabaseAcce
         testDataBundle = loadDataBundle("/FeedbackResponsesITBundle.json");
     }
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         persistDataBundle(testDataBundle);
     }
 

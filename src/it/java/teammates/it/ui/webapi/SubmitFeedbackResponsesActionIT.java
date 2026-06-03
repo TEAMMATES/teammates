@@ -45,10 +45,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private DataBundle typicalBundle;
     private FeedbackQuestion currentQuestionForSubmission;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
@@ -106,39 +104,49 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private void setStartTime(FeedbackSession session, int days) {
-        Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-
-        session.setStartTime(startTime);
+        inTransaction(() -> {
+            Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+            logic.getFeedbackSession(session.getId()).setStartTime(startTime);
+        });
     }
 
     private void setEndTime(FeedbackSession session, int days) {
-        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-
-        session.setEndTime(endTime);
+        inTransaction(() -> {
+            Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+            logic.getFeedbackSession(session.getId()).setEndTime(endTime);
+        });
     }
 
     private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-        DeadlineExtension existingDeadline = logic.getDeadlineExtensionEntityForUser(session, user);
-        if (existingDeadline != null) {
-            existingDeadline.setEndTime(endTime);
-            logic.updateDeadlineExtension(existingDeadline);
-        } else {
-            DeadlineExtension newDeadline = new DeadlineExtension(user, endTime);
-            session.addDeadlineExtension(newDeadline);
-            logic.createDeadlineExtension(newDeadline);
-        }
+        inTransaction(() -> {
+            FeedbackSession managedSession = logic.getFeedbackSession(session.getId());
+            User managedUser = logic.getUser(user.getId());
+            Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+            DeadlineExtension existingDeadline = logic.getDeadlineExtensionEntityForUser(managedSession, managedUser);
+            if (existingDeadline != null) {
+                existingDeadline.setEndTime(endTime);
+                logic.updateDeadlineExtension(existingDeadline);
+            } else {
+                DeadlineExtension newDeadline = new DeadlineExtension(managedUser, endTime);
+                managedSession.addDeadlineExtension(newDeadline);
+                logic.createDeadlineExtension(newDeadline);
+            }
+        });
     }
 
     private void deleteDeadlineExtensionForUser(FeedbackSession session, User user) {
-        DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(session, user);
-        if (existingDeadlineEndTime == null) {
-            return;
-        }
+        inTransaction(() -> {
+            FeedbackSession managedSession = logic.getFeedbackSession(session.getId());
+            User managedUser = logic.getUser(user.getId());
+            DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(managedSession, managedUser);
+            if (existingDeadlineEndTime == null) {
+                return;
+            }
 
-        session.getDeadlineExtensions().remove(existingDeadlineEndTime);
-        logic.deleteDeadlineExtension(existingDeadlineEndTime);
+            managedSession.getDeadlineExtensions().remove(existingDeadlineEndTime);
+            logic.deleteDeadlineExtension(existingDeadlineEndTime);
+        });
     }
 
     private String[] buildSubmissionParams(FeedbackSession session, int questionNumber, Intent intent) {
@@ -163,10 +171,13 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
 
-        instructor.getCourse().setId(courseId);
-        instructor.setPrivileges(instructorPrivileges);
+        inTransaction(() -> {
+            Instructor updatedInstructor = logic.getInstructor(instructor.getId());
+            updatedInstructor.getCourse().setId(courseId);
+            updatedInstructor.setPrivileges(instructorPrivileges);
 
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructor);
+            logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
+        });
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
@@ -329,8 +340,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
-        inTransaction(() -> deleteDeadlineExtensionForUser(session, instructor));
-        inTransaction(() -> deleteDeadlineExtensionForUser(session, student));
+        deleteDeadlineExtensionForUser(session, instructor);
+        deleteDeadlineExtensionForUser(session, student);
 
         ______TS("Typical case with instructors: feedback question exists");
         setStartTime(session, -1);
@@ -442,7 +453,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         ______TS("Typical success with student: student answers question with correct giver");
         loginStudent("student1InCourse1");
-        inTransaction(() -> deleteDeadlineExtensionForUser(session, student));
+        deleteDeadlineExtensionForUser(session, student);
         setEndTime(session, 3);
         setStartTime(session, -1);
 
