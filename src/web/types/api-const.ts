@@ -96,7 +96,6 @@ export enum ResourceEndpoints {
   BIN_SESSION = "/webapi/bin/session",
   QUESTIONS = "/webapi/questions",
   QUESTION = "/webapi/question",
-  QUESTION_RECIPIENTS = "/webapi/question/recipients",
   RESPONSES = "/webapi/responses",
   HAS_RESPONSES = "/webapi/hasResponses",
   NOTIFICATION = "/webapi/notification",
