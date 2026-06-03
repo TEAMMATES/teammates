@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
-import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -499,7 +499,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       if (this.previewAsPerson) {
         this.buildPreviewSubmissionForms(model);
       } else {
-        this.populateSubmissionForms(model, { responses: questionData.responses });
+        this.populateSubmissionForms(model, questionData.responses);
       }
     });
   }
@@ -639,15 +639,12 @@ export class SessionSubmissionPageComponent implements OnInit {
   /**
    * Loads the responses of the feedback question to {@recipientSubmissionForms} in the model.
    */
-  private populateSubmissionForms(
-    model: QuestionSubmissionFormModel,
-    existingResponses: FeedbackResponsesResponse,
-  ): void {
+  private populateSubmissionForms(model: QuestionSubmissionFormModel, existingResponses: FeedbackResponse[]): void {
     model.recipientSubmissionForms = [];
     if (this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
       // need to generate a full list of submission forms
       model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-        const matchedExistingResponse: FeedbackResponse | undefined = existingResponses.responses.find(
+        const matchedExistingResponse: FeedbackResponse | undefined = existingResponses.find(
           (response: FeedbackResponse) => response.recipientIdentifier === recipient.recipientIdentifier,
         );
         const submissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -669,9 +666,9 @@ export class SessionSubmissionPageComponent implements OnInit {
     if (this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
       // need to generate limited number of submission forms
       let numberOfRecipientSubmissionFormsNeeded: number =
-        model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.responses.length;
+        model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.length;
 
-      existingResponses.responses.forEach((response: FeedbackResponse) => {
+      existingResponses.forEach((response: FeedbackResponse) => {
         const submissionForm: FeedbackResponseRecipientSubmissionFormModel = {
           recipientIdentifier: response.recipientIdentifier,
           responseDetails: response.responseDetails,
