@@ -197,7 +197,7 @@ describe('UserJoinPageComponent', () => {
     );
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
-    vi.spyOn(authService, 'authInfo').mockReturnValue(mockAuthInfo);
+    vi.spyOn(authService, 'authInfo$').mockReturnValue(mockAuthInfo);
 
     component.ngOnInit();
 
@@ -340,7 +340,7 @@ describe('UserJoinPageComponent creating account', () => {
     );
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
-    vi.spyOn(authService, 'authInfo').mockReturnValue(mockAuthInfo);
+    vi.spyOn(authService, 'authInfo$').mockReturnValue(mockAuthInfo);
 
     component.ngOnInit();
 
