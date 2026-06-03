@@ -10,9 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
@@ -63,8 +61,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testResetAccount_instructor()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testResetAccount_instructor() {
         Instructor instructor = getTypicalInstructor();
         instructor.setCourse(course);
         instructor.setAccount(account);
@@ -86,8 +83,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testResetAccount_student()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testResetAccount_student() {
         String email = "email@gmail.tmt";
         String googleId = account.getGoogleId();
 

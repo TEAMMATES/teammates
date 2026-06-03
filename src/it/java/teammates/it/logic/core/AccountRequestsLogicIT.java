@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.storage.entity.AccountRequest;
@@ -28,7 +27,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();

@@ -10,7 +10,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
@@ -23,7 +22,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
     private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
     @Test
-    public void testCreateReadDeleteAccountRequest() throws Exception {
+    public void testCreateReadDeleteAccountRequest() {
         ______TS("Create account request, does not exists, succeeds");
 
         AccountRequest accountRequest =
@@ -89,7 +88,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();

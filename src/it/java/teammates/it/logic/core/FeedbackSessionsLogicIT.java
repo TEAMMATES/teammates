@@ -48,7 +48,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetSubmittedGiverSet_hasGivers_findsGivers() throws EntityDoesNotExistException {
+    public void testGetSubmittedGiverSet_hasGivers_findsGivers() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Set<UUID> expectedStudentGivers = new HashSet<>();
         Set<UUID> expectedStudentNonGivers;
@@ -76,8 +76,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorNonGivers()
-            throws EntityDoesNotExistException {
+    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorNonGivers() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
 
         Set<UUID> expectedStudentGivers = Set.of(typicalDataBundle.students.get("student1InCourse1").getId());
@@ -97,8 +96,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testPublishFeedbackSession()
-            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+    public void testPublishFeedbackSession() {
         FeedbackSession unpublishedFs = typicalDataBundle.feedbackSessions.get("unpublishedSession1InTypicalCourse");
 
         FeedbackSession publishedFs1 = inTransaction(() -> fsLogic.publishFeedbackSession(unpublishedFs.getId()));
@@ -114,8 +112,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testUnpublishFeedbackSession()
-            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+    public void testUnpublishFeedbackSession() {
         FeedbackSession publishedFs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         FeedbackSession unpublishedFs1 = inTransaction(() -> fsLogic.unpublishFeedbackSession(
@@ -203,7 +200,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testUpdateFeedbackSession_validUpdate_success() throws Exception {
+    public void testUpdateFeedbackSession_validUpdate_success() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         Instant newStartTime = TimeHelper.getInstantNearestHourBefore(

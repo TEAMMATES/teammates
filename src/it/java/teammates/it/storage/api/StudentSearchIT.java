@@ -30,7 +30,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testSearchStudentsInWholeSystem_typicalCase_success() throws Exception {
+    public void testSearchStudentsInWholeSystem_typicalCase_success() {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu2InCourse1 = typicalBundle.students.get("student2InCourse1");
         Student stu3InCourse1 = typicalBundle.students.get("student3InCourse1");
@@ -103,7 +103,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testSearchStudentsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() throws Exception {
+    public void testSearchStudentsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu1InCourse2 = typicalBundle.students.get("student1InCourse2");
         Student stu1InCourse3 = typicalBundle.students.get("student1InCourse3");
@@ -122,7 +122,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testSearchStudentsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() throws Exception {
+    public void testSearchStudentsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<Student> results = inTransaction(() -> usersDb.searchStudentsInWholeSystem("_"));
         verifySearchResults(results);
 

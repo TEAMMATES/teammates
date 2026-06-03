@@ -49,7 +49,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_pendingRequest_approvesSuccessfully() throws Exception {
+    void testExecute_pendingRequest_approvesSuccessfully() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "pending@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
@@ -68,7 +68,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_rejectedRequest_approvesSuccessfully() throws Exception {
+    void testExecute_rejectedRequest_approvesSuccessfully() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "rejected@email.com",
                 "institute", AccountRequestStatus.REJECTED, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
@@ -83,7 +83,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_existingAccountWithSameEmail_approvesSuccessfully() throws Exception {
+    void testExecute_existingAccountWithSameEmail_approvesSuccessfully() {
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
         inTransaction(() -> logic.createAccount(
@@ -104,8 +104,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully()
-            throws Exception {
+    void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully() {
         inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
                 "instituteA", AccountRequestStatus.APPROVED, "comments"));
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
@@ -139,7 +138,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_invalidStatus_throwsInvalidOperationException() throws InvalidParametersException {
+    void testExecute_invalidStatus_throwsInvalidOperationException() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "registered@email.com",
                 "institute", AccountRequestStatus.REGISTERED, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};

@@ -70,8 +70,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+    protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -103,8 +102,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+    protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -130,7 +128,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -147,7 +145,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonTitleButNoBody_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_withReasonTitleButNoBody_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -164,7 +162,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_alreadyRejected_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_alreadyRejected_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
@@ -179,7 +177,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_invalidUuid_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_invalidUuid_shouldThrow() {
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
 

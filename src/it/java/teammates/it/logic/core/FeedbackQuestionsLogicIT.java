@@ -16,9 +16,6 @@ import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.storage.entity.FeedbackQuestion;
@@ -42,7 +39,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testCreateFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateFeedbackQuestion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
         List<ViewerType> showTos = new ArrayList<>();
@@ -81,7 +78,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testUpdateFeedbackQuestionCascade() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateFeedbackQuestionCascade() {
         FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         fq1.setDescription("New question description");
         FeedbackQuestionUpdateRequest updateRequest = generateFeedbackQuestionUpdateRequest(

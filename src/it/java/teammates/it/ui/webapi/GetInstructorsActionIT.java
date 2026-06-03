@@ -162,7 +162,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     }
 
     @Test
-    public void instructor_fullDetailIntent_canAccessOwnCourse() throws Exception {
+    public void instructor_fullDetailIntent_canAccessOwnCourse() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 

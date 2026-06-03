@@ -52,7 +52,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Test
-    protected void testExecute_typicalCase_shouldPass() throws Exception {
+    protected void testExecute_typicalCase_shouldPass() {
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
 
         Course course1 = typicalBundle.courses.get("course1");
@@ -85,7 +85,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Test
-    protected void testExecute_uniqueEmailClash_shouldFail() throws Exception {
+    protected void testExecute_uniqueEmailClash_shouldFail() {
         loginAsAdmin();
 
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");

@@ -10,8 +10,6 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -50,8 +48,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testGetOngoingSessions_typicalCase_shouldGetOnlyOngoingSessionsWithinRange()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testGetOngoingSessions_typicalCase_shouldGetOnlyOngoingSessionsWithinRange() {
         Instant instantNow = Instant.now();
         Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
         FeedbackSession c1Fs1 = new FeedbackSession("name1-1", null, "test-instruction",

@@ -287,8 +287,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyAccessibleForAdmin(params);
     }
 
-    void verifyOnlyAdminCanAccess(Course course, String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyOnlyAdminCanAccess(Course course, String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(course, params);
@@ -296,8 +295,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyAccessibleForAdmin(params);
     }
 
-    void verifyOnlyInstructorsCanAccess(Course course, String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyOnlyInstructorsCanAccess(Course course, String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(course, params);
@@ -306,8 +304,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyAccessibleForAdminToMasqueradeAsInstructor(course, params);
     }
 
-    void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyOnlyInstructorsOfTheSameCourseCanAccess(Course course, String[] submissionParams) {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(course, submissionParams);
@@ -317,7 +314,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     }
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-            Course course, String privilege, String[] submissionParams) throws Exception {
+            Course course, String privilege, String[] submissionParams) {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(course, submissionParams);
@@ -372,8 +369,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(params);
     }
 
-    void verifyInaccessibleForStudents(Course course, String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyInaccessibleForStudents(Course course, String... params) {
         ______TS("Students cannot access");
         Student student = createTypicalStudent(course, "inaccessibleforstudents@teammates.tmt");
 
@@ -382,8 +378,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
     }
 
-    void verifyInaccessibleForInstructors(Course course, String... params)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyInaccessibleForInstructors(Course course, String... params) {
         ______TS("Instructors cannot access");
         Instructor instructor = createTypicalInstructor(course, "inaccessibleforinstructors@teammates.tmt");
 
@@ -402,8 +397,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
     }
 
-    void verifyAccessibleForAdminToMasqueradeAsInstructor(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyAccessibleForAdminToMasqueradeAsInstructor(Course course, String[] submissionParams) {
         ______TS("admin can access");
         Instructor instructor = createTypicalInstructor(course,
                 "accessibleforadmintomasqueradeasinstructor@teammates.tmt");
@@ -412,8 +406,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
     }
 
-    void verifyInaccessibleWithoutModifySessionPrivilege(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyInaccessibleWithoutModifySessionPrivilege(Course course, String[] submissionParams) {
         ______TS("without Modify-Session privilege cannot access");
 
         Instructor instructor = createTypicalInstructor(course,
@@ -423,8 +416,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
     }
 
-    void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(Course course, String[] submissionParams) {
         ______TS("without Submit-Session-In-Sections privilege cannot access");
 
         Instructor instructor = createTypicalInstructor(course,
@@ -434,8 +426,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
     }
 
-    void verifyInaccessibleWithoutCorrectCoursePrivilege(Course course, String privilege, String[] submissionParams)
-            throws Exception {
+    void verifyInaccessibleWithoutCorrectCoursePrivilege(Course course, String privilege, String[] submissionParams) {
         Instructor instructor = createTypicalInstructor(course,
                 "inaccessiblewithoutcorrectcourseprivilege@teammates.tmt");
 
@@ -455,8 +446,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, submissionParams);
     }
 
-    void verifyAccessibleForInstructorsOfTheSameCourse(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyAccessibleForInstructorsOfTheSameCourse(Course course, String[] submissionParams) {
         ______TS("course instructor can access");
         Course courseOther = createTestCourseOther();
         assert !course.getId().equals(courseOther.getId());
@@ -476,8 +466,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
     }
 
-    void verifyAccessibleForInstructorsOfOtherCourse(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyAccessibleForInstructorsOfOtherCourse(Course course, String[] submissionParams) {
         ______TS("other course's instructor can access");
         Course courseOther = createTestCourseOther();
         assert !course.getId().equals(courseOther.getId());
@@ -496,8 +485,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotMasquerade(instructorSameCourse.getAccount().getGoogleId(), submissionParams);
     }
 
-    void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams) {
         ______TS("course students can access");
         Student student = createTypicalStudent(course, "accessibleforstudentsofthesamecourse@teammates.tmt");
         loginAsStudent(student.getAccount().getGoogleId());
@@ -515,8 +503,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
     }
 
-    void verifyInaccessibleForInstructorsOfOtherCourses(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyInaccessibleForInstructorsOfOtherCourses(Course course, String[] submissionParams) {
         ______TS("other course instructor cannot access");
         Course courseOther = createTestCourseOther();
         Instructor otherInstructor = createTypicalInstructor(courseOther,

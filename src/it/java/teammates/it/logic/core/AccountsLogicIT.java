@@ -35,9 +35,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testJoinCourseForStudent()
-            throws EntityAlreadyExistsException, EntityDoesNotExistException {
-
+    public void testJoinCourseForStudent() {
         Student student2YetToJoinCourse = typicalDataBundle.students.get("student2YetToJoinCourse4");
         Student student3YetToJoinCourse = typicalDataBundle.students.get("student3YetToJoinCourse4");
         Student studentInCourse = typicalDataBundle.students.get("student1InCourse1");
@@ -91,7 +89,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testJoinCourseForInstructor() throws Exception {
+    public void testJoinCourseForInstructor() {
         String instructorIdAlreadyJoinedCourse = "instructor1";
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");

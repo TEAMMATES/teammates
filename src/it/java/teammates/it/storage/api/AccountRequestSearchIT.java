@@ -29,7 +29,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testSearchAccountRequestsInWholeSystem_typicalCase_success() throws Exception {
+    public void testSearchAccountRequestsInWholeSystem_typicalCase_success() {
         AccountRequest ins1General = typicalBundle.accountRequests.get("instructor1");
         AccountRequest ins2General = typicalBundle.accountRequests.get("instructor2");
         AccountRequest ins1InCourse1 = typicalBundle.accountRequests.get("instructor1OfCourse1");
@@ -111,7 +111,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testSearchAccountRequestsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() throws Exception {
+    public void testSearchAccountRequestsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<AccountRequest> results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("_"));
         verifySearchResults(results);
 

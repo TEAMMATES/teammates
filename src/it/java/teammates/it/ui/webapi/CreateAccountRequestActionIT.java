@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -167,8 +166,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     }
 
     @Test
-    void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully()
-            throws InvalidParametersException {
+    void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
         AccountRequest existingAccountRequest = inTransaction(() -> logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
                 "House Atreides", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it."));
