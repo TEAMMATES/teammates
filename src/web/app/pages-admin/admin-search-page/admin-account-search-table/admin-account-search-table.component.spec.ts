@@ -24,7 +24,7 @@ describe('AdminAccountSearchTableComponent', () => {
   let ngbModal: NgbModal;
 
   const accountRequestDetailsBuilder = createBuilder<AccountRequestSearchResult>({
-    id: '',
+    accountRequestId: '',
     email: '',
     name: '',
     institute: '',
@@ -44,11 +44,6 @@ describe('AdminAccountSearchTableComponent', () => {
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 
-  const resetModalContent = `Are you sure you want to reset the account request for
-        <strong>name</strong> with email <strong>email</strong> from
-        <strong>institute</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-  const resetModalTitle = 'Reset account request for <strong>name</strong>?';
   const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>name</strong> with email <strong>email</strong> from
         <strong>institute</strong>?`;
@@ -95,9 +90,9 @@ describe('AdminAccountSearchTableComponent', () => {
 
   it('should display account requests with no reset or expand links button', () => {
     const first: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    first.id = 'id-1';
+    first.accountRequestId = 'id-1';
     const second: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    second.id = 'id-2';
+    second.accountRequestId = 'id-2';
     const accountRequestResults: AccountRequestSearchResult[] = [first, second];
 
     component.accountRequests = accountRequestResults;
@@ -107,12 +102,12 @@ describe('AdminAccountSearchTableComponent', () => {
 
   it('should display account requests with reset button and expandable links buttons', () => {
     const approvedAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    approvedAccountRequestResult.id = 'approved-id';
+    approvedAccountRequestResult.accountRequestId = 'approved-id';
     approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
     approvedAccountRequestResult.registrationLink = 'registrationLink';
 
     const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.id = 'registered-id';
+    registeredAccountRequestResult.accountRequestId = 'registered-id';
     registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
     registeredAccountRequestResult.registrationLink = 'registrationLink';
 
@@ -184,88 +179,6 @@ describe('AdminAccountSearchTableComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(deleteModalTitle, SimpleModalType.DANGER, deleteModalContent);
-  });
-
-  it('should show success message when resetting account request is successful', () => {
-    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
-    registeredAccountRequestResult.registrationLink = 'registrationLink';
-    registeredAccountRequestResult.registeredAtText = 'registeredTime';
-    component.accountRequests = [registeredAccountRequestResult];
-
-    component.searchString = 'test';
-    fixture.detectChanges();
-
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
-
-    vi.spyOn(accountService, 'resetAccountRequest').mockReturnValue(
-      of({
-        joinLink: 'joinlink',
-      }),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('Reset successful. An email has been sent to email.');
-      });
-
-    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
-    resetButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-    expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
-  });
-
-  it('should show error message when resetting account request is unsuccessful', () => {
-    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
-    registeredAccountRequestResult.registrationLink = 'registrationLink';
-    registeredAccountRequestResult.registeredAtText = 'registeredTime';
-    component.accountRequests = [registeredAccountRequestResult];
-
-    component.searchString = 'test';
-    fixture.detectChanges();
-
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
-
-    vi.spyOn(accountService, 'resetAccountRequest').mockReturnValue(
-      throwError(() => ({
-        error: {
-          message: 'This is the error message.',
-        },
-      })),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
-    resetButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-    expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
   });
 
   it('should display comment modal', () => {
@@ -427,7 +340,7 @@ describe('AdminAccountSearchTableComponent', () => {
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     const editedAccountRequest: AccountRequest = {
-      id: 'id',
+      accountRequestId: 'id',
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
@@ -458,7 +371,7 @@ describe('AdminAccountSearchTableComponent', () => {
     fixture.detectChanges();
 
     const approvedRequest: AccountRequest = {
-      id: component.accountRequests[0].id,
+      accountRequestId: component.accountRequests[0].accountRequestId,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
@@ -484,7 +397,7 @@ describe('AdminAccountSearchTableComponent', () => {
     fixture.detectChanges();
 
     const rejectedRequest: AccountRequest = {
-      id: component.accountRequests[0].id,
+      accountRequestId: component.accountRequests[0].accountRequestId,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,

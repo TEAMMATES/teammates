@@ -72,15 +72,7 @@
             "answer": 130,
             "questionType": "CONTRIB"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000fb78",
-            "commentText": "Student 1 comment",
-            "createdAt": 1237692740010,
-            "lastEditedAt": 2245692743000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 1 comment",
           "instructorComments": []
         },
         {
@@ -153,15 +145,7 @@
             "answer": "No Response",
             "questionType": "TEXT"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000017d1",
-            "commentText": "Student 2 comment",
-            "createdAt": 1237692740010,
-            "lastEditedAt": 2245692743000,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 2 comment",
           "instructorComments": []
         },
         {

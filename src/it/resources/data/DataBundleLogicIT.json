@@ -4,13 +4,17 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "idOfInstructor1",
       "name": "Instructor 1",
-      "email": "instr1@teammates.tmt"
+      "email": "instr1@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "idOfInstructor1"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "idOfStudent1",
       "name": "Student 1",
-      "email": "student1@teammates.tmt"
+      "email": "student1@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "idOfStudent1"
     }
   },
   "accountRequests": {
@@ -135,7 +139,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "typical-course-id",
       "name": "First feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -148,13 +151,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "typical-course-id",
       "name": "Second feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2026-04-28T22:00:00Z",
@@ -167,7 +170,8 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     }
   },
   "feedbackQuestions": {
@@ -205,7 +209,7 @@
       "questionId": "00000000-0000-4000-8000-000000000801"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -214,8 +218,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"

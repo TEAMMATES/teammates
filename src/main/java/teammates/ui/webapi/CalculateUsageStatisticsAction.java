@@ -4,9 +4,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import teammates.common.datatransfer.logs.LogEvent;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.UsageStatistics;
 
@@ -16,7 +13,6 @@ import teammates.storage.entity.UsageStatistics;
 public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
 
     static final int COLLECTION_TIME_PERIOD = 60; // represents one hour
-    private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() {
@@ -38,11 +34,7 @@ public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
                 entitiesStats.getNumAccountRequests(),
                 numEmailsSent, numSubmissions);
 
-        try {
-            logic.createUsageStatistics(overallUsageStats);
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            log.severe("Unexpected error", e);
-        }
+        logic.createUsageStatistics(overallUsageStats);
 
         return new JsonResult("Successful");
     }

@@ -4,61 +4,81 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "instructor1",
       "name": "Instructor 1",
-      "email": "instr1@teammates.tmt"
+      "email": "instr1@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor1"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "instructor2",
       "name": "Instructor 2",
-      "email": "instr2@teammates.tmt"
+      "email": "instr2@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor2"
     },
     "instructorOfUnregisteredCourse": {
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "InstructorOfUnregisteredCourse",
       "name": "Instructor Of Unregistered Course",
-      "email": "instructorofunregisteredcourse@unregisteredcourse.tmt"
+      "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "InstructorOfUnregisteredCourse"
     },
     "instructorOfCourse2WithUniqueDisplayName": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "instructorOfCourse2WithUniqueDisplayName",
       "name": "Instructor Of Course 2 With Unique Display Name",
-      "email": "instructorofcourse2withuniquedisplayname@teammates.tmt"
+      "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructorOfCourse2WithUniqueDisplayName"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000000006",
       "googleId": "unregisteredInstructor1",
       "name": "Unregistered Instructor 1",
-      "email": "unregisteredinstructor1@gmail.tmt"
+      "email": "unregisteredinstructor1@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "unregisteredInstructor1"
     },
     "unregisteredInstructor2": {
       "id": "00000000-0000-4000-8000-000000000007",
       "googleId": "unregisteredInstructor2",
       "name": "Unregistered Instructor 2",
-      "email": "unregisteredinstructor2@gmail.tmt"
+      "email": "unregisteredinstructor2@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "unregisteredInstructor2"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "idOfStudent1Course1",
       "name": "Student 1",
-      "email": "student1@teammates.tmt"
+      "email": "student1@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "idOfStudent1Course1"
     },
     "student2": {
       "id": "00000000-0000-4000-8000-000000000102",
       "googleId": "idOfStudent2Course1",
       "name": "Student 2",
-      "email": "student2@teammates.tmt"
+      "email": "student2@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "idOfStudent2Course1"
     },
     "student3": {
       "id": "00000000-0000-4000-8000-000000000103",
       "googleId": "idOfStudent3Course1",
       "name": "Student 3",
-      "email": "student3@teammates.tmt"
+      "email": "student3@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "idOfStudent3Course1"
     },
     "student4": {
       "id": "00000000-0000-4000-8000-000000000104",
       "googleId": "idOfStudent4Course1",
       "name": "Student 4",
-      "email": "student4@teammates.tmt"
+      "email": "student4@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "idOfStudent4Course1"
     }
   },
   "accountRequests": {
@@ -549,7 +569,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "course-1",
       "name": "First feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2028-04-30T22:00:00Z",
@@ -562,13 +581,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "course-1",
       "name": "Second feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2027-04-28T22:00:00Z",
@@ -581,13 +600,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "unpublishedSession1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "course-1",
       "name": "Unpublished feedback session",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2027-04-28T22:00:00Z",
@@ -600,13 +619,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "course-1",
       "name": "Ongoing session 1 in course 1",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-19T22:00:00Z",
       "endTime": "2012-01-25T22:00:00Z",
@@ -619,13 +638,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "course-1",
       "name": "Ongoing session 2 in course 1",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-26T22:00:00Z",
       "endTime": "2012-02-02T22:00:00Z",
@@ -638,13 +657,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000706",
       "courseId": "course-1",
       "name": "Ongoing session 3 in course 1",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-26T10:00:00Z",
       "endTime": "2012-01-27T10:00:00Z",
@@ -657,13 +676,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "ongoingSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "course-3",
       "name": "Ongoing session 1 in course 3",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-27T22:00:00Z",
       "endTime": "2012-02-02T22:00:00Z",
@@ -676,13 +695,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000506"
     },
     "ongoingSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "course-3",
       "name": "Ongoing session 2 in course 3",
-      "creatorEmail": "instr1@teammates.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-01-19T22:00:00Z",
       "endTime": "2028-04-30T22:00:00Z",
@@ -695,7 +714,8 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000506"
     }
   },
   "feedbackQuestions": {
@@ -740,7 +760,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 3,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
@@ -773,7 +793,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 5,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -790,7 +810,7 @@
       },
       "description": "Feedback question with no responses",
       "questionNumber": 6,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -807,7 +827,7 @@
       },
       "description": "This is a text question.",
       "questionNumber": 7,
-      "giverType": "SELF",
+      "giverType": "SESSION_CREATOR",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
@@ -853,7 +873,7 @@
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
-        "mcqOtherWeight": 0.0,
+        "mcqOtherWeight": 0,
         "mcqChoices": ["Great", "Perfect"],
         "otherEnabled": false,
         "questionDropdownEnabled": false,
@@ -886,6 +906,7 @@
         "questionType": "TEXT",
         "answer": "Student 1 self feedback."
       },
+      "giverComment": "Student 1 comment to student 1 self feedback",
       "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1": {
@@ -965,7 +986,7 @@
       "questionId": "00000000-0000-4000-8001-000000000800"
     }
   },
-  "feedbackResponseComments": {
+  "responseInstructorComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
         "giverUserId": "00000000-0000-4000-8000-000000000501"
@@ -974,22 +995,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [],
-      "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000901"
-    },
-    "comment2ToResponse1ForQ1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000601"
-      },
-      "commentText": "Student 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": true,
-      "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
@@ -1002,8 +1007,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
@@ -1016,8 +1019,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000903"
@@ -1030,8 +1031,6 @@
         "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
-      "isVisibilityFollowingFeedbackQuestion": false,
-      "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000905"
@@ -1065,49 +1064,49 @@
       "id": "00000000-0000-4000-8000-000000001301",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session2Log1": {
       "id": "00000000-0000-4000-8000-000000001302",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:01Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "student1Session2Log2": {
       "id": "00000000-0000-4000-8000-000000001303",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "2012-01-01T12:00:02Z",
-      "studentId": "00000000-0000-4000-8000-000000000601",
+      "userId": "00000000-0000-4000-8000-000000000601",
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "student2Session1Log1": {
       "id": "00000000-0000-4000-8000-000000001304",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:03Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1Log2": {
       "id": "00000000-0000-4000-8000-000000001305",
       "feedbackSessionLogType": "SUBMISSION",
       "timestamp": "2012-01-01T12:00:04Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1InAnotherCourse": {
       "id": "00000000-0000-4000-8000-000000001306",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2012-01-01T12:00:05Z",
-      "studentId": "00000000-0000-4000-8000-000000000605",
+      "userId": "00000000-0000-4000-8000-000000000605",
       "sessionId": "00000000-0000-4000-8000-000000000707"
     },
     "outOfRangeLog": {
       "id": "00000000-0000-4000-8000-000000001307",
       "feedbackSessionLogType": "ACCESS",
       "timestamp": "2010-01-01T00:00:00Z",
-      "studentId": "00000000-0000-4000-8000-000000000602",
+      "userId": "00000000-0000-4000-8000-000000000602",
       "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   }

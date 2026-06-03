@@ -1,21 +1,7 @@
 package teammates.ui.output;
 
-import jakarta.annotation.Nullable;
-
 /**
- * Generic output format for all API requests.
+ * Interface for all API requests.
  */
-public class ApiOutput {
-
-    @Nullable
-    private String requestId;
-
-    public String getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(String requestId) {
-        this.requestId = requestId;
-    }
-
+public interface ApiOutput {
 }

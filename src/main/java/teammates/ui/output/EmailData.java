@@ -5,7 +5,7 @@ import teammates.common.util.EmailWrapper;
 /**
  * The output format for email request.
  */
-public class EmailData extends ApiOutput {
+public class EmailData implements ApiOutput {
     private final String recipient;
     private final String subject;
     private final String content;

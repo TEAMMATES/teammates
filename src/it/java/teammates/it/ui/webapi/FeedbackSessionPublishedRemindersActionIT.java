@@ -6,13 +6,13 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -26,12 +26,9 @@ import teammates.ui.webapi.JsonResult;
 public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<FeedbackSessionPublishedRemindersAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -58,18 +55,16 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
                 "qn5InSession1InCourse1",
                 "qn6InSession1InCourse1NoResponses",
         };
-        Set<FeedbackQuestion> qns = new HashSet<>();
-        for (String fqKey : fqKeys) {
-            qns.add(typicalBundle.feedbackQuestions.get(fqKey));
-        }
-
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setFeedbackQuestions(qns);
-        session.setStartTime(now.minusSeconds(oneDay * 3));
-        session.setEndTime(now.minusSeconds(oneDay));
-        session.setGracePeriod(noGracePeriod);
-
-        return session;
+        return updateSession(session -> {
+            Set<FeedbackQuestion> qns = new HashSet<>();
+            for (String fqKey : fqKeys) {
+                qns.add(logic.getFeedbackQuestion(typicalBundle.feedbackQuestions.get(fqKey).getId()));
+            }
+            session.setFeedbackQuestions(qns);
+            session.setStartTime(now.minusSeconds(oneDay * 3));
+            session.setEndTime(now.minusSeconds(oneDay));
+            session.setGracePeriod(noGracePeriod);
+        });
     }
 
     @Test
@@ -99,10 +94,12 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
 
-        FeedbackSession session = generatePreparedSession();
+        generatePreparedSession();
 
-        session.setPublishedEmailSent(false);
-        session.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently publish
+        updateSession(s -> {
+            s.setPublishedEmailSent(false);
+            s.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently publish
+        });
 
         FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
@@ -118,9 +115,11 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
 
-        FeedbackSession session = generatePreparedSession();
-        session.setPublishedEmailSent(false);
-        session.setResultsVisibleFromTime(now.plusSeconds(thirtyMin));
+        generatePreparedSession();
+        updateSession(s -> {
+            s.setPublishedEmailSent(false);
+            s.setResultsVisibleFromTime(now.plusSeconds(thirtyMin));
+        });
 
         FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
@@ -135,11 +134,13 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         long thirtyMin = 60 * 30;
         Instant now = Instant.now();
 
-        FeedbackSession session = generatePreparedSession();
+        generatePreparedSession();
 
-        session.setPublishedEmailEnabled(false);
-        session.setPublishedEmailSent(false);
-        session.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently publish
+        updateSession(s -> {
+            s.setPublishedEmailEnabled(false);
+            s.setPublishedEmailSent(false);
+            s.setResultsVisibleFromTime(now.minusSeconds(thirtyMin)); // recently publish
+        });
 
         FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
@@ -151,10 +152,12 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
     }
 
     private void textExecute_typicalSuccess4() {
-        FeedbackSession session = generatePreparedSession();
+        generatePreparedSession();
 
-        session.setPublishedEmailSent(false);
-        session.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER); // special time
+        updateSession(s -> {
+            s.setPublishedEmailSent(false);
+            s.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER); // special time
+        });
 
         FeedbackSessionPublishedRemindersAction action = getAction();
         JsonResult actionOutput = getJsonResult(action);
@@ -163,5 +166,14 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         assertEquals("Successful", response.getMessage());
 
         verifyNoTasksAdded();
+    }
+
+    private FeedbackSession updateSession(Consumer<FeedbackSession> updater) {
+        return inTransaction(() -> {
+            FeedbackSession session = logic.getFeedbackSession(
+                    typicalBundle.feedbackSessions.get("session1InCourse1").getId());
+            updater.accept(session);
+            return session;
+        });
     }
 }

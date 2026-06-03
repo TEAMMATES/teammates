@@ -2,9 +2,10 @@
   <div class="col-md-10 allow-rich-text">
     <label>
       <input
+        #allowRichTextCheckbox
         type="checkbox"
         [checked]="model.shouldAllowRichText"
-        (click)="triggerModelChange('shouldAllowRichText', castAsInputElement($event.target).checked)"
+        (click)="triggerModelChange('shouldAllowRichText', allowRichTextCheckbox.checked)"
         [disabled]="!isEditable"
       />
       Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers

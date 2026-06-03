@@ -4,13 +4,17 @@
       "googleId": "tm.e2e.FNumScaleQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "id": "00000000-0000-4000-8000-000000000001"
+      "id": "00000000-0000-4000-8000-000000000001",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tm.e2e.FNumScaleQn.instructor"
     },
     "tm.e2e.FNumScaleQn.alice.tmms": {
       "googleId": "tm.e2e.FNumScaleQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "id": "00000000-0000-4000-8000-000000000002"
+      "id": "00000000-0000-4000-8000-000000000002",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tm.e2e.FNumScaleQn.alice.tmms"
     }
   },
   "accountRequests": {},
@@ -109,7 +113,6 @@
   },
   "feedbackSessions": {
     "openSession": {
-      "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -125,10 +128,10 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "tm.e2e.FNumScaleQn.CS2104",
-      "name": "First Session"
+      "name": "First Session",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "openSession2": {
-      "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for second session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -144,7 +147,8 @@
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "tm.e2e.FNumScaleQn.CS1101",
-      "name": "Second Session"
+      "name": "Second Session",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     }
   },
   "feedbackQuestions": {
@@ -189,7 +193,7 @@
   },
   "notifications": {},
   "readNotifications": {},
-  "feedbackResponseComments": {},
+  "responseInstructorComments": {},
   "students": {
     "alice.tmms@FNumScaleQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",

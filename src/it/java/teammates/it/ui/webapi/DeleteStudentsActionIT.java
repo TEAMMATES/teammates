@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.DeleteStudentsAction;
 public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -49,7 +45,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         ______TS("Typical Success Case delete all students in the course");
         loginAsInstructor(instructor.getGoogleId());
 
-        List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
+        List<Student> studentsToDelete = inTransaction(() -> logic.getStudentsForCourse(courseId));
 
         assertEquals(5, studentsToDelete.size());
 
@@ -61,7 +57,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         getJsonResult(deleteStudentsAction);
 
         for (Student student : studentsToDelete) {
-            assertNull(logic.getStudentByRegistrationKey(student.getRegKey()));
+            assertNull(inTransaction(() -> logic.getStudentByRegistrationKey(student.getRegKey())));
         }
 
         ______TS("Random course given, fails silently");

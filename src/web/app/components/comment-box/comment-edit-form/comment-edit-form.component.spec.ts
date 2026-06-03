@@ -5,7 +5,7 @@ import { CommentEditFormComponent } from './comment-edit-form.component';
 import {
   CommentVisibilityType,
   FeedbackQuestionType,
-  FeedbackResponseComment,
+  ResponseInstructorComment,
   FeedbackResponseDetails,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
@@ -36,9 +36,9 @@ describe('CommentEditFormComponent', () => {
 
     it('should remove anonymous hash from giver and recipient when response is provided', () => {
       const feedbackResponseDetails: FeedbackResponseDetails = {
-        questionType: FeedbackQuestionType.CONSTSUM,
+        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
       };
-      const commentOutputs: FeedbackResponseComment[] = [];
+      const commentOutputs: ResponseInstructorComment[] = [];
       component.response = {
         isMissingResponse: true,
         responseId: 'string',
@@ -94,7 +94,6 @@ describe('CommentEditFormComponent', () => {
   it('should emit the updated model when triggerModelChangeBatch is called', () => {
     component.model = {
       commentText: 'Initial Comment',
-      isUsingCustomVisibilities: false,
       showCommentTo: [],
       showGiverNameTo: [],
     };
@@ -102,7 +101,6 @@ describe('CommentEditFormComponent', () => {
 
     const updatedModel = {
       commentText: 'Updated Comment',
-      isUsingCustomVisibilities: true,
       showCommentTo: ['Public'],
       showGiverNameTo: ['Team'],
     };

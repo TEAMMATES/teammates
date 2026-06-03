@@ -4,19 +4,25 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.FMcqQn.instructor",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt"
+      "email": "tmms.test@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tm.e2e.FMcqQn.instructor"
     },
     "tm.e2e.FMcqQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.FMcqQn.alice.tmms",
       "name": "Alice Betsy",
-      "email": "alice.b.tmms@gmail.tmt"
+      "email": "alice.b.tmms@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tm.e2e.FMcqQn.alice.tmms"
     },
     "tm.e2e.FMcqQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
       "googleId": "tm.e2e.FMcqQn.benny.tmms",
       "name": "Benny Charles",
-      "email": "benny.c.tmms@gmail.tmt"
+      "email": "benny.c.tmms@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tm.e2e.FMcqQn.benny.tmms"
     }
   },
   "accountRequests": {},
@@ -122,7 +128,6 @@
     "openSession": {
       "id": "00000000-0000-4000-8000-000000000701",
       "name": "First Session",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -136,12 +141,12 @@
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "courseId": "tm.e2e.FMcqQn.CS2104"
+      "courseId": "tm.e2e.FMcqQn.CS2104",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "name": "Second Session",
-      "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T22:00:00Z",
@@ -155,7 +160,8 @@
       "isPublishedEmailSent": false,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
-      "courseId": "tm.e2e.FMcqQn.CS1101"
+      "courseId": "tm.e2e.FMcqQn.CS1101",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     }
   },
   "feedbackQuestions": {
@@ -200,7 +206,7 @@
       "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
-  "feedbackResponseComments": {},
+  "responseInstructorComments": {},
   "notifications": {},
   "readNotifications": {}
 }

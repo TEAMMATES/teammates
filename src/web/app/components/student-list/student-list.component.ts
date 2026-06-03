@@ -16,6 +16,7 @@ import {
   SortableTableHeaderColorScheme,
   SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
+import { textToHighlighting } from '../../utils/highlighter.util';
 
 /**
  * Model of row of student data containing details about a student and their section.
@@ -40,7 +41,6 @@ export class StudentListComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private courseService = inject(CourseService);
   private simpleModalService = inject(SimpleModalService);
-  private searchTermsHighlighterPipe = inject(SearchTermsHighlighterPipe);
 
   @Input() courseId = '';
   @Input() useGrayHeading = true;
@@ -143,7 +143,7 @@ export class StudentListComponent implements OnInit {
         const rowData: SortableTableCellData[] = [
           {
             value: studentModel.student.sectionName,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: textToHighlighting(
               studentModel.student.sectionName,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
@@ -151,7 +151,7 @@ export class StudentListComponent implements OnInit {
           },
           {
             value: studentModel.student.teamName,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: textToHighlighting(
               studentModel.student.teamName,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
@@ -159,7 +159,7 @@ export class StudentListComponent implements OnInit {
           },
           {
             value: studentModel.student.name,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: textToHighlighting(
               studentModel.student.name,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,
@@ -170,7 +170,7 @@ export class StudentListComponent implements OnInit {
           },
           {
             value: studentModel.student.email,
-            displayValue: this.searchTermsHighlighterPipe.transform(
+            displayValue: textToHighlighting(
               studentModel.student.email,
               this.searchString,
               this.isPartialMatchHighlightingEnabled,

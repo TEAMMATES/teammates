@@ -1,0 +1,5 @@
+<ul>
+  @for (answer of optionToAnswer | keyvalue; track answer) {
+    <li>{{ answer.key }}: {{ answer.value }}</li>
+  }
+</ul>

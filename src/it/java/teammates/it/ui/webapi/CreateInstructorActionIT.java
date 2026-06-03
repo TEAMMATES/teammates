@@ -2,17 +2,15 @@ package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -27,18 +25,14 @@ import teammates.ui.webapi.JsonResult;
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
 
         // Ensure the admin account exists for email sending
-        String adminId = Config.APP_ADMINS.get(0);
-        Account inviter = new Account(adminId, "Admin", "admin@test.tmt");
-        logic.createAccount(inviter);
-
-        HibernateUtil.flushSession();
+        String adminEmail = Config.APP_ADMINS.get(0);
+        inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, "validAdminSubject",
+                "validAdminTenant", adminEmail, adminEmail));
     }
 
     @Override
@@ -58,7 +52,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Test
-    protected void testExecute_typicalCase_shouldPass() throws Exception {
+    protected void testExecute_typicalCase_shouldPass() {
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
 
         Course course1 = typicalBundle.courses.get("course1");
@@ -76,7 +70,8 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         JsonResult response = getJsonResult(action);
         InstructorData instructorData = (InstructorData) response.getOutput();
 
-        Instructor createdInstructor = logic.getInstructorForEmail(course1.getId(), instructorCreateRequest.getEmail());
+        Instructor createdInstructor = inTransaction(() ->
+                logic.getInstructorForEmail(course1.getId(), instructorCreateRequest.getEmail()));
 
         assertEquals(createdInstructor.getName(), instructorCreateRequest.getName());
         assertEquals(createdInstructor.getEmail(), instructorCreateRequest.getEmail());
@@ -90,7 +85,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Test
-    protected void testExecute_uniqueEmailClash_shouldFail() throws Exception {
+    protected void testExecute_uniqueEmailClash_shouldFail() {
         loginAsAdmin();
 
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -105,7 +100,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
                 "instructor3ofCourse1", false);
 
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
-        assertThrows(InvalidOperationException.class, action::execute);
+        assertThrowsInTransaction(InvalidOperationException.class, action::execute);
     }
 
     @Override

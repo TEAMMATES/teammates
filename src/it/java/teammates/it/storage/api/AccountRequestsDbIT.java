@@ -10,7 +10,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
@@ -23,37 +22,40 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
     private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
     @Test
-    public void testCreateReadDeleteAccountRequest() throws Exception {
+    public void testCreateReadDeleteAccountRequest() {
         ______TS("Create account request, does not exists, succeeds");
 
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        accountRequestDb.createAccountRequest(accountRequest);
+        inTransaction(() -> accountRequestDb.createAccountRequest(accountRequest));
 
         ______TS("Read account request using the given ID");
 
-        AccountRequest actualAccReqEmalAndInstitute = accountRequestDb.getAccountRequest(accountRequest.getId());
-        verifyEquals(accountRequest, actualAccReqEmalAndInstitute);
+        AccountRequest actualAccReqEmalAndInstitute =
+                inTransaction(() -> accountRequestDb.getAccountRequest(accountRequest.getId()));
+        assertEquals(accountRequest, actualAccReqEmalAndInstitute);
 
         ______TS("Read account request using the given registration key");
 
         AccountRequest actualAccReqRegistrationKey =
-                accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
-        verifyEquals(accountRequest, actualAccReqRegistrationKey);
+                inTransaction(() -> accountRequestDb.getAccountRequestByRegistrationKey(
+                        accountRequest.getRegistrationKey()));
+        assertEquals(accountRequest, actualAccReqRegistrationKey);
 
         ______TS("Read account request using the given start and end timing");
 
         List<AccountRequest> actualAccReqCreatedAt =
-                accountRequestDb.getAccountRequests(accountRequest.getCreatedAt(), accountRequest.getCreatedAt());
+                inTransaction(() -> accountRequestDb.getAccountRequests(
+                        accountRequest.getCreatedAt(), accountRequest.getCreatedAt()));
         assertEquals(1, actualAccReqCreatedAt.size());
-        verifyEquals(accountRequest, actualAccReqCreatedAt.get(0));
+        assertEquals(accountRequest, actualAccReqCreatedAt.get(0));
 
         ______TS("Read account request not found using the outside start and end timing");
 
         List<AccountRequest> actualAccReqCreatedAtOutside =
-                accountRequestDb.getAccountRequests(
+                inTransaction(() -> accountRequestDb.getAccountRequests(
                         accountRequest.getCreatedAt().minusMillis(3000),
-                        accountRequest.getCreatedAt().minusMillis(2000));
+                        accountRequest.getCreatedAt().minusMillis(2000)));
         assertEquals(0, actualAccReqCreatedAtOutside.size());
 
         ______TS("Create account request, same email address and institute already exist, creates successfully");
@@ -62,34 +64,36 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        accountRequestDb.createAccountRequest(identicalAccountRequest);
+        inTransaction(() -> accountRequestDb.createAccountRequest(identicalAccountRequest));
         AccountRequest actualIdenticalAccountRequest =
-                accountRequestDb.getAccountRequestByRegistrationKey(identicalAccountRequest.getRegistrationKey());
-        verifyEquals(identicalAccountRequest, actualIdenticalAccountRequest);
+                inTransaction(() -> accountRequestDb.getAccountRequestByRegistrationKey(
+                        identicalAccountRequest.getRegistrationKey()));
+        assertEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
         ______TS("Delete account request that was created");
 
-        accountRequestDb.deleteAccountRequest(accountRequest);
+        inTransaction(() -> accountRequestDb.deleteAccountRequest(accountRequest));
 
         AccountRequest actualAccountRequest =
-                accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
+                inTransaction(() -> accountRequestDb.getAccountRequestByRegistrationKey(
+                        accountRequest.getRegistrationKey()));
         assertNull(actualAccountRequest);
     }
 
     @Test
     public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
         UUID id = UUID.randomUUID();
-        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        AccountRequest actualAccountRequest = inTransaction(() -> accountRequestDb.getAccountRequest(id));
         assertNull(actualAccountRequest);
     }
 
     @Test
-    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
-        accountRequestDb.createAccountRequest(expectedAccountRequest);
-        AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
+        inTransaction(() -> accountRequestDb.createAccountRequest(expectedAccountRequest));
+        AccountRequest actualAccountRequest = inTransaction(() -> accountRequestDb.getAccountRequest(id));
         assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 

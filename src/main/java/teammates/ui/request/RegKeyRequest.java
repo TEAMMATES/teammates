@@ -8,7 +8,7 @@ public class RegKeyRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(key != null, "Registration key cannot be null");
+        validateTrue(key != null, "Registration key cannot be null");
     }
 
     public String getKey() {

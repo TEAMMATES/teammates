@@ -1,31 +1,20 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { ResponseInstructorCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
 import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
-import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
-import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
+import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe,
   CommentVisibilityTypeNamePipe,
 } from '../comment-visibility-setting.pipe';
-
-/**
- * Model for comment edit form.
- */
-export interface CommentEditFormModel {
-  commentText: string;
-
-  isUsingCustomVisibilities: boolean;
-  showCommentTo: CommentVisibilityType[];
-  showGiverNameTo: CommentVisibilityType[];
-}
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * Comment edit form component
@@ -33,8 +22,8 @@ export interface CommentEditFormModel {
 @Component({
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
-  animations: [collapseAnim],
   imports: [
+    NgbCollapse,
     NgbTooltip,
     RichTextEditorComponent,
     EnumToArrayPipe,
@@ -44,9 +33,7 @@ export interface CommentEditFormModel {
   ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
-  private commentService = inject(FeedbackResponseCommentService);
-
-  readonly castAsInputElement: typeof castAsInputElement;
+  private readonly commentService = inject(ResponseInstructorCommentService);
 
   // enum
   CommentVisibilityType!: typeof CommentVisibilityType;
@@ -60,7 +47,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   model: CommentEditFormModel = {
     commentText: '',
 
-    isUsingCustomVisibilities: false,
     showCommentTo: [],
     showGiverNameTo: [],
   };
@@ -98,7 +84,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   visibilityStateMachine: CommentVisibilityStateMachine;
 
   constructor() {
-    this.castAsInputElement = castAsInputElement;
     this.CommentVisibilityType = CommentVisibilityType;
     this.CommentVisibilityControl = CommentVisibilityControl;
     this.CommentRowMode = CommentRowMode;
@@ -114,27 +99,11 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
-    if (this.model.isUsingCustomVisibilities) {
-      const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
-        SHOW_COMMENT: this.model.showCommentTo,
-        SHOW_GIVER_NAME: this.model.showGiverNameTo,
-      };
-      this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
-    } else {
-      // follow the question's visibilities settings
-      this.visibilityStateMachine.allowAllApplicableTypesToSee();
-      // sync the two visibilities settings to follow question
-      // automatically change the isUsingCustomVisibilities flag to true
-      this.triggerModelChangeBatch({
-        isUsingCustomVisibilities: true,
-        showCommentTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-          CommentVisibilityControl.SHOW_COMMENT,
-        ),
-        showGiverNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-          CommentVisibilityControl.SHOW_GIVER_NAME,
-        ),
-      });
-    }
+    const visibilitySetting: { [TKey in CommentVisibilityControl]: CommentVisibilityType[] } = {
+      SHOW_COMMENT: this.model.showCommentTo,
+      SHOW_GIVER_NAME: this.model.showGiverNameTo,
+    };
+    this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
   }
 
   /**

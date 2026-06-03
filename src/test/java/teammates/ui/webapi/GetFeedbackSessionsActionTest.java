@@ -14,6 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -277,14 +278,16 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
+        String subject = "validStudentSubject";
+        String tenantId = "validTenantId";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        s.setAccount(new Account(googleId, Provider.TEAMMATES_DEV, subject, tenantId, name, email));
         return s;
     }
 
     private FeedbackSession generateSession1InCourse(Course course, String name) {
         FeedbackSession fs = new FeedbackSession(name,
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
                 Duration.ofHours(10), true, true);
@@ -298,14 +301,17 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private Instructor generateInstructor1InCourse(Course course) {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null,
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-        instructor.setAccount(new Account("instructor-1", instructor.getName(), instructor.getEmail()));
+        String subject = "validInstructorSubject";
+        String tenantId = "validTenantId";
+        instructor.setAccount(new Account(
+                "instructor-1", Provider.TEAMMATES_DEV, subject, tenantId, instructor.getName(), instructor.getEmail()));
         return instructor;
     }
 
     private FeedbackSession generateClosedFeedbackSessionInCourse(Course course, String name) {
         FeedbackSession closedSession = new FeedbackSession(
                 name,
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"),
                 Instant.parse("2025-01-01T00:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"),

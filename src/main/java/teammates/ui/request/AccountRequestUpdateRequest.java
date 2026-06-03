@@ -34,11 +34,11 @@ public class AccountRequestUpdateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(name != null, "name cannot be null");
-        assertTrue(email != null, "email cannot be null");
-        assertTrue(institute != null, "institute cannot be null");
-        assertTrue(status != null, "status cannot be null");
-        assertTrue(status == AccountRequestStatus.APPROVED
+        validateTrue(name != null, "name cannot be null");
+        validateTrue(email != null, "email cannot be null");
+        validateTrue(institute != null, "institute cannot be null");
+        validateTrue(status != null, "status cannot be null");
+        validateTrue(status == AccountRequestStatus.APPROVED
                 || status == AccountRequestStatus.REJECTED
                 || status == AccountRequestStatus.PENDING
                 || status == AccountRequestStatus.REGISTERED,

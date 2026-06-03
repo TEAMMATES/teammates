@@ -16,7 +16,7 @@ public class FeedbackSessionClosedRemindersAction extends AutomatedServiceAction
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = logic.getFeedbackSessionsClosedWithinThePastHour();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsClosedRecently();
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();

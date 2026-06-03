@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (accountRequest of accountRequests; track accountRequest.id; let i = $index) {
+          @for (accountRequest of accountRequests; track accountRequest.accountRequestId; let i = $index) {
             <tr (click)="toggleAccountRequestLinks(accountRequest)">
               <td>
                 <div class="d-flex align-items-center gap-2">
@@ -159,40 +159,19 @@
                       </button>
                     </div>
                   </span>
-                  <div
-                    class="ngb-tooltip-class"
-                    [ngbTooltip]="
-                      accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'
-                    "
-                    placement="top"
-                  >
-                    <button
-                      id="reset-account-request-{{ i }}"
-                      class="btn btn-primary"
-                      [disabled]="!accountRequest.registeredAtText || isResettingAccount[i]"
-                      (click)="$event.stopPropagation(); resetAccountRequest(accountRequest, i)"
-                    >
-                      @if (isResettingAccount[i]) {
-                        <tm-ajax-loading></tm-ajax-loading>
-                      }
-                      Reset
-                    </button>
-                  </div>
                 </div>
               </td>
             </tr>
-            @if (accountRequest.showLinks) {
-              <tr>
-                <td colspan="100">
-                  <ul class="list-group" @collapseAnim>
-                    <li class="list-group-item list-group-item-info">
-                      <strong>Account Registration Link</strong>
-                      <input [value]="accountRequest.registrationLink" disabled class="form-control" />
-                    </li>
-                  </ul>
-                </td>
-              </tr>
-            }
+            <tr>
+              <td colspan="100">
+                <ul class="list-group" [ngbCollapse]="!accountRequest.showLinks">
+                  <li class="list-group-item list-group-item-info">
+                    <strong>Account Registration Link</strong>
+                    <input [value]="accountRequest.registrationLink" disabled class="form-control" />
+                  </li>
+                </ul>
+              </td>
+            </tr>
           }
         </tbody>
       </table>

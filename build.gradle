@@ -26,7 +26,6 @@ buildscript {
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:4.0.0") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:33.5.0-jre"
         classpath "org.liquibase:liquibase-gradle-plugin:3.1.0"
         classpath "org.liquibase:liquibase-core:4.27.0"
     }
@@ -38,12 +37,6 @@ configurations {
     liquibaseRuntime.extendsFrom testImplementation
 }
 
-// See https://github.com/checkstyle/checkstyle/issues/14211#issuecomment-1884129948
-configurations.all {
-    resolutionStrategy.capabilitiesResolution.withCapability("com.google.collections:google-collections") {
-        select("com.google.guava:guava:0")
-    }
-}
 
 repositories {
     mavenCentral()
@@ -62,7 +55,6 @@ dependencies {
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("tools.jackson.core:jackson-databind:3.1.1")
-    implementation("com.google.guava:guava:33.5.0-jre")
     implementation("commons-lang:commons-lang:2.6")
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
     implementation("com.helger:ph-commons:9.5.5") // necessary to add SpotBugs suppression

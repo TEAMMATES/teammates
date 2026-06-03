@@ -37,8 +37,15 @@ describe('NotificationService', () => {
   });
 
   it('should execute GET when retrieving notifications', () => {
-    service.getNotifications();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATIONS);
+    const paramsMap: Record<string, string | string[]> = {
+      usertype: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
+      isfetchingactive: 'true',
+    };
+    service.getNotifications({
+      targetUsers: [NotificationTargetUser.STUDENT, NotificationTargetUser.GENERAL],
+      isFetchingActive: true,
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATIONS, paramsMap);
   });
 
   it('should execute POST when creating notifications', () => {

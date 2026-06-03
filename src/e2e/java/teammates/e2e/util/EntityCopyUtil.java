@@ -20,7 +20,7 @@ public final class EntityCopyUtil {
      */
     public static FeedbackSession copyFeedbackSession(FeedbackSession original) {
         FeedbackSession fs = new FeedbackSession(
-                original.getName(), original.getCreatorEmail(), original.getInstructions(),
+                original.getName(), original.getSessionCreator(), original.getInstructions(),
                 original.getStartTime(),
                 original.getEndTime(), original.getSessionVisibleFromTime(), original.getResultsVisibleFromTime(),
                 original.getGracePeriod(), original.isClosingSoonEmailEnabled(),

@@ -11,7 +11,7 @@ export interface Account extends ApiOutput {
 }
 
 export interface AccountRequest extends ApiOutput {
-  id: string;
+  accountRequestId: string;
   email: string;
   name: string;
   institute: string;
@@ -31,7 +31,6 @@ export interface ActionClasses extends ApiOutput {
 }
 
 export interface ApiOutput {
-  requestId?: string;
 }
 
 export interface AuthInfo extends ApiOutput {
@@ -69,8 +68,13 @@ export interface Courses extends ApiOutput {
   courses: Course[];
 }
 
-export interface CourseSectionNames extends ApiOutput {
-  sectionNames: string[];
+export interface CourseSection extends ApiOutput {
+  sectionId: string;
+  sectionName: string;
+}
+
+export interface CourseSections extends ApiOutput {
+  sections: CourseSection[];
 }
 
 export interface DeadlineExtensions extends ApiOutput {
@@ -113,9 +117,8 @@ export interface ExceptionLogDetails extends LogDetails {
   loggerSourceLocation: SourceLocation;
 }
 
-export interface FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
+export interface FeedbackConstantSumOptionsQuestionDetails extends FeedbackQuestionDetails {
   constSumOptions: string[];
-  distributeToRecipients: boolean;
   pointsPerOption: boolean;
   forceUnevenDistribution: boolean;
   distributePointsFor: string;
@@ -124,7 +127,18 @@ export interface FeedbackConstantSumQuestionDetails extends FeedbackQuestionDeta
   maxPoint?: number;
 }
 
-export interface FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
+export interface FeedbackConstantSumOptionsResponseDetails extends FeedbackResponseDetails {
+  answers: number[];
+}
+
+export interface FeedbackConstantSumRecipientsQuestionDetails extends FeedbackQuestionDetails {
+  pointsPerOption: boolean;
+  forceUnevenDistribution: boolean;
+  distributePointsFor: string;
+  points: number;
+}
+
+export interface FeedbackConstantSumRecipientsResponseDetails extends FeedbackResponseDetails {
   answers: number[];
 }
 
@@ -212,6 +226,10 @@ export interface FeedbackQuestionRecipients extends ApiOutput {
   recipients: FeedbackQuestionRecipient[];
 }
 
+export interface FeedbackQuestionResponses extends ApiOutput {
+  questionResponses: { [index: string]: FeedbackResponse[] };
+}
+
 export interface FeedbackQuestions extends ApiOutput {
   questions: FeedbackQuestion[];
 }
@@ -242,19 +260,7 @@ export interface FeedbackResponse extends ApiOutput {
   giverIdentifier: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
-  giverComment?: FeedbackResponseComment;
-}
-
-export interface FeedbackResponseComment extends ApiOutput {
-  feedbackResponseCommentId: string;
-  commentGiverName: string;
-  lastEditorName: string;
-  commentText: string;
-  createdAt: number;
-  lastEditedAt: number;
-  isVisibilityFollowingFeedbackQuestion: boolean;
-  showGiverNameTo: CommentVisibilityType[];
-  showCommentTo: CommentVisibilityType[];
+  giverComment?: string;
 }
 
 export interface FeedbackResponseDetails {
@@ -312,19 +318,14 @@ export interface FeedbackSessionAuditLogDetails extends LogDetails {
 }
 
 export interface FeedbackSessionLog {
-  feedbackSessionData: FeedbackSession;
-  feedbackSessionLogEntries: FeedbackSessionLogEntry[];
-}
-
-export interface FeedbackSessionLogEntry {
-  feedbackSessionLogEntryId: string;
-  studentData: Student;
+  feedbackSessionLogId: string;
+  user: User;
   feedbackSessionLogType: FeedbackSessionLogType;
   timestamp: number;
 }
 
 export interface FeedbackSessionLogs extends ApiOutput {
-  feedbackSessionLogs: FeedbackSessionLog[];
+  feedbackSessionLogs: { [index: string]: FeedbackSessionLog[] };
 }
 
 export interface FeedbackSessions extends ApiOutput {
@@ -337,7 +338,10 @@ export interface FeedbackSessionStats extends ApiOutput {
 }
 
 export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
-  giverIdentifiers: string[];
+  studentGivers: string[];
+  instructorGivers: string[];
+  studentNonGivers: string[];
+  instructorNonGivers: string[];
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -539,6 +543,17 @@ export interface RequestLogUser {
   googleId: string;
 }
 
+export interface ResponseInstructorComment extends ApiOutput {
+  responseInstructorCommentId: string;
+  commentGiverName: string;
+  lastEditorName: string;
+  commentText: string;
+  createdAt: number;
+  lastEditedAt: number;
+  showGiverNameTo: CommentVisibilityType[];
+  showCommentTo: CommentVisibilityType[];
+}
+
 export interface ResponseOutput {
   isMissingResponse: boolean;
   responseId: string;
@@ -552,8 +567,8 @@ export interface ResponseOutput {
   recipientEmail?: string;
   recipientSection: string;
   responseDetails: FeedbackResponseDetails;
-  participantComment?: FeedbackResponseComment;
-  instructorComments: FeedbackResponseComment[];
+  participantComment?: string;
+  instructorComments: ResponseInstructorComment[];
 }
 
 export interface SessionLinksRecoveryResponse extends ApiOutput {
@@ -562,6 +577,16 @@ export interface SessionLinksRecoveryResponse extends ApiOutput {
 
 export interface SessionResults extends ApiOutput {
   questions: QuestionOutput[];
+}
+
+export interface SessionSubmission extends ApiOutput {
+  questions: SessionSubmissionQuestion[];
+}
+
+export interface SessionSubmissionQuestion extends ApiOutput {
+  question: FeedbackQuestion;
+  recipients: FeedbackQuestionRecipient[];
+  responses: FeedbackResponse[];
 }
 
 export interface SourceLocation {
@@ -609,6 +634,13 @@ export interface UsageStatistics extends ApiOutput {
 
 export interface UsageStatisticsRange extends ApiOutput {
   result: UsageStatistics[];
+}
+
+export interface User extends ApiOutput {
+  userId: string;
+  email: string;
+  courseId: string;
+  name: string;
 }
 
 export interface UserInfo {
@@ -675,7 +707,6 @@ export enum FeedbackQuestionType {
   MCQ = "MCQ",
   MSQ = "MSQ",
   NUMSCALE = "NUMSCALE",
-  CONSTSUM = "CONSTSUM",
   CONSTSUM_OPTIONS = "CONSTSUM_OPTIONS",
   CONSTSUM_RECIPIENTS = "CONSTSUM_RECIPIENTS",
   CONTRIB = "CONTRIB",
@@ -765,12 +796,10 @@ export enum NumberOfEntitiesToGiveFeedbackToSetting {
 }
 
 export enum QuestionGiverType {
-  SELF = "SELF",
+  SESSION_CREATOR = "SESSION_CREATOR",
   STUDENTS = "STUDENTS",
-  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
   INSTRUCTORS = "INSTRUCTORS",
   TEAMS = "TEAMS",
-  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
 }
 
 export enum QuestionRecipientType {

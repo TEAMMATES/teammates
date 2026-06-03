@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -30,14 +31,13 @@ import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -98,6 +98,7 @@ public class BaseTestCase {
      * The entity fields can be changed using setter methods if needed.
      * New entity generator functions for tests should be added here, and follow the
      * same naming convention.
+     * Subject is randomly generated to avoid conflicts during account creation.
      *
      * <p>Example usage:
      * Account account = getTypicalAccount();
@@ -106,7 +107,8 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
+        return new Account("google-id", Provider.TEAMMATES_DEV,
+                UUID.randomUUID().toString(), "tenant-id", "name", "email@teammates.com");
     }
 
     protected Notification getTypicalNotificationWithId() {
@@ -155,26 +157,26 @@ public class BaseTestCase {
         return team;
     }
 
-    protected FeedbackResponseComment getTypicalFeedbackResponseComment() {
+    protected ResponseInstructorComment getTypicalResponseInstructorComment() {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
         ResponseGiver commentGiver = new ResponseGiver(getTypicalStudent());
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(commentGiver,
-                "typical-comment", true, true, List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(commentGiver,
+                "typical-comment", List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);
-        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
-        feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
-        feedbackResponseComment.setCreatedAt(Instant.now());
-        feedbackResponseComment.setUpdatedAt(Instant.now());
-        return feedbackResponseComment;
+        typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
+        responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
+        responseInstructorComment.setCreatedAt(Instant.now());
+        responseInstructorComment.setUpdatedAt(Instant.now());
+        return responseInstructorComment;
     }
 
     protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
         Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
         Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
         FeedbackSession feedbackSession = new FeedbackSession("test-feedbacksession",
-                "test@teammates.tmt",
+                null,
                 "<p>test-instructions</p>",
                 startTime,
                 endTime,
@@ -189,7 +191,7 @@ public class BaseTestCase {
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
         FeedbackQuestion fq = FeedbackQuestion.makeQuestion(1, "test-description",
-                QuestionGiverType.SELF, QuestionRecipientType.SELF, 1, new ArrayList<>(),
+                QuestionGiverType.SESSION_CREATOR, QuestionRecipientType.SELF, 1, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails("test question text"));
         session.addFeedbackQuestion(fq);
@@ -214,28 +216,8 @@ public class BaseTestCase {
                 AccountRequestStatus.PENDING, "");
     }
 
-    protected UsageStatistics getTypicalUsageStatistics() {
-        return getTypicalUsageStatistics(Instant.parse("2011-01-01T00:00:00Z"));
-    }
-
     protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
         return new UsageStatistics(startTime, 60, 2, 2, 2, 2, 2, 0, 0);
-    }
-
-    protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
-        DeadlineExtension de = new DeadlineExtension(
-                getTypicalStudent(),
-                Instant.now());
-        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
-        return de;
-    }
-
-    protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
-        DeadlineExtension de = new DeadlineExtension(
-                getTypicalInstructor(),
-                Instant.now());
-        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
-        return de;
     }
 
     /**
@@ -266,13 +248,6 @@ public class BaseTestCase {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
-    }
-
-    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength)
-            throws ReflectiveOperationException {
-        return (String) invokeMethod(FieldValidator.class, "getPopulatedEmptyStringErrorMessage",
-                new Class<?>[] { String.class, String.class, int.class },
-                null, new Object[] { messageTemplate, fieldName, maxLength });
     }
 
 }

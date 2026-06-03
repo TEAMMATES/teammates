@@ -1,15 +1,13 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -201,32 +199,6 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the feedback question is for student to answer.
-     */
-    void verifyAnswerableForStudent(FeedbackQuestion feedbackQuestion)
-            throws UnauthorizedAccessException {
-        verifyNotNull(feedbackQuestion, "feedback question");
-
-        if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for students", true);
-        }
-    }
-
-    /**
-     * Verifies that the feedback question is for instructor to answer.
-     */
-    void verifyAnswerableForInstructor(FeedbackQuestion feedbackQuestion)
-            throws UnauthorizedAccessException {
-        verifyNotNull(feedbackQuestion, "feedback question");
-
-        if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
-                && feedbackQuestion.getGiverType() != QuestionGiverType.SELF) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors", true);
-        }
-    }
-
-    /**
      * Verifies that an instructor has submission privilege for a feedback session.
      */
     void verifySessionSubmissionPrivilegeForInstructor(FeedbackSession session, Instructor instructor)
@@ -253,7 +225,7 @@ final class GateKeeper {
      * @param frc comment to be accessed
      * @param participant the response giver who is trying to access the comment
      */
-    void verifyOwnership(FeedbackResponseComment frc, ResponseGiver participant)
+    void verifyOwnership(ResponseInstructorComment frc, ResponseGiver participant)
             throws UnauthorizedAccessException {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.getGiver(), "feedback response comment giver");

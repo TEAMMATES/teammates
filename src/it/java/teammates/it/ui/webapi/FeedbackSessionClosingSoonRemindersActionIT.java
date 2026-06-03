@@ -8,13 +8,13 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
@@ -29,40 +29,40 @@ import teammates.ui.webapi.JsonResult;
 public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<FeedbackSessionClosingSoonRemindersAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
         prepareSession();
     }
 
     private void prepareSession() {
         // DEADLINE EXTENSIONS
         String[] deKeys = {"student1InCourse1Session1", "instructor1InCourse1Session1"};
-        Set<DeadlineExtension> exts = new HashSet<>();
-        for (String deKey : deKeys) {
-            exts.add(typicalBundle.deadlineExtensions.get(deKey));
-        }
+        inTransaction(() -> {
+            Set<DeadlineExtension> exts = new HashSet<>();
+            for (String deKey : deKeys) {
+                exts.add(logic.getDeadlineExtension(typicalBundle.deadlineExtensions.get(deKey).getId()));
+            }
 
-        // FEEDBACK QUESTIONS
-        String[] fqKeys = {
-                "qn1InSession1InCourse1",
-                "qn2InSession1InCourse1",
-                "qn3InSession1InCourse1",
-                "qn4InSession1InCourse1",
-                "qn5InSession1InCourse1",
-                "qn6InSession1InCourse1NoResponses",
-        };
-        Set<FeedbackQuestion> qns = new HashSet<>();
-        for (String fqKey : fqKeys) {
-            qns.add(typicalBundle.feedbackQuestions.get(fqKey));
-        }
+            // FEEDBACK QUESTIONS
+            String[] fqKeys = {
+                    "qn1InSession1InCourse1",
+                    "qn2InSession1InCourse1",
+                    "qn3InSession1InCourse1",
+                    "qn4InSession1InCourse1",
+                    "qn5InSession1InCourse1",
+                    "qn6InSession1InCourse1NoResponses",
+            };
+            Set<FeedbackQuestion> qns = new HashSet<>();
+            for (String fqKey : fqKeys) {
+                qns.add(logic.getFeedbackQuestion(typicalBundle.feedbackQuestions.get(fqKey).getId()));
+            }
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setDeadlineExtensions(exts);
-        session.setFeedbackQuestions(qns);
+            FeedbackSession session = logic.getFeedbackSession(
+                    typicalBundle.feedbackSessions.get("session1InCourse1").getId());
+            session.setDeadlineExtensions(exts);
+            session.setFeedbackQuestions(qns);
+        });
     }
 
     @Override
@@ -94,10 +94,11 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setClosingSoonEmailSent(false);
-        session.setEndTime(now.plusSeconds((oneHour * 23) + 60));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setClosingSoonEmailSent(false);
+            s.setEndTime(now.plusSeconds((oneHour * 23) + 60));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         String[] params = {};
 
@@ -106,8 +107,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(session.getDeadlineExtensions().stream().allMatch(de -> !de.isClosingSoonEmailSent()));
+        assertTrue(isClosingSoonEmailSent(session));
+        assertTrue(allDeadlineExtensionsMatch(session, de -> !de.isClosingSoonEmailSent()));
 
         // 7 email tasks queued:
         // 1 co-owner, 5 students and 3 instructors,
@@ -122,13 +123,13 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setClosingSoonEmailSent(false);
-        session.setEndTime(now.plusSeconds((oneHour * 23) + 60));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setClosingSoonEmailSent(false);
+            s.setEndTime(now.plusSeconds((oneHour * 23) + 60));
+            s.setGracePeriod(noGracePeriod);
+        });
 
-        DeadlineExtension de = session.getDeadlineExtensions().iterator().next();
-        de.setEndTime(now.plusSeconds(oneHour * 16));
+        DeadlineExtension de = updateFirstDeadlineExtension(d -> d.setEndTime(now.plusSeconds(oneHour * 16)));
 
         String[] params = {};
 
@@ -137,8 +138,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(de.isClosingSoonEmailSent());
+        assertTrue(isClosingSoonEmailSent(session));
+        assertTrue(isDeadlineExtensionClosingSoonEmailSent(de));
 
         // 8 email tasks queued:
         // - 7 emails: 1 co-owner, 5 students and 3 instructors,
@@ -156,14 +157,16 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setClosingSoonEmailSent(true);
-        session.setEndTime(now.plusSeconds((oneHour * 23) + 60));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setClosingSoonEmailSent(true);
+            s.setEndTime(now.plusSeconds((oneHour * 23) + 60));
+            s.setGracePeriod(noGracePeriod);
+        });
 
-        DeadlineExtension de = session.getDeadlineExtensions().iterator().next();
-        de.setEndTime(now.plusSeconds(oneHour * 16));
-        de.setClosingSoonEmailSent(false);
+        DeadlineExtension de = updateFirstDeadlineExtension(d -> {
+            d.setEndTime(now.plusSeconds(oneHour * 16));
+            d.setClosingSoonEmailSent(false);
+        });
 
         String[] params = {};
 
@@ -172,8 +175,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(de.isClosingSoonEmailSent());
+        assertTrue(isClosingSoonEmailSent(session));
+        assertTrue(isDeadlineExtensionClosingSoonEmailSent(de));
 
         // 1 email tasks queued:
         // - 0 emails: session already sent closing-soon emails
@@ -189,14 +192,16 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setClosingSoonEmailSent(true);
-        session.setEndTime(now.plusSeconds((oneHour * 23) + 60));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setClosingSoonEmailSent(true);
+            s.setEndTime(now.plusSeconds((oneHour * 23) + 60));
+            s.setGracePeriod(noGracePeriod);
+        });
 
-        DeadlineExtension de = session.getDeadlineExtensions().iterator().next();
-        de.setEndTime(now.plusSeconds(oneHour * 16));
-        de.setClosingSoonEmailSent(true);
+        DeadlineExtension de = updateFirstDeadlineExtension(d -> {
+            d.setEndTime(now.plusSeconds(oneHour * 16));
+            d.setClosingSoonEmailSent(true);
+        });
 
         String[] params = {};
 
@@ -205,8 +210,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(de.isClosingSoonEmailSent());
+        assertTrue(isClosingSoonEmailSent(session));
+        assertTrue(isDeadlineExtensionClosingSoonEmailSent(de));
 
         verifyNoTasksAdded();
     }
@@ -218,15 +223,17 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setClosingSoonEmailEnabled(false);
-        session.setClosingSoonEmailSent(false);
-        session.setEndTime(now.plusSeconds((oneHour * 23) + 60));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setClosingSoonEmailEnabled(false);
+            s.setClosingSoonEmailSent(false);
+            s.setEndTime(now.plusSeconds((oneHour * 23) + 60));
+            s.setGracePeriod(noGracePeriod);
+        });
 
-        DeadlineExtension de = session.getDeadlineExtensions().iterator().next();
-        de.setEndTime(now.plusSeconds(oneHour * 16));
-        de.setClosingSoonEmailSent(false);
+        DeadlineExtension de = updateFirstDeadlineExtension(d -> {
+            d.setEndTime(now.plusSeconds(oneHour * 16));
+            d.setClosingSoonEmailSent(false);
+        });
 
         String[] params = {};
 
@@ -235,8 +242,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertFalse(session.isClosingSoonEmailSent());
-        assertFalse(de.isClosingSoonEmailSent());
+        assertFalse(isClosingSoonEmailSent(session));
+        assertFalse(isDeadlineExtensionClosingSoonEmailSent(de));
 
         verifyNoTasksAdded();
     }
@@ -249,20 +256,22 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        // Session has closing-soon email enabled (possibly just recently enabled)
-        session.setClosingSoonEmailEnabled(true);
-        // Closing-soon email was never sent (because it was disabled before)
-        session.setClosingSoonEmailSent(false);
-        // Session has already closed and sent closed emails
-        session.setClosedEmailSent(true);
-        // End time is still within the 2-day window checked by the query
-        session.setEndTime(now.minusSeconds(oneHour * 12));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            // Session has closing-soon email enabled (possibly just recently enabled)
+            s.setClosingSoonEmailEnabled(true);
+            // Closing-soon email was never sent (because it was disabled before)
+            s.setClosingSoonEmailSent(false);
+            // Session has already closed and sent closed emails
+            s.setClosedEmailSent(true);
+            // End time is still within the 2-day window checked by the query
+            s.setEndTime(now.minusSeconds(oneHour * 12));
+            s.setGracePeriod(noGracePeriod);
+        });
 
-        DeadlineExtension de = session.getDeadlineExtensions().iterator().next();
-        de.setEndTime(now.plusSeconds(oneHour * 16));
-        de.setClosingSoonEmailSent(false);
+        DeadlineExtension de = updateFirstDeadlineExtension(d -> {
+            d.setEndTime(now.plusSeconds(oneHour * 16));
+            d.setClosingSoonEmailSent(false);
+        });
 
         String[] params = {};
 
@@ -272,11 +281,71 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
 
         assertEquals("Successful", response1.getMessage());
         // Should still be false as no closing-soon email should be sent for already closed sessions
-        assertFalse(session.isClosingSoonEmailSent());
+        assertFalse(isClosingSoonEmailSent(session));
         // Closing-soon email for deadline extension should still be sent
-        assertTrue(de.isClosingSoonEmailSent());
+        assertTrue(isDeadlineExtensionClosingSoonEmailSent(de));
 
         // Only 1 email task should be added for the deadline extension
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
+    }
+
+    @Test
+    public void textExecute_typicalSuccess7() {
+        ______TS("Typical Success Case 7: No tasks queued -- session is shorter than the closing-soon lead time");
+        long oneHour = 60 * 60;
+        Instant now = Instant.now();
+        Duration noGracePeriod = Duration.between(now, now);
+
+        FeedbackSession session = updateSession(s -> {
+            s.setClosingSoonEmailSent(false);
+            s.setStartTime(now.minusSeconds(oneHour / 2));
+            s.setEndTime(now.plusSeconds(oneHour * 23));
+            s.setGracePeriod(noGracePeriod);
+            s.getDeadlineExtensions().forEach(de -> de.setClosingSoonEmailSent(true));
+        });
+
+        String[] params = {};
+
+        FeedbackSessionClosingSoonRemindersAction action1 = getAction(params);
+        JsonResult actionOutput1 = getJsonResult(action1);
+        MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
+
+        assertEquals("Successful", response1.getMessage());
+        assertFalse(isClosingSoonEmailSent(session));
+
+        verifyNoTasksAdded();
+    }
+
+    private FeedbackSession updateSession(Consumer<FeedbackSession> updater) {
+        return inTransaction(() -> {
+            FeedbackSession session = logic.getFeedbackSession(
+                    typicalBundle.feedbackSessions.get("session1InCourse1").getId());
+            updater.accept(session);
+            return session;
+        });
+    }
+
+    private DeadlineExtension updateFirstDeadlineExtension(Consumer<DeadlineExtension> updater) {
+        return inTransaction(() -> {
+            DeadlineExtension deadlineExtension = logic.getFeedbackSession(
+                    typicalBundle.feedbackSessions.get("session1InCourse1").getId())
+                    .getDeadlineExtensions().iterator().next();
+            updater.accept(deadlineExtension);
+            return deadlineExtension;
+        });
+    }
+
+    private boolean isClosingSoonEmailSent(FeedbackSession session) {
+        return inTransaction(() -> logic.getFeedbackSession(session.getId()).isClosingSoonEmailSent());
+    }
+
+    private boolean isDeadlineExtensionClosingSoonEmailSent(DeadlineExtension deadlineExtension) {
+        return inTransaction(() -> logic.getDeadlineExtension(deadlineExtension.getId()).isClosingSoonEmailSent());
+    }
+
+    private boolean allDeadlineExtensionsMatch(FeedbackSession session,
+                                               java.util.function.Predicate<DeadlineExtension> predicate) {
+        return inTransaction(() -> logic.getFeedbackSession(session.getId()).getDeadlineExtensions().stream()
+                .allMatch(predicate));
     }
 }

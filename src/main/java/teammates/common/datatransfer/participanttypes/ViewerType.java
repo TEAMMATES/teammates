@@ -44,7 +44,7 @@ public enum ViewerType {
      * Giver of the response.
      *
      * <p>
-     * Used by feedbackResponseComment.
+    * Used by ResponseInstructorComment.
      */
     GIVER
 }

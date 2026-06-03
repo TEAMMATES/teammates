@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -23,7 +22,7 @@ import teammates.storage.entity.FeedbackQuestion;
 /**
  * The API output format of {@link FeedbackQuestion}.
  */
-public class FeedbackQuestionData extends ApiOutput {
+public class FeedbackQuestionData implements ApiOutput {
     private final UUID feedbackQuestionId;
     private int questionNumber;
     private final String questionBrief;
@@ -97,14 +96,6 @@ public class FeedbackQuestionData extends ApiOutput {
             // remove the redundant visibility type as GIVER_TEAM_MEMBERS is just RECIPIENT_TEAM_MEMBERS
             // contribution question keep the redundancy for legacy reason
             this.showResponsesTo.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
-        }
-
-        if (this.questionType == FeedbackQuestionType.CONSTSUM) {
-            FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
-                    (FeedbackConstantSumQuestionDetails) this.questionDetails;
-            this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
-                    ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
-            this.questionDetails.setQuestionType(this.questionType);
         }
     }
 

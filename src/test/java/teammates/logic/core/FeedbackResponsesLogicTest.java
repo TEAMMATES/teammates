@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -13,6 +15,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -46,8 +50,10 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         frDb = mock(FeedbackResponsesDb.class);
         UsersLogic usersLogic = mock(UsersLogic.class);
         FeedbackQuestionsLogic fqLogic = mock(FeedbackQuestionsLogic.class);
-        FeedbackResponseCommentsLogic frcLogic = mock(FeedbackResponseCommentsLogic.class);
+        ResponseInstructorCommentsLogic frcLogic = mock(ResponseInstructorCommentsLogic.class);
         frLogic.initLogicDependencies(frDb, usersLogic, fqLogic, frcLogic);
+        when(fqLogic.getDynamicallyGeneratedOptions(any(FeedbackQuestion.class), any()))
+                .thenReturn(Optional.empty());
     }
 
     @Test
@@ -79,6 +85,33 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackResponse result = frLogic.getFeedbackResponse(nonExistentId);
 
         assertNull(result);
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseGiverComment_responseExists_clearsGiverComment()
+            throws EntityDoesNotExistException {
+        UUID responseId = UUID.randomUUID();
+        FeedbackResponse response = getTypicalFeedbackResponseForQuestion(getTypicalFeedbackQuestionForSession(
+                getTypicalFeedbackSessionForCourse(getTypicalCourse())));
+        response.setGiverComment("giver comment");
+
+        when(frDb.getFeedbackResponse(responseId)).thenReturn(response);
+
+        FeedbackResponse result = frLogic.deleteFeedbackResponseGiverComment(responseId);
+
+        assertEquals(response, result);
+        assertNull(response.getGiverComment());
+    }
+
+    @Test
+    public void testDeleteFeedbackResponseGiverComment_responseDoesNotExist_throwsEntityDoesNotExistException() {
+        UUID responseId = UUID.randomUUID();
+
+        when(frDb.getFeedbackResponse(responseId)).thenReturn(null);
+
+        EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class,
+                () -> frLogic.deleteFeedbackResponseGiverComment(responseId));
+        assertEquals("The feedback response does not exist.", exception.getMessage());
     }
 
     @Test

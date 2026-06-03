@@ -127,7 +127,7 @@
             </td>
             <td>
               @if (response.participantComment) {
-                <div [innerHTML]="response.participantComment.commentText | safeHtml"></div>
+                <div [innerHTML]="response.participantComment | safeHtml"></div>
               }
             </td>
             <td class="text-center no-print">

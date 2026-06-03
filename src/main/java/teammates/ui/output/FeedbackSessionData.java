@@ -14,7 +14,7 @@ import teammates.storage.entity.FeedbackSession;
 /**
  * The API output format of {@link FeedbackSession}.
  */
-public class FeedbackSessionData extends ApiOutput {
+public class FeedbackSessionData implements ApiOutput {
 
     private final UUID feedbackSessionId;
 

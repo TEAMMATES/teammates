@@ -29,10 +29,10 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Test
     void testExecute() {
         List<Class<? extends Action>> expectedActionClasses = Arrays.asList(
-                DeleteFeedbackResponseCommentAction.class,
-                CreateFeedbackResponseCommentAction.class,
-                GetFeedbackResponseCommentAction.class,
-                UpdateFeedbackResponseCommentAction.class,
+                DeleteResponseInstructorCommentAction.class,
+                DeleteFeedbackResponseGiverCommentAction.class,
+                CreateResponseInstructorCommentAction.class,
+                UpdateResponseInstructorCommentAction.class,
                 RestoreFeedbackSessionAction.class,
                 BinFeedbackSessionAction.class,
                 GetCoursesAction.class,
@@ -69,7 +69,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetActionClassesAction.class,
                 UnpublishFeedbackSessionAction.class,
                 PublishFeedbackSessionAction.class,
-                GetSessionResultsAction.class,
+                GetCourseSessionResultsAction.class,
+                GetUserSessionResultsAction.class,
                 GetHasResponsesAction.class,
                 RestoreCourseAction.class,
                 BinCourseAction.class,
@@ -97,12 +98,11 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateCourseAction.class,
                 GetCourseAction.class,
                 UpdateCourseAction.class,
-                GetFeedbackQuestionRecipientsAction.class,
                 RemindFeedbackSessionSubmissionAction.class,
                 SendEmailWorkerAction.class,
                 GetInstructorsAction.class,
                 SearchInstructorsAction.class,
-                GetCourseSectionNamesAction.class,
+                GetCourseSectionsAction.class,
                 ResetAccountAction.class,
                 FeedbackSessionOpenedRemindersAction.class,
                 FeedbackSessionOpeningSoonRemindersAction.class,
@@ -113,7 +113,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateFeedbackQuestionAction.class,
                 UpdateFeedbackQuestionAction.class,
                 SearchAccountRequestsAction.class,
-                ResetAccountRequestAction.class,
                 CalculateUsageStatisticsAction.class,
                 CleanupFeedbackSessionLogsAction.class,
                 GetUsageStatisticsAction.class,
@@ -126,7 +125,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetReadNotificationsAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,
-                GetDeadlineExtensionsAction.class
+                GetDeadlineExtensionsAction.class,
+                GetSessionSubmissionDataAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

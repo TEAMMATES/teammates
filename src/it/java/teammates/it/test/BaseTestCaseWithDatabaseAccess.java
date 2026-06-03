@@ -2,20 +2,19 @@ package teammates.it.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.function.Executable;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.entity.Account;
@@ -25,15 +24,11 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
-import teammates.storage.entity.ReadNotification;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
 import liquibase.command.CommandScope;
@@ -67,14 +62,55 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 .execute();
     }
 
-    @AfterSuite
-    protected static void tearDownSuite() throws Exception {
-        PGSQL.close();
+    /**
+     * Executes the given action within a transaction.
+     */
+    protected void inTransaction(TransactionAction action) {
+        HibernateUtil.beginTransaction();
+        try {
+            action.run();
+            HibernateUtil.commitTransaction();
+        } catch (Throwable t) {
+            HibernateUtil.rollbackTransaction();
+            throw new RuntimeException(t);
+        }
     }
 
-    @BeforeMethod
-    protected void setUp() throws Exception {
+    /**
+     * Executes the given supplier within a transaction and returns the result.
+     */
+    protected <T> T inTransaction(TransactionSupplier<T> action) {
         HibernateUtil.beginTransaction();
+        try {
+            T result = action.get();
+            HibernateUtil.commitTransaction();
+            return result;
+        } catch (Throwable t) {
+            HibernateUtil.rollbackTransaction();
+            throw new RuntimeException(t);
+        }
+    }
+
+    /**
+     * Asserts that the given executable throws an exception of the expected type when executed within a transaction.
+     */
+    protected <E extends Throwable> E assertThrowsInTransaction(
+            Class<E> expectedType, Executable executable) {
+        return assertThrows(expectedType, () -> {
+            HibernateUtil.beginTransaction();
+            try {
+                executable.execute();
+                HibernateUtil.commitTransaction();
+            } catch (Throwable t) {
+                HibernateUtil.rollbackTransaction();
+                throw t;
+            }
+        });
+    }
+
+    @AfterSuite
+    protected static void tearDownSuite() {
+        PGSQL.close();
     }
 
     /**
@@ -86,7 +122,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      */
     @AfterMethod(alwaysRun = true)
     protected void tearDown() {
-        HibernateUtil.rollbackTransaction();
+        inTransaction(this::clearDatabase);
     }
 
     @Override
@@ -97,92 +133,33 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     /**
      * Persist data bundle into the db.
      */
-    protected DataBundle persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException {
-        return logic.persistDataBundle(dataBundle);
+    protected DataBundle persistDataBundle(DataBundle dataBundle) {
+        return inTransaction(() -> logic.persistDataBundle(dataBundle));
     }
 
-    /**
-     * Verifies that two entities are equal.
-     */
-    protected void verifyEquals(BaseEntity expected, BaseEntity actual) {
-        if (expected instanceof Course) {
-            Course expectedCourse = (Course) expected;
-            Course actualCourse = (Course) actual;
-            equalizeIrrelevantData(expectedCourse, actualCourse);
-            assertEquals(JsonUtils.toJson(expectedCourse), JsonUtils.toJson(actualCourse));
-        } else if (expected instanceof DeadlineExtension) {
-            DeadlineExtension expectedDeadlineExtension = (DeadlineExtension) expected;
-            DeadlineExtension actualDeadlineExtension = (DeadlineExtension) actual;
-            equalizeIrrelevantData(expectedDeadlineExtension, actualDeadlineExtension);
-            assertEquals(JsonUtils.toJson(expectedDeadlineExtension), JsonUtils.toJson(actualDeadlineExtension));
-        } else if (expected instanceof FeedbackSession) {
-            FeedbackSession expectedSession = (FeedbackSession) expected;
-            FeedbackSession actualSession = (FeedbackSession) actual;
-            equalizeIrrelevantData(expectedSession, actualSession);
-            assertEquals(JsonUtils.toJson(expectedSession), JsonUtils.toJson(actualSession));
-        } else if (expected instanceof FeedbackQuestion) {
-            FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
-            FeedbackQuestion actualQuestion = (FeedbackQuestion) actual;
-            equalizeIrrelevantData(expectedQuestion, actualQuestion);
-            assertEquals(JsonUtils.toJson(expectedQuestion), JsonUtils.toJson(actualQuestion));
-        } else if (expected instanceof FeedbackResponse) {
-            FeedbackResponse expectedResponse = (FeedbackResponse) expected;
-            FeedbackResponse actualResponse = (FeedbackResponse) actual;
-            equalizeIrrelevantData(expectedResponse, actualResponse);
-            assertEquals(JsonUtils.toJson(expectedResponse), JsonUtils.toJson(actualResponse));
-        } else if (expected instanceof FeedbackResponseComment) {
-            FeedbackResponseComment expectedComment = (FeedbackResponseComment) expected;
-            FeedbackResponseComment actualComment = (FeedbackResponseComment) actual;
-            equalizeIrrelevantData(expectedComment, actualComment);
-            assertEquals(JsonUtils.toJson(expectedComment), JsonUtils.toJson(actualComment));
-        } else if (expected instanceof Notification) {
-            Notification expectedNotification = (Notification) expected;
-            Notification actualNotification = (Notification) actual;
-            equalizeIrrelevantData(expectedNotification, actualNotification);
-            assertEquals(JsonUtils.toJson(expectedNotification), JsonUtils.toJson(actualNotification));
-        } else if (expected instanceof Account) {
-            Account expectedAccount = (Account) expected;
-            Account actualAccount = (Account) actual;
-            equalizeIrrelevantData(expectedAccount, actualAccount);
-            assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
-        } else if (expected instanceof AccountRequest) {
-            AccountRequest expectedAccountRequest = (AccountRequest) expected;
-            AccountRequest actualAccountRequest = (AccountRequest) actual;
-            equalizeIrrelevantData(expectedAccountRequest, actualAccountRequest);
-            assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
-        } else if (expected instanceof UsageStatistics) {
-            UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
-            UsageStatistics actualUsageStatistics = (UsageStatistics) actual;
-            equalizeIrrelevantData(expectedUsageStatistics, actualUsageStatistics);
-            assertEquals(JsonUtils.toJson(expectedUsageStatistics), JsonUtils.toJson(actualUsageStatistics));
-        } else if (expected instanceof Instructor) {
-            Instructor expectedInstructor = (Instructor) expected;
-            Instructor actualInstructor = (Instructor) actual;
-            equalizeIrrelevantData(expectedInstructor, actualInstructor);
-            assertEquals(JsonUtils.toJson(expectedInstructor), JsonUtils.toJson(actualInstructor));
-        } else if (expected instanceof Student) {
-            Student expectedStudent = (Student) expected;
-            Student actualStudent = (Student) actual;
-            equalizeIrrelevantData(expectedStudent, actualStudent);
-            assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
-        } else if (expected instanceof Section) {
-            Section expectedSection = (Section) expected;
-            Section actualSection = (Section) actual;
-            equalizeIrrelevantData(expectedSection, actualSection);
-            assertEquals(JsonUtils.toJson(expectedSection), JsonUtils.toJson(actualSection));
-        } else if (expected instanceof Team) {
-            Team expectedTeam = (Team) expected;
-            Team actualTeam = (Team) actual;
-            equalizeIrrelevantData(expectedTeam, actualTeam);
-            assertEquals(JsonUtils.toJson(expectedTeam), JsonUtils.toJson(actualTeam));
-        } else if (expected instanceof ReadNotification) {
-            ReadNotification expectedReadNotification = (ReadNotification) expected;
-            ReadNotification actualReadNotification = (ReadNotification) actual;
-            equalizeIrrelevantData(expectedReadNotification, actualReadNotification);
-        } else {
-            fail("Unknown entity");
-        }
+    private void clearDatabase() {
+        HibernateUtil.createNativeMutationQuery("""
+            TRUNCATE TABLE
+                account_requests,
+                accounts,
+                courses,
+                deadline_extensions,
+                feedback_questions,
+                feedback_responses,
+                feedback_session_logs,
+                feedback_sessions,
+                instructors,
+                notifications,
+                read_notifications,
+                response_instructor_comments,
+                sections,
+                students,
+                teams,
+                usage_statistics,
+                users
+            RESTART IDENTITY CASCADE
+            """)
+                .executeUpdate();
     }
 
     /**
@@ -190,8 +167,17 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      */
     protected void verifyPresentInDatabase(BaseEntity expected) {
         assertNotNull(expected);
-        BaseEntity actual = getEntity(expected);
-        verifyEquals(expected, actual);
+        BaseEntity actual = inTransaction(() -> getEntity(expected));
+        assertEquals(expected, actual);
+    }
+
+    /**
+     * Verifies that the given entity is not present in the database.
+     */
+    protected void verifyAbsentInDatabase(BaseEntity entity) {
+        assertNotNull(entity);
+        BaseEntity actual = inTransaction(() -> getEntity(entity));
+        assertNull(actual);
     }
 
     private BaseEntity getEntity(BaseEntity entity) {
@@ -205,15 +191,14 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             return logic.getFeedbackQuestion(((FeedbackQuestion) entity).getId());
         } else if (entity instanceof FeedbackResponse) {
             return logic.getFeedbackResponse(((FeedbackResponse) entity).getId());
-        } else if (entity instanceof FeedbackResponseComment) {
-            return logic.getFeedbackResponseComment(((FeedbackResponseComment) entity).getId());
+        } else if (entity instanceof ResponseInstructorComment) {
+            return logic.getResponseInstructorComment(((ResponseInstructorComment) entity).getId());
         } else if (entity instanceof Account) {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {
             return logic.getNotification(((Notification) entity).getId());
         } else if (entity instanceof AccountRequest) {
-            AccountRequest accountRequest = (AccountRequest) entity;
-            return logic.getAccountRequest(accountRequest.getId());
+            return logic.getAccountRequest(((AccountRequest) entity).getId());
         } else if (entity instanceof Instructor) {
             return logic.getInstructor(((Instructor) entity).getId());
         } else if (entity instanceof Student) {
@@ -221,94 +206,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         } else {
             throw new RuntimeException("Unknown entity type");
         }
-    }
-
-    private void equalizeIrrelevantData(Course expected, Course actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(DeadlineExtension expected, DeadlineExtension actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(FeedbackSession expected, FeedbackSession actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(FeedbackQuestion expected, FeedbackQuestion actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(FeedbackResponse expected, FeedbackResponse actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(FeedbackResponseComment expected, FeedbackResponseComment actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(Notification expected, Notification actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(Account expected, Account actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(AccountRequest expected, AccountRequest actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(UsageStatistics expected, UsageStatistics actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-    }
-
-    private void equalizeIrrelevantData(Instructor expected, Instructor actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(Student expected, Student actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(Section expected, Section actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(Team expected, Team actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
-        expected.setUpdatedAt(actual.getUpdatedAt());
-    }
-
-    private void equalizeIrrelevantData(ReadNotification expected, ReadNotification actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
     }
 
     /**
@@ -320,5 +217,29 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             ret = UUID.randomUUID();
         }
         return ret;
+    }
+
+    /**
+     * Functional interface for executing code within a transaction.
+     *
+     * @param <T> the type of the result returned by the supplier
+     */
+    @FunctionalInterface
+    protected interface TransactionSupplier<T> {
+        /**
+         * Executes the supplier within a transaction and returns the result.
+         */
+        T get() throws Exception;
+    }
+
+    /**
+     * Functional interface for executing code within a transaction that does not return a result.
+     */
+    @FunctionalInterface
+    protected interface TransactionAction {
+        /**
+         * Executes the action within a transaction.
+         */
+        void run() throws Exception;
     }
 }

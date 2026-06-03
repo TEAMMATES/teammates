@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * The API output format of a list of feedback questions.
  */
-public final class FeedbackQuestionsData extends ApiOutput {
+public final class FeedbackQuestionsData implements ApiOutput {
     private List<FeedbackQuestionData> questions;
 
     private FeedbackQuestionsData() {

@@ -37,7 +37,7 @@ import {
 import { QuestionsSectionQuestions } from './questions-section-questions';
 import {
   ContributionStatistics,
-  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumOptionsQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackSession,
   ResponseOutput,
@@ -94,7 +94,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   readonly exampleNumericalScaleQuestions: Record<string, QuestionTabModel>;
   readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel>;
   readonly exampleFeedbackSession: FeedbackSession;
-  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails;
+  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumOptionsQuestionDetails;
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel;
   readonly exampleDistributePointOptionResponseOutput: ResponseOutput[];
   readonly exampleDistributePointOptionQuestionTabModel: QuestionTabModel;

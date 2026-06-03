@@ -10,12 +10,9 @@ public enum FeedbackQuestionType {
     MSQ(FeedbackMsqQuestionDetails.class, FeedbackMsqResponseDetails.class),
     NUMSCALE(FeedbackNumericalScaleQuestionDetails.class, FeedbackNumericalScaleResponseDetails.class),
 
-    CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
-
-    // In the back-end, only CONSTSUM and not its branched versions is recognized as a valid question type.
-    // The branching here is done to make it simpler for the front-end to render the right items.
-    CONSTSUM_OPTIONS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
-    CONSTSUM_RECIPIENTS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+    CONSTSUM_OPTIONS(FeedbackConstantSumOptionsQuestionDetails.class, FeedbackConstantSumOptionsResponseDetails.class),
+    CONSTSUM_RECIPIENTS(FeedbackConstantSumRecipientsQuestionDetails.class,
+            FeedbackConstantSumRecipientsResponseDetails.class),
 
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),

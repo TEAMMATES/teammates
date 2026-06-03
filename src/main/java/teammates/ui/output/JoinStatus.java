@@ -3,7 +3,7 @@ package teammates.ui.output;
 /**
  * The join status of a course.
  */
-public class JoinStatus extends ApiOutput {
+public class JoinStatus implements ApiOutput {
 
     private final boolean hasJoined;
 

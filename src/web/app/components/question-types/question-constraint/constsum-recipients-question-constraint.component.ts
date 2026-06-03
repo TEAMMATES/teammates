@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
   FeedbackConstantSumDistributePointsType,
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
+  FeedbackConstantSumRecipientsQuestionDetails,
+  FeedbackConstantSumRecipientsResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-submission-form/question-submission-form-model';
@@ -22,14 +22,15 @@ export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConst
     FeedbackConstantSumDistributePointsType;
 
   @Input()
-  questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
+  questionDetails: FeedbackConstantSumRecipientsQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
 
   /**
    * Checks if all forms are not answered.
    */
   get isAllFormsNotAnswered(): boolean {
     return this.recipientSubmissionForms.every((form: FeedbackResponseRecipientSubmissionFormModel) => {
-      const details: FeedbackConstantSumResponseDetails = form.responseDetails as FeedbackConstantSumResponseDetails;
+      const details: FeedbackConstantSumRecipientsResponseDetails =
+        form.responseDetails as FeedbackConstantSumRecipientsResponseDetails;
       return details.answers.length === 0;
     });
   }
@@ -49,7 +50,8 @@ export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConst
    */
   get allAnswers(): number[] {
     return this.recipientSubmissionForms.map((form: FeedbackResponseRecipientSubmissionFormModel) => {
-      const details: FeedbackConstantSumResponseDetails = form.responseDetails as FeedbackConstantSumResponseDetails;
+      const details: FeedbackConstantSumRecipientsResponseDetails =
+        form.responseDetails as FeedbackConstantSumRecipientsResponseDetails;
       if (details.answers.length === 0) {
         return 0;
       }

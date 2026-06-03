@@ -200,4 +200,9 @@ public abstract class User extends BaseEntity {
     public boolean isRegistered() {
         return this.account != null || this.accountId != null;
     }
+
+    /**
+     * Gets the registration URL for the user.
+     */
+    public abstract String getRegistrationUrl();
 }

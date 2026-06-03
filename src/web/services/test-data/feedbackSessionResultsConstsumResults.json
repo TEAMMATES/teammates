@@ -6,8 +6,6 @@
         "questionNumber": 2,
         "questionBrief": "Split points among the teams",
         "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
           "pointsPerOption": true,
           "forceUnevenDistribution": false,
           "distributePointsFor": "None",
@@ -39,7 +37,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [20],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -55,17 +53,9 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [80],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-00000006a509",
-            "commentText": "Instructor 1 comment",
-            "createdAt": 1451692743000,
-            "lastEditedAt": 1451692740010,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Instructor 1 comment",
           "instructorComments": []
         }
       ],
@@ -79,8 +69,6 @@
         "questionNumber": 3,
         "questionBrief": "How much has each student worked?",
         "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
           "pointsPerOption": true,
           "forceUnevenDistribution": false,
           "distributePointsFor": "None",
@@ -113,7 +101,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [30],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -131,7 +119,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [20],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -149,7 +137,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [30],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -167,7 +155,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [10],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -185,7 +173,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [10],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_RECIPIENTS"
           },
           "instructorComments": []
         },
@@ -381,7 +369,6 @@
         "questionBrief": "How important are the following factors to you? Give points accordingly.",
         "questionDetails": {
           "constSumOptions": ["Grades", "Fun"],
-          "distributeToRecipients": false,
           "pointsPerOption": false,
           "forceUnevenDistribution": false,
           "distributePointsFor": "None",
@@ -414,17 +401,9 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [80, 20],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_OPTIONS"
           },
-          "participantComment": {
-            "feedbackResponseCommentId": "00000000-0000-0000-0000-0000000175bc",
-            "commentText": "Student 2 comment",
-            "createdAt": 1451692743000,
-            "lastEditedAt": 1451692740010,
-            "isVisibilityFollowingFeedbackQuestion": true,
-            "showGiverNameTo": [],
-            "showCommentTo": []
-          },
+          "participantComment": "Student 2 comment",
           "instructorComments": []
         },
         {
@@ -441,7 +420,7 @@
           "recipientSection": "None",
           "responseDetails": {
             "answers": [19, 81],
-            "questionType": "CONSTSUM"
+            "questionType": "CONSTSUM_OPTIONS"
           },
           "instructorComments": []
         },

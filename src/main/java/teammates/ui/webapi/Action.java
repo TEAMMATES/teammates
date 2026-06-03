@@ -94,7 +94,7 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    public void checkAccessControl() throws UnauthorizedAccessException {
+    public void checkAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
         if (authContext.authType().getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
@@ -155,6 +155,9 @@ public abstract class Action {
         return value;
     }
 
+    /**
+     * Returns all values for the specified parameter expected to be present in the HTTP request.
+     */
     String[] getNonNullRequestParamValues(String paramName) {
         String[] values = req.getParameterValues(paramName);
         if (values == null || values.length == 0) {
@@ -325,7 +328,7 @@ public abstract class Action {
     /**
      * Checks the specific access control needs for the resource.
      */
-    abstract void checkSpecificAccessControl() throws UnauthorizedAccessException;
+    abstract void checkSpecificAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException;
 
     /**
      * Executes the action.

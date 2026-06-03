@@ -1,31 +1,19 @@
-import { Pipe, PipeTransform, inject } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { CommentTableModel } from './comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
-import { FeedbackResponseComment } from '../../../types/api-output';
+import { ResponseInstructorComment, FeedbackVisibilityType } from '../../../types/api-output';
+import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 /**
  * Transforms comments to readonly comment table model.
  */
 @Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
-  private commentToCommentRowModel = inject(CommentToCommentRowModelPipe);
-
-  transform(comments: FeedbackResponseComment[], isReadOnly: boolean, timezone?: string): CommentTableModel {
-    return {
-      isReadOnly,
-      commentRows: comments.map((comment: FeedbackResponseComment) => {
-        return this.commentToCommentRowModel.transform(comment, timezone);
-      }),
-      newCommentRow: {
-        commentEditFormModel: {
-          commentText: '',
-          isUsingCustomVisibilities: false,
-          showCommentTo: [],
-          showGiverNameTo: [],
-        },
-        isEditing: false,
-      },
-      isAddingNewComment: false,
-    };
+  transform(
+    comments: ResponseInstructorComment[],
+    isReadOnly: boolean,
+    timezone: string,
+    questionShowResponsesTo: FeedbackVisibilityType[] = [],
+  ): CommentTableModel {
+    return commentToReadOnlyComment(comments, isReadOnly, timezone, questionShowResponsesTo);
   }
 }

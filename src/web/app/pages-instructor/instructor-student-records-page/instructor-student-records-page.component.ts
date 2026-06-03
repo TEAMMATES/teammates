@@ -11,12 +11,12 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   FeedbackSession,
   FeedbackSessions,
+  FeedbackVisibilityType,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
   Student,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -26,6 +26,7 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import { GrqRgqViewResponsesComponent } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -53,7 +54,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
-  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
   private tableComparatorService = inject(TableComparatorService);
   private statusMessageService = inject(StatusMessageService);
   private commentService = inject(InstructorCommentService);
@@ -109,7 +109,11 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
         next: ({ feedbackSession, results }: { results: SessionResults; feedbackSession: FeedbackSession }) => {
           this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
           results.questions.forEach((questions: QuestionOutput) => {
-            return this.preprocessComments(questions.allResponses, feedbackSession.timeZone);
+            return this.preprocessComments(
+              questions.allResponses,
+              feedbackSession.timeZone,
+              questions.feedbackQuestion.showResponsesTo,
+            );
           });
         },
         error: (errorMessageOutput: ErrorMessageOutput) => {
@@ -151,10 +155,9 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     groupBySection: string,
   ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
-      .getFeedbackSessionResults({
+      .getCourseSessionResults({
         feedbackSessionId: feedbackSession.feedbackSessionId,
         groupBySection,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         map((results: SessionResults) => {
@@ -207,12 +210,17 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
    * instructor comments associated with the response will be deleted.
    */
-  preprocessComments(responses: ResponseOutput[], timezone: string): void {
+  preprocessComments(
+    responses: ResponseOutput[],
+    timezone: string,
+    questionShowResponsesTo: FeedbackVisibilityType[],
+  ): void {
     responses.forEach((response: ResponseOutput) => {
-      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         timezone,
+        questionShowResponsesTo,
       );
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth

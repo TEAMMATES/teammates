@@ -12,7 +12,7 @@ import teammates.storage.entity.Instructor;
 /**
  * The API output format of an instructor.
  */
-public class InstructorData extends ApiOutput {
+public class InstructorData implements ApiOutput {
     private final UUID userId;
     @Nullable
     private String googleId;

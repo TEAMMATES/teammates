@@ -8,35 +8,29 @@ import {
   FeedbackResponseRecipientSubmissionFormModel,
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
+  ResponseSubmissionStatus,
 } from './question-submission-form-model';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
-  FeedbackConstantSumResponseDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
-  FeedbackRankOptionsResponseDetails,
   FeedbackResponseDetails,
-  FeedbackRubricResponseDetails,
-  FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
 } from '../../../types/api-output';
-import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
 import { ResponseDetailsTypeChecker } from '../../../types/response-details-impl/response-details-caster';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
-import { CommentRowModel, CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
+import { createNewCommentRowModel } from '../comment-box/comment-row-model-mapper';
+import type { CommentRowModel, GiverCommentRowModel, NewCommentRowModel } from '../comment-box/comment.model';
+import { CommentRowComponent } from '../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-box/comment-row/comment-row.mode';
-import { LoadingSpinnerDirective } from '../loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
 import { ConstsumRecipientsQuestionConstraintComponent } from '../question-types/question-constraint/constsum-recipients-question-constraint.component';
 import { ContributionQuestionConstraintComponent } from '../question-types/question-constraint/contribution-question-constraint.component';
@@ -61,11 +55,11 @@ import { NumScaleQuestionInstructionComponent } from '../question-types/question
 import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
 import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
 import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 
 /**
  * The question submission form for a question.
@@ -74,11 +68,10 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   selector: 'tm-question-submission-form',
   templateUrl: './question-submission-form.component.html',
   styleUrls: ['./question-submission-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgClass,
+    NgbCollapse,
     PanelChevronComponent,
-    LoadingSpinnerDirective,
     ContributionQuestionInstructionComponent,
     TextQuestionInstructionComponent,
     NumScaleQuestionInstructionComponent,
@@ -124,17 +117,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   QuestionSubmissionFormMode!: typeof QuestionSubmissionFormMode;
   QuestionGiverType!: typeof QuestionGiverType;
   QuestionRecipientType!: typeof QuestionRecipientType;
-  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   CommentRowMode!: typeof CommentRowMode;
-
+  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   isMCQDropDownEnabled = false;
-
-  get hasResponseChanged(): boolean {
-    return this.model.recipientSubmissionForms.some((form) => form.isModified);
-  }
+  ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
   get isSaved(): boolean {
-    return this.model.recipientSubmissionForms.some((form) => form.responseId.length > 0) && !this.hasResponseChanged;
+    return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
   }
 
   @Input()
@@ -152,6 +141,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
+    this.isEveryRecipientSorted = false;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       model.giverType,
       model.recipientType,
@@ -198,8 +188,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
-    isLoading: false,
-    isLoaded: false,
     isTabExpanded: true,
     feedbackQuestionId: '',
 
@@ -243,8 +231,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.QuestionSubmissionFormMode = QuestionSubmissionFormMode;
     this.QuestionGiverType = QuestionGiverType;
     this.QuestionRecipientType = QuestionRecipientType;
-    this.FeedbackVisibilityType = FeedbackVisibilityType;
     this.CommentRowMode = CommentRowMode;
+    this.FeedbackVisibilityType = FeedbackVisibilityType;
+    this.ResponseSubmissionStatus = ResponseSubmissionStatus;
     this.allSessionViews = SessionView;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
@@ -266,7 +255,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   ngDoCheck(): void {
-    if (this.model.isLoaded && !this.isEveryRecipientSorted) {
+    if (this.model.recipientList.length > 0 && !this.isEveryRecipientSorted) {
       this.sortRecipientsByName();
     }
   }
@@ -402,9 +391,21 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
     this.model.recipientSubmissionForms[index] = {
       ...this.model.recipientSubmissionForms[index],
-      isModified: true,
       [field]: data,
     };
+
+    if (
+      this.model.recipientSubmissionForms[index].responseId ||
+      !this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
+        this.model.questionType,
+        this.model.recipientSubmissionForms[index].responseDetails,
+      )
+    ) {
+      this.model.recipientSubmissionForms[index].status = ResponseSubmissionStatus.MODIFIED;
+    } else {
+      // Response details is empty and response has not been saved before
+      this.model.recipientSubmissionForms[index].status = ResponseSubmissionStatus.NEW;
+    }
 
     this.updateIsValidByQuestionConstraint();
     this.formModelChange.emit(this.model);
@@ -437,37 +438,35 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    * Add new participant comment to response with index.
    */
   addNewParticipantCommentToResponse(index: number): void {
-    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', {
-      commentEditFormModel: {
-        commentText: '',
-      },
-
-      isEditing: true,
-    });
+    const newComment: NewCommentRowModel = createNewCommentRowModel(this.model.showResponsesTo, true);
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', newComment);
   }
 
   /**
    * Cancel adding new participant comment.
    */
   cancelAddingNewParticipantComment(index: number): void {
-    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', null);
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', undefined);
   }
 
   /**
-   * Discards the current editing and restore the original comment.
+   * Discard changes to an existing participant comment.
    */
   discardEditedParticipantComment(index: number): void {
-    const commentModel: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
-    if (!commentModel?.originalComment) {
+    const comment: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
+    if (comment?.commentType !== 'giver') {
       return;
     }
+
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', {
-      ...commentModel,
-      commentEditFormModel: {
-        commentText: commentModel.originalComment.commentText,
-      },
+      ...comment,
+      commentEditFormModel: structuredClone(comment.originalCommentFormModel),
       isEditing: false,
     });
+  }
+
+  hasExistingGiverComment(comment: CommentRowModel | undefined): comment is GiverCommentRowModel {
+    return comment?.commentType === 'giver';
   }
 
   /**
@@ -576,42 +575,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       return false;
     }
 
-    switch (this.model.questionType) {
-      case FeedbackQuestionType.TEXT:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackTextResponseDetails).answer !== '',
-        );
-      case FeedbackQuestionType.MCQ:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackMcqResponseDetails).answer !== '',
-        );
-      case FeedbackQuestionType.MSQ:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackMsqResponseDetails).answers.length !== 0,
-        );
-      case FeedbackQuestionType.NUMSCALE:
-        return recipientSpecificForms.every(
-          (form) =>
-            !form.isModified &&
-            (form.responseDetails as FeedbackNumericalScaleResponseDetails).answer !==
-              NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
-        );
-      case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        return recipientSpecificForms.every(
-          (form) =>
-            !form.isModified && (form.responseDetails as FeedbackConstantSumResponseDetails).answers.length !== 0,
-        );
-      case FeedbackQuestionType.RUBRIC:
-        return recipientSpecificForms.every(
-          (form) => !form.isModified && (form.responseDetails as FeedbackRubricResponseDetails).answer.length !== 0,
-        );
-      case FeedbackQuestionType.RANK_OPTIONS:
-        return recipientSpecificForms.every(
-          (form) =>
-            !form.isModified && (form.responseDetails as FeedbackRankOptionsResponseDetails).answers.length !== 0,
-        );
-      default:
-        return false;
-    }
+    return recipientSpecificForms.every((form) => form.status === ResponseSubmissionStatus.SAVED);
   }
 }

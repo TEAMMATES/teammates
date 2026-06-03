@@ -115,33 +115,19 @@
     <tm-notification-banner [url]="getUrl()" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
   }
   <div *tmIsLoading="isFetchingAuthDetails">
-    @if (isUnsupportedBrowser) {
+    @if (!isNetworkOnline()) {
       <div>
         <div class="alert alert-danger" role="alert">
-          <i class="fas fa-exclamation-circle"></i>&nbsp;You are currently using {{ browser }}. This web browser is not
-          officially supported by TEAMMATES. In case this web browser does not display the webpage correctly, you may
-          wish to view it in the following supported browsers:
-          <ol>
-            <li>Chrome {{ minimumVersions['Chrome'] }}+</li>
-            <li>Edge {{ minimumVersions['Edge'] }}+</li>
-            <li>Firefox {{ minimumVersions['Firefox'] }}+</li>
-            <li>Safari {{ minimumVersions['Safari'] }}+</li>
-          </ol>
+          <i class="fas fa-wifi"></i>&nbsp;Your device appears to be offline. Some TEAMMATES features may not work until
+          your internet connection is restored.
         </div>
       </div>
     }
-    @if ((isNetworkOnline$ | async) === false) {
+    @if (!isCookieEnabled()) {
       <div>
         <div class="alert alert-danger" role="alert">
-          <i class="fas fa-wifi"></i>&nbsp;You are not connected to the internet.
-        </div>
-      </div>
-    }
-    @if (isCookieDisabled) {
-      <div>
-        <div class="alert alert-danger" role="alert">
-          <i class="fas fa-ban"></i>&nbsp;You are currently not enabling cookies in your browser. TEAMMATES requires
-          cookies in order to work effectively.
+          <i class="fas fa-ban"></i>&nbsp;TEAMMATES requires cookies to function properly. Please enable cookies in your
+          browser settings.
         </div>
       </div>
     }

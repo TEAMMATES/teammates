@@ -40,9 +40,9 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
     public void validate() throws InvalidHttpRequestBodyException {
         super.validate();
 
-        assertTrue(feedbackSessionName != null, "Session name cannot be null");
-        assertTrue(!feedbackSessionName.isEmpty(), "Session name cannot be empty");
-        assertTrue(toCopyCourseId == null || toCopySessionName != null,
+        validateTrue(feedbackSessionName != null, "Session name cannot be null");
+        validateTrue(!feedbackSessionName.isEmpty(), "Session name cannot be empty");
+        validateTrue(toCopyCourseId == null || toCopySessionName != null,
                 "Session name to be copied from cannot be null if course ID to be copied from is not null");
     }
 }

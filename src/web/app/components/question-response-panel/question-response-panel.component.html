@@ -1,101 +1,90 @@
 @for (question of questions; track question) {
-  <div inViewport (inViewportAction)="loadQuestion($event, question)">
-    <div *tmIsLoading="question.isLoading && !question.errorMessage"></div>
-    <tm-loading-retry
-      [shouldShowRetry]="!!question.errorMessage"
-      [message]="question.errorMessage"
-      (retryEvent)="loadQuestionResults(question)"
-    >
-      @if (question.hasResponse) {
-        <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4">
-          <div class="card-body">
-            <tm-question-text-with-info
-              [questionNumber]="question.feedbackQuestion.questionNumber"
-              [questionDetails]="question.feedbackQuestion.questionDetails"
-              class="question-text-with-info"
-            ></tm-question-text-with-info>
-            @if (!question.hasResponseButNotVisibleForPreview) {
-              <div class="all-responses">
-                @if (question.hasCommentNotVisibleForPreview) {
-                  <div class="alert alert-warning my-3 non-visible-comment-alert" role="alert">
-                    <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted
-                    from this preview because they are not visible to instructors, as per their visibility settings.
-                  </div>
+  <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card bg-light mt-4">
+    <div class="card-body">
+      <tm-question-text-with-info
+        [questionNumber]="question.feedbackQuestion.questionNumber"
+        [questionDetails]="question.feedbackQuestion.questionDetails"
+        class="question-text-with-info"
+      ></tm-question-text-with-info>
+      @if (!question.hasResponseButNotVisibleForPreview) {
+        <div class="all-responses">
+          @if (question.hasCommentNotVisibleForPreview) {
+            <div class="alert alert-warning my-3 non-visible-comment-alert" role="alert">
+              <i class="fas fa-eye-slash"></i> Some comments (on responses) received for this question are omitted from
+              this preview because they are not visible to instructors, as per their visibility settings.
+            </div>
+          }
+          @if (canUserSeeResponses(question)) {
+            <div class="other-responses">
+              <tm-single-statistics
+                [question]="question.feedbackQuestion.questionDetails"
+                [responses]="question.allResponses"
+                [statistics]="question.questionStatistics"
+                [isStudent]="true"
+              ></tm-single-statistics>
+              @if (RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType)) {
+                <div>
+                  <p style="color: gray; font-size: small">
+                    <i class="fas fa-info-circle" style="color: #087cfc"></i> Individual Responses are not configured to
+                    be shown for this question type.
+                  </p>
+                </div>
+              } @else {
+                @if (question.responsesToSelf.length) {
+                  <tm-student-view-responses
+                    [responses]="question.responsesToSelf"
+                    [feedbackQuestion]="question.feedbackQuestion"
+                    [timezone]="session.timeZone"
+                    [statistics]="question.questionStatistics"
+                  ></tm-student-view-responses>
                 }
-                @if (canUserSeeResponses(question)) {
-                  <div class="other-responses">
-                    <tm-single-statistics
-                      [question]="question.feedbackQuestion.questionDetails"
-                      [responses]="question.allResponses"
-                      [statistics]="question.questionStatistics"
-                      [isStudent]="true"
-                    ></tm-single-statistics>
-                    @if (RESPONSE_HIDDEN_QUESTIONS.includes(question.feedbackQuestion.questionType)) {
-                      <div>
-                        <p style="color: gray; font-size: small">
-                          <i class="fas fa-info-circle" style="color: #087cfc"></i> Individual Responses are not
-                          configured to be shown for this question type.
-                        </p>
-                      </div>
-                    } @else {
-                      @if (question.responsesToSelf.length) {
-                        <tm-student-view-responses
-                          [responses]="question.responsesToSelf"
-                          [feedbackQuestion]="question.feedbackQuestion"
-                          [timezone]="session.timeZone"
-                          [statistics]="question.questionStatistics"
-                        ></tm-student-view-responses>
-                      }
-                      @for (responsesForOtherRecipient of question.otherResponses; track responsesForOtherRecipient) {
-                        <div>
-                          @if (responsesForOtherRecipient.length) {
-                            <tm-student-view-responses
-                              [responses]="responsesForOtherRecipient"
-                              [feedbackQuestion]="question.feedbackQuestion"
-                              [timezone]="session.timeZone"
-                              [statistics]="question.questionStatistics"
-                            ></tm-student-view-responses>
-                          }
-                        </div>
-                      }
-                      @if (!question.otherResponses.length && !question.responsesToSelf.length) {
-                        <div class="other-response">
-                          <strong>Other responses (to you): </strong>No responses received yet.
-                        </div>
-                      }
+                @for (responsesForOtherRecipient of question.otherResponses; track responsesForOtherRecipient) {
+                  <div>
+                    @if (responsesForOtherRecipient.length) {
+                      <tm-student-view-responses
+                        [responses]="responsesForOtherRecipient"
+                        [feedbackQuestion]="question.feedbackQuestion"
+                        [timezone]="session.timeZone"
+                        [statistics]="question.questionStatistics"
+                      ></tm-student-view-responses>
                     }
                   </div>
-                } @else {
+                }
+                @if (!question.otherResponses.length && !question.responsesToSelf.length) {
                   <div class="other-response">
-                    <strong>Other responses (to you): </strong>Responses are not visible to you.
+                    <strong>Other responses (to you): </strong>No responses received yet.
                   </div>
                 }
-                @if (question.responsesFromSelf.length) {
-                  <div class="given-responses mt-4">
-                    <strong>Your own responses (to others):</strong>
-                    @for (responseFromSelf of question.responsesFromSelf; track responseFromSelf) {
-                      <div>
-                        <tm-student-view-responses
-                          [responses]="[responseFromSelf]"
-                          [isSelfResponses]="true"
-                          [feedbackQuestion]="question.feedbackQuestion"
-                          [timezone]="session.timeZone"
-                          [statistics]="question.questionStatistics"
-                        ></tm-student-view-responses>
-                      </div>
-                    }
-                  </div>
-                }
-              </div>
-            } @else {
-              <div class="alert alert-warning other-response non-visible-response-alert" role="alert">
-                <i class="fas fa-eye-slash"></i> Responses received for this question are omitted from this preview
-                because some or all parts of them are not visible to instructors, as per their visibility settings.
-              </div>
-            }
-          </div>
+              }
+            </div>
+          } @else {
+            <div class="other-response">
+              <strong>Other responses (to you): </strong>Responses are not visible to you.
+            </div>
+          }
+          @if (question.responsesFromSelf.length) {
+            <div class="given-responses mt-4">
+              <strong>Your own responses (to others):</strong>
+              @for (responseFromSelf of question.responsesFromSelf; track responseFromSelf) {
+                <div>
+                  <tm-student-view-responses
+                    [responses]="[responseFromSelf]"
+                    [isSelfResponses]="true"
+                    [feedbackQuestion]="question.feedbackQuestion"
+                    [timezone]="session.timeZone"
+                    [statistics]="question.questionStatistics"
+                  ></tm-student-view-responses>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="alert alert-warning other-response non-visible-response-alert" role="alert">
+          <i class="fas fa-eye-slash"></i> Responses received for this question are omitted from this preview because
+          some or all parts of them are not visible to instructors, as per their visibility settings.
         </div>
       }
-    </tm-loading-retry>
+    </div>
   </div>
 }

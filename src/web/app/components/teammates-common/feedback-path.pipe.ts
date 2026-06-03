@@ -11,7 +11,7 @@ export class GiverTypeDescriptionPipe implements PipeTransform {
    */
   transform(type: QuestionGiverType): any {
     switch (type) {
-      case QuestionGiverType.SELF:
+      case QuestionGiverType.SESSION_CREATOR:
         return 'Feedback session creator (i.e., me)';
       case QuestionGiverType.STUDENTS:
         return 'Students in this course';

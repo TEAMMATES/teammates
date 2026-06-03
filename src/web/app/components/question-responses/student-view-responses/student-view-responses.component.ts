@@ -11,7 +11,7 @@ import {
 import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.mode';
 import { CommentTableComponent } from '../../comment-box/comment-table/comment-table.component';
-import { CommentToCommentRowModelPipe } from '../../comment-box/comment-to-comment-row-model.pipe';
+import { GiverCommentToCommentRowModelPipe } from '../../comment-box/giver-comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../comment-box/comments-to-comment-table-model.pipe';
 import { SingleResponseComponent } from '../single-response/single-response.component';
 
@@ -26,7 +26,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     SingleResponseComponent,
     CommentRowComponent,
     CommentTableComponent,
-    CommentToCommentRowModelPipe,
+    GiverCommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
   ],
 })

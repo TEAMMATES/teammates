@@ -1,5 +1,6 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { AccountService } from '../../../../services/account.service';
@@ -16,7 +17,7 @@ import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highligh
 @Component({
   selector: 'tm-admin-instructor-search-table',
   templateUrl: './admin-instructor-search-table.component.html',
-  imports: [NgClass, NgbTooltip, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe],
+  imports: [NgClass, NgbTooltip, NgbCollapse, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe],
 })
 export class AdminInstructorSearchTableComponent implements OnChanges {
   private statusMessageService = inject(StatusMessageService);

@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.JoinStatus;
 import teammates.ui.webapi.GetCourseJoinStatusAction;
@@ -20,12 +19,9 @@ import teammates.ui.webapi.JsonResult;
 public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatusAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -52,8 +48,8 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         );
 
         ______TS("Normal case: student is already registered");
-        String registeredStudentKey =
-                logic.getStudentForEmail("course-1", "student1@teammates.tmt").getRegKey();
+        String registeredStudentKey = inTransaction(() ->
+                logic.getStudentForEmail("course-1", "student1@teammates.tmt").getRegKey());
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, registeredStudentKey,
@@ -66,8 +62,8 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         assertTrue(output.getHasJoined());
 
         ______TS("Normal case: student is not registered");
-        String unregisteredStudentKey =
-                logic.getStudentForEmail("course-1", "unregisteredstudentincourse1@teammates.tmt").getRegKey();
+        String unregisteredStudentKey = inTransaction(() ->
+                logic.getStudentForEmail("course-1", "unregisteredstudentincourse1@teammates.tmt").getRegKey());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
@@ -89,8 +85,8 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         ______TS("Normal case: instructor is already registered");
 
-        String registeredInstructorKey =
-                logic.getInstructorForEmail("course-1", "instr1@teammates.tmt").getRegKey();
+        String registeredInstructorKey = inTransaction(() ->
+                logic.getInstructorForEmail("course-1", "instr1@teammates.tmt").getRegKey());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredInstructorKey,
@@ -104,8 +100,8 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         ______TS("Normal case: instructor is not registered");
 
-        String unregisteredInstructorKey =
-                logic.getInstructorForEmail("course-1", "unregisteredinstructor@teammates.tmt").getRegKey();
+        String unregisteredInstructorKey = inTransaction(() ->
+                logic.getInstructorForEmail("course-1", "unregisteredinstructor@teammates.tmt").getRegKey());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,

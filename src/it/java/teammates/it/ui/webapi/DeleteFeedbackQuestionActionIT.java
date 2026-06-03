@@ -9,12 +9,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 
 /**
@@ -23,13 +22,9 @@ import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQuestionAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Override
@@ -49,9 +44,8 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackResponse fr1 = typicalBundle.feedbackResponses.get("response1ForQ1");
         FeedbackResponse fr2 = typicalBundle.feedbackResponses.get("response2ForQ1");
-        FeedbackResponseComment frc1 = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        FeedbackQuestion typicalQuestion =
-                logic.getFeedbackQuestion(fq1.getId());
+        ResponseInstructorComment frc1 = typicalBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
+        FeedbackQuestion typicalQuestion = inTransaction(() -> logic.getFeedbackQuestion(fq1.getId()));
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
@@ -68,15 +62,14 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
 
         DeleteFeedbackQuestionAction a = getAction(params);
         getJsonResult(a);
-        HibernateUtil.flushSession();
 
         // question is deleted
-        assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
+        assertNull(inTransaction(() -> logic.getFeedbackQuestion(typicalQuestion.getId())));
         // responses to this question are deleted
-        assertNull(logic.getFeedbackResponse(fr1.getId()));
-        assertNull(logic.getFeedbackResponse(fr2.getId()));
+        assertNull(inTransaction(() -> logic.getFeedbackResponse(fr1.getId())));
+        assertNull(inTransaction(() -> logic.getFeedbackResponse(fr2.getId())));
         // feedback response comments to the responses are deleted
-        assertNull(logic.getFeedbackResponseComment(frc1.getId()));
+        assertNull(inTransaction(() -> logic.getResponseInstructorComment(frc1.getId())));
     }
 
     @Override
@@ -86,7 +79,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
-        FeedbackQuestion typicalQuestion = logic.getFeedbackQuestion(fq1.getId());
+        FeedbackQuestion typicalQuestion = inTransaction(() -> logic.getFeedbackQuestion(fq1.getId()));
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 

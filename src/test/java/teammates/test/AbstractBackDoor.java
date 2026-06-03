@@ -40,7 +40,6 @@ import teammates.ui.output.CourseData;
 import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
-import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
@@ -51,8 +50,8 @@ import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
-import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 import tools.jackson.databind.JsonNode;
 
@@ -439,20 +438,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response comment data from database.
-     */
-    public FeedbackResponseCommentData getFeedbackResponseCommentData(String feedbackResponseId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSE_COMMENT, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        return JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
-    }
-
-    /**
      * Updates a feedback response comment via the backdoor.
      * This triggers a new updatedAt timestamp in the database.
      *
@@ -460,13 +445,13 @@ public abstract class AbstractBackDoor {
      * @param commentText the new comment text
      * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    public void updateFeedbackResponseComment(UUID commentId, String commentText, String instructorGoogleId) {
+    public void updateResponseInstructorComment(UUID commentId, String commentText, String instructorGoogleId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
         params.put(Const.ParamsNames.USER, instructorGoogleId);
 
-        FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
+        ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
                 commentText,
                 new ArrayList<>(),
                 new ArrayList<>()

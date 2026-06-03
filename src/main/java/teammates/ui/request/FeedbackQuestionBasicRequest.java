@@ -37,25 +37,25 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(questionNumber >= 1, "Invalid question number");
-        assertTrue(questionBrief != null, "Question brief cannot be null");
-        assertTrue(!questionBrief.isEmpty(), "Question brief cannot be empty");
-        assertTrue(questionDetails != null, "Question details cannot be null");
+        validateTrue(questionNumber >= 1, "Invalid question number");
+        validateTrue(questionBrief != null, "Question brief cannot be null");
+        validateTrue(!questionBrief.isEmpty(), "Question brief cannot be empty");
+        validateTrue(questionDetails != null, "Question details cannot be null");
 
-        assertTrue(questionType != null, "Question type cannot be null");
-        assertTrue(giverType != null, "Giver type cannot be null");
-        assertTrue(recipientType != null, "Recipient type cannot be null");
+        validateTrue(questionType != null, "Question type cannot be null");
+        validateTrue(giverType != null, "Giver type cannot be null");
+        validateTrue(recipientType != null, "Recipient type cannot be null");
 
-        assertTrue(numberOfEntitiesToGiveFeedbackToSetting != null,
+        validateTrue(numberOfEntitiesToGiveFeedbackToSetting != null,
                 "numberOfEntitiesToGiveFeedbackToSetting cannot be null");
         if (numberOfEntitiesToGiveFeedbackToSetting == NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM) {
-            assertTrue(customNumberOfEntitiesToGiveFeedbackTo != null,
+            validateTrue(customNumberOfEntitiesToGiveFeedbackTo != null,
                     "customNumberOfEntitiesToGiveFeedbackTo must be set");
         }
 
-        assertTrue(showResponsesTo != null, "showResponsesTo cannot be null");
-        assertTrue(showGiverNameTo != null, "showGiverNameTo cannot be null");
-        assertTrue(showRecipientNameTo != null, "showRecipientNameTo cannot be null");
+        validateTrue(showResponsesTo != null, "showResponsesTo cannot be null");
+        validateTrue(showGiverNameTo != null, "showGiverNameTo cannot be null");
+        validateTrue(showRecipientNameTo != null, "showRecipientNameTo cannot be null");
     }
 
     public int getQuestionNumber() {
@@ -73,10 +73,6 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         FeedbackQuestionDetails details =
                 JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), questionType.getQuestionDetailsClass());
         details.setQuestionText(questionBrief);
-        if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
-                || questionType == FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
-            details.setQuestionType(FeedbackQuestionType.CONSTSUM);
-        }
         return details;
     }
 

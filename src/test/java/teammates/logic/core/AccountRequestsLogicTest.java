@@ -17,9 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.BaseTestCase;
@@ -128,29 +126,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
 
         assertNull(accountRequestsLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
         verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(nonexistentRegkey);
-    }
-
-    @Test
-    public void testResetAccountRequest_typicalRequest_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        AccountRequest accountRequest = getTypicalAccountRequest();
-        accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
-        when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
-                .thenReturn(accountRequest);
-        accountRequest = accountRequestsLogic.resetAccountRequest(accountRequest.getId());
-
-        assertNull(accountRequest.getRegisteredAt());
-        verify(accountRequestsDb, times(1)).getAccountRequest(accountRequest.getId());
-    }
-
-    @Test
-    public void testResetAccountRequest_nonexistentRequest_failure() {
-        AccountRequest accountRequest = getTypicalAccountRequest();
-        accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
-        when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
-                .thenReturn(null);
-        assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestsLogic.resetAccountRequest(accountRequest.getId()));
     }
 
     @Test

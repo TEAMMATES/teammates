@@ -83,8 +83,6 @@ public class Notification extends BaseEntity {
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification visible time", startTime), errors);
         addNonEmptyError(FieldValidator.getValidityInfoForNonNullField("notification expiry time", endTime), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(startTime, endTime), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationStyle(style.name()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUser.name()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationTitle(title), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForNotificationBody(message), errors);
 

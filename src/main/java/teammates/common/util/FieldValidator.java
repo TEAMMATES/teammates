@@ -13,10 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.NotificationStyle;
-import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -60,25 +57,7 @@ public final class FieldValidator {
     public static final String NOTIFICATION_NAME = "notification";
     public static final String NOTIFICATION_VISIBLE_TIME_FIELD_NAME = "time when the notification will be visible";
     public static final String NOTIFICATION_EXPIRY_TIME_FIELD_NAME = "time when the notification will expire";
-    public static final String NOTIFICATION_STYLE_FIELD_NAME = "notification style";
-    public static final String NOTIFICATION_TARGET_USER_FIELD_NAME = "notification target user";
     public static final int NOTIFICATION_TITLE_MAX_LENGTH = 80;
-
-    public static final List<String> NOTIFICATION_STYLE_ACCEPTED_VALUES =
-            Collections.unmodifiableList(
-                    Arrays.stream(
-                            NotificationStyle.values())
-                            .map(NotificationStyle::toString)
-                            .collect(Collectors.toList())
-            );
-
-    public static final List<String> NOTIFICATION_TARGET_USER_ACCEPTED_VALUES =
-            Collections.unmodifiableList(
-                    Arrays.stream(
-                            NotificationTargetUser.values())
-                            .map(NotificationTargetUser::toString)
-                            .collect(Collectors.toList())
-            );
 
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
@@ -218,12 +197,6 @@ public final class FieldValidator {
 
     public static final String ROLE_ERROR_MESSAGE =
             "\"%s\" is not an accepted " + ROLE_FIELD_NAME + " to TEAMMATES. ";
-
-    public static final String NOTIFICATION_STYLE_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + NOTIFICATION_STYLE_FIELD_NAME + " to TEAMMATES. ";
-
-    public static final String NOTIFICATION_TARGET_USER_ERROR_MESSAGE =
-            "\"%s\" is not an accepted " + NOTIFICATION_TARGET_USER_FIELD_NAME + " to TEAMMATES. ";
 
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -585,39 +558,6 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if {@code style} is one of the recognized notification style {@link #NOTIFICATION_STYLE_ACCEPTED_VALUES}.
-     *
-     * @return An explanation of why the {@code style} is not acceptable.
-     *         Returns an empty string if the {@code style} is acceptable.
-     */
-    public static String getInvalidityInfoForNotificationStyle(String style) {
-        assert style != null;
-        try {
-            NotificationStyle.valueOf(style);
-        } catch (IllegalArgumentException e) {
-            return String.format(NOTIFICATION_STYLE_ERROR_MESSAGE, style);
-        }
-        return "";
-    }
-
-    /**
-     * Checks if {@code targetUser} is one of the
-     * recognized notification target user groups {@link #NOTIFICATION_TARGET_USER_ACCEPTED_VALUES}.
-     *
-     * @return An explanation of why the {@code targetUser} is not acceptable.
-     *         Returns an empty string if the {@code targetUser} is acceptable.
-     */
-    public static String getInvalidityInfoForNotificationTargetUser(String targetUser) {
-        assert targetUser != null;
-        try {
-            NotificationTargetUser.valueOf(targetUser);
-        } catch (IllegalArgumentException e) {
-            return String.format(NOTIFICATION_TARGET_USER_ERROR_MESSAGE, targetUser);
-        }
-        return "";
-    }
-
-    /**
      * Checks if the given string is a non-null string no longer than
      * the specified length {@code maxLength}. However, this string can be empty.
      *
@@ -882,22 +822,6 @@ public final class FieldValidator {
         }
 
         return errors;
-    }
-
-    /**
-     * Checks if visibility of comment is following question when comment is from a feedback participant.
-     *
-     * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.
-     * @param isVisibilityFollowingFeedbackQuestion true if visibility of comment follows question.
-     * @return Error string if condition is not met, otherwise empty string.
-     */
-    public static String getInvalidityInfoForVisibilityOfFeedbackParticipantComments(
-            boolean isCommentFromFeedbackParticipant,
-            boolean isVisibilityFollowingFeedbackQuestion) {
-        if (isCommentFromFeedbackParticipant && !isVisibilityFollowingFeedbackQuestion) {
-            return "Comment by feedback participant not following visibility setting of the question.";
-        }
-        return "";
     }
 
     /**

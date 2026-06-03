@@ -38,8 +38,8 @@ import {
 } from '../components/sessions-table/sessions-table-model';
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../components/sortable-table/sortable-table.component';
-import { PublishStatusNamePipe } from '../components/teammates-common/publish-status-name.pipe';
 import { ErrorMessageOutput } from '../error-message-output';
+import { publishStatusNameToString } from '../utils/publish-status-name.util';
 
 /**
  * The base page for session related page.
@@ -64,8 +64,6 @@ export abstract class InstructorSessionBasePageComponent {
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
-
-  private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
 
   sessionEditFormModel: SessionEditFormModel = {
     feedbackSessionId: '',
@@ -501,7 +499,7 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackQuestionsService
       .getFeedbackQuestions({
         feedbackSessionId: model.feedbackSession.feedbackSessionId,
-        intent: Intent.INSTRUCTOR_RESULT,
+        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackQuestions: FeedbackQuestions) => {
@@ -512,7 +510,6 @@ export abstract class InstructorSessionBasePageComponent {
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
               model.feedbackSession.feedbackSessionId,
-              Intent.FULL_DETAIL,
               true,
               true,
               questions,
@@ -555,7 +552,7 @@ export abstract class InstructorSessionBasePageComponent {
           rowData[colIdx].customComponent!.componentData = () => {
             return {
               ...rowData[colIdx].customComponent!.componentData,
-              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
+              value: publishStatusNameToString(FeedbackSessionPublishStatus.PUBLISHED),
             };
           };
 
@@ -611,7 +608,7 @@ export abstract class InstructorSessionBasePageComponent {
           rowData[responseColIdx].customComponent!.componentData = () => {
             return {
               ...rowData[responseColIdx].customComponent!.componentData,
-              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
+              value: publishStatusNameToString(FeedbackSessionPublishStatus.NOT_PUBLISHED),
             };
           };
 
@@ -637,7 +634,7 @@ export abstract class InstructorSessionBasePageComponent {
 
   openErrorReportModal(resp: ErrorMessageOutput): void {
     const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
-    modal.componentInstance.requestId = resp.error.requestId;
+    modal.componentInstance.requestId = resp.headers?.get('X-Request-Id');
     modal.componentInstance.errorMessage = resp.error.message;
   }
 

@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="copilot" id="20260530-frc-instructor-comment-entity-rename-1">
+        <renameTable oldTableName="feedback_response_comments" newTableName="response_instructor_comments" />
+        <rollback>
+            <renameTable oldTableName="response_instructor_comments" newTableName="feedback_response_comments" />
+        </rollback>
+    </changeSet>
+
+    <changeSet author="copilot" id="20260530-frc-instructor-comment-entity-rename-2">
+        <dropColumn tableName="response_instructor_comments" columnName="is_visibility_following_feedback_question" />
+        <dropColumn tableName="response_instructor_comments" columnName="is_comment_from_feedback_participant" />
+        <rollback>
+            <addColumn tableName="response_instructor_comments">
+                <column name="is_visibility_following_feedback_question" type="BOOLEAN" defaultValueBoolean="false">
+                    <constraints nullable="false" />
+                </column>
+            </addColumn>
+            <addColumn tableName="response_instructor_comments">
+                <column name="is_comment_from_feedback_participant" type="BOOLEAN" defaultValueBoolean="false">
+                    <constraints nullable="false" />
+                </column>
+            </addColumn>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

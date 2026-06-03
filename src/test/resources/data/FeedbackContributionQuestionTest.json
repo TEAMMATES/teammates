@@ -768,7 +768,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "idOfTypicalCourse1",
       "name": "First feedback session",
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -782,13 +781,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "idOfTypicalCourse1",
       "name": "Second feedback session",
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2026-04-28T22:00:00Z",
@@ -802,13 +801,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2013-03-20T23:59:00Z"
+      "createdAt": "2013-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "gracePeriodSession": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "idOfTypicalCourse1",
       "name": "Grace Period Session",
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2026-04-28T22:00:00Z",
@@ -822,13 +821,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2013-03-20T23:59:00Z"
+      "createdAt": "2013-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "closedSession": {
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "idOfTypicalCourse1",
       "name": "Closed Session",
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-06-01T22:00:00Z",
       "endTime": "2013-06-01T22:00:00Z",
@@ -842,13 +841,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2013-03-20T23:59:00Z"
+      "createdAt": "2013-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "empty.session": {
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "idOfTypicalCourse1",
       "name": "Empty session",
-      "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-02-02T00:00:00Z",
       "endTime": "2013-04-29T00:00:00Z",
@@ -862,13 +861,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2013-01-20T23:57:00Z"
+      "createdAt": "2013-01-20T23:57:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     },
     "awaiting.session": {
       "id": "00000000-0000-4000-8000-000000000706",
       "courseId": "idOfTypicalCourse1",
       "name": "non visible session",
-      "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2026-04-01T23:00:00Z",
       "endTime": "2026-04-28T23:00:00Z",
@@ -882,13 +881,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2013-01-20T23:00:00Z"
+      "createdAt": "2013-01-20T23:00:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000502"
     },
     "archiveCourse.session1": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "idOfArchivedCourse",
       "name": "session without student questions",
-      "creatorEmail": "instructor1@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2013-02-20T23:00:00Z",
       "endTime": "2026-04-28T23:00:00Z",
@@ -902,13 +901,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2013-01-20T23:00:00Z"
+      "createdAt": "2013-01-20T23:00:00Z",
+      "creatorId": null
     },
     "session1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000708",
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor feedback session",
-      "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T16:00:00Z",
       "endTime": "2027-04-30T16:00:00Z",
@@ -922,13 +921,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000709",
       "courseId": "idOfTypicalCourse2",
       "name": "Not answerable feedback session",
-      "creatorEmail": "instructor1@course2.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T16:00:00Z",
       "endTime": "2027-04-30T16:00:00Z",
@@ -942,13 +941,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000710",
       "courseId": "idOfTypicalCourse3",
       "name": "First feedback session",
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -962,13 +961,13 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000507"
     },
     "session2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000711",
       "courseId": "idOfTypicalCourse3",
       "name": "Second feedback session",
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -983,13 +982,13 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
       "deletedAt": "2012-05-20T23:59:00Z",
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000507"
     },
     "session1InCourse4": {
       "id": "00000000-0000-4000-8000-000000000712",
       "courseId": "idOfTypicalCourse4",
       "name": "First feedback session",
-      "creatorEmail": "instructor1@course3.tmt",
       "instructions": "Please please fill in the following questions.",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -1004,13 +1003,13 @@
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
       "deletedAt": "2012-05-20T23:59:00Z",
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000509"
     },
     "session1InTestingSanitizationCourse": {
       "id": "00000000-0000-4000-8000-000000000713",
       "courseId": "idOfTestingSanitizationCourse",
       "name": "Normal feedback session name",
-      "creatorEmail": "instructor1@sanitization.tmt",
       "instructions": "unclosed tags  Attempted script injection &#39;&#34; ",
       "startTime": "2012-04-01T22:00:00Z",
       "endTime": "2027-04-30T22:00:00Z",
@@ -1024,7 +1023,8 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "createdAt": "2012-03-20T23:59:00Z"
+      "createdAt": "2012-03-20T23:59:00Z",
+      "creatorId": "00000000-0000-4000-8000-000000000519"
     }
   },
   "feedbackQuestions": {
@@ -1311,7 +1311,7 @@
       "questionId": "00000000-0000-4000-8000-000000000802"
     }
   },
-  "feedbackResponseComments": {},
+  "responseInstructorComments": {},
   "feedbackSessionLogs": {},
   "notifications": {},
   "readNotifications": {}

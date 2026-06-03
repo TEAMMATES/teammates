@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.User;
@@ -88,11 +89,16 @@ public final class DeadlineExtensionsDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
+        Join<DeadlineExtension, FeedbackSession> feedbackSessionJoin = root.join("feedbackSession");
+        Join<FeedbackSession, Course> courseJoin = feedbackSessionJoin.join("course");
 
         cr.select(root).where(cb.and(
                 cb.greaterThanOrEqualTo(root.get("endTime"), Instant.now()),
                 cb.lessThanOrEqualTo(root.get("endTime"), TimeHelper.getInstantDaysOffsetFromNow(1)),
-                cb.equal(root.get("isClosingSoonEmailSent"), false)
+                cb.isFalse(root.get("isClosingSoonEmailSent")),
+                cb.isTrue(feedbackSessionJoin.get("isClosingSoonEmailEnabled")),
+                cb.isNull(feedbackSessionJoin.get("deletedAt")),
+                cb.isNull(courseJoin.get("deletedAt"))
                 ));
 
         return HibernateUtil.createQuery(cr).getResultList();

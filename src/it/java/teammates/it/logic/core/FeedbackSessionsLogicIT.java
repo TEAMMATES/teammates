@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
@@ -12,14 +11,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -27,6 +27,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -41,60 +42,88 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Test
-    public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() throws EntityDoesNotExistException {
+    public void testGetSubmittedGiverSet_hasGivers_findsGivers() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        Set<String> expectedGivers = new HashSet<>();
+        Set<UUID> expectedStudentGivers = new HashSet<>();
+        Set<UUID> expectedStudentNonGivers;
+        Set<UUID> expectedInstructorNonGivers = typicalDataBundle.instructors.values()
+                .stream()
+                .filter(instructor -> instructor.getCourseId().equals(fs.getCourseId()))
+                .map(Instructor::getId)
+                .collect(Collectors.toSet());
 
-        expectedGivers.add(typicalDataBundle.students.get("student1InCourse1").getEmail());
-        expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
-        expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student1InCourse1").getId());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student2InCourse1").getId());
+        expectedStudentGivers.add(typicalDataBundle.students.get("student3InCourse1").getId());
+        expectedStudentNonGivers = typicalDataBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fs.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
 
-        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getId());
-        assertEquals(expectedGivers.size(), givers.size());
-        assertEquals(expectedGivers, givers);
+        SubmittedGiverSetBundle givers = inTransaction(() -> fsLogic.getSubmittedGiverSet(fs.getId()));
+        assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
+        assertTrue(givers.instructorGiverIds().isEmpty());
+        assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
+        assertEquals(expectedInstructorNonGivers, new HashSet<>(givers.instructorNonGiverIds()));
     }
 
     @Test
-    public void testPublishFeedbackSession()
-            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+    public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorNonGivers() {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
+
+        Set<UUID> expectedStudentGivers = Set.of(typicalDataBundle.students.get("student1InCourse1").getId());
+        Set<UUID> expectedStudentNonGivers = typicalDataBundle.students.values()
+                .stream()
+                .filter(student -> student.getCourseId().equals(fs.getCourseId()))
+                .map(Student::getId)
+                .filter(studentId -> !expectedStudentGivers.contains(studentId))
+                .collect(Collectors.toSet());
+
+        SubmittedGiverSetBundle givers = inTransaction(() -> fsLogic.getSubmittedGiverSet(fs.getId()));
+
+        assertEquals(expectedStudentGivers, new HashSet<>(givers.studentGiverIds()));
+        assertTrue(givers.instructorGiverIds().isEmpty());
+        assertEquals(expectedStudentNonGivers, new HashSet<>(givers.studentNonGiverIds()));
+        assertTrue(givers.instructorNonGiverIds().isEmpty());
+    }
+
+    @Test
+    public void testPublishFeedbackSession() {
         FeedbackSession unpublishedFs = typicalDataBundle.feedbackSessions.get("unpublishedSession1InTypicalCourse");
 
-        FeedbackSession publishedFs1 = fsLogic.publishFeedbackSession(unpublishedFs.getId());
+        FeedbackSession publishedFs1 = inTransaction(() -> fsLogic.publishFeedbackSession(unpublishedFs.getId()));
 
         assertEquals(publishedFs1.getId(), unpublishedFs.getId());
         assertTrue(publishedFs1.isPublished());
         assertFalse(publishedFs1.isPublishedEmailSent());
 
-        assertThrows(InvalidFeedbackSessionStateException.class, () -> fsLogic.publishFeedbackSession(
+        assertThrowsInTransaction(InvalidFeedbackSessionStateException.class, () -> fsLogic.publishFeedbackSession(
                 publishedFs1.getId()));
-        assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
+        assertThrowsInTransaction(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
                 UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
     }
 
     @Test
-    public void testUnpublishFeedbackSession()
-            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+    public void testUnpublishFeedbackSession() {
         FeedbackSession publishedFs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        FeedbackSession unpublishedFs1 = fsLogic.unpublishFeedbackSession(
-                publishedFs.getId());
+        FeedbackSession unpublishedFs1 = inTransaction(() -> fsLogic.unpublishFeedbackSession(
+                publishedFs.getId()));
 
         assertEquals(unpublishedFs1.getId(), publishedFs.getId());
         assertFalse(unpublishedFs1.isPublished());
 
-        assertThrows(InvalidFeedbackSessionStateException.class, () -> fsLogic.unpublishFeedbackSession(
+        assertThrowsInTransaction(InvalidFeedbackSessionStateException.class, () -> fsLogic.unpublishFeedbackSession(
                 unpublishedFs1.getId()));
-        assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
+        assertThrowsInTransaction(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
                 UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
     }
 
@@ -102,12 +131,13 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetFeedbackSessionsForInstructors() {
         Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
         Course course = instructor.getCourse();
-        List<FeedbackSession> expectedFsList = fsLogic.getFeedbackSessionsForCourse(course.getId());
-        List<FeedbackSession> actualFsList = fsLogic.getFeedbackSessionsForInstructors(List.of(instructor));
+        List<FeedbackSession> expectedFsList = inTransaction(() -> fsLogic.getFeedbackSessionsForCourse(course.getId()));
+        List<FeedbackSession> actualFsList =
+                inTransaction(() -> fsLogic.getFeedbackSessionsForInstructors(List.of(instructor)));
 
         assertEquals(expectedFsList.size(), actualFsList.size());
         for (int i = 0; i < expectedFsList.size(); i++) {
-            verifyEquals(expectedFsList.get(i), actualFsList.get(i));
+            assertEquals(expectedFsList.get(i), actualFsList.get(i));
         }
     }
 
@@ -122,7 +152,8 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedUniqueOngoingSessions.add(c3Fs2);
         Instant rangeStart = Instant.parse("2012-01-25T22:00:00Z");
         Instant rangeEnd = Instant.parse("2012-01-27T22:00:00Z");
-        List<FeedbackSession> actualOngoingSessions = fsLogic.getOngoingSessions(rangeStart, rangeEnd);
+        List<FeedbackSession> actualOngoingSessions = inTransaction(() -> fsLogic.getOngoingSessions(
+                rangeStart, rangeEnd));
         Set<FeedbackSession> actualUniqueOngoingSessions = new HashSet<>();
         actualUniqueOngoingSessions.addAll(actualOngoingSessions);
         assertEquals(expectedUniqueOngoingSessions, actualUniqueOngoingSessions);
@@ -132,15 +163,19 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetSoftDeletedFeedbackSessionsForInstructors() {
         Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
         Course course = instructor.getCourse();
-        List<FeedbackSession> expectedFsList = fsLogic.getFeedbackSessionsForCourse(course.getId());
-        for (FeedbackSession fs : expectedFsList) {
-            fs.setDeletedAt(Instant.now());
-        }
-        List<FeedbackSession> actualFsList = fsLogic.getSoftDeletedFeedbackSessionsForInstructors(List.of(instructor));
+        List<FeedbackSession> expectedFsList = inTransaction(() -> {
+            List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
+            for (FeedbackSession fs : feedbackSessions) {
+                fs.setDeletedAt(Instant.now());
+            }
+            return feedbackSessions;
+        });
+        List<FeedbackSession> actualFsList =
+                inTransaction(() -> fsLogic.getSoftDeletedFeedbackSessionsForInstructors(List.of(instructor)));
 
         assertEquals(expectedFsList.size(), actualFsList.size());
         for (int i = 0; i < expectedFsList.size(); i++) {
-            verifyEquals(expectedFsList.get(i), actualFsList.get(i));
+            assertEquals(expectedFsList.get(i), actualFsList.get(i));
         }
     }
 
@@ -148,23 +183,24 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        FeedbackSession retrievedFs = fsLogic.getFeedbackSession(fs.getName(), fs.getCourseId());
+        FeedbackSession retrievedFs = inTransaction(() -> fsLogic.getFeedbackSession(fs.getName(), fs.getCourseId()));
 
         assertNotNull(retrievedFs);
-        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourseId()));
-        assertFalse(retrievedFs.getFeedbackQuestions().isEmpty());
-        assertFalse(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
+        assertNull(inTransaction(() -> fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourseId())));
+        assertFalse(inTransaction(() -> fsLogic.getFeedbackSession(
+                fs.getName(), fs.getCourseId()).getFeedbackQuestions().isEmpty()));
+        assertFalse(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());
 
         // delete existing feedback session directly
-        fsLogic.deleteFeedbackSessionCascade(fs.getId());
+        inTransaction(() -> fsLogic.deleteFeedbackSessionCascade(fs.getId()));
 
         // check deletion is cascaded
-        assertNull(fsLogic.getFeedbackSession(fs.getId()));
-        assertTrue(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
+        assertNull(inTransaction(() -> fsLogic.getFeedbackSession(fs.getId())));
+        assertTrue(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());
     }
 
     @Test
-    public void testUpdateFeedbackSession_validUpdate_success() throws Exception {
+    public void testUpdateFeedbackSession_validUpdate_success() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
@@ -190,15 +226,15 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         updateRequest.setClosingSoonEmailEnabled(false);
         updateRequest.setPublishedEmailEnabled(false);
 
-        fs = fsLogic.updateFeedbackSession(fs.getId(), updateRequest);
+        FeedbackSession updatedFs = inTransaction(() -> fsLogic.updateFeedbackSession(fs.getId(), updateRequest));
 
-        assertEquals(updateRequest.getInstructions(), fs.getInstructions());
-        assertEquals(updateRequest.getGracePeriod(), fs.getGracePeriod());
-        assertEquals(updateRequest.getSessionVisibleFromTime(), fs.getSessionVisibleFromTime());
-        assertEquals(updateRequest.getResultsVisibleFromTime(), fs.getResultsVisibleFromTime());
-        assertEquals(updateRequest.getSubmissionStartTime(), fs.getStartTime());
-        assertEquals(updateRequest.getSubmissionEndTime(), fs.getEndTime());
-        assertEquals(updateRequest.isClosingSoonEmailEnabled(), fs.isClosingSoonEmailEnabled());
-        assertEquals(updateRequest.isPublishedEmailEnabled(), fs.isPublishedEmailEnabled());
+        assertEquals(updateRequest.getInstructions(), updatedFs.getInstructions());
+        assertEquals(updateRequest.getGracePeriod(), updatedFs.getGracePeriod());
+        assertEquals(updateRequest.getSessionVisibleFromTime(), updatedFs.getSessionVisibleFromTime());
+        assertEquals(updateRequest.getResultsVisibleFromTime(), updatedFs.getResultsVisibleFromTime());
+        assertEquals(updateRequest.getSubmissionStartTime(), updatedFs.getStartTime());
+        assertEquals(updateRequest.getSubmissionEndTime(), updatedFs.getEndTime());
+        assertEquals(updateRequest.isClosingSoonEmailEnabled(), updatedFs.isClosingSoonEmailEnabled());
+        assertEquals(updateRequest.isPublishedEmailEnabled(), updatedFs.isPublishedEmailEnabled());
     }
 }

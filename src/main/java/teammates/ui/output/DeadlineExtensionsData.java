@@ -10,7 +10,7 @@ import teammates.storage.entity.DeadlineExtension;
 /**
  * The API output format for deadline extensions.
  */
-public class DeadlineExtensionsData extends ApiOutput {
+public class DeadlineExtensionsData implements ApiOutput {
     private Map<UUID, Long> userDeadlines;
 
     private DeadlineExtensionsData() {

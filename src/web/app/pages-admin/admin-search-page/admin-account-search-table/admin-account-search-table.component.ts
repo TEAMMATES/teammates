@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
@@ -15,7 +16,6 @@ import { RejectWithReasonModalComponentResult } from '../../../components/accoun
 import { RejectWithReasonModalComponent } from '../../../components/account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 
 /**
  * Account requests table component for admin search.
@@ -24,9 +24,9 @@ import { collapseAnim } from '../../../components/teammates-common/collapse-anim
   selector: 'tm-admin-account-search-table',
   templateUrl: './admin-account-search-table.component.html',
   styleUrls: ['./admin-account-search-table.component.scss'],
-  animations: [collapseAnim],
   imports: [
     NgbTooltip,
+    NgbCollapse,
     AjaxLoadingComponent,
     NgbDropdown,
     NgbDropdownToggle,
@@ -35,10 +35,10 @@ import { collapseAnim } from '../../../components/teammates-common/collapse-anim
   ],
 })
 export class AdminAccountSearchTableComponent implements OnChanges {
-  private statusMessageService = inject(StatusMessageService);
-  private simpleModalService = inject(SimpleModalService);
-  private accountService = inject(AccountService);
-  private ngbModal = inject(NgbModal);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly simpleModalService = inject(SimpleModalService);
+  private readonly accountService = inject(AccountService);
+  private readonly ngbModal = inject(NgbModal);
 
   @Input()
   accountRequests: AccountRequestSearchResult[] = [];
@@ -48,13 +48,11 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
   isRejectingAccount: boolean[] = [];
   isApprovingAccount: boolean[] = [];
-  isResettingAccount: boolean[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['accountRequests']) {
       this.isRejectingAccount = new Array(this.accountRequests.length).fill(false);
       this.isApprovingAccount = new Array(this.accountRequests.length).fill(false);
-      this.isResettingAccount = new Array(this.accountRequests.length).fill(false);
     }
   }
 
@@ -90,7 +88,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
     modalRef.result.then(
       (res: EditRequestModalComponentResult) => {
         this.accountService
-          .editAccountRequest(accountRequest.id, {
+          .editAccountRequest(accountRequest.accountRequestId, {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
@@ -116,7 +114,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
   approveAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isApprovingAccount[index] = true;
-    this.accountService.approveAccountRequest(accountRequest.id).subscribe({
+    this.accountService.approveAccountRequest(accountRequest.accountRequestId).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
@@ -131,42 +129,6 @@ export class AdminAccountSearchTableComponent implements OnChanges {
     });
   }
 
-  resetAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
-    this.isResettingAccount[index] = true;
-    const modalContent = `Are you sure you want to reset the account request for
-        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.institute}</strong>?
-        An email with the account registration link will also be sent to the instructor.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Reset account request for <strong>${accountRequest.name}</strong>?`,
-      SimpleModalType.WARNING,
-      modalContent,
-    );
-
-    modalRef.dismissed.subscribe(() => {
-      this.isResettingAccount[index] = false;
-    });
-
-    modalRef.result.then(
-      () => {
-        this.accountService.resetAccountRequest(accountRequest.id).subscribe({
-          next: () => {
-            this.statusMessageService.showSuccessToast(
-              `Reset successful. An email has been sent to ${accountRequest.email}.`,
-            );
-            accountRequest.registeredAtText = '';
-            this.isResettingAccount[index] = false;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-            this.isResettingAccount[index] = false;
-          },
-        });
-      },
-      () => {},
-    );
-  }
-
   deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
@@ -179,7 +141,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.deleteAccountRequest(accountRequest.id).subscribe({
+        this.accountService.deleteAccountRequest(accountRequest.accountRequestId).subscribe({
           next: (resp: MessageOutput) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
@@ -209,7 +171,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
 
   rejectAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isRejectingAccount[index] = true;
-    this.accountService.rejectAccountRequest(accountRequest.id).subscribe({
+    this.accountService.rejectAccountRequest(accountRequest.accountRequestId).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
@@ -235,7 +197,7 @@ export class AdminAccountSearchTableComponent implements OnChanges {
     modalRef.result.then(
       (res: RejectWithReasonModalComponentResult) => {
         this.accountService
-          .rejectAccountRequest(accountRequest.id, res.rejectionReasonTitle, res.rejectionReasonBody)
+          .rejectAccountRequest(accountRequest.accountRequestId, res.rejectionReasonTitle, res.rejectionReasonBody)
           .subscribe({
             next: (resp: AccountRequest) => {
               accountRequest.status = resp.status;
