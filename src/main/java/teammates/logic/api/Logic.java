@@ -11,6 +11,7 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.DataBundleDeletionIds;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
@@ -1239,8 +1240,8 @@ public class Logic {
     /**
      * Removes the given data bundle from the database.
      */
-    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
-        dataBundleLogic.removeDataBundle(dataBundle);
+    public void removeDataBundle(DataBundleDeletionIds dataBundleDeletionIds) throws InvalidParametersException {
+        dataBundleLogic.removeDataBundle(dataBundleDeletionIds);
     }
 
     /**

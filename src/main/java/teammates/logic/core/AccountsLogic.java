@@ -137,13 +137,8 @@ public final class AccountsLogic {
         return accountsDb.persistAccount(account);
     }
 
-    /**
-     * Deletes account associated with the {@code googleId}.
-     *
-     * <p>Fails silently if the account doesn't exist.</p>
-     */
-    public void deleteAccount(String googleId) {
-        Account account = getAccountForGoogleId(googleId);
+    public void deleteAccount(UUID accountId) {
+        Account account = getAccount(accountId);
         if (account == null) {
             return;
         }

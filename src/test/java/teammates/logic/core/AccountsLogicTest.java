@@ -41,11 +41,10 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testDeleteAccount_accountExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
 
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.getAccount(account.getId())).thenReturn(account);
 
-        accountsLogic.deleteAccount(googleId);
+        accountsLogic.deleteAccount(account.getId());
 
         verify(accountsDb, times(1)).deleteAccount(account);
     }

@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.DataBundleDeletionIds;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
@@ -26,10 +26,10 @@ public class DeleteDataBundleAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
+        DataBundleDeletionIds dataBundleDeletionIds = JsonUtils.fromJson(getRequestBody(), DataBundleDeletionIds.class);
 
         try {
-            logic.removeDataBundle(dataBundle);
+            logic.removeDataBundle(dataBundleDeletionIds);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }

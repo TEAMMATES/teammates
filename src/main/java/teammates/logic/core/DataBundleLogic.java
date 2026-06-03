@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.DataBundleDeletionIds;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
@@ -329,25 +330,25 @@ public final class DataBundleLogic {
     /**
      * Removes the items in the data bundle from the database.
      */
-    public void removeDataBundle(DataBundle dataBundle) throws InvalidParametersException {
-        if (dataBundle == null) {
-            throw new InvalidParametersException("Data bundle is null");
+    public void removeDataBundle(DataBundleDeletionIds deletionIds) throws InvalidParametersException {
+        if (deletionIds == null) {
+            throw new InvalidParametersException("Data bundle deletion IDs DTO is null");
         }
-
-        dataBundle.courses.values().forEach(course ->
-                coursesLogic.deleteCourse(course.getId())
+        
+        deletionIds.courseIds().forEach(courseId ->
+                coursesLogic.deleteCourse(courseId)
         );
-        dataBundle.readNotifications.values().forEach(readNotification ->
-                notificationsLogic.deleteReadNotification(readNotification.getId())
+        deletionIds.readNotificationIds().forEach(readNotificationId ->
+                notificationsLogic.deleteReadNotification(readNotificationId)
         );
-        dataBundle.notifications.values().forEach(notification ->
-                notificationsLogic.deleteNotification(notification.getId())
+        deletionIds.notificationIds().forEach(notificationId ->
+                notificationsLogic.deleteNotification(notificationId)
         );
-        dataBundle.accounts.values().forEach(account ->
-                accountsLogic.deleteAccount(account.getGoogleId())
+        deletionIds.accountIds().forEach(accountId ->
+                accountsLogic.deleteAccount(accountId)
         );
-        dataBundle.accountRequests.values().forEach(accountRequest ->
-                accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
+        deletionIds.accountRequestIds().forEach(accountRequestId ->
+                accountRequestsLogic.deleteAccountRequest(accountRequestId)
         );
     }
 

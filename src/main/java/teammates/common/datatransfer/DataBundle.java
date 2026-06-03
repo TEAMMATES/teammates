@@ -22,7 +22,8 @@ import teammates.storage.entity.Team;
 /**
  * Holds a bundle of entities.
  *
- * <p>This class is mainly used for serializing JSON strings.
+ * <p>
+ * This class is mainly used for serializing JSON strings.
  */
 // CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
 public class DataBundle {
@@ -41,4 +42,13 @@ public class DataBundle {
     public Map<String, FeedbackSessionLog> feedbackSessionLogs = new LinkedHashMap<>();
     public Map<String, Notification> notifications = new LinkedHashMap<>();
     public Map<String, ReadNotification> readNotifications = new LinkedHashMap<>();
+
+    public DataBundleDeletionIds toDeletionIds() {
+        return new DataBundleDeletionIds(
+                accounts.values().stream().map(Account::getId).toList(),
+                accountRequests.values().stream().map(AccountRequest::getId).toList(),
+                courses.values().stream().map(Course::getId).toList(),
+                notifications.values().stream().map(Notification::getId).toList(),
+                readNotifications.values().stream().map(ReadNotification::getId).toList());
+    }
 }

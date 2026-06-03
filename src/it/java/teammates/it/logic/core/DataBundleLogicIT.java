@@ -293,7 +293,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         verifyPresentInDatabase(accountRequest);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle.toDeletionIds());
 
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();

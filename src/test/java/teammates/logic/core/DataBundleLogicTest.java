@@ -30,6 +30,7 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
+import teammates.test.FileHelper;
 
 /**
  * SUT: {@link DataBundleLogic}.
@@ -316,7 +317,7 @@ public class DataBundleLogicTest extends BaseTestCase {
     public void testRemoveDataBundle_nullBundle_throwsException() {
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> dataBundleLogic.removeDataBundle(null));
-        assertEquals("Data bundle is null", ex.getMessage());
+        assertEquals("Data bundle deletion IDs DTO is null", ex.getMessage());
     }
 
     @Test
@@ -324,7 +325,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         DataBundle emptyBundle = new DataBundle();
 
         // Should not throw any exception
-        dataBundleLogic.removeDataBundle(emptyBundle);
+        dataBundleLogic.removeDataBundle(emptyBundle.toDeletionIds());
     }
 
     @Test
@@ -333,7 +334,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         dataBundle.courses.put("course1", course);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle.toDeletionIds());
 
         verify(coursesLogic, times(1)).deleteCourse(course.getId());
     }
@@ -352,11 +353,11 @@ public class DataBundleLogicTest extends BaseTestCase {
         dataBundle.accounts.put("account1", account);
         dataBundle.accountRequests.put("accountRequest1", accountRequest);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle.toDeletionIds());
 
         verify(coursesLogic, times(1)).deleteCourse(course.getId());
         verify(notificationsLogic, times(1)).deleteNotification(notification.getId());
-        verify(accountsLogic, times(1)).deleteAccount(account.getGoogleId());
+        verify(accountsLogic, times(1)).deleteAccount(account.getId());
         verify(accountRequestsLogic, times(1)).deleteAccountRequest(accountRequest.getId());
     }
 
@@ -366,7 +367,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         Notification notification = getTypicalNotificationWithId();
         dataBundle.notifications.put("notification1", notification);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle.toDeletionIds());
 
         verify(notificationsLogic, times(1)).deleteNotification(notification.getId());
     }
@@ -377,9 +378,9 @@ public class DataBundleLogicTest extends BaseTestCase {
         Account account = getTypicalAccount();
         dataBundle.accounts.put("account1", account);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle.toDeletionIds());
 
-        verify(accountsLogic, times(1)).deleteAccount(account.getGoogleId());
+        verify(accountsLogic, times(1)).deleteAccount(account.getId());
     }
 
     @Test
@@ -389,7 +390,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         accountRequest.setId(UUID.randomUUID());
         dataBundle.accountRequests.put("accountRequest1", accountRequest);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
+        dataBundleLogic.removeDataBundle(dataBundle.toDeletionIds());
 
         verify(accountRequestsLogic, times(1)).deleteAccountRequest(accountRequest.getId());
     }
@@ -466,5 +467,18 @@ public class DataBundleLogicTest extends BaseTestCase {
         assertNotNull(course);
         assertEquals("test-course-id", course.getId());
         assertEquals("Test Course", course.getName());
+    }
+
+    @Test
+    public void testDeserializeDataBundle_adminSessionsBundle_linksInstructorCourse() throws Exception {
+        String jsonString = FileHelper.readFile("src/e2e/resources/data/AdminSessionsPageE2ETest.json");
+        DataBundle result = DataBundleLogic.deserializeDataBundle(jsonString);
+
+        assertNotNull(result);
+        Instructor instructor = result.instructors.get("instructor1OfCourse1");
+        assertNotNull(instructor);
+        assertEquals("tm.e2e.ASess.idOfTypicalCourse1", instructor.getCourseId());
+        assertNotNull(instructor.getCourse());
+        assertEquals(instructor.getCourseId(), instructor.getCourse().getId());
     }
 }

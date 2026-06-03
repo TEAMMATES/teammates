@@ -29,6 +29,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.DataBundleDeletionIds;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -218,7 +219,7 @@ public abstract class AbstractBackDoor {
      * Removes and restores given data in the database. This method is to be called on test startup.
      */
     public DataBundle removeAndRestoreDataBundle(DataBundle dataBundle) throws HttpRequestFailedException {
-        removeDataBundle(dataBundle);
+        removeDataBundle(dataBundle.toDeletionIds());
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
         if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
@@ -237,8 +238,8 @@ public abstract class AbstractBackDoor {
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
-    public void removeDataBundle(DataBundle dataBundle) {
-        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    public void removeDataBundle(DataBundleDeletionIds dataBundleDeletionIds) {
+        executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundleDeletionIds));
     }
 
     /**
