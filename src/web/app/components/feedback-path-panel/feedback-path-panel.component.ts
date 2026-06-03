@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import {
   FeedbackQuestionType,
+  FeedbackSessionSubmissionStatus,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
@@ -38,6 +39,7 @@ export class FeedbackPathPanelComponent {
   QuestionRecipientType!: typeof QuestionRecipientType;
   FeedbackQuestionType!: typeof FeedbackQuestionType;
   NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -46,8 +48,6 @@ export class FeedbackPathPanelComponent {
     questionNumber: 0,
     questionBrief: '',
     questionDescription: '',
-
-    isQuestionHasResponses: false,
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
@@ -80,6 +80,9 @@ export class FeedbackPathPanelComponent {
   };
 
   @Input()
+  questionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+
+  @Input()
   commonFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> = new Map();
 
   @Input()
@@ -106,6 +109,7 @@ export class FeedbackPathPanelComponent {
     this.QuestionRecipientType = QuestionRecipientType;
     this.FeedbackQuestionType = FeedbackQuestionType;
     this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   }
 
   triggerCustomNumberOfEntities(data: number): void {

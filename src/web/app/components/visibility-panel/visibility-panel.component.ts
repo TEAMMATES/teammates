@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
@@ -7,6 +6,7 @@ import { CommonVisibilitySetting } from '../../../services/feedback-questions.se
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackQuestionType,
+  FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
@@ -31,7 +31,6 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   templateUrl: './visibility-panel.component.html',
   styleUrls: ['./visibility-panel.component.scss'],
   imports: [
-    NgClass,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
@@ -51,6 +50,7 @@ export class VisibilityPanelComponent {
   NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
   VisibilityControl!: typeof VisibilityControl;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -59,8 +59,6 @@ export class VisibilityPanelComponent {
     questionNumber: 0,
     questionBrief: '',
     questionDescription: '',
-
-    isQuestionHasResponses: false,
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
@@ -91,6 +89,9 @@ export class VisibilityPanelComponent {
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
   };
+
+  @Input()
+  questionSubmissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
 
   @Input()
   isCustomFeedbackVisibilitySettingAllowed = false;
@@ -135,6 +136,7 @@ export class VisibilityPanelComponent {
     this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
     this.VisibilityControl = VisibilityControl;
     this.FeedbackVisibilityType = FeedbackVisibilityType;
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   }
 
   triggerCustomVisibilitySetting(): void {

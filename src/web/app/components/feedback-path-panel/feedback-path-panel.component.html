@@ -1,5 +1,18 @@
 <div class="background-color-light-green margin-top-15px padding-15px">
   <div><b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)</div>
+  @if (
+    model.isEditable &&
+    questionSubmissionStatus !== FeedbackSessionSubmissionStatus.NOT_VISIBLE &&
+    questionSubmissionStatus !== FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN
+  ) {
+    <div class="alert alert-warning my-2">
+      <strong>Changing feedback path settings is not recommended</strong>
+      <p>
+        There may already be responses to this question. Changing the feedback path will result in existing responses
+        being deleted.
+      </p>
+    </div>
+  }
   <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px w-100" autoClose="outside">
     <button
       id="btn-feedback-path"
