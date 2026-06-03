@@ -19,7 +19,7 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -242,7 +242,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             String subject = googleId;
             String tenantId = "tenant-id";
             try {
-                logic.createAccount(ProviderType.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
@@ -756,7 +756,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             String googleId = email;
             String subject = email;
             String tenantId = "tenant-id";
-            Account account = logic.createAccount(ProviderType.TEAMMATES_DEV, subject, tenantId, email, googleId);
+            Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
             instructor.setAccount(account);
         }
         return instructor;
@@ -788,7 +788,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             String googleId = email;
             String subject = email;
             String tenantId = "tenant-id";
-            Account account = logic.createAccount(ProviderType.TEAMMATES_DEV, subject, tenantId, email, googleId);
+            Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
             student.setAccount(account);
         }
         return student;

@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -35,7 +35,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
         // Ensure the admin account exists for email sending
         String adminEmail = Config.APP_ADMINS.get(0);
-        logic.createAccount(ProviderType.TEAMMATES_DEV, "validAdminSubject",
+        logic.createAccount(Provider.TEAMMATES_DEV, "validAdminSubject",
                 "validAdminTenant", adminEmail, adminEmail);
 
         HibernateUtil.flushSession();

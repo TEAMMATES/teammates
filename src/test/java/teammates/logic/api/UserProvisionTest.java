@@ -23,7 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -218,7 +218,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     private static Account createAccount(String googleId, String email) {
         Account account = new Account(
-                googleId, ProviderType.TEAMMATES_DEV, "testUserSubject", "tenant-id",
+                googleId, Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
                 "Test User", email);
         account.setId(UUID.randomUUID());
         return account;

@@ -7,7 +7,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
-import teammates.common.datatransfer.ProviderType;
+
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -81,7 +82,7 @@ public final class AccountsLogic {
      * @param email the email of the account
      * @return the created or existing account
      */
-    public Account createOrGetAccount(ProviderType provider, String subject, @Nullable String tenantId, String email) {
+    public Account createOrGetAccount(Provider provider, String subject, @Nullable String tenantId, String email) {
         Objects.requireNonNull(provider);
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
@@ -111,7 +112,7 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(ProviderType provider, String subject, @Nullable String tenantId, String email, String googleId)
+    public Account createAccount(Provider provider, String subject, @Nullable String tenantId, String email, String googleId)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Objects.requireNonNull(provider);
         Objects.requireNonNull(subject);

@@ -3,7 +3,7 @@ package teammates.logic.api;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
@@ -126,7 +126,7 @@ public class MockUserProvision extends UserProvision {
             AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
         Account account = createMissingAccounts
                 ? new Account(
-                        googleId, ProviderType.TEAMMATES_DEV, "testUserSubject", "tenant-id",
+                        googleId, Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
                         "Test User", googleId + "@example.com")
                 : logic.getAccountForGoogleId(googleId);
         return new AuthContext(authType, account, null, isAdmin, isMaintainer);

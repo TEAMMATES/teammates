@@ -15,7 +15,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -92,7 +92,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult(ProviderType.TEAMMATES_DEV, email, null, email, nextUrl);
+        return new AuthResult(Provider.TEAMMATES_DEV, email, null, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -151,7 +151,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return null;
         }
 
-        return new AuthResult(ProviderType.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
+        return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
@@ -163,13 +163,13 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     private static final class AuthResult {
-        private final ProviderType provider;
+        private final Provider provider;
         private final String subject;
         private final String tenantId;
         private final String email;
         private final String nextUrl;
 
-        private AuthResult(ProviderType provider, String subject, @Nullable String tenantId,
+        private AuthResult(Provider provider, String subject, @Nullable String tenantId,
                     String email, String nextUrl) {
             this.provider = provider;
             this.subject = subject;

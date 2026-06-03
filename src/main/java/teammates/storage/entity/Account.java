@@ -19,7 +19,7 @@ import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -38,7 +38,7 @@ public class Account extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ProviderType provider;
+    private Provider provider;
 
     @Column(nullable = false)
     private String subject;
@@ -71,7 +71,7 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, ProviderType provider, String subject, String tenantId, String name, String email) {
+    public Account(String googleId, Provider provider, String subject, String tenantId, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setGoogleId(googleId);
         this.setProvider(provider);
@@ -97,11 +97,11 @@ public class Account extends BaseEntity {
         this.id = id;
     }
 
-    public ProviderType getProvider() {
+    public Provider getProvider() {
         return provider;
     }
 
-    public void setProvider(ProviderType provider) {
+    public void setProvider(Provider provider) {
         this.provider = provider;
     }
 

@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Account;
@@ -151,7 +151,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     @Test
     void testExecute_fullDetailWithAccount_success() {
         Account account = new Account(
-                "google-id", ProviderType.TEAMMATES_DEV, "validInstructorSubject", "validTenantId",
+                "google-id", Provider.TEAMMATES_DEV, "validInstructorSubject", "validTenantId",
                     "name", "email@tm.tmt");
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         instructor.setAccount(account);

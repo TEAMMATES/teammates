@@ -24,7 +24,7 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -814,7 +814,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
         instructor.setAccount(new Account(
-                "instructor-googleId", ProviderType.TEAMMATES_DEV, "validInstructorSubject",
+                "instructor-googleId", Provider.TEAMMATES_DEV, "validInstructorSubject",
                 "validTenantId", instructor.getName(), instructor.getEmail()));
 
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);

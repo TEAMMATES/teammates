@@ -10,7 +10,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
@@ -54,7 +54,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         section.addTeam(team);
 
         Account instructorAccount = new Account(
-                "instructor-account", ProviderType.TEAMMATES_DEV, "validInstructorSubject",
+                "instructor-account", Provider.TEAMMATES_DEV, "validInstructorSubject",
                 "typicalTenantId", "instructor-name", "valid-instructor@email.tmt");
         accountsDb.persistAccount(instructorAccount);
         instructor = getTypicalInstructor();
@@ -63,7 +63,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         instructor.setAccount(instructorAccount);
 
         Account studentAccount = new Account(
-                "student-account", ProviderType.TEAMMATES_DEV, "validStudentSubject",
+                "student-account", Provider.TEAMMATES_DEV, "validStudentSubject",
                 "typicalTenantId", "student-name", "valid-student@email.tmt");
         accountsDb.persistAccount(studentAccount);
         student = getTypicalStudent();
@@ -136,7 +136,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetAllUsersByGoogleId() {
         ______TS("success: gets all instructors and students by googleId");
         Account userSharedAccount = new Account(
-                "user-account", ProviderType.TEAMMATES_DEV, "valid-user@email.com",
+                "user-account", Provider.TEAMMATES_DEV, "valid-user@email.com",
                 "typicalTenantId", "user-name", "valid-user@email.tmt");
         accountsDb.persistAccount(userSharedAccount);
 
@@ -280,7 +280,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student2 = getTypicalStudent();
         Account account = new Account(
-                "google-id", ProviderType.TEAMMATES_DEV, "typicalStudentSubject",
+                "google-id", Provider.TEAMMATES_DEV, "typicalStudentSubject",
                 "typicalTenantId", student.getName(), student.getEmail());
 
         team.addUser(student2);

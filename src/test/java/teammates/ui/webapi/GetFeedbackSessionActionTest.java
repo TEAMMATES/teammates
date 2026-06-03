@@ -10,7 +10,7 @@ import java.time.Instant;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -346,7 +346,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         String subject = "validStudentSubject";
         String tenantId = "validTenantId";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, ProviderType.TEAMMATES_DEV, subject, tenantId, name, email));
+        s.setAccount(new Account(googleId, Provider.TEAMMATES_DEV, subject, tenantId, name, email));
         return s;
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.ProviderType;
+import teammates.common.datatransfer.Provider;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
@@ -76,7 +76,7 @@ public class AccountsLogicTest extends BaseTestCase {
     public void testCreateOrGetAccountForEmail_accountExists_success() {
         Account account = getTypicalAccount();
         String email = account.getEmail();
-        ProviderType provider = account.getProvider();
+        Provider provider = account.getProvider();
         String subject = account.getSubject();
         String tenantId = account.getTenantId();
 
@@ -90,7 +90,7 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
         String email = "nonexistent@example.com";
-        ProviderType provider = ProviderType.TEAMMATES_DEV;
+        Provider provider = Provider.TEAMMATES_DEV;
         String subject = "nonexistentSubject";
         String tenantId = "nonexistentTenantId";
 
