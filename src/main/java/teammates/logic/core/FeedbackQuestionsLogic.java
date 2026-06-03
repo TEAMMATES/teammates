@@ -177,7 +177,7 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets all data required for feedback session submission.
+     * Gets all data required for feedback session submission for a student.
      */
     public SessionSubmissionBundle getSessionSubmissionBundleForStudent(
             FeedbackSession feedbackSession, Student student, boolean isPreview, boolean isModeration) {
@@ -215,7 +215,7 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets all data required for feedback session submission as an instructor.
+     * Gets all data required for feedback session submission for an instructor.
      */
     public SessionSubmissionBundle getSessionSubmissionBundleForInstructor(FeedbackSession feedbackSession,
             Instructor instructor, boolean isPreview, boolean isModeration) {
