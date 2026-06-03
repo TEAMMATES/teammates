@@ -20,6 +20,7 @@ import {
   OngoingSessions,
   SessionLinksRecoveryResponse,
   SessionResults,
+  SessionSubmission,
   Student,
   Students,
 } from '../types/api-output';
@@ -85,6 +86,36 @@ export class FeedbackSessionsService {
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
+  }
+
+  /**
+   * Retrieves all data needed for a feedback session submission.
+   */
+  getSessionSubmissionData(queryParams: {
+    feedbackSessionId: string;
+    intent: Intent;
+    key?: string;
+    moderatedPerson?: string;
+    previewAs?: string;
+  }): Observable<SessionSubmission> {
+    const paramMap: Record<string, string> = {
+      intent: queryParams.intent,
+      fsid: queryParams.feedbackSessionId,
+    };
+
+    if (queryParams.key) {
+      paramMap['key'] = queryParams.key;
+    }
+
+    if (queryParams.moderatedPerson) {
+      paramMap['moderatedperson'] = queryParams.moderatedPerson;
+    }
+
+    if (queryParams.previewAs) {
+      paramMap['previewas'] = queryParams.previewAs;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
   }
 
   /**
