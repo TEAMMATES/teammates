@@ -17,7 +17,9 @@ module.exports = async ({ github, context, core }) => {
       '*Please note that we allow only one `good first issue` per contributor.* If you have already made a prior contribution to TEAMMATES, you may wish to take a look at issues with the `help wanted` tag instead.',
       '',
       "**We do not assign issues to contributors**. If you would like to pick up this issue, do post a comment below to express your interest and check if there is anyone else who is already working on the issue. We will do our best to reply and give you the go-ahead, but if we don't, feel free to submit a PR as long as there is no one else working on it.",
+      '',
       '**To get started**, do read through our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html) carefully before making a PR.',
+      '',
       'If you need any clarifications on our [developer guide](https://teammates.github.io/teammates/index.html), or are facing issues that are not found in our [troubleshooting guide](https://teammates.github.io/teammates/troubleshooting-guide.html), please [post a message in our discussion forum](https://github.com/TEAMMATES/teammates/discussions).',
     ]),
     'help wanted': buildBody([
@@ -26,7 +28,9 @@ module.exports = async ({ github, context, core }) => {
       'This issue is open for contributions from anyone who would like to help.',
       '',
       '**We do not assign issues to contributors**. If you would like to pick up this issue, do post a comment below to express your interest and check if there is anyone else who is already working on the issue. We will do our best to reply and give you the go-ahead, but if we do not, feel free to submit a PR as long as there is no one else working on it.',
+      '',
       '**To get started**, do read through our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html) carefully before making a PR.',
+      '',
       'If you need any clarifications on our [developer guide](https://teammates.github.io/teammates/index.html), or are facing issues that are not found in our [troubleshooting guide](https://teammates.github.io/teammates/troubleshooting-guide.html), please [post a message in our discussion forum](https://github.com/TEAMMATES/teammates/discussions).',
     ]),
   };
