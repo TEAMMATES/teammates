@@ -10,7 +10,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -27,7 +27,7 @@ import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
 public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeedbackSessionLogsAction> {
     private DataBundle typicalBundle;
 
-    @BeforeEach
+    @BeforeMethod
     void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
