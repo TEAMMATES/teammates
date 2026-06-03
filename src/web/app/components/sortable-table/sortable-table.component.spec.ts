@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SortableTableCellData, SortableTableComponent } from './sortable-table.component';
 
 describe('SortableTableComponent', () => {
@@ -38,5 +39,22 @@ describe('SortableTableComponent', () => {
     expect(rows[1].getAttribute('id')).toBe('row-1');
     expect(rows[0].classList.contains('highlighted-row')).toBe(false);
     expect(rows[1].classList.contains('highlighted-row')).toBe(true);
+  });
+
+  it('should preserve input row order on input changes when local sorting is disabled', () => {
+    component.columns = [{ header: 'Name', sortBy: SortBy.COURSE_ID }];
+    component.initialSortBy = SortBy.COURSE_ID;
+    component.sortOrder = SortOrder.ASC;
+    component.emitSortEventOnInit = false;
+    component.emitSortEventOnInputChange = false;
+    component.rows = [[{ value: 'b' }], [{ value: 'a' }]];
+    fixture.detectChanges();
+
+    const updatedRows: SortableTableCellData[][] = [[{ value: 'c' }], [{ value: 'a' }], [{ value: 'b' }]];
+    component.rows = updatedRows;
+    component.ngOnChanges();
+
+    expect(component.tableRows).toBe(updatedRows);
+    expect(component.tableRows.map((row: SortableTableCellData[]) => row[0].value)).toEqual(['c', 'a', 'b']);
   });
 });

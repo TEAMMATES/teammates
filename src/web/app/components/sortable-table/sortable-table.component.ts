@@ -168,6 +168,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
     if (emitSortEvent) {
       this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
     }
+    if (!emitSortEvent) {
+      return;
+    }
     this.tableRows.sort((row1: any[], row2: any[]) => {
       return this.tableComparatorService.compare(
         sortBy,

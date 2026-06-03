@@ -25,9 +25,6 @@ export class NotificationsTableComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
   private rowDataToModelMap = new WeakMap<SortableTableCellData[], NotificationsTableRowModel>();
 
-  SortBy!: typeof SortBy;
-  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
-
   @Input()
   guessTimezone = 'UTC';
 
@@ -58,8 +55,6 @@ export class NotificationsTableComponent implements OnChanges {
   rowClassGetter = (rowData: SortableTableCellData[]): string | undefined => this.getRowClass(rowData);
 
   constructor() {
-    this.SortBy = SortBy;
-    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
     this.setColumnsData();
   }
 

@@ -2,8 +2,6 @@
 
 exports[`NotificationsTableComponent > should snap like in notification page with 2 notifications sorted by create time 1`] = `
 <tm-notifications-table
-  SortBy={[Function Object]}
-  SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
@@ -200,8 +198,6 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
 
 exports[`NotificationsTableComponent > should snap like in notification page with 2 notifications sorted by start time 1`] = `
 <tm-notifications-table
-  SortBy={[Function Object]}
-  SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
@@ -398,8 +394,6 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
 
 exports[`NotificationsTableComponent > should snap with default fields 1`] = `
 <tm-notifications-table
-  SortBy={[Function Object]}
-  SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}

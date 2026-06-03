@@ -68,6 +68,7 @@ export class AdminNotificationsPageComponent implements OnInit {
     isDeleting: false,
   };
 
+  // Keep row models immutable so NotificationsTableComponent can rebuild its derived row data via ngOnChanges.
   notificationsTableRowModels: NotificationsTableRowModel[] = [];
   notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
   notificationsTableRowModelsSortOrder = SortOrder.DESC;
@@ -145,12 +146,10 @@ export class AdminNotificationsPageComponent implements OnInit {
       )
       .subscribe({
         next: (notifications: Notifications) => {
-          notifications.notifications.forEach((notification: Notification) => {
-            this.notificationsTableRowModels.push({
-              isHighlighted: false,
-              notification,
-            });
-          });
+          this.notificationsTableRowModels = notifications.notifications.map((notification: Notification) => ({
+            isHighlighted: false,
+            notification,
+          }));
           // sort the list using create time, and allocate the index in ascending order
           // note: order is set to be descending here as it will be reversed later
           this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
@@ -271,11 +270,13 @@ export class AdminNotificationsPageComponent implements OnInit {
       )
       .subscribe({
         next: (notification: Notification) => {
-          this.notificationsTableRowModels.unshift({
-            isHighlighted: true,
-            notification,
-          });
-          this.notificationsTableRowModels = [...this.notificationsTableRowModels];
+          this.notificationsTableRowModels = [
+            {
+              isHighlighted: true,
+              notification,
+            },
+            ...this.notificationsTableRowModels,
+          ];
           this.initNotificationEditFormModel();
           this.statusMessageService.showSuccessToast('Notification created successfully.');
         },
@@ -322,13 +323,18 @@ export class AdminNotificationsPageComponent implements OnInit {
         next: (notification: Notification) => {
           this.statusMessageService.showSuccessToast('Notification updated successfully.');
 
-          this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
-            if (rowModel.notification.notificationId === notification.notificationId) {
-              rowModel.isHighlighted = true;
-              rowModel.notification = notification;
-            }
-          });
-          this.notificationsTableRowModels = [...this.notificationsTableRowModels];
+          this.notificationsTableRowModels = this.notificationsTableRowModels.map(
+            (rowModel: NotificationsTableRowModel) => {
+              if (rowModel.notification.notificationId === notification.notificationId) {
+                return {
+                  ...rowModel,
+                  isHighlighted: true,
+                  notification,
+                };
+              }
+              return rowModel;
+            },
+          );
 
           this.initNotificationEditFormModel();
         },
@@ -370,11 +376,12 @@ export class AdminNotificationsPageComponent implements OnInit {
       this.notificationsTableRowModelsSortBy = sortBy;
     }
     // before sorting, remove highlights from all rows
-    this.notificationsTableRowModels.forEach((notificationsTableRowModel: NotificationsTableRowModel) => {
-      notificationsTableRowModel.isHighlighted = false;
-    });
-    this.notificationsTableRowModels.sort(this.getNotificationsTableRowModelsComparator());
-    this.notificationsTableRowModels = [...this.notificationsTableRowModels];
+    this.notificationsTableRowModels = this.notificationsTableRowModels
+      .map((notificationsTableRowModel: NotificationsTableRowModel) => ({
+        ...notificationsTableRowModel,
+        isHighlighted: false,
+      }))
+      .sort(this.getNotificationsTableRowModelsComparator());
   }
 
   /**
