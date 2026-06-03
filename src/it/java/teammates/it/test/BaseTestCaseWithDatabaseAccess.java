@@ -2,6 +2,7 @@ package teammates.it.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
@@ -168,6 +169,15 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         assertNotNull(expected);
         BaseEntity actual = inTransaction(() -> getEntity(expected));
         assertEquals(expected, actual);
+    }
+
+    /**
+     * Verifies that the given entity is not present in the database.
+     */
+    protected void verifyAbsentInDatabase(BaseEntity entity) {
+        assertNotNull(entity);
+        BaseEntity actual = inTransaction(() -> getEntity(entity));
+        assertNull(actual);
     }
 
     private BaseEntity getEntity(BaseEntity entity) {

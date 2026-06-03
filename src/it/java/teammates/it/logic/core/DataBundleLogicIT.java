@@ -1,7 +1,6 @@
 package teammates.it.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.opentest4j.AssertionFailedError;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -27,7 +25,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
@@ -223,7 +220,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() throws Exception {
+    public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
 
@@ -253,8 +250,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testRemoveDataBundle_typicalValues_removedCorrectly()
-                throws InvalidParametersException {
+    public void testRemoveDataBundle_typicalValues_removedCorrectly() {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
 
@@ -289,15 +285,15 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("verify notification removed correctly");
 
-        assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(notification1));
+        verifyAbsentInDatabase(notification1);
 
         ______TS("verify course removed correctly");
 
-        assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(typicalCourse));
+        verifyAbsentInDatabase(typicalCourse);
 
         ______TS("verify feedback session removed correctly");
 
-        assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
+        verifyAbsentInDatabase(session1InTypicalCourse);
 
         ______TS("verify feedback questions, responses, response comments and deadline extensions "
                 + "related to session1InTypicalCourse are removed correctly");
@@ -308,31 +304,31 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         List<ResponseInstructorComment> frcs = new ArrayList<>();
 
         for (DeadlineExtension de : des) {
-            assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(de));
+            verifyAbsentInDatabase(de);
         }
 
         for (FeedbackQuestion fq : fqs) {
             frs.addAll(fq.getFeedbackResponses());
-            assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(fq));
+            verifyAbsentInDatabase(fq);
         }
 
         for (FeedbackResponse fr : frs) {
             frcs.addAll(fr.getResponseInstructorComments());
-            assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(fr));
+            verifyAbsentInDatabase(fr);
         }
 
         for (ResponseInstructorComment frc : frcs) {
-            assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(frc));
+            verifyAbsentInDatabase(frc);
         }
 
         ______TS("verify accounts removed correctly");
 
-        assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(instructor1Account));
-        assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(student1Account));
+        verifyAbsentInDatabase(instructor1Account);
+        verifyAbsentInDatabase(student1Account);
 
         ______TS("verify account request removed correctly");
 
-        assertThrows(AssertionFailedError.class, () -> verifyPresentInDatabase(accountRequest));
+        verifyAbsentInDatabase(accountRequest);
     }
 
 }
