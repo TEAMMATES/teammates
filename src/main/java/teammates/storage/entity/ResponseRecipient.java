@@ -3,8 +3,6 @@ package teammates.storage.entity;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -12,8 +10,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import teammates.common.datatransfer.participanttypes.ResponseRecipientType;
 import teammates.common.util.Const;
+
 
 /**
  * Embeddable value object that identifies a recipient of a feedback response.
