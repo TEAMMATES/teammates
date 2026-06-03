@@ -110,6 +110,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION_SUBMITTED_GIVER_SET, GET, GetFeedbackSessionSubmittedGiverSetAction.class);
         map(ResourceURIs.SESSION_REMIND_SUBMISSION, POST, RemindFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.SESSION_REMIND_RESULT, POST, RemindFeedbackSessionResultAction.class);
+        map(ResourceURIs.SESSION_SUBMISSION, GET, GetSessionSubmissionDataAction.class);
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
@@ -118,7 +119,6 @@ public final class ActionFactory {
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, UpdateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, DELETE, DeleteFeedbackQuestionAction.class);
-        map(ResourceURIs.QUESTION_RECIPIENTS, GET, GetFeedbackQuestionRecipientsAction.class);
         map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);

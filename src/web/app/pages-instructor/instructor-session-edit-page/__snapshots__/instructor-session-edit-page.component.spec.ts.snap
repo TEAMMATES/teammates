@@ -37,7 +37,6 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback question
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -134,7 +133,6 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback question
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -231,7 +229,6 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback session 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -331,7 +328,6 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback session 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -428,7 +424,6 @@ exports[`InstructorSessionEditPageComponent > should snap with default fields 1`
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -525,7 +520,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -3764,7 +3758,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
