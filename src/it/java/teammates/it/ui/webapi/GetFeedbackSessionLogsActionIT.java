@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -28,12 +27,9 @@ import teammates.ui.webapi.JsonResult;
 public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSessionLogsAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override

@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
@@ -39,96 +38,99 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     private Student student;
 
     @BeforeMethod
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    public void setUp() {
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        coursesDb.createCourse(course);
-
         Section section = new Section("test-section");
-        coursesDb.createSection(section);
-        course.addSection(section);
         Team team = new Team("test-team");
-        coursesDb.createTeam(team);
-        section.addTeam(team);
 
         Account instructorAccount = new Account(
                 "instructor-account", Provider.TEAMMATES_DEV, "validInstructorSubject",
                 "typicalTenantId", "instructor-name", "valid-instructor@email.tmt");
-        accountsDb.persistAccount(instructorAccount);
         instructor = getTypicalInstructor();
-        instructor.setCourse(course);
-        usersDb.createInstructor(instructor);
-        instructor.setAccount(instructorAccount);
 
         Account studentAccount = new Account(
                 "student-account", Provider.TEAMMATES_DEV, "validStudentSubject",
                 "typicalTenantId", "student-name", "valid-student@email.tmt");
-        accountsDb.persistAccount(studentAccount);
         student = getTypicalStudent();
-        student.setCourse(course);
-        student.setTeam(team);
-        usersDb.createStudent(student);
-        student.setAccount(studentAccount);
+        inTransaction(() -> {
+            coursesDb.createCourse(course);
+            coursesDb.createSection(section);
+            course.addSection(section);
+            coursesDb.createTeam(team);
+            section.addTeam(team);
 
-        HibernateUtil.flushSession();
+            accountsDb.persistAccount(instructorAccount);
+            instructor.setCourse(course);
+            usersDb.createInstructor(instructor);
+            instructor.setAccount(instructorAccount);
+
+            accountsDb.persistAccount(studentAccount);
+            student.setCourse(course);
+            student.setTeam(team);
+            usersDb.createStudent(student);
+            student.setAccount(studentAccount);
+        });
     }
 
     @Test
     public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
-        Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
-        verifyEquals(instructor, actualInstructor);
+        Instructor actualInstructor = inTransaction(() -> usersDb.getInstructor(instructor.getId()));
+        assertEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor that does not exist");
         UUID nonExistentId = generateDifferentUuid(actualInstructor.getId());
-        actualInstructor = usersDb.getInstructor(nonExistentId);
+        actualInstructor = inTransaction(() -> usersDb.getInstructor(nonExistentId));
         assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by courseId and email");
-        actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
-        verifyEquals(instructor, actualInstructor);
+        actualInstructor = inTransaction(() -> usersDb.getInstructorForEmail(
+                instructor.getCourseId(), instructor.getEmail()));
+        assertEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by courseId and email that does not exist");
-        actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), "does-not-exist@teammates.tmt");
+        actualInstructor = inTransaction(() -> usersDb.getInstructorForEmail(
+                instructor.getCourseId(), "does-not-exist@teammates.tmt"));
         assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by googleId");
-        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
-                instructor.getAccount().getGoogleId());
-        verifyEquals(instructor, actualInstructor);
+        actualInstructor = inTransaction(() -> usersDb.getInstructorByGoogleId(
+                instructor.getCourseId(), instructor.getAccount().getGoogleId()));
+        assertEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by googleId that does not exist");
-        actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), "invalid-google id");
+        actualInstructor = inTransaction(() -> usersDb.getInstructorByGoogleId(
+                instructor.getCourseId(), "invalid-google id"));
         assertNull(actualInstructor);
     }
 
     @Test
     public void testGetStudent() {
         ______TS("success: gets a student that already exists");
-        Student actualStudent = usersDb.getStudent(student.getId());
-        verifyEquals(student, actualStudent);
+        Student actualStudent = inTransaction(() -> usersDb.getStudent(student.getId()));
+        assertEquals(student, actualStudent);
 
         ______TS("success: gets a student that does not exist");
         UUID nonExistentId = generateDifferentUuid(actualStudent.getId());
-        actualStudent = usersDb.getStudent(nonExistentId);
+        actualStudent = inTransaction(() -> usersDb.getStudent(nonExistentId));
         assertNull(actualStudent);
 
         ______TS("success: gets a student by courseId and email");
-        actualStudent = usersDb.getStudentForEmail(student.getCourseId(), student.getEmail());
-        verifyEquals(student, actualStudent);
+        actualStudent = inTransaction(() -> usersDb.getStudentForEmail(student.getCourseId(), student.getEmail()));
+        assertEquals(student, actualStudent);
 
         ______TS("success: gets a student by courseId and email that does not exist");
-        actualStudent = usersDb.getStudentForEmail(student.getCourseId(), "does-not-exist@teammates.tmt");
+        actualStudent = inTransaction(() -> usersDb.getStudentForEmail(
+                student.getCourseId(), "does-not-exist@teammates.tmt"));
         assertNull(actualStudent);
 
         ______TS("success: gets a student by googleId");
-        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
-        verifyEquals(student, actualStudent);
+        actualStudent = inTransaction(() -> usersDb.getStudentByGoogleId(
+                student.getCourseId(), student.getAccount().getGoogleId()));
+        assertEquals(student, actualStudent);
 
         ______TS("success: gets a student by googleId that does not exist");
-        actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");
+        actualStudent = inTransaction(() -> usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id"));
         assertNull(actualStudent);
     }
 
@@ -138,51 +140,58 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         Account userSharedAccount = new Account(
                 "user-account", Provider.TEAMMATES_DEV, "valid-user@email.com",
                 "typicalTenantId", "user-name", "valid-user@email.tmt");
-        accountsDb.persistAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
         firstInstructor.setEmail("valid-instructor-1@email.tmt");
-        usersDb.createInstructor(firstInstructor);
-        firstInstructor.setAccount(userSharedAccount);
 
         Instructor secondInstructor = getTypicalInstructor();
         secondInstructor.setEmail("valid-instructor-2@email.tmt");
-        usersDb.createInstructor(secondInstructor);
-        secondInstructor.setAccount(userSharedAccount);
 
         Section section = new Section("section-name");
-        coursesDb.createSection(section);
-        course.addSection(section);
         Team team = new Team("team-name");
-        coursesDb.createTeam(team);
-        section.addTeam(team);
 
         Student firstStudent = getTypicalStudent();
-        team.addUser(firstStudent);
         firstStudent.setEmail("valid-student-1@email.tmt");
-        usersDb.createStudent(firstStudent);
-        firstStudent.setAccount(userSharedAccount);
 
         Student secondStudent = getTypicalStudent();
-        team.addUser(secondStudent);
         secondStudent.setEmail("valid-student-2@email.tmt");
-        usersDb.createStudent(secondStudent);
-        secondStudent.setAccount(userSharedAccount);
+        inTransaction(() -> {
+            accountsDb.persistAccount(userSharedAccount);
 
-        List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
+            usersDb.createInstructor(firstInstructor);
+            firstInstructor.setAccount(userSharedAccount);
+            usersDb.createInstructor(secondInstructor);
+            secondInstructor.setAccount(userSharedAccount);
+
+            coursesDb.createSection(section);
+            course.addSection(section);
+            coursesDb.createTeam(team);
+            section.addTeam(team);
+
+            team.addUser(firstStudent);
+            usersDb.createStudent(firstStudent);
+            firstStudent.setAccount(userSharedAccount);
+
+            team.addUser(secondStudent);
+            usersDb.createStudent(secondStudent);
+            secondStudent.setAccount(userSharedAccount);
+        });
+
+        List<User> users = inTransaction(() -> usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId()));
         assertEquals(4, users.size());
         assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
 
-        List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
+        List<Instructor> instructors =
+                inTransaction(() -> usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId()));
         assertEquals(2, instructors.size());
         assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
 
-        List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
+        List<Student> students = inTransaction(() -> usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId()));
         assertEquals(2, students.size());
         assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
 
         ______TS("success: gets all instructors and students by googleId that does not exist");
-        List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");
+        List<User> emptyUsers = inTransaction(() -> usersDb.getAllUsersByGoogleId("non-exist-id"));
 
         assertEquals(0, emptyUsers.size());
     }
@@ -191,37 +200,42 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetStudentsForSection() {
         ______TS("success: typical case");
         Section firstSection = new Section("section-name1");
-        coursesDb.createSection(firstSection);
-        course.addSection(firstSection);
         Team firstTeam = new Team("team-name1");
-        coursesDb.createTeam(firstTeam);
-        firstSection.addTeam(firstTeam);
 
         Section secondSection = new Section("section-name2");
-        coursesDb.createSection(secondSection);
-        course.addSection(secondSection);
         Team secondTeam = new Team("team-name2");
-        coursesDb.createTeam(secondTeam);
-        secondSection.addTeam(secondTeam);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
         firstStudent.setTeam(firstTeam);
-        usersDb.createStudent(firstStudent);
 
         Student secondStudent = getTypicalStudent();
         secondStudent.setEmail("valid-student-2@email.tmt");
         secondStudent.setTeam(firstTeam);
-        usersDb.createStudent(secondStudent);
 
         Student thirdStudent = getTypicalStudent();
         thirdStudent.setEmail("valid-student-3@email.tmt");
         thirdStudent.setTeam(secondTeam);
-        usersDb.createStudent(thirdStudent);
+        inTransaction(() -> {
+            coursesDb.createSection(firstSection);
+            course.addSection(firstSection);
+            coursesDb.createTeam(firstTeam);
+            firstSection.addTeam(firstTeam);
+
+            coursesDb.createSection(secondSection);
+            course.addSection(secondSection);
+            coursesDb.createTeam(secondTeam);
+            secondSection.addTeam(secondTeam);
+
+            usersDb.createStudent(firstStudent);
+            usersDb.createStudent(secondStudent);
+            usersDb.createStudent(thirdStudent);
+        });
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);
 
-        List<Student> actualStudents = usersDb.getStudentsForSection(firstSection.getName(), course.getId());
+        List<Student> actualStudents = inTransaction(() -> usersDb.getStudentsForSection(
+                firstSection.getName(), course.getId()));
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));
@@ -231,37 +245,42 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetStudentsForTeam() {
         ______TS("success: typical case");
         Section firstSection = new Section("section-name1");
-        coursesDb.createSection(firstSection);
-        course.addSection(firstSection);
         Team firstTeam = new Team("team-name1");
-        coursesDb.createTeam(firstTeam);
-        firstSection.addTeam(firstTeam);
 
         Section secondSection = new Section("section-name2");
-        coursesDb.createSection(secondSection);
-        course.addSection(secondSection);
         Team secondTeam = new Team("team-name2");
-        coursesDb.createTeam(secondTeam);
-        secondSection.addTeam(secondTeam);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
         firstStudent.setTeam(firstTeam);
-        usersDb.createStudent(firstStudent);
 
         Student secondStudent = getTypicalStudent();
         secondStudent.setEmail("valid-student-2@email.tmt");
         secondStudent.setTeam(firstTeam);
-        usersDb.createStudent(secondStudent);
 
         Student thirdStudent = getTypicalStudent();
         thirdStudent.setEmail("valid-student-3@email.tmt");
         thirdStudent.setTeam(secondTeam);
-        usersDb.createStudent(thirdStudent);
+        inTransaction(() -> {
+            coursesDb.createSection(firstSection);
+            course.addSection(firstSection);
+            coursesDb.createTeam(firstTeam);
+            firstSection.addTeam(firstTeam);
+
+            coursesDb.createSection(secondSection);
+            course.addSection(secondSection);
+            coursesDb.createTeam(secondTeam);
+            secondSection.addTeam(secondTeam);
+
+            usersDb.createStudent(firstStudent);
+            usersDb.createStudent(secondStudent);
+            usersDb.createStudent(thirdStudent);
+        });
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);
 
-        List<Student> actualStudents = usersDb.getStudentsForTeam(firstTeam.getName(), course.getId());
+        List<Student> actualStudents = inTransaction(() -> usersDb.getStudentsForTeam(
+                firstTeam.getName(), course.getId()));
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));
@@ -270,29 +289,33 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetStudentsByGoogleId() {
         Course course2 = new Course("course-id-2", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
-        coursesDb.createCourse(course2);
         Section section = new Section("section-name");
-        coursesDb.createSection(section);
-        course2.addSection(section);
         Team team = new Team("team-name");
-        coursesDb.createTeam(team);
-        section.addTeam(team);
 
         Student student2 = getTypicalStudent();
         Account account = new Account(
                 "google-id", Provider.TEAMMATES_DEV, "typicalStudentSubject",
                 "typicalTenantId", student.getName(), student.getEmail());
 
-        team.addUser(student2);
-        accountsDb.persistAccount(account);
-        student.setAccount(account);
-        student2.setAccount(account);
-        student2.setCourse(course2);
-        usersDb.createStudent(student2);
+        inTransaction(() -> {
+            coursesDb.createCourse(course2);
+            coursesDb.createSection(section);
+            course2.addSection(section);
+            coursesDb.createTeam(team);
+            section.addTeam(team);
+
+            team.addUser(student2);
+            accountsDb.persistAccount(account);
+            usersDb.getStudent(student.getId()).setAccount(account);
+            student.setAccount(account);
+            student2.setAccount(account);
+            student2.setCourse(course2);
+            usersDb.createStudent(student2);
+        });
 
         List<Student> expectedStudents = List.of(student, student2);
 
-        List<Student> actualStudents = usersDb.getStudentsByGoogleId(student.getGoogleId());
+        List<Student> actualStudents = inTransaction(() -> usersDb.getStudentsByGoogleId(student.getGoogleId()));
 
         assertEquals(expectedStudents.size(), actualStudents.size());
         assertTrue(expectedStudents.containsAll(actualStudents));

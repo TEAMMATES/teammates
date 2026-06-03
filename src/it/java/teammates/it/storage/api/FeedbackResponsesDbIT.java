@@ -14,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.Course;
@@ -37,13 +36,9 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         testDataBundle = loadDataBundle("/FeedbackResponsesITBundle.json");
     }
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         persistDataBundle(testDataBundle);
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Test
@@ -58,7 +53,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         );
 
         List<FeedbackResponse> actualQuestions =
-                frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
+                inTransaction(() -> frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null));
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
@@ -69,9 +64,9 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: typical case");
         FeedbackResponse fr1 = testDataBundle.feedbackResponses.get("response1ForQ1");
 
-        frDb.deleteFeedbackResponse(fr1);
+        inTransaction(() -> frDb.deleteFeedbackResponse(fr1));
 
-        assertNull(frDb.getFeedbackResponse(fr1.getId()));
+        assertNull(inTransaction(() -> frDb.getFeedbackResponse(fr1.getId())));
     }
 
     @Test
@@ -80,7 +75,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackQuestion fq1 = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
         boolean actualResponse1 =
-                frDb.areThereResponsesForQuestion(fq1.getId());
+                inTransaction(() -> frDb.areThereResponsesForQuestion(fq1.getId()));
 
         assertTrue(actualResponse1);
 
@@ -88,7 +83,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackQuestion fq2 = testDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
 
         boolean actualResponse2 =
-                frDb.areThereResponsesForQuestion(fq2.getId());
+                inTransaction(() -> frDb.areThereResponsesForQuestion(fq2.getId()));
 
         assertFalse(actualResponse2);
     }
@@ -99,7 +94,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         Course course = testDataBundle.courses.get("course1");
 
         boolean actual =
-                frDb.hasResponsesForCourse(course.getId());
+                inTransaction(() -> frDb.hasResponsesForCourse(course.getId()));
 
         assertTrue(actual);
     }
@@ -109,13 +104,14 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("Question not found");
         Student recipient = testDataBundle.students.get("student1InCourse1");
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
-        List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(
-                nonexistentQuestionId, recipient.getId(), null);
+        List<FeedbackResponse> results = inTransaction(() -> frDb.getFeedbackResponsesForRecipientForQuestion(
+                nonexistentQuestionId, recipient.getId(), null));
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
         FeedbackQuestion questionWithNoResponses = testDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
-        results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient.getId(), null);
+        results = inTransaction(() -> frDb.getFeedbackResponsesForRecipientForQuestion(
+                questionWithNoResponses.getId(), recipient.getId(), null));
         assertEquals(0, results.size());
 
     }
@@ -128,8 +124,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         List<FeedbackResponse> expected = List.of(
                 testDataBundle.feedbackResponses.get("response2ForQ1")
         );
-        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(
-                question.getId(), recipient.getId(), null);
+        List<FeedbackResponse> actual = inTransaction(() -> frDb.getFeedbackResponsesForRecipientForQuestion(
+                question.getId(), recipient.getId(), null));
         assertListResponsesEqual(expected, actual);
 
     }
@@ -148,14 +144,15 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
                 testDataBundle.feedbackResponses.get("response3ForQ2"),
                 testDataBundle.feedbackResponses.get("response4ForQ1")
         );
-        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSession(sessionWithResponses,
-                sessionWithResponses.getCourseId());
+        List<FeedbackResponse> actual = inTransaction(() -> frDb.getFeedbackResponsesForSession(sessionWithResponses,
+                sessionWithResponses.getCourseId()));
         assertListResponsesEqual(expected, actual);
 
         ______TS("Session has no responses");
         FeedbackSession sessionWithoutResponses = testDataBundle.feedbackSessions.get(
                 "unpublishedSession1InTypicalCourse");
-        actual = frDb.getFeedbackResponsesForSession(sessionWithoutResponses, sessionWithResponses.getCourseId());
+        actual = inTransaction(() -> frDb.getFeedbackResponsesForSession(
+                sessionWithoutResponses, sessionWithResponses.getCourseId()));
         assertEquals(0, actual.size());
     }
 

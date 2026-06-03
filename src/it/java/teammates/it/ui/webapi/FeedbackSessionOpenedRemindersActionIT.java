@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,7 +18,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.TaskWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -33,12 +33,9 @@ import teammates.ui.webapi.JsonResult;
 public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<FeedbackSessionOpenedRemindersAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
         prepareSession();
     }
 
@@ -52,13 +49,14 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
                 "qn5InSession1InCourse1",
                 "qn6InSession1InCourse1NoResponses",
         };
-        Set<FeedbackQuestion> qns = new HashSet<>();
-        for (String fqKey : fqKeys) {
-            qns.add(typicalBundle.feedbackQuestions.get(fqKey));
-        }
-
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setFeedbackQuestions(qns);
+        inTransaction(() -> {
+            Set<FeedbackQuestion> qns = new HashSet<>();
+            for (String fqKey : fqKeys) {
+                qns.add(logic.getFeedbackQuestion(typicalBundle.feedbackQuestions.get(fqKey).getId()));
+            }
+            logic.getFeedbackSession(typicalBundle.feedbackSessions.get("session1InCourse1").getId())
+                    .setFeedbackQuestions(qns);
+        });
     }
 
     @Override
@@ -101,18 +99,19 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenedEmailSent(false);
-        session.setStartTime(now.minusSeconds(thirtyMin));
-        session.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpenedEmailSent(false);
+            s.setStartTime(now.minusSeconds(thirtyMin));
+            s.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isOpenedEmailSent());
+        assertTrue(isOpenedEmailSent(session));
 
         // # of email to send =
         //    # emails sent to instructorsToNotify (ie co-owner), 1 +
@@ -137,18 +136,19 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenedEmailSent(true);
-        session.setStartTime(now.minusSeconds(thirtyMin));
-        session.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpenedEmailSent(true);
+            s.setStartTime(now.minusSeconds(thirtyMin));
+            s.setSessionVisibleFromTime(now.minusSeconds(thirtyMin));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isOpenedEmailSent());
+        assertTrue(isOpenedEmailSent(session));
 
         verifyNoTasksAdded();
     }
@@ -158,18 +158,19 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenedEmailSent(false);
-        session.setStartTime(now.plusSeconds(thirtyMin * 2));
-        session.setSessionVisibleFromTime(now.plusSeconds(thirtyMin));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpenedEmailSent(false);
+            s.setStartTime(now.plusSeconds(thirtyMin * 2));
+            s.setSessionVisibleFromTime(now.plusSeconds(thirtyMin));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertFalse(session.isOpenedEmailSent());
+        assertFalse(isOpenedEmailSent(session));
 
         verifyNoTasksAdded();
     }
@@ -179,20 +180,34 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpenedEmailSent(false);
-        session.setStartTime(now.plusSeconds(oneDay));
-        session.setEndTime(now.plusSeconds(oneDay * 3));
-        session.setSessionVisibleFromTime(now.minusSeconds(oneDay * 3));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpenedEmailSent(false);
+            s.setStartTime(now.plusSeconds(oneDay));
+            s.setEndTime(now.plusSeconds(oneDay * 3));
+            s.setSessionVisibleFromTime(now.minusSeconds(oneDay * 3));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         FeedbackSessionOpenedRemindersAction action1 = getAction();
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertFalse(session.isOpenedEmailSent());
+        assertFalse(isOpenedEmailSent(session));
 
         verifyNoTasksAdded();
+    }
+
+    private FeedbackSession updateSession(Consumer<FeedbackSession> updater) {
+        return inTransaction(() -> {
+            FeedbackSession session = logic.getFeedbackSession(
+                    typicalBundle.feedbackSessions.get("session1InCourse1").getId());
+            updater.accept(session);
+            return session;
+        });
+    }
+
+    private boolean isOpenedEmailSent(FeedbackSession session) {
+        return inTransaction(() -> logic.getFeedbackSession(session.getId()).isOpenedEmailSent());
     }
 }

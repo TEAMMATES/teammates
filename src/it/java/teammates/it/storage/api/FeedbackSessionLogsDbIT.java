@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.FeedbackSessionLogsDb;
 import teammates.storage.entity.Course;
@@ -29,12 +28,9 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Test
@@ -47,10 +43,10 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSessionLog expected = new FeedbackSessionLog(student, feedbackSession, FeedbackSessionLogType.ACCESS,
                 logTimestamp);
 
-        fslDb.createFeedbackSessionLog(expected);
+        inTransaction(() -> fslDb.createFeedbackSessionLog(expected));
 
-        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
-                feedbackSession.getId(), logTimestamp, logTimestamp.plusSeconds(1));
+        List<FeedbackSessionLog> actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), student.getId(), feedbackSession.getId(), logTimestamp, logTimestamp.plusSeconds(1)));
 
         assertEquals(actualLogs.size(), 1);
         assertEquals(expected, actualLogs.get(0));
@@ -79,8 +75,8 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
                 student2Session1Log2
         );
 
-        List<FeedbackSessionLog> actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null,
-                startTime, endTime);
+        List<FeedbackSessionLog> actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), null, null, startTime, endTime));
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -90,7 +86,8 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
                 student1Session2Log1,
                 student1Session2Log2);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), null, startTime, endTime);
+        actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), student1.getId(), null, startTime, endTime));
 
         assertEquals(expectedLogs, actualLogs);
 
@@ -100,23 +97,24 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
                 student2Session1Log1,
                 student2Session1Log2);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getId(), startTime, endTime);
+        actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), null, fs1.getId(), startTime, endTime));
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a feedback session in time range");
         expectedLogs = List.of(student1Session1Log1);
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), fs1.getId(), startTime,
-                endTime);
+        actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), student1.getId(), fs1.getId(), startTime, endTime));
 
         assertEquals(expectedLogs, actualLogs);
 
         ______TS("No logs in time range, return empty list");
         expectedLogs = new ArrayList<>();
 
-        actualLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null, endTime.plusSeconds(3600),
-                endTime.plusSeconds(7200));
+        actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), null, null, endTime.plusSeconds(3600), endTime.plusSeconds(7200)));
 
         assertEquals(expectedLogs, actualLogs);
     }
@@ -126,12 +124,11 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
         Course course = typicalDataBundle.courses.get("course1");
         Instant cutoffTime = Instant.parse("2012-01-01T14:30:00Z");
 
-        int deletedCount = fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime);
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
+        int deletedCount = inTransaction(() -> fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime));
 
-        List<FeedbackSessionLog> remainingLogs = fslDb.getOrderedFeedbackSessionLogs(course.getId(), null, null,
-                Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2012-01-02T00:00:00Z"));
+        List<FeedbackSessionLog> remainingLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
+                course.getId(), null, null,
+                Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2012-01-02T00:00:00Z")));
 
         assertEquals(deletedCount, 7);
         assertEquals(remainingLogs.size(), 0);

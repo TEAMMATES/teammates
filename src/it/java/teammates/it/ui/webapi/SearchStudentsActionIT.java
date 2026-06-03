@@ -9,7 +9,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -26,14 +25,11 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     private Student student1InCourse1;
     private Instructor instructor1OfCourse1;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        HibernateUtil.flushSession();
     }
 
     @Override

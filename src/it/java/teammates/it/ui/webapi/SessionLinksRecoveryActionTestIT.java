@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
@@ -31,12 +30,9 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
         return POST;
     }
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Test

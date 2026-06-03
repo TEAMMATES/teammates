@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.DeleteStudentAction;
 public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -59,7 +55,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         DeleteStudentAction deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNull(logic.getStudent(student1InCourse1.getId()));
+        assertNull(inTransaction(() -> logic.getStudent(student1InCourse1.getId())));
 
         ______TS("Typical Success Case delete another student by user id");
         params = new String[] {
@@ -69,7 +65,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNull(logic.getStudent(student2InCourse1.getId()));
+        assertNull(inTransaction(() -> logic.getStudent(student2InCourse1.getId())));
 
         ______TS("Student does not exist, access control fails");
         UUID nonExistentStudentId = UUID.randomUUID();
@@ -78,7 +74,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         };
 
         verifyEntityNotFoundAcl(params);
-        assertNotNull(logic.getStudent(student3InCourse1.getId()));
+        assertNotNull(inTransaction(() -> logic.getStudent(student3InCourse1.getId())));
 
         ______TS("Incomplete params given");
         verifyHttpParameterFailure();

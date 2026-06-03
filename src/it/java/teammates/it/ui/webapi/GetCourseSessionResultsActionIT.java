@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -31,14 +30,10 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         return GET;
     }
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Override
@@ -56,8 +51,8 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         JsonResult result = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) result.getOutput();
 
-        SessionResultsData expected = SessionResultsData.init(logic.getSessionResults(
-                feedbackSession, instructor, null, null));
+        SessionResultsData expected = inTransaction(() -> SessionResultsData.init(logic.getSessionResults(
+                feedbackSession, instructor, null, null)));
 
         assertEquals(expected.getQuestions().size(), output.getQuestions().size());
     }

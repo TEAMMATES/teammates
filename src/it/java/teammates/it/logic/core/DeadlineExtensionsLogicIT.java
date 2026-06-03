@@ -8,7 +8,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.storage.entity.FeedbackSession;
@@ -22,13 +21,9 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     private DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Test
@@ -37,7 +32,8 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student student = typicalDataBundle.students.get("student1InCourse1");
 
         assert student != null;
-        Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
+        Instant extendedDeadlineForStudent =
+                inTransaction(() -> deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student));
 
         assertEquals(Instant.parse("2028-04-30T23:00:00Z"), extendedDeadlineForStudent);
     }
@@ -46,7 +42,8 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetDeadlineForUser_extensionDoesNotExist_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student2InCourse1");
-        Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
+        Instant extendedDeadlineForStudent =
+                inTransaction(() -> deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student));
 
         assertEquals(feedbackSession.getEndTime(), extendedDeadlineForStudent);
     }

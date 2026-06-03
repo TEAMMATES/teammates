@@ -24,8 +24,8 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetUsageStatisticsForTimeRange() {
         ______TS("returns empty array for no usageStatistics in time range");
         Instant startTime = Instant.parse("2010-01-01T00:00:00Z");
-        List<UsageStatistics> actualUsageStatistics = usageStatisticsDb.getUsageStatisticsForTimeRange(
-                startTime, startTime.plus(1, ChronoUnit.DAYS));
+        List<UsageStatistics> actualUsageStatistics = inTransaction(() -> usageStatisticsDb
+                .getUsageStatisticsForTimeRange(startTime, startTime.plus(1, ChronoUnit.DAYS)));
 
         assertEquals(actualUsageStatistics.size(), 0);
 
@@ -38,15 +38,17 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
         UsageStatistics usageStatisticsTwo = new UsageStatistics(
                 startTimeTwo, 1, 0, 0, 0, 0, 0, 0, 0);
 
-        usageStatisticsDb.createUsageStatistics(usageStatisticsOne);
-        usageStatisticsDb.createUsageStatistics(usageStatisticsTwo);
+        inTransaction(() -> {
+            usageStatisticsDb.createUsageStatistics(usageStatisticsOne);
+            usageStatisticsDb.createUsageStatistics(usageStatisticsTwo);
+        });
 
-        List<UsageStatistics> actulUsageStatisticsOne = usageStatisticsDb.getUsageStatisticsForTimeRange(
-                startTimeOne, startTimeOne.plus(1, ChronoUnit.DAYS));
+        List<UsageStatistics> actulUsageStatisticsOne = inTransaction(() -> usageStatisticsDb
+                .getUsageStatisticsForTimeRange(startTimeOne, startTimeOne.plus(1, ChronoUnit.DAYS)));
         assertEquals(actulUsageStatisticsOne.size(), 1);
 
-        List<UsageStatistics> actulUsageStatisticsTwo = usageStatisticsDb.getUsageStatisticsForTimeRange(
-                startTimeOne, startTimeOne.plus(2, ChronoUnit.DAYS));
+        List<UsageStatistics> actulUsageStatisticsTwo = inTransaction(() -> usageStatisticsDb
+                .getUsageStatisticsForTimeRange(startTimeOne, startTimeOne.plus(2, ChronoUnit.DAYS)));
         assertEquals(actulUsageStatisticsTwo.size(), 2);
     }
 
@@ -57,12 +59,12 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
         UsageStatistics newUsageStatistics = new UsageStatistics(
                 startTime, 1, 0, 0, 0, 0, 0, 0, 0);
 
-        usageStatisticsDb.createUsageStatistics(newUsageStatistics);
+        inTransaction(() -> usageStatisticsDb.createUsageStatistics(newUsageStatistics));
 
-        List<UsageStatistics> actualUsageStatistics = usageStatisticsDb.getUsageStatisticsForTimeRange(
-                startTime, startTime.plus(1, ChronoUnit.SECONDS));
+        List<UsageStatistics> actualUsageStatistics = inTransaction(() -> usageStatisticsDb
+                .getUsageStatisticsForTimeRange(startTime, startTime.plus(1, ChronoUnit.SECONDS)));
 
         assertNotEquals(actualUsageStatistics.size(), 0);
-        verifyEquals(newUsageStatistics, actualUsageStatistics.get(0));
+        assertEquals(newUsageStatistics, actualUsageStatistics.get(0));
     }
 }

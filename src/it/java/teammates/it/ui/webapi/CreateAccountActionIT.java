@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,7 +16,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
@@ -31,12 +31,9 @@ import teammates.ui.webapi.CreateAccountAction;
 public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -74,7 +71,8 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         ______TS("Normal case with valid timezone");
         String timezone = "Asia/Singapore";
-        AccountRequest accountRequest = logic.getAccountRequest(accReq.getId());
+        final UUID firstAccReqId = accReq.getId();
+        AccountRequest accountRequest = inTransaction(() -> logic.getAccountRequest(firstAccReqId));
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
@@ -85,14 +83,16 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
-        Course course = logic.getCourse(courseId);
+        final String firstCourseId = courseId;
+        Course course = inTransaction(() -> logic.getCourse(firstCourseId));
         assertNotNull(course);
         assertEquals("Sample Course 101", course.getName());
         assertEquals(institute, course.getInstitute());
         assertEquals(timezone, course.getTimeZone());
 
         ZoneId zoneId = ZoneId.of(timezone);
-        List<FeedbackSession> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSession> feedbackSessionsList =
+                inTransaction(() -> logic.getFeedbackSessionsForCourse(firstCourseId));
         for (FeedbackSession feedbackSession : feedbackSessionsList) {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
             LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
@@ -101,7 +101,8 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
-        Instructor instructor = logic.getInstructorForEmail(courseId, email);
+        final String firstEmail = email;
+        Instructor instructor = inTransaction(() -> logic.getInstructorForEmail(firstCourseId, firstEmail));
         assertEquals(email, instructor.getEmail());
         assertEquals(name, instructor.getName());
 
@@ -114,7 +115,8 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
         email = accReq.getEmail();
         timezone = "InvalidTimezone";
 
-        accountRequest = logic.getAccountRequest(accReq.getId());
+        final UUID secondAccReqId = accReq.getId();
+        accountRequest = inTransaction(() -> logic.getAccountRequest(secondAccReqId));
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
@@ -126,10 +128,11 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
         getJsonResult(a);
 
         courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
-        course = logic.getCourse(courseId);
+        final String secondCourseId = courseId;
+        course = inTransaction(() -> logic.getCourse(secondCourseId));
         assertEquals(Const.DEFAULT_TIME_ZONE, course.getTimeZone());
 
-        feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
+        feedbackSessionsList = inTransaction(() -> logic.getFeedbackSessionsForCourse(secondCourseId));
         zoneId = ZoneId.of(Const.DEFAULT_TIME_ZONE);
         for (FeedbackSession feedbackSession : feedbackSessionsList) {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);

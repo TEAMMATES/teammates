@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,7 +16,6 @@ import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -32,12 +32,9 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQuestionAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -55,7 +52,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
     protected void testExecute() throws Exception {
         Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackQuestion typicalQuestion = logic.getFeedbackQuestion(fq1.getId());
+        FeedbackQuestion typicalQuestion = inTransaction(() -> logic.getFeedbackQuestion(fq1.getId()));
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
@@ -76,7 +73,8 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
 
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
-        typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
+        UUID typicalQuestionId = typicalQuestion.getId();
+        typicalQuestion = inTransaction(() -> logic.getFeedbackQuestion(typicalQuestionId));
         assertEquals(typicalQuestion.getQuestionNumber().intValue(), response.getQuestionNumber());
         assertEquals(2, typicalQuestion.getQuestionNumber().intValue());
 
@@ -120,8 +118,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSession fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        FeedbackQuestion typicalQuestion =
-                logic.getFeedbackQuestion(fq1.getId());
+        FeedbackQuestion typicalQuestion = inTransaction(() -> logic.getFeedbackQuestion(fq1.getId()));
 
         ______TS("non-existent feedback question");
 

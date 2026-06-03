@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -36,14 +35,10 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         return GET;
     }
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Override
@@ -62,9 +57,9 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         JsonResult result = getJsonResult(action);
 
         SessionResultsData output = (SessionResultsData) result.getOutput();
-        SessionResultsData expectedResults = SessionResultsData.initForUser(
+        SessionResultsData expectedResults = inTransaction(() -> SessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession, instructor, false),
-                instructor);
+                instructor));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
@@ -80,9 +75,9 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         result = getJsonResult(action);
 
         output = (SessionResultsData) result.getOutput();
-        expectedResults = SessionResultsData.initForUser(
+        expectedResults = inTransaction(() -> SessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession, student, false),
-                student);
+                student));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }

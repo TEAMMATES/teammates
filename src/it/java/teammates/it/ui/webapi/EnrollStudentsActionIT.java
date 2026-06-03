@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -30,12 +29,9 @@ import teammates.ui.webapi.JsonResult;
 public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -68,7 +64,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        List<Student> students = new ArrayList<>(logic.getStudentsForCourse(courseId));
+        List<Student> students = inTransaction(() -> new ArrayList<>(logic.getStudentsForCourse(courseId)));
         assertEquals(5, students.size());
 
         ______TS("Typical Success Case For Enrolling a Student");
@@ -78,7 +74,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         JsonResult res = getJsonResult(enrollStudentsAction);
         EnrollStudentsData data = (EnrollStudentsData) res.getOutput();
         assertEquals(1, data.getStudentsData().getStudents().size());
-        List<Student> studentsInCourse = logic.getStudentsForCourse(courseId);
+        List<Student> studentsInCourse = inTransaction(() -> logic.getStudentsForCourse(courseId));
         assertEquals(6, studentsInCourse.size());
 
         ______TS("Typical Success Case For Changing Details of a Student");
@@ -94,7 +90,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         res = getJsonResult(enrollStudentsAction);
         data = (EnrollStudentsData) res.getOutput();
         assertEquals(1, data.getStudentsData().getStudents().size());
-        studentsInCourse = logic.getStudentsForCourse(courseId);
+        studentsInCourse = inTransaction(() -> logic.getStudentsForCourse(courseId));
         assertEquals(6, studentsInCourse.size());
 
         ______TS("Fail to enroll due to duplicate team name across sections");

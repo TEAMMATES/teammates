@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -15,7 +16,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.TaskWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -30,12 +30,9 @@ import teammates.ui.webapi.JsonResult;
 public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<FeedbackSessionOpeningSoonRemindersAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -75,11 +72,12 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpeningSoonEmailSent(false);
-        session.setStartTime(now.plusSeconds(oneDay));
-        session.setEndTime(now.plusSeconds(oneDay * 3));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpeningSoonEmailSent(false);
+            s.setStartTime(now.plusSeconds(oneDay));
+            s.setEndTime(now.plusSeconds(oneDay * 3));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         String[] params = {};
 
@@ -88,7 +86,7 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isOpeningSoonEmailSent());
+        assertTrue(isOpeningSoonEmailSent(session));
 
         // Notify only co-owner (1 instructor only for session1InCourse1)
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
@@ -112,11 +110,12 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpeningSoonEmailSent(true);
-        session.setStartTime(now.plusSeconds(oneDay));
-        session.setEndTime(now.plusSeconds(oneDay * 3));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpeningSoonEmailSent(true);
+            s.setStartTime(now.plusSeconds(oneDay));
+            s.setEndTime(now.plusSeconds(oneDay * 3));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         String[] params = {};
 
@@ -125,7 +124,7 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
         assertEquals("Successful", response.getMessage());
-        assertTrue(session.isOpeningSoonEmailSent());
+        assertTrue(isOpeningSoonEmailSent(session));
 
         verifyNoTasksAdded();
     }
@@ -135,11 +134,12 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         Instant now = Instant.now();
         Duration noGracePeriod = Duration.between(now, now);
 
-        FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
-        session.setOpeningSoonEmailSent(false);
-        session.setStartTime(now.plusSeconds(oneDay + 60));
-        session.setEndTime(now.plusSeconds(oneDay * 3));
-        session.setGracePeriod(noGracePeriod);
+        FeedbackSession session = updateSession(s -> {
+            s.setOpeningSoonEmailSent(false);
+            s.setStartTime(now.plusSeconds(oneDay + 60));
+            s.setEndTime(now.plusSeconds(oneDay * 3));
+            s.setGracePeriod(noGracePeriod);
+        });
 
         String[] params = {};
 
@@ -148,8 +148,21 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
         assertEquals("Successful", response.getMessage());
-        assertFalse(session.isOpeningSoonEmailSent());
+        assertFalse(isOpeningSoonEmailSent(session));
 
         verifyNoTasksAdded();
+    }
+
+    private FeedbackSession updateSession(Consumer<FeedbackSession> updater) {
+        return inTransaction(() -> {
+            FeedbackSession session = logic.getFeedbackSession(
+                    typicalBundle.feedbackSessions.get("session1InCourse1").getId());
+            updater.accept(session);
+            return session;
+        });
+    }
+
+    private boolean isOpeningSoonEmailSent(FeedbackSession session) {
+        return inTransaction(() -> logic.getFeedbackSession(session.getId()).isOpeningSoonEmailSent());
     }
 }

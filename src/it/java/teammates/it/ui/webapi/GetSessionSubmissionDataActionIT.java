@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -32,14 +31,10 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
 
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Override
@@ -147,9 +142,11 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
     }
 
     private boolean canInstructorSee(UUID questionId) {
-        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(questionId);
-        return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
-                && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
-                && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+        return inTransaction(() -> {
+            FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(questionId);
+            return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
+                    && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
+                    && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+        });
     }
 }

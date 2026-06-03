@@ -29,11 +29,11 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: create notification that does not exist");
         Notification newNotification = generateTypicalNotification();
 
-        notificationsDb.createNotification(newNotification);
+        inTransaction(() -> notificationsDb.createNotification(newNotification));
 
         UUID notificationId = newNotification.getId();
-        Notification actualNotification = notificationsDb.getNotification(notificationId);
-        verifyEquals(newNotification, actualNotification);
+        Notification actualNotification = inTransaction(() -> notificationsDb.getNotification(notificationId));
+        assertEquals(newNotification, actualNotification);
     }
 
     @Test
@@ -41,15 +41,15 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: get a notification that already exists");
         Notification newNotification = generateTypicalNotification();
 
-        notificationsDb.createNotification(newNotification);
+        inTransaction(() -> notificationsDb.createNotification(newNotification));
 
         UUID notificationId = newNotification.getId();
-        Notification actualNotification = notificationsDb.getNotification(notificationId);
-        verifyEquals(newNotification, actualNotification);
+        Notification actualNotification = inTransaction(() -> notificationsDb.getNotification(notificationId));
+        assertEquals(newNotification, actualNotification);
 
         ______TS("success: get a notification that does not exist");
         UUID nonExistentId = generateDifferentUuid(notificationId);
-        Notification nonExistentNotification = notificationsDb.getNotification(nonExistentId);
+        Notification nonExistentNotification = inTransaction(() -> notificationsDb.getNotification(nonExistentId));
         assertNull(nonExistentNotification);
     }
 
@@ -58,12 +58,12 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: delete a notification that already exists");
         Notification notification = generateTypicalNotification();
 
-        notificationsDb.createNotification(notification);
+        inTransaction(() -> notificationsDb.createNotification(notification));
         UUID notificationId = notification.getId();
-        assertNotNull(notificationsDb.getNotification(notificationId));
+        assertNotNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
 
-        notificationsDb.deleteNotification(notification);
-        assertNull(notificationsDb.getNotification(notificationId));
+        inTransaction(() -> notificationsDb.deleteNotification(notification));
+        assertNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
     }
 
     @Test
@@ -112,38 +112,41 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
                 "<p>message 6</p>");
 
         List<Notification> allNotifications = List.of(n1, n2, n3, n4, n5, n6);
-        for (Notification n : allNotifications) {
-            notificationsDb.createNotification(n);
-        }
+        inTransaction(() -> {
+            for (Notification n : allNotifications) {
+                notificationsDb.createNotification(n);
+            }
+        });
 
         ______TS("success: get active notifications with target user GENERAL");
         List<Notification> actualNotifications =
-                notificationsDb.getNotificationsByTargetUsers(List.of(NotificationTargetUser.GENERAL), true);
+                inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
+                        List.of(NotificationTargetUser.GENERAL), true));
         List<Notification> expectedNotifications = List.of(n4, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it1 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
-            verifyEquals(it1.next(), actual);
+            assertEquals(it1.next(), actual);
         });
 
         ______TS("success: get active notifications with target users INSTRUCTOR and GENERAL");
-        actualNotifications = notificationsDb.getNotificationsByTargetUsers(
-                List.of(NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL), true);
+        actualNotifications = inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR, NotificationTargetUser.GENERAL), true));
         expectedNotifications = List.of(n4, n2, n1);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it2 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
-            verifyEquals(it2.next(), actual);
+            assertEquals(it2.next(), actual);
         });
 
         ______TS("success: get active notifications with target user INSTRUCTOR only");
-        actualNotifications = notificationsDb.getNotificationsByTargetUsers(
-                List.of(NotificationTargetUser.INSTRUCTOR), true);
+        actualNotifications = inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
+                List.of(NotificationTargetUser.INSTRUCTOR), true));
         expectedNotifications = List.of(n2);
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it3 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
-            verifyEquals(it3.next(), actual);
+            assertEquals(it3.next(), actual);
         });
     }
 
