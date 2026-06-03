@@ -49,8 +49,10 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student studentInCourse = typicalDataBundle.students.get("student1InCourse1");
 
         String loggedInGoogleId = "AccLogicT.student.id";
-        Account loggedInAccount = new Account(loggedInGoogleId, "Test Student", "acct.student@teammates.tmt");
-        accountsDb.createAccount(loggedInAccount);
+        Account loggedInAccount = getTypicalAccount();
+        loggedInAccount.setGoogleId(loggedInGoogleId);
+        loggedInAccount.setEmail("acct.student@teammates.tmt");
+        accountsDb.persistAccount(loggedInAccount);
 
         ______TS("failure: wrong key");
 
@@ -76,8 +78,10 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: student joined but account already exists");
 
-        Account existingAccount = new Account("existingAccountId", "accountName", student3YetToJoinCourse.getEmail());
-        accountsDb.createAccount(existingAccount);
+        Account existingAccount = getTypicalAccount();
+        existingAccount.setGoogleId("existingAccountId");
+        existingAccount.setEmail(student3YetToJoinCourse.getEmail());
+        accountsDb.persistAccount(existingAccount);
 
         accountsLogic.joinCourse(student3YetToJoinCourse.getRegKey(), existingAccount);
 
@@ -98,8 +102,10 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");
 
         String loggedInGoogleId = "AccLogicT.instr.id";
-        Account loggedInAccount = new Account(loggedInGoogleId, "Test Instructor", "acct.instr@teammates.tmt");
-        accountsDb.createAccount(loggedInAccount);
+        Account loggedInAccount = getTypicalAccount();
+        loggedInAccount.setGoogleId(loggedInGoogleId);
+        loggedInAccount.setEmail("acct.instr@teammates.tmt");
+        accountsDb.persistAccount(loggedInAccount);
 
         String[] key = new String[] {
                 getRegKeyForInstructor(instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()),
@@ -124,8 +130,11 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: instructor joined but account already exists");
 
-        Account existingAccount = new Account("existingAccountId", "accountName", instructor3YetToJoinCourse.getEmail());
-        accountsDb.createAccount(existingAccount);
+        String existingAccountId = "existingAccountId";
+        Account existingAccount = getTypicalAccount();
+        existingAccount.setGoogleId(existingAccountId);
+        existingAccount.setEmail(instructor3YetToJoinCourse.getEmail());
+        accountsDb.persistAccount(existingAccount);
 
         accountsLogic.joinCourse(key[1], existingAccount);
 
@@ -141,8 +150,11 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("failure: key belongs to a different user");
 
-        Account otherAccount = new Account("otherUserId", "Other User", "other@teammates.tmt");
-        accountsDb.createAccount(otherAccount);
+        Account otherAccount = getTypicalAccount();
+        otherAccount.setGoogleId("otherUserId");
+        otherAccount.setEmail("other@teammates.tmt");
+        accountsDb.persistAccount(otherAccount);
+
         eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(key[0], otherAccount));
         assertEquals("User has already joined course", eaee.getMessage());

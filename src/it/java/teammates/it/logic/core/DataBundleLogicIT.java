@@ -19,6 +19,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -80,7 +81,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify accounts deserialized correctly");
 
         Account actualInstructorAccount = dataBundle.accounts.get("instructor1");
-        Account expectedInstructorAccount = new Account("idOfInstructor1", "Instructor 1", "instr1@teammates.tmt");
+        Account expectedInstructorAccount = new Account(
+                "idOfInstructor1", Provider.TEAMMATES_DEV, "idOfInstructor1", null,
+                "Instructor 1", "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
         verifyEquals(expectedInstructorAccount, actualInstructorAccount);
         assertEquals(1, actualInstructorAccount.getReadNotifications().size());
@@ -88,7 +91,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 .containsAll(actualInstructorAccount.getReadNotifications()));
 
         Account actualStudentAccount = dataBundle.accounts.get("student1");
-        Account expectedStudentAccount = new Account("idOfStudent1", "Student 1", "student1@teammates.tmt");
+        Account expectedStudentAccount = new Account(
+                "idOfStudent1", Provider.TEAMMATES_DEV, "idOfStudent1", null,
+                "Student 1", "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
         verifyEquals(expectedStudentAccount, actualStudentAccount);
         assertEquals(1, actualStudentAccount.getReadNotifications().size());

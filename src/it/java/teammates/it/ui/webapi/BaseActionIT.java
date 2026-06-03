@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -235,10 +236,13 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     }
 
     private void ensureAccountExists(String googleId) {
+        // TODO: Get account should be by issuer and subject.
         if (logic.getAccountForGoogleId(googleId) == null) {
             String email = googleId.contains("@") ? googleId : googleId + "@example.com";
+            String subject = googleId;
+            String tenantId = "tenant-id";
             try {
-                logic.createAccount(new Account(googleId, "Test User", email));
+                logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
@@ -749,8 +753,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                     InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
             logic.createInstructor(instructor);
 
-            Account account = new Account(email, "account", email);
-            logic.createAccount(account);
+            String googleId = email;
+            String subject = email;
+            String tenantId = "tenant-id";
+            Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
             instructor.setAccount(account);
         }
         return instructor;
@@ -779,8 +785,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             student = logic.createStudent(course, team, "student-name", email, "");
 
-            Account account = new Account(email, "account", email);
-            logic.createAccount(account);
+            String googleId = email;
+            String subject = email;
+            String tenantId = "tenant-id";
+            Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
             student.setAccount(account);
         }
         return student;

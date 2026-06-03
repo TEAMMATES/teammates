@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
@@ -52,15 +53,19 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         coursesDb.createTeam(team);
         section.addTeam(team);
 
-        Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
-        accountsDb.createAccount(instructorAccount);
+        Account instructorAccount = new Account(
+                "instructor-account", Provider.TEAMMATES_DEV, "validInstructorSubject",
+                "typicalTenantId", "instructor-name", "valid-instructor@email.tmt");
+        accountsDb.persistAccount(instructorAccount);
         instructor = getTypicalInstructor();
         instructor.setCourse(course);
         usersDb.createInstructor(instructor);
         instructor.setAccount(instructorAccount);
 
-        Account studentAccount = new Account("student-account", "student-name", "valid-student@email.tmt");
-        accountsDb.createAccount(studentAccount);
+        Account studentAccount = new Account(
+                "student-account", Provider.TEAMMATES_DEV, "validStudentSubject",
+                "typicalTenantId", "student-name", "valid-student@email.tmt");
+        accountsDb.persistAccount(studentAccount);
         student = getTypicalStudent();
         student.setCourse(course);
         student.setTeam(team);
@@ -130,8 +135,10 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetAllUsersByGoogleId() {
         ______TS("success: gets all instructors and students by googleId");
-        Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
-        accountsDb.createAccount(userSharedAccount);
+        Account userSharedAccount = new Account(
+                "user-account", Provider.TEAMMATES_DEV, "valid-user@email.com",
+                "typicalTenantId", "user-name", "valid-user@email.tmt");
+        accountsDb.persistAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
         firstInstructor.setEmail("valid-instructor-1@email.tmt");
@@ -272,10 +279,12 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         section.addTeam(team);
 
         Student student2 = getTypicalStudent();
-        Account account = new Account("google-id", student.getName(), student.getEmail());
+        Account account = new Account(
+                "google-id", Provider.TEAMMATES_DEV, "typicalStudentSubject",
+                "typicalTenantId", student.getName(), student.getEmail());
 
         team.addUser(student2);
-        accountsDb.createAccount(account);
+        accountsDb.persistAccount(account);
         student.setAccount(account);
         student2.setAccount(account);
         student2.setCourse(course2);
