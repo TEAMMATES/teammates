@@ -146,7 +146,7 @@ export class PageComponent implements OnInit {
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.authService
-      .getAuthUser()
+      .getAuthUser(this.router.url)
       .pipe(
         finalize(() => {
           this.isFetchingAuthDetails = false;
@@ -205,8 +205,8 @@ export class PageComponent implements OnInit {
   }
 
   logout(): void {
-    globalThis.location.href = this.logoutUrl;
     this.authService.clearAuthCache();
+    globalThis.location.href = this.logoutUrl;
   }
 
   get isValidUser(): boolean {

@@ -17,7 +17,9 @@ export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
 
-  readonly authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
+  private authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
+
+  readonly authInfo$ = this.authInfo.asReadonly();
 
   /**
    * Gets the user authentication information.

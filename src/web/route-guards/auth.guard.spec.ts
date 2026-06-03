@@ -18,6 +18,7 @@ describe('AuthGuard', () => {
       providers: [AuthGuard, { provide: AuthService, useValue: spyAuthService }],
     });
     guard = TestBed.inject(AuthGuard);
+    vi.spyOn(guard as any, 'redirectToLogin').mockImplementation(() => {});
   });
 
   it('should return true if user is authenticated', async () => {

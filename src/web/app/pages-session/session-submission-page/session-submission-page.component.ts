@@ -186,7 +186,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           this.isSubmissionFormsDisabled = true;
         }
 
-        const authInfo = this.authService.authInfo();
+        const authInfo = this.authService.authInfo$();
         const isPreviewOrModeration = !!(authInfo.user && (this.moderatedPerson || this.previewAsPerson));
         if (authInfo.user) {
           this.loggedInUser = authInfo.user.id;

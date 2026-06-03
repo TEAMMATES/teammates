@@ -51,7 +51,7 @@ export class UserJoinPageComponent implements OnInit {
         this.entityType = 'instructor';
       }
 
-      const authInfo = this.authService.authInfo();
+      const authInfo = this.authService.authInfo$();
       this.userId = authInfo.user?.id ?? '';
 
       this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({

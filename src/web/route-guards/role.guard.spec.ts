@@ -48,6 +48,7 @@ describe('RoleGuard', () => {
     });
 
     guard = TestBed.inject(RoleGuard);
+    vi.spyOn(guard as any, 'redirectToLogin').mockImplementation(() => false);
   });
 
   describe('canActivate', () => {

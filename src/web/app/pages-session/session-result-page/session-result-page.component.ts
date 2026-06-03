@@ -130,7 +130,7 @@ export class SessionResultPageComponent implements OnInit {
           this.intent = Intent.INSTRUCTOR_RESULT;
         }
 
-        const authInfo = this.authService.authInfo();
+        const authInfo = this.authService.authInfo$();
         const isPreview = !!(authInfo.user && this.previewAsPerson);
         if (authInfo.user) {
           this.loggedInUser = authInfo.user.id;
