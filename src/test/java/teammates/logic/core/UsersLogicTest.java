@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
@@ -98,8 +99,8 @@ public class UsersLogicTest extends BaseTestCase {
 
     @Test
     public void testGetUnregisteredStudentsForCourse_success() {
-        Account registeredAccount = new Account(
-                "valid-google-id", "teammates-dev", "validStudentSubject", "student-name", "valid1-student@email.tmt");
+        Account registeredAccount = new Account("valid-google-id", ProviderType.TEAMMATES_DEV, "validStudentSubject",
+                "validTenantId", "student-name", "valid1-student@email.tmt");
         Student registeredStudent = new Student(course, "reg-student-name", "valid1-student@email.tmt", "comments");
         registeredStudent.setAccount(registeredAccount);
 

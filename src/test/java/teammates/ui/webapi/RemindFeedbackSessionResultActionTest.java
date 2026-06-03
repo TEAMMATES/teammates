@@ -16,6 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
@@ -133,10 +134,10 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
-        String issuer = "teammates-dev";
         String subject = "validStudentSubject";
+        String tenantId = "validTenantId";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, issuer, subject, name, email));
+        s.setAccount(new Account(googleId, ProviderType.TEAMMATES_DEV, subject, tenantId, name, email));
         return s;
     }
 

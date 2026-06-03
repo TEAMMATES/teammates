@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -44,7 +45,7 @@ public class GetUserCookieAction extends Action {
 
         String email = isValidEmail(userId) ? userId : getUniqueFallbackEmail();
         try {
-            Account newAccount = logic.createAccount("teammates-dev", userId, email, userId);
+            Account newAccount = logic.createAccount(ProviderType.TEAMMATES_DEV, userId, "test-tenant", email, userId);
             return newAccount.getId();
         } catch (EntityAlreadyExistsException e) {
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);

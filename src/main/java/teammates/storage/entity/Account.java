@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -17,6 +19,7 @@ import jakarta.persistence.UniqueConstraint;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -26,7 +29,7 @@ import teammates.common.util.SanitizationHelper;
 @Entity
 @Table(name = "Accounts",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UniqueIssuerSubject", columnNames = {"issuer", "subject"}),
+                @UniqueConstraint(name = "UniqueOidc", columnNames = {"provider", "subject", "tenantId"}),
         }
 )
 public class Account extends BaseEntity {
@@ -34,10 +37,14 @@ public class Account extends BaseEntity {
     private UUID id;
 
     @Column(nullable = false)
-    private String issuer;
+    @Enumerated(EnumType.STRING)
+    private ProviderType provider;
 
     @Column(nullable = false)
     private String subject;
+
+    @Column
+    private String tenantId;
 
     @NaturalId
     private String googleId;
@@ -64,11 +71,12 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, String issuer, String subject, String name, String email) {
+    public Account(String googleId, ProviderType provider, String subject, String tenantId, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setGoogleId(googleId);
-        this.setIssuer(issuer);
+        this.setProvider(provider);
         this.setSubject(subject);
+        this.setTenantId(tenantId);
         this.setName(name);
         this.setEmail(email);
     }
@@ -89,12 +97,12 @@ public class Account extends BaseEntity {
         this.id = id;
     }
 
-    public String getIssuer() {
-        return issuer;
+    public ProviderType getProvider() {
+        return provider;
     }
 
-    public void setIssuer(String issuer) {
-        this.issuer = SanitizationHelper.sanitizeIssuer(issuer);
+    public void setProvider(ProviderType provider) {
+        this.provider = provider;
     }
 
     public String getSubject() {
@@ -103,6 +111,14 @@ public class Account extends BaseEntity {
 
     public void setSubject(String subject) {
         this.subject = SanitizationHelper.sanitizeSubject(subject);
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = SanitizationHelper.sanitizeTenantId(tenantId);
     }
 
     public String getGoogleId() {
@@ -160,7 +176,6 @@ public class Account extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcIssuer(issuer), errors);
 
         return errors;
     }

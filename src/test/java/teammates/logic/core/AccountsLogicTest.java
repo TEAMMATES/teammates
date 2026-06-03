@@ -14,6 +14,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.ProviderType;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
@@ -75,12 +76,13 @@ public class AccountsLogicTest extends BaseTestCase {
     public void testCreateOrGetAccountForEmail_accountExists_success() {
         Account account = getTypicalAccount();
         String email = account.getEmail();
-        String issuer = account.getIssuer();
+        ProviderType provider = account.getProvider();
         String subject = account.getSubject();
+        String tenantId = account.getTenantId();
 
         when(accountsDb.getAccountByGoogleId(email)).thenReturn(account);
 
-        Account result = accountsLogic.createOrGetAccount(issuer, subject, email);
+        Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
 
         assertEquals(result, account);
     }
@@ -88,13 +90,14 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
         String email = "nonexistent@example.com";
-        String issuer = "teammates-dev";
+        ProviderType provider = ProviderType.TEAMMATES_DEV;
         String subject = "nonexistentSubject";
+        String tenantId = "nonexistentTenantId";
 
         when(accountsDb.getAccountByGoogleId(email)).thenReturn(null);
         when(accountsDb.persistAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Account result = accountsLogic.createOrGetAccount(issuer, subject, email);
+        Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
 
         verify(accountsDb, times(1)).persistAccount(result);
         assertNotNull(result);

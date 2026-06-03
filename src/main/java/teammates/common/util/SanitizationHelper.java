@@ -89,21 +89,21 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes issuer by removing leading/trailing whitespace.
-     *
-     * @return the sanitized issuer or null (if the parameter was null).
-     */
-    public static String sanitizeIssuer(String rawIssuer) {
-        return StringHelper.trimIfNotNull(rawIssuer);
-    }
-
-    /**
      * Sanitizes subject by removing leading/trailing whitespace.
      *
      * @return the sanitized subject or null (if the parameter was null).
      */
     public static String sanitizeSubject(String rawSubject) {
         return StringHelper.trimIfNotNull(rawSubject);
+    }
+
+    /**
+     * Sanitizes tenant ID by removing leading/trailing whitespace.
+     *
+     * @return the sanitized tenant ID or null (if the parameter was null).
+     */
+    public static String sanitizeTenantId(String rawTenantId) {
+        return StringHelper.trimIfNotNull(rawTenantId);
     }
 
     /**

@@ -228,14 +228,6 @@ public final class Const {
     }
 
     /**
-     * Represents OIDC issuers.
-     */
-    public static class OidcIssuers {
-        public static final String DEVELOPMENT = "teammates-dev";
-        public static final String GOOGLE = "https://accounts.google.com";
-    }
-
-    /**
      * Represents URIs of accessible pages in the front-end.
      */
     public static class WebPageURIs {

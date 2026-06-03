@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissionRoleNames;
 import teammates.storage.entity.Account;
@@ -156,23 +157,26 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
         Course course3 = new Course("test-id3", "test-name3", "UTC", "UCL");
         when(mockLogic.getCourse(course3.getId())).thenReturn(course3);
-        String issuer = "teammates-dev";
+        String tenantId = "validTenantId";
         Account instructor2Account = new Account(
-                        "instructor2", issuer, "instructor2Subject", "instructor2", "test2@test.com");
+                        "instructor2", ProviderType.TEAMMATES_DEV, "instructor2Subject", tenantId,
+                        "instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor2.setAccount(instructor2Account);
         when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
         Account instructor3Account = new Account(
-                        "instructor3", issuer, "instructor3Subject", "instructor3", "test3@test.com");
+                        "instructor3", ProviderType.TEAMMATES_DEV, "instructor3Subject", tenantId,
+                        "instructor3", "test3@test.com");
         Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
         Account instructor4Account = new Account(
-                        "instructor4", issuer, "instructor4Subject", "instructor4", "test4@test.com");
+                        "instructor4", ProviderType.TEAMMATES_DEV, "instructor4Subject", tenantId,
+                        "instructor4", "test4@test.com");
         Instructor instructor4 = new Instructor(course3, "instructor4", "test4@test.com", false, "instructor4",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
@@ -241,16 +245,18 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         when(mockLogic.getCourse(course1.getId())).thenReturn(course1);
         Course course2 = new Course("test-id2", "test-name2", "UTC", "MIT");
         when(mockLogic.getCourse(course2.getId())).thenReturn(course2);
-        String issuer = "teammates-dev";
+        String tenantId = "validTenantId";
         Account instructor2Account = new Account(
-                        "instructor2", issuer, "instructor2Subject", "instructor2", "test2@test.com");
+                        "instructor2", ProviderType.TEAMMATES_DEV, "instructor2Subject", tenantId,
+                        "instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor2.setAccount(instructor2Account);
         when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
         Account instructor3Account = new Account(
-                        "instructor3", issuer, "instructor3Subject", "instructor3", "test3@test.com");
+                        "instructor3", ProviderType.TEAMMATES_DEV, "instructor3Subject", tenantId,
+                        "instructor3", "test3@test.com");
         Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));

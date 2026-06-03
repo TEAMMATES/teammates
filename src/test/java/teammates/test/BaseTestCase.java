@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -107,7 +108,8 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account("google-id", "teammates-dev", UUID.randomUUID().toString(), "name", "email@teammates.com");
+        return new Account("google-id", ProviderType.TEAMMATES_DEV,
+                UUID.randomUUID().toString(), "tenant-id", "name", "email@teammates.com");
     }
 
     protected Notification getTypicalNotificationWithId() {

@@ -91,7 +91,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
         logic.createAccount(
-                existingAccount.getIssuer(), existingAccount.getSubject(),
+                existingAccount.getProvider(), existingAccount.getSubject(), existingAccount.getTenantId(),
                 existingAccount.getEmail(), existingAccount.getGoogleId());
 
         AccountRequest accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),

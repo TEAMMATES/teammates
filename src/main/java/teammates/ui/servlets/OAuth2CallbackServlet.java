@@ -3,6 +3,7 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,11 +15,10 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -56,7 +56,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             try {
                 HibernateUtil.beginTransaction();
                 Account account = accountsLogic.createOrGetAccount(
-                        authResult.issuer, authResult.subject, authResult.email);
+                        authResult.provider, authResult.subject, authResult.tenantId, authResult.email);
                 HibernateUtil.commitTransaction();
 
                 UserInfoCookie uic = new UserInfoCookie(account.getId());
@@ -92,7 +92,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult(Const.OidcIssuers.DEVELOPMENT, email, email, nextUrl);
+        return new AuthResult(ProviderType.TEAMMATES_DEV, email, null, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -151,7 +151,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             return null;
         }
 
-        return new AuthResult(Const.OidcIssuers.GOOGLE, payload.getSubject(), payload.getEmail(), nextUrl);
+        return new AuthResult(ProviderType.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
@@ -163,23 +163,26 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     private static final class AuthResult {
-        private final String issuer;
+        private final ProviderType provider;
         private final String subject;
+        private final String tenantId;
         private final String email;
         private final String nextUrl;
 
-        private AuthResult(String issuer, String subject, String email, String nextUrl) {
-            this.issuer = issuer;
+        private AuthResult(ProviderType provider, String subject, @Nullable String tenantId,
+                    String email, String nextUrl) {
+            this.provider = provider;
             this.subject = subject;
+            this.tenantId = tenantId;
             this.email = email;
             this.nextUrl = nextUrl;
         }
 
         public boolean isValid() {
+            boolean hasProvider = provider != null;
             boolean hasEmail = email != null;
             boolean hasSubject = subject != null;
-            boolean isOidcIssuerValid = FieldValidator.getInvalidityInfoForOidcIssuer(issuer).isEmpty();
-            return hasEmail && hasSubject && isOidcIssuerValid;
+            return hasProvider && hasEmail && hasSubject;
         }
     }
 

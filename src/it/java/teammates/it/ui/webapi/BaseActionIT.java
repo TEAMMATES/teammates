@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -239,8 +240,9 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (logic.getAccountForGoogleId(googleId) == null) {
             String email = googleId.contains("@") ? googleId : googleId + "@example.com";
             String subject = googleId;
+            String tenantId = "tenant-id";
             try {
-                logic.createAccount("teammates-dev", subject, email, googleId);
+                logic.createAccount(ProviderType.TEAMMATES_DEV, subject, tenantId, email, googleId);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
@@ -753,7 +755,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             String googleId = email;
             String subject = email;
-            Account account = logic.createAccount("teammates-dev", subject, email, googleId);
+            String tenantId = "tenant-id";
+            Account account = logic.createAccount(ProviderType.TEAMMATES_DEV, subject, tenantId, email, googleId);
             instructor.setAccount(account);
         }
         return instructor;
@@ -784,7 +787,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             String googleId = email;
             String subject = email;
-            Account account = logic.createAccount("teammates-dev", subject, email, googleId);
+            String tenantId = "tenant-id";
+            Account account = logic.createAccount(ProviderType.TEAMMATES_DEV, subject, tenantId, email, googleId);
             student.setAccount(account);
         }
         return student;

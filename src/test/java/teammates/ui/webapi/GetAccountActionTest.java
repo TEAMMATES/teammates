@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.ui.exception.EntityNotFoundException;
@@ -31,8 +32,8 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
     @Test
     void testExecute_validParams_success() {
         loginAsAdmin();
-        Account account = new Account(
-                googleId, "teammates-dev", "testSubject", "name", "email");
+        Account account = new Account(googleId, ProviderType.TEAMMATES_DEV, "testSubject",
+                "validTenantId", "name", "email");
         when(mockLogic.getAccountForGoogleId(googleId)).thenReturn(account);
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,

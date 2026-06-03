@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.datatransfer.ProviderType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -73,25 +74,27 @@ public final class AccountsLogic {
      * Creates and returns an account for the given email if it does not exist,
      * otherwise just return the existing account.
      *
-     * @param issuer the issuer of the account
+     * @param provider the provider of the account
      * @param subject the subject of the account
+     * @param tenantId the tenant ID of the account
      * @param email the email of the account
      * @return the created or existing account
      */
-    public Account createOrGetAccount(String issuer, String subject, String email) {
-        assert issuer != null;
-        assert subject != null;
-        assert email != null;
+    public Account createOrGetAccount(ProviderType provider, String subject, String tenantId, String email) {
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
+        Objects.requireNonNull(tenantId);
+        Objects.requireNonNull(email);
 
         String googleId = email;
-        // TODO: Fetch account by issuer + subject
+        // TODO: Fetch account by provider, subject and tenantId.
         Account account = getAccountForGoogleId(googleId);
         if (account != null) {
             return account;
         }
 
         try {
-            return createAccount(issuer, subject, email, googleId);
+            return createAccount(provider, subject, tenantId, email, googleId);
         } catch (EntityAlreadyExistsException e) {
             // This should not happen.
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);
@@ -108,15 +111,16 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(String issuer, String subject, String email, String googleId)
+    public Account createAccount(ProviderType provider, String subject, String tenantId, String email, String googleId)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        assert issuer != null;
-        assert subject != null;
-        assert email != null;
-        assert googleId != null;
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(googleId);
+        Objects.requireNonNull(tenantId);
         // TODO: Account name will be removed, use a generic "User" for now.
         // googleId will be removed as well.
-        Account account = new Account(googleId, issuer, subject, "User", email);
+        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
         return validateThenPersistAccount(account);
     }
 
