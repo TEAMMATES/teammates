@@ -1,10 +1,14 @@
+import { TestBed } from '@angular/core/testing';
 import { SearchTermsHighlighterPipe } from './search-terms-highlighter.pipe';
 
 describe('SearchTermsHighlighterPipe', () => {
   let highlighterPipe: SearchTermsHighlighterPipe;
 
   beforeEach(() => {
-    highlighterPipe = new SearchTermsHighlighterPipe();
+    TestBed.configureTestingModule({
+      providers: [SearchTermsHighlighterPipe],
+    });
+    highlighterPipe = TestBed.inject(SearchTermsHighlighterPipe);
   });
 
   it('should be instantiated', () => {

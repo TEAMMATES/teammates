@@ -27,7 +27,8 @@ import { FormatDateDetailPipe } from '../../components/teammates-common/format-d
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
-import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
+import { DateFormatService } from '../../../services/date-format.service';
+import { sessionSubmissionStatusDisplay } from '../../utils/session-submission-status.util';
 
 interface StudentCourse {
   course: Course;
@@ -71,7 +72,7 @@ export class StudentHomePageComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private tableComparatorService = inject(TableComparatorService);
-  private formatDateDetailPipe = inject(FormatDateDetailPipe);
+  private dateFormatService = inject(DateFormatService);
 
   private readonly timezoneService = inject(TimezoneService);
 
@@ -97,8 +98,6 @@ export class StudentHomePageComponent implements OnInit {
   hasCoursesLoadingFailed = false;
 
   sortBy: SortBy = SortBy.COURSE_CREATION_DATE;
-
-  sessionSubmissionStatusPipe = new SubmissionStatusPipe();
 
   constructor() {
     this.SortBy = SortBy;
@@ -264,7 +263,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatus(session: StudentSession): string {
     const hasStudentExtension = this.hasStudentExtension(session.session);
-    return this.sessionSubmissionStatusPipe.transform(
+    return sessionSubmissionStatusDisplay(
       session.isOpened,
       session.isWaitingToOpen,
       session.isSubmitted,
@@ -277,7 +276,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionEndDate({ session }: StudentSession): string {
     const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
-    return this.formatDateDetailPipe.transform(submissionEndDate, session.timeZone);
+    return this.dateFormatService.formatDateDetailed(submissionEndDate, session.timeZone);
   }
 
   getSubmissionEndDateTooltip({ session }: StudentSession): string {
@@ -285,7 +284,7 @@ export class StudentHomePageComponent implements OnInit {
     if (!hasStudentExtension) {
       return '';
     }
-    const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
+    const originalEndTime = this.dateFormatService.formatDateDetailed(session.submissionEndTimestamp, session.timeZone);
     return (
       `The session's original end date is ${originalEndTime}.` +
       ' An instructor has granted you an extension to this date.'
