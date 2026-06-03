@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FRankOptQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRankOptQn.instructor"
     },
     "tm.e2e.FRankOptQn.alice.tmms": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.FRankOptQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRankOptQn.alice.tmms"
     },
     "tm.e2e.FRankOptQn.benny.tmms": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.FRankOptQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.c.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRankOptQn.benny.tmms"
     },
     "tm.e2e.FRankOptQn.charlie.tmms": {
@@ -29,7 +29,7 @@
       "googleId": "tm.e2e.FRankOptQn.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.d.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRankOptQn.charlie.tmms"
     },
     "tm.e2e.FRankOptQn.danny.tmms": {
@@ -37,7 +37,7 @@
       "googleId": "tm.e2e.FRankOptQn.danny.tmms",
       "name": "Danny Engrid",
       "email": "danny.e.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRankOptQn.danny.tmms"
     }
   },

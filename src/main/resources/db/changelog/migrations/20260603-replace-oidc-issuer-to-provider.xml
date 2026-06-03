@@ -1,0 +1,20 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="TobyCyan" id="1780475422902-1">
+        <addColumn tableName="accounts">
+            <column name="provider" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="accounts">
+            <column name="tenant_id" type="VARCHAR(255)"/>
+        </addColumn>
+
+        <addUniqueConstraint columnNames="provider, subject, tenant_id" constraintName="UniqueOidc" tableName="accounts"/>
+
+        <dropUniqueConstraint constraintName="UniqueIssuerSubject" tableName="accounts"/>
+
+        <dropColumn columnName="issuer" tableName="accounts"/>
+    </changeSet>
+</databaseChangeLog>

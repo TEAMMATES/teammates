@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FMsqQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FMsqQn.instructor"
     },
     "tm.e2e.FMsqQn.alice.tmms": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.FMsqQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FMsqQn.alice.tmms"
     }
   },

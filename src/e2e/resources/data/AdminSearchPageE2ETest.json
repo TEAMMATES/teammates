@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.ASearch.instr1",
       "name": "Instructor1 of Course1",
       "email": "asearch.instructor1@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ASearch.instr1"
     },
     "instructor2OfCourse1": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.ASearch.instr2",
       "name": "Instructor2 of Course1",
       "email": "asearch.instructor2@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ASearch.instr2"
     },
     "student1InCourse1": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
       "email": "asearch.student@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ASearch.student1"
     }
   },

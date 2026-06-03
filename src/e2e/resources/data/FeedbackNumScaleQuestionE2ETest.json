@@ -5,7 +5,7 @@
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FNumScaleQn.instructor"
     },
     "tm.e2e.FNumScaleQn.alice.tmms": {
@@ -13,7 +13,7 @@
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FNumScaleQn.alice.tmms"
     }
   },

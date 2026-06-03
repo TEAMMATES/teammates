@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.IFSessionPage.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.IFSessionPage.alice.tmms"
     },
     "IFSessionPage.benny": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.IFSessionPage.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.IFSessionPage.benny.tmms"
     },
     "IFSessionPage.charlie": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.IFSessionPage.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.IFSessionPage.charlie.tmms"
     },
     "IFSessionPage.danny": {
@@ -29,7 +29,7 @@
       "googleId": "tm.e2e.IFSessionPage.danny.tmms",
       "name": "Danny Engrid",
       "email": "ifsessionpage.danny.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.IFSessionPage.danny.tmms"
     },
     "IFSessionPage.emma": {
@@ -37,7 +37,7 @@
       "googleId": "tm.e2e.IFSessionPage.emma.tmms",
       "name": "Emma Farrell",
       "email": "ifsessionpage.emma.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.IFSessionPage.emma.tmms"
     },
     "IFSessionPage.instr1": {
@@ -45,7 +45,7 @@
       "googleId": "tm.e2e.IFSessionPage.instr1",
       "name": "Instructor 1",
       "email": "ifsessionpage.instr@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.IFSessionPage.instr1"
     }
   },

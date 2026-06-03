@@ -5,7 +5,7 @@
       "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.SHome.instr"
     },
     "SHome.student": {
@@ -13,7 +13,7 @@
       "name": "Alice B",
       "email": "shome.student@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.SHome.student"
     }
   },

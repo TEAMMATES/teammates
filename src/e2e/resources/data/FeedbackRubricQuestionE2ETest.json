@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FRubricQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRubricQn.instructor"
     }
   },

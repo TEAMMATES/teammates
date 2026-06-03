@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.FRes.instr",
       "name": "Teammates Test",
       "email": "fres.instr@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.instr"
     },
     "FRes.instr2": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.FRes.instr2",
       "name": "Teammates Test",
       "email": "fres.instr2@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.instr2"
     },
     "FRes.alice.b": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.FRes.alice.b",
       "name": "Alice B.",
       "email": "fres.alice.b@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.alice.b"
     },
     "FRes.benny.c": {
@@ -29,7 +29,7 @@
       "googleId": "tm.e2e.FRes.benny.c",
       "name": "Benny C.",
       "email": "fres.benny.c@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.benny.c"
     },
     "FRes.charlie.d": {
@@ -37,7 +37,7 @@
       "googleId": "tm.e2e.FRes.charlie.d",
       "name": "Charlie D.",
       "email": "fres.charlie.d@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.charlie.d"
     },
     "FRes.danny.e": {
@@ -45,7 +45,7 @@
       "googleId": "tm.e2e.FRes.danny.e",
       "name": "Danny E.",
       "email": "fres.danny.e@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.danny.e"
     },
     "FRes.emily.f": {
@@ -53,7 +53,7 @@
       "googleId": "tm.e2e.FRes.emily.f",
       "name": "Emily F.",
       "email": "fres.emily.f@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.FRes.emily.f"
     }
   },

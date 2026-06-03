@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.ProviderType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -80,10 +81,9 @@ public final class AccountsLogic {
      * @param email the email of the account
      * @return the created or existing account
      */
-    public Account createOrGetAccount(ProviderType provider, String subject, String tenantId, String email) {
+    public Account createOrGetAccount(ProviderType provider, String subject, @Nullable String tenantId, String email) {
         Objects.requireNonNull(provider);
         Objects.requireNonNull(subject);
-        Objects.requireNonNull(tenantId);
         Objects.requireNonNull(email);
 
         String googleId = email;
@@ -111,13 +111,12 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(ProviderType provider, String subject, String tenantId, String email, String googleId)
+    public Account createAccount(ProviderType provider, String subject, @Nullable String tenantId, String email, String googleId)
             throws InvalidParametersException, EntityAlreadyExistsException {
         Objects.requireNonNull(provider);
         Objects.requireNonNull(subject);
         Objects.requireNonNull(email);
         Objects.requireNonNull(googleId);
-        Objects.requireNonNull(tenantId);
         // TODO: Account name will be removed, use a generic "User" for now.
         // googleId will be removed as well.
         Account account = new Account(googleId, provider, subject, tenantId, "User", email);

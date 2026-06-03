@@ -5,7 +5,7 @@
       "name": "Instructor",
       "email": "tmms.test@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.SCDet.instr"
     },
     "SCDet.alice": {
@@ -13,7 +13,7 @@
       "email": "scdet.alice@gmail.tmt",
       "name": "Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000002",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.SCDet.alice"
     }
   },

@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.INotifs.instr",
       "name": "Teammates Test",
       "email": "inotifs.instr@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.INotifs.instr"
     }
   },

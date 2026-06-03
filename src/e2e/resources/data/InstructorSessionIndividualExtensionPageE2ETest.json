@@ -5,7 +5,7 @@
       "googleId": "tm.e2e.ISesIe.instructor1",
       "name": "Instructor 1",
       "email": "instructor1.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.instructor1"
     },
     "ISesIe.instructor2": {
@@ -13,7 +13,7 @@
       "googleId": "tm.e2e.ISesIe.instructor2",
       "name": "Instructor 2",
       "email": "instructor2.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.instructor2"
     },
     "alice.tmms@ISesIe.CS2104": {
@@ -21,7 +21,7 @@
       "googleId": "tm.e2e.ISesIe.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.alice.tmms"
     },
     "benny.tmms@ISesIe.CS2104": {
@@ -29,7 +29,7 @@
       "googleId": "tm.e2e.ISesIe.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.benny.tmms"
     },
     "charlie.tmms@ISesIe.CS2104": {
@@ -37,7 +37,7 @@
       "googleId": "tm.e2e.ISesIe.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.charlie.tmms"
     },
     "danny.tmms@ISesIe.CS2104": {
@@ -45,7 +45,7 @@
       "googleId": "tm.e2e.ISesIe.danny.tmms",
       "name": "Danny Engrid",
       "email": "danny.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.danny.tmms"
     },
     "emma.tmms@ISesIe.CS2104": {
@@ -53,7 +53,7 @@
       "googleId": "tm.e2e.ISesIe.emma.tmms",
       "name": "Emma Farrell",
       "email": "emma.tmms@gmail.tmt",
-      "issuer": "teammates-dev",
+      "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ISesIe.emma.tmms"
     }
   },
