@@ -12,7 +12,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -37,8 +36,6 @@ public class ResponseInstructorCommentsDbIT extends BaseTestCaseWithDatabaseAcce
     protected void setUp() throws Exception {
         super.setUp();
         persistDataBundle(testDataBundle);
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Test
@@ -51,8 +48,8 @@ public class ResponseInstructorCommentsDbIT extends BaseTestCaseWithDatabaseAcce
                 testDataBundle.responseInstructorComments.get("comment1ToResponse1ForQ1"),
                 testDataBundle.responseInstructorComments.get("comment1ToResponse4ForQ1")
         );
-        List<ResponseInstructorComment> results = frcDb.getResponseInstructorCommentsForResponses(
-                List.of(response1ForQ1.getId(), response4ForQ1.getId()));
+        List<ResponseInstructorComment> results = inTransaction(() -> frcDb.getResponseInstructorCommentsForResponses(
+                List.of(response1ForQ1.getId(), response4ForQ1.getId())));
         assertListCommentsEqual(expected, results);
     }
 
@@ -62,20 +59,20 @@ public class ResponseInstructorCommentsDbIT extends BaseTestCaseWithDatabaseAcce
         UUID nonexistentResponseId = UUID.fromString("11110000-0000-0000-0000-000000000000");
 
         ______TS("No matching response IDs");
-        List<ResponseInstructorComment> results = frcDb.getResponseInstructorCommentsForResponses(
-                List.of(nonexistentResponseId));
+        List<ResponseInstructorComment> results = inTransaction(() -> frcDb.getResponseInstructorCommentsForResponses(
+                List.of(nonexistentResponseId)));
         assertEquals(0, results.size());
 
         ______TS("Empty list of response IDs");
-        results = frcDb.getResponseInstructorCommentsForResponses(List.of());
+        results = inTransaction(() -> frcDb.getResponseInstructorCommentsForResponses(List.of()));
         assertEquals(0, results.size());
 
         ______TS("Mixed response IDs returns matching comments only");
         List<ResponseInstructorComment> expected = List.of(
                 testDataBundle.responseInstructorComments.get("comment1ToResponse1ForQ1")
         );
-        results = frcDb.getResponseInstructorCommentsForResponses(
-                List.of(response1ForQ1.getId(), nonexistentResponseId));
+        results = inTransaction(() -> frcDb.getResponseInstructorCommentsForResponses(
+                List.of(response1ForQ1.getId(), nonexistentResponseId)));
         assertListCommentsEqual(expected, results);
     }
 

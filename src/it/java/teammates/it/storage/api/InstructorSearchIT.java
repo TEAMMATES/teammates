@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Instructor;
@@ -30,7 +29,6 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
     protected void setUp() throws Exception {
         super.setUp();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Test
@@ -47,37 +45,37 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: search for instructors in whole system; empty query string does not match anyone");
 
-        List<Instructor> results = usersDb.searchInstructorsInWholeSystem("");
+        List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem(""));
         verifySearchResults(results);
 
         ______TS("success: search for instructors in whole system; query string should be case-insensitive");
 
-        results = usersDb.searchInstructorsInWholeSystem("InStRuCtOr 2");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("InStRuCtOr 2"));
         verifySearchResults(results, ins2InCourse1, ins2InCourse4);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by course id");
 
-        results = usersDb.searchInstructorsInWholeSystem("course-1");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by course name");
 
-        results = usersDb.searchInstructorsInWholeSystem("Typical Course 1");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("Typical Course 1"));
         verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their name");
 
-        results = usersDb.searchInstructorsInWholeSystem("Instructor Of Unregistered Course");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("Instructor Of Unregistered Course"));
         verifySearchResults(results, insInUnregCourse);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their email");
 
-        results = usersDb.searchInstructorsInWholeSystem("instr2@teammates.tmt");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("instr2@teammates.tmt"));
         verifySearchResults(results, ins2InCourse1, ins2InCourse4);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
 
-        results = usersDb.searchInstructorsInWholeSystem("coowner");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("coowner"));
         verifySearchResults(results, ins1InCourse1,
                 insInUnregCourse, insUniqueDisplayName,
                 ins1InCourse3, ins1InCourse4,
@@ -86,7 +84,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
 
         String displayName = insUniqueDisplayName.getDisplayName();
-        results = usersDb.searchInstructorsInWholeSystem(displayName);
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem(displayName));
         verifySearchResults(results, insUniqueDisplayName);
     }
 
@@ -96,32 +94,32 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         Instructor unregisteredInsInCourse1 = typicalBundle.instructors.get("unregisteredInstructorOfCourse1");
 
-        List<Instructor> results = usersDb.searchInstructorsInWholeSystem("course-1");
+        List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
-        usersDb.deleteUser(ins1InCourse1);
-        results = usersDb.searchInstructorsInWholeSystem("course-1");
+        inTransaction(() -> usersDb.deleteUser(ins1InCourse1));
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins2InCourse1, unregisteredInsInCourse1);
 
-        usersDb.deleteUser(ins2InCourse1);
-        results = usersDb.searchInstructorsInWholeSystem("course-1");
+        inTransaction(() -> usersDb.deleteUser(ins2InCourse1));
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, unregisteredInsInCourse1);
 
-        usersDb.deleteUser(unregisteredInsInCourse1);
-        results = usersDb.searchInstructorsInWholeSystem("course-1");
+        inTransaction(() -> usersDb.deleteUser(unregisteredInsInCourse1));
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results);
     }
 
     @Test
     public void testSearchInstructorsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
-        List<Instructor> results = usersDb.searchInstructorsInWholeSystem("_");
+        List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("_"));
 
-        List<Instructor> expectedUnderscoreMatches = usersDb
-                .searchInstructorsInWholeSystem("instructor_permission_role_");
+        List<Instructor> expectedUnderscoreMatches = inTransaction(() -> usersDb
+                .searchInstructorsInWholeSystem("instructor_permission_role_"));
         assertFalse(results.isEmpty());
         AssertHelper.assertSameContentIgnoreOrder(expectedUnderscoreMatches, results);
 
-        results = usersDb.searchInstructorsInWholeSystem("%");
+        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("%"));
         verifySearchResults(results);
     }
 

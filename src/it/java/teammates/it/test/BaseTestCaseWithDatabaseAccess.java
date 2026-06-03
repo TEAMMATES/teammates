@@ -174,7 +174,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      */
     protected void verifyPresentInDatabase(BaseEntity expected) {
         assertNotNull(expected);
-        BaseEntity actual = getEntity(expected);
+        BaseEntity actual = inTransaction(() -> getEntity(expected));
         assertEquals(expected, actual);
     }
 
