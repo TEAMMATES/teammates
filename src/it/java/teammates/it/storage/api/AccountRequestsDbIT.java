@@ -33,20 +33,20 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("Read account request using the given ID");
 
         AccountRequest actualAccReqEmalAndInstitute = accountRequestDb.getAccountRequest(accountRequest.getId());
-        verifyEquals(accountRequest, actualAccReqEmalAndInstitute);
+        assertEquals(accountRequest, actualAccReqEmalAndInstitute);
 
         ______TS("Read account request using the given registration key");
 
         AccountRequest actualAccReqRegistrationKey =
                 accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
-        verifyEquals(accountRequest, actualAccReqRegistrationKey);
+        assertEquals(accountRequest, actualAccReqRegistrationKey);
 
         ______TS("Read account request using the given start and end timing");
 
         List<AccountRequest> actualAccReqCreatedAt =
                 accountRequestDb.getAccountRequests(accountRequest.getCreatedAt(), accountRequest.getCreatedAt());
         assertEquals(1, actualAccReqCreatedAt.size());
-        verifyEquals(accountRequest, actualAccReqCreatedAt.get(0));
+        assertEquals(accountRequest, actualAccReqCreatedAt.get(0));
 
         ______TS("Read account request not found using the outside start and end timing");
 
@@ -65,7 +65,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
         accountRequestDb.createAccountRequest(identicalAccountRequest);
         AccountRequest actualIdenticalAccountRequest =
                 accountRequestDb.getAccountRequestByRegistrationKey(identicalAccountRequest.getRegistrationKey());
-        verifyEquals(identicalAccountRequest, actualIdenticalAccountRequest);
+        assertEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
         ______TS("Delete account request that was created");
 

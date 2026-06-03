@@ -63,6 +63,6 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
                 startTime, startTime.plus(1, ChronoUnit.SECONDS));
 
         assertNotEquals(actualUsageStatistics.size(), 0);
-        verifyEquals(newUsageStatistics, actualUsageStatistics.get(0));
+        assertEquals(newUsageStatistics, actualUsageStatistics.get(0));
     }
 }

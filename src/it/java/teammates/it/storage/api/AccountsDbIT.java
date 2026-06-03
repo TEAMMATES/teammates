@@ -62,7 +62,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
         HibernateUtil.flushSession();
 
         Account actualAccount = accountsDb.getAccount(account.getId());
-        verifyEquals(account, actualAccount);
+        assertEquals(account, actualAccount);
     }
 
     @Test

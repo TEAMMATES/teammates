@@ -33,7 +33,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
         UUID notificationId = newNotification.getId();
         Notification actualNotification = notificationsDb.getNotification(notificationId);
-        verifyEquals(newNotification, actualNotification);
+        assertEquals(newNotification, actualNotification);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
         UUID notificationId = newNotification.getId();
         Notification actualNotification = notificationsDb.getNotification(notificationId);
-        verifyEquals(newNotification, actualNotification);
+        assertEquals(newNotification, actualNotification);
 
         ______TS("success: get a notification that does not exist");
         UUID nonExistentId = generateDifferentUuid(notificationId);
@@ -123,7 +123,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it1 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
-            verifyEquals(it1.next(), actual);
+            assertEquals(it1.next(), actual);
         });
 
         ______TS("success: get active notifications with target users INSTRUCTOR and GENERAL");
@@ -133,7 +133,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it2 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
-            verifyEquals(it2.next(), actual);
+            assertEquals(it2.next(), actual);
         });
 
         ______TS("success: get active notifications with target user INSTRUCTOR only");
@@ -143,7 +143,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it3 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
-            verifyEquals(it3.next(), actual);
+            assertEquals(it3.next(), actual);
         });
     }
 

@@ -37,7 +37,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         coursesDb.createCourse(expected);
 
         actual = coursesDb.getCourse(expected.getId());
-        verifyEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
         Course actualCourse = coursesDb.getCourse("course-id");
-        verifyEquals(course, actualCourse);
+        assertEquals(course, actualCourse);
 
         ______TS("failure: null course assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.createCourse(null));
@@ -71,7 +71,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: create section that does not exist");
         coursesDb.createSection(section);
         Section actualSection = coursesDb.getSectionByName(course.getId(), section.getName());
-        verifyEquals(section, actualSection);
+        assertEquals(section, actualSection);
 
         ______TS("failure: null section assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.createSection(null));
@@ -92,7 +92,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: get section that already exists");
         Section actualSection = coursesDb.getSectionByName(course.getId(), section.getName());
-        verifyEquals(section, actualSection);
+        assertEquals(section, actualSection);
 
         ______TS("failure: get section that does not exist");
         Section nonExistentSection = coursesDb.getSectionByName(course.getId(), "non-existent-section-name");
@@ -118,7 +118,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: typical case");
         Section actualSection = coursesDb.getSectionByCourseIdAndTeam(course.getId(), team.getName());
-        verifyEquals(section, actualSection);
+        assertEquals(section, actualSection);
     }
 
     @Test
@@ -174,7 +174,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: create team that does not exist");
         coursesDb.createTeam(team);
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
-        verifyEquals(team, actualTeam);
+        assertEquals(team, actualTeam);
     }
 
     @Test
@@ -189,7 +189,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: get team that already exists");
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
-        verifyEquals(team, actualTeam);
+        assertEquals(team, actualTeam);
 
         ______TS("failure: null sectionId assertion exception thrown");
         assertThrows(AssertionError.class, () -> coursesDb.getTeamByName(null, team.getName()));

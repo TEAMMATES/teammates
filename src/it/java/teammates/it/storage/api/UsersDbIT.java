@@ -79,7 +79,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
         Instructor actualInstructor = usersDb.getInstructor(instructor.getId());
-        verifyEquals(instructor, actualInstructor);
+        assertEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor that does not exist");
         UUID nonExistentId = generateDifferentUuid(actualInstructor.getId());
@@ -88,7 +88,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets an instructor by courseId and email");
         actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
-        verifyEquals(instructor, actualInstructor);
+        assertEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by courseId and email that does not exist");
         actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), "does-not-exist@teammates.tmt");
@@ -97,7 +97,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: gets an instructor by googleId");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
                 instructor.getAccount().getGoogleId());
-        verifyEquals(instructor, actualInstructor);
+        assertEquals(instructor, actualInstructor);
 
         ______TS("success: gets an instructor by googleId that does not exist");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), "invalid-google id");
@@ -108,7 +108,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetStudent() {
         ______TS("success: gets a student that already exists");
         Student actualStudent = usersDb.getStudent(student.getId());
-        verifyEquals(student, actualStudent);
+        assertEquals(student, actualStudent);
 
         ______TS("success: gets a student that does not exist");
         UUID nonExistentId = generateDifferentUuid(actualStudent.getId());
@@ -117,7 +117,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets a student by courseId and email");
         actualStudent = usersDb.getStudentForEmail(student.getCourseId(), student.getEmail());
-        verifyEquals(student, actualStudent);
+        assertEquals(student, actualStudent);
 
         ______TS("success: gets a student by courseId and email that does not exist");
         actualStudent = usersDb.getStudentForEmail(student.getCourseId(), "does-not-exist@teammates.tmt");
@@ -125,7 +125,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets a student by googleId");
         actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
-        verifyEquals(student, actualStudent);
+        assertEquals(student, actualStudent);
 
         ______TS("success: gets a student by googleId that does not exist");
         actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");

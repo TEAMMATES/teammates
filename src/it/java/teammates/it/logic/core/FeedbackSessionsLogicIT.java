@@ -145,7 +145,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertEquals(expectedFsList.size(), actualFsList.size());
         for (int i = 0; i < expectedFsList.size(); i++) {
-            verifyEquals(expectedFsList.get(i), actualFsList.get(i));
+            assertEquals(expectedFsList.get(i), actualFsList.get(i));
         }
     }
 
@@ -178,7 +178,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         assertEquals(expectedFsList.size(), actualFsList.size());
         for (int i = 0; i < expectedFsList.size(); i++) {
-            verifyEquals(expectedFsList.get(i), actualFsList.get(i));
+            assertEquals(expectedFsList.get(i), actualFsList.get(i));
         }
     }
 

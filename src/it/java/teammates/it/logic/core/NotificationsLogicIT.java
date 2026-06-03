@@ -96,7 +96,7 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(newMessage, expectedNotification.getMessage());
 
         Notification actualNotification = notificationsLogic.getNotification(notificationId);
-        verifyEquals(expectedNotification, actualNotification);
+        assertEquals(expectedNotification, actualNotification);
 
         ______TS("failure: update notification that does not exist");
         UUID nonExistentId = generateDifferentUuid(notificationId);

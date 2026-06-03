@@ -60,7 +60,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         FeedbackQuestion actualQuestion = fqLogic.getFeedbackQuestion(newQuestion.getId());
 
-        verifyEquals(newQuestion, actualQuestion);
+        assertEquals(newQuestion, actualQuestion);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         FeedbackQuestion actualFeedbackQuestion = fqLogic.getFeedbackQuestion(fq1.getId());
 
-        verifyEquals(fq1, actualFeedbackQuestion);
+        assertEquals(fq1, actualFeedbackQuestion);
     }
 
     private FeedbackQuestionUpdateRequest generateFeedbackQuestionUpdateRequest(
