@@ -22,7 +22,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.DeadlineExtension;
@@ -51,7 +50,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     protected void setUp() throws Exception {
         super.setUp();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -75,7 +73,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private Instructor loginInstructor(String instructorId) {
         Instructor instructor = getInstructor(instructorId);
         loginAsInstructor(instructor.getGoogleId());
-        HibernateUtil.flushSession();
         return instructor;
     }
 
@@ -96,7 +93,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private Student loginStudent(String studentId) {
         Student student = getStudent(studentId);
         loginAsStudent(student.getGoogleId());
-        HibernateUtil.flushSession();
         return student;
     }
 
@@ -299,9 +295,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void validateDatabaseWithRecipientEmails(FeedbackSession session, FeedbackQuestion feedbackQuestion,
             String giverEmail, List<String> recipientEmails) {
-        List<FeedbackResponse> responses = logic.getFeedbackQuestion(feedbackQuestion.getId())
+        List<FeedbackResponse> responses = inTransaction(() -> logic.getFeedbackQuestion(feedbackQuestion.getId())
                 .getFeedbackResponses().stream()
-                .toList();
+                .toList());
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses = responses.stream()
                     .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))
@@ -333,8 +329,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
         Instructor instructor = loginInstructor("instructor1OfCourse1");
-        deleteDeadlineExtensionForUser(session, instructor);
-        deleteDeadlineExtensionForUser(session, student);
+        inTransaction(() -> deleteDeadlineExtensionForUser(session, instructor));
+        inTransaction(() -> deleteDeadlineExtensionForUser(session, student));
 
         ______TS("Typical case with instructors: feedback question exists");
         setStartTime(session, -1);
@@ -446,7 +442,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         ______TS("Typical success with student: student answers question with correct giver");
         loginStudent("student1InCourse1");
-        deleteDeadlineExtensionForUser(session, student);
+        inTransaction(() -> deleteDeadlineExtensionForUser(session, student));
         setEndTime(session, 3);
         setStartTime(session, -1);
 

@@ -2,9 +2,11 @@ package teammates.it.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 
+import org.junit.jupiter.api.function.Executable;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
@@ -12,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.logic.api.Logic;
 import teammates.logic.core.LogicStarter;
@@ -41,6 +42,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     private final Logic logic = Logic.inst();
 
+    @FunctionalInterface
+    protected interface TransactionSupplier<T> {
+        T get() throws Exception;
+    }
+
+    @FunctionalInterface
+    protected interface TransactionAction {
+        void run() throws Exception;
+    }
+
     @BeforeSuite
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
@@ -61,14 +72,52 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 .execute();
     }
 
+    protected void inTransaction(TransactionAction action) {
+        HibernateUtil.beginTransaction();
+        try {
+            action.run();
+            HibernateUtil.commitTransaction();
+        } catch (Throwable t) {
+            HibernateUtil.rollbackTransaction();
+            throw new RuntimeException(t);
+        }
+    }
+
+    protected <T> T inTransaction(TransactionSupplier<T> action) {
+        HibernateUtil.beginTransaction();
+        try {
+            T result = action.get();
+            HibernateUtil.commitTransaction();
+            return result;
+        } catch (Throwable t) {
+            HibernateUtil.rollbackTransaction();
+            throw new RuntimeException(t);
+        }
+    }
+
+    protected <E extends Throwable> E assertThrowsInTransaction(
+            Class<E> expectedType, Executable executable) {
+        return assertThrows(expectedType, () -> {
+            HibernateUtil.beginTransaction();
+            try {
+                executable.execute();
+                HibernateUtil.commitTransaction();
+            } catch (Throwable t) {
+                HibernateUtil.rollbackTransaction();
+                throw t;
+            }
+        });
+    }
+
     @AfterSuite
-    protected static void tearDownSuite() throws Exception {
+    protected static void tearDownSuite() {
         PGSQL.close();
     }
 
     @BeforeMethod
     protected void setUp() throws Exception {
-        HibernateUtil.beginTransaction();
+        // Temporary empty implementation. To be removed.
+        return;
     }
 
     /**
@@ -80,7 +129,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      */
     @AfterMethod(alwaysRun = true)
     protected void tearDown() {
-        HibernateUtil.rollbackTransaction();
+        inTransaction(this::clearDatabase);
     }
 
     @Override
@@ -91,9 +140,33 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     /**
      * Persist data bundle into the db.
      */
-    protected DataBundle persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException {
-        return logic.persistDataBundle(dataBundle);
+    protected DataBundle persistDataBundle(DataBundle dataBundle) {
+        return inTransaction(() -> logic.persistDataBundle(dataBundle));
+    }
+
+    private void clearDatabase() {
+        HibernateUtil.createNativeMutationQuery("""
+            TRUNCATE TABLE
+                account_requests,
+                accounts,
+                courses,
+                deadline_extensions,
+                feedback_questions,
+                feedback_responses,
+                feedback_session_logs,
+                feedback_sessions,
+                instructors,
+                notifications,
+                read_notifications,
+                response_instructor_comments,
+                sections,
+                students,
+                teams,
+                usage_statistics,
+                users
+            RESTART IDENTITY CASCADE
+            """)
+            .executeUpdate();
     }
 
     /**

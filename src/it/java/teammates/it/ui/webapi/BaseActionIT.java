@@ -1,7 +1,6 @@
 package teammates.it.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -124,19 +123,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
-            action.init(req);
+            inTransaction(() -> action.init(req));
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
-        } catch (UnauthorizedAccessException e) {
-            BaseActionIT.<RuntimeException>sneakyThrow(e);
-            return null;
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <E extends Throwable> void sneakyThrow(Throwable e) throws E {
-        throw (E) e;
     }
 
     /**
@@ -181,9 +172,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
-        mockUserProvision.setLogic(logic);
-        ensureAccountExists(Config.APP_ADMINS.get(0));
-        mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
+        inTransaction(() -> {
+            ensureAccountExists(Config.APP_ADMINS.get(0));
+            mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
+            mockUserProvision.setLogic(logic);
+        });
     }
 
     /**
@@ -191,9 +184,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
-        mockUserProvision.setLogic(logic);
-        ensureAccountExists(userId);
-        mockUserProvision.loginUser(userId);
+        inTransaction(() -> {
+            ensureAccountExists(userId);
+            mockUserProvision.loginUser(userId);
+            mockUserProvision.setLogic(logic);
+        });
     }
 
     /**
@@ -201,9 +196,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
-        mockUserProvision.setLogic(logic);
-        ensureAccountExists(userId);
-        mockUserProvision.loginUser(userId);
+        inTransaction(() -> {
+            ensureAccountExists(userId);
+            mockUserProvision.loginUser(userId);
+            mockUserProvision.setLogic(logic);
+        });
     }
 
     /**
@@ -211,9 +208,11 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
-        mockUserProvision.setLogic(logic);
-        ensureAccountExists(userId);
-        mockUserProvision.loginUser(userId);
+        inTransaction(() -> {
+            ensureAccountExists(userId);
+            mockUserProvision.loginUser(userId);
+            mockUserProvision.setLogic(logic);
+        });
     }
 
     /**
@@ -221,18 +220,22 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
-        mockUserProvision.setLogic(logic);
-        ensureAccountExists(userId);
-        mockUserProvision.loginUser(userId);
+        inTransaction(() -> {
+            ensureAccountExists(userId);
+            mockUserProvision.loginUser(userId);
+            mockUserProvision.setLogic(logic);
+        });
     }
 
     /**
      * Logs in the user to the test environment as a maintainer.
      */
     protected void loginAsMaintainer() {
-        mockUserProvision.setLogic(logic);
-        ensureAccountExists(Config.APP_MAINTAINERS.get(0));
-        mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+        inTransaction(() -> {
+            ensureAccountExists(Config.APP_MAINTAINERS.get(0));
+            mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+            mockUserProvision.setLogic(logic);
+        });
     }
 
     private void ensureAccountExists(String googleId) {
@@ -405,8 +408,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         ______TS("admin can access");
         Instructor instructor = createTypicalInstructor(course,
                 "accessibleforadmintomasqueradeasinstructor@teammates.tmt");
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
         loginAsAdmin();
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
@@ -468,8 +469,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "accessibleforinstructorsofthesamecourse-otherinstructor@teammates.tmt");
 
         loginAsInstructor(instructorSameCourse.getAccount().getGoogleId());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
         verifyCanAccess(submissionParams);
 
         verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
@@ -491,8 +490,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "accessibleforinstructorsofothercourse-otherinstructor@teammates.tmt");
 
         loginAsInstructor(instructorOtherCourse.getAccount().getGoogleId());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
         verifyCanAccess(submissionParams);
 
         verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
@@ -507,8 +504,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCanAccess(submissionParams);
     }
 
-    void verifyInaccessibleForStudentsOfOtherCourse(Course course, String[] submissionParams)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    void verifyInaccessibleForStudentsOfOtherCourse(Course course, String[] submissionParams) {
         ______TS("other course student cannot access");
         Course courseOther = createTestCourseOther();
         Student otherStudent = createTypicalStudent(courseOther,
@@ -547,13 +543,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * the logged in user.
      */
     protected void verifyCanAccess(String... params) {
-        HibernateUtil.flushSession();
         Action c = getAction(params);
-        try {
-            c.checkAccessControl();
-        } catch (UnauthorizedAccessException | InvalidHttpRequestBodyException e) {
-            throw new RuntimeException(e);
-        }
+        inTransaction(c::checkAccessControl);
     }
 
     /**
@@ -561,9 +552,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * accessible to the user.
      */
     protected void verifyCannotAccess(String... params) {
-        HibernateUtil.flushSession();
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
+        assertThrowsInTransaction(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
     /**
@@ -581,7 +571,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * {@code userId}.
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
-        assertThrows(UnauthorizedAccessException.class,
+        assertThrowsInTransaction(UnauthorizedAccessException.class,
                 () -> getAction(addUserToParams(userId, params)).checkAccessControl());
     }
 
@@ -603,13 +593,9 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * <p>Assumption: The action returns a {@link JsonResult}.
      */
     protected JsonResult getJsonResult(Action a, int statusCode) {
-        try {
-            ActionResult r = a.execute();
-            assertEquals(statusCode, r.getStatusCode());
-            return (JsonResult) r;
-        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
-            throw new RuntimeException(e);
-        }
+        ActionResult r = inTransaction(a::execute);
+        assertEquals(statusCode, r.getStatusCode());
+        return (JsonResult) r;
     }
 
     // The next few methods are for verifying action results
@@ -620,7 +606,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected InvalidHttpParameterException verifyHttpParameterFailure(String... params) {
         Action c = getAction(params);
-        return assertThrows(InvalidHttpParameterException.class, c::execute);
+        return assertThrowsInTransaction(InvalidHttpParameterException.class, c::execute);
     }
 
     /**
@@ -629,7 +615,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected InvalidHttpParameterException verifyHttpParameterFailure(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return assertThrows(InvalidHttpParameterException.class, c::execute);
+        return assertThrowsInTransaction(InvalidHttpParameterException.class, c::execute);
     }
 
     /**
@@ -639,7 +625,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected InvalidHttpParameterException verifyHttpParameterFailureAcl(String... params) {
         Action c = getAction(params);
-        return assertThrows(InvalidHttpParameterException.class, c::checkAccessControl);
+        return assertThrowsInTransaction(InvalidHttpParameterException.class, c::checkAccessControl);
     }
 
     /**
@@ -648,7 +634,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected InvalidHttpRequestBodyException verifyHttpRequestBodyFailure(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return assertThrows(InvalidHttpRequestBodyException.class, c::execute);
+        return assertThrowsInTransaction(InvalidHttpRequestBodyException.class, c::execute);
     }
 
     /**
@@ -657,7 +643,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected EntityNotFoundException verifyEntityNotFound(String... params) {
         Action c = getAction(params);
-        return assertThrows(EntityNotFoundException.class, c::execute);
+        return assertThrowsInTransaction(EntityNotFoundException.class, c::execute);
     }
 
     /**
@@ -666,7 +652,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected EntityNotFoundException verifyEntityNotFound(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return assertThrows(EntityNotFoundException.class, c::execute);
+        return assertThrowsInTransaction(EntityNotFoundException.class, c::execute);
     }
 
     /**
@@ -675,7 +661,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected EntityNotFoundException verifyEntityNotFoundAcl(String... params) {
         Action c = getAction(params);
-        return assertThrows(EntityNotFoundException.class, c::checkAccessControl);
+        return assertThrowsInTransaction(EntityNotFoundException.class, c::checkAccessControl);
     }
 
     /**
@@ -684,7 +670,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected InvalidOperationException verifyInvalidOperation(String... params) {
         Action c = getAction(params);
-        return assertThrows(InvalidOperationException.class, c::execute);
+        return assertThrowsInTransaction(InvalidOperationException.class, c::execute);
     }
 
     /**
@@ -693,7 +679,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected InvalidOperationException verifyInvalidOperation(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return assertThrows(InvalidOperationException.class, c::execute);
+        return assertThrowsInTransaction(InvalidOperationException.class, c::execute);
     }
 
     /**
@@ -737,58 +723,52 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     }
 
     // TODO: createXX methods should be deprecated and replaced with proper test data builders.
-    private Course createTestCourseOther() throws InvalidParametersException, EntityAlreadyExistsException {
+    private Course createTestCourseOther() {
         if (testCourseOther == null) {
-            testCourseOther = coursesLogic.createCourse("test-course-other-id", "test course other",
-                    Const.DEFAULT_TIME_ZONE, "test-institute");
+            testCourseOther = inTransaction(() -> coursesLogic.createCourse("test-course-other-id", "test course other",
+                    Const.DEFAULT_TIME_ZONE, "test-institute"));
         }
         return testCourseOther;
     }
 
-    private Instructor createTypicalInstructor(Course course, String email)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        Instructor instructor = logic.getInstructorForEmail(course.getId(), email);
+    private Instructor createTypicalInstructor(Course course, String email) {
+        Instructor instructor = inTransaction(() -> logic.getInstructorForEmail(course.getId(), email));
         if (instructor == null) {
-            instructor = new Instructor(course, "instructor-name", email, true, "display-name",
+            instructor = inTransaction(() -> {
+                Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
                     InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
-            logic.createInstructor(instructor);
+                return logic.createInstructor(toCreate);
+            });
 
             String googleId = email;
             String subject = email;
             String tenantId = "tenant-id";
-            Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+            Account account = inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId));
             instructor.setAccount(account);
         }
         return instructor;
     }
 
-    private Student createTypicalStudent(Course course, String email)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        Student student = logic.getStudentForEmail(course.getId(), email);
+    private Student createTypicalStudent(Course course, String email) {
+        Student student = inTransaction(() -> logic.getStudentForEmail(course.getId(), email));
         if (student == null) {
-            Section section = logic.getSection(course.getId(), "section name");
+            Section section = inTransaction(() -> logic.getSection(course.getId(), "section name"));
             if (section == null) {
-                section = logic.createSection(course, "section name");
+                section = inTransaction(() -> logic.createSection(course, "section name"));
             }
 
             final Section finalSection = section;
             Team team = section.getTeams().stream()
                     .filter(t -> "team name".equals(t.getName()))
                     .findFirst()
-                    .orElseGet(() -> {
-                        try {
-                            return logic.createTeam(finalSection, "team name");
-                        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                    .orElseGet(() -> inTransaction(() -> logic.createTeam(finalSection, "team name")));
 
-            student = logic.createStudent(course, team, "student-name", email, "");
+            student = inTransaction(() -> logic.createStudent(course, team, "student-name", email, ""));
 
             String googleId = email;
             String subject = email;
             String tenantId = "tenant-id";
-            Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+            Account account = inTransaction(() -> logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId));
             student.setAccount(account);
         }
         return student;

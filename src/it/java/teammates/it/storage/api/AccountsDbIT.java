@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
@@ -23,10 +20,10 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
     private final AccountsDb accountsDb = AccountsDb.inst();
 
     @Test
-    public void testGetAccountsByEmail() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetAccountsByEmail() {
         ______TS("Get accounts by email, none exists, succeeds");
 
-        List<Account> accounts = accountsDb.getAccountsByEmail("email@teammates.com");
+        List<Account> accounts = inTransaction(() -> accountsDb.getAccountsByEmail("email@teammates.com"));
 
         assertEquals(0, accounts.size());
 
@@ -42,40 +39,40 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         String email = firstAccount.getEmail();
 
-        accountsDb.persistAccount(firstAccount);
-        accountsDb.persistAccount(secondAccount);
-        accountsDb.persistAccount(thirdAccount);
+        inTransaction(() -> {
+            accountsDb.persistAccount(firstAccount);
+            accountsDb.persistAccount(secondAccount);
+            accountsDb.persistAccount(thirdAccount);
+        });
 
-        accounts = accountsDb.getAccountsByEmail(email);
+        accounts = inTransaction(() -> accountsDb.getAccountsByEmail(email));
 
         assertEquals(3, accounts.size());
         assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
     }
 
     @Test
-    public void testCreateAccount() throws Exception {
+    public void testCreateAccount() {
         ______TS("Create account, does not exists, succeeds");
 
         Account account = getTypicalAccount();
 
-        accountsDb.persistAccount(account);
-        HibernateUtil.flushSession();
+        inTransaction(() -> accountsDb.persistAccount(account));
 
-        Account actualAccount = accountsDb.getAccount(account.getId());
+        Account actualAccount = inTransaction(() -> accountsDb.getAccount(account.getId()));
         assertEquals(account, actualAccount);
     }
 
     @Test
-    public void testDeleteAccount() throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testDeleteAccount() {
         Account account = getTypicalAccount();
-        accountsDb.persistAccount(account);
-        HibernateUtil.flushSession();
+        inTransaction(() -> accountsDb.persistAccount(account));
 
         ______TS("Delete existing account, success");
 
-        accountsDb.deleteAccount(account);
+        inTransaction(() -> accountsDb.deleteAccount(account));
 
-        Account actual = accountsDb.getAccount(account.getId());
+        Account actual = inTransaction(() -> accountsDb.getAccount(account.getId()));
         assertNull(actual);
     }
 }
