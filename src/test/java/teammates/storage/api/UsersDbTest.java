@@ -156,6 +156,8 @@ public class UsersDbTest extends BaseDbTestcase {
     // TODO: add tests for search related methods in UsersDb
     // This was not done initially as the search functionality requires additional clean up.
     // Tests will be added once search functionality is refactored.
+    // The old deprecated search tests can be found in StudentSearchIT and InstructorSearchIT and will
+    // be removed once the new search tests are added.
 
     private static Instructor buildDefaultInstructor(Course course, UUID instructorId) {
         assertNotNull(course);
