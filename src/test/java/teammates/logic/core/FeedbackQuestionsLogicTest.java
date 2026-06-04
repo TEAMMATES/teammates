@@ -105,7 +105,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(newQuestion)).thenReturn(newQuestion);
+        when(fqDb.persistFeedbackQuestion(newQuestion)).thenReturn(newQuestion);
 
         FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(newQuestion);
         assertEquals(newQuestion, createdQuestion);
@@ -129,7 +129,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.persistFeedbackQuestion(fq5)).thenReturn(fq5);
 
         FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(fq5);
 
@@ -155,7 +155,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.persistFeedbackQuestion(fq5)).thenReturn(fq5);
 
         fqLogic.createFeedbackQuestion(fq5);
 
@@ -183,7 +183,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.persistFeedbackQuestion(fq5)).thenReturn(fq5);
 
         fqLogic.createFeedbackQuestion(fq5);
 

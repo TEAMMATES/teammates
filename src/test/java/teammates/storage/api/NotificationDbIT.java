@@ -24,11 +24,10 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
     @Test
-    public void testCreateNotification() {
-        ______TS("success: create notification that does not exist");
+    public void testPersistNotification() {
         Notification newNotification = generateTypicalNotification();
 
-        inTransaction(() -> notificationsDb.createNotification(newNotification));
+        inTransaction(() -> notificationsDb.persistNotification(newNotification));
 
         UUID notificationId = newNotification.getId();
         Notification actualNotification = inTransaction(() -> notificationsDb.getNotification(notificationId));
@@ -40,7 +39,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: get a notification that already exists");
         Notification newNotification = generateTypicalNotification();
 
-        inTransaction(() -> notificationsDb.createNotification(newNotification));
+        inTransaction(() -> notificationsDb.persistNotification(newNotification));
 
         UUID notificationId = newNotification.getId();
         Notification actualNotification = inTransaction(() -> notificationsDb.getNotification(notificationId));
@@ -53,15 +52,14 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testDeleteNotification() {
-        ______TS("success: delete a notification that already exists");
+    public void testRemoveNotification() {
         Notification notification = generateTypicalNotification();
 
-        inTransaction(() -> notificationsDb.createNotification(notification));
+        inTransaction(() -> notificationsDb.persistNotification(notification));
         UUID notificationId = notification.getId();
         assertNotNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
 
-        inTransaction(() -> notificationsDb.deleteNotification(notification));
+        inTransaction(() -> notificationsDb.removeNotification(notification));
         assertNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
     }
 
@@ -113,7 +111,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         List<Notification> allNotifications = List.of(n1, n2, n3, n4, n5, n6);
         inTransaction(() -> {
             for (Notification n : allNotifications) {
-                notificationsDb.createNotification(n);
+                notificationsDb.persistNotification(n);
             }
         });
 

@@ -32,14 +32,9 @@ public final class NotificationsDb {
     }
 
     /**
-     * Creates a notification.
-     *
-     * <p>Preconditions:</p>
-     * * Notification fields are valid.
+     * Persists a notification.
      */
-    public Notification createNotification(Notification notification) {
-        assert notification != null;
-
+    public Notification persistNotification(Notification notification) {
         HibernateUtil.persist(notification);
         return notification;
     }
@@ -48,15 +43,13 @@ public final class NotificationsDb {
      * Gets a notification by its unique ID.
      */
     public Notification getNotification(UUID notificationId) {
-        assert notificationId != null;
-
         return HibernateUtil.get(Notification.class, notificationId);
     }
 
     /**
-     * Deletes a notification.
+     * Removes a notification.
      */
-    public void deleteNotification(Notification notification) {
+    public void removeNotification(Notification notification) {
         HibernateUtil.remove(notification);
     }
 
@@ -94,9 +87,9 @@ public final class NotificationsDb {
     }
 
     /**
-     * Creates a read notification.
+     * Persists a read notification.
      */
-    public ReadNotification createReadNotification(ReadNotification readNotification) {
+    public ReadNotification persistReadNotification(ReadNotification readNotification) {
         HibernateUtil.persist(readNotification);
         return readNotification;
     }

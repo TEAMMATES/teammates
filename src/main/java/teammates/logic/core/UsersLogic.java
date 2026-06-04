@@ -122,7 +122,7 @@ public final class UsersLogic {
             throw new EntityAlreadyExistsException("Instructor already exists.");
         }
 
-        return usersDb.createInstructor(instructor);
+        return usersDb.persistInstructor(instructor);
     }
 
     /**
@@ -196,7 +196,7 @@ public final class UsersLogic {
 
         team.addUser(student);
         validateUser(student);
-        return usersDb.createStudent(student);
+        return usersDb.persistStudent(student);
     }
 
     /**
@@ -297,7 +297,7 @@ public final class UsersLogic {
             return;
         }
 
-        usersDb.deleteUser(user);
+        usersDb.removeUser(user);
     }
 
     /**

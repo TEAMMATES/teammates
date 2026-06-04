@@ -94,15 +94,15 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
-        inTransaction(() -> usersDb.deleteUser(ins1InCourse1));
+        inTransaction(() -> usersDb.removeUser(ins1InCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins2InCourse1, unregisteredInsInCourse1);
 
-        inTransaction(() -> usersDb.deleteUser(ins2InCourse1));
+        inTransaction(() -> usersDb.removeUser(ins2InCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, unregisteredInsInCourse1);
 
-        inTransaction(() -> usersDb.deleteUser(unregisteredInsInCourse1));
+        inTransaction(() -> usersDb.removeUser(unregisteredInsInCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results);
     }

@@ -43,11 +43,9 @@ public final class UsageStatisticsDb {
     }
 
     /**
-     * Creates a usage statistics object.
+     * Persists a usage statistics object.
      */
-    public UsageStatistics createUsageStatistics(UsageStatistics usageStatistics) {
-        assert usageStatistics != null;
-
+    public UsageStatistics persistUsageStatistics(UsageStatistics usageStatistics) {
         HibernateUtil.persist(usageStatistics);
 
         return usageStatistics;
