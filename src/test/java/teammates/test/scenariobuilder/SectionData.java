@@ -5,6 +5,9 @@ import java.util.UUID;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
 
+/**
+ * Builder for Section entities used in test scenarios.
+ */
 public final class SectionData {
     private GivenData given;
     private Section section;
@@ -18,11 +21,17 @@ public final class SectionData {
         return section;
     }
 
+    /**
+     * Sets the name for the section.
+     */
     public SectionData name(String name) {
         section.setName(name);
         return this;
     }
 
+    /**
+     * Sets the course for the section.
+     */
     public SectionData course(String courseAlias) {
         assert section.getCourse() == null : "Course has already been set for this section";
         Course c = given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
@@ -36,6 +45,9 @@ public final class SectionData {
         }
     }
 
+    /**
+     * Generates a default alias for a section based on the course alias.
+     */
     public static String getDefaultAlias(String courseAlias) {
         return "default:" + courseAlias;
     }

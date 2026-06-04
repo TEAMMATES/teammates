@@ -32,17 +32,21 @@ import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.test.scenariobuilder.GivenData;
+
 import liquibase.command.CommandScope;
 
 /**
  * Base test case for tests that access the database.
  */
 public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
-
     private static final PostgreSQLContainer PGSQL = new PostgreSQLContainer("postgres:15.1-alpine");
 
-    private final Logic logic = Logic.inst();
+    /**
+     * GivenData instance for building test data.
+     */
     protected GivenData given;
+
+    private final Logic logic = Logic.inst();
 
     @BeforeSuite(alwaysRun = true)
     protected static void setUpSuite() throws Exception {
@@ -179,20 +183,20 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     }
 
     /**
+     * Verifies that the entity identified by the given class and id is present in the database.
+     */
+    protected <T extends BaseEntity> void verifyPresentInDatabase(Class<T> entityClass, Object id) {
+        BaseEntity actual = getEntityInTransaction(entityClass, id);
+        assertNotNull(actual);
+    }
+
+    /**
      * Verifies that the given entity is not present in the database.
      */
     protected void verifyAbsentInDatabase(BaseEntity entity) {
         assertNotNull(entity);
         BaseEntity actual = inTransaction(() -> getEntity(entity));
         assertNull(actual);
-    }
-
-    /**
-     * Verifies that the entity identified by the given class and id is present in the database.
-     */
-    protected <T extends BaseEntity> void verifyPresentInDatabase(Class<T> entityClass, Object id) {
-        BaseEntity actual = getEntityInTransaction(entityClass, id);
-        assertNotNull(actual);
     }
 
     /**
@@ -203,7 +207,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         assertNull(actual);
     }
 
-    // Legacy method for backward compatibility. New tests should use the getEntity method that takes in the entity class and id.
+    // Legacy method for backward compatibility.
+    // New tests should use the getEntity method that takes in the entity class and id.
     private BaseEntity getEntity(BaseEntity entity) {
         if (entity instanceof Course) {
             return logic.getCourse(((Course) entity).getId());
@@ -232,12 +237,12 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
     }
 
-    protected <T extends BaseEntity> T getEntityInTransaction(Class<T> entityClass, Object id) {
-        return inTransaction(() -> getEntity(entityClass, id));
-    }
-
     protected <T extends BaseEntity> T getEntity(Class<T> entityClass, Object id) {
         return HibernateUtil.get(entityClass, id);
+    }
+
+    protected <T extends BaseEntity> T getEntityInTransaction(Class<T> entityClass, Object id) {
+        return inTransaction(() -> getEntity(entityClass, id));
     }
 
     /**

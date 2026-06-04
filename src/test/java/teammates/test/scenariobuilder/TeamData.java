@@ -5,6 +5,9 @@ import java.util.UUID;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 
+/**
+ * Builder for Team entities used in test scenarios.
+ */
 public final class TeamData {
     private GivenData given;
     private Team team;
@@ -18,11 +21,17 @@ public final class TeamData {
         return team;
     }
 
+    /**
+     * Sets the name for the team.
+     */
     public TeamData name(String name) {
         team.setName(name);
         return this;
     }
 
+    /**
+     * Sets the section for the team.
+     */
     public TeamData section(String sectionAlias) {
         assert team.getSection() == null : "Section has already been set for this team";
         Section s = given.getOrCreate(sectionAlias, given.dataBundle.sections, given::section);
@@ -30,6 +39,9 @@ public final class TeamData {
         return this;
     }
 
+    /**
+     * Sets the course for the team.
+     */
     public TeamData course(String courseAlias) {
         assert team.getSection() == null : "Section has already been set for this team";
         given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
@@ -49,6 +61,9 @@ public final class TeamData {
         }
     }
 
+    /**
+     * Generates a default alias for a team.
+     */
     public static String getDefaultAlias(String courseAlias, String sectionAlias, String teamAlias) {
         return "default:" + courseAlias + ":" + sectionAlias + ":" + teamAlias;
     }

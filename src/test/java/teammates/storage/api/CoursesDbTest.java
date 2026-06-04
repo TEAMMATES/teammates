@@ -17,7 +17,10 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.GroupNames;
 
-public class CoursesDbTest extends BaseDbTest {
+/**
+ * Tests for {@link CoursesDb}.
+ */
+public class CoursesDbTest extends BaseDbTestcase {
     CoursesDb coursesDb = CoursesDb.inst();
 
     @Test(groups = GroupNames.DB)
@@ -73,7 +76,7 @@ public class CoursesDbTest extends BaseDbTest {
     public void persistSection_newSection_sectionIsPersisted() {
         String courseId = given.course("course");
         persistGivenData(given);
-        
+
         Section actual = inTransaction(() -> {
             Course course = getEntity(Course.class, courseId);
             Section section = buildDefaultSection(course, given.uuid("section"));
@@ -169,7 +172,7 @@ public class CoursesDbTest extends BaseDbTest {
         List<Team> actual = inTransaction(() -> coursesDb.getTeamsForCourse(courseId));
 
         assertEquals(2, actual.size());
-        assertEquals(Set.of(teamId1, teamId2), actual.stream().map(Team::getId).collect(Collectors.toSet()));   
+        assertEquals(Set.of(teamId1, teamId2), actual.stream().map(Team::getId).collect(Collectors.toSet()));
     }
 
     private static Course buildDefaultCourse(String courseId) {
