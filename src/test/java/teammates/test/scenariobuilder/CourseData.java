@@ -8,7 +8,7 @@ public final class CourseData {
     private Course course;
 
     public CourseData(String courseId) {
-        course = defaultCourse(courseId);
+        this.course = defaultCourse(courseId);
     }
 
     public Course build() {

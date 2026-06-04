@@ -187,6 +187,23 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         assertNull(actual);
     }
 
+    /**
+     * Verifies that the entity identified by the given class and id is present in the database.
+     */
+    protected <T extends BaseEntity> void verifyPresentInDatabase(Class<T> entityClass, Object id) {
+        BaseEntity actual = getEntityInTransaction(entityClass, id);
+        assertNotNull(actual);
+    }
+
+    /**
+     * Verifies that the entity identified by the given class and id is not present in the database.
+     */
+    protected void verifyAbsentInDatabase(Class<? extends BaseEntity> entityClass, Object id) {
+        BaseEntity actual = getEntityInTransaction(entityClass, id);
+        assertNull(actual);
+    }
+
+    // Legacy method for backward compatibility. New tests should use the getEntity method that takes in the entity class and id.
     private BaseEntity getEntity(BaseEntity entity) {
         if (entity instanceof Course) {
             return logic.getCourse(((Course) entity).getId());
@@ -213,6 +230,14 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         } else {
             throw new RuntimeException("Unknown entity type");
         }
+    }
+
+    protected <T extends BaseEntity> T getEntityInTransaction(Class<T> entityClass, Object id) {
+        return inTransaction(() -> getEntity(entityClass, id));
+    }
+
+    protected <T extends BaseEntity> T getEntity(Class<T> entityClass, Object id) {
+        return HibernateUtil.get(entityClass, id);
     }
 
     /**

@@ -349,13 +349,6 @@ public class Logic {
     }
 
     /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        return coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
-    }
-
-    /**
      * Gets the deadline extensions for a feedback session.
      */
     public Set<DeadlineExtension> getDeadlineExtensions(UUID feedbackSessionId) throws EntityDoesNotExistException {
