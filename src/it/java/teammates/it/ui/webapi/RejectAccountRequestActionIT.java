@@ -15,7 +15,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -50,12 +49,9 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -74,19 +70,18 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+    protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
+                AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         RejectAccountRequestAction action = getAction(requestBody, params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(200, result.getStatusCode());
 
@@ -107,19 +102,18 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail()
-            throws InvalidOperationException, InvalidHttpRequestBodyException, InvalidParametersException {
+    protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
+                AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         RejectAccountRequestAction action = getAction(requestBody, params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(200, result.getStatusCode());
 
@@ -134,11 +128,11 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_withReasonBodyButNoTitle_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
+                AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
@@ -151,11 +145,11 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_withReasonTitleButNoBody_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_withReasonTitleButNoBody_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                AccountRequestStatus.PENDING, bundleAccountRequest.getComments());
+                AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);
@@ -168,11 +162,11 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_alreadyRejected_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_alreadyRejected_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        AccountRequest accountRequest = logic.createAccountRequest(bundleAccountRequest.getName(),
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
                 bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
-                AccountRequestStatus.REJECTED, bundleAccountRequest.getComments());
+                AccountRequestStatus.REJECTED, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
@@ -183,7 +177,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Test
-    protected void testExecute_invalidUuid_shouldThrow() throws InvalidParametersException {
+    protected void testExecute_invalidUuid_shouldThrow() {
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
 

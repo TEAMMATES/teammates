@@ -3,7 +3,6 @@ package teammates.it.storage.api;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -14,9 +13,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
+import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -26,16 +26,15 @@ import teammates.storage.entity.FeedbackSession;
  */
 public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Test
@@ -43,29 +42,35 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: typical case");
         FeedbackQuestion expectedFq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
-        FeedbackQuestion actualFq = fqDb.getFeedbackQuestion(expectedFq.getId());
+        FeedbackQuestion actualFq = inTransaction(() -> fqDb.getFeedbackQuestion(expectedFq.getId()));
 
         assertEquals(expectedFq, actualFq);
 
         ______TS("failure: does not exist, returns null");
-        actualFq = fqDb.getFeedbackQuestion(UUID.randomUUID());
+        actualFq = inTransaction(() -> fqDb.getFeedbackQuestion(UUID.randomUUID()));
         assertNull(actualFq);
 
         ______TS("failure: null parameter, assertion error");
-        assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
+        assertThrowsInTransaction(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
     }
 
     @Test
     public void testCreateFeedbackQuestion() {
         ______TS("success: typical case");
-        FeedbackQuestion expectedFq = getTypicalFeedbackQuestionForSession(
-                getTypicalFeedbackSessionForCourse(getTypicalCourse()));
+        Course course = getTypicalCourse();
+        FeedbackSession fs = getTypicalFeedbackSessionForCourse(course);
 
-        fqDb.createFeedbackQuestion(expectedFq);
+        FeedbackQuestion expectedFq = inTransaction(() -> {
+            coursesDb.createCourse(course);
+            fsDb.createFeedbackSession(fs);
+            FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
+            fqDb.createFeedbackQuestion(fq);
+            return fq;
+        });
         verifyPresentInDatabase(expectedFq);
 
         ______TS("failure: null parameter, assertion error");
-        assertThrows(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
+        assertThrowsInTransaction(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
     }
 
     @Test
@@ -84,13 +89,13 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4, fq5, fq6, fq7, fq8, fq9);
 
-        List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForSession(fs.getId());
+        List<FeedbackQuestion> actualQuestions = inTransaction(() -> fqDb.getFeedbackQuestionsForSession(fs.getId()));
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
 
         ______TS("failure: session does not exist, returns no questions");
-        actualQuestions = fqDb.getFeedbackQuestionsForSession(UUID.randomUUID());
+        actualQuestions = inTransaction(() -> fqDb.getFeedbackQuestionsForSession(UUID.randomUUID()));
         assertEquals(0, actualQuestions.size());
     }
 
@@ -104,14 +109,16 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq9);
 
-        List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS);
+        List<FeedbackQuestion> actualQuestions =
+                inTransaction(() -> fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS));
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
 
         ______TS("failure: session does not exist, returns no questions");
-        fs = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS);
+        FeedbackSession nonExistentFs = getTypicalFeedbackSessionForCourse(getTypicalCourse());
+        actualQuestions = inTransaction(() -> fqDb.getFeedbackQuestionsForGiverType(
+                nonExistentFs, QuestionGiverType.STUDENTS));
         assertEquals(0, actualQuestions.size());
     }
 
@@ -121,8 +128,8 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         verifyPresentInDatabase(fq);
 
-        fqDb.deleteFeedbackQuestion(fq);
-        assertNull(fqDb.getFeedbackQuestion(fq.getId()));
+        inTransaction(() -> fqDb.deleteFeedbackQuestion(fq));
+        assertNull(inTransaction(() -> fqDb.getFeedbackQuestion(fq.getId())));
     }
 
     @Test
@@ -131,13 +138,14 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        boolean actual = fqDb.hasFeedbackQuestionsForGiverType(
-                fs.getName(), course.getId(), QuestionGiverType.STUDENTS);
+        boolean actual = inTransaction(() -> fqDb.hasFeedbackQuestionsForGiverType(
+                fs.getName(), course.getId(), QuestionGiverType.STUDENTS));
 
         assertTrue(actual);
 
         ______TS("failure: session/course does not exist, returns false");
-        actual = fqDb.hasFeedbackQuestionsForGiverType("session-name", "course-id", QuestionGiverType.STUDENTS);
+        actual = inTransaction(() -> fqDb.hasFeedbackQuestionsForGiverType(
+                "session-name", "course-id", QuestionGiverType.STUDENTS));
         assertFalse(actual);
     }
 }

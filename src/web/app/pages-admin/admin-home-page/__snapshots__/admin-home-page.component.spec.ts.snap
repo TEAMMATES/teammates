@@ -4,7 +4,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
 <tm-admin-home-page
   accountReqs={[Function Array]}
   accountService={[Function _AccountService]}
-  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
+  dateFormatService={[Function _DateFormatService]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""

@@ -1,7 +1,6 @@
 package teammates.it.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Duration;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -19,6 +17,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -26,8 +25,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
@@ -55,12 +52,6 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
-    @BeforeMethod
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     @Test
     public void testCreateDataBundle_typicalValues_createdCorrectly() throws Exception {
         String pathToJsonFile = getTestDataFolder() + "/DataBundleLogicIT.json";
@@ -75,22 +66,26 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedAccountRequest.setId(actualAccountRequest.getId());
         expectedAccountRequest.setRegisteredAt(Instant.parse("2015-02-14T00:00:00Z"));
         expectedAccountRequest.setRegistrationKey(actualAccountRequest.getRegistrationKey());
-        verifyEquals(expectedAccountRequest, actualAccountRequest);
+        assertEquals(expectedAccountRequest, actualAccountRequest);
 
         ______TS("verify accounts deserialized correctly");
 
         Account actualInstructorAccount = dataBundle.accounts.get("instructor1");
-        Account expectedInstructorAccount = new Account("idOfInstructor1", "Instructor 1", "instr1@teammates.tmt");
+        Account expectedInstructorAccount = new Account(
+                "idOfInstructor1", Provider.TEAMMATES_DEV, "idOfInstructor1", null,
+                "Instructor 1", "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
-        verifyEquals(expectedInstructorAccount, actualInstructorAccount);
+        assertEquals(expectedInstructorAccount, actualInstructorAccount);
         assertEquals(1, actualInstructorAccount.getReadNotifications().size());
         assertTrue(List.of(dataBundle.readNotifications.get("notification1Instructor1"))
                 .containsAll(actualInstructorAccount.getReadNotifications()));
 
         Account actualStudentAccount = dataBundle.accounts.get("student1");
-        Account expectedStudentAccount = new Account("idOfStudent1", "Student 1", "student1@teammates.tmt");
+        Account expectedStudentAccount = new Account(
+                "idOfStudent1", Provider.TEAMMATES_DEV, "idOfStudent1", null,
+                "Student 1", "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
-        verifyEquals(expectedStudentAccount, actualStudentAccount);
+        assertEquals(expectedStudentAccount, actualStudentAccount);
         assertEquals(1, actualStudentAccount.getReadNotifications().size());
         assertTrue(List.of(dataBundle.readNotifications.get("notification1Student1"))
                 .containsAll(actualStudentAccount.getReadNotifications()));
@@ -102,7 +97,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
         expectedNotification.setId(actualNotification.getId());
-        verifyEquals(expectedNotification, actualNotification);
+        assertEquals(expectedNotification, actualNotification);
 
         ______TS("verify read notifications deserialized correctly");
 
@@ -111,15 +106,15 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedInstructorAccount.addReadNotification(expectedReadNotification);
         expectedNotification.addReadNotification(expectedReadNotification);
 
-        expectedNotification.setId(actualNotification.getId());
-        verifyEquals(expectedReadNotification, actualReadNotification);
+        expectedReadNotification.setId(actualReadNotification.getId());
+        assertEquals(expectedReadNotification, actualReadNotification);
 
         ______TS("verify courses deserialized correctly");
 
         Course actualTypicalCourse = dataBundle.courses.get("typicalCourse");
         Course expectedTypicalCourse = new Course("typical-course-id", "Typical Course", "Africa/Johannesburg",
                 "TEAMMATES Test Institute");
-        verifyEquals(expectedTypicalCourse, actualTypicalCourse);
+        assertEquals(expectedTypicalCourse, actualTypicalCourse);
 
         ______TS("verify sections deserialized correctly");
 
@@ -127,7 +122,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Section expectedSection = new Section("Section 1");
         expectedTypicalCourse.addSection(expectedSection);
         expectedSection.setId(actualSection.getId());
-        verifyEquals(expectedSection, actualSection);
+        assertEquals(expectedSection, actualSection);
 
         ______TS("verify teams deserialized correctly");
 
@@ -135,7 +130,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Team expectedTeam = new Team("Team 1");
         expectedSection.addTeam(expectedTeam);
         expectedTeam.setId(actualTeam.getId());
-        verifyEquals(expectedTeam, actualTeam);
+        assertEquals(expectedTeam, actualTeam);
 
         ______TS("verify instructors deserialized correctly");
 
@@ -147,7 +142,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedInstructor1.setId(actualInstructor1.getId());
         expectedInstructor1.setRegKey(actualInstructor1.getRegKey());
         expectedInstructor1.setAccount(expectedInstructorAccount);
-        verifyEquals(expectedInstructor1, actualInstructor1);
+        assertEquals(expectedInstructor1, actualInstructor1);
 
         Instructor actualInstructor2 = dataBundle.instructors.get("instructor2OfTypicalCourse");
         InstructorPermissionRole tutor = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR;
@@ -156,7 +151,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 true, "Instructor", tutor, tutorPrivileges);
         expectedInstructor2.setId(actualInstructor2.getId());
         expectedInstructor2.setRegKey(actualInstructor2.getRegKey());
-        verifyEquals(expectedInstructor2, actualInstructor2);
+        assertEquals(expectedInstructor2, actualInstructor2);
 
         ______TS("verify students deserialized correctly");
 
@@ -167,7 +162,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedStudent1.setTeam(expectedTeam);
         expectedStudent1.setRegKey(actualStudent1.getRegKey());
         expectedStudent1.setId(actualStudent1.getId());
-        verifyEquals(expectedStudent1, actualStudent1);
+        assertEquals(expectedStudent1, actualStudent1);
 
         Student actualStudent2 = dataBundle.students.get("student2InTypicalCourse");
         Student expectedStudent2 = new Student(expectedTypicalCourse, "student2 In TypicalCourse",
@@ -175,7 +170,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedStudent2.setTeam(expectedTeam);
         expectedStudent2.setRegKey(actualStudent2.getRegKey());
         expectedStudent2.setId(actualStudent2.getId());
-        verifyEquals(expectedStudent2, actualStudent2);
+        assertEquals(expectedStudent2, actualStudent2);
 
         ______TS("verify feedback sessions");
 
@@ -189,7 +184,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         expectedSession1.setOpenedEmailSent(actualSession1.isOpenedEmailSent());
         expectedSession1.setOpeningSoonEmailSent(actualSession1.isOpeningSoonEmailSent());
         expectedTypicalCourse.addFeedbackSession(expectedSession1);
-        verifyEquals(expectedSession1, actualSession1);
+        assertEquals(expectedSession1, actualSession1);
 
         ______TS("verify feedback questions deserialized correctly");
 
@@ -202,7 +197,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 List.of(ViewerType.INSTRUCTORS), questionDetails1);
         expectedSession1.addFeedbackQuestion(expectedQuestion1);
         expectedQuestion1.setId(actualQuestion1.getId());
-        verifyEquals(expectedQuestion1, actualQuestion1);
+        assertEquals(expectedQuestion1, actualQuestion1);
 
         ______TS("verify feedback responses deserialized correctly");
         FeedbackResponse actualResponse1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
@@ -211,7 +206,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 new ResponseGiver(actualStudent1), new ResponseRecipient(actualStudent1), responseDetails1);
         actualQuestion1.addFeedbackResponse(expectedResponse1);
         expectedResponse1.setId(actualResponse1.getId());
-        verifyEquals(expectedResponse1, actualResponse1);
+        assertEquals(expectedResponse1, actualResponse1);
 
         ______TS("verify feedback response comments deserialized correctly");
         ResponseInstructorComment actualComment1 = dataBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
@@ -221,13 +216,13 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 new ArrayList<>(), new ArrayList<>(), commentGiver);
         expectedResponse1.addResponseInstructorComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
-        verifyEquals(expectedComment1, actualComment1);
+        assertEquals(expectedComment1, actualComment1);
     }
 
     @Test
-    public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() throws Exception {
+    public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
-        dataBundleLogic.persistDataBundle(dataBundle);
+        inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
 
         ______TS("verify notifications persisted correctly");
         Notification notification1 = dataBundle.notifications.get("notification1");
@@ -255,11 +250,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testRemoveDataBundle_typicalValues_removedCorrectly()
-                throws InvalidParametersException {
+    public void testRemoveDataBundle_typicalValues_removedCorrectly() {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
-        dataBundleLogic.persistDataBundle(dataBundle);
-        HibernateUtil.flushSession();
+        inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
 
         ______TS("verify notifications persisted correctly");
         Notification notification1 = dataBundle.notifications.get("notification1");
@@ -288,22 +281,19 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         verifyPresentInDatabase(accountRequest);
 
-        dataBundleLogic.removeDataBundle(dataBundle);
-
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
+        inTransaction(() -> dataBundleLogic.removeDataBundle(dataBundle));
 
         ______TS("verify notification removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
+        verifyAbsentInDatabase(notification1);
 
         ______TS("verify course removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
+        verifyAbsentInDatabase(typicalCourse);
 
         ______TS("verify feedback session removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
+        verifyAbsentInDatabase(session1InTypicalCourse);
 
         ______TS("verify feedback questions, responses, response comments and deadline extensions "
                 + "related to session1InTypicalCourse are removed correctly");
@@ -314,31 +304,31 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         List<ResponseInstructorComment> frcs = new ArrayList<>();
 
         for (DeadlineExtension de : des) {
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(de));
+            verifyAbsentInDatabase(de);
         }
 
         for (FeedbackQuestion fq : fqs) {
             frs.addAll(fq.getFeedbackResponses());
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fq));
+            verifyAbsentInDatabase(fq);
         }
 
         for (FeedbackResponse fr : frs) {
             frcs.addAll(fr.getResponseInstructorComments());
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fr));
+            verifyAbsentInDatabase(fr);
         }
 
         for (ResponseInstructorComment frc : frcs) {
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(frc));
+            verifyAbsentInDatabase(frc);
         }
 
         ______TS("verify accounts removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(instructor1Account));
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(student1Account));
+        verifyAbsentInDatabase(instructor1Account);
+        verifyAbsentInDatabase(student1Account);
 
         ______TS("verify account request removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(accountRequest));
+        verifyAbsentInDatabase(accountRequest);
     }
 
 }

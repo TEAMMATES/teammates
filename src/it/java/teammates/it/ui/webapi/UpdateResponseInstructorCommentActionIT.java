@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.CommentVisibilityType;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.UpdateResponseInstructorCommentAction;
 public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<UpdateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -59,7 +55,7 @@ public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<Update
         UpdateResponseInstructorCommentAction action = getAction(requestBody, submissionParams);
         getJsonResult(action);
 
-        ResponseInstructorComment actualFrc = logic.getResponseInstructorComment(frc.getId());
+        ResponseInstructorComment actualFrc = inTransaction(() -> logic.getResponseInstructorComment(frc.getId()));
         assertEquals(newCommentText, actualFrc.getCommentText());
     }
 

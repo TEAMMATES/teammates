@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -26,12 +25,9 @@ import teammates.ui.webapi.UpdateInstructorAction;
 public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -73,7 +69,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        Instructor editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
+        Instructor editedInstructor = inTransaction(() -> logic.getInstructorByGoogleId(courseId, instructorId));
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
@@ -130,14 +126,14 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         response = (InstructorData) actionOutput.getOutput();
 
-        editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
+        editedInstructor = inTransaction(() -> logic.getInstructorByGoogleId(courseId, instructorId));
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
 
         //remove the new instructor entity that was created
-        logic.deleteCourse("icieat.courseId");
+        inTransaction(() -> logic.deleteCourse("icieat.courseId"));
 
         ______TS("Unsuccessful case: test null course id parameter");
 
@@ -190,4 +186,3 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         verifyInaccessibleForInstructorsOfOtherCourses(course, submissionParams);
     }
 }
-

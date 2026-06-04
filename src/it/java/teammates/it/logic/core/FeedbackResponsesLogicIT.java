@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
@@ -25,29 +24,26 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Test
     public void testDeleteFeedbackResponsesAndCommentsCascade() {
         ______TS("success: typical case");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
-        fr1 = frLogic.getFeedbackResponse(fr1.getId());
-        UUID frcId = fr1.getResponseInstructorComments().iterator().next().getId();
-        assertNotNull(fr1);
-        assertFalse(fr1.getResponseInstructorComments().isEmpty());
+        UUID frId = fr1.getId();
+        UUID frcId = inTransaction(() -> {
+            FeedbackResponse loadedFr1 = frLogic.getFeedbackResponse(frId);
+            assertNotNull(loadedFr1);
+            assertFalse(loadedFr1.getResponseInstructorComments().isEmpty());
+            UUID responseInstructorCommentId = loadedFr1.getResponseInstructorComments().iterator().next().getId();
+            frLogic.deleteFeedbackResponsesAndCommentsCascade(loadedFr1);
+            return responseInstructorCommentId;
+        });
 
-        frLogic.deleteFeedbackResponsesAndCommentsCascade(fr1);
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
-
-        assertNull(frLogic.getFeedbackResponse(fr1.getId()));
-        assertNull(frcLogic.getResponseInstructorComment(frcId));
+        assertNull(inTransaction(() -> frLogic.getFeedbackResponse(frId)));
+        assertNull(inTransaction(() -> frcLogic.getResponseInstructorComment(frcId)));
     }
 }

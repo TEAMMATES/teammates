@@ -5,11 +5,11 @@ import { CourseService } from './course.service';
 import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
-import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
+import { joinStateToString } from '../app/utils/join-state.util';
 
 /**
  * Handles student related logic provision.
@@ -147,12 +147,11 @@ export class StudentService {
         this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name)
       );
     });
-    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {
       const studentRow: string[] = [
         student.teamName ? student.teamName : '',
         student.name,
-        joinStatePipe.transform(student.joinState),
+        joinStateToString(student.joinState),
         student.email,
       ];
       csvRows.push(hasSection ? [student.sectionName].concat(studentRow) : studentRow);

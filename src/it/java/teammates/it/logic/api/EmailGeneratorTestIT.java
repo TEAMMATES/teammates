@@ -12,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.api.EmailGenerator;
@@ -29,10 +28,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle dataBundle;
 
-    @Override
     @BeforeMethod
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUp() {
         dataBundle = loadDataBundle("/EmailGeneratorTest.json");
 
         FeedbackSession awaitingSession = dataBundle.feedbackSessions.get("awaiting.session");
@@ -69,8 +66,6 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
         dataBundle.feedbackSessions.put("session2InCourse4", session2InCourse4);
 
         persistDataBundle(dataBundle);
-        HibernateUtil.flushSession();
-        HibernateUtil.clearSession();
     }
 
     @Test
@@ -89,8 +84,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
-                student1InCourse1.getEmail(), List.of(student1InCourse1));
+        email = inTransaction(() -> emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                student1InCourse1.getEmail(), List.of(student1InCourse1)));
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         verifyEmail(email, student1InCourse1.getEmail(), subject,
@@ -100,8 +95,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student1InCourse3 = dataBundle.students.get("student1InCourse3");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
-                student1InCourse3.getEmail(), List.of(student1InCourse3));
+        email = inTransaction(() -> emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                student1InCourse3.getEmail(), List.of(student1InCourse3)));
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -112,8 +107,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
         Student student1InCourse4 = dataBundle.students.get("student1InCourse4");
 
-        email = emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
-                student1InCourse4.getEmail(), List.of(student1InCourse4));
+        email = inTransaction(() -> emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
+                student1InCourse4.getEmail(), List.of(student1InCourse4)));
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 

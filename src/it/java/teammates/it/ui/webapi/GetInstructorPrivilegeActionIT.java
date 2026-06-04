@@ -13,7 +13,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
@@ -26,12 +25,9 @@ import teammates.ui.webapi.GetInstructorPrivilegeAction;
 public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPrivilegeAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override

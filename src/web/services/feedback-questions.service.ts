@@ -9,7 +9,6 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackQuestion,
   FeedbackQuestionDetails,
-  FeedbackQuestionRecipients,
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
@@ -668,26 +667,6 @@ export class FeedbackQuestionsService {
     const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);
-  }
-
-  /**
-   * Get a list of feedback question recipients.
-   */
-  loadFeedbackQuestionRecipients(queryParams: {
-    questionId: string;
-    intent: Intent;
-    key: string;
-    moderatedPerson: string;
-    previewAs: string;
-  }): Observable<FeedbackQuestionRecipients> {
-    const paramMap: Record<string, string> = {
-      questionid: queryParams.questionId,
-      intent: queryParams.intent,
-      key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
-      previewas: queryParams.previewAs,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.QUESTION_RECIPIENTS, paramMap);
   }
 }
 

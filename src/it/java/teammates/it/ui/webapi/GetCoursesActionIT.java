@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -22,12 +21,9 @@ import teammates.ui.webapi.JsonResult;
 public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(loadDataBundle("/GetCoursesActionIT.json"));
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -130,21 +126,11 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
 
-        verifySameCourseDataStudent(courses.getCourses().get(0), expectedCourse1);
-        verifySameCourseDataStudent(courses.getCourses().get(1), expectedCourse2);
+        verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
+        verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
     }
 
     private void verifySameCourseData(CourseData actualCourse, Course expectedCourse) {
-        assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
-        assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
-        assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
-        if (expectedCourse.getDeletedAt() != null) {
-            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
-        }
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
-    }
-
-    private void verifySameCourseDataStudent(CourseData actualCourse, Course expectedCourse) {
         assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
         assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
         assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());

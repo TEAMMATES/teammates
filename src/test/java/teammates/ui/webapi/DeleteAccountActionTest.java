@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -45,7 +46,8 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     @Test
     protected void testExecute_nonNullParams_success() {
         Course stubCourse = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        Account stubAccount = new Account(googleId, "name", "instructoremail@tm.tmt");
+        Account stubAccount = new Account(googleId, Provider.TEAMMATES_DEV, "validInstructorSubject",
+                "validTenantId", "name", "instructoremail@tm.tmt");
         Instructor instructor = new Instructor(stubCourse, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
         instructor.setAccount(stubAccount);

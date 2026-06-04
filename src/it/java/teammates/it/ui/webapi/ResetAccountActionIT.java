@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -26,12 +25,9 @@ import teammates.ui.webapi.ResetAccountAction;
 public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -62,9 +58,10 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
         assertEquals(response.getMessage(), "Account is successfully reset.");
-        assertNotNull(student);
-        assertNull(student.getAccount());
-        assertNull(student.getGoogleId());
+        Student updatedStudent = inTransaction(() -> logic.getStudent(student.getId()));
+        assertNotNull(updatedStudent);
+        assertNull(updatedStudent.getAccount());
+        assertNull(updatedStudent.getGoogleId());
 
         ______TS("User ID param given but user is non existent");
         UUID invalidUserId = UUID.randomUUID();
@@ -85,9 +82,10 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         response = (MessageOutput) actionOutput.getOutput();
 
         assertEquals(response.getMessage(), "Account is successfully reset.");
-        assertNotNull(instructor);
-        assertNull(instructor.getAccount());
-        assertNull(instructor.getGoogleId());
+        Instructor updatedInstructor = inTransaction(() -> logic.getInstructor(instructor.getId()));
+        assertNotNull(updatedInstructor);
+        assertNull(updatedInstructor.getAccount());
+        assertNull(updatedInstructor.getGoogleId());
 
     }
 

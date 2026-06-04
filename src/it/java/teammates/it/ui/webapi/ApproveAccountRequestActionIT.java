@@ -12,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -29,12 +28,9 @@ import teammates.ui.webapi.JsonResult;
 public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRequestAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -53,13 +49,13 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_pendingRequest_approvesSuccessfully() throws Exception {
-        AccountRequest accountRequest = logic.createAccountRequest("name", "pending@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments");
+    void testExecute_pendingRequest_approvesSuccessfully() {
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "pending@email.com",
+                "institute", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
@@ -72,13 +68,13 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_rejectedRequest_approvesSuccessfully() throws Exception {
-        AccountRequest accountRequest = logic.createAccountRequest("name", "rejected@email.com",
-                "institute", AccountRequestStatus.REJECTED, "comments");
+    void testExecute_rejectedRequest_approvesSuccessfully() {
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "rejected@email.com",
+                "institute", AccountRequestStatus.REJECTED, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
@@ -87,17 +83,19 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_existingAccountWithSameEmail_approvesSuccessfully() throws Exception {
+    void testExecute_existingAccountWithSameEmail_approvesSuccessfully() {
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
-        logic.createAccount(existingAccount);
+        inTransaction(() -> logic.createAccount(
+                existingAccount.getProvider(), existingAccount.getSubject(), existingAccount.getTenantId(),
+                existingAccount.getEmail(), existingAccount.getGoogleId()));
 
-        AccountRequest accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),
-                "anotherInstitute", AccountRequestStatus.PENDING, "comments");
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", existingAccount.getEmail(),
+                "anotherInstitute", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
@@ -106,16 +104,15 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully()
-            throws Exception {
-        logic.createAccountRequest("name", "same@email.com",
-                "instituteA", AccountRequestStatus.APPROVED, "comments");
-        AccountRequest accountRequest = logic.createAccountRequest("name", "same@email.com",
-                "instituteB", AccountRequestStatus.PENDING, "comments");
+    void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully() {
+        inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
+                "instituteA", AccountRequestStatus.APPROVED, "comments"));
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
+                "instituteB", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
-        JsonResult result = action.execute();
+        JsonResult result = getJsonResult(action);
 
         assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
@@ -141,9 +138,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Test
-    void testExecute_invalidStatus_throwsInvalidOperationException() throws InvalidParametersException {
-        AccountRequest accountRequest = logic.createAccountRequest("name", "registered@email.com",
-                "institute", AccountRequestStatus.REGISTERED, "comments");
+    void testExecute_invalidStatus_throwsInvalidOperationException() {
+        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "registered@email.com",
+                "institute", AccountRequestStatus.REGISTERED, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);

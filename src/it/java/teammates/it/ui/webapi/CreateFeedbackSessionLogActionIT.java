@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
@@ -27,12 +26,9 @@ import teammates.ui.webapi.JsonResult;
 public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbackSessionLogAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -80,9 +76,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
 
-        List<FeedbackSessionLog> persistedAccessLogs = logic.getOrderedFeedbackSessionLogs(courseId1,
+        List<FeedbackSessionLog> persistedAccessLogs = inTransaction(() -> logic.getOrderedFeedbackSessionLogs(courseId1,
                 student1.getId(),
-                fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
+                fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)));
         assertEquals(1, persistedAccessLogs.size());
         assertEquals(fs1.getId(), persistedAccessLogs.get(0).getFeedbackSession().getId());
         assertEquals(student1.getId(), persistedAccessLogs.get(0).getUser().getId());
@@ -99,9 +95,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
 
-        List<FeedbackSessionLog> persistedSubmissionLogs = logic.getOrderedFeedbackSessionLogs(courseId1,
+        List<FeedbackSessionLog> persistedSubmissionLogs = inTransaction(() -> logic.getOrderedFeedbackSessionLogs(courseId1,
                 student2.getId(), fs2.getId(), Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60));
+                Instant.now().plusSeconds(60)));
         assertEquals(1, persistedSubmissionLogs.size());
         assertEquals(fs2.getId(), persistedSubmissionLogs.get(0).getFeedbackSession().getId());
         assertEquals(student2.getId(), persistedSubmissionLogs.get(0).getUser().getId());
@@ -114,10 +110,10 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
         };
         verifyHttpParameterFailure(paramsNonExistentFsName);
-        assertEquals(2, logic
+        assertEquals(2, inTransaction(() -> logic
                 .getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
                         Instant.now().plusSeconds(60))
-                .size());
+                .size()));
     }
 
     @Test

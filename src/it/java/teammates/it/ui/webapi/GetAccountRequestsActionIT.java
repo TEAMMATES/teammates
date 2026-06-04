@@ -3,6 +3,7 @@ package teammates.it.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -12,7 +13,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.ui.output.AccountRequestData;
@@ -28,12 +28,9 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
 
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -66,7 +63,8 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
         ______TS("1 pending account request, case insensitive match for status request param");
 
         AccountRequest accountRequest1 = typicalBundle.accountRequests.get("instructor1");
-        accountRequest1.setStatus(AccountRequestStatus.PENDING);
+        UUID accountRequest1Id = accountRequest1.getId();
+        inTransaction(() -> logic.getAccountRequest(accountRequest1Id).setStatus(AccountRequestStatus.PENDING));
 
         String[] params = { Const.ParamsNames.ACCOUNT_REQUEST_STATUS, "PendinG" };
         action = getAction(params);
@@ -78,12 +76,16 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
 
         ______TS("Get 2 pending account requests, ignore 1 approved account request");
         AccountRequest approvedAccountRequest1 = typicalBundle.accountRequests.get("instructor2");
-        approvedAccountRequest1.setStatus(AccountRequestStatus.APPROVED);
+        inTransaction(() ->
+                logic.getAccountRequest(approvedAccountRequest1.getId()).setStatus(AccountRequestStatus.APPROVED));
 
         accountRequest1 = typicalBundle.accountRequests.get("instructor1");
         AccountRequest accountRequest2 = typicalBundle.accountRequests.get("instructor1OfCourse2");
-        accountRequest1.setStatus(AccountRequestStatus.PENDING);
-        accountRequest2.setStatus(AccountRequestStatus.PENDING);
+        AccountRequest finalAccountRequest1 = accountRequest1;
+        inTransaction(() -> {
+            logic.getAccountRequest(finalAccountRequest1.getId()).setStatus(AccountRequestStatus.PENDING);
+            logic.getAccountRequest(accountRequest2.getId()).setStatus(AccountRequestStatus.PENDING);
+        });
 
         action = getAction(this.validParams);
         result = getJsonResult(action);

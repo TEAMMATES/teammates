@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -26,12 +25,9 @@ import teammates.ui.webapi.JsonResult;
 public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorAction> {
     private DataBundle typicalBundle;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -66,7 +62,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()));
+        assertNull(inTransaction(() -> logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())));
     }
 
     @Test
@@ -79,7 +75,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructor2OfCourse1.getId().toString(),
         };
 
-        assertTrue(logic.getInstructorsByCourse(instructor1OfCourse1.getCourseId()).size() > 1);
+        assertTrue(inTransaction(() -> logic.getInstructorsByCourse(instructor1OfCourse1.getCourseId()).size() > 1));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -87,8 +83,10 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail()));
-        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
+        assertNull(inTransaction(() ->
+                logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail())));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())));
     }
 
     @Test
@@ -101,14 +99,15 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
-        assertEquals(1, logic.getInstructorsByCourse(instructor.getCourseId()).size());
+        assertEquals(1, inTransaction(() -> logic.getInstructorsByCourse(instructor.getCourseId()).size()));
 
         InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        assertNotNull(logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId()));
+        assertNotNull(inTransaction(() -> logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())));
     }
 
     @Test
@@ -121,7 +120,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructor2OfCourse1.getId().toString(),
         };
 
-        assertTrue(logic.getInstructorsByCourse(instructor1OfCourse1.getCourseId()).size() > 1);
+        assertTrue(inTransaction(() -> logic.getInstructorsByCourse(instructor1OfCourse1.getCourseId()).size() > 1));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -129,8 +128,10 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail()));
-        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
+        assertNull(inTransaction(() ->
+                logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail())));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())));
     }
 
     @Test
@@ -144,14 +145,16 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructorToDelete.getId().toString(),
         };
 
-        assertEquals(1, logic.getInstructorsByCourse(courseId).size());
+        assertEquals(1, inTransaction(() -> logic.getInstructorsByCourse(courseId).size()));
 
         InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail())));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId())));
     }
 
     @Test
@@ -165,15 +168,17 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructorToDelete.getId().toString(),
         };
 
-        assertEquals(1, logic.getInstructorsByCourse(courseId).size());
+        assertEquals(1, inTransaction(() -> logic.getInstructorsByCourse(courseId).size()));
 
         InvalidOperationException ioe = verifyInvalidOperation(
                 addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
-        assertNotNull(logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail())));
+        assertNotNull(inTransaction(() ->
+                logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId())));
     }
 
     @Test
@@ -187,7 +192,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
 
         loginAsAdmin();
 
-        assertTrue(logic.getInstructorsByCourse(courseId).size() > 1);
+        assertTrue(inTransaction(() -> logic.getInstructorsByCourse(courseId).size() > 1));
 
         DeleteInstructorAction deleteInstructorAction =
                 getAction(addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
@@ -196,7 +201,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         MessageOutput messageOutput = (MessageOutput) response.getOutput();
 
         assertEquals("Instructor is successfully deleted.", messageOutput.getMessage());
-        assertNull(logic.getInstructorForEmail(courseId, instructorToDelete.getEmail()));
+        assertNull(inTransaction(() -> logic.getInstructorForEmail(courseId, instructorToDelete.getEmail())));
     }
 
     @Test
@@ -238,7 +243,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, nonExistentInstructorId.toString(),
         };
 
-        assertNull(logic.getInstructor(nonExistentInstructorId));
+        assertNull(inTransaction(() -> logic.getInstructor(nonExistentInstructorId)));
         verifyEntityNotFoundAcl(submissionParams);
     }
 

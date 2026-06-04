@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.storage.entity.AccountRequest;
@@ -23,17 +22,17 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
         UUID id = UUID.randomUUID();
-        AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
+        AccountRequest actualAccountRequest = inTransaction(() -> accountRequestsLogic.getAccountRequest(id));
         assertNull(actualAccountRequest);
     }
 
     @Test
-    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() throws InvalidParametersException {
+    public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
-        accountRequestsLogic.createAccountRequest(expectedAccountRequest);
-        AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
+        inTransaction(() -> accountRequestsLogic.createAccountRequest(expectedAccountRequest));
+        AccountRequest actualAccountRequest = inTransaction(() -> accountRequestsLogic.getAccountRequest(id));
         assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 }

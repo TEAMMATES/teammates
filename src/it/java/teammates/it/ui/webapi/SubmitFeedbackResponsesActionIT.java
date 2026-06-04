@@ -22,7 +22,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.DeadlineExtension;
@@ -46,12 +45,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private DataBundle typicalBundle;
     private FeedbackQuestion currentQuestionForSubmission;
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override
@@ -75,7 +71,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private Instructor loginInstructor(String instructorId) {
         Instructor instructor = getInstructor(instructorId);
         loginAsInstructor(instructor.getGoogleId());
-        HibernateUtil.flushSession();
         return instructor;
     }
 
@@ -96,7 +91,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private Student loginStudent(String studentId) {
         Student student = getStudent(studentId);
         loginAsStudent(student.getGoogleId());
-        HibernateUtil.flushSession();
         return student;
     }
 
@@ -110,39 +104,49 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private void setStartTime(FeedbackSession session, int days) {
-        Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-
-        session.setStartTime(startTime);
+        inTransaction(() -> {
+            Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+            logic.getFeedbackSession(session.getId()).setStartTime(startTime);
+        });
     }
 
     private void setEndTime(FeedbackSession session, int days) {
-        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-
-        session.setEndTime(endTime);
+        inTransaction(() -> {
+            Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+            logic.getFeedbackSession(session.getId()).setEndTime(endTime);
+        });
     }
 
     private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
-        DeadlineExtension existingDeadline = logic.getDeadlineExtensionEntityForUser(session, user);
-        if (existingDeadline != null) {
-            existingDeadline.setEndTime(endTime);
-            logic.updateDeadlineExtension(existingDeadline);
-        } else {
-            DeadlineExtension newDeadline = new DeadlineExtension(user, endTime);
-            session.addDeadlineExtension(newDeadline);
-            logic.createDeadlineExtension(newDeadline);
-        }
+        inTransaction(() -> {
+            FeedbackSession managedSession = logic.getFeedbackSession(session.getId());
+            User managedUser = logic.getUser(user.getId());
+            Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+            DeadlineExtension existingDeadline = logic.getDeadlineExtensionEntityForUser(managedSession, managedUser);
+            if (existingDeadline != null) {
+                existingDeadline.setEndTime(endTime);
+                logic.updateDeadlineExtension(existingDeadline);
+            } else {
+                DeadlineExtension newDeadline = new DeadlineExtension(managedUser, endTime);
+                managedSession.addDeadlineExtension(newDeadline);
+                logic.createDeadlineExtension(newDeadline);
+            }
+        });
     }
 
     private void deleteDeadlineExtensionForUser(FeedbackSession session, User user) {
-        DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(session, user);
-        if (existingDeadlineEndTime == null) {
-            return;
-        }
+        inTransaction(() -> {
+            FeedbackSession managedSession = logic.getFeedbackSession(session.getId());
+            User managedUser = logic.getUser(user.getId());
+            DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(managedSession, managedUser);
+            if (existingDeadlineEndTime == null) {
+                return;
+            }
 
-        session.getDeadlineExtensions().remove(existingDeadlineEndTime);
-        logic.deleteDeadlineExtension(existingDeadlineEndTime);
+            managedSession.getDeadlineExtensions().remove(existingDeadlineEndTime);
+            logic.deleteDeadlineExtension(existingDeadlineEndTime);
+        });
     }
 
     private String[] buildSubmissionParams(FeedbackSession session, int questionNumber, Intent intent) {
@@ -167,10 +171,13 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
 
-        instructor.getCourse().setId(courseId);
-        instructor.setPrivileges(instructorPrivileges);
+        inTransaction(() -> {
+            Instructor updatedInstructor = logic.getInstructor(instructor.getId());
+            updatedInstructor.getCourse().setId(courseId);
+            updatedInstructor.setPrivileges(instructorPrivileges);
 
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructor);
+            logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
+        });
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
@@ -299,9 +306,9 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void validateDatabaseWithRecipientEmails(FeedbackSession session, FeedbackQuestion feedbackQuestion,
             String giverEmail, List<String> recipientEmails) {
-        List<FeedbackResponse> responses = logic.getFeedbackQuestion(feedbackQuestion.getId())
+        List<FeedbackResponse> responses = inTransaction(() -> logic.getFeedbackQuestion(feedbackQuestion.getId())
                 .getFeedbackResponses().stream()
-                .toList();
+                .toList());
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses = responses.stream()
                     .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))

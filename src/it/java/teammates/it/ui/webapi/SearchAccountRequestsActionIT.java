@@ -11,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.ui.output.AccountRequestsData;
@@ -31,12 +30,9 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         verifyOnlyAdminCanAccess(course);
     }
 
-    @Override
     @BeforeMethod
-    protected void setUp() throws Exception {
-        super.setUp();
+    protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
-        HibernateUtil.flushSession();
     }
 
     @Override

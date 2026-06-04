@@ -5,6 +5,8 @@
       "googleId": "tm.e2e.ASess.instr1",
       "name": "Instructor1 of Course1",
       "email": "asess.instructor1@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tm.e2e.ASess.instr1",
       "readNotifications": {}
     }
   },
