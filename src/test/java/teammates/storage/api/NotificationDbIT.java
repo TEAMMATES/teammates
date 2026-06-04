@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.Notification;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 

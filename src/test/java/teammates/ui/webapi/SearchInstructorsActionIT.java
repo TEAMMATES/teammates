@@ -14,8 +14,6 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorsData;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.SearchInstructorsAction;
 
 /**
  * SUT: {@link SearchInstructorsAction}.

@@ -13,7 +13,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
-import teammates.ui.webapi.UpdateResponseInstructorCommentAction;
 
 /**
  * SUT: {@link UpdateResponseInstructorCommentAction}.

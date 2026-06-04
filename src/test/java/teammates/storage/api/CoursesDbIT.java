@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;

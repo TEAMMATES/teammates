@@ -13,9 +13,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.storage.api.CoursesDb;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;

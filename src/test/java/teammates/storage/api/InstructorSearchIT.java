@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Instructor;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;

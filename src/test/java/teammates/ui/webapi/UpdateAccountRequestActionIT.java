@@ -21,8 +21,6 @@ import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.UpdateAccountRequestAction;
 
 /**
  * SUT: {@link UpdateAccountRequestAction}.

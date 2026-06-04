@@ -13,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.webapi.DeleteStudentAction;
 
 /**
  * SUT: {@link DeleteStudentAction}.

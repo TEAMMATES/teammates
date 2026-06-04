@@ -17,7 +17,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.InstructorPrivilegeData;
-import teammates.ui.webapi.GetInstructorPrivilegeAction;
 
 /**
  * SUT: {@link GetInstructorPrivilegeAction}.

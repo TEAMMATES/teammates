@@ -10,8 +10,6 @@ import java.util.Set;
 
 import org.testng.annotations.Test;
 
-import teammates.storage.api.CoursesDb;
-import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.test.BaseTestCaseWithDatabaseAccess;

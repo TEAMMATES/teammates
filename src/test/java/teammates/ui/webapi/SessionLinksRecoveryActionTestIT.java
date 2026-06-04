@@ -11,8 +11,6 @@ import teammates.common.util.Const.TaskQueue;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.SessionLinksRecoveryAction;
 
 /**
  * SUT: {@link SessionLinksRecoveryActionTestIT}.

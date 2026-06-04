@@ -21,8 +21,6 @@ import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.TimeHelper;
-import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;

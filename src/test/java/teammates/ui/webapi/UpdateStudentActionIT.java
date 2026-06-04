@@ -24,8 +24,6 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.UpdateStudentAction;
 
 /**
  * SUT: {@link UpdateStudentAction}.

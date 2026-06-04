@@ -13,8 +13,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.User;
 import teammates.ui.output.RegenerateKeyData;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.RegenerateUserKeyAction;
 
 /**
  * SUT: {@link RegenerateUserKeyAction}.

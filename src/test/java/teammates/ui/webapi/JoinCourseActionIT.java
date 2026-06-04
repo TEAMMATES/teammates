@@ -13,7 +13,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.RegKeyRequest;
-import teammates.ui.webapi.JoinCourseAction;
 
 /**
  * SUT: {@link JoinCourseAction}.

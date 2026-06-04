@@ -16,8 +16,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.ResetAccountAction;
 
 /**
  * SUT: {@link ResetAccountAction}.

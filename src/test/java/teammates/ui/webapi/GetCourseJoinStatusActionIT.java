@@ -10,8 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.JoinStatus;
-import teammates.ui.webapi.GetCourseJoinStatusAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetCourseJoinStatusAction}.

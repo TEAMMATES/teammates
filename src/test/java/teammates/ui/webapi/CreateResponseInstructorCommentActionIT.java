@@ -14,7 +14,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.ResponseInstructorCommentCreateRequest;
-import teammates.ui.webapi.CreateResponseInstructorCommentAction;
 
 /**
  * SUT: {@link CreateResponseInstructorCommentAction}.

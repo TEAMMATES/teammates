@@ -21,8 +21,6 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionSubmissionData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.GetSessionSubmissionDataAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetSessionSubmissionDataAction}.

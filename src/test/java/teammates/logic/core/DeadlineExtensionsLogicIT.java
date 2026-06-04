@@ -8,7 +8,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;

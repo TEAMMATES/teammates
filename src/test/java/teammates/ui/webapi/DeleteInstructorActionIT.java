@@ -16,8 +16,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.webapi.DeleteInstructorAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteInstructorAction}.

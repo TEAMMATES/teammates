@@ -13,8 +13,6 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.GetInstructorAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetInstructorAction}.

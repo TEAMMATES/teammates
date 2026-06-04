@@ -11,8 +11,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.HasResponsesData;
-import teammates.ui.webapi.GetHasResponsesAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetHasResponsesAction}.

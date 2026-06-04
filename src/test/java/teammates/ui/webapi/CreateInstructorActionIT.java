@@ -16,8 +16,6 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.webapi.CreateInstructorAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateInstructorAction}.

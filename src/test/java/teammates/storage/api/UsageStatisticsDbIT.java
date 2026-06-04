@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.storage.api.UsageStatisticsDb;
 import teammates.storage.entity.UsageStatistics;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 

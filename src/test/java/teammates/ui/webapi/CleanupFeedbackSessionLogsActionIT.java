@@ -19,7 +19,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Student;
-import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
 
 /**
  * SUT: {@link CleanupFeedbackSessionLogsAction}.

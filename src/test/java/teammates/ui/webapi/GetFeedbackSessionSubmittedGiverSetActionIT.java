@@ -17,8 +17,6 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
-import teammates.ui.webapi.GetFeedbackSessionSubmittedGiverSetAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackSessionSubmittedGiverSetAction}.

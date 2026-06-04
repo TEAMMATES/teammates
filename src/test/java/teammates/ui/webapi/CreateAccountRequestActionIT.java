@@ -14,8 +14,6 @@ import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.CreateAccountRequestAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateAccountRequestAction}.

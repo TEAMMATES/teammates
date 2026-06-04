@@ -16,8 +16,6 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.UpdateInstructorAction;
 
 /**
  * SUT: {@link UpdateInstructorAction}.

@@ -17,8 +17,6 @@ import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
-import teammates.ui.webapi.GetAccountRequestsAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetAccountRequestsAction}.

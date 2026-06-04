@@ -24,8 +24,6 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestRejectionRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.RejectAccountRequestAction;
 
 /**
  * SUT: {@link RejectAccountRequestAction}.

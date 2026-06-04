@@ -12,7 +12,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.BaseTestCaseWithDatabaseAccess;

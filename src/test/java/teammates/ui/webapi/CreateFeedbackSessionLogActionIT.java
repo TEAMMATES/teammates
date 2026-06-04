@@ -17,8 +17,6 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Student;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.webapi.CreateFeedbackSessionLogAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateFeedbackSessionLogAction}.

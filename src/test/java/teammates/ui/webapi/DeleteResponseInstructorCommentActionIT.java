@@ -12,8 +12,6 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.webapi.DeleteResponseInstructorCommentAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteResponseInstructorCommentAction}.

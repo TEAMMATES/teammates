@@ -12,9 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
-import teammates.storage.api.AccountsDb;
-import teammates.storage.api.CoursesDb;
-import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;

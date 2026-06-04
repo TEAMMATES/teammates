@@ -13,7 +13,6 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.core.NotificationsLogic;
 import teammates.storage.entity.Notification;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 

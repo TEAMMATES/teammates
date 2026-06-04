@@ -13,8 +13,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.StudentsData;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.SearchStudentsAction;
 
 /**
  * SUT: {@link SearchStudentsAction}.

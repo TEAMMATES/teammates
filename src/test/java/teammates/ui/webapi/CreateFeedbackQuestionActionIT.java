@@ -21,8 +21,6 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
-import teammates.ui.webapi.CreateFeedbackQuestionAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateFeedbackQuestionAction}.

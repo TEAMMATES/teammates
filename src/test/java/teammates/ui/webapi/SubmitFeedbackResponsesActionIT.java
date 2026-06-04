@@ -18,9 +18,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -35,8 +32,6 @@ import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.SubmitFeedbackResponsesAction;
 
 /**
  * SUT: {@link SubmitFeedbackResponsesAction}.
@@ -117,8 +112,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         });
     }
 
-    private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+    private void setUserDeadlineExtension(FeedbackSession session, User user, int days) {
         inTransaction(() -> {
             FeedbackSession managedSession = logic.getFeedbackSession(session.getId());
             User managedUser = logic.getUser(user.getId());

@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.logic.core.AccountRequestsLogic;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 

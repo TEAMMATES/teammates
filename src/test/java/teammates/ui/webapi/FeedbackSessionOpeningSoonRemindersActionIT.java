@@ -21,8 +21,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
-import teammates.ui.webapi.FeedbackSessionOpeningSoonRemindersAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link FeedbackSessionOpeningSoonRemindersAction}.

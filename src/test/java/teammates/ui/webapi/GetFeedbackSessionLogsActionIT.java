@@ -18,8 +18,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogsData;
-import teammates.ui.webapi.GetFeedbackSessionLogsAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackSessionLogsAction}.

@@ -13,8 +13,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.GetRegkeyValidityAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetRegKeyValidityAction}.

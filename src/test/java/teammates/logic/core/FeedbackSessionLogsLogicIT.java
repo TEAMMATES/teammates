@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;

@@ -14,7 +14,6 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 
 /**
  * SUT: {@link DeleteFeedbackQuestionAction}.

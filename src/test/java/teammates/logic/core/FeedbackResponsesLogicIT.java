@@ -10,8 +10,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.logic.core.FeedbackResponsesLogic;
-import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 

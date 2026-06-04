@@ -13,7 +13,6 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.EmailGenerator;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;

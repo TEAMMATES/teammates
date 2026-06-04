@@ -19,8 +19,6 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentsEnrollRequest;
-import teammates.ui.webapi.EnrollStudentsAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link EnrollStudentsAction}.

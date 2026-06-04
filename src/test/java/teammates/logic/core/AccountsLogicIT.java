@@ -9,8 +9,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.UsersLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;

@@ -16,8 +16,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.GetUserSessionResultsAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetUserSessionResultsAction}.

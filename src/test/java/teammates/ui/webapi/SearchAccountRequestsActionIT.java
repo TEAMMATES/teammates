@@ -14,8 +14,6 @@ import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.ui.output.AccountRequestsData;
-import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.SearchAccountRequestsAction;
 
 /**
  * SUT: {@link SearchAccountRequestsAction}.

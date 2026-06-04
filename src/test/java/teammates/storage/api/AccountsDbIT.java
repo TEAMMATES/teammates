@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 

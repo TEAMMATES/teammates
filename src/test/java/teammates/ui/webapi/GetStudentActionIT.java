@@ -16,8 +16,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.StudentData;
-import teammates.ui.webapi.GetStudentAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetStudentAction}.

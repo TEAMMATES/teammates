@@ -11,8 +11,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.SessionResultsData;
-import teammates.ui.webapi.GetCourseSessionResultsAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetCourseSessionResultsAction}.

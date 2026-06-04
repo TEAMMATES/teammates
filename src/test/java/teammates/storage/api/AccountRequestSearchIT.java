@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;

@@ -19,8 +19,6 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
-import teammates.ui.webapi.ApproveAccountRequestAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link ApproveAccountRequestAction}.

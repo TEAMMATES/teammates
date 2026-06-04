@@ -13,8 +13,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionStatsData;
-import teammates.ui.webapi.GetSessionResponseStatsAction;
-import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetSessionResponseStatsAction}.
