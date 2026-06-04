@@ -42,19 +42,6 @@ public final class AccountsDb {
     }
 
     /**
-     * Gets accounts based on email.
-     */
-    public List<Account> getAccountsByEmail(String email) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
-        Root<Account> accountRoot = cr.from(Account.class);
-
-        cr.select(accountRoot).where(cb.equal(accountRoot.get("email"), email));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Persists an Account.
      */
     public Account persistAccount(Account account) {
