@@ -250,13 +250,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets instructors matching any of the specified emails.
-     */
-    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
-        return usersDb.getInstructorsForEmails(courseId, userEmails);
-    }
-
-    /**
      * Gets an instructor by associated {@code regkey}.
      */
     public Instructor getInstructorByRegistrationKey(String regKey) {

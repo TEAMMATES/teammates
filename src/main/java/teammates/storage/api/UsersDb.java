@@ -99,7 +99,10 @@ public final class UsersDb {
 
     /**
      * Gets an instructor by {@code googleId}.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public Instructor getInstructorByGoogleId(String courseId, String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -137,7 +140,10 @@ public final class UsersDb {
 
     /**
      * Gets a student by {@code googleId}.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public Student getStudentByGoogleId(String courseId, String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
@@ -153,7 +159,10 @@ public final class UsersDb {
 
     /**
      * Gets all students by {@code googleId}.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<Student> getStudentsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
@@ -167,7 +176,10 @@ public final class UsersDb {
 
     /**
      * Gets all instructors and students by {@code googleId}.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<User> getAllUsersByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<User> usersCr = cb.createQuery(User.class);
@@ -181,7 +193,10 @@ public final class UsersDb {
 
     /**
      * Gets all instructors by {@code googleId}.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> instructorsCr = cb.createQuery(Instructor.class);
@@ -195,7 +210,10 @@ public final class UsersDb {
 
     /**
      * Gets all students by {@code googleId}.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<Student> getAllStudentsByGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> studentsCr = cb.createQuery(Student.class);
@@ -387,7 +405,10 @@ public final class UsersDb {
 
     /**
      * Gets the instructor with the specified {@code userEmail}.
+     *
+     * @deprecated unused in production code, moving away from email based retrieval
      */
+    @Deprecated(forRemoval = false)
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         String normalizedUserEmail = normalizeEmail(userEmail);
 
@@ -405,7 +426,10 @@ public final class UsersDb {
 
     /**
      * Gets instructors with the specified {@code userEmail}.
+     *
+     * @deprecated unused in production code, moving away from email based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -446,7 +470,10 @@ public final class UsersDb {
 
     /**
      * Gets the student with the specified {@code userEmail}.
+     *
+     * @deprecated unused in production code, moving away from email based retrieval
      */
+    @Deprecated(forRemoval = false)
     public Student getStudentForEmail(String courseId, String userEmail) {
         String normalizedUserEmail = normalizeEmail(userEmail);
 
@@ -464,7 +491,10 @@ public final class UsersDb {
 
     /**
      * Gets students with the specified {@code userEmail}.
+     *
+     * @deprecated unused in production code, moving away from email based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<Student> getStudentsForEmails(String courseId, List<String> userEmails) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
@@ -505,7 +535,10 @@ public final class UsersDb {
 
     /**
      * Gets all instructors associated with a googleId.
+     *
+     * @deprecated moving away from googleId based retrieval
      */
+    @Deprecated(forRemoval = false)
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
@@ -556,7 +589,10 @@ public final class UsersDb {
 
     /**
      * Gets the section with the specified {@code sectionName} and {@code courseId}.
+     *
+     * @deprecated unused in production code
      */
+    @Deprecated(forRemoval = false)
     public Section getSection(String courseId, String sectionName) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Section> cr = cb.createQuery(Section.class);
