@@ -1,14 +1,17 @@
 package teammates.test.scenariobuilder;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 
 /**
@@ -70,6 +73,7 @@ import teammates.storage.entity.Team;
  */
 public final class GivenData {
     final DataBundle dataBundle = new DataBundle();
+    final Map<BaseEntity, String> entityToAlias = new HashMap<>();
     private final String testName;
 
     public GivenData(String testName) {
@@ -92,6 +96,7 @@ public final class GivenData {
         options.accept(accountData);
         Account account = accountData.build();
         dataBundle.accounts.put(alias, account);
+        entityToAlias.put(account, alias);
         return account.getId();
     }
 
@@ -111,6 +116,7 @@ public final class GivenData {
         options.accept(courseData);
         Course course = courseData.build();
         dataBundle.courses.put(alias, course);
+        entityToAlias.put(course, alias);
         return course.getId();
     }
 
@@ -130,6 +136,7 @@ public final class GivenData {
         options.accept(sectionData);
         Section section = sectionData.build();
         dataBundle.sections.put(alias, section);
+        entityToAlias.put(section, alias);
         return section.getId();
     }
 
@@ -149,7 +156,28 @@ public final class GivenData {
         options.accept(teamData);
         Team team = teamData.build();
         dataBundle.teams.put(alias, team);
+        entityToAlias.put(team, alias);
         return team.getId();
+    }
+
+    /**
+     * Creates a student with default values.
+     */
+    public UUID student(String alias) {
+        return student(alias, s -> {
+        });
+    }
+
+    /**
+     * Creates a student and applies the provided options to customize it.
+     */
+    public UUID student(String alias, Consumer<GivenStudent> options) {
+        GivenStudent studentData = new GivenStudent(this, uuid(alias));
+        options.accept(studentData);
+        Student student = studentData.build();
+        dataBundle.students.put(alias, student);
+        entityToAlias.put(student, alias);
+        return student.getId();
     }
 
     /**
@@ -171,6 +199,10 @@ public final class GivenData {
         create.accept(alias);
         return map.get(alias);
     }
+
+    String getAlias(BaseEntity entity) {
+        return entityToAlias.get(entity);
+     }
 
     /**
      * Generates a string ID based on the alias and test name. The ID is

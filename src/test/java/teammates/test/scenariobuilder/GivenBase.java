@@ -1,11 +1,13 @@
 package teammates.test.scenariobuilder;
 
+import teammates.storage.entity.BaseEntity;
+
 /**
  * Base class for all "Given" builders in test scenarios.
  *
  * @param <T> The type of entity being built.
  */
-public abstract class GivenBase<T> {
+public abstract class GivenBase<T extends BaseEntity> {
     /**
      * The GivenData instance that provides access to shared data and helper methods.
      */
@@ -31,6 +33,9 @@ public abstract class GivenBase<T> {
      */
     public final T build() {
         ensureConsistent();
+        if (!entity.isValid()) {
+            throw new AssertionError(entity.getInvalidityInfo());
+        }
         return entity;
     }
 }

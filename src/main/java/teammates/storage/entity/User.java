@@ -74,12 +74,16 @@ public abstract class User extends BaseEntity {
         // required by Hibernate
     }
 
-    protected User(Course course, String name, String email) {
+    protected User(String name, String email) {
         this.setId(UUID.randomUUID());
-        this.setCourse(course);
         this.setName(name);
         this.setEmail(email);
         this.generateNewRegistrationKey();
+    }
+
+    protected User(Course course, String name, String email) {
+        this(name, email);
+        this.setCourse(course);
     }
 
     /**
