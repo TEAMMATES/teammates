@@ -1,7 +1,6 @@
 package teammates.test.scenariobuilder;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
@@ -92,20 +91,6 @@ public final class GivenFeedbackSessionLog extends GivenBase<FeedbackSessionLog>
     public GivenFeedbackSessionLog timestamp(Instant timestamp) {
         entity.setTimestamp(timestamp);
         return this;
-    }
-
-    /**
-     * Sets the timestamp to a time that is in a typical query range.
-     */
-    public GivenFeedbackSessionLog inRange() {
-        return timestamp(now);
-    }
-
-    /**
-     * Sets the timestamp to a time that is before a typical query range.
-     */
-    public GivenFeedbackSessionLog beforeRange() {
-        return timestamp(now.minus(3, ChronoUnit.HOURS));
     }
 
     @Override
