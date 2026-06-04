@@ -14,6 +14,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
@@ -33,14 +34,14 @@ public class GetUserSessionResultsActionIT extends BaseActionIT<GetUserSessionRe
         return GET;
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());

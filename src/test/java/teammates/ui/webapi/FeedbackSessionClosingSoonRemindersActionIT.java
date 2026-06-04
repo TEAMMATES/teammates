@@ -19,6 +19,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
+import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -27,7 +28,7 @@ import teammates.ui.output.MessageOutput;
 public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<FeedbackSessionClosingSoonRemindersAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
         prepareSession();
@@ -73,7 +74,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
@@ -85,7 +86,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         // covered by individual test cases
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess1() {
         ______TS("Typical Success Case 1: email tasks added for 1 all users of 1 session");
         long oneHour = 60 * 60;
@@ -114,7 +115,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 7);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess2() {
         ______TS("Typical Success Case 2: email tasks added for 1 all users of 1 session and 1 deadline extension");
         long oneHour = 60 * 60;
@@ -146,7 +147,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 8);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess3() {
         ______TS("Typical Success Case 3: Only 1 email task queued -- "
                 + "0 for session: already sent, "
@@ -182,7 +183,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess4() {
         ______TS("Typical Success Case 4: No tasks queued -- "
                 + "both session and deadline extensions have already sent closing-soon emails");
@@ -214,7 +215,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         verifyNoTasksAdded();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess5() {
         ______TS("Typical Success Case 5: No tasks queued -- session's closing-soon email disabled");
         long oneHour = 60 * 60;
@@ -246,7 +247,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         verifyNoTasksAdded();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess6() {
         ______TS("Typical Success Case 6: No tasks queued -- "
                 + "session's closed email already sent, but closing-soon email not yet sent and still within time window");
@@ -287,7 +288,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void textExecute_typicalSuccess7() {
         ______TS("Typical Success Case 7: No tasks queued -- session is shorter than the closing-soon lead time");
         long oneHour = 60 * 60;

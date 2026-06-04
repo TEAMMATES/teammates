@@ -21,6 +21,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsersLogic}.
@@ -39,7 +40,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private Account account;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         inTransaction(() -> {
             Course typicalCourse = getTypicalCourse();
@@ -57,7 +58,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         });
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testResetAccount_instructor() {
         Instructor instructor = getTypicalInstructor();
         instructor.setCourse(course);
@@ -79,7 +80,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testResetAccount_student() {
         String email = "email@gmail.tmt";
         String googleId = account.getGoogleId();
@@ -104,7 +105,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
         Instructor instructor = getTypicalInstructor();
         instructor.setCourse(course);

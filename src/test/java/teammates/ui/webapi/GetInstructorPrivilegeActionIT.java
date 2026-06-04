@@ -15,6 +15,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.InstructorPrivilegeData;
 
@@ -24,7 +25,7 @@ import teammates.ui.output.InstructorPrivilegeData;
 public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPrivilegeAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -39,7 +40,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -105,7 +106,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         verifyHttpParameterFailure();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor otherInstructor = typicalBundle.instructors.get("instructor2OfCourse1");

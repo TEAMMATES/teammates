@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
@@ -23,7 +24,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -39,7 +40,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructorToEdit = typicalBundle.instructors.get("instructor2OfCourse1");
         String instructorId = instructorToEdit.getGoogleId();
@@ -166,7 +167,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         Instructor instructor = typicalBundle.instructors.get("instructor2OfCourse1");

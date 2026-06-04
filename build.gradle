@@ -573,11 +573,9 @@ task unitTests(type: Test) {
     group = "Test"
     testClassesDirs = testing.suites.test.sources.output.classesDirs
     classpath = testing.suites.test.sources.runtimeClasspath
-    filter {
-        excludeTestsMatching "*IT"
-    }
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
+    options.excludeGroups "integration"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"
@@ -596,11 +594,9 @@ task integrationTests(type: Test) {
     group = "Test"
     testClassesDirs = testing.suites.test.sources.output.classesDirs
     classpath = testing.suites.test.sources.runtimeClasspath
-    filter {
-        includeTestsMatching "*IT"
-    }
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
+    options.includeGroups "integration"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"

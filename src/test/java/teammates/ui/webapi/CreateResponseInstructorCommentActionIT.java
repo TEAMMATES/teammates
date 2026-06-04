@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
+import teammates.test.GroupNames;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
@@ -21,7 +22,7 @@ import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 public class CreateResponseInstructorCommentActionIT extends BaseActionIT<CreateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -36,7 +37,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
         return POST;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         ______TS("Successful case: instructor result comment");
@@ -61,7 +62,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
         assertEquals(instructor, comment.getGiver().getGiverUser());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
