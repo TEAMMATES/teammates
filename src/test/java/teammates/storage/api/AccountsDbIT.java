@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.storage.entity.Account;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link AccountsDb}.
@@ -19,7 +19,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final AccountsDb accountsDb = AccountsDb.inst();
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetAccountsByEmail() {
         ______TS("Get accounts by email, none exists, succeeds");
 
@@ -51,7 +51,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateAccount() {
         ______TS("Create account, does not exists, succeeds");
 
@@ -63,7 +63,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(account, actualAccount);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testRemoveAccount() {
         Account account = getTypicalAccount();
         inTransaction(() -> accountsDb.persistAccount(account));

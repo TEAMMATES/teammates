@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -36,7 +36,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         // This is separated into different test methods.
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_nullEmail_throwsInvalidHttpRequestBodyException() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorName("Paul Atreides");
@@ -45,7 +45,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("email cannot be null", ihrbException.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_nullName_throwsInvalidHttpRequestBodyException() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
@@ -54,7 +54,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("name cannot be null", ihrbException.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_nullInstitute_throwsInvalidHttpRequestBodyException() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
@@ -63,7 +63,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("institute cannot be null", ihrbException.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidEmail_throwsInvalidHttpRequestBodyException() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("invalid email address");
@@ -77,7 +77,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(expectedMessage, ihrbException.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidName_throwsInvalidHttpRequestBodyException() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
@@ -90,7 +90,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(expectedMessage, ihrbException.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidInstitute_throwsInvalidHttpRequestBodyException() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
@@ -103,7 +103,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(expectedMessage, ihrbException.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_typicalCase_createsSuccessfully() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
@@ -134,7 +134,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_leadingAndTrailingSpacesAndNullComments_createsSuccessfully() {
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail(" kwisatz.haderach@atreides.org   ");
@@ -164,7 +164,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
         AccountRequest existingAccountRequest = inTransaction(() -> logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
@@ -199,7 +199,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_typicalCaseAsAdmin_noEmailsSent() {
         loginAsAdmin();
         AccountCreateRequest request = new AccountCreateRequest();
@@ -216,7 +216,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         verifyAccessibleWithoutLogin();
     }

@@ -16,7 +16,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogsData;
 
@@ -41,7 +41,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         return GET;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         JsonResult actionOutput;
@@ -205,7 +205,7 @@ public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSess
         assertEquals(FeedbackSessionLogType.SUBMISSION, fsLogEntries1.get(2).getFeedbackSessionLogType());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");

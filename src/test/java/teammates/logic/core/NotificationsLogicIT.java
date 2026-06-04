@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.Notification;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link NotificationsLogic}.
@@ -23,7 +23,7 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private NotificationsLogic notificationsLogic = NotificationsLogic.inst();
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(
                 Instant.parse("2011-02-01T00:00:00Z"),
@@ -38,7 +38,7 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(inTransaction(() -> notificationsLogic.getNotification(invalidNotification.getId())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateNotification_emptyTitle_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(
                 Instant.parse("2011-01-01T00:00:00Z"),
@@ -53,7 +53,7 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(inTransaction(() -> notificationsLogic.getNotification(invalidNotification.getId())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateNotification_emptyMessage_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(
                 Instant.parse("2011-01-01T00:00:00Z"),
@@ -68,7 +68,7 @@ public class NotificationsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(inTransaction(() -> notificationsLogic.getNotification(invalidNotification.getId())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testUpdateNotification() {
         Instant newStartTime = Instant.parse("2012-01-01T00:00:00Z");
         Instant newEndTime = Instant.parse("2098-01-01T00:00:00Z");

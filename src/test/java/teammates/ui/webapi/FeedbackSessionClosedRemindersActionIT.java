@@ -14,7 +14,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -38,7 +38,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         return GET;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         long thirtyMin = 60 * 30;
@@ -110,7 +110,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         verifyNoTasksAdded();
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

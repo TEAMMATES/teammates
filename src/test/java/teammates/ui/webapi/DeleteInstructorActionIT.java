@@ -14,7 +14,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
 
@@ -40,12 +40,12 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         // see test cases below
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_typicalCaseByUserId_shouldPass() {
         loginAsAdmin();
 
@@ -64,7 +64,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertNull(inTransaction(() -> logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_deleteInstructorByUserId_shouldPass() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -88,7 +88,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_adminDeletesLastInstructorByUserId_shouldFail() {
         loginAsAdmin();
 
@@ -109,7 +109,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 logic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_instructorDeleteOwnRoleByUserId_shouldPass() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -133,7 +133,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_deleteLastInstructorByUserId_shouldFail() {
         Instructor instructorToDelete = typicalBundle.instructors.get("instructor1OfCourse3");
         String courseId = instructorToDelete.getCourseId();
@@ -156,7 +156,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_deleteLastInstructorInMasqueradeByUserId_shouldFail() {
         Instructor instructorToDelete = typicalBundle.instructors.get("instructor1OfCourse3");
         String courseId = instructorToDelete.getCourseId();
@@ -180,7 +180,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_deleteInstructorInMasqueradeByUserId_shouldPass() {
         Instructor instructorToDelete = typicalBundle.instructors.get("instructor2OfCourse1");
         String courseId = instructorToDelete.getCourseId();
@@ -203,7 +203,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertNull(inTransaction(() -> logic.getInstructorForEmail(courseId, instructorToDelete.getEmail())));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_notEnoughParameters_shouldFail() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
@@ -223,7 +223,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         verifyHttpParameterFailure(onlyCourseParameter);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_noSuchInstructor_shouldFail() {
         loginAsAdmin();
 
@@ -246,7 +246,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         verifyEntityNotFoundAcl(submissionParams);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");

@@ -13,7 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.InstructorsData;
 
 /**
@@ -45,13 +45,13 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         // See test cases below.
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_notEnoughParameters_shouldFail() {
         loginAsAdmin();
         verifyHttpParameterFailure();
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchCourseId_shouldSucceed() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getCourseId() };
@@ -64,7 +64,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .isPresent());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchDisplayedName_shouldSucceed() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getDisplayName() };
@@ -77,7 +77,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .isPresent());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchEmail_shouldSucceed() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getEmail() };
@@ -92,7 +92,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchGoogleId_shouldSucceed() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getGoogleId() };
@@ -107,7 +107,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchName_shouldSucceed() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getName() };
@@ -122,7 +122,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchNoMatch_shouldBeEmpty() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "noMatch" };
@@ -132,7 +132,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         assertEquals(0, response.getInstructors().size());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_searchWithoutSearchService_shouldSucceed() {
         loginAsAdmin();
         String[] params = new String[] {
@@ -147,7 +147,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);

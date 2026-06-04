@@ -16,7 +16,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 
 /**
@@ -40,7 +40,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         return GET;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -110,7 +110,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         assertEquals(Collections.emptySet(), session2Output.getInstructorNonGivers());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         FeedbackSession fsa = typicalBundle.feedbackSessions.get("session1InCourse1");

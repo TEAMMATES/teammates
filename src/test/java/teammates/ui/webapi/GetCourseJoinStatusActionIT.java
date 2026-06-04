@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.JoinStatus;
 
 /**
@@ -34,7 +34,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
 
         loginAsUnregistered("unreg.user");
@@ -162,7 +162,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         verifyEntityNotFound(params);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         verifyAnyLoggedInUserCanAccess();

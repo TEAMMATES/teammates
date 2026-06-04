@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link DeadlineExtensionsLogic}.
@@ -26,7 +26,7 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetDeadlineForUser_extensionExists_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
@@ -38,7 +38,7 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(Instant.parse("2028-04-30T23:00:00Z"), extendedDeadlineForStudent);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetDeadlineForUser_extensionDoesNotExist_success() {
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student2InCourse1");

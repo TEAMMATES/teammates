@@ -26,7 +26,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -46,7 +46,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetSubmittedGiverSet_hasGivers_findsGivers() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Set<UUID> expectedStudentGivers = new HashSet<>();
@@ -74,7 +74,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedInstructorNonGivers, new HashSet<>(givers.instructorNonGiverIds()));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetSubmittedGiverSet_studentQuestionsOnly_excludesInstructorNonGivers() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session2InTypicalCourse");
 
@@ -94,7 +94,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(givers.instructorNonGiverIds().isEmpty());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testPublishFeedbackSession() {
         FeedbackSession unpublishedFs = typicalDataBundle.feedbackSessions.get("unpublishedSession1InTypicalCourse");
 
@@ -110,7 +110,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testUnpublishFeedbackSession() {
         FeedbackSession publishedFs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
@@ -126,7 +126,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetFeedbackSessionsForInstructors() {
         Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
         Course course = instructor.getCourse();
@@ -140,7 +140,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetOngoingSessions_typicalCase_shouldGetOnlyOngoingSessionsWithinRange() {
         FeedbackSession c1Fs2 = typicalDataBundle.feedbackSessions.get("ongoingSession2InCourse1");
         FeedbackSession c1Fs3 = typicalDataBundle.feedbackSessions.get("ongoingSession3InCourse1");
@@ -158,7 +158,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedUniqueOngoingSessions, actualUniqueOngoingSessions);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetSoftDeletedFeedbackSessionsForInstructors() {
         Instructor instructor = typicalDataBundle.instructors.get("instructor1OfCourse1");
         Course course = instructor.getCourse();
@@ -178,7 +178,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
@@ -198,7 +198,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testUpdateFeedbackSession_validUpdate_success() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 

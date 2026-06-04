@@ -9,7 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.storage.entity.Student;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 
@@ -34,7 +34,7 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
 
@@ -120,7 +120,7 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() {
         verifyAnyUserCanAccess();
     }

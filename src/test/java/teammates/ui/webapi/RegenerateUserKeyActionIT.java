@@ -12,7 +12,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.User;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.RegenerateKeyData;
 
 /**
@@ -36,7 +36,7 @@ public class RegenerateUserKeyActionIT extends BaseActionIT<RegenerateUserKeyAct
         return POST;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         Course course = typicalBundle.courses.get("course1");
@@ -62,7 +62,7 @@ public class RegenerateUserKeyActionIT extends BaseActionIT<RegenerateUserKeyAct
         verifyEntityNotFound(invalidUserIdParams);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

@@ -13,7 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.AccountRequestsData;
 
 /**
@@ -23,7 +23,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
     private DataBundle typicalBundle;
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);
@@ -44,7 +44,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         return GET;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
         AccountRequest accountRequest = typicalBundle.accountRequests.get("instructor1");

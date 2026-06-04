@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -35,7 +35,7 @@ public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<Delete
         return DELETE;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         ______TS("Typical successful case, comment deleted");
@@ -52,7 +52,7 @@ public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<Delete
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         ______TS("Instructor who give the comment can delete comment");

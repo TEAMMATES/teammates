@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
 
@@ -36,7 +36,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         return GET;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
@@ -237,7 +237,7 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         verifyHttpParameterFailure(params);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         verifyAnyUserCanAccess();

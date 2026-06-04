@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.
@@ -23,7 +23,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
     private final CoursesDb coursesDb = CoursesDb.inst();
     private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetFeedbackSessionByFeedbackSessionNameAndCourseId() {
         ______TS("success: get feedback session that exists");
         Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
@@ -46,7 +46,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(fs2, actualFs);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetOngoingSessions_typicalCase_shouldGetOnlyOngoingSessionsWithinRange() {
         Instant instantNow = Instant.now();
         Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");

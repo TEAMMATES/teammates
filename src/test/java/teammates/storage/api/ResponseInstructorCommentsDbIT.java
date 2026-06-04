@@ -15,7 +15,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link ResponseInstructorCommentsDb}.
@@ -36,7 +36,7 @@ public class ResponseInstructorCommentsDbIT extends BaseTestCaseWithDatabaseAcce
         persistDataBundle(testDataBundle);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetResponseInstructorCommentsForResponses_matchFound_success() {
         FeedbackResponse response1ForQ1 = testDataBundle.feedbackResponses.get("response1ForQ1");
         FeedbackResponse response4ForQ1 = testDataBundle.feedbackResponses.get("response4ForQ1");
@@ -51,7 +51,7 @@ public class ResponseInstructorCommentsDbIT extends BaseTestCaseWithDatabaseAcce
         assertListCommentsEqual(expected, results);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetResponseInstructorCommentsForResponses_matchNotFound_shouldReturnEmptyList() {
         FeedbackResponse response1ForQ1 = testDataBundle.feedbackResponses.get("response1ForQ1");
         UUID nonexistentResponseId = UUID.fromString("11110000-0000-0000-0000-000000000000");

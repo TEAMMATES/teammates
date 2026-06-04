@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -28,7 +28,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testDeleteFeedbackResponsesAndCommentsCascade() {
         ______TS("success: typical case");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");

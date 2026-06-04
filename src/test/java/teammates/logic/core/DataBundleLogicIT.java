@@ -43,7 +43,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.FileHelper;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link DataBundleLogic}.
@@ -52,7 +52,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateDataBundle_typicalValues_createdCorrectly() throws Exception {
         String pathToJsonFile = getTestDataFolder() + "/DataBundleLogicIT.json";
         String jsonString = FileHelper.readFile(pathToJsonFile);
@@ -219,7 +219,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedComment1, actualComment1);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testPersistDataBundle_typicalValues_persistedToDbCorrectly() {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));
@@ -249,7 +249,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         // TODO: incomplete
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testRemoveDataBundle_typicalValues_removedCorrectly() {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         inTransaction(() -> dataBundleLogic.persistDataBundle(dataBundle));

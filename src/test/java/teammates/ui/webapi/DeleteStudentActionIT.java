@@ -13,7 +13,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link DeleteStudentAction}.
@@ -36,7 +36,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         return DELETE;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -86,7 +86,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         verifyHttpParameterFailure(params);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Student student = typicalBundle.students.get("student1InCourse1");

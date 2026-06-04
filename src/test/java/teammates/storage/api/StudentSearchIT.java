@@ -13,7 +13,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsersDb}.
@@ -29,7 +29,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchStudentsInWholeSystem_typicalCase_success() {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu2InCourse1 = typicalBundle.students.get("student2InCourse1");
@@ -102,7 +102,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
         verifySearchResults(results, stu1InCourse2, stu1InCourse3, stu1InCourse4);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchStudentsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu1InCourse2 = typicalBundle.students.get("student1InCourse2");
@@ -121,7 +121,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
         verifySearchResults(studentList, stu1InCourse3, stu1InCourse4);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchStudentsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<Student> results = inTransaction(() -> usersDb.searchStudentsInWholeSystem("_"));
         verifySearchResults(results);

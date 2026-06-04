@@ -17,7 +17,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link FeedbackSessionLogsDb}.
@@ -33,7 +33,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void test_persistFeedbackSessionLog_success() {
         Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
@@ -52,7 +52,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expected, actualLogs.get(0));
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void test_getOrderedFeedbackSessionLogs_success() {
         Instant startTime = Instant.parse("2012-01-01T12:00:00Z");
         Instant endTime = Instant.parse("2012-01-01T23:59:59Z");
@@ -119,7 +119,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedLogs, actualLogs);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void test_deleteFeedbackSessionLogsOlderThan_success() {
         Course course = typicalDataBundle.courses.get("course1");
         Instant cutoffTime = Instant.parse("2012-01-01T14:30:00Z");

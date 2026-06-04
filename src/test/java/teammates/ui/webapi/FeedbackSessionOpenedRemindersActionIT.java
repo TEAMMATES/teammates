@@ -22,7 +22,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
 
@@ -68,14 +68,14 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         return GET;
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);
     }
 
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         loginAsAdmin();

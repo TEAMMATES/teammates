@@ -28,7 +28,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
-import teammates.test.TestGroups;
+import teammates.test.GroupNames;
 import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.request.FeedbackResponsesRequest;
@@ -330,7 +330,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
@@ -602,7 +602,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     @Override
-    @Test(groups = TestGroups.INTEGRATION)
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() {
         ______TS("Failure: invalid http parameters");
         loginInstructor("instructor1OfCourse1");
