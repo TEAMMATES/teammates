@@ -63,14 +63,14 @@ public class BaseTestCase {
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void printTestClassHeader() {
         System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void printTestClassFooter() {
         System.out.println(getClass().getCanonicalName() + " completed");
     }

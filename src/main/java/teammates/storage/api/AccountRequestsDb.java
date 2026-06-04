@@ -44,11 +44,9 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Creates an AccountRequest in the database.
+     * Persists an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) {
-        assert accountRequest != null;
-
+    public AccountRequest persistAccountRequest(AccountRequest accountRequest) {
         HibernateUtil.persist(accountRequest);
         return accountRequest;
     }
@@ -57,7 +55,6 @@ public final class AccountRequestsDb {
      * Get AccountRequest by {@code id} from the database.
      */
     public AccountRequest getAccountRequest(UUID id) {
-        assert id != null;
         return HibernateUtil.get(AccountRequest.class, id);
     }
 
@@ -120,9 +117,9 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Deletes an AccountRequest.
+     * Removes an AccountRequest.
      */
-    public void deleteAccountRequest(AccountRequest accountRequest) {
+    public void removeAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {
             HibernateUtil.remove(accountRequest);
         }

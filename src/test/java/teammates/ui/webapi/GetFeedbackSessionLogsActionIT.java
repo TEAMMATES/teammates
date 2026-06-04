@@ -1,0 +1,230 @@
+package teammates.ui.webapi;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.util.Const;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
+import teammates.ui.output.FeedbackSessionLogData;
+import teammates.ui.output.FeedbackSessionLogsData;
+
+/**
+ * SUT: {@link GetFeedbackSessionLogsAction}.
+ */
+public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSessionLogsAction> {
+    private DataBundle typicalBundle;
+
+    @BeforeMethod(alwaysRun = true)
+    protected void setUp() {
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
+    }
+
+    @Override
+    protected String getActionUri() {
+        return Const.ResourceURIs.SESSION_LOGS;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return GET;
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    @Override
+    protected void testExecute() {
+        JsonResult actionOutput;
+
+        Course course = typicalBundle.courses.get("course1");
+        String courseId = course.getId();
+        FeedbackSession fsa1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession fsa2 = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
+        Student student1 = typicalBundle.students.get("student1InCourse1");
+        Student student2 = typicalBundle.students.get("student2InCourse1");
+        String student1Email = student1.getEmail();
+        String student2Email = student2.getEmail();
+        long endTime = Instant.parse("2012-01-02T12:00:00Z").toEpochMilli();
+        long startTime = endTime - (Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
+
+        ______TS("Failure case: missing required parameters");
+        verifyHttpParameterFailure(
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString()
+        );
+        verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString()
+        );
+        verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString()
+        );
+        verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
+        );
+
+        ______TS("Failure case: invalid course id");
+        String[] paramsInvalid1 = {
+                Const.ParamsNames.COURSE_ID, "invalid-course-id",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+        };
+        verifyEntityNotFound(paramsInvalid1);
+
+        ______TS("Failure case: invalid student id");
+        String[] paramsInvalid2 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.USER_ID, "00000000-0000-0000-0000-000000000000",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+        };
+        verifyEntityNotFound(paramsInvalid2);
+
+        ______TS("Failure case: invalid start or end times");
+        String[] paramsInvalid3 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+        };
+        verifyHttpParameterFailure(paramsInvalid3);
+
+        String[] paramsInvalid4 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+        };
+        verifyHttpParameterFailure(paramsInvalid4);
+
+        ______TS("Success case: should group by feedback session");
+        String[] paramsSuccessful1 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
+        };
+        actionOutput = getJsonResult(getAction(paramsSuccessful1));
+
+        FeedbackSessionLogsData fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
+        Map<String, List<FeedbackSessionLogData>> fsLogs = fslData.getFeedbackSessionLogs();
+
+        // Course has logs in 2 feedback sessions
+        assertEquals(2, fsLogs.size());
+
+        List<FeedbackSessionLogData> fsLogEntries1 = fsLogs.get(fsa1.getId().toString());
+        List<FeedbackSessionLogData> fsLogEntries2 = fsLogs.get(fsa2.getId().toString());
+
+        assertEquals(3, fsLogEntries1.size());
+        assertEquals(student1Email, fsLogEntries1.get(0).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries1.get(0).getFeedbackSessionLogType());
+        assertEquals(student2Email, fsLogEntries1.get(1).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries1.get(1).getFeedbackSessionLogType());
+        assertEquals(student2Email, fsLogEntries1.get(2).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.SUBMISSION, fsLogEntries1.get(2).getFeedbackSessionLogType());
+
+        assertEquals(2, fsLogEntries2.size());
+        assertEquals(student1Email, fsLogEntries2.get(0).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries2.get(0).getFeedbackSessionLogType());
+        assertEquals(student1Email, fsLogEntries2.get(1).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.SUBMISSION, fsLogEntries2.get(1).getFeedbackSessionLogType());
+
+        ______TS("Success case: should accept optional student Id");
+        String[] paramsSuccessful2 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
+        };
+        actionOutput = getJsonResult(getAction(paramsSuccessful2));
+        fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
+        fsLogs = fslData.getFeedbackSessionLogs();
+
+        assertEquals(2, fsLogs.size());
+
+        fsLogEntries1 = fsLogs.get(fsa1.getId().toString());
+        fsLogEntries2 = fsLogs.get(fsa2.getId().toString());
+
+        assertEquals(1, fsLogEntries1.size());
+        assertEquals(student1Email, fsLogEntries1.get(0).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries1.get(0).getFeedbackSessionLogType());
+
+        assertEquals(2, fsLogEntries2.size());
+        assertEquals(student1Email, fsLogEntries2.get(0).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries2.get(0).getFeedbackSessionLogType());
+        assertEquals(student1Email, fsLogEntries2.get(1).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.SUBMISSION, fsLogEntries2.get(1).getFeedbackSessionLogType());
+
+        ______TS("Success case: should accept optional feedback session");
+        String[] paramsSuccessful3 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa1.getId().toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.toString(),
+        };
+        actionOutput = getJsonResult(getAction(paramsSuccessful3));
+        fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
+        fsLogs = fslData.getFeedbackSessionLogs();
+
+        assertEquals(1, fsLogs.size());
+
+        fsLogEntries1 = fsLogs.get(fsa1.getId().toString());
+
+        assertEquals(3, fsLogEntries1.size());
+        assertEquals(student1Email, fsLogEntries1.get(0).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries1.get(0).getFeedbackSessionLogType());
+        assertEquals(student2Email, fsLogEntries1.get(1).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.ACCESS, fsLogEntries1.get(1).getFeedbackSessionLogType());
+        assertEquals(student2Email, fsLogEntries1.get(2).getUser().getEmail());
+        assertEquals(FeedbackSessionLogType.SUBMISSION, fsLogEntries1.get(2).getFeedbackSessionLogType());
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    @Override
+    protected void testAccessControl() throws Exception {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        Course course = typicalBundle.courses.get("course1");
+        String courseId = course.getId();
+        Instructor helper = typicalBundle.instructors.get("instructor2OfCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+
+        ______TS("Only instructors with modify student, session and instructor privilege can access");
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(helper.getGoogleId());
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Only instructors of the same course can access");
+        loginAsInstructor(instructor.getGoogleId());
+        verifyCanAccess(submissionParams);
+    }
+
+}

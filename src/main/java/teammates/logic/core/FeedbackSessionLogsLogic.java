@@ -52,7 +52,7 @@ public final class FeedbackSessionLogsLogic {
 
         validateFeedbackSessionLog(fsLog);
 
-        return fslDb.createFeedbackSessionLog(fsLog);
+        return fslDb.persistFeedbackSessionLog(fsLog);
     }
 
     /**
