@@ -96,7 +96,7 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: search for students in whole system; deleted students no longer searchable");
 
-        inTransaction(() -> usersDb.deleteUser(stu1InCourse1));
+        inTransaction(() -> usersDb.removeUser(stu1InCourse1));
         results = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(results, stu1InCourse2, stu1InCourse3, stu1InCourse4);
     }
@@ -111,11 +111,11 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
         List<Student> studentList = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(studentList, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
-        inTransaction(() -> usersDb.deleteUser(stu1InCourse1));
+        inTransaction(() -> usersDb.removeUser(stu1InCourse1));
         studentList = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(studentList, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
-        inTransaction(() -> usersDb.deleteUser(stu1InCourse2));
+        inTransaction(() -> usersDb.removeUser(stu1InCourse2));
         studentList = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(studentList, stu1InCourse3, stu1InCourse4);
     }

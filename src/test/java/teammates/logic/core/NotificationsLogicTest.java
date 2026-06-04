@@ -62,7 +62,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
 
         assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
-        verify(notificationsDb, never()).createNotification(invalidNotification);
+        verify(notificationsDb, never()).persistNotification(invalidNotification);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 "", "<p>Deprecation happens in three minutes</p>");
 
         assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
-        verify(notificationsDb, never()).createNotification(invalidNotification);
+        verify(notificationsDb, never()).persistNotification(invalidNotification);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 "A deprecation note", "");
 
         assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
-        verify(notificationsDb, never()).createNotification(invalidNotification);
+        verify(notificationsDb, never()).persistNotification(invalidNotification);
     }
 
     @Test
@@ -213,10 +213,10 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         when(accountsLogic.getAccount(account.getId())).thenReturn(account);
         when(notificationsDb.getNotification(notification.getId())).thenReturn(notification);
-        when(notificationsDb.createReadNotification(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(notificationsDb.persistReadNotification(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         ReadNotification result = notificationsLogic.createReadNotification(account.getId(), notification.getId());
-        verify(notificationsDb, times(1)).createReadNotification(any());
+        verify(notificationsDb, times(1)).persistReadNotification(any());
         assertEquals(account.getId(), result.getAccount().getId());
         assertEquals(notification.getId(), result.getNotification().getId());
     }

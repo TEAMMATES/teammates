@@ -138,7 +138,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.deleteInstructorCascade(instructorToDelete.getId());
 
-        verify(usersDb, times(1)).deleteUser(instructorToDelete);
+        verify(usersDb, times(1)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -148,7 +148,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.deleteInstructorCascade(userId);
 
-        verify(usersDb, times(0)).deleteUser(instructor);
+        verify(usersDb, times(0)).removeUser(instructor);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+        verify(usersDb, times(0)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -182,7 +182,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+        verify(usersDb, times(0)).removeUser(instructorToDelete);
     }
 
     @Test

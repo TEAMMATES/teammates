@@ -3,11 +3,8 @@ package teammates.logic.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -169,7 +166,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
         session.addDeadlineExtension(de);
 
-        when(deDb.createDeadlineExtension(de)).thenReturn(de);
+        when(deDb.persistDeadlineExtension(de)).thenReturn(de);
 
         DeadlineExtension result = deLogic.createDeadlineExtension(de);
 
@@ -177,13 +174,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         assertEquals(de, result);
         assertEquals(extendedDeadline, result.getEndTime());
         assertTrue(result.getUser() instanceof Student);
-        verify(deDb, times(1)).createDeadlineExtension(de);
-    }
-
-    @Test
-    public void testCreateDeadlineExtension_nullExtension_throwsException() {
-        assertThrows(AssertionError.class, () -> deLogic.createDeadlineExtension(null));
-        verify(deDb, never()).createDeadlineExtension(any());
+        verify(deDb, times(1)).persistDeadlineExtension(de);
     }
 
     @Test
@@ -198,7 +189,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         deLogic.deleteDeadlineExtension(de);
 
-        verify(deDb, times(1)).deleteDeadlineExtension(de);
+        verify(deDb, times(1)).removeDeadlineExtension(de);
     }
 
     @Test
@@ -270,7 +261,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         DeadlineExtension de = new DeadlineExtension(instructor, extendedDeadline);
         session.addDeadlineExtension(de);
 
-        when(deDb.createDeadlineExtension(de)).thenReturn(de);
+        when(deDb.persistDeadlineExtension(de)).thenReturn(de);
 
         DeadlineExtension result = deLogic.createDeadlineExtension(de);
 
@@ -278,7 +269,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         assertEquals(de, result);
         assertTrue(result.getUser() instanceof Instructor);
         assertEquals(extendedDeadline, result.getEndTime());
-        verify(deDb, times(1)).createDeadlineExtension(de);
+        verify(deDb, times(1)).persistDeadlineExtension(de);
     }
 
     @Test

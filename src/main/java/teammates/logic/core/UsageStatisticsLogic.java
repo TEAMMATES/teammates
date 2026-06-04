@@ -66,7 +66,7 @@ public final class UsageStatisticsLogic {
      * @return the created usage statistics object
      */
     public UsageStatistics createUsageStatistics(UsageStatistics usageStatistics) {
-        return usageStatisticsDb.createUsageStatistics(usageStatistics);
+        return usageStatisticsDb.persistUsageStatistics(usageStatistics);
     }
 
 }
