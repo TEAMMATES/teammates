@@ -42,7 +42,8 @@ public class NotificationsDbTest extends BaseDbTestcase {
         given.notification("different-notification");
         persistGivenData(given);
 
-        Notification actual = inTransaction(() -> notificationsDb.getNotification(given.uuid("non-existent-notification")));
+        Notification actual = inTransaction(
+                () -> notificationsDb.getNotification(given.uuid("non-existent-notification")));
 
         assertNull(actual);
     }
@@ -71,28 +72,13 @@ public class NotificationsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getNotificationsByTargetUsers_activeOnly_returnsActiveMatchingNotificationsInStartTimeOrder() {
         Instant now = Instant.now();
-        UUID activeGeneralNotificationId1 = given.notification("active-general-notification-1", n -> {
-            n.startTime(now.minus(2, ChronoUnit.HOURS));
-            n.endTime(now.plus(1, ChronoUnit.HOURS));
-            n.forGeneral();
-        });
-        UUID activeGeneralNotificationId2 = given.notification("active-general-notification-2", n -> {
-            n.startTime(now.minus(1, ChronoUnit.HOURS));
-            n.endTime(now.plus(1, ChronoUnit.HOURS));
-            n.forGeneral();
-        });
-        given.notification("expired-general-notification", n -> {
-            n.expired();
-            n.forGeneral();
-        });
-        given.notification("yet-to-be-shown-general-notification", n -> {
-            n.yetToBeShown();
-            n.forGeneral();
-        });
-        given.notification("active-student-notification", n -> {
-            n.active();
-            n.forStudent();
-        });
+        UUID activeGeneralNotificationId1 = given.notification("active-general-notification-1",
+                n -> n.startTime(now.minus(2, ChronoUnit.HOURS)).endTime(now.plus(1, ChronoUnit.HOURS)).forGeneral());
+        UUID activeGeneralNotificationId2 = given.notification("active-general-notification-2",
+                n -> n.startTime(now.minus(1, ChronoUnit.HOURS)).endTime(now.plus(1, ChronoUnit.HOURS)).forGeneral());
+        given.notification("expired-general-notification", n -> n.expired().forGeneral());
+        given.notification("yet-to-be-shown-general-notification", n -> n.yetToBeShown().forGeneral());
+        given.notification("active-student-notification", n -> n.active().forStudent());
         persistGivenData(given);
 
         List<Notification> actual = inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
@@ -104,18 +90,11 @@ public class NotificationsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getNotificationsByTargetUsers_notActiveOnly_returnsMatchingNotificationsRegardlessOfTime() {
-        UUID activeInstructorNotificationId = given.notification("active-instructor-notification", n -> {
-            n.active();
-            n.forInstructor();
-        });
-        UUID expiredInstructorNotificationId = given.notification("expired-instructor-notification", n -> {
-            n.expired();
-            n.forInstructor();
-        });
-        given.notification("active-student-notification", n -> {
-            n.active();
-            n.forStudent();
-        });
+        UUID activeInstructorNotificationId = given.notification("active-instructor-notification",
+                n -> n.active().forInstructor());
+        UUID expiredInstructorNotificationId = given.notification("expired-instructor-notification",
+                n -> n.expired().forInstructor());
+        given.notification("active-student-notification", n -> n.active().forStudent());
         persistGivenData(given);
 
         List<Notification> actual = inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
@@ -147,14 +126,10 @@ public class NotificationsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getReadNotificationsByAccountId_readNotificationsExist_returnsReadNotificationsForAccount() {
         UUID accountId = given.account("account");
-        UUID readNotificationId1 = given.readNotification("read-notification-1", rn -> {
-            rn.account("account");
-            rn.notification("notification-1");
-        });
-        UUID readNotificationId2 = given.readNotification("read-notification-2", rn -> {
-            rn.account("account");
-            rn.notification("notification-2");
-        });
+        UUID readNotificationId1 = given.readNotification("read-notification-1",
+                rn -> rn.account("account").notification("notification-1"));
+        UUID readNotificationId2 = given.readNotification("read-notification-2",
+                rn -> rn.account("account").notification("notification-2"));
         given.readNotification("another-account-read-notification", rn -> rn.account("another-account"));
         persistGivenData(given);
 

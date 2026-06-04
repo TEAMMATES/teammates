@@ -90,10 +90,7 @@ public class CoursesDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getSectionByName_sectionExists_returnsSection() {
         String courseId = given.course("course");
-        UUID sectionId = given.section("section", s -> {
-            s.name("section-name");
-            s.course("course");
-        });
+        UUID sectionId = given.section("section", s -> s.name("section-name").course("course"));
         persistGivenData(given);
 
         Section actual = inTransaction(() -> coursesDb.getSectionByName(courseId, "section-name"));
@@ -105,9 +102,7 @@ public class CoursesDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getSectionByName_sectionDoesNotExist_returnsNull() {
         String courseId = given.course("course");
-        given.section("another-section", s -> {
-            s.course("course");
-        });
+        given.section("another-section", s -> s.course("course"));
         persistGivenData(given);
 
         Section actual = inTransaction(() -> coursesDb.getSectionByName(courseId, "non-existent-section"));
@@ -133,10 +128,7 @@ public class CoursesDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getTeamByName_teamExists_returnsTeam() {
         UUID sectionId = given.section("section");
-        UUID teamId = given.team("team", t -> {
-            t.name("team-name");
-            t.section("section");
-        });
+        UUID teamId = given.team("team", t -> t.name("team-name").section("section"));
         persistGivenData(given);
 
         Team actual = inTransaction(() -> coursesDb.getTeamByName(sectionId, "team-name"));
@@ -147,10 +139,7 @@ public class CoursesDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getTeamByName_teamDoesNotExist_returnsNull() {
         UUID sectionId = given.section("section");
-        given.team("another-team", t -> {
-            t.name("another-team-name");
-            t.section("section");
-        });
+        given.team("another-team", t -> t.name("another-team-name").section("section"));
         persistGivenData(given);
 
         Team actual = inTransaction(() -> coursesDb.getTeamByName(sectionId, "non-existent-team"));

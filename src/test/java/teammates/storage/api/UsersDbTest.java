@@ -107,30 +107,12 @@ public class UsersDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getStudentsForTeam_studentsExist_returnsStudentsInMatchingCourseAndTeam() {
         String courseId = given.course("course");
-        given.team("team", t -> {
-            t.course("course");
-            t.name("Team Name");
-        });
-        given.team("another-team", t -> {
-            t.course("course");
-            t.name("Another Team Name");
-        });
-        given.team("another-course-team", t -> {
-            t.course("another-course");
-            t.name("Team Name");
-        });
-        UUID studentId = given.student("student", s -> {
-            s.course("course");
-            s.team("team");
-        });
-        given.student("another-team-student", s -> {
-            s.course("course");
-            s.team("another-team");
-        });
-        given.student("another-course-student", s -> {
-            s.course("another-course");
-            s.team("another-course-team");
-        });
+        given.team("team", t -> t.course("course").name("Team Name"));
+        given.team("another-team", t -> t.course("course").name("Another Team Name"));
+        given.team("another-course-team", t -> t.course("another-course").name("Team Name"));
+        UUID studentId = given.student("student", s -> s.course("course").team("team"));
+        given.student("another-team-student", s -> s.course("course").team("another-team"));
+        given.student("another-course-student", s -> s.course("another-course").team("another-course-team"));
         persistGivenData(given);
 
         List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam("Team Name", courseId));
