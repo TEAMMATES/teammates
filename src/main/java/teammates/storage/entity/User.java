@@ -78,7 +78,6 @@ public abstract class User extends BaseEntity {
         this.setId(UUID.randomUUID());
         this.setName(name);
         this.setEmail(email);
-        this.generateNewRegistrationKey();
     }
 
     protected User(Course course, String name, String email) {
@@ -129,6 +128,9 @@ public abstract class User extends BaseEntity {
     public void setCourse(Course course) {
         this.course = course;
         this.courseId = course == null ? null : course.getId();
+        // Set a new registration key since the registration key is tied to the course and email of the user.
+        // In future, if registration key is no longer tied to the course, this can be set in the constructor instead.
+        this.generateNewRegistrationKey();
     }
 
     public String getName() {
