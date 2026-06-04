@@ -254,7 +254,7 @@ export class SearchService {
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
     instructorResult.homePageLink = this.linkService.generateHomePageLink(
-      accountId,
+      googleId,
       this.linkService.INSTRUCTOR_HOME_PAGE,
     );
     instructorResult.manageAccountLink = this.linkService.generateManageAccountLink(
