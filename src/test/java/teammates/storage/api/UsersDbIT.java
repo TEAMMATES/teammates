@@ -51,21 +51,21 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
                 "typicalTenantId", "student-name", "valid-student@email.tmt");
         student = getTypicalStudent();
         inTransaction(() -> {
-            coursesDb.createCourse(course);
-            coursesDb.createSection(section);
+            coursesDb.persistCourse(course);
+            coursesDb.persistSection(section);
             course.addSection(section);
-            coursesDb.createTeam(team);
+            coursesDb.persistTeam(team);
             section.addTeam(team);
 
             accountsDb.persistAccount(instructorAccount);
             instructor.setCourse(course);
-            usersDb.createInstructor(instructor);
+            usersDb.persistInstructor(instructor);
             instructor.setAccount(instructorAccount);
 
             accountsDb.persistAccount(studentAccount);
             student.setCourse(course);
             student.setTeam(team);
-            usersDb.createStudent(student);
+            usersDb.persistStudent(student);
             student.setAccount(studentAccount);
         });
     }
@@ -156,22 +156,22 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         inTransaction(() -> {
             accountsDb.persistAccount(userSharedAccount);
 
-            usersDb.createInstructor(firstInstructor);
+            usersDb.persistInstructor(firstInstructor);
             firstInstructor.setAccount(userSharedAccount);
-            usersDb.createInstructor(secondInstructor);
+            usersDb.persistInstructor(secondInstructor);
             secondInstructor.setAccount(userSharedAccount);
 
-            coursesDb.createSection(section);
+            coursesDb.persistSection(section);
             course.addSection(section);
-            coursesDb.createTeam(team);
+            coursesDb.persistTeam(team);
             section.addTeam(team);
 
             team.addUser(firstStudent);
-            usersDb.createStudent(firstStudent);
+            usersDb.persistStudent(firstStudent);
             firstStudent.setAccount(userSharedAccount);
 
             team.addUser(secondStudent);
-            usersDb.createStudent(secondStudent);
+            usersDb.persistStudent(secondStudent);
             secondStudent.setAccount(userSharedAccount);
         });
 
@@ -215,19 +215,19 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         thirdStudent.setEmail("valid-student-3@email.tmt");
         thirdStudent.setTeam(secondTeam);
         inTransaction(() -> {
-            coursesDb.createSection(firstSection);
+            coursesDb.persistSection(firstSection);
             course.addSection(firstSection);
-            coursesDb.createTeam(firstTeam);
+            coursesDb.persistTeam(firstTeam);
             firstSection.addTeam(firstTeam);
 
-            coursesDb.createSection(secondSection);
+            coursesDb.persistSection(secondSection);
             course.addSection(secondSection);
-            coursesDb.createTeam(secondTeam);
+            coursesDb.persistTeam(secondTeam);
             secondSection.addTeam(secondTeam);
 
-            usersDb.createStudent(firstStudent);
-            usersDb.createStudent(secondStudent);
-            usersDb.createStudent(thirdStudent);
+            usersDb.persistStudent(firstStudent);
+            usersDb.persistStudent(secondStudent);
+            usersDb.persistStudent(thirdStudent);
         });
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);
@@ -260,19 +260,19 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         thirdStudent.setEmail("valid-student-3@email.tmt");
         thirdStudent.setTeam(secondTeam);
         inTransaction(() -> {
-            coursesDb.createSection(firstSection);
+            coursesDb.persistSection(firstSection);
             course.addSection(firstSection);
-            coursesDb.createTeam(firstTeam);
+            coursesDb.persistTeam(firstTeam);
             firstSection.addTeam(firstTeam);
 
-            coursesDb.createSection(secondSection);
+            coursesDb.persistSection(secondSection);
             course.addSection(secondSection);
-            coursesDb.createTeam(secondTeam);
+            coursesDb.persistTeam(secondTeam);
             secondSection.addTeam(secondTeam);
 
-            usersDb.createStudent(firstStudent);
-            usersDb.createStudent(secondStudent);
-            usersDb.createStudent(thirdStudent);
+            usersDb.persistStudent(firstStudent);
+            usersDb.persistStudent(secondStudent);
+            usersDb.persistStudent(thirdStudent);
         });
 
         List<Student> expectedStudents = List.of(firstStudent, secondStudent);
@@ -296,10 +296,10 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
                 "typicalTenantId", student.getName(), student.getEmail());
 
         inTransaction(() -> {
-            coursesDb.createCourse(course2);
-            coursesDb.createSection(section);
+            coursesDb.persistCourse(course2);
+            coursesDb.persistSection(section);
             course2.addSection(section);
-            coursesDb.createTeam(team);
+            coursesDb.persistTeam(team);
             section.addTeam(team);
 
             team.addUser(student2);
@@ -308,7 +308,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
             student.setAccount(account);
             student2.setAccount(account);
             student2.setCourse(course2);
-            usersDb.createStudent(student2);
+            usersDb.persistStudent(student2);
         });
 
         List<Student> expectedStudents = List.of(student, student2);

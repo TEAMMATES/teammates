@@ -64,13 +64,13 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test(groups = TestGroups.INTEGRATION)
-    public void testDeleteAccount() {
+    public void testRemoveAccount() {
         Account account = getTypicalAccount();
         inTransaction(() -> accountsDb.persistAccount(account));
 
-        ______TS("Delete existing account, success");
+        ______TS("Remove existing account, success");
 
-        inTransaction(() -> accountsDb.deleteAccount(account));
+        inTransaction(() -> accountsDb.removeAccount(account));
 
         Account actual = inTransaction(() -> accountsDb.getAccount(account.getId()));
         assertNull(actual);

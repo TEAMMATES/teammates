@@ -22,12 +22,12 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
     private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
     @Test(groups = TestGroups.INTEGRATION)
-    public void testCreateReadDeleteAccountRequest() {
+    public void testPersistReadRemoveAccountRequest() {
         ______TS("Create account request, does not exists, succeeds");
 
         AccountRequest accountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        inTransaction(() -> accountRequestDb.createAccountRequest(accountRequest));
+        inTransaction(() -> accountRequestDb.persistAccountRequest(accountRequest));
 
         ______TS("Read account request using the given ID");
 
@@ -64,15 +64,15 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         assertNotSame(accountRequest, identicalAccountRequest);
 
-        inTransaction(() -> accountRequestDb.createAccountRequest(identicalAccountRequest));
+        inTransaction(() -> accountRequestDb.persistAccountRequest(identicalAccountRequest));
         AccountRequest actualIdenticalAccountRequest =
                 inTransaction(() -> accountRequestDb.getAccountRequestByRegistrationKey(
                         identicalAccountRequest.getRegistrationKey()));
         assertEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
-        ______TS("Delete account request that was created");
+        ______TS("Remove account request that was created");
 
-        inTransaction(() -> accountRequestDb.deleteAccountRequest(accountRequest));
+        inTransaction(() -> accountRequestDb.removeAccountRequest(accountRequest));
 
         AccountRequest actualAccountRequest =
                 inTransaction(() -> accountRequestDb.getAccountRequestByRegistrationKey(
@@ -92,7 +92,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
         UUID id = expectedAccountRequest.getId();
-        inTransaction(() -> accountRequestDb.createAccountRequest(expectedAccountRequest));
+        inTransaction(() -> accountRequestDb.persistAccountRequest(expectedAccountRequest));
         AccountRequest actualAccountRequest = inTransaction(() -> accountRequestDb.getAccountRequest(id));
         assertEquals(expectedAccountRequest, actualAccountRequest);
     }

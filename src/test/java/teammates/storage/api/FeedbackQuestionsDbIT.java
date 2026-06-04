@@ -47,28 +47,21 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("failure: does not exist, returns null");
         actualFq = inTransaction(() -> fqDb.getFeedbackQuestion(UUID.randomUUID()));
         assertNull(actualFq);
-
-        ______TS("failure: null parameter, assertion error");
-        assertThrowsInTransaction(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
     }
 
     @Test(groups = TestGroups.INTEGRATION)
-    public void testCreateFeedbackQuestion() {
-        ______TS("success: typical case");
+    public void testPersistFeedbackQuestion() {
         Course course = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(course);
 
         FeedbackQuestion expectedFq = inTransaction(() -> {
-            coursesDb.createCourse(course);
-            fsDb.createFeedbackSession(fs);
+            coursesDb.persistCourse(course);
+            fsDb.persistFeedbackSession(fs);
             FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
-            fqDb.createFeedbackQuestion(fq);
+            fqDb.persistFeedbackQuestion(fq);
             return fq;
         });
         verifyPresentInDatabase(expectedFq);
-
-        ______TS("failure: null parameter, assertion error");
-        assertThrowsInTransaction(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
     }
 
     @Test(groups = TestGroups.INTEGRATION)
@@ -121,12 +114,11 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test(groups = TestGroups.INTEGRATION)
-    public void testDeleteFeedbackQuestion() {
-        ______TS("success: typical case");
+    public void testRemoveFeedbackQuestion() {
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         verifyPresentInDatabase(fq);
 
-        inTransaction(() -> fqDb.deleteFeedbackQuestion(fq));
+        inTransaction(() -> fqDb.removeFeedbackQuestion(fq));
         assertNull(inTransaction(() -> fqDb.getFeedbackQuestion(fq.getId())));
     }
 

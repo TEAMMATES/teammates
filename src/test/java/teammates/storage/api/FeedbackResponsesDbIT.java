@@ -60,11 +60,10 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test(groups = TestGroups.INTEGRATION)
-    public void testDeleteFeedback() {
-        ______TS("success: typical case");
+    public void testRemoveFeedback() {
         FeedbackResponse fr1 = testDataBundle.feedbackResponses.get("response1ForQ1");
 
-        inTransaction(() -> frDb.deleteFeedbackResponse(fr1));
+        inTransaction(() -> frDb.removeFeedbackResponse(fr1));
 
         assertNull(inTransaction(() -> frDb.getFeedbackResponse(fr1.getId())));
     }

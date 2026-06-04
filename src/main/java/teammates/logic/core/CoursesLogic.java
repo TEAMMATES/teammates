@@ -69,7 +69,7 @@ public final class CoursesLogic {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
         }
 
-        return coursesDb.createCourse(course);
+        return coursesDb.persistCourse(course);
     }
 
     /**
@@ -178,7 +178,7 @@ public final class CoursesLogic {
             return;
         }
 
-        coursesDb.deleteCourse(course);
+        coursesDb.removeCourse(course);
     }
 
     /**
@@ -245,7 +245,7 @@ public final class CoursesLogic {
 
         validateSection(section);
 
-        return coursesDb.createSection(section);
+        return coursesDb.persistSection(section);
     }
 
     /**
@@ -286,7 +286,7 @@ public final class CoursesLogic {
 
         validateTeam(team);
 
-        return coursesDb.createTeam(team);
+        return coursesDb.persistTeam(team);
     }
 
     /**

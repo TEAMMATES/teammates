@@ -34,7 +34,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test(groups = TestGroups.INTEGRATION)
-    public void test_createFeedbackSessionLog_success() {
+    public void test_persistFeedbackSessionLog_success() {
         Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession feedbackSession = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
@@ -43,7 +43,7 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSessionLog expected = new FeedbackSessionLog(student, feedbackSession, FeedbackSessionLogType.ACCESS,
                 logTimestamp);
 
-        inTransaction(() -> fslDb.createFeedbackSessionLog(expected));
+        inTransaction(() -> fslDb.persistFeedbackSessionLog(expected));
 
         List<FeedbackSessionLog> actualLogs = inTransaction(() -> fslDb.getOrderedFeedbackSessionLogs(
                 course.getId(), student.getId(), feedbackSession.getId(), logTimestamp, logTimestamp.plusSeconds(1)));

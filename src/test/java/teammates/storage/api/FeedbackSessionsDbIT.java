@@ -34,11 +34,11 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
                 Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
                 Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true);
         inTransaction(() -> {
-            coursesDb.createCourse(course1);
+            coursesDb.persistCourse(course1);
             course1.addFeedbackSession(fs1);
             course1.addFeedbackSession(fs2);
-            fsDb.createFeedbackSession(fs1);
-            fsDb.createFeedbackSession(fs2);
+            fsDb.persistFeedbackSession(fs1);
+            fsDb.persistFeedbackSession(fs2);
         });
 
         FeedbackSession actualFs = inTransaction(() -> fsDb.getFeedbackSession(fs2.getName(), fs2.getCourseId()));
@@ -73,19 +73,19 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
         inTransaction(() -> {
-            coursesDb.createCourse(course1);
+            coursesDb.persistCourse(course1);
             course1.addFeedbackSession(c1Fs1);
-            fsDb.createFeedbackSession(c1Fs1);
+            fsDb.persistFeedbackSession(c1Fs1);
             course1.addFeedbackSession(c1Fs2);
-            fsDb.createFeedbackSession(c1Fs2);
-            coursesDb.createCourse(course2);
+            fsDb.persistFeedbackSession(c1Fs2);
+            coursesDb.persistCourse(course2);
             course2.addFeedbackSession(c2Fs1);
-            fsDb.createFeedbackSession(c2Fs1);
+            fsDb.persistFeedbackSession(c2Fs1);
             course2.addFeedbackSession(c2Fs2);
-            fsDb.createFeedbackSession(c2Fs2);
-            coursesDb.createCourse(course3);
+            fsDb.persistFeedbackSession(c2Fs2);
+            coursesDb.persistCourse(course3);
             course3.addFeedbackSession(c3Fs1);
-            fsDb.createFeedbackSession(c3Fs1);
+            fsDb.persistFeedbackSession(c3Fs1);
         });
         Set<FeedbackSession> expectedUniqueOngoingSessions = new HashSet<>();
         expectedUniqueOngoingSessions.add(c1Fs2);
