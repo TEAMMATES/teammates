@@ -122,7 +122,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
     void ensureConsistent() {
         if (entity.getCourseId() == null) {
             String courseAlias = GivenCourse.getDefaultAlias();
-            given.course(courseAlias);
+            Course course = given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
+            entity.setCourse(course);
         }
     }
 

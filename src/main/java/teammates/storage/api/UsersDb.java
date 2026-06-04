@@ -449,26 +449,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets a non-soft-deleted instructor with the specified {@code email} and {@code institute}.
-     */
-    public Instructor getInstructorByEmailAndInstitute(String email, String institute) {
-        String normalizedEmail = normalizeEmail(email);
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-        Join<Instructor, Course> courseJoin = instructorRoot.join("course");
-
-        cr.select(instructorRoot)
-                .where(cb.and(
-                cb.equal(cb.lower(instructorRoot.get("email")), normalizedEmail),
-                        cb.equal(courseJoin.get("institute"), institute),
-                        cb.isNull(courseJoin.get("deletedAt"))));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Gets the student with the specified {@code userEmail}.
      *
      * @deprecated unused in production code, moving away from email based retrieval

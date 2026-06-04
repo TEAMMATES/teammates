@@ -388,16 +388,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets a non-soft-deleted instructor with the specified email and institute.
-     */
-    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
-        assert email != null;
-        assert institute != null;
-
-        return usersDb.getInstructorByEmailAndInstitute(email, institute);
-    }
-
-    /**
      * Regenerates the registration key for the user with {@code userId}.
      *
      * @return the user with the new registration key.
