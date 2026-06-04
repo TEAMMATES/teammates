@@ -36,6 +36,10 @@ public final class SectionData {
         }
     }
 
+    public static String getDefaultAlias(String courseAlias) {
+        return "default:" + courseAlias;
+    }
+
     private Section defaultSection(UUID sectionId) {
         Section s = new Section(sectionId.toString());
         s.setId(sectionId);

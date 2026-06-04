@@ -33,8 +33,9 @@ public final class TeamData {
     public TeamData course(String courseAlias) {
         assert team.getSection() == null : "Section has already been set for this team";
         given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
-        Section s = given.getOrCreate("default:" + courseAlias, given.dataBundle.sections, (String sectionAlias) -> {
-            given.section(sectionAlias, sect -> sect.course(courseAlias));
+        String sectionAlias = SectionData.getDefaultAlias(courseAlias);
+        Section s = given.getOrCreate(sectionAlias, given.dataBundle.sections, (String sAlias) -> {
+            given.section(sAlias, sect -> sect.course(courseAlias));
         });
         s.addTeam(team);
         return this;
@@ -42,8 +43,14 @@ public final class TeamData {
 
     void ensureConsistent() {
         if (team.getSection() == null) {
-            this.section("default");
+            String courseAlias = CourseData.getDefaultAlias();
+            String sectionAlias = SectionData.getDefaultAlias(courseAlias);
+            this.section(sectionAlias);
         }
+    }
+
+    public static String getDefaultAlias(String courseAlias, String sectionAlias, String teamAlias) {
+        return "default:" + courseAlias + ":" + sectionAlias + ":" + teamAlias;
     }
 
     private Team defaultTeam(UUID teamId) {

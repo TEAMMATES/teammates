@@ -35,6 +35,10 @@ public final class CourseData {
         return this;
     }
 
+    public static String getDefaultAlias() {
+        return "default";
+    }
+
     private Course defaultCourse(String courseId) {
         return new Course(courseId, "Course Name", "UTC", "Institute Name");
     }
