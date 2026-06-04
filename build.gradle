@@ -126,6 +126,18 @@ sourceSets {
     }
 }
 
+test {
+    useTestNG()
+    options.suites "src/test/resources/testng-component.xml"
+    testLogging {
+        events "failed", "skipped"
+        exceptionFormat "full"
+        showExceptions true
+        showCauses true
+        showStackTraces true
+    }
+}
+
 if (project.gradle.startParameter.taskNames.any { it.contains("liquibaseDiffChangelog") }) {
     if (!project.hasProperty("migrationName")) {
         throw new GradleException("Pass -PmigrationName=foo when running liquibaseDiffChangelog")
