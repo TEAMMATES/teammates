@@ -1,0 +1,83 @@
+package teammates.ui.webapi;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.UUID;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Const;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
+import teammates.ui.output.FeedbackSessionStatsData;
+
+/**
+ * SUT: {@link GetSessionResponseStatsAction}.
+ */
+public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResponseStatsAction> {
+    private DataBundle typicalBundle;
+
+    @BeforeMethod(alwaysRun = true)
+    protected void setUp() {
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
+    }
+
+    @Override
+    String getActionUri() {
+        return Const.ResourceURIs.SESSION_STATS;
+    }
+
+    @Override
+    String getRequestMethod() {
+        return GET;
+    }
+
+    @Override
+    @Test(groups = GroupNames.INTEGRATION)
+    protected void testExecute() {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+
+        ______TS("typical: instructor accesses feedback stats of his/her course");
+
+        FeedbackSession accessibleFs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFs.getId().toString(),
+        };
+
+        GetSessionResponseStatsAction a = getAction(submissionParams);
+        JsonResult r = getJsonResult(a);
+
+        FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
+        assertEquals(8, output.getExpectedTotal());
+        assertEquals(3, output.getSubmittedTotal());
+
+        ______TS("fail: instructor accesses stats of non-existent feedback session");
+
+        UUID nonExistentFeedbackSessionId = UUID.randomUUID();
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, nonExistentFeedbackSessionId.toString(),
+        };
+
+        verifyEntityNotFound(submissionParams);
+    }
+
+    @Override
+    @Test(groups = GroupNames.INTEGRATION)
+    protected void testAccessControl() throws Exception {
+        ______TS("accessible for admin");
+        verifyAccessibleForAdmin();
+
+        ______TS("accessible for authenticated instructor");
+        Course course1 = typicalBundle.courses.get("course1");
+        FeedbackSession accessibleFs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFs.getId().toString(),
+        };
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(course1, submissionParams);
+    }
+}

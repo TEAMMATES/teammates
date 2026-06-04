@@ -148,7 +148,7 @@ public final class AccountsLogic {
             return;
         }
 
-        accountsDb.deleteAccount(account);
+        accountsDb.removeAccount(account);
     }
 
     /**
@@ -168,7 +168,7 @@ public final class AccountsLogic {
             usersLogic.deleteUser(user);
         }
 
-        accountsDb.deleteAccount(account);
+        accountsDb.removeAccount(account);
     }
 
     /**

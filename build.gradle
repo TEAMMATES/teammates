@@ -126,6 +126,18 @@ sourceSets {
     }
 }
 
+test {
+    useTestNG()
+    options.suites "src/test/resources/testng-component.xml"
+    testLogging {
+        events "failed", "skipped"
+        exceptionFormat "full"
+        showExceptions true
+        showCauses true
+        showStackTraces true
+    }
+}
+
 if (project.gradle.startParameter.taskNames.any { it.contains("liquibaseDiffChangelog") }) {
     if (!project.hasProperty("migrationName")) {
         throw new GradleException("Pass -PmigrationName=foo when running liquibaseDiffChangelog")
@@ -557,12 +569,13 @@ task lint {
 def numOfTestRetries = 4
 
 task unitTests(type: Test) {
-    description = "Runs the full unit test suite."
+    description = "Runs the unit test suite."
     group = "Test"
     testClassesDirs = testing.suites.test.sources.output.classesDirs
     classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
+    options.excludeGroups "integration"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"
@@ -577,12 +590,13 @@ task unitTests(type: Test) {
 }
 
 task integrationTests(type: Test) {
-    description = "Runs the full integration test suite."
+    description = "Runs the integration test suite."
     group = "Test"
     testClassesDirs = testing.suites.test.sources.output.classesDirs
     classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
-    options.suites "src/it/resources/testng-it.xml"
+    options.suites "src/test/resources/testng-component.xml"
+    options.includeGroups "integration"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"
@@ -599,7 +613,21 @@ task integrationTests(type: Test) {
 task componentTests(type: Test) {
     description = "Runs the full unit and integration test suite."
     group = "Test"
-    dependsOn unitTests, integrationTests
+    testClassesDirs = testing.suites.test.sources.output.classesDirs
+    classpath = testing.suites.test.sources.runtimeClasspath
+    useTestNG()
+    options.suites "src/test/resources/testng-component.xml"
+    options.useDefaultListeners = true
+    ignoreFailures = false
+    maxHeapSize = "1g"
+    reports.html.required = false
+    reports.junitXml.required = false
+    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
 }
 
 task e2eTests {

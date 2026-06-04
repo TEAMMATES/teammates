@@ -93,7 +93,7 @@ public final class FeedbackQuestionsLogic {
             throw new EntityAlreadyExistsException(errorMessage);
         }
 
-        FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
+        FeedbackQuestion createdQuestion = fqDb.persistFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());
         questionsBefore.remove(createdQuestion);
@@ -720,7 +720,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> questionsToShiftQnNumber =
                 getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
 
-        fqDb.deleteFeedbackQuestion(questionToDelete);
+        fqDb.removeFeedbackQuestion(questionToDelete);
 
         // Shift question numbers down for all questions after the deleted one
         shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);

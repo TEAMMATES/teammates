@@ -78,7 +78,7 @@ public final class ResponseInstructorCommentsLogic {
 
         validateResponseInstructorComment(frc);
 
-        return frcDb.createResponseInstructorComment(frc);
+        return frcDb.persistResponseInstructorComment(frc);
     }
 
     /**
@@ -91,7 +91,7 @@ public final class ResponseInstructorCommentsLogic {
         if (frc == null) {
             return;
         }
-        frcDb.deleteResponseInstructorComment(frc);
+        frcDb.removeResponseInstructorComment(frc);
     }
 
     /**

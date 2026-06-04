@@ -108,7 +108,7 @@ public final class DeadlineExtensionsLogic {
                     String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, deadlineExtension.toString()));
         }
 
-        return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
+        return deadlineExtensionsDb.persistDeadlineExtension(deadlineExtension);
     }
 
     /**
@@ -145,7 +145,7 @@ public final class DeadlineExtensionsLogic {
                 feedbackSession.addDeadlineExtension(newDeadlineExtension);
 
                 validateDeadlineExtension(newDeadlineExtension);
-                deadlineExtensionsDb.createDeadlineExtension(newDeadlineExtension);
+                deadlineExtensionsDb.persistDeadlineExtension(newDeadlineExtension);
                 results.add(new UpdateExtensionsResult(user, sessionDeadline, newDeadline, ExtensionUpdateType.CREATED));
             } else if (!existingDeadlineExtension.getEndTime().equals(newDeadline)) {
                 Instant oldDeadline = existingDeadlineExtension.getEndTime();
@@ -179,7 +179,7 @@ public final class DeadlineExtensionsLogic {
             return;
         }
 
-        deadlineExtensionsDb.deleteDeadlineExtension(de);
+        deadlineExtensionsDb.removeDeadlineExtension(de);
     }
 
     /**
