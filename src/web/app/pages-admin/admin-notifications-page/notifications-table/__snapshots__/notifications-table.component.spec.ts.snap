@@ -16,6 +16,7 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
   rowsData={[Function Array]}
   simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  sortableTableHeaderColorScheme="0"
 >
   <div
     class="row"
@@ -212,6 +213,7 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
   rowsData={[Function Array]}
   simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  sortableTableHeaderColorScheme="0"
 >
   <div
     class="row"
@@ -408,6 +410,7 @@ exports[`NotificationsTableComponent > should snap with default fields 1`] = `
   rowsData={[Function Array]}
   simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  sortableTableHeaderColorScheme="0"
 >
   <div
     class="row"

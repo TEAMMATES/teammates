@@ -1,7 +1,12 @@
 import { NgClass, NgStyle, NgComponentOutlet } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { DynamicComponent, ComponentOutletInjectorDirective, DynamicIoDirective } from 'ng-dynamic-component';
+import {
+  DynamicComponent,
+  ComponentOutletInjectorDirective,
+  DynamicIoDirective,
+  OutputsType,
+} from 'ng-dynamic-component';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
@@ -55,7 +60,14 @@ export interface SortableTableCellData {
   customComponent?: {
     component: Type<any>;
     componentData: (idx: number) => Record<string, any>; // @Input values for component
+    componentOutputs?: (idx: number) => OutputsType; // @Output handlers for component
   };
+}
+
+interface SortableTableRowData {
+  cells: SortableTableCellData[];
+  id?: string;
+  rowClass?: string;
 }
 
 /**
@@ -122,6 +134,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   columnToSortBy = '';
   tableRows: SortableTableCellData[][] = [];
+  displayRows: SortableTableRowData[] = [];
   setMainTableStyle = true;
 
   constructor() {
@@ -132,11 +145,13 @@ export class SortableTableComponent implements OnInit, OnChanges {
     this.tableRows = this.rows;
     this.initialSort(); // Performs an initial sort on the table
     this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
+    this.updateDisplayRows();
   }
 
   ngOnChanges(): void {
     this.tableRows = this.rows;
     this.sortRows(this.emitSortEventOnInputChange);
+    this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
   }
 
   onClickHeader(columnHeader: string): void {
@@ -155,30 +170,33 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   sortRows(emitSortEvent = true): void {
     if (!this.columnToSortBy) {
+      this.updateDisplayRows();
       return;
     }
     const columnIndex: number = this.columns.findIndex((column: ColumnData) => column.header === this.columnToSortBy);
     if (columnIndex < 0) {
+      this.updateDisplayRows();
       return;
     }
     const sortBy: SortBy | undefined = this.columns[columnIndex].sortBy;
     if (!sortBy) {
+      this.updateDisplayRows();
       return;
     }
     if (emitSortEvent) {
       this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
     }
-    if (!emitSortEvent) {
-      return;
+    if (emitSortEvent) {
+      this.tableRows.sort((row1: any[], row2: any[]) => {
+        return this.tableComparatorService.compare(
+          sortBy,
+          this.sortOrder,
+          String(row1[columnIndex].value),
+          String(row2[columnIndex].value),
+        );
+      });
     }
-    this.tableRows.sort((row1: any[], row2: any[]) => {
-      return this.tableComparatorService.compare(
-        sortBy,
-        this.sortOrder,
-        String(row1[columnIndex].value),
-        String(row2[columnIndex].value),
-      );
-    });
+    this.updateDisplayRows();
   }
 
   /**
@@ -206,11 +224,11 @@ export class SortableTableComponent implements OnInit, OnChanges {
     };
   }
 
-  getRowId(row: SortableTableCellData[], idx: number): string | undefined {
-    return this.rowIdGetter ? this.rowIdGetter(row, idx) : undefined;
-  }
-
-  getRowClass(row: SortableTableCellData[], idx: number): string | undefined {
-    return this.rowClassGetter ? this.rowClassGetter(row, idx) : undefined;
+  private updateDisplayRows(): void {
+    this.displayRows = this.tableRows.map((row: SortableTableCellData[], idx: number) => ({
+      cells: row,
+      id: this.rowIdGetter ? this.rowIdGetter(row, idx) : undefined,
+      rowClass: this.rowClassGetter ? this.rowClassGetter(row, idx) : undefined,
+    }));
   }
 }

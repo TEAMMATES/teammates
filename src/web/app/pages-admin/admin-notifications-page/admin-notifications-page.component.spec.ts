@@ -318,8 +318,9 @@ describe('AdminNotificationsPageComponent', () => {
     component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
-    expect(component.notificationsTableRowModels.every((rowModel: NotificationsTableRowModel) => !rowModel.isHighlighted))
-      .toBeTruthy();
+    expect(
+      component.notificationsTableRowModels.every((rowModel: NotificationsTableRowModel) => !rowModel.isHighlighted),
+    ).toBeTruthy();
 
     const expected: NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1].sort(
       component.getNotificationsTableRowModelsComparator(),

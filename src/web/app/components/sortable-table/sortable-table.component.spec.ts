@@ -1,6 +1,15 @@
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SortableTableCellData, SortableTableComponent } from './sortable-table.component';
+
+@Component({
+  standalone: true,
+  template: '<button type="button" (click)="triggered.emit(3)">Trigger</button>',
+})
+class TestDynamicCellComponent {
+  @Output() triggered: EventEmitter<number> = new EventEmitter<number>();
+}
 
 describe('SortableTableComponent', () => {
   let component: SortableTableComponent;
@@ -56,5 +65,29 @@ describe('SortableTableComponent', () => {
 
     expect(component.tableRows).toBe(updatedRows);
     expect(component.tableRows.map((row: SortableTableCellData[]) => row[0].value)).toEqual(['c', 'a', 'b']);
+  });
+
+  it('should bind outputs for dynamic custom components', () => {
+    const spy = vi.fn();
+    component.columns = [{ header: 'Actions' }];
+    component.rows = [
+      [
+        {
+          customComponent: {
+            component: TestDynamicCellComponent,
+            componentData: () => ({}),
+            componentOutputs: () => ({
+              triggered: spy,
+            }),
+          },
+        },
+      ],
+    ];
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    button.click();
+
+    expect(spy).toHaveBeenCalledWith(3);
   });
 });

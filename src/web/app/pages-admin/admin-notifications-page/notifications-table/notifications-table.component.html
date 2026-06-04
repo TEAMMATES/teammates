@@ -8,7 +8,7 @@
       [sortOrder]="notificationsTableRowModelsSortOrder"
       [emitSortEventOnInit]="false"
       [emitSortEventOnInputChange]="false"
-      [headerColorScheme]="getHeaderColorScheme()"
+      [headerColorScheme]="sortableTableHeaderColorScheme"
       [rowIdGetter]="rowIdGetter"
       [rowClassGetter]="rowClassGetter"
       (sortEvent)="sortNotificationsTableRowsEventHandler($event)"

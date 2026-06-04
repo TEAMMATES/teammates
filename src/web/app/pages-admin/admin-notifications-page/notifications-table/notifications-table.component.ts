@@ -53,17 +53,22 @@ export class NotificationsTableComponent implements OnChanges {
   rowsData: SortableTableCellData[][] = [];
   rowIdGetter = (rowData: SortableTableCellData[]): string | undefined => this.getRowId(rowData);
   rowClassGetter = (rowData: SortableTableCellData[]): string | undefined => this.getRowClass(rowData);
+  sortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   constructor() {
     this.setColumnsData();
   }
 
   ngOnChanges(): void {
+    this.sortableTableHeaderColorScheme =
+      this.headerColorScheme === NotificationsTableHeaderColorScheme.WHITE
+        ? SortableTableHeaderColorScheme.WHITE
+        : SortableTableHeaderColorScheme.BLUE;
     this.setRowsData();
   }
 
   /**
-   * Sorts the list of notifications row.
+   * Sorts the list of notification rows.
    */
   sortNotificationsTableRowModels(by: SortBy): void {
     this.sortNotificationsTableRowModelsEvent.emit(by);
@@ -90,12 +95,6 @@ export class NotificationsTableComponent implements OnChanges {
    */
   loadNotificationEditForm(notification: Notification): void {
     this.loadNotificationEditFormEvent.emit(notification);
-  }
-
-  getHeaderColorScheme(): SortableTableHeaderColorScheme {
-    return this.headerColorScheme === NotificationsTableHeaderColorScheme.WHITE
-      ? SortableTableHeaderColorScheme.WHITE
-      : SortableTableHeaderColorScheme.BLUE;
   }
 
   private getRowId(rowData: SortableTableCellData[]): string | undefined {
@@ -167,9 +166,10 @@ export class NotificationsTableComponent implements OnChanges {
         {
           customComponent: {
             component: NotificationActionsCellComponent,
-            componentData: () => ({
-              loadNotificationEditForm: () => this.loadNotificationEditForm(notification),
-              deleteNotification: () => this.deleteNotification(notification.notificationId, notification.title),
+            componentData: () => ({}),
+            componentOutputs: () => ({
+              editClicked: () => this.loadNotificationEditForm(notification),
+              deleteClicked: () => this.deleteNotification(notification.notificationId, notification.title),
             }),
           },
         },
