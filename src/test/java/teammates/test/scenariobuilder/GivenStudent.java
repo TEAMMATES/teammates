@@ -2,6 +2,7 @@ package teammates.test.scenariobuilder;
 
 import java.util.UUID;
 
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -85,6 +86,24 @@ public class GivenStudent extends GivenBase<Student> {
             given.team(tAlias, t -> t.section(sectionAlias));
         });
 
+        return this;
+    }
+
+    /**
+     * Sets the account for the student.
+     */
+    public GivenStudent account(String accountAlias) {
+        assert entity.getAccount() == null : "Account has already been set for this student";
+        Account account = given.getOrCreate(accountAlias, given.dataBundle.accounts, given::account);
+        entity.setAccount(account);
+        return this;
+    }
+
+    /**
+     * Sets no account for the student.
+     */
+    public GivenStudent noAccount() {
+        entity.setAccount(null);
         return this;
     }
 

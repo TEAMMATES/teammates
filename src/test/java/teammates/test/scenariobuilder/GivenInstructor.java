@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 
@@ -96,6 +97,24 @@ public class GivenInstructor extends GivenBase<Instructor> {
     public GivenInstructor custom(InstructorPrivileges privileges) {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         entity.setPrivileges(privileges);
+        return this;
+    }
+
+    /**
+     * Sets the account for the instructor.
+     */
+    public GivenInstructor account(String accountAlias) {
+        assert entity.getAccount() == null : "Account has already been set for this instructor";
+        Account account = given.getOrCreate(accountAlias, given.dataBundle.accounts, given::account);
+        entity.setAccount(account);
+        return this;
+    }
+
+    /**
+     * Sets no account for the instructor.
+     */
+    public GivenInstructor noAccount() {
+        entity.setAccount(null);
         return this;
     }
 
