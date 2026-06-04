@@ -37,13 +37,14 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         loginAsAdmin();
         Account account = new Account(googleId, Provider.TEAMMATES_DEV, "testSubject",
                 "validTenantId", "name", "email");
+        account.setId(accountId);
         when(mockLogic.getAccount(accountId)).thenReturn(account);
         String[] params = {
                 Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
-        assertEquals(output.getAccountId(), accountId);
+        assertEquals(accountId, output.getAccountId());
     }
 
     @Test
