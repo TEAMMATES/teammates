@@ -43,7 +43,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
-        assertEquals(output.getGoogleId(), googleId);
+        assertEquals(output.getAccountId(), accountId.toString());
     }
 
     @Test
