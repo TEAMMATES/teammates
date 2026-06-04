@@ -44,6 +44,30 @@ public final class GivenFeedbackResponse extends GivenBase<FeedbackResponse> {
     }
 
     /**
+     * Sets the feedback question for the response with a specified feedback session.
+     */
+    public GivenFeedbackResponse feedbackSession(String feedbackSessionAlias) {
+        assert entity.getFeedbackQuestion() == null : "Feedback question has already been set for this response";
+        String feedbackQuestionAlias = GivenFeedbackQuestion.getDefaultAlias(feedbackSessionAlias);
+        FeedbackQuestion feedbackQuestion = given.getOrCreate(
+                feedbackQuestionAlias, given.dataBundle.feedbackQuestions,
+                (String qAlias) -> given.feedbackQuestion(qAlias, q -> q.feedbackSession(feedbackSessionAlias)));
+        entity.setFeedbackQuestion(feedbackQuestion);
+        return this;
+    }
+
+    /**
+     * Sets the course for the response through a default feedback session and question.
+     */
+    public GivenFeedbackResponse course(String courseAlias) {
+        String feedbackSessionAlias = GivenFeedbackSession.getDefaultAlias(courseAlias);
+        given.getOrCreate(
+                feedbackSessionAlias, given.dataBundle.feedbackSessions,
+                (String fsAlias) -> given.feedbackSession(fsAlias, fs -> fs.course(courseAlias)));
+        return feedbackSession(feedbackSessionAlias);
+    }
+
+    /**
      * Sets a student as the giver.
      */
     public GivenFeedbackResponse giverStudent(String studentAlias) {

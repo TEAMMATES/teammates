@@ -3,6 +3,7 @@ package teammates.test.scenariobuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
@@ -225,7 +226,7 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
 
     private int getNextQuestionNumber() {
         return given.dataBundle.feedbackQuestions.values().stream()
-                .filter(question -> question.getFeedbackSession() == entity.getFeedbackSession())
+                .filter(question -> Objects.equals(question.getFeedbackSession(), entity.getFeedbackSession()))
                 .map(FeedbackQuestion::getQuestionNumber)
                 .max(Integer::compareTo)
                 .orElse(0) + 1;
