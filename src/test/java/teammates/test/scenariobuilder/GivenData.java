@@ -10,6 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -195,6 +196,25 @@ public final class GivenData {
         Instructor instructor = instructorData.build();
         registerEntity(alias, instructor, dataBundle.instructors);
         return instructor.getId();
+    }
+
+    /**
+     * Creates a feedback session with default values.
+     */
+    public UUID feedbackSession(String alias) {
+        return feedbackSession(alias, fs -> {
+        });
+    }
+
+    /**
+     * Creates a feedback session and applies the provided options to customize it.
+     */
+    public UUID feedbackSession(String alias, Consumer<GivenFeedbackSession> options) {
+        GivenFeedbackSession feedbackSessionData = new GivenFeedbackSession(this, uuid(alias));
+        options.accept(feedbackSessionData);
+        FeedbackSession feedbackSession = feedbackSessionData.build();
+        registerEntity(alias, feedbackSession, dataBundle.feedbackSessions);
+        return feedbackSession.getId();
     }
 
     /**

@@ -108,15 +108,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets a feedback session from the recycle bin.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return fsDb.getSoftDeletedFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
      * Gets a list of feedback sessions for instructors.
      */
     public List<FeedbackSession> getFeedbackSessionsForInstructors(

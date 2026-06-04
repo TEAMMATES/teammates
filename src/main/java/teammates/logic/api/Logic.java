@@ -447,19 +447,6 @@ public class Logic {
     }
 
     /**
-     * Gets a feedback session from the recycle bin.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-    }
-
-    /**
      * Returns a {@code List} of feedback sessions in the Recycle Bin for the
      * instructors.
      * <br>

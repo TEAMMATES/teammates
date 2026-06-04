@@ -111,7 +111,7 @@ public class GivenStudent extends GivenBase<Student> {
     void ensureConsistent() {
         if (entity.getCourseId() == null) {
             String courseAlias = GivenCourse.getDefaultAlias();
-            given.course(courseAlias);
+            this.course(courseAlias);
         }
 
         if (entity.getTeamId() == null) {

@@ -135,30 +135,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetFeedbackSessionFromRecycleBin_sessionInRecycleBin_success() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setDeletedAt(Instant.now());
-
-        when(fsDb.getSoftDeletedFeedbackSession(session.getName(), course.getId())).thenReturn(session);
-
-        FeedbackSession result = fsLogic.getFeedbackSessionFromRecycleBin(session.getName(), course.getId());
-
-        assertNotNull(result);
-        assertEquals(session, result);
-        assertNotNull(result.getDeletedAt());
-    }
-
-    @Test
-    public void testGetFeedbackSessionFromRecycleBin_sessionNotInRecycleBin_returnsNull() {
-        when(fsDb.getSoftDeletedFeedbackSession("session", "course")).thenReturn(null);
-
-        FeedbackSession result = fsLogic.getFeedbackSessionFromRecycleBin("session", "course");
-
-        assertNull(result);
-    }
-
-    @Test
     public void testGetOngoingSessions_sessionsExist_success() {
         Instant rangeStart = Instant.now().minusSeconds(3600);
         Instant rangeEnd = Instant.now().plusSeconds(3600);
