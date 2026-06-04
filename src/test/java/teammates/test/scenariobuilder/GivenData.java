@@ -95,8 +95,7 @@ public final class GivenData {
         GivenAccount accountData = new GivenAccount(this, uuid(alias));
         options.accept(accountData);
         Account account = accountData.build();
-        dataBundle.accounts.put(alias, account);
-        entityToAlias.put(account, alias);
+        registerEntity(alias, account, dataBundle.accounts);
         return account.getId();
     }
 
@@ -115,8 +114,7 @@ public final class GivenData {
         GivenCourse courseData = new GivenCourse(this, stringId(alias));
         options.accept(courseData);
         Course course = courseData.build();
-        dataBundle.courses.put(alias, course);
-        entityToAlias.put(course, alias);
+        registerEntity(alias, course, dataBundle.courses);
         return course.getId();
     }
 
@@ -135,8 +133,7 @@ public final class GivenData {
         GivenSection sectionData = new GivenSection(this, uuid(alias));
         options.accept(sectionData);
         Section section = sectionData.build();
-        dataBundle.sections.put(alias, section);
-        entityToAlias.put(section, alias);
+        registerEntity(alias, section, dataBundle.sections);
         return section.getId();
     }
 
@@ -155,8 +152,7 @@ public final class GivenData {
         GivenTeam teamData = new GivenTeam(this, uuid(alias));
         options.accept(teamData);
         Team team = teamData.build();
-        dataBundle.teams.put(alias, team);
-        entityToAlias.put(team, alias);
+        registerEntity(alias, team, dataBundle.teams);
         return team.getId();
     }
 
@@ -175,8 +171,7 @@ public final class GivenData {
         GivenStudent studentData = new GivenStudent(this, uuid(alias));
         options.accept(studentData);
         Student student = studentData.build();
-        dataBundle.students.put(alias, student);
-        entityToAlias.put(student, alias);
+        registerEntity(alias, student, dataBundle.students);
         return student.getId();
     }
 
@@ -185,6 +180,15 @@ public final class GivenData {
      */
     public DataBundle getDataBundle() {
         return dataBundle;
+    }
+
+    /**
+     * Stores an entity in the data bundle and records its alias.
+     */
+    private <E extends BaseEntity> E registerEntity(String alias, E entity, Map<String, E> map) {
+        map.put(alias, entity);
+        entityToAlias.put(entity, alias);
+        return entity;
     }
 
     /**
@@ -202,7 +206,7 @@ public final class GivenData {
 
     String getAlias(BaseEntity entity) {
         return entityToAlias.get(entity);
-     }
+    }
 
     /**
      * Generates a string ID based on the alias and test name. The ID is
