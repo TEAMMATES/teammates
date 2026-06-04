@@ -82,7 +82,7 @@ public final class GivenDeadlineExtension extends GivenBase<DeadlineExtension> {
     @Override
     void ensureConsistent() {
         if (entity.getFeedbackSession() == null) {
-            this.feedbackSession(getDefaultFeedbackSessionAlias());
+            this.feedbackSession(getFeedbackSessionAlias());
         }
 
         if (entity.getUser() == null) {
@@ -90,9 +90,9 @@ public final class GivenDeadlineExtension extends GivenBase<DeadlineExtension> {
         }
     }
 
-    private String getDefaultFeedbackSessionAlias() {
+    private String getFeedbackSessionAlias() {
         if (entity.getUser() == null) {
-            return GivenFeedbackSession.getDefaultAlias();
+            return GivenFeedbackSession.getDefaultAlias(GivenCourse.getDefaultAlias());
         }
 
         String courseAlias = given.getAlias(entity.getUser().getCourse());

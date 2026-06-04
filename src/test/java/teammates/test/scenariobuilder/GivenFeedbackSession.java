@@ -268,17 +268,10 @@ public final class GivenFeedbackSession extends GivenBase<FeedbackSession> {
     }
 
     /**
-     * Generates a default alias for a feedback session.
-     */
-    public static String getDefaultAlias() {
-        return getDefaultAlias(GivenCourse.getDefaultAlias());
-    }
-
-    /**
      * Generates a default alias for a feedback session in the specified course.
      */
     public static String getDefaultAlias(String courseAlias) {
-        return courseAlias + ":default";
+        return "default:" + courseAlias;
     }
 
     private FeedbackSession defaultFeedbackSession(UUID feedbackSessionId) {

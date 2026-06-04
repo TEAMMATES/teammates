@@ -96,7 +96,7 @@ public final class GivenFeedbackSessionLog extends GivenBase<FeedbackSessionLog>
     @Override
     void ensureConsistent() {
         if (entity.getFeedbackSession() == null) {
-            this.feedbackSession(getDefaultFeedbackSessionAlias());
+            this.feedbackSession(getFeedbackSessionAlias());
         }
 
         if (entity.getUser() == null) {
@@ -104,9 +104,9 @@ public final class GivenFeedbackSessionLog extends GivenBase<FeedbackSessionLog>
         }
     }
 
-    private String getDefaultFeedbackSessionAlias() {
+    private String getFeedbackSessionAlias() {
         if (entity.getUser() == null) {
-            return GivenFeedbackSession.getDefaultAlias();
+            return GivenFeedbackSession.getDefaultAlias(GivenCourse.getDefaultAlias());
         }
 
         String courseAlias = given.getAlias(entity.getUser().getCourse());

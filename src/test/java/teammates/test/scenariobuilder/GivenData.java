@@ -11,11 +11,14 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -217,6 +220,64 @@ public final class GivenData {
         FeedbackSession feedbackSession = feedbackSessionData.build();
         registerEntity(alias, feedbackSession, dataBundle.feedbackSessions);
         return feedbackSession.getId();
+    }
+
+    /**
+     * Creates a feedback question with default values.
+     */
+    public UUID feedbackQuestion(String alias) {
+        return feedbackQuestion(alias, fq -> {
+        });
+    }
+
+    /**
+     * Creates a feedback question and applies the provided options to customize it.
+     */
+    public UUID feedbackQuestion(String alias, Consumer<GivenFeedbackQuestion> options) {
+        GivenFeedbackQuestion feedbackQuestionData = new GivenFeedbackQuestion(this, uuid(alias));
+        options.accept(feedbackQuestionData);
+        FeedbackQuestion feedbackQuestion = feedbackQuestionData.build();
+        registerEntity(alias, feedbackQuestion, dataBundle.feedbackQuestions);
+        return feedbackQuestion.getId();
+    }
+
+    /**
+     * Creates a feedback response with default values.
+     */
+    public UUID feedbackResponse(String alias) {
+        return feedbackResponse(alias, fr -> {
+        });
+    }
+
+    /**
+     * Creates a feedback response and applies the provided options to customize it.
+     */
+    public UUID feedbackResponse(String alias, Consumer<GivenFeedbackResponse> options) {
+        GivenFeedbackResponse feedbackResponseData = new GivenFeedbackResponse(this, uuid(alias));
+        options.accept(feedbackResponseData);
+        FeedbackResponse feedbackResponse = feedbackResponseData.build();
+        registerEntity(alias, feedbackResponse, dataBundle.feedbackResponses);
+        return feedbackResponse.getId();
+    }
+
+    /**
+     * Creates a response instructor comment with default values.
+     */
+    public UUID responseInstructorComment(String alias) {
+        return responseInstructorComment(alias, ric -> {
+        });
+    }
+
+    /**
+     * Creates a response instructor comment and applies the provided options to customize it.
+     */
+    public UUID responseInstructorComment(String alias, Consumer<GivenResponseInstructorComment> options) {
+        GivenResponseInstructorComment responseInstructorCommentData =
+                new GivenResponseInstructorComment(this, uuid(alias));
+        options.accept(responseInstructorCommentData);
+        ResponseInstructorComment responseInstructorComment = responseInstructorCommentData.build();
+        registerEntity(alias, responseInstructorComment, dataBundle.responseInstructorComments);
+        return responseInstructorComment.getId();
     }
 
     /**
