@@ -582,7 +582,7 @@ task integrationTests(type: Test) {
     testClassesDirs = testing.suites.test.sources.output.classesDirs
     classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
-    options.suites "src/it/resources/testng-it.xml"
+    options.suites "src/test/resources/testng-component.xml"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
@@ -120,6 +121,19 @@ public class MockUserProvision extends UserProvision {
         }
 
         return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);
+    }
+
+    @Override
+    public UserInfo getUserInfo(AuthContext authContext) {
+        if (authContext == null || authContext.account() == null) {
+            return null;
+        }
+
+        Account account = authContext.account();
+        UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId());
+        userInfo.isAdmin = authContext.isAdmin();
+        userInfo.isMaintainer = authContext.isMaintainer();
+        return userInfo;
     }
 
     private AuthContext createAccountAuthContext(
