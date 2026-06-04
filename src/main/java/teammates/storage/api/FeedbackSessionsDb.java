@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 
@@ -24,7 +23,6 @@ import teammates.storage.entity.FeedbackSession;
  */
 public final class FeedbackSessionsDb {
 
-    private static final Logger log = Logger.getLogger();
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 
     private static final Duration REMINDER_LEAD_TIME = Duration.ofHours(24);
