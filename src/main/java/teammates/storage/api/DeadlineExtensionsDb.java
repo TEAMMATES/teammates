@@ -96,22 +96,4 @@ public final class DeadlineExtensionsDb {
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
-
-    /**
-     * Gets the DeadlineExtension with the specified {@code feedbackSessionId} and {@code userId} if it exists.
-     * Otherwise, return null.
-     */
-    public DeadlineExtension getDeadlineExtensionForUser(UUID feedbackSessionId, UUID userId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
-        Root<DeadlineExtension> deadlineExtensionRoot = cr.from(DeadlineExtension.class);
-        Join<DeadlineExtension, User> userJoin = deadlineExtensionRoot.join("user");
-        Join<DeadlineExtension, FeedbackSession> sessionJoin = deadlineExtensionRoot.join("feedbackSession");
-
-        cr.select(deadlineExtensionRoot).where(cb.and(
-                cb.equal(sessionJoin.get("id"), feedbackSessionId),
-                cb.equal(userJoin.get("id"), userId)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
 }
