@@ -3,7 +3,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
 import { ResponseRateComponent } from './cell-with-response-rate.component';
 import { CellWithToolTipComponent } from './cell-with-tooltip.component';
-import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -24,11 +23,11 @@ import {
   SortableTableHeaderColorScheme,
   SortableTableComponent,
 } from '../sortable-table/sortable-table.component';
-import { FormatDateBriefPipe } from '../teammates-common/format-date-brief.pipe';
-import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
-import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
-import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
-import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
+import { publishStatusNameToString } from '../../utils/publish-status-name.util';
+import { submissionStatusTooltipToString } from '../../utils/submissions-status-tool-tip.util';
+import { submissionsStatusNameToString } from '../../utils/submissions-status-name.util';
+import { publishStatusTooltipUtilToString } from '../../utils/publish-status-tooltip.util';
+import { DateFormatService } from '../../../services/date-format.service';
 
 export type MutateEvent = {
   idx: number;
@@ -46,24 +45,11 @@ export type Index = number;
   templateUrl: './sessions-table.component.html',
   styleUrls: ['./sessions-table.component.scss'],
   imports: [SortableTableComponent],
-  providers: [
-    FormatDateDetailPipe,
-    FormatDateBriefPipe,
-    PublishStatusNamePipe,
-    PublishStatusTooltipPipe,
-    SubmissionStatusNamePipe,
-    SubmissionStatusTooltipPipe,
-  ],
 })
 export class SessionsTableComponent implements OnInit {
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
-  private formatDateDetailPipe = inject(FormatDateDetailPipe);
-  private formatDateBriefPipe = inject(FormatDateBriefPipe);
-  private publishStatusName = inject(PublishStatusNamePipe);
-  private publishStatusTooltip = inject(PublishStatusTooltipPipe);
-  private submissionStatusTooltip = inject(SubmissionStatusTooltipPipe);
-  private submissionStatusName = inject(SubmissionStatusNamePipe);
+  private dateFormatService = inject(DateFormatService);
 
   // enum
   SortBy!: typeof SortBy;
@@ -259,14 +245,14 @@ export class SessionsTableComponent implements OnInit {
         }),
         ...this.createRowData(
           this.createCellWithToolTip(
-            this.submissionStatusTooltip.transform(submissionStatus),
-            this.submissionStatusName.transform(submissionStatus),
+            submissionStatusTooltipToString(submissionStatus),
+            submissionsStatusNameToString(submissionStatus),
           ),
         ),
         ...this.createRowData(
           this.createCellWithToolTip(
-            this.publishStatusTooltip.transform(publishStatus),
-            this.publishStatusName.transform(publishStatus),
+            publishStatusTooltipUtilToString(publishStatus),
+            publishStatusNameToString(publishStatus),
           ),
         ),
         ...this.createRowData(this.createCellWithResponseRateComponent(sessionTableRowModel)),
@@ -348,8 +334,8 @@ export class SessionsTableComponent implements OnInit {
         component: CellWithToolTipComponent,
         componentData: () => {
           return {
-            toolTip: this.formatDateDetailPipe.transform(timestamp, timeZone),
-            value: this.formatDateBriefPipe.transform(timestamp, timeZone),
+            toolTip: this.dateFormatService.formatDateDetailed(timestamp, timeZone),
+            value: this.dateFormatService.formatDateBrief(timestamp, timeZone),
           };
         },
       },

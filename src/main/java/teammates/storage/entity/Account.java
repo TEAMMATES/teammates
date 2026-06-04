@@ -9,13 +9,17 @@ import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
@@ -23,10 +27,24 @@ import teammates.common.util.SanitizationHelper;
  * Represents a unique account in the system.
  */
 @Entity
-@Table(name = "Accounts")
+@Table(name = "Accounts",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UniqueOidc", columnNames = {"provider", "subject", "tenantId"}),
+        }
+)
 public class Account extends BaseEntity {
     @Id
     private UUID id;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    @Column(nullable = false)
+    private String subject;
+
+    @Column
+    private String tenantId;
 
     @NaturalId
     private String googleId;
@@ -53,9 +71,12 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, String name, String email) {
+    public Account(String googleId, Provider provider, String subject, String tenantId, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setGoogleId(googleId);
+        this.setProvider(provider);
+        this.setSubject(subject);
+        this.setTenantId(tenantId);
         this.setName(name);
         this.setEmail(email);
     }
@@ -74,6 +95,30 @@ public class Account extends BaseEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = SanitizationHelper.sanitizeSubject(subject);
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = SanitizationHelper.sanitizeTenantId(tenantId);
     }
 
     public String getGoogleId() {

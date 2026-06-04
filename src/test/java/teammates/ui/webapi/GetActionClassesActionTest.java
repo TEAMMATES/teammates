@@ -98,7 +98,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateCourseAction.class,
                 GetCourseAction.class,
                 UpdateCourseAction.class,
-                GetFeedbackQuestionRecipientsAction.class,
                 RemindFeedbackSessionSubmissionAction.class,
                 SendEmailWorkerAction.class,
                 GetInstructorsAction.class,
@@ -126,7 +125,8 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetReadNotificationsAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,
-                GetDeadlineExtensionsAction.class
+                GetDeadlineExtensionsAction.class,
+                GetSessionSubmissionDataAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

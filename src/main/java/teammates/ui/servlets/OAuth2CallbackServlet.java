@@ -1,10 +1,9 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Map;
+import java.security.GeneralSecurityException;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,13 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
-import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -26,7 +27,6 @@ import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
 
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.type.TypeReference;
 
 /**
  * Servlet that handles the OAuth2 callback.
@@ -51,38 +51,39 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         Cookie cookie;
-        if (authResult.email == null) {
-            // invalid email
-            req.getSession().invalidate();
-
-            cookie = getLoginInvalidationCookie();
-        } else {
-            Account account;
+        String logMessage;
+        if (authResult.isValid()) {
             try {
                 HibernateUtil.beginTransaction();
-                account = accountsLogic.createOrGetAccountForEmail(authResult.email);
+                Account account = accountsLogic.createOrGetAccount(
+                        authResult.provider, authResult.subject, authResult.tenantId, authResult.email);
                 HibernateUtil.commitTransaction();
+
+                UserInfoCookie uic = new UserInfoCookie(account.getId());
+                cookie = getLoginCookie(uic);
+                logMessage = "Login successful";
             } catch (Exception e) {
                 HibernateUtil.rollbackTransaction();
                 log.warning("Failed to create or get account for " + authResult.email, e);
                 req.getSession().invalidate();
 
                 cookie = getLoginInvalidationCookie();
-                resp.addCookie(cookie);
-                resp.sendRedirect(authResult.nextUrl);
-                return;
+                logMessage = "Login failed";
             }
+        } else {
+            req.getSession().invalidate();
 
-            UserInfoCookie uic = new UserInfoCookie(account.getId());
-            cookie = getLoginCookie(uic);
+            cookie = getLoginInvalidationCookie();
+            logMessage = "Login failed";
         }
 
-        log.info("Going to redirect to: " + authResult.nextUrl);
+        String redirectUrl = resp.encodeRedirectURL(getSanitizedRedirectUrl(authResult.nextUrl));
+        log.info("Going to redirect to: " + redirectUrl);
 
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
+        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
 
         resp.addCookie(cookie);
-        resp.sendRedirect(authResult.nextUrl);
+        resp.sendRedirect(redirectUrl);
     }
 
     private AuthResult getDevServerAuthResult(HttpServletRequest req) {
@@ -91,7 +92,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult(email, nextUrl);
+        return new AuthResult(Provider.TEAMMATES_DEV, email, null, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -133,23 +134,24 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         String redirectUri = getRedirectUri(req);
-        TokenResponse token = getAuthorizationFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
-        String email = null;
-        try {
-            String userInfoResponse = HttpRequest.executeGetRequest(
-                    new URI("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token="
-                            + token.getAccessToken()));
+        GoogleTokenResponse token = getGoogleAuthorizationFlow()
+                .newTokenRequest(code).setRedirectUri(redirectUri).execute();
 
-            Map<String, Object> parsedResponse =
-                    JsonUtils.fromJson(userInfoResponse, new TypeReference<>(){});
-            if (parsedResponse.containsKey("email")) {
-                email = String.valueOf(parsedResponse.get("email"));
+        Payload payload;
+        try {
+            GoogleIdToken idToken = getGoogleIdTokenVerifier().verify(token.getIdToken());
+            if (idToken == null) {
+                logAndPrintError(req, resp, HttpStatus.SC_UNAUTHORIZED, "Invalid ID token");
+                return null;
             }
-        } catch (URISyntaxException | IOException | JacksonException e) {
-            // if any of the operation fail, googleId is kept at null
-            log.warning("Failed to get Google ID", e);
+            payload = idToken.getPayload();
+        } catch (GeneralSecurityException | IOException e) {
+            log.warning("Failed to verify ID token", e);
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed to verify ID token");
+            return null;
         }
-        return new AuthResult(email, nextUrl);
+
+        return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
@@ -161,12 +163,26 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     private static final class AuthResult {
+        private final Provider provider;
+        private final String subject;
+        private final String tenantId;
         private final String email;
         private final String nextUrl;
 
-        private AuthResult(String email, String nextUrl) {
+        private AuthResult(Provider provider, String subject, @Nullable String tenantId,
+                    String email, String nextUrl) {
+            this.provider = provider;
+            this.subject = subject;
+            this.tenantId = tenantId;
             this.email = email;
             this.nextUrl = nextUrl;
+        }
+
+        public boolean isValid() {
+            boolean hasProvider = provider != null;
+            boolean hasEmail = email != null;
+            boolean hasSubject = subject != null;
+            return hasProvider && hasEmail && hasSubject;
         }
     }
 

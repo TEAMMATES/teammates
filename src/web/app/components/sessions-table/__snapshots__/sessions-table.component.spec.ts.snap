@@ -12,9 +12,8 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
+  dateFormatService={[Function _DateFormatService]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateBriefPipe={[Function _FormatDateBriefPipe]}
-  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
@@ -22,8 +21,6 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
   moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter_]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishStatusTooltip={[Function _PublishStatusTooltipPipe]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
   rowsData={[Function Array]}
@@ -33,8 +30,6 @@ exports[`SessionsTableComponent > should snap like in home page with 2 sessions 
   simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function _SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -533,9 +528,8 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
+  dateFormatService={[Function _DateFormatService]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateBriefPipe={[Function _FormatDateBriefPipe]}
-  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
@@ -543,8 +537,6 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
   moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter_]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishStatusTooltip={[Function _PublishStatusTooltipPipe]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
   rowsData={[Function Array]}
@@ -554,8 +546,6 @@ exports[`SessionsTableComponent > should snap like in sessions page with 2 sessi
   simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function _SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -1020,9 +1010,8 @@ exports[`SessionsTableComponent > should snap with default fields 1`] = `
   columnsToShow={[Function Array]}
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
+  dateFormatService={[Function _DateFormatService]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateBriefPipe={[Function _FormatDateBriefPipe]}
-  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
@@ -1030,8 +1019,6 @@ exports[`SessionsTableComponent > should snap with default fields 1`] = `
   moveSessionToRecycleBinEvent={[Function EventEmitter_]}
   ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter_]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishStatusTooltip={[Function _PublishStatusTooltipPipe]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
   rowsData={[Function Array]}
@@ -1041,8 +1028,6 @@ exports[`SessionsTableComponent > should snap with default fields 1`] = `
   simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function _SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
