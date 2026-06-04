@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import org.junit.jupiter.api.function.Executable;
@@ -30,7 +31,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
-
+import teammates.test.scenariobuilder.GivenData;
 import liquibase.command.CommandScope;
 
 /**
@@ -41,21 +42,23 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     private static final PostgreSQLContainer PGSQL = new PostgreSQLContainer("postgres:15.1-alpine");
 
     private final Logic logic = Logic.inst();
+    protected GivenData given;
 
     @BeforeSuite(alwaysRun = true)
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
-
         runLiquibaseMigrations(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
-
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
-
-        LogicStarter.initializeDependencies();
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void setUpMethod() {
+    protected void setUpMethod(Method method) {
         LogicStarter.initializeDependencies();
+        given = new GivenData(getTestMethodName(method));
+    }
+
+    private String getTestMethodName(Method method) {
+        return method.getDeclaringClass().getSimpleName() + "." + method.getName();
     }
 
     private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
@@ -65,6 +68,10 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 .addArgumentValue("username", username)
                 .addArgumentValue("password", password)
                 .execute();
+    }
+
+    protected void persistGivenData(GivenData givenData) {
+        inTransaction(() -> logic.persistDataBundle(givenData.getDataBundle()));
     }
 
     /**
