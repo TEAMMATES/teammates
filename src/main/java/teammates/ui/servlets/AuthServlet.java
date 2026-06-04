@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -34,14 +34,14 @@ abstract class AuthServlet extends HttpServlet {
     private static final MemoryDataStoreFactory DATA_STORE_FACTORY = MemoryDataStoreFactory.getDefaultInstance();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final List<String> SCOPES = Arrays.asList("https://www.googleapis.com/auth/userinfo.email");
+    private static final List<String> SCOPES = Arrays.asList("openid", "email");
 
     /**
-     * Gets the authorization code flow to be used across all HTTP servlet requests.
+     * Gets the Google authorization code flow to be used across all HTTP servlet requests.
      */
-    AuthorizationCodeFlow getAuthorizationFlow() throws IOException {
+    GoogleAuthorizationCodeFlow getGoogleAuthorizationFlow() throws IOException {
         return new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, Config.OAUTH2_CLIENT_ID, Config.OAUTH2_CLIENT_SECRET, SCOPES)
+                HTTP_TRANSPORT, JSON_FACTORY, Config.OIDC_GOOGLE_CLIENT_ID, Config.OIDC_GOOGLE_CLIENT_SECRET, SCOPES)
                 .setDataStoreFactory(DATA_STORE_FACTORY)
                 .setAccessType("offline")
                 .build();
@@ -55,6 +55,15 @@ abstract class AuthServlet extends HttpServlet {
         url.setRawPath("/oauth2callback");
         url.set("ngsw-bypass", "true");
         return url.build();
+    }
+
+    /**
+     * Returns the Google ID token verifier to be used across all HTTP servlet requests.
+     */
+    GoogleIdTokenVerifier getGoogleIdTokenVerifier() {
+        return new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+                .setAudience(List.of(Config.OIDC_GOOGLE_CLIENT_ID))
+                .build();
     }
 
     Cookie getLoginInvalidationCookie() {
@@ -76,11 +85,16 @@ abstract class AuthServlet extends HttpServlet {
         return cookie;
     }
 
+    /**
+     * Sanitize the given URL to prevent HTTP response splitting.
+     */
     String getSanitizedRedirectUrl(String url) {
-        // Prevent HTTP response splitting
         return url.replace("\r\n", "");
     }
 
+    /**
+     * Encodes the given query parameter value to be safely included in a URL.
+     */
     String getEncodedQueryParam(String param) {
         return URLEncoder.encode(param, StandardCharsets.UTF_8);
     }
