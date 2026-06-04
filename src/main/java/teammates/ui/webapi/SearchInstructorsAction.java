@@ -24,7 +24,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
                     instructor.getRegKey(),
-                    instructor.getGoogleId());
+                    instructor.getAccountId());
 
             instructorDataList.add(instructorData);
         }

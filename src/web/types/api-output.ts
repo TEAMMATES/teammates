@@ -386,6 +386,7 @@ export interface Instructor extends ApiOutput {
   name: string;
   institute: string;
   courseName: string;
+  accountId?: string;
   googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
@@ -604,6 +605,7 @@ export interface Student extends ApiOutput {
   sectionName: string;
   institute: string;
   courseName: string;
+  accountId?: string;
   googleId?: string;
   comments?: string;
   key?: string;

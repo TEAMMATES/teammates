@@ -13,6 +13,8 @@ import teammates.storage.entity.Student;
  */
 public class StudentData implements ApiOutput {
     private final UUID userId;
+    @Nullable
+    private UUID accountId;
 
     private final String email;
     private final String courseId;
@@ -47,6 +49,7 @@ public class StudentData implements ApiOutput {
 
     public StudentData(Student student) {
         this.userId = student.getId();
+        this.accountId = student.getAccountId();
         this.email = student.getEmail();
         this.courseId = student.getCourseId();
         this.name = student.getName();
@@ -102,6 +105,10 @@ public class StudentData implements ApiOutput {
         return institute;
     }
 
+    public UUID getAccountId() {
+        return accountId;
+    }
+
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
@@ -122,6 +129,10 @@ public class StudentData implements ApiOutput {
         this.institute = institute;
     }
 
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
     /**
      * Hides some attributes to student.
      */
@@ -133,11 +144,11 @@ public class StudentData implements ApiOutput {
     /**
      * Adds additional information only for search result for admin.
      * @param key The registration key
-     * @param googleId The googleId of the student
+     * @param accountId The accountId of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String googleId) {
+    public void addAdditionalInformationForAdminSearch(String key, UUID accountId) {
         this.setKey(key);
-        this.setGoogleId(googleId);
+        this.setAccountId(accountId);
     }
 
     public String getCourseName() {
