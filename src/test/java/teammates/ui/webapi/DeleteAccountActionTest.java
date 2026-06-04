@@ -3,6 +3,9 @@ package teammates.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -19,6 +22,7 @@ import teammates.ui.output.MessageOutput;
  */
 public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction> {
     String googleId = "user-googleId";
+    UUID accountId = UUID.fromString("00000000-0000-4000-8000-000000000001");
 
     @Override
     protected String getActionUri() {
@@ -38,7 +42,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     @Test
     protected void textExecute_nullParams_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, null,
+                Const.ParamsNames.ACCOUNT_ID, null,
         };
         verifyHttpParameterFailure(params);
     }
@@ -51,12 +55,14 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         Instructor instructor = new Instructor(stubCourse, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
         instructor.setAccount(stubAccount);
+        when(mockLogic.getAccount(accountId)).thenReturn(stubAccount);
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+            Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
         };
         DeleteAccountAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("Account is successfully deleted.", actionOutput.getMessage());
+        verify(mockLogic, times(1)).getAccount(accountId);
         verify(mockLogic, times(1)).deleteAccountCascade(googleId);
     }
 }
