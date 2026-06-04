@@ -6,6 +6,9 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 
+/**
+ * Builder for Student entities used in test scenarios.
+ */
 public class GivenStudent extends GivenBase<Student> {
     public GivenStudent(GivenData given, UUID studentId) {
         super(given);

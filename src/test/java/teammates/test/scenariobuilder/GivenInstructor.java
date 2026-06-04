@@ -7,6 +7,9 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 
+/**
+ * Builder for Instructor entities used in test scenarios.
+ */
 public class GivenInstructor extends GivenBase<Instructor> {
     public GivenInstructor(GivenData given, UUID instructorId) {
         super(given);
