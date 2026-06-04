@@ -19,6 +19,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
+import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
 
@@ -28,7 +29,7 @@ import teammates.ui.request.SendEmailRequest;
 public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<FeedbackSessionOpeningSoonRemindersAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -43,14 +44,14 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         loginAsAdmin();

@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
@@ -23,7 +24,7 @@ import teammates.ui.request.Intent;
 public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -38,7 +39,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -94,7 +95,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         // Tested separately
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void courseNotFound_loggedInAsInstructor_fullDetailIntent() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -107,7 +108,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyEntityNotFoundAcl(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void courseNotFound_loggedInAsStudent_intentUndefined() {
         Student student = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student.getGoogleId());
@@ -119,7 +120,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyEntityNotFoundAcl(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void unknownUser_fullDetailIntent_cannotAccess() {
         loginAsUnregistered("unregistered");
 
@@ -133,7 +134,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyCannotAccess(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void unknownUser_intentUndefined_cannotAccess() {
         loginAsUnregistered("unregistered");
 
@@ -146,7 +147,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyCannotAccess(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void instructor_invalidIntent_shouldFailParameterCheck() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -159,7 +160,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyHttpParameterFailureAcl(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void instructor_fullDetailIntent_canAccessOwnCourse() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -172,7 +173,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyOnlyInstructorsOfTheSameCourseCanAccess(instructor.getCourse(), params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void student_intentUndefined_canAccessOwnCourse() {
         Student student = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student.getGoogleId());
@@ -184,7 +185,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyCanAccess(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void student_intentUndefined_cannotAccessOtherCourse() {
         Student student = typicalBundle.students.get("student1InCourse1");
         Student otherStudent = typicalBundle.students.get("student1InCourse2");

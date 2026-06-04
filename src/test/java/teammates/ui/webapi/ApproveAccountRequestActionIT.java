@@ -15,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
@@ -26,7 +27,7 @@ import teammates.ui.output.AccountRequestData;
 public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRequestAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -46,7 +47,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         // This is separated into different test methods.
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_pendingRequest_approvesSuccessfully() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "pending@email.com",
                 "institute", AccountRequestStatus.PENDING, "comments"));
@@ -65,7 +66,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         verifyNumberOfEmailsSent(1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_rejectedRequest_approvesSuccessfully() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "rejected@email.com",
                 "institute", AccountRequestStatus.REJECTED, "comments"));
@@ -80,7 +81,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         verifyNumberOfEmailsSent(1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_existingAccountWithSameEmail_approvesSuccessfully() {
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
@@ -101,7 +102,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         verifyNumberOfEmailsSent(1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully() {
         inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
                 "instituteA", AccountRequestStatus.APPROVED, "comments"));
@@ -118,7 +119,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         verifyNumberOfEmailsSent(1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidUuid_throwsInvalidHttpParameterException() {
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
@@ -126,7 +127,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_nonExistentUuid_throwsEntityNotFoundException() {
         String uuid = UUID.randomUUID().toString();
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
@@ -135,7 +136,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidStatus_throwsInvalidOperationException() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "registered@email.com",
                 "institute", AccountRequestStatus.REGISTERED, "comments"));
@@ -148,7 +149,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);
