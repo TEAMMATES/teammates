@@ -139,9 +139,9 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Creates a feedback session.
+     * Persists a feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session) {
+    public FeedbackSession persistFeedbackSession(FeedbackSession session) {
         HibernateUtil.persist(session);
         return session;
     }

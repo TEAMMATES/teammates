@@ -259,7 +259,7 @@ public final class FeedbackSessionsLogic {
                     String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
         }
 
-        return fsDb.createFeedbackSession(session);
+        return fsDb.persistFeedbackSession(session);
     }
 
     /**

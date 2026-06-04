@@ -204,7 +204,7 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         UsageStatistics stats = new UsageStatistics(
                 startTime, 1, 100, 10, 50, 5, 2, 20, 30);
 
-        when(usageStatisticsDb.createUsageStatistics(stats)).thenReturn(stats);
+        when(usageStatisticsDb.persistUsageStatistics(stats)).thenReturn(stats);
 
         UsageStatistics result = usageStatisticsLogic.createUsageStatistics(stats);
 
@@ -220,7 +220,7 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         assertEquals(2, result.getNumAccountRequests());
         assertEquals(20, result.getNumEmails());
         assertEquals(30, result.getNumSubmissions());
-        verify(usageStatisticsDb, times(1)).createUsageStatistics(stats);
+        verify(usageStatisticsDb, times(1)).persistUsageStatistics(stats);
     }
 
     @Test
@@ -229,7 +229,7 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         UsageStatistics stats = new UsageStatistics(
                 startTime, 1, 0, 0, 0, 0, 0, 0, 0);
 
-        when(usageStatisticsDb.createUsageStatistics(stats)).thenReturn(stats);
+        when(usageStatisticsDb.persistUsageStatistics(stats)).thenReturn(stats);
 
         UsageStatistics result = usageStatisticsLogic.createUsageStatistics(stats);
 
@@ -252,7 +252,7 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         UsageStatistics stats = new UsageStatistics(
                 startTime, 24, 100000, 5000, 50000, 2500, 1000, 75000, 80000);
 
-        when(usageStatisticsDb.createUsageStatistics(stats)).thenReturn(stats);
+        when(usageStatisticsDb.persistUsageStatistics(stats)).thenReturn(stats);
 
         UsageStatistics result = usageStatisticsLogic.createUsageStatistics(stats);
 
@@ -277,16 +277,16 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         UsageStatistics stats2 = new UsageStatistics(
                 startTime2, 1, 200, 20, 100, 10, 4, 40, 60);
 
-        when(usageStatisticsDb.createUsageStatistics(stats1)).thenReturn(stats1);
-        when(usageStatisticsDb.createUsageStatistics(stats2)).thenReturn(stats2);
+        when(usageStatisticsDb.persistUsageStatistics(stats1)).thenReturn(stats1);
+        when(usageStatisticsDb.persistUsageStatistics(stats2)).thenReturn(stats2);
 
         UsageStatistics result1 = usageStatisticsLogic.createUsageStatistics(stats1);
         UsageStatistics result2 = usageStatisticsLogic.createUsageStatistics(stats2);
 
         assertEquals(stats1, result1);
         assertEquals(stats2, result2);
-        verify(usageStatisticsDb, times(1)).createUsageStatistics(stats1);
-        verify(usageStatisticsDb, times(1)).createUsageStatistics(stats2);
+        verify(usageStatisticsDb, times(1)).persistUsageStatistics(stats1);
+        verify(usageStatisticsDb, times(1)).persistUsageStatistics(stats2);
     }
 
     // ==================== EDGE CASE Tests ====================
@@ -311,21 +311,21 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
         // Test with hourly time period (1 hour = 1)
         UsageStatistics hourlyStats = new UsageStatistics(
                 startTime, 1, 10, 1, 5, 1, 0, 2, 3);
-        when(usageStatisticsDb.createUsageStatistics(hourlyStats)).thenReturn(hourlyStats);
+        when(usageStatisticsDb.persistUsageStatistics(hourlyStats)).thenReturn(hourlyStats);
         UsageStatistics result1 = usageStatisticsLogic.createUsageStatistics(hourlyStats);
         assertEquals(1, result1.getTimePeriod());
 
         // Test with daily time period (24 hours = 24)
         UsageStatistics dailyStats = new UsageStatistics(
                 startTime, 24, 100, 10, 50, 5, 2, 20, 30);
-        when(usageStatisticsDb.createUsageStatistics(dailyStats)).thenReturn(dailyStats);
+        when(usageStatisticsDb.persistUsageStatistics(dailyStats)).thenReturn(dailyStats);
         UsageStatistics result2 = usageStatisticsLogic.createUsageStatistics(dailyStats);
         assertEquals(24, result2.getTimePeriod());
 
         // Test with weekly time period (168 hours = 168)
         UsageStatistics weeklyStats = new UsageStatistics(
                 startTime, 168, 700, 70, 350, 35, 14, 140, 210);
-        when(usageStatisticsDb.createUsageStatistics(weeklyStats)).thenReturn(weeklyStats);
+        when(usageStatisticsDb.persistUsageStatistics(weeklyStats)).thenReturn(weeklyStats);
         UsageStatistics result3 = usageStatisticsLogic.createUsageStatistics(weeklyStats);
         assertEquals(168, result3.getTimePeriod());
     }

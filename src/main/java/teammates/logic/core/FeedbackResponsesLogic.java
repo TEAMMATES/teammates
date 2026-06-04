@@ -343,7 +343,7 @@ public final class FeedbackResponsesLogic {
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
                 feedbackResponses.add(feedbackResponse);
                 validateFeedbackResponse(feedbackResponse);
-                frDb.createFeedbackResponse(feedbackResponse);
+                frDb.persistFeedbackResponse(feedbackResponse);
             }
         }
 

@@ -40,7 +40,7 @@ public final class AccountRequestsLogic {
      */
     public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
         validateAccountRequest(accountRequest);
-        return accountRequestDb.createAccountRequest(accountRequest);
+        return accountRequestDb.persistAccountRequest(accountRequest);
     }
 
     /**

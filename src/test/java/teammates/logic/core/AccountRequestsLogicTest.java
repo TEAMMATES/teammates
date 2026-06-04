@@ -39,26 +39,26 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     @Test
     public void testCreateAccountRequest_typicalRequest_success() throws Exception {
         AccountRequest accountRequest = getTypicalAccountRequest();
-        when(accountRequestsDb.createAccountRequest(accountRequest)).thenReturn(accountRequest);
+        when(accountRequestsDb.persistAccountRequest(accountRequest)).thenReturn(accountRequest);
         AccountRequest createdAccountRequest = accountRequestsLogic.createAccountRequest(accountRequest);
 
         assertEquals(accountRequest, createdAccountRequest);
-        verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest);
+        verify(accountRequestsDb, times(1)).persistAccountRequest(accountRequest);
     }
 
     @Test
     public void testCreateAccountRequest_requestAlreadyExists_success() throws Exception {
         AccountRequest accountRequest1 = getTypicalAccountRequest();
         AccountRequest accountRequest2 = getTypicalAccountRequest();
-        when(accountRequestsDb.createAccountRequest(accountRequest1))
+        when(accountRequestsDb.persistAccountRequest(accountRequest1))
                 .thenReturn(accountRequest1);
-        when(accountRequestsDb.createAccountRequest(accountRequest2))
+        when(accountRequestsDb.persistAccountRequest(accountRequest2))
                         .thenReturn(accountRequest2);
 
         accountRequestsLogic.createAccountRequest(accountRequest1);
         accountRequestsLogic.createAccountRequest(accountRequest2);
-        verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest1);
-        verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest2);
+        verify(accountRequestsDb, times(1)).persistAccountRequest(accountRequest1);
+        verify(accountRequestsDb, times(1)).persistAccountRequest(accountRequest2);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         assertThrows(InvalidParametersException.class, () -> {
             accountRequestsLogic.createAccountRequest(invalidEmailAccountRequest);
         });
-        verify(accountRequestsDb, never()).createAccountRequest(invalidEmailAccountRequest);
+        verify(accountRequestsDb, never()).persistAccountRequest(invalidEmailAccountRequest);
     }
 
     @Test

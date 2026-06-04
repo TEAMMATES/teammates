@@ -78,7 +78,7 @@ public final class ResponseInstructorCommentsLogic {
 
         validateResponseInstructorComment(frc);
 
-        return frcDb.createResponseInstructorComment(frc);
+        return frcDb.persistResponseInstructorComment(frc);
     }
 
     /**

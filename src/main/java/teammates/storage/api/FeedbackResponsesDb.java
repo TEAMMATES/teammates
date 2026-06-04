@@ -39,9 +39,9 @@ public final class FeedbackResponsesDb {
     }
 
     /**
-     * Creates a feedbackResponse.
+     * Persists a feedbackResponse.
      */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse) {
+    public FeedbackResponse persistFeedbackResponse(FeedbackResponse feedbackResponse) {
         HibernateUtil.persist(feedbackResponse);
         return feedbackResponse;
     }

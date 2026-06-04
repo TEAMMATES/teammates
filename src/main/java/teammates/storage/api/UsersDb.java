@@ -75,17 +75,17 @@ public final class UsersDb {
     }
 
     /**
-     * Creates an instructor.
+     * Persists an instructor.
      */
-    public Instructor createInstructor(Instructor instructor) {
+    public Instructor persistInstructor(Instructor instructor) {
         HibernateUtil.persist(instructor);
         return instructor;
     }
 
     /**
-     * Creates a student.
+     * Persists a student.
      */
-    public Student createStudent(Student student) {
+    public Student persistStudent(Student student) {
         HibernateUtil.persist(student);
         return student;
     }

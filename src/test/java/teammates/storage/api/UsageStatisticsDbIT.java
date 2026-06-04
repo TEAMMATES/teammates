@@ -38,8 +38,8 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
                 startTimeTwo, 1, 0, 0, 0, 0, 0, 0, 0);
 
         inTransaction(() -> {
-            usageStatisticsDb.createUsageStatistics(usageStatisticsOne);
-            usageStatisticsDb.createUsageStatistics(usageStatisticsTwo);
+            usageStatisticsDb.persistUsageStatistics(usageStatisticsOne);
+            usageStatisticsDb.persistUsageStatistics(usageStatisticsTwo);
         });
 
         List<UsageStatistics> actulUsageStatisticsOne = inTransaction(() -> usageStatisticsDb
@@ -58,7 +58,7 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
         UsageStatistics newUsageStatistics = new UsageStatistics(
                 startTime, 1, 0, 0, 0, 0, 0, 0, 0);
 
-        inTransaction(() -> usageStatisticsDb.createUsageStatistics(newUsageStatistics));
+        inTransaction(() -> usageStatisticsDb.persistUsageStatistics(newUsageStatistics));
 
         List<UsageStatistics> actualUsageStatistics = inTransaction(() -> usageStatisticsDb
                 .getUsageStatisticsForTimeRange(startTime, startTime.plus(1, ChronoUnit.SECONDS)));

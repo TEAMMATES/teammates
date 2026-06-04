@@ -32,11 +32,9 @@ public final class FeedbackQuestionsDb {
     }
 
     /**
-     * Creates a new feedback question.
-     *
-     * @return the created question
+     * Persists a new feedback question.
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
+    public FeedbackQuestion persistFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         HibernateUtil.persist(feedbackQuestion);
         return feedbackQuestion;
     }

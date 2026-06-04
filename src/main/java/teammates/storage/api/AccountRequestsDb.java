@@ -44,9 +44,9 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Creates an AccountRequest in the database.
+     * Persists an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) {
+    public AccountRequest persistAccountRequest(AccountRequest accountRequest) {
         HibernateUtil.persist(accountRequest);
         return accountRequest;
     }

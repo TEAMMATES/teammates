@@ -29,17 +29,16 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: get course that already exists");
         Course expected = getTypicalCourse();
-        inTransaction(() -> coursesDb.createCourse(expected));
+        inTransaction(() -> coursesDb.persistCourse(expected));
 
         actual = inTransaction(() -> coursesDb.getCourse(expected.getId()));
         assertEquals(expected, actual);
     }
 
     @Test
-    public void testCreateCourse() {
-        ______TS("success: create course that does not exist");
+    public void testPersistCourse() {
         Course course = getTypicalCourse();
-        inTransaction(() -> coursesDb.createCourse(course));
+        inTransaction(() -> coursesDb.persistCourse(course));
         Course actualCourse = inTransaction(() -> coursesDb.getCourse("course-id"));
         assertEquals(course, actualCourse);
     }
@@ -47,7 +46,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testDeleteCourse() {
         Course course = getTypicalCourse();
-        inTransaction(() -> coursesDb.createCourse(course));
+        inTransaction(() -> coursesDb.persistCourse(course));
 
         inTransaction(() -> coursesDb.deleteCourse(course));
         Course actualCourse = inTransaction(() -> coursesDb.getCourse(course.getId()));
@@ -55,13 +54,13 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testCreateSection() {
+    public void testPersistSection() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
-        inTransaction(() -> coursesDb.createCourse(course));
+        inTransaction(() -> coursesDb.persistCourse(course));
 
         ______TS("success: create section that does not exist");
-        inTransaction(() -> coursesDb.createSection(section));
+        inTransaction(() -> coursesDb.persistSection(section));
         Section actualSection = inTransaction(() -> coursesDb.getSectionByName(course.getId(), section.getName()));
         assertEquals(section, actualSection);
     }
@@ -71,8 +70,8 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
         inTransaction(() -> {
-            coursesDb.createCourse(course);
-            coursesDb.createSection(section);
+            coursesDb.persistCourse(course);
+            coursesDb.persistSection(section);
         });
 
         ______TS("success: get section that already exists");
@@ -91,10 +90,10 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Section section = new Section("section-name");
         Team team = new Team("team-name");
         inTransaction(() -> {
-            coursesDb.createCourse(course);
-            coursesDb.createSection(section);
+            coursesDb.persistCourse(course);
+            coursesDb.persistSection(section);
             course.addSection(section);
-            coursesDb.createTeam(team);
+            coursesDb.persistTeam(team);
             section.addTeam(team);
         });
 
@@ -115,19 +114,19 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Team team3 = new Team("team-name3");
         Team team4 = new Team("team-name4");
         inTransaction(() -> {
-            coursesDb.createCourse(course);
-            coursesDb.createSection(section1);
+            coursesDb.persistCourse(course);
+            coursesDb.persistSection(section1);
             course.addSection(section1);
-            coursesDb.createTeam(team1);
+            coursesDb.persistTeam(team1);
             section1.addTeam(team1);
-            coursesDb.createTeam(team2);
+            coursesDb.persistTeam(team2);
             section1.addTeam(team2);
 
-            coursesDb.createSection(section2);
+            coursesDb.persistSection(section2);
             course.addSection(section2);
-            coursesDb.createTeam(team3);
+            coursesDb.persistTeam(team3);
             section2.addTeam(team3);
-            coursesDb.createTeam(team4);
+            coursesDb.persistTeam(team4);
             section2.addTeam(team4);
         });
 
@@ -146,14 +145,14 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Team team = new Team("team-name1");
         section.addTeam(team);
         inTransaction(() -> {
-            coursesDb.createCourse(course);
-            coursesDb.createSection(section);
+            coursesDb.persistCourse(course);
+            coursesDb.persistSection(section);
         });
 
         assertNotNull(inTransaction(() -> coursesDb.getSectionByName(course.getId(), section.getName())));
 
         ______TS("success: create team that does not exist");
-        inTransaction(() -> coursesDb.createTeam(team));
+        inTransaction(() -> coursesDb.persistTeam(team));
         Team actualTeam = inTransaction(() -> coursesDb.getTeamByName(section.getId(), team.getName()));
         assertEquals(team, actualTeam);
     }
@@ -165,9 +164,9 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Team team = new Team("team-name1");
         section.addTeam(team);
         inTransaction(() -> {
-            coursesDb.createCourse(course);
-            coursesDb.createSection(section);
-            coursesDb.createTeam(team);
+            coursesDb.persistCourse(course);
+            coursesDb.persistSection(section);
+            coursesDb.persistTeam(team);
         });
 
         ______TS("success: get team that already exists");

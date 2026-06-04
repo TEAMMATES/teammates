@@ -35,9 +35,9 @@ public final class ResponseInstructorCommentsDb {
     }
 
     /**
-    * Creates a responseInstructorComment.
+    * Persists a responseInstructorComment.
      */
-    public ResponseInstructorComment createResponseInstructorComment(ResponseInstructorComment responseInstructorComment) {
+    public ResponseInstructorComment persistResponseInstructorComment(ResponseInstructorComment responseInstructorComment) {
         HibernateUtil.persist(responseInstructorComment);
         return responseInstructorComment;
     }

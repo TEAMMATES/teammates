@@ -49,16 +49,15 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testCreateFeedbackQuestion() {
-        ______TS("success: typical case");
+    public void testPersistFeedbackQuestion() {
         Course course = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(course);
 
         FeedbackQuestion expectedFq = inTransaction(() -> {
-            coursesDb.createCourse(course);
-            fsDb.createFeedbackSession(fs);
+            coursesDb.persistCourse(course);
+            fsDb.persistFeedbackSession(fs);
             FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
-            fqDb.createFeedbackQuestion(fq);
+            fqDb.persistFeedbackQuestion(fq);
             return fq;
         });
         verifyPresentInDatabase(expectedFq);

@@ -75,13 +75,13 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
         ResponseGiver giver = getRandomInstructorGiver();
 
         when(frLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
-        when(frcDb.createResponseInstructorComment(any(ResponseInstructorComment.class)))
+        when(frcDb.persistResponseInstructorComment(any(ResponseInstructorComment.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         ResponseInstructorComment createdComment = frcLogic.createResponseInstructorComment(feedbackResponse.getId(), giver,
                 "new comment", List.of(ViewerType.STUDENTS), List.of(ViewerType.INSTRUCTORS));
 
-        verify(frcDb, times(1)).createResponseInstructorComment(createdComment);
+        verify(frcDb, times(1)).persistResponseInstructorComment(createdComment);
         assertEquals("new comment", createdComment.getCommentText());
         assertEquals(giver, createdComment.getGiver());
         assertEquals(List.of(ViewerType.STUDENTS), createdComment.getShowCommentTo());

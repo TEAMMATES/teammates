@@ -112,12 +112,12 @@ public class CoursesLogicTest extends BaseTestCase {
             throws EntityAlreadyExistsException, InvalidParametersException {
         Course course = getTypicalCourse();
 
-        when(coursesDb.createCourse(any(Course.class))).thenReturn(course);
+        when(coursesDb.persistCourse(any(Course.class))).thenReturn(course);
 
         Course createdCourse = coursesLogic.createCourse(
                 course.getId(), course.getName(), course.getTimeZone(), course.getInstitute());
 
-        verify(coursesDb, times(1)).createCourse(argThat(courseToCreate ->
+        verify(coursesDb, times(1)).persistCourse(argThat(courseToCreate ->
                 courseToCreate.getId().equals(course.getId())
                         && courseToCreate.getName().equals(course.getName())
                         && courseToCreate.getTimeZone().equals(course.getTimeZone())
@@ -136,7 +136,7 @@ public class CoursesLogicTest extends BaseTestCase {
                         course.getId(), course.getName(), course.getTimeZone(), course.getInstitute()));
 
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()), ex.getMessage());
-        verify(coursesDb, never()).createCourse(any(Course.class));
+        verify(coursesDb, never()).persistCourse(any(Course.class));
     }
 
     @Test
@@ -153,7 +153,7 @@ public class CoursesLogicTest extends BaseTestCase {
         request.setTimeZone(Const.DEFAULT_TIME_ZONE);
         request.setInstitute("Institute");
 
-        when(coursesDb.createCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(coursesDb.persistCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Course createdCourse = coursesLogic.createCourseAndInstructor(courseCreator, request);
 
@@ -182,7 +182,7 @@ public class CoursesLogicTest extends BaseTestCase {
         assertEquals("\"Invalid/Zone\" is not acceptable to TEAMMATES as a/an time zone because "
                 + "it is not available as a choice. "
                 + "The value must be one of the values from the time zone dropdown selector.", ex.getMessage());
-        verify(coursesDb, never()).createCourse(any(Course.class));
+        verify(coursesDb, never()).persistCourse(any(Course.class));
         verify(usersLogic, never()).createInstructor(any(Instructor.class));
     }
 
@@ -274,12 +274,12 @@ public class CoursesLogicTest extends BaseTestCase {
 
         doAnswer(invocation -> invocation.getArgument(0))
                 .when(coursesDb)
-                .createSection(any(Section.class));
+                .persistSection(any(Section.class));
         when(coursesDb.getSectionByName(course.getId(), "section-name")).thenReturn(null);
 
         Section createdSection = coursesLogic.createSection(course, "section-name");
 
-        verify(coursesDb, times(1)).createSection(any(Section.class));
+        verify(coursesDb, times(1)).persistSection(any(Section.class));
         assertNotNull(createdSection);
         assertEquals("section-name", createdSection.getName());
     }
@@ -343,12 +343,12 @@ public class CoursesLogicTest extends BaseTestCase {
 
         doAnswer(invocation -> invocation.getArgument(0))
                 .when(coursesDb)
-                .createTeam(any(Team.class));
+                .persistTeam(any(Team.class));
         when(coursesDb.getTeamByName(section.getId(), "team-name")).thenReturn(null);
 
         Team createdTeam = coursesLogic.createTeam(section, "team-name");
 
-        verify(coursesDb, times(1)).createTeam(any(Team.class));
+        verify(coursesDb, times(1)).persistTeam(any(Team.class));
         assertNotNull(createdTeam);
         assertEquals("team-name", createdTeam.getName());
     }

@@ -35,9 +35,9 @@ public final class DeadlineExtensionsDb {
     }
 
     /**
-     * Creates a deadline extension.
+     * Persists a deadline extension.
      */
-    public DeadlineExtension createDeadlineExtension(DeadlineExtension de) {
+    public DeadlineExtension persistDeadlineExtension(DeadlineExtension de) {
         HibernateUtil.persist(de);
         return de;
     }

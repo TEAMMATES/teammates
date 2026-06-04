@@ -32,12 +32,9 @@ public final class NotificationsDb {
     }
 
     /**
-     * Creates a notification.
-     *
-     * <p>Preconditions:</p>
-     * * Notification fields are valid.
+     * Persists a notification.
      */
-    public Notification createNotification(Notification notification) {
+    public Notification persistNotification(Notification notification) {
         HibernateUtil.persist(notification);
         return notification;
     }
@@ -90,9 +87,9 @@ public final class NotificationsDb {
     }
 
     /**
-     * Creates a read notification.
+     * Persists a read notification.
      */
-    public ReadNotification createReadNotification(ReadNotification readNotification) {
+    public ReadNotification persistReadNotification(ReadNotification readNotification) {
         HibernateUtil.persist(readNotification);
         return readNotification;
     }

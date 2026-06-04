@@ -38,9 +38,9 @@ public final class CoursesDb {
     }
 
     /**
-     * Creates a course.
+     * Persists a course.
      */
-    public Course createCourse(Course course) {
+    public Course persistCourse(Course course) {
         HibernateUtil.persist(course);
         return course;
     }
@@ -53,9 +53,9 @@ public final class CoursesDb {
     }
 
     /**
-     * Creates a section.
+     * Persists a section.
      */
-    public Section createSection(Section section) {
+    public Section persistSection(Section section) {
         HibernateUtil.persist(section);
         return section;
     }
@@ -110,9 +110,9 @@ public final class CoursesDb {
     }
 
     /**
-     * Creates a team.
+     * Persists a team.
      */
-    public Team createTeam(Team team) {
+    public Team persistTeam(Team team) {
         HibernateUtil.persist(team);
         return team;
     }

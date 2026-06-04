@@ -77,9 +77,9 @@ public final class FeedbackSessionLogsDb {
     }
 
     /**
-     * Creates feedback session logs.
+     * Persists a feedback session log.
      */
-    public FeedbackSessionLog createFeedbackSessionLog(FeedbackSessionLog log) {
+    public FeedbackSessionLog persistFeedbackSessionLog(FeedbackSessionLog log) {
         HibernateUtil.persist(log);
         return log;
     }

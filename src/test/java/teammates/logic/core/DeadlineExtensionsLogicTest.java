@@ -169,7 +169,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
         session.addDeadlineExtension(de);
 
-        when(deDb.createDeadlineExtension(de)).thenReturn(de);
+        when(deDb.persistDeadlineExtension(de)).thenReturn(de);
 
         DeadlineExtension result = deLogic.createDeadlineExtension(de);
 
@@ -177,7 +177,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         assertEquals(de, result);
         assertEquals(extendedDeadline, result.getEndTime());
         assertTrue(result.getUser() instanceof Student);
-        verify(deDb, times(1)).createDeadlineExtension(de);
+        verify(deDb, times(1)).persistDeadlineExtension(de);
     }
 
     @Test
@@ -264,7 +264,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         DeadlineExtension de = new DeadlineExtension(instructor, extendedDeadline);
         session.addDeadlineExtension(de);
 
-        when(deDb.createDeadlineExtension(de)).thenReturn(de);
+        when(deDb.persistDeadlineExtension(de)).thenReturn(de);
 
         DeadlineExtension result = deLogic.createDeadlineExtension(de);
 
@@ -272,7 +272,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         assertEquals(de, result);
         assertTrue(result.getUser() instanceof Instructor);
         assertEquals(extendedDeadline, result.getEndTime());
-        verify(deDb, times(1)).createDeadlineExtension(de);
+        verify(deDb, times(1)).persistDeadlineExtension(de);
     }
 
     @Test
