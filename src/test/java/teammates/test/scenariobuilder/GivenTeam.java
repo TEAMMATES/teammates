@@ -8,11 +8,11 @@ import teammates.storage.entity.Team;
 /**
  * Builder for Team entities used in test scenarios.
  */
-public final class TeamData {
+public final class GivenTeam {
     private GivenData given;
     private Team team;
 
-    public TeamData(GivenData given, UUID teamId) {
+    public GivenTeam(GivenData given, UUID teamId) {
         this.given = given;
         this.team = defaultTeam(teamId);
     }
@@ -24,7 +24,7 @@ public final class TeamData {
     /**
      * Sets the name for the team.
      */
-    public TeamData name(String name) {
+    public GivenTeam name(String name) {
         team.setName(name);
         return this;
     }
@@ -32,7 +32,7 @@ public final class TeamData {
     /**
      * Sets the section for the team.
      */
-    public TeamData section(String sectionAlias) {
+    public GivenTeam section(String sectionAlias) {
         assert team.getSection() == null : "Section has already been set for this team";
         Section s = given.getOrCreate(sectionAlias, given.dataBundle.sections, given::section);
         s.addTeam(team);
@@ -42,10 +42,10 @@ public final class TeamData {
     /**
      * Sets the course for the team.
      */
-    public TeamData course(String courseAlias) {
+    public GivenTeam course(String courseAlias) {
         assert team.getSection() == null : "Section has already been set for this team";
         given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
-        String sectionAlias = SectionData.getDefaultAlias(courseAlias);
+        String sectionAlias = GivenSection.getDefaultAlias(courseAlias);
         Section s = given.getOrCreate(sectionAlias, given.dataBundle.sections, (String sAlias) -> {
             given.section(sAlias, sect -> sect.course(courseAlias));
         });
@@ -55,8 +55,8 @@ public final class TeamData {
 
     void ensureConsistent() {
         if (team.getSection() == null) {
-            String courseAlias = CourseData.getDefaultAlias();
-            String sectionAlias = SectionData.getDefaultAlias(courseAlias);
+            String courseAlias = GivenCourse.getDefaultAlias();
+            String sectionAlias = GivenSection.getDefaultAlias(courseAlias);
             this.section(sectionAlias);
         }
     }

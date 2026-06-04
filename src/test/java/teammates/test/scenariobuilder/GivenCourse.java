@@ -7,10 +7,10 @@ import teammates.storage.entity.Course;
 /**
  * Builder for Course entities used in test scenarios.
  */
-public final class CourseData {
+public final class GivenCourse {
     private Course course;
 
-    public CourseData(String courseId) {
+    public GivenCourse(String courseId) {
         this.course = defaultCourse(courseId);
     }
 
@@ -21,7 +21,7 @@ public final class CourseData {
     /**
      * Sets the name for the course.
      */
-    public CourseData name(String name) {
+    public GivenCourse name(String name) {
         course.setName(name);
         return this;
     }
@@ -29,7 +29,7 @@ public final class CourseData {
     /**
      * Sets the time zone for the course.
      */
-    public CourseData timeZone(String timeZone) {
+    public GivenCourse timeZone(String timeZone) {
         course.setTimeZone(timeZone);
         return this;
     }
@@ -37,7 +37,7 @@ public final class CourseData {
     /**
      * Sets the institute for the course.
      */
-    public CourseData institute(String institute) {
+    public GivenCourse institute(String institute) {
         course.setInstitute(institute);
         return this;
     }
@@ -45,7 +45,7 @@ public final class CourseData {
     /**
      * Marks the course as soft deleted.
      */
-    public CourseData softDeleted() {
+    public GivenCourse softDeleted() {
         course.setDeletedAt(Instant.now());
         return this;
     }

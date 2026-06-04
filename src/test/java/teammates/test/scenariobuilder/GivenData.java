@@ -86,8 +86,8 @@ public final class GivenData {
     /**
      * Creates an account and applies the provided options to customize it.
      */
-    public UUID account(String alias, Consumer<AccountData> options) {
-        AccountData accountData = new AccountData(uuid(alias));
+    public UUID account(String alias, Consumer<GivenAccount> options) {
+        GivenAccount accountData = new GivenAccount(uuid(alias));
         options.accept(accountData);
         accountData.ensureConsistent();
         Account account = accountData.build();
@@ -105,8 +105,8 @@ public final class GivenData {
     /**
      * Creates a course and applies the provided options to customize it.
      */
-    public String course(String alias, Consumer<CourseData> options) {
-        CourseData courseData = new CourseData(stringId(alias));
+    public String course(String alias, Consumer<GivenCourse> options) {
+        GivenCourse courseData = new GivenCourse(stringId(alias));
         options.accept(courseData);
         courseData.ensureConsistent();
         Course course = courseData.build();
@@ -124,8 +124,8 @@ public final class GivenData {
     /**
      * Creates a section and applies the provided options to customize it.
      */
-    public UUID section(String alias, Consumer<SectionData> options) {
-        SectionData sectionData = new SectionData(this, uuid(alias));
+    public UUID section(String alias, Consumer<GivenSection> options) {
+        GivenSection sectionData = new GivenSection(this, uuid(alias));
         options.accept(sectionData);
         sectionData.ensureConsistent();
         Section section = sectionData.build();
@@ -143,8 +143,8 @@ public final class GivenData {
     /**
      * Creates a team and applies the provided options to customize it.
      */
-    public UUID team(String alias, Consumer<TeamData> options) {
-        TeamData teamData = new TeamData(this, uuid(alias));
+    public UUID team(String alias, Consumer<GivenTeam> options) {
+        GivenTeam teamData = new GivenTeam(this, uuid(alias));
         options.accept(teamData);
         teamData.ensureConsistent();
         Team team = teamData.build();

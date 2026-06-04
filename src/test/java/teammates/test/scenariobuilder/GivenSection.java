@@ -8,11 +8,11 @@ import teammates.storage.entity.Section;
 /**
  * Builder for Section entities used in test scenarios.
  */
-public final class SectionData {
+public final class GivenSection {
     private GivenData given;
     private Section section;
 
-    public SectionData(GivenData given, UUID sectionId) {
+    public GivenSection(GivenData given, UUID sectionId) {
         this.given = given;
         this.section = defaultSection(sectionId);
     }
@@ -24,7 +24,7 @@ public final class SectionData {
     /**
      * Sets the name for the section.
      */
-    public SectionData name(String name) {
+    public GivenSection name(String name) {
         section.setName(name);
         return this;
     }
@@ -32,7 +32,7 @@ public final class SectionData {
     /**
      * Sets the course for the section.
      */
-    public SectionData course(String courseAlias) {
+    public GivenSection course(String courseAlias) {
         assert section.getCourse() == null : "Course has already been set for this section";
         Course c = given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
         c.addSection(section);

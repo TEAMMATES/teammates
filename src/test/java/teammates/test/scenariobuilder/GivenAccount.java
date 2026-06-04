@@ -8,10 +8,10 @@ import teammates.storage.entity.Account;
 /**
  * Builder for Account entities used in test scenarios.
  */
-public final class AccountData {
+public final class GivenAccount {
     private Account account;
 
-    public AccountData(UUID accountId) {
+    public GivenAccount(UUID accountId) {
         this.account = defaultAccount(accountId);
     }
 
@@ -22,7 +22,7 @@ public final class AccountData {
     /**
      * Sets the email for the account.
      */
-    public AccountData email(String email) {
+    public GivenAccount email(String email) {
         account.setEmail(email);
         return this;
     }
@@ -30,7 +30,7 @@ public final class AccountData {
     /**
      * Sets the googleId for the account.
      */
-    public AccountData googleId(String googleId) {
+    public GivenAccount googleId(String googleId) {
         account.setGoogleId(googleId);
         return this;
     }
@@ -38,7 +38,7 @@ public final class AccountData {
     /**
      * Sets the provider, subject, and tenantId.
      */
-    public AccountData authIdentity(Provider provider, String subject, String tenantId) {
+    public GivenAccount authIdentity(Provider provider, String subject, String tenantId) {
         account.setProvider(provider);
         account.setSubject(subject);
         account.setTenantId(tenantId);
