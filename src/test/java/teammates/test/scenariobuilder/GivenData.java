@@ -80,16 +80,16 @@ public final class GivenData {
      * Creates an account with default values.
      */
     public UUID account(String alias) {
-        return account(alias, a -> {});
+        return account(alias, a -> {
+        });
     }
 
     /**
      * Creates an account and applies the provided options to customize it.
      */
     public UUID account(String alias, Consumer<GivenAccount> options) {
-        GivenAccount accountData = new GivenAccount(uuid(alias));
+        GivenAccount accountData = new GivenAccount(this, uuid(alias));
         options.accept(accountData);
-        accountData.ensureConsistent();
         Account account = accountData.build();
         dataBundle.accounts.put(alias, account);
         return account.getId();
@@ -99,16 +99,16 @@ public final class GivenData {
      * Creates a course with default values.
      */
     public String course(String alias) {
-        return course(alias, c -> {});
+        return course(alias, c -> {
+        });
     }
 
     /**
      * Creates a course and applies the provided options to customize it.
      */
     public String course(String alias, Consumer<GivenCourse> options) {
-        GivenCourse courseData = new GivenCourse(stringId(alias));
+        GivenCourse courseData = new GivenCourse(this, stringId(alias));
         options.accept(courseData);
-        courseData.ensureConsistent();
         Course course = courseData.build();
         dataBundle.courses.put(alias, course);
         return course.getId();
@@ -118,7 +118,8 @@ public final class GivenData {
      * Creates a section with default values.
      */
     public UUID section(String alias) {
-        return section(alias, s -> {});
+        return section(alias, s -> {
+        });
     }
 
     /**
@@ -127,7 +128,6 @@ public final class GivenData {
     public UUID section(String alias, Consumer<GivenSection> options) {
         GivenSection sectionData = new GivenSection(this, uuid(alias));
         options.accept(sectionData);
-        sectionData.ensureConsistent();
         Section section = sectionData.build();
         dataBundle.sections.put(alias, section);
         return section.getId();
@@ -137,7 +137,8 @@ public final class GivenData {
      * Creates a team with default values.
      */
     public UUID team(String alias) {
-        return team(alias, t -> {});
+        return team(alias, t -> {
+        });
     }
 
     /**
@@ -146,7 +147,6 @@ public final class GivenData {
     public UUID team(String alias, Consumer<GivenTeam> options) {
         GivenTeam teamData = new GivenTeam(this, uuid(alias));
         options.accept(teamData);
-        teamData.ensureConsistent();
         Team team = teamData.build();
         dataBundle.teams.put(alias, team);
         return team.getId();

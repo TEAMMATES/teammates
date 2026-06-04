@@ -1,11 +1,6 @@
 package teammates.storage.api;
 
-import java.util.List;
 import java.util.UUID;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;

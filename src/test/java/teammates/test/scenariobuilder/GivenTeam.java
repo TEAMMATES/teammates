@@ -8,24 +8,18 @@ import teammates.storage.entity.Team;
 /**
  * Builder for Team entities used in test scenarios.
  */
-public final class GivenTeam {
-    private GivenData given;
-    private Team team;
-
+public final class GivenTeam extends GivenBase<Team> {
     public GivenTeam(GivenData given, UUID teamId) {
+        super(given);
         this.given = given;
-        this.team = defaultTeam(teamId);
-    }
-
-    public Team build() {
-        return team;
+        this.entity = defaultTeam(teamId);
     }
 
     /**
      * Sets the name for the team.
      */
     public GivenTeam name(String name) {
-        team.setName(name);
+        entity.setName(name);
         return this;
     }
 
@@ -33,9 +27,9 @@ public final class GivenTeam {
      * Sets the section for the team.
      */
     public GivenTeam section(String sectionAlias) {
-        assert team.getSection() == null : "Section has already been set for this team";
+        assert entity.getSection() == null : "Section has already been set for this team";
         Section s = given.getOrCreate(sectionAlias, given.dataBundle.sections, given::section);
-        s.addTeam(team);
+        s.addTeam(entity);
         return this;
     }
 
@@ -43,18 +37,19 @@ public final class GivenTeam {
      * Sets the course for the team.
      */
     public GivenTeam course(String courseAlias) {
-        assert team.getSection() == null : "Section has already been set for this team";
+        assert entity.getSection() == null : "Section has already been set for this team";
         given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
         String sectionAlias = GivenSection.getDefaultAlias(courseAlias);
         Section s = given.getOrCreate(sectionAlias, given.dataBundle.sections, (String sAlias) -> {
             given.section(sAlias, sect -> sect.course(courseAlias));
         });
-        s.addTeam(team);
+        s.addTeam(entity);
         return this;
     }
 
+    @Override
     void ensureConsistent() {
-        if (team.getSection() == null) {
+        if (entity.getSection() == null) {
             String courseAlias = GivenCourse.getDefaultAlias();
             String sectionAlias = GivenSection.getDefaultAlias(courseAlias);
             this.section(sectionAlias);

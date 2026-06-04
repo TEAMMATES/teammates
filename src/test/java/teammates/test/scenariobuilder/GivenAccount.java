@@ -8,22 +8,17 @@ import teammates.storage.entity.Account;
 /**
  * Builder for Account entities used in test scenarios.
  */
-public final class GivenAccount {
-    private Account account;
-
-    public GivenAccount(UUID accountId) {
-        this.account = defaultAccount(accountId);
-    }
-
-    public Account build() {
-        return account;
+public final class GivenAccount extends GivenBase<Account> {
+    public GivenAccount(GivenData given, UUID accountId) {
+        super(given);
+        this.entity = defaultAccount(accountId);
     }
 
     /**
      * Sets the email for the account.
      */
     public GivenAccount email(String email) {
-        account.setEmail(email);
+        entity.setEmail(email);
         return this;
     }
 
@@ -31,7 +26,7 @@ public final class GivenAccount {
      * Sets the googleId for the account.
      */
     public GivenAccount googleId(String googleId) {
-        account.setGoogleId(googleId);
+        entity.setGoogleId(googleId);
         return this;
     }
 
@@ -39,29 +34,29 @@ public final class GivenAccount {
      * Sets the provider, subject, and tenantId.
      */
     public GivenAccount authIdentity(Provider provider, String subject, String tenantId) {
-        account.setProvider(provider);
-        account.setSubject(subject);
-        account.setTenantId(tenantId);
+        entity.setProvider(provider);
+        entity.setSubject(subject);
+        entity.setTenantId(tenantId);
         return this;
     }
 
+    @Override
     void ensureConsistent() {
         // No mandatory relationships
-        return;
     }
 
     /**
-     * Generates a default alias for a section based on the course alias.
+     * Generates a default alias for an account based on the account ID.
      */
-    public static String getDefaultAlias(String courseAlias) {
-        return "default:" + courseAlias;
+    public static String getDefaultAlias(String accountAlias) {
+        return "default:" + accountAlias;
     }
 
     private Account defaultAccount(UUID accountId) {
         String googleId = accountId.toString();
         Provider provider = Provider.TEAMMATES_DEV;
         String subject = "sub:" + accountId.toString();
-        String tenantId = null;
+        String tenantId = "";
         String name = "name:" + accountId.toString();
         String email = accountId.toString() + "@teammates.tmt";
         Account a = new Account(googleId, provider, subject, tenantId, name, email);

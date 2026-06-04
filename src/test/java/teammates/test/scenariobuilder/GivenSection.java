@@ -8,24 +8,18 @@ import teammates.storage.entity.Section;
 /**
  * Builder for Section entities used in test scenarios.
  */
-public final class GivenSection {
-    private GivenData given;
-    private Section section;
-
+public final class GivenSection extends GivenBase<Section> {
     public GivenSection(GivenData given, UUID sectionId) {
+        super(given);
         this.given = given;
-        this.section = defaultSection(sectionId);
-    }
-
-    public Section build() {
-        return section;
+        this.entity = defaultSection(sectionId);
     }
 
     /**
      * Sets the name for the section.
      */
     public GivenSection name(String name) {
-        section.setName(name);
+        entity.setName(name);
         return this;
     }
 
@@ -33,14 +27,15 @@ public final class GivenSection {
      * Sets the course for the section.
      */
     public GivenSection course(String courseAlias) {
-        assert section.getCourse() == null : "Course has already been set for this section";
+        assert entity.getCourse() == null : "Course has already been set for this section";
         Course c = given.getOrCreate(courseAlias, given.dataBundle.courses, given::course);
-        c.addSection(section);
+        c.addSection(entity);
         return this;
     }
 
+    @Override
     void ensureConsistent() {
-        if (section.getCourseId() == null) {
+        if (entity.getCourseId() == null) {
             this.course("default");
         }
     }

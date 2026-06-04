@@ -7,22 +7,17 @@ import teammates.storage.entity.Course;
 /**
  * Builder for Course entities used in test scenarios.
  */
-public final class GivenCourse {
-    private Course course;
-
-    public GivenCourse(String courseId) {
-        this.course = defaultCourse(courseId);
-    }
-
-    public Course build() {
-        return course;
+public final class GivenCourse extends GivenBase<Course> {
+    public GivenCourse(GivenData given, String courseId) {
+        super(given);
+        this.entity = defaultCourse(courseId);
     }
 
     /**
      * Sets the name for the course.
      */
     public GivenCourse name(String name) {
-        course.setName(name);
+        entity.setName(name);
         return this;
     }
 
@@ -30,7 +25,7 @@ public final class GivenCourse {
      * Sets the time zone for the course.
      */
     public GivenCourse timeZone(String timeZone) {
-        course.setTimeZone(timeZone);
+        entity.setTimeZone(timeZone);
         return this;
     }
 
@@ -38,7 +33,7 @@ public final class GivenCourse {
      * Sets the institute for the course.
      */
     public GivenCourse institute(String institute) {
-        course.setInstitute(institute);
+        entity.setInstitute(institute);
         return this;
     }
 
@@ -46,13 +41,13 @@ public final class GivenCourse {
      * Marks the course as soft deleted.
      */
     public GivenCourse softDeleted() {
-        course.setDeletedAt(Instant.now());
+        entity.setDeletedAt(Instant.now());
         return this;
     }
 
+    @Override
     void ensureConsistent() {
         // No mandatory relationships
-        return;
     }
 
     /**
