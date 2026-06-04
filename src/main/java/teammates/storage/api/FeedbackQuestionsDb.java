@@ -79,9 +79,9 @@ public final class FeedbackQuestionsDb {
     }
 
     /**
-     * Deletes a feedback question.
+     * Removes a feedback question.
      */
-    public void deleteFeedbackQuestion(FeedbackQuestion fq) {
+    public void removeFeedbackQuestion(FeedbackQuestion fq) {
         HibernateUtil.remove(fq);
     }
 

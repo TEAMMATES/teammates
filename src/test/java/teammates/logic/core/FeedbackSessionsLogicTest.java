@@ -281,7 +281,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         fsLogic.deleteFeedbackSessionCascade(session.getId());
 
         verify(fsDb, times(1)).getFeedbackSession(session.getId());
-        verify(fsDb, times(1)).deleteFeedbackSession(session);
+        verify(fsDb, times(1)).removeFeedbackSession(session);
     }
 
     @Test

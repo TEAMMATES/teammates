@@ -720,7 +720,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> questionsToShiftQnNumber =
                 getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
 
-        fqDb.deleteFeedbackQuestion(questionToDelete);
+        fqDb.removeFeedbackQuestion(questionToDelete);
 
         // Shift question numbers down for all questions after the deleted one
         shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);

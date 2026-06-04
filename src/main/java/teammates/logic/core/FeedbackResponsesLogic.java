@@ -387,7 +387,7 @@ public final class FeedbackResponsesLogic {
             return;
         }
 
-        frDb.deleteFeedbackResponse(feedbackResponse);
+        frDb.removeFeedbackResponse(feedbackResponse);
     }
 
     /**

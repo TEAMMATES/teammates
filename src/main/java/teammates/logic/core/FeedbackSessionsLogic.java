@@ -397,7 +397,7 @@ public final class FeedbackSessionsLogic {
             return;
         }
 
-        fsDb.deleteFeedbackSession(feedbackSession);
+        fsDb.removeFeedbackSession(feedbackSession);
     }
 
     /**

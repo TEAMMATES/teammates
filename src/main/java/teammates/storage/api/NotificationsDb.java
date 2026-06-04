@@ -47,9 +47,9 @@ public final class NotificationsDb {
     }
 
     /**
-     * Deletes a notification.
+     * Removes a notification.
      */
-    public void deleteNotification(Notification notification) {
+    public void removeNotification(Notification notification) {
         HibernateUtil.remove(notification);
     }
 

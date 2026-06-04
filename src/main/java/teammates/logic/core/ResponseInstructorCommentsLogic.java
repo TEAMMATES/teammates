@@ -91,7 +91,7 @@ public final class ResponseInstructorCommentsLogic {
         if (frc == null) {
             return;
         }
-        frcDb.deleteResponseInstructorComment(frc);
+        frcDb.removeResponseInstructorComment(frc);
     }
 
     /**

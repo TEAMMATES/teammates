@@ -68,9 +68,9 @@ public final class DeadlineExtensionsDb {
     }
 
     /**
-     * Deletes a deadline extension.
+     * Removes a deadline extension.
      */
-    public void deleteDeadlineExtension(DeadlineExtension de) {
+    public void removeDeadlineExtension(DeadlineExtension de) {
         HibernateUtil.remove(de);
     }
 

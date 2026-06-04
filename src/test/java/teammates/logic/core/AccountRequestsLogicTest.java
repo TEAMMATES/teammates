@@ -95,7 +95,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         when(accountRequestsDb.getAccountRequest(ar.getId())).thenReturn(ar);
         accountRequestsLogic.deleteAccountRequest(ar.getId());
 
-        verify(accountRequestsDb, times(1)).deleteAccountRequest(any(AccountRequest.class));
+        verify(accountRequestsDb, times(1)).removeAccountRequest(any(AccountRequest.class));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         UUID nonexistentUuid = UUID.fromString("00000000-0000-4000-8000-000000000100");
         accountRequestsLogic.deleteAccountRequest(nonexistentUuid);
 
-        verify(accountRequestsDb, times(1)).deleteAccountRequest(nullable(AccountRequest.class));
+        verify(accountRequestsDb, times(1)).removeAccountRequest(nullable(AccountRequest.class));
     }
 
     @Test

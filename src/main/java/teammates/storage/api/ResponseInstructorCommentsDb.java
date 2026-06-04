@@ -43,9 +43,9 @@ public final class ResponseInstructorCommentsDb {
     }
 
     /**
-    * Deletes a responseInstructorComment.
+    * Removes a responseInstructorComment.
      */
-    public void deleteResponseInstructorComment(ResponseInstructorComment frc) {
+    public void removeResponseInstructorComment(ResponseInstructorComment frc) {
         HibernateUtil.remove(frc);
     }
 

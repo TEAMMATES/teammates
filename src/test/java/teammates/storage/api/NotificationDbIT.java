@@ -52,15 +52,14 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testDeleteNotification() {
-        ______TS("success: delete a notification that already exists");
+    public void testRemoveNotification() {
         Notification notification = generateTypicalNotification();
 
         inTransaction(() -> notificationsDb.persistNotification(notification));
         UUID notificationId = notification.getId();
         assertNotNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
 
-        inTransaction(() -> notificationsDb.deleteNotification(notification));
+        inTransaction(() -> notificationsDb.removeNotification(notification));
         assertNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
     }
 

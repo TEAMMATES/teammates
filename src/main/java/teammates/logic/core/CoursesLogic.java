@@ -178,7 +178,7 @@ public final class CoursesLogic {
             return;
         }
 
-        coursesDb.deleteCourse(course);
+        coursesDb.removeCourse(course);
     }
 
     /**

@@ -21,7 +21,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
     private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
     @Test
-    public void testPersistReadDeleteAccountRequest() {
+    public void testPersistReadRemoveAccountRequest() {
         ______TS("Create account request, does not exists, succeeds");
 
         AccountRequest accountRequest =
@@ -69,9 +69,9 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
                         identicalAccountRequest.getRegistrationKey()));
         assertEquals(identicalAccountRequest, actualIdenticalAccountRequest);
 
-        ______TS("Delete account request that was created");
+        ______TS("Remove account request that was created");
 
-        inTransaction(() -> accountRequestDb.deleteAccountRequest(accountRequest));
+        inTransaction(() -> accountRequestDb.removeAccountRequest(accountRequest));
 
         AccountRequest actualAccountRequest =
                 inTransaction(() -> accountRequestDb.getAccountRequestByRegistrationKey(

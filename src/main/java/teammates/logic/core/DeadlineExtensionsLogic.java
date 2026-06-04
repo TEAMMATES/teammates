@@ -179,7 +179,7 @@ public final class DeadlineExtensionsLogic {
             return;
         }
 
-        deadlineExtensionsDb.deleteDeadlineExtension(de);
+        deadlineExtensionsDb.removeDeadlineExtension(de);
     }
 
     /**

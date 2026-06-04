@@ -113,12 +113,11 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testDeleteFeedbackQuestion() {
-        ______TS("success: typical case");
+    public void testRemoveFeedbackQuestion() {
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         verifyPresentInDatabase(fq);
 
-        inTransaction(() -> fqDb.deleteFeedbackQuestion(fq));
+        inTransaction(() -> fqDb.removeFeedbackQuestion(fq));
         assertNull(inTransaction(() -> fqDb.getFeedbackQuestion(fq.getId())));
     }
 

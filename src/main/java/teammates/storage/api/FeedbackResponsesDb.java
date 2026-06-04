@@ -47,9 +47,9 @@ public final class FeedbackResponsesDb {
     }
 
     /**
-     * Deletes a feedbackResponse.
+     * Removes a feedbackResponse.
      */
-    public void deleteFeedbackResponse(FeedbackResponse feedbackResponse) {
+    public void removeFeedbackResponse(FeedbackResponse feedbackResponse) {
         HibernateUtil.remove(feedbackResponse);
     }
 

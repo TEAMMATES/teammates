@@ -116,7 +116,7 @@ public final class NotificationsLogic {
         if (notification == null) {
             return;
         }
-        notificationsDb.deleteNotification(notification);
+        notificationsDb.removeNotification(notification);
     }
 
     /**

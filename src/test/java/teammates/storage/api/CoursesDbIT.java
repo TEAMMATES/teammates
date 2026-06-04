@@ -44,11 +44,11 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testDeleteCourse() {
+    public void testRemoveCourse() {
         Course course = getTypicalCourse();
         inTransaction(() -> coursesDb.persistCourse(course));
 
-        inTransaction(() -> coursesDb.deleteCourse(course));
+        inTransaction(() -> coursesDb.removeCourse(course));
         Course actualCourse = inTransaction(() -> coursesDb.getCourse(course.getId()));
         assertNull(actualCourse);
     }

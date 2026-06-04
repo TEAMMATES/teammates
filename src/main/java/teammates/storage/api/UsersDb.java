@@ -359,9 +359,9 @@ public final class UsersDb {
     }
 
     /**
-     * Deletes a user.
+     * Removes a user.
      */
-    public <T extends User> void deleteUser(T user) {
+    public <T extends User> void removeUser(T user) {
         HibernateUtil.remove(user);
     }
 

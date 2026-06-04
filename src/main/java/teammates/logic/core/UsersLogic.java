@@ -297,7 +297,7 @@ public final class UsersLogic {
             return;
         }
 
-        usersDb.deleteUser(user);
+        usersDb.removeUser(user);
     }
 
     /**

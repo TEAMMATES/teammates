@@ -102,7 +102,7 @@ public final class AccountRequestsLogic {
     public void deleteAccountRequest(UUID id) {
         AccountRequest toDelete = accountRequestDb.getAccountRequest(id);
 
-        accountRequestDb.deleteAccountRequest(toDelete);
+        accountRequestDb.removeAccountRequest(toDelete);
     }
 
     /**

@@ -117,9 +117,9 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Deletes an AccountRequest.
+     * Removes an AccountRequest.
      */
-    public void deleteAccountRequest(AccountRequest accountRequest) {
+    public void removeAccountRequest(AccountRequest accountRequest) {
         if (accountRequest != null) {
             HibernateUtil.remove(accountRequest);
         }

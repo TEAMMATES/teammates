@@ -95,7 +95,7 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
 
         frcLogic.deleteResponseInstructorComment(TYPICAL_ID);
 
-        verify(frcDb, times(1)).deleteResponseInstructorComment(comment);
+        verify(frcDb, times(1)).removeResponseInstructorComment(comment);
     }
 
     @Test

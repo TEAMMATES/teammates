@@ -218,7 +218,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
         coursesLogic.deleteCourse(course.getId());
 
-        verify(coursesDb, times(1)).deleteCourse(course);
+        verify(coursesDb, times(1)).removeCourse(course);
     }
 
     @Test

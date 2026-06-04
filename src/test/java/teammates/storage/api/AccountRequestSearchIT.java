@@ -96,15 +96,15 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountRequestsDb.deleteAccountRequest(ins1InCourse1));
+        inTransaction(() -> accountRequestsDb.removeAccountRequest(ins1InCourse1));
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountRequestsDb.deleteAccountRequest(ins1InCourse2));
+        inTransaction(() -> accountRequestsDb.removeAccountRequest(ins1InCourse2));
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountRequestsDb.deleteAccountRequest(ins1InCourse3));
+        inTransaction(() -> accountRequestsDb.removeAccountRequest(ins1InCourse3));
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, unregisteredInstructor1);
     }

@@ -274,7 +274,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         frLogic.deleteFeedbackResponsesAndCommentsCascade(response);
 
-        verify(frDb, times(1)).deleteFeedbackResponse(response);
+        verify(frDb, times(1)).removeFeedbackResponse(response);
     }
 
     @Test

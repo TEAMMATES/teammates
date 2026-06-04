@@ -147,9 +147,9 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Deletes a feedback session.
+     * Removes a feedback session.
      */
-    public void deleteFeedbackSession(FeedbackSession feedbackSession) {
+    public void removeFeedbackSession(FeedbackSession feedbackSession) {
         HibernateUtil.remove(feedbackSession);
     }
 

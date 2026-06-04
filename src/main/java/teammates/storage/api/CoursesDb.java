@@ -46,9 +46,9 @@ public final class CoursesDb {
     }
 
     /**
-     * Deletes a course.
+     * Removes a course.
      */
-    public void deleteCourse(Course course) {
+    public void removeCourse(Course course) {
         HibernateUtil.remove(course);
     }
 
