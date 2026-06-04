@@ -10,6 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -173,6 +174,25 @@ public final class GivenData {
         Student student = studentData.build();
         registerEntity(alias, student, dataBundle.students);
         return student.getId();
+    }
+
+    /**
+     * Creates an instructor with default values.
+     */
+    public UUID instructor(String alias) {
+        return instructor(alias, i -> {
+        });
+    }
+
+    /**
+     * Creates an instructor and applies the provided options to customize it.
+     */
+    public UUID instructor(String alias, Consumer<GivenInstructor> options) {
+        GivenInstructor instructorData = new GivenInstructor(this, uuid(alias));
+        options.accept(instructorData);
+        Instructor instructor = instructorData.build();
+        registerEntity(alias, instructor, dataBundle.instructors);
+        return instructor.getId();
     }
 
     /**
