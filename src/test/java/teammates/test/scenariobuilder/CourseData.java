@@ -50,6 +50,11 @@ public final class CourseData {
         return this;
     }
 
+    void ensureConsistent() {
+        // No mandatory relationships
+        return;
+    }
+
     /**
      * Generates a default alias for a course.
      */

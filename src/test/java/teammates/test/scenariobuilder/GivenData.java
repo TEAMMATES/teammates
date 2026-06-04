@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
@@ -76,11 +77,29 @@ public final class GivenData {
     }
 
     /**
+     * Creates an account with default values.
+     */
+    public UUID account(String alias) {
+        return account(alias, a -> {});
+    }
+
+    /**
+     * Creates an account and applies the provided options to customize it.
+     */
+    public UUID account(String alias, Consumer<AccountData> options) {
+        AccountData accountData = new AccountData(uuid(alias));
+        options.accept(accountData);
+        accountData.ensureConsistent();
+        Account account = accountData.build();
+        dataBundle.accounts.put(alias, account);
+        return account.getId();
+    }
+
+    /**
      * Creates a course with default values.
      */
     public String course(String alias) {
-        return course(alias, c -> {
-        });
+        return course(alias, c -> {});
     }
 
     /**
@@ -89,6 +108,7 @@ public final class GivenData {
     public String course(String alias, Consumer<CourseData> options) {
         CourseData courseData = new CourseData(stringId(alias));
         options.accept(courseData);
+        courseData.ensureConsistent();
         Course course = courseData.build();
         dataBundle.courses.put(alias, course);
         return course.getId();
@@ -98,8 +118,7 @@ public final class GivenData {
      * Creates a section with default values.
      */
     public UUID section(String alias) {
-        return section(alias, s -> {
-        });
+        return section(alias, s -> {});
     }
 
     /**
@@ -118,8 +137,7 @@ public final class GivenData {
      * Creates a team with default values.
      */
     public UUID team(String alias) {
-        return team(alias, t -> {
-        });
+        return team(alias, t -> {});
     }
 
     /**
