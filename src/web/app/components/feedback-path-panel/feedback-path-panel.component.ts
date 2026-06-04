@@ -39,7 +39,6 @@ export class FeedbackPathPanelComponent {
   QuestionRecipientType!: typeof QuestionRecipientType;
   FeedbackQuestionType!: typeof FeedbackQuestionType;
   NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
-  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -105,11 +104,23 @@ export class FeedbackPathPanelComponent {
 
   subMenuStatuses: Map<QuestionGiverType, boolean> = new Map();
 
+  get mayHaveExistingResponses(): boolean {
+    // A question may have existing responses if the session was opened before
+    switch (this.questionSubmissionStatus) {
+      case FeedbackSessionSubmissionStatus.CLOSED:
+      case FeedbackSessionSubmissionStatus.OPEN:
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+        return true;
+      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
+      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
+        return false;
+    }
+  }
+
   constructor() {
     this.QuestionRecipientType = QuestionRecipientType;
     this.FeedbackQuestionType = FeedbackQuestionType;
     this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
-    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   }
 
   triggerCustomNumberOfEntities(data: number): void {

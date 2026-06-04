@@ -50,7 +50,6 @@ export class VisibilityPanelComponent {
   NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
   VisibilityControl!: typeof VisibilityControl;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
-  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -130,13 +129,26 @@ export class VisibilityPanelComponent {
     [VisibilityControl.SHOW_RECIPIENT_NAME, "Recipient's Name"],
   ]);
 
+  get mayHaveBeenViewed(): boolean {
+    // A question may have been viewed if it was visible at any point in time.
+    // Note that a question can be visible but not open yet.
+    switch (this.questionSubmissionStatus) {
+      case FeedbackSessionSubmissionStatus.OPEN:
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+      case FeedbackSessionSubmissionStatus.CLOSED:
+      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
+        return true;
+      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
+        return false;
+    }
+  }
+
   constructor() {
     this.QuestionRecipientType = QuestionRecipientType;
     this.FeedbackQuestionType = FeedbackQuestionType;
     this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
     this.VisibilityControl = VisibilityControl;
     this.FeedbackVisibilityType = FeedbackVisibilityType;
-    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   }
 
   triggerCustomVisibilitySetting(): void {

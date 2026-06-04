@@ -3,7 +3,7 @@
     <b class="visibility-title">Visibility</b>
     (Who can see the responses?)
   </div>
-  @if (model.isEditable && questionSubmissionStatus !== FeedbackSessionSubmissionStatus.NOT_VISIBLE) {
+  @if (model.isEditable && mayHaveBeenViewed) {
     <div class="alert alert-warning my-2">
       <strong>Changing visibility settings is not recommended</strong>
       <p>
