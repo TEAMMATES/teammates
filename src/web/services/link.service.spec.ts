@@ -64,20 +64,20 @@ describe('Link Service', () => {
 
   it('should generate the home page link', () => {
     expect(service.generateHomePageLink('blahblah', '/comeseetheopressioninherentinthesystem')).toBe(
-      '/web/comeseetheopressioninherentinthesystem?user=blahblah',
+      '/web/comeseetheopressioninherentinthesystem?accountid=blahblah',
     );
   });
 
   it('should generate the manage account link', () => {
     expect(service.generateManageAccountLink('hello there', '/generalkenobiyouareaboldone')).toBe(
-      '/web/generalkenobiyouareaboldone?instructorid=hello%20there',
+      '/web/generalkenobiyouareaboldone?accountid=hello%20there',
     );
   });
 
   it('should generate the student profile page link', () => {
     expect(service.generateProfilePageLink(mockStudent, 'from my point of view the jedi are evil')).toBe(
       '/web/instructor/courses/student/details?courseid=dog.gma-demo&userid=student-alice' +
-        '&user=from%20my%20point%20of%20view%20the%20jedi%20are%20evil',
+        '&accountid=from%20my%20point%20of%20view%20the%20jedi%20are%20evil',
     );
   });
 

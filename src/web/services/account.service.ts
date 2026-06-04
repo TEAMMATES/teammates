@@ -39,9 +39,9 @@ export class AccountService {
   /**
    * Deletes an account by calling API.
    */
-  deleteAccount(id: string): Observable<MessageOutput> {
+  deleteAccount(accountId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: accountId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.ACCOUNT, paramMap);
   }
@@ -90,9 +90,9 @@ export class AccountService {
   /**
    * Gets an account by calling API.
    */
-  getAccount(googleId: string): Observable<Account> {
+  getAccount(accountId: string): Observable<Account> {
     const paramMap: Record<string, string> = {
-      instructorid: googleId,
+      accountid: accountId,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
   }
