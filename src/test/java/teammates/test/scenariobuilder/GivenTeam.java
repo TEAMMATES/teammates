@@ -34,7 +34,7 @@ public final class GivenTeam extends GivenBase<Team> {
     }
 
     /**
-     * Sets the course for the team.
+     * Sets the section with the specified course for the team.
      */
     public GivenTeam course(String courseAlias) {
         assert entity.getSection() == null : "Section has already been set for this team";

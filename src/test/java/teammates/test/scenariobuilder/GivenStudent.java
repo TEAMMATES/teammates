@@ -64,7 +64,7 @@ public class GivenStudent extends GivenBase<Student> {
     }
 
     /**
-     * Sets the section for the student.
+     * Sets the team with the specified section for the student.
      */
     public GivenStudent section(String sectionAlias) {
         assert entity.getTeam() == null : "Team has already been set for this student";
