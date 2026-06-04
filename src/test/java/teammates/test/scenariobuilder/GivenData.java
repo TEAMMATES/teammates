@@ -11,6 +11,8 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Notification;
+import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -193,6 +195,44 @@ public final class GivenData {
         Instructor instructor = instructorData.build();
         registerEntity(alias, instructor, dataBundle.instructors);
         return instructor.getId();
+    }
+
+    /**
+     * Creates a notification with default values.
+     */
+    public UUID notification(String alias) {
+        return notification(alias, n -> {
+        });
+    }
+
+    /**
+     * Creates a notification and applies the provided options to customize it.
+     */
+    public UUID notification(String alias, Consumer<GivenNotification> options) {
+        GivenNotification notificationData = new GivenNotification(this, uuid(alias));
+        options.accept(notificationData);
+        Notification notification = notificationData.build();
+        registerEntity(alias, notification, dataBundle.notifications);
+        return notification.getId();
+    }
+
+    /**
+     * Creates a read notification with default values.
+     */
+    public UUID readNotification(String alias) {
+        return readNotification(alias, rn -> {
+        });
+    }
+
+    /**
+     * Creates a read notification and applies the provided options to customize it.
+     */
+    public UUID readNotification(String alias, Consumer<GivenReadNotification> options) {
+        GivenReadNotification readNotificationData = new GivenReadNotification(this, uuid(alias));
+        options.accept(readNotificationData);
+        ReadNotification readNotification = readNotificationData.build();
+        registerEntity(alias, readNotification, dataBundle.readNotifications);
+        return readNotification.getId();
     }
 
     /**
