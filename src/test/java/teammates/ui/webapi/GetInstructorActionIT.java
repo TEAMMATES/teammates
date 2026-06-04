@@ -10,6 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.test.TestGroups;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
@@ -20,7 +21,7 @@ import teammates.ui.request.Intent;
 public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -35,7 +36,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         return GET;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() {
         Course course = typicalBundle.courses.get("course1");
@@ -88,7 +89,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         assertEquals("Instructor could not be found for this course", enfe.getMessage());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

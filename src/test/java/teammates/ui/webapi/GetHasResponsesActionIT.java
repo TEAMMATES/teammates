@@ -10,6 +10,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.Instructor;
+import teammates.test.TestGroups;
 import teammates.ui.output.HasResponsesData;
 
 /**
@@ -18,7 +19,7 @@ import teammates.ui.output.HasResponsesData;
 public class GetHasResponsesActionIT extends BaseActionIT<GetHasResponsesAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -33,7 +34,7 @@ public class GetHasResponsesActionIT extends BaseActionIT<GetHasResponsesAction>
         return GET;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() {
         ______TS("typical case: Question with responses");
@@ -56,7 +57,7 @@ public class GetHasResponsesActionIT extends BaseActionIT<GetHasResponsesAction>
         assertTrue(hasResponsesData.getHasResponses());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         ______TS("Only instructors of the course can check if there are responses.");

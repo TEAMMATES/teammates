@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.TestGroups;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
@@ -22,7 +23,7 @@ import teammates.ui.output.StudentsData;
 public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -37,7 +38,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         return GET;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Course course = typicalBundle.courses.get("course1");
@@ -91,7 +92,7 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         assertEquals(expectedOtherTeamMember.getCourseId(), actualOtherTeamMember.getCourseId());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

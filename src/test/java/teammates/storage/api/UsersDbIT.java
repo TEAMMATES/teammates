@@ -20,6 +20,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link UsersDb}.
@@ -34,7 +35,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     private Instructor instructor;
     private Student student;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         Section section = new Section("test-section");
@@ -69,7 +70,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         });
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetInstructor() {
         ______TS("success: gets an instructor that already exists");
         Instructor actualInstructor = inTransaction(() -> usersDb.getInstructor(instructor.getId()));
@@ -101,7 +102,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(actualInstructor);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetStudent() {
         ______TS("success: gets a student that already exists");
         Student actualStudent = inTransaction(() -> usersDb.getStudent(student.getId()));
@@ -131,7 +132,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(actualStudent);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetAllUsersByGoogleId() {
         ______TS("success: gets all instructors and students by googleId");
         Account userSharedAccount = new Account(
@@ -193,7 +194,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(0, emptyUsers.size());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetStudentsForSection() {
         ______TS("success: typical case");
         Section firstSection = new Section("section-name1");
@@ -238,7 +239,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetStudentsForTeam() {
         ______TS("success: typical case");
         Section firstSection = new Section("section-name1");
@@ -283,7 +284,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetStudentsByGoogleId() {
         Course course2 = new Course("course-id-2", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         Section section = new Section("section-name");

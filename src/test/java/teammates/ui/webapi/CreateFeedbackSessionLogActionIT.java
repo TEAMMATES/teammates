@@ -16,6 +16,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Student;
+import teammates.test.TestGroups;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -24,7 +25,7 @@ import teammates.ui.output.MessageOutput;
 public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbackSessionLogAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -39,7 +40,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         return POST;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Course course1 = typicalBundle.courses.get("course1");
@@ -114,7 +115,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 .size()));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Student student1 = typicalBundle.students.get("student1InCourse1");

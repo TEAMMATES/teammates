@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
+import teammates.test.TestGroups;
 import teammates.ui.output.JoinStatus;
 
 /**
@@ -17,7 +18,7 @@ import teammates.ui.output.JoinStatus;
 public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatusAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -33,7 +34,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute() {
 
         loginAsUnregistered("unreg.user");
@@ -161,7 +162,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         verifyEntityNotFound(params);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         verifyAnyLoggedInUserCanAccess();

@@ -11,6 +11,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.TestGroups;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.RegKeyRequest;
 
@@ -20,7 +21,7 @@ import teammates.ui.request.RegKeyRequest;
 public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -36,7 +37,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute() throws Exception {
         Student studentYetToJoinCourse = typicalBundle.students.get("student2YetToJoinCourse4");
         String student1RegKey =
@@ -108,7 +109,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testAccessControl() throws Exception {
         verifyAnyLoggedInUserCanAccess();
     }

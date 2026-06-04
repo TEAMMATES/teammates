@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
+import teammates.test.TestGroups;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -24,7 +25,7 @@ import teammates.ui.output.MessageOutput;
 public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<FeedbackSessionPublishedRemindersAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -65,14 +66,14 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         });
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         ______TS("Typical Success Case 1: 9 published-email tasks queued for 1 session that was recently published");

@@ -13,6 +13,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.test.TestGroups;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
@@ -23,7 +24,7 @@ import teammates.ui.request.InstructorCreateRequest;
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
 
@@ -44,12 +45,12 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute() {
         // see test cases below
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute_typicalCase_shouldPass() {
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
 
@@ -82,7 +83,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute_uniqueEmailClash_shouldFail() {
         loginAsAdmin();
 
@@ -102,7 +103,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         Instructor instructor = typicalBundle.instructors.get("instructor2OfCourse1");

@@ -20,6 +20,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -30,17 +31,17 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle testDataBundle;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void setupClass() {
         testDataBundle = loadDataBundle("/FeedbackResponsesITBundle.json");
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         persistDataBundle(testDataBundle);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackResponsesFromGiverForQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -58,7 +59,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testDeleteFeedback() {
         ______TS("success: typical case");
         FeedbackResponse fr1 = testDataBundle.feedbackResponses.get("response1ForQ1");
@@ -68,7 +69,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(inTransaction(() -> frDb.getFeedbackResponse(fr1.getId())));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testAreThereResponsesForQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq1 = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -87,7 +88,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertFalse(actualResponse2);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testHasResponsesForCourse() {
         ______TS("success: typical case");
         Course course = testDataBundle.courses.get("course1");
@@ -98,7 +99,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(actual);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackResponsesForRecipientForQuestion_matchNotFound_shouldReturnEmptyList() {
         ______TS("Question not found");
         Student recipient = testDataBundle.students.get("student1InCourse1");
@@ -115,7 +116,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
 
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackResponsesForRecipientForQuestion_matchFound_success() {
         ______TS("Matching responses exist");
         Student recipient = testDataBundle.students.get("student2InCourse1");
@@ -129,7 +130,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
 
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackResponsesForSession() {
         ______TS("Session has responses");
         FeedbackSession sessionWithResponses = testDataBundle.feedbackSessions.get("session1InCourse1");

@@ -17,6 +17,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.TestGroups;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionSubmissionData;
@@ -29,7 +30,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
@@ -45,7 +46,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
         return GET;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() {
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
@@ -103,7 +104,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
         assertEquals("Feedback session not found", enfe.getMessage());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

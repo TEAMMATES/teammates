@@ -28,6 +28,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.test.TestGroups;
 import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.request.FeedbackResponsesRequest;
@@ -40,7 +41,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private DataBundle typicalBundle;
     private FeedbackQuestion currentQuestionForSubmission;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -329,7 +330,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testAccessControl() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
@@ -601,7 +602,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testExecute() {
         ______TS("Failure: invalid http parameters");
         loginInstructor("instructor1OfCourse1");

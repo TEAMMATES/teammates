@@ -19,6 +19,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Student;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link CleanupFeedbackSessionLogsAction}.
@@ -26,7 +27,7 @@ import teammates.storage.entity.Student;
 public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeedbackSessionLogsAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -41,7 +42,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         return GET;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         ______TS("Should delete logs older than 90 days and preserve recent logs");
@@ -119,7 +120,7 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         }
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

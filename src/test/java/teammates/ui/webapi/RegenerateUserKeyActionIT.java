@@ -12,6 +12,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.User;
+import teammates.test.TestGroups;
 import teammates.ui.output.RegenerateKeyData;
 
 /**
@@ -20,7 +21,7 @@ import teammates.ui.output.RegenerateKeyData;
 public class RegenerateUserKeyActionIT extends BaseActionIT<RegenerateUserKeyAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -35,7 +36,7 @@ public class RegenerateUserKeyActionIT extends BaseActionIT<RegenerateUserKeyAct
         return POST;
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testExecute() {
         Course course = typicalBundle.courses.get("course1");
@@ -61,7 +62,7 @@ public class RegenerateUserKeyActionIT extends BaseActionIT<RegenerateUserKeyAct
         verifyEntityNotFound(invalidUserIdParams);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

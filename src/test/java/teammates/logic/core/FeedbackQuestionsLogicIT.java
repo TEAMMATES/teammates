@@ -19,6 +19,7 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
@@ -32,12 +33,12 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testCreateFeedbackQuestion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
@@ -55,7 +56,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(createdQuestion, actualQuestion);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackQuestionsForSession() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -76,7 +77,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testUpdateFeedbackQuestionCascade() {
         FeedbackQuestion fq1 = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         fq1.setDescription("New question description");

@@ -15,6 +15,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.storage.entity.Notification;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link NotificationsDb}.
@@ -23,7 +24,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testCreateNotification() {
         ______TS("success: create notification that does not exist");
         Notification newNotification = generateTypicalNotification();
@@ -35,7 +36,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(newNotification, actualNotification);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetNotification() {
         ______TS("success: get a notification that already exists");
         Notification newNotification = generateTypicalNotification();
@@ -52,7 +53,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(nonExistentNotification);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testDeleteNotification() {
         ______TS("success: delete a notification that already exists");
         Notification notification = generateTypicalNotification();
@@ -65,7 +66,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(inTransaction(() -> notificationsDb.getNotification(notificationId)));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetActiveNotificationsByTargetUser() {
         Notification n1 = new Notification(
                 Instant.parse("2011-01-04T00:00:00Z"),

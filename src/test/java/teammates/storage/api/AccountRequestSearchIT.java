@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link AccountRequestsDb}.
@@ -22,12 +23,12 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testSearchAccountRequestsInWholeSystem_typicalCase_success() {
         AccountRequest ins1General = typicalBundle.accountRequests.get("instructor1");
         AccountRequest ins2General = typicalBundle.accountRequests.get("instructor2");
@@ -109,7 +110,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
         verifySearchResults(results, ins1General, unregisteredInstructor1);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testSearchAccountRequestsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<AccountRequest> results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("_"));
         verifySearchResults(results);

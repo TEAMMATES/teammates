@@ -17,6 +17,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.EmailChecker;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link EmailGenerator}.
@@ -27,7 +28,7 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle dataBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         dataBundle = loadDataBundle("/EmailGeneratorTest.json");
 
@@ -67,7 +68,7 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
         persistDataBundle(dataBundle);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
         ______TS("invalid email address");

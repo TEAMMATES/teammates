@@ -14,6 +14,7 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link AccountsLogic}.
@@ -27,12 +28,12 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testJoinCourseForStudent() {
         Student student2YetToJoinCourse = typicalDataBundle.students.get("student2YetToJoinCourse4");
         Student student3YetToJoinCourse = typicalDataBundle.students.get("student3YetToJoinCourse4");
@@ -86,7 +87,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals("User has already joined course", eaee.getMessage());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testJoinCourseForInstructor() {
         String instructorIdAlreadyJoinedCourse = "instructor1";
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");

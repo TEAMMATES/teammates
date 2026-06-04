@@ -17,6 +17,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link FeedbackQuestionsDb}.
@@ -29,12 +30,12 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalDataBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion expectedFq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -51,7 +52,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertThrowsInTransaction(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testCreateFeedbackQuestion() {
         ______TS("success: typical case");
         Course course = getTypicalCourse();
@@ -70,7 +71,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertThrowsInTransaction(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackQuestionsForSession() {
         ______TS("success: typical case");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
@@ -96,7 +97,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(0, actualQuestions.size());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetFeedbackQuestionsForGiverType() {
         ______TS("success: typical case");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
@@ -119,7 +120,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(0, actualQuestions.size());
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testDeleteFeedbackQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -129,7 +130,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(inTransaction(() -> fqDb.getFeedbackQuestion(fq.getId())));
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testHasFeedbackQuestionsForGiverType() {
         ______TS("success: typical case");
         Course course = typicalDataBundle.courses.get("course1");

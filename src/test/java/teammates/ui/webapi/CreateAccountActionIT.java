@@ -22,6 +22,7 @@ import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.test.TestGroups;
 import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
@@ -30,7 +31,7 @@ import teammates.ui.exception.InvalidHttpParameterException;
 public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -46,7 +47,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
         Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
         loginAsUnregistered(instructor1.getGoogleId());
@@ -153,12 +154,12 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testAccessControl() {
         verifyAnyLoggedInUserCanAccess();
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGenerateNextDemoCourseId() {
         testGenerateNextDemoCourseIdForLengthLimit(40);
         testGenerateNextDemoCourseIdForLengthLimit(20);

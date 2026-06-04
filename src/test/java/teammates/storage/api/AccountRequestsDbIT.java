@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.TestGroups;
 
 /**
  * SUT: {@link AccountRequestsDb}.
@@ -20,7 +21,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final AccountRequestsDb accountRequestDb = AccountRequestsDb.inst();
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testCreateReadDeleteAccountRequest() {
         ______TS("Create account request, does not exists, succeeds");
 
@@ -79,14 +80,14 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(actualAccountRequest);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
         UUID id = UUID.randomUUID();
         AccountRequest actualAccountRequest = inTransaction(() -> accountRequestDb.getAccountRequest(id));
         assertNull(actualAccountRequest);
     }
 
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");

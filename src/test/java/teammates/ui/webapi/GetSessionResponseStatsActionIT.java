@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.test.TestGroups;
 import teammates.ui.output.FeedbackSessionStatsData;
 
 /**
@@ -20,7 +21,7 @@ import teammates.ui.output.FeedbackSessionStatsData;
 public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResponseStatsAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -36,7 +37,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -66,7 +67,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
     }
 
     @Override
-    @Test
+    @Test(groups = TestGroups.INTEGRATION)
     protected void testAccessControl() throws Exception {
         ______TS("accessible for admin");
         verifyAccessibleForAdmin();
