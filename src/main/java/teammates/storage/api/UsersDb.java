@@ -166,25 +166,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets a list of students by {@code teamName} and {@code courseId}.
-     */
-    public List<Student> getStudentsByTeamName(String teamName, String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-
-        studentRoot.alias("student");
-
-        Join<Student, Team> teamsJoin = studentRoot.join("team");
-
-        cr.select(studentRoot).where(cb.and(
-                cb.equal(studentRoot.get("courseId"), courseId),
-                cb.equal(teamsJoin.get("name"), teamName)));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Gets all instructors and students by {@code googleId}.
      */
     public List<User> getAllUsersByGoogleId(String googleId) {
@@ -574,24 +555,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets count of students of a team of a course.
-     */
-    public long getStudentCountForTeam(String teamName, String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-        Join<Student, Course> courseJoin = studentRoot.join("course");
-        Join<Student, Team> teamsJoin = studentRoot.join("team");
-
-        cr.select(cb.count(studentRoot.get("id")))
-                .where(cb.and(
-                        cb.equal(courseJoin.get("id"), courseId),
-                        cb.equal(teamsJoin.get("name"), teamName)));
-
-        return HibernateUtil.createQuery(cr).getSingleResult();
-    }
-
-    /**
      * Gets the section with the specified {@code sectionName} and {@code courseId}.
      */
     public Section getSection(String courseId, String sectionName) {
@@ -613,23 +576,6 @@ public final class UsersDb {
      */
     public Team getTeam(UUID teamId) {
         return HibernateUtil.get(Team.class, teamId);
-    }
-
-    /**
-     * Gets a team by its {@code section} and {@code teamName}.
-     */
-    public Team getTeam(Section section, String teamName) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
-        Root<Team> teamRoot = cr.from(Team.class);
-        Join<Team, Section> sectionJoin = teamRoot.join("section");
-
-        cr.select(teamRoot)
-                .where(cb.and(
-                        cb.equal(sectionJoin.get("id"), section.getId()),
-                        cb.equal(teamRoot.get("name"), teamName)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
 }
