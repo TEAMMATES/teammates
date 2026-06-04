@@ -31,7 +31,6 @@ export class RejectWithReasonModalComponent implements OnInit {
     name: '',
     email: '',
     googleId: '',
-    accountId: '',
     courseId: '',
     courseName: '',
     isCourseDeleted: false,

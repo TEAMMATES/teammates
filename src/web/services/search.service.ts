@@ -146,7 +146,6 @@ export class SearchService {
       homePageLink: '',
       profilePageLink: '',
       courseJoinLink: '',
-      accountId: '',
       googleId: '',
       showLinks: false,
     };
@@ -161,7 +160,7 @@ export class SearchService {
       googleId = '',
       institute = '',
     }: Student = student;
-    studentResult = { ...studentResult, userId, email, name, comments, team, section, accountId, googleId, institute };
+    studentResult = { ...studentResult, userId, email, name, comments, team, section, googleId, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -232,7 +231,6 @@ export class SearchService {
       manageAccountLink: '',
       homePageLink: '',
       courseJoinLink: '',
-      accountId: '',
       googleId: '',
       showLinks: false,
       awaitingSessions: {},
@@ -241,7 +239,7 @@ export class SearchService {
       publishedSessions: {},
     };
     const { userId, email, name, accountId = '', googleId = '', institute = '' }: Instructor = instructor;
-    instructorResult = { ...instructorResult, userId, email, name, accountId, googleId, institute };
+    instructorResult = { ...instructorResult, userId, email, name, googleId, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -525,7 +523,6 @@ export interface InstructorAccountSearchResult {
   name: string;
   email: string;
   googleId: string;
-  accountId: string;
   courseId: string;
   courseName: string;
   isCourseDeleted: boolean;
