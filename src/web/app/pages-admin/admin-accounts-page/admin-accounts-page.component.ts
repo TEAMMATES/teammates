@@ -73,10 +73,7 @@ export class AdminAccountsPageComponent implements OnInit {
     const accountId: string = this.accountInfo.accountId;
     this.accountService.deleteAccount(accountId).subscribe({
       next: () => {
-        this.navigationService.navigateWithSuccessMessage(
-          '/web/admin/search',
-          `Account is successfully deleted.`,
-        );
+        this.navigationService.navigateWithSuccessMessage('/web/admin/search', `Account is successfully deleted.`);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);

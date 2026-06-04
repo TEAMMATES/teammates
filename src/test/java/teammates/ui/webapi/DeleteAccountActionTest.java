@@ -57,7 +57,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         instructor.setAccount(stubAccount);
         when(mockLogic.getAccount(accountId)).thenReturn(stubAccount);
         String[] params = {
-            Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
+                Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
         };
         DeleteAccountAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();

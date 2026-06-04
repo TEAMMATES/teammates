@@ -39,11 +39,11 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
                 "validTenantId", "name", "email");
         when(mockLogic.getAccount(accountId)).thenReturn(account);
         String[] params = {
-            Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
+                Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
-        assertEquals(output.getAccountId(), accountId.toString());
+        assertEquals(output.getAccountId(), accountId);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         loginAsAdmin();
         when(mockLogic.getAccount(accountId)).thenReturn(null);
         String[] params = {
-            Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
+                Const.ParamsNames.ACCOUNT_ID, accountId.toString(),
         };
         EntityNotFoundException e = verifyEntityNotFound(params);
         assertEquals("Account does not exist.", e.getMessage());

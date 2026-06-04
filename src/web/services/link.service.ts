@@ -58,9 +58,9 @@ export class LinkService {
   /**
    * Generates home page link.
    */
-  generateHomePageLink(accountId: string, homePage: string): string {
+  generateHomePageLink(googleId: string, homePage: string): string {
     const params: { [key: string]: string } = {
-      accountid: accountId,
+      user: googleId,
     };
 
     this.filterEmptyParams(params);
@@ -86,14 +86,14 @@ export class LinkService {
   /**
    * Generates student profile page link.
    */
-  generateProfilePageLink(student: Student, instructorAccountId: string): string {
+  generateProfilePageLink(student: Student, instructorGoogleId: string): string {
     const { courseId: courseid, userId: userid }: Student = student;
     const params: {
       [key: string]: string;
     } = {
       courseid,
       userid,
-      accountid: instructorAccountId,
+      user: instructorGoogleId,
     };
 
     this.filterEmptyParams(params);

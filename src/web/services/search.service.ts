@@ -166,20 +166,20 @@ export class SearchService {
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
-    let masqueradeAccountId = '';
+    let masqueradeGoogleId = '';
     for (const instructor of instructors.instructors) {
-      if (instructor.accountId && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
-        masqueradeAccountId = instructor.accountId;
+      if (instructor.googleId && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
+        masqueradeGoogleId = instructor.googleId;
         break;
       }
     }
     // no instructor with co-owner privileges
     // there is usually at least one instructor with "modify instructor" permission
-    if (masqueradeAccountId === '') {
+    if (masqueradeGoogleId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
-        if (instructor.accountId && instructorPrivilege?.privileges.courseLevel.canModifyInstructor) {
-          masqueradeAccountId = instructor.accountId;
+        if (instructor.googleId && instructorPrivilege?.privileges.courseLevel.canModifyInstructor) {
+          masqueradeGoogleId = instructor.googleId;
           break;
         }
       }
@@ -192,8 +192,8 @@ export class SearchService {
 
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
-    studentResult.homePageLink = this.linkService.generateHomePageLink(accountId, this.linkService.STUDENT_HOME_PAGE);
-    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeAccountId);
+    studentResult.homePageLink = this.linkService.generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
+    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeGoogleId);
     studentResult.manageAccountLink = this.linkService.generateManageAccountLink(
       accountId,
       this.linkService.ADMIN_ACCOUNTS_PAGE,
