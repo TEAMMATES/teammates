@@ -10,7 +10,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -215,6 +217,44 @@ public final class GivenData {
         FeedbackSession feedbackSession = feedbackSessionData.build();
         registerEntity(alias, feedbackSession, dataBundle.feedbackSessions);
         return feedbackSession.getId();
+    }
+
+    /**
+     * Creates a deadline extension with default values.
+     */
+    public UUID deadlineExtension(String alias) {
+        return deadlineExtension(alias, de -> {
+        });
+    }
+
+    /**
+     * Creates a deadline extension and applies the provided options to customize it.
+     */
+    public UUID deadlineExtension(String alias, Consumer<GivenDeadlineExtension> options) {
+        GivenDeadlineExtension deadlineExtensionData = new GivenDeadlineExtension(this, uuid(alias));
+        options.accept(deadlineExtensionData);
+        DeadlineExtension deadlineExtension = deadlineExtensionData.build();
+        registerEntity(alias, deadlineExtension, dataBundle.deadlineExtensions);
+        return deadlineExtension.getId();
+    }
+
+    /**
+     * Creates a feedback session log with default values.
+     */
+    public UUID feedbackSessionLog(String alias) {
+        return feedbackSessionLog(alias, fsl -> {
+        });
+    }
+
+    /**
+     * Creates a feedback session log and applies the provided options to customize it.
+     */
+    public UUID feedbackSessionLog(String alias, Consumer<GivenFeedbackSessionLog> options) {
+        GivenFeedbackSessionLog feedbackSessionLogData = new GivenFeedbackSessionLog(this, uuid(alias));
+        options.accept(feedbackSessionLogData);
+        FeedbackSessionLog feedbackSessionLog = feedbackSessionLogData.build();
+        registerEntity(alias, feedbackSessionLog, dataBundle.feedbackSessionLogs);
+        return feedbackSessionLog.getId();
     }
 
     /**
