@@ -46,9 +46,6 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("failure: does not exist, returns null");
         actualFq = inTransaction(() -> fqDb.getFeedbackQuestion(UUID.randomUUID()));
         assertNull(actualFq);
-
-        ______TS("failure: null parameter, assertion error");
-        assertThrowsInTransaction(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
     }
 
     @Test
@@ -65,9 +62,6 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
             return fq;
         });
         verifyPresentInDatabase(expectedFq);
-
-        ______TS("failure: null parameter, assertion error");
-        assertThrowsInTransaction(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
     }
 
     @Test

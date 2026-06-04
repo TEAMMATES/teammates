@@ -31,8 +31,6 @@ public final class ResponseInstructorCommentsDb {
     * Gets a responseInstructorComment or null if it does not exist.
      */
     public ResponseInstructorComment getResponseInstructorComment(UUID frId) {
-        assert frId != null;
-
         return HibernateUtil.get(ResponseInstructorComment.class, frId);
     }
 
@@ -40,8 +38,6 @@ public final class ResponseInstructorCommentsDb {
     * Creates a responseInstructorComment.
      */
     public ResponseInstructorComment createResponseInstructorComment(ResponseInstructorComment responseInstructorComment) {
-        assert responseInstructorComment != null;
-
         HibernateUtil.persist(responseInstructorComment);
         return responseInstructorComment;
     }
@@ -57,8 +53,6 @@ public final class ResponseInstructorCommentsDb {
      * Gets all comments for the given feedback response IDs.
      */
     public List<ResponseInstructorComment> getResponseInstructorCommentsForResponses(List<UUID> feedbackResponseIds) {
-        assert feedbackResponseIds != null;
-
         if (feedbackResponseIds.isEmpty()) {
             return List.of();
         }

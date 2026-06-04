@@ -38,8 +38,6 @@ public final class DeadlineExtensionsDb {
      * Creates a deadline extension.
      */
     public DeadlineExtension createDeadlineExtension(DeadlineExtension de) {
-        assert de != null;
-
         HibernateUtil.persist(de);
         return de;
     }
@@ -48,8 +46,6 @@ public final class DeadlineExtensionsDb {
      * Gets a deadline extension by {@code id}.
      */
     public DeadlineExtension getDeadlineExtension(UUID id) {
-        assert id != null;
-
         return HibernateUtil.get(DeadlineExtension.class, id);
     }
 
@@ -57,9 +53,6 @@ public final class DeadlineExtensionsDb {
      * Get DeadlineExtension by {@code userId} and {@code feedbackSessionId}.
      */
     public DeadlineExtension getDeadlineExtension(UUID userId, UUID feedbackSessionId) {
-        assert userId != null;
-        assert feedbackSessionId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> root = cr.from(DeadlineExtension.class);
@@ -109,9 +102,6 @@ public final class DeadlineExtensionsDb {
      * Otherwise, return null.
      */
     public DeadlineExtension getDeadlineExtensionForUser(UUID feedbackSessionId, UUID userId) {
-        assert feedbackSessionId != null;
-        assert userId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<DeadlineExtension> cr = cb.createQuery(DeadlineExtension.class);
         Root<DeadlineExtension> deadlineExtensionRoot = cr.from(DeadlineExtension.class);

@@ -181,12 +181,6 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDeadlineExtension_nullExtension_throwsException() {
-        assertThrows(AssertionError.class, () -> deLogic.createDeadlineExtension(null));
-        verify(deDb, never()).createDeadlineExtension(any());
-    }
-
-    @Test
     public void testDeleteDeadlineExtension_extensionExists_success() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);

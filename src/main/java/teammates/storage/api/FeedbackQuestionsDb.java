@@ -37,8 +37,6 @@ public final class FeedbackQuestionsDb {
      * @return the created question
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
-        assert feedbackQuestion != null;
-
         HibernateUtil.persist(feedbackQuestion);
         return feedbackQuestion;
     }
@@ -49,8 +47,6 @@ public final class FeedbackQuestionsDb {
      * @return null if not found
      */
     public FeedbackQuestion getFeedbackQuestion(UUID fqId) {
-        assert fqId != null;
-
         return HibernateUtil.get(FeedbackQuestion.class, fqId);
     }
 
@@ -73,9 +69,6 @@ public final class FeedbackQuestionsDb {
      */
     public List<FeedbackQuestion> getFeedbackQuestionsForGiverType(
             FeedbackSession feedbackSession, QuestionGiverType giverType) {
-        assert feedbackSession != null;
-        assert giverType != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackQuestion> cq = cb.createQuery(FeedbackQuestion.class);
         Root<FeedbackQuestion> root = cq.from(FeedbackQuestion.class);

@@ -35,8 +35,6 @@ public final class FeedbackResponsesDb {
      * Gets a feedbackResponse or null if it does not exist.
      */
     public FeedbackResponse getFeedbackResponse(UUID frId) {
-        assert frId != null;
-
         return HibernateUtil.get(FeedbackResponse.class, frId);
     }
 
@@ -44,8 +42,6 @@ public final class FeedbackResponsesDb {
      * Creates a feedbackResponse.
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse) {
-        assert feedbackResponse != null;
-
         HibernateUtil.persist(feedbackResponse);
         return feedbackResponse;
     }
@@ -165,9 +161,6 @@ public final class FeedbackResponsesDb {
      */
     public List<FeedbackResponse> getFeedbackResponsesForSession(
             FeedbackSession feedbackSession, String courseId) {
-        assert feedbackSession != null;
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);

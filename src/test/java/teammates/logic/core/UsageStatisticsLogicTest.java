@@ -175,18 +175,6 @@ public class UsageStatisticsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCalculateEntitiesStatisticsForTimeRange_invalidTimeRange_throwsException() {
-        Instant startTime = Instant.parse("2024-01-02T00:00:00Z");
-        Instant endTime = Instant.parse("2024-01-01T00:00:00Z");
-        assertTrue(startTime.isAfter(endTime));
-
-        // Should throw AssertionError due to assertion in the method
-        assertThrows(AssertionError.class, () -> {
-            usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
-        });
-    }
-
-    @Test
     public void testCalculateEntitiesStatisticsForTimeRange_distantPast_returnsStatistics() {
         Instant startTime = Instant.parse("2010-01-01T00:00:00Z");
         Instant endTime = Instant.parse("2010-12-31T23:59:59Z");

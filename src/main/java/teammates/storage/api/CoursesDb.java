@@ -34,8 +34,6 @@ public final class CoursesDb {
      * Returns a course with the {@code courseID} or null if it does not exist.
      */
     public Course getCourse(String courseId) {
-        assert courseId != null;
-
         return HibernateUtil.get(Course.class, courseId);
     }
 
@@ -43,8 +41,6 @@ public final class CoursesDb {
      * Creates a course.
      */
     public Course createCourse(Course course) {
-        assert course != null;
-
         HibernateUtil.persist(course);
         return course;
     }
@@ -60,8 +56,6 @@ public final class CoursesDb {
      * Creates a section.
      */
     public Section createSection(Section section) {
-        assert section != null;
-
         HibernateUtil.persist(section);
         return section;
     }
@@ -70,9 +64,6 @@ public final class CoursesDb {
      * Get section by name.
      */
     public Section getSectionByName(String courseId, String sectionName) {
-        assert courseId != null;
-        assert sectionName != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Section> cr = cb.createQuery(Section.class);
         Root<Section> sectionRoot = cr.from(Section.class);
@@ -89,9 +80,6 @@ public final class CoursesDb {
      * Get section by {@code courseId} and {@code teamName}.
      */
     public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        assert courseId != null;
-        assert teamName != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Section> cr = cb.createQuery(Section.class);
         Root<Section> sectionRoot = cr.from(Section.class);
@@ -109,8 +97,6 @@ public final class CoursesDb {
      * Get teams by {@code course}.
      */
     public List<Team> getTeamsForCourse(String courseId) {
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Team> cr = cb.createQuery(Team.class);
         Root<Team> teamRoot = cr.from(Team.class);
@@ -127,8 +113,6 @@ public final class CoursesDb {
      * Creates a team.
      */
     public Team createTeam(Team team) {
-        assert team != null;
-
         HibernateUtil.persist(team);
         return team;
     }
@@ -137,9 +121,6 @@ public final class CoursesDb {
      * Gets a team by name.
      */
     public Team getTeamByName(UUID sectionId, String teamName) {
-        assert sectionId != null;
-        assert teamName != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Team> cr = cb.createQuery(Team.class);
         Root<Team> teamRoot = cr.from(Team.class);

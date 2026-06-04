@@ -78,8 +78,6 @@ public final class UsersDb {
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor) {
-        assert instructor != null;
-
         HibernateUtil.persist(instructor);
         return instructor;
     }
@@ -88,8 +86,6 @@ public final class UsersDb {
      * Creates a student.
      */
     public Student createStudent(Student student) {
-        assert student != null;
-
         HibernateUtil.persist(student);
         return student;
     }
@@ -98,8 +94,6 @@ public final class UsersDb {
      * Gets an instructor by its {@code id}.
      */
     public Instructor getInstructor(UUID id) {
-        assert id != null;
-
         return HibernateUtil.get(Instructor.class, id);
     }
 
@@ -138,8 +132,6 @@ public final class UsersDb {
      * Gets a student by its {@code id}.
      */
     public Student getStudent(UUID id) {
-        assert id != null;
-
         return HibernateUtil.get(Student.class, id);
     }
 
@@ -377,8 +369,6 @@ public final class UsersDb {
      * Deletes all students in the specified {@code courseId}.
      */
     public void deleteStudentsInCourse(String courseId) {
-        assert courseId != null && !courseId.isEmpty();
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaDelete<Student> cd = cb.createCriteriaDelete(Student.class);
         Root<Student> root = cd.from(Student.class);
@@ -392,8 +382,6 @@ public final class UsersDb {
      * Gets the list of instructors for the specified {@code courseId}.
      */
     public List<Instructor> getInstructorsForCourse(String courseId) {
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> root = cr.from(Instructor.class);
@@ -407,8 +395,6 @@ public final class UsersDb {
      * Gets the list of students for the specified {@code courseId}.
      */
     public List<Student> getStudentsForCourse(String courseId) {
-        assert courseId != null && !courseId.isEmpty();
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> root = cr.from(Student.class);
@@ -422,8 +408,6 @@ public final class UsersDb {
      * Gets the instructor with the specified {@code userEmail}.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
-        assert courseId != null;
-        assert userEmail != null;
         String normalizedUserEmail = normalizeEmail(userEmail);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -442,9 +426,6 @@ public final class UsersDb {
      * Gets instructors with the specified {@code userEmail}.
      */
     public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
-        assert courseId != null;
-        assert userEmails != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
@@ -466,8 +447,6 @@ public final class UsersDb {
      * Gets a non-soft-deleted instructor with the specified {@code email} and {@code institute}.
      */
     public Instructor getInstructorByEmailAndInstitute(String email, String institute) {
-        assert email != null;
-        assert institute != null;
         String normalizedEmail = normalizeEmail(email);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -488,8 +467,6 @@ public final class UsersDb {
      * Gets the student with the specified {@code userEmail}.
      */
     public Student getStudentForEmail(String courseId, String userEmail) {
-        assert courseId != null;
-        assert userEmail != null;
         String normalizedUserEmail = normalizeEmail(userEmail);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -508,9 +485,6 @@ public final class UsersDb {
      * Gets students with the specified {@code userEmail}.
      */
     public List<Student> getStudentsForEmails(String courseId, List<String> userEmails) {
-        assert courseId != null;
-        assert userEmails != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
@@ -532,7 +506,6 @@ public final class UsersDb {
      * Gets list of students by email.
      */
     public List<Student> getAllStudentsForEmail(String email) {
-        assert email != null;
         String normalizedEmail = normalizeEmail(email);
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -553,8 +526,6 @@ public final class UsersDb {
      * Gets all instructors associated with a googleId.
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        assert googleId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
@@ -569,9 +540,6 @@ public final class UsersDb {
      * Gets all students of a section of a course.
      */
     public List<Student> getStudentsForSection(String sectionName, String courseId) {
-        assert sectionName != null;
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
@@ -591,9 +559,6 @@ public final class UsersDb {
      * Gets all students of a team of a course.
      */
     public List<Student> getStudentsForTeam(String teamName, String courseId) {
-        assert teamName != null;
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Student> cr = cb.createQuery(Student.class);
         Root<Student> studentRoot = cr.from(Student.class);
@@ -612,9 +577,6 @@ public final class UsersDb {
      * Gets count of students of a team of a course.
      */
     public long getStudentCountForTeam(String teamName, String courseId) {
-        assert teamName != null;
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Long> cr = cb.createQuery(Long.class);
         Root<Student> studentRoot = cr.from(Student.class);
@@ -633,8 +595,6 @@ public final class UsersDb {
      * Gets the section with the specified {@code sectionName} and {@code courseId}.
      */
     public Section getSection(String courseId, String sectionName) {
-        assert sectionName != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Section> cr = cb.createQuery(Section.class);
         Root<Section> sectionRoot = cr.from(Section.class);
@@ -659,9 +619,6 @@ public final class UsersDb {
      * Gets a team by its {@code section} and {@code teamName}.
      */
     public Team getTeam(Section section, String teamName) {
-        assert teamName != null;
-        assert section != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Team> cr = cb.createQuery(Team.class);
         Root<Team> teamRoot = cr.from(Team.class);

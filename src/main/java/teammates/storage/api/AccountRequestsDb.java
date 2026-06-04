@@ -47,8 +47,6 @@ public final class AccountRequestsDb {
      * Creates an AccountRequest in the database.
      */
     public AccountRequest createAccountRequest(AccountRequest accountRequest) {
-        assert accountRequest != null;
-
         HibernateUtil.persist(accountRequest);
         return accountRequest;
     }
@@ -57,7 +55,6 @@ public final class AccountRequestsDb {
      * Get AccountRequest by {@code id} from the database.
      */
     public AccountRequest getAccountRequest(UUID id) {
-        assert id != null;
         return HibernateUtil.get(AccountRequest.class, id);
     }
 

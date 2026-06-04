@@ -51,11 +51,6 @@ public final class FeedbackSessionLogsDb {
      */
     public List<FeedbackSessionLog> getOrderedFeedbackSessionLogs(String courseId, UUID userId,
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
-
-        assert courseId != null;
-        assert startTime != null;
-        assert endTime != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSessionLog> cr = cb.createQuery(FeedbackSessionLog.class);
         Root<FeedbackSessionLog> root = cr.from(FeedbackSessionLog.class);
@@ -93,8 +88,6 @@ public final class FeedbackSessionLogsDb {
      * Deletes feedback session logs older than the given cutoff time.
      */
     public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
-        assert cutoffTime != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaDelete<FeedbackSessionLog> cd = cb.createCriteriaDelete(FeedbackSessionLog.class);
         Root<FeedbackSessionLog> root = cd.from(FeedbackSessionLog.class);

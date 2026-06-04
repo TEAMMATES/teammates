@@ -27,9 +27,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Course actual = inTransaction(() -> coursesDb.getCourse("non-existent-course-id"));
         assertNull(actual);
 
-        ______TS("failure: null assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.getCourse(null));
-
         ______TS("success: get course that already exists");
         Course expected = getTypicalCourse();
         inTransaction(() -> coursesDb.createCourse(expected));
@@ -45,9 +42,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         inTransaction(() -> coursesDb.createCourse(course));
         Course actualCourse = inTransaction(() -> coursesDb.getCourse("course-id"));
         assertEquals(course, actualCourse);
-
-        ______TS("failure: null course assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.createCourse(null));
     }
 
     @Test
@@ -70,9 +64,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         inTransaction(() -> coursesDb.createSection(section));
         Section actualSection = inTransaction(() -> coursesDb.getSectionByName(course.getId(), section.getName()));
         assertEquals(section, actualSection);
-
-        ______TS("failure: null section assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.createSection(null));
     }
 
     @Test
@@ -83,12 +74,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
             coursesDb.createCourse(course);
             coursesDb.createSection(section);
         });
-
-        ______TS("failure: null courseId assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.getSectionByName(null, section.getName()));
-
-        ______TS("failure: null sectionName assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.getSectionByName(course.getId(), null));
 
         ______TS("success: get section that already exists");
         Section actualSection = inTransaction(() -> coursesDb.getSectionByName(course.getId(), section.getName()));
@@ -112,14 +97,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
             coursesDb.createTeam(team);
             section.addTeam(team);
         });
-
-        ______TS("failure: null courseId assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class,
-                () -> coursesDb.getSectionByCourseIdAndTeam(null, team.getName()));
-
-        ______TS("failure: null teamName assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class,
-                () -> coursesDb.getSectionByCourseIdAndTeam(course.getId(), null));
 
         ______TS("success: typical case");
         Section actualSection =
@@ -156,9 +133,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<Team> expectedTeams = List.of(team1, team2, team3, team4);
 
-        ______TS("failure: null courseId assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.getTeamsForCourse(null));
-
         ______TS("success: typical case");
         List<Team> actualTeams = inTransaction(() -> coursesDb.getTeamsForCourse(course.getId()));
         assertEquals(expectedTeams.size(), actualTeams.size());
@@ -177,9 +151,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         });
 
         assertNotNull(inTransaction(() -> coursesDb.getSectionByName(course.getId(), section.getName())));
-
-        ______TS("failure: null team assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.createTeam(null));
 
         ______TS("success: create team that does not exist");
         inTransaction(() -> coursesDb.createTeam(team));
@@ -202,12 +173,6 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: get team that already exists");
         Team actualTeam = inTransaction(() -> coursesDb.getTeamByName(section.getId(), team.getName()));
         assertEquals(team, actualTeam);
-
-        ______TS("failure: null sectionId assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.getTeamByName(null, team.getName()));
-
-        ______TS("failure: null teamName assertion exception thrown");
-        assertThrowsInTransaction(AssertionError.class, () -> coursesDb.getTeamByName(section.getId(), null));
 
         ______TS("success: null return");
         Team nonExistentTeam =

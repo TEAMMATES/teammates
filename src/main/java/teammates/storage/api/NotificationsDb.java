@@ -38,8 +38,6 @@ public final class NotificationsDb {
      * * Notification fields are valid.
      */
     public Notification createNotification(Notification notification) {
-        assert notification != null;
-
         HibernateUtil.persist(notification);
         return notification;
     }
@@ -48,8 +46,6 @@ public final class NotificationsDb {
      * Gets a notification by its unique ID.
      */
     public Notification getNotification(UUID notificationId) {
-        assert notificationId != null;
-
         return HibernateUtil.get(Notification.class, notificationId);
     }
 
