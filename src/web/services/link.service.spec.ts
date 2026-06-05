@@ -16,89 +16,91 @@ describe('Link Service', () => {
 
   const mockStudent: Student = {
     userId: 'student-alice',
-    email: 'alice.b.tmms@gmail.tmt',
-    courseId: 'dog.gma-demo',
-    courseName: 'Test Course',
-    institute: 'NUS',
-    name: 'Alice Betsy',
-    googleId: 'alice.b.tmms.sampleData',
-    comments: "This student's name is Alice Betsy",
-    key: 'keyheehee',
+    email: 'alice.brown@example.edu',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
+    name: 'Alice Brown',
+    googleId: 'alice.brown.sample',
+    comments: 'Student record used for link generation tests',
+    key: 'student-key-001',
     joinState: JoinState.JOINED,
     teamName: 'Team 1',
     sectionName: 'Tutorial Group 1',
   };
 
   const mockInstructor: Instructor = {
-    googleId: 'test@example.com',
-    courseId: 'dog.gma-demo',
-    courseName: 'Test Course',
-    institute: 'Test Institute',
-    userId: 'test-user-id',
-    email: 'dog@gmail.com',
+    googleId: 'instructor.lee@example.edu',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
+    userId: 'instructor-user-id',
+    email: 'lee.instructor@example.edu',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
-    name: 'Hi',
-    key: 'impicklerick',
+    name: 'Adam Lee',
+    key: 'instructor-key-001',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
   };
 
   it('should generate the course join link of the student', () => {
     expect(service.generateCourseJoinLink(mockStudent, 'student')).toBe(
-      `${window.location.origin}/web/join?key=keyheehee&entitytype=student`,
+      `${window.location.origin}/web/join?key=student-key-001&entitytype=student`,
     );
   });
 
   it('should generate the course join link for instructors', () => {
     expect(service.generateCourseJoinLink(mockInstructor, 'instructor')).toBe(
-      `${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`,
+      `${window.location.origin}/web/join?key=instructor-key-001&entitytype=instructor`,
     );
   });
 
   it('should generate the account registration link of the instructor', () => {
-    expect(service.generateAccountRegistrationLink('keyheehee')).toBe(
-      `${window.location.origin}/web/join?iscreatingaccount=true&key=keyheehee`,
+    expect(service.generateAccountRegistrationLink('student-key-001')).toBe(
+      `${window.location.origin}/web/join?iscreatingaccount=true&key=student-key-001`,
     );
   });
 
   it('should generate the home page link', () => {
-    expect(service.generateHomePageLink('blahblah', '/comeseetheopressioninherentinthesystem')).toBe(
-      '/web/comeseetheopressioninherentinthesystem?masqueradeaccountid=blahblah',
+    expect(service.generateHomePageLink('account-123', '/course-dashboard')).toBe(
+      '/web/course-dashboard?masqueradeaccountid=account-123',
     );
   });
 
   it('should generate the manage account link', () => {
-    expect(service.generateManageAccountLink('hello there', '/generalkenobiyouareaboldone')).toBe(
-      '/web/generalkenobiyouareaboldone?accountid=hello%20there',
+    expect(service.generateManageAccountLink('account 123', '/manage-account')).toBe(
+      '/web/manage-account?accountid=account%20123',
     );
   });
 
   it('should generate the student profile page link', () => {
-    expect(service.generateProfilePageLink(mockStudent, 'from my point of view the jedi are evil')).toBe(
-      '/web/instructor/courses/student/details?courseid=dog.gma-demo&userid=student-alice' +
-        '&masqueradeaccountid=from%20my%20point%20of%20view%20the%20jedi%20are%20evil',
+    expect(service.generateProfilePageLink(mockStudent, 'account-admin-01')).toBe(
+      '/web/instructor/courses/student/details?courseid=cs1010-demo&userid=student-alice' +
+        '&masqueradeaccountid=account-admin-01',
     );
   });
 
   it('should generate the submit url', () => {
     expect(service.generateSubmitUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001')).toBe(
-      `${window.location.origin}/web/sessions/submission?key=keyheehee` + '&fsid=00000000-0000-4000-8000-000000000001',
+      `${window.location.origin}/web/sessions/submission?key=student-key-001` +
+        '&fsid=00000000-0000-4000-8000-000000000001',
     );
 
     expect(service.generateSubmitUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002')).toBe(
-      `${window.location.origin}/web/sessions/submission?key=impicklerick` +
+      `${window.location.origin}/web/sessions/submission?key=instructor-key-001` +
         '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
     );
   });
 
   it('should generate the result url', () => {
     expect(service.generateResultUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001')).toBe(
-      `${window.location.origin}/web/sessions/result?key=keyheehee` + '&fsid=00000000-0000-4000-8000-000000000001',
+      `${window.location.origin}/web/sessions/result?key=student-key-001` +
+        '&fsid=00000000-0000-4000-8000-000000000001',
     );
 
     expect(service.generateResultUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002')).toBe(
-      `${window.location.origin}/web/sessions/result?key=impicklerick` +
+      `${window.location.origin}/web/sessions/result?key=instructor-key-001` +
         '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
     );
   });
