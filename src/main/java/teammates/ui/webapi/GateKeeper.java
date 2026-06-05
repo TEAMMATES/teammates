@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.util.Const;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -48,10 +47,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified account has student privileges in any course.
+     * Verifies that the specified auth context has student privileges in any course.
      */
-    void verifyStudentInAnyCourse(Account account) throws UnauthorizedAccessException {
-        if (account != null && account.getStudents() != null && !account.getStudents().isEmpty()) {
+    void verifyStudentInAnyCourse(AuthContext authContext) throws UnauthorizedAccessException {
+        if (authContext.account() != null
+                && !usersLogic.getStudentsByAccountId(authContext.account().getId()).isEmpty()) {
             return;
         }
 
@@ -59,10 +59,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified account has instructor privileges in any course.
+     * Verifies that the specified auth context has instructor privileges in any course.
      */
-    void verifyInstructorInAnyCourse(Account account) throws UnauthorizedAccessException {
-        if (account != null && account.getInstructors() != null && !account.getInstructors().isEmpty()) {
+    void verifyInstructorInAnyCourse(AuthContext authContext) throws UnauthorizedAccessException {
+        if (authContext.account() != null
+                && !usersLogic.getInstructorsByAccountId(authContext.account().getId()).isEmpty()) {
             return;
         }
 

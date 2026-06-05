@@ -34,11 +34,11 @@ public class GetNotificationsAction extends Action {
 
         for (NotificationTargetUser targetUser : targetUsers) {
             if (targetUser == NotificationTargetUser.STUDENT) {
-                gateKeeper.verifyStudentInAnyCourse(getCurrentAccount());
+                gateKeeper.verifyStudentInAnyCourse(authContext);
             }
 
             if (targetUser == NotificationTargetUser.INSTRUCTOR) {
-                gateKeeper.verifyInstructorInAnyCourse(getCurrentAccount());
+                gateKeeper.verifyInstructorInAnyCourse(authContext);
             }
         }
     }
