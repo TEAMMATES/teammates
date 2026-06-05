@@ -495,10 +495,10 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the soft-deleted feedback session data for the given feedback session name and instructor ID.
+     * Gets the soft-deleted feedback session data for the given feedback session name.
      */
-    protected FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, String instructorId) {
-        return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorId);
+    protected FeedbackSessionData getSoftDeletedSession(String feedbackSessionName, UUID instructorAccountId) {
+        return BACKDOOR.getSoftDeletedSessionData(feedbackSessionName, instructorAccountId);
     }
 
     /**
@@ -580,9 +580,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      *
      * @param commentId the ID of the comment to update
      * @param commentText the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     * @param instructorAccountId the ID of the instructor account
      */
-    protected void updateResponseInstructorComment(UUID commentId, String commentText, String instructorGoogleId) {
-        BACKDOOR.updateResponseInstructorComment(commentId, commentText, instructorGoogleId);
+    protected void updateResponseInstructorComment(UUID commentId, String commentText, UUID instructorAccountId) {
+        BACKDOOR.updateResponseInstructorComment(commentId, commentText, instructorAccountId);
     }
 }

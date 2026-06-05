@@ -25,9 +25,9 @@ export class TeammatesRouterDirective extends RouterLink {
   }
 
   override get queryParams(): { [k: string]: any } {
-    const userParam: string = this.masqueradeModeService.getMasqueradeUser();
-    if (userParam !== '') {
-      return { ...this.queryParamsInternal, user: userParam };
+    const accountIdParam: string = this.masqueradeModeService.getMasqueradeAccountId();
+    if (accountIdParam !== '') {
+      return { ...this.queryParamsInternal, masqueradeaccountid: accountIdParam };
     }
     return this.queryParamsInternal;
   }

@@ -170,7 +170,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertEquals(1, inTransaction(() -> logic.getInstructorsByCourse(courseId).size()));
 
         InvalidOperationException ioe = verifyInvalidOperation(
-                addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
+                addMasqueradeAccountToParams(instructorToDelete.getAccountId(), submissionParams));
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
@@ -194,7 +194,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertTrue(inTransaction(() -> logic.getInstructorsByCourse(courseId).size() > 1));
 
         DeleteInstructorAction deleteInstructorAction =
-                getAction(addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
+                getAction(addMasqueradeAccountToParams(instructorToDelete.getAccountId(), submissionParams));
         JsonResult response = getJsonResult(deleteInstructorAction);
 
         MessageOutput messageOutput = (MessageOutput) response.getOutput();

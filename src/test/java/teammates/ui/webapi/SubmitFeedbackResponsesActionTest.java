@@ -101,6 +101,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         reset(mockLogic);
 
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        when(mockLogic.getAccount(stubStudent.getAccountId())).thenReturn(stubStudent.getAccount());
+        when(mockLogic.getAccount(stubInstructor.getAccountId())).thenReturn(stubInstructor.getAccount());
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructor);
@@ -892,10 +894,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.USER, stubStudent.getGoogleId(),
         };
 
-        verifyCanMasquerade(stubStudent.getGoogleId(), params);
+        verifyCanMasquerade(stubStudent.getAccountId(), params);
     }
 
     @Test

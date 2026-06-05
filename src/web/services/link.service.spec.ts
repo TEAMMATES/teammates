@@ -64,7 +64,7 @@ describe('Link Service', () => {
 
   it('should generate the home page link', () => {
     expect(service.generateHomePageLink('blahblah', '/comeseetheopressioninherentinthesystem')).toBe(
-      '/web/comeseetheopressioninherentinthesystem?user=blahblah',
+      '/web/comeseetheopressioninherentinthesystem?masqueradeaccountid=blahblah',
     );
   });
 
@@ -77,7 +77,7 @@ describe('Link Service', () => {
   it('should generate the student profile page link', () => {
     expect(service.generateProfilePageLink(mockStudent, 'from my point of view the jedi are evil')).toBe(
       '/web/instructor/courses/student/details?courseid=dog.gma-demo&userid=student-alice' +
-        '&user=from%20my%20point%20of%20view%20the%20jedi%20are%20evil',
+        '&masqueradeaccountid=from%20my%20point%20of%20view%20the%20jedi%20are%20evil',
     );
   });
 

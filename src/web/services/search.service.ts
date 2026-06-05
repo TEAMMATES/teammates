@@ -165,20 +165,20 @@ export class SearchService {
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
-    let masqueradeGoogleId = '';
+    let masqueradeAccountId = '';
     for (const instructor of instructors.instructors) {
-      if (instructor.googleId && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
-        masqueradeGoogleId = instructor.googleId;
+      if (instructor.accountId && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
+        masqueradeAccountId = instructor.accountId;
         break;
       }
     }
     // no instructor with co-owner privileges
     // there is usually at least one instructor with "modify instructor" permission
-    if (masqueradeGoogleId === '') {
+    if (masqueradeAccountId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
-        if (instructor.googleId && instructorPrivilege?.privileges.courseLevel.canModifyInstructor) {
-          masqueradeGoogleId = instructor.googleId;
+        if (instructor.accountId && instructorPrivilege?.privileges.courseLevel.canModifyInstructor) {
+          masqueradeAccountId = instructor.accountId;
           break;
         }
       }
@@ -191,8 +191,8 @@ export class SearchService {
 
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
-    studentResult.homePageLink = this.linkService.generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
-    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeGoogleId);
+    studentResult.homePageLink = this.linkService.generateHomePageLink(accountId, this.linkService.STUDENT_HOME_PAGE);
+    studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeAccountId);
     studentResult.manageAccountLink = this.linkService.generateManageAccountLink(
       accountId,
       this.linkService.ADMIN_ACCOUNTS_PAGE,
@@ -252,7 +252,7 @@ export class SearchService {
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
     instructorResult.homePageLink = this.linkService.generateHomePageLink(
-      googleId,
+      accountId,
       this.linkService.INSTRUCTOR_HOME_PAGE,
     );
     instructorResult.manageAccountLink = this.linkService.generateManageAccountLink(

@@ -127,7 +127,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         // Update the comment via API to ensure updatedAt differs from createdAt
         // (The frontend only shows "edited by" when lastEditedAt !== createdAt)
         String updatedCommentText = comment.getCommentText() + " (edited)";
-        updateResponseInstructorComment(comment.getId(), updatedCommentText, instructor.getGoogleId());
+        updateResponseInstructorComment(comment.getId(), updatedCommentText, instructor.getAccountId());
         // Update local object to match the new comment text in the database
         comment.setCommentText(updatedCommentText);
     }

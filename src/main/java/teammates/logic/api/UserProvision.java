@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import java.util.UUID;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
@@ -106,8 +108,8 @@ public class UserProvision {
      * Checks if the request is a masquerade request.
      */
     protected boolean isMasqueradeRequest(HttpServletRequest req) {
-        String userParam = req.getParameter(Const.ParamsNames.USER);
-        return userParam != null;
+        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        return masqueradeAccountId != null;
     }
 
     /**
@@ -143,6 +145,21 @@ public class UserProvision {
         return account != null;
     }
 
+    /**
+     * Gets a valid masquerade account id from the request parameters.
+     *
+     * @throws UnauthorizedAccessException if the masquerade account id is not a valid UUID
+     */
+    protected UUID getValidMasqueradeAccountId(HttpServletRequest req) throws UnauthorizedAccessException {
+        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        try {
+            return UUID.fromString(masqueradeAccountId);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new UnauthorizedAccessException(
+                    String.format("Masquerade failed: invalid account id format: %s", masqueradeAccountId), e);
+        }
+    }
+
     private Account getAccountFromRequest(HttpServletRequest req) {
         String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
         UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
@@ -152,11 +169,11 @@ public class UserProvision {
         return null;
     }
 
-    private AuthContext handleBackdoorRequest(HttpServletRequest req) {
+    private AuthContext handleBackdoorRequest(HttpServletRequest req) throws UnauthorizedAccessException {
         Account account = null;
         if (isMasqueradeRequest(req)) {
-            String userId = req.getParameter(Const.ParamsNames.USER);
-            account = accountsLogic.getAccountForGoogleId(userId);
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            account = accountsLogic.getAccount(masqueradeAccountUuid);
         }
 
         return new AuthContext(
@@ -192,11 +209,11 @@ public class UserProvision {
                         String.format("Masquerade failed: user %s does not have admin privilege", account.getEmail()));
             }
 
-            String userId = req.getParameter(Const.ParamsNames.USER);
-            effectiveAccount = accountsLogic.getAccountForGoogleId(userId);
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            effectiveAccount = accountsLogic.getAccount(masqueradeAccountUuid);
             if (effectiveAccount == null) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: no account found for user id %s", userId));
+                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountUuid));
             }
         }
 
