@@ -265,9 +265,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets account data from the database.
      */
-    public AccountData getAccountData(String googleId) {
+    public AccountData getAccountData(UUID accountId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
+        params.put(Const.ParamsNames.ACCOUNT_ID, accountId.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;

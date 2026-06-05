@@ -224,7 +224,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getGoogleId())
+                .withParam(Const.ParamsNames.ACCOUNT_ID, student.getAccountId().toString())
                 .toAbsoluteString()
                 : "";
     }
@@ -250,9 +250,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {
-        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
+        String accountId = instructor.isRegistered() ? instructor.getAccountId().toString() : "";
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
+                .withParam(Const.ParamsNames.ACCOUNT_ID, accountId)
                 .toAbsoluteString();
     }
 

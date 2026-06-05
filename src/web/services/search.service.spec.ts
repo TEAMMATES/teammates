@@ -35,6 +35,7 @@ describe('SearchService', () => {
 
   const mockStudent: Student = {
     userId: 'student-alice',
+    accountId: '00000000-0000-4000-8000-00000000000a',
     email: 'alice.b.tmms@gmail.tmt',
     courseId: 'dog.gma-demo',
     courseName: 'Test Course',
@@ -50,6 +51,7 @@ describe('SearchService', () => {
 
   const mockInstructorA: Instructor = {
     userId: '00000000-0000-4000-8000-000000000001',
+    accountId: '00000000-0000-4000-8000-000000000001',
     googleId: 'test@example.com',
     courseId: 'dog.gma-demo',
     courseName: 'Test Course',
@@ -65,6 +67,7 @@ describe('SearchService', () => {
 
   const mockInstructorB: Instructor = {
     userId: '00000000-0000-4000-8000-000000000002',
+    accountId: '00000000-0000-4000-8000-000000000002',
     googleId: 'insB',
     courseId: 'dog.gma-demo',
     courseName: 'Test Course',
@@ -80,6 +83,7 @@ describe('SearchService', () => {
 
   const mockInstructorC: Instructor = {
     userId: '00000000-0000-4000-8000-000000000003',
+    accountId: '00000000-0000-4000-8000-000000000003',
     googleId: 'insC',
     courseId: 'dog.gma-demo',
     courseName: 'Test Course',
@@ -257,7 +261,7 @@ describe('SearchService', () => {
     expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('alice.b.tmms@gmail.tmt');
-    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=alice.b.tmms.sampleData');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-00000000000a');
   });
 
   it('should join students with correct profile page link when course has co-owner', () => {
@@ -294,7 +298,7 @@ describe('SearchService', () => {
     expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('dog@gmail.com');
-    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=test%40example.com');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-000000000001');
     expect(result.homePageLink).toBe('/web/instructor/home?user=test%40example.com');
   });
 
