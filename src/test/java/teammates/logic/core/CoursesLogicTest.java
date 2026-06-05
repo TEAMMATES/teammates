@@ -310,33 +310,6 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetSectionByCourseIdAndTeam_shouldReturnSection_success() {
-        Section section = getTypicalSection();
-        String courseId = section.getCourse().getId();
-        String teamName = section.getName();
-
-        when(coursesDb.getSectionByCourseIdAndTeam(courseId, teamName)).thenReturn(section);
-
-        Section returnedSection = coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
-
-        verify(coursesDb, times(1)).getSectionByCourseIdAndTeam(courseId, teamName);
-        assertNotNull(returnedSection);
-    }
-
-    @Test
-    public void testGetSectionByCourseIdAndTeam_sectionDoesNotExist_returnNull() {
-        String courseId = getTypicalCourse().getId();
-        String teamName = getTypicalSection().getName();
-
-        when(coursesDb.getSectionByCourseIdAndTeam(courseId, teamName)).thenReturn(null);
-
-        Section returnedSection = coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
-
-        verify(coursesDb, times(1)).getSectionByCourseIdAndTeam(courseId, teamName);
-        assertNull(returnedSection);
-    }
-
-    @Test
     public void testCreateTeam_shouldReturnCreatedTeam_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Section section = getTypicalSection();

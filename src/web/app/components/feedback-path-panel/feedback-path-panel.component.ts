@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import {
   FeedbackQuestionType,
+  FeedbackSessionSubmissionStatus,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
@@ -47,8 +48,6 @@ export class FeedbackPathPanelComponent {
     questionBrief: '',
     questionDescription: '',
 
-    isQuestionHasResponses: false,
-
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
@@ -80,6 +79,9 @@ export class FeedbackPathPanelComponent {
   };
 
   @Input()
+  questionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+
+  @Input()
   commonFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> = new Map();
 
   @Input()
@@ -101,6 +103,19 @@ export class FeedbackPathPanelComponent {
   >();
 
   subMenuStatuses: Map<QuestionGiverType, boolean> = new Map();
+
+  get mayHaveExistingResponses(): boolean {
+    // A question may have existing responses if the session was opened before
+    switch (this.questionSubmissionStatus) {
+      case FeedbackSessionSubmissionStatus.CLOSED:
+      case FeedbackSessionSubmissionStatus.OPEN:
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+        return true;
+      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
+      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
+        return false;
+    }
+  }
 
   constructor() {
     this.QuestionRecipientType = QuestionRecipientType;

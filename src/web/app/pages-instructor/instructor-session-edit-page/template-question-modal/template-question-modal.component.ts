@@ -41,8 +41,6 @@ export class TemplateQuestionModalComponent {
           questionBrief: template.question.questionBrief,
           questionDescription: template.question.questionDescription,
 
-          isQuestionHasResponses: false,
-
           questionType: template.question.questionType,
           questionDetails: template.question.questionDetails,
 

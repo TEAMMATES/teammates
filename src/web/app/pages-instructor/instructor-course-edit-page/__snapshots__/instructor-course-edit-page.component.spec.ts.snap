@@ -79,18 +79,18 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
     class="card-body text-center"
   >
     <button
-      class="btn btn-success mx-2 my-1"
-      id="btn-add-instructor"
-      type="button"
-    >
-       Add New Instructor 
-    </button>
-    <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       type="button"
     >
        Copy Instructors from Other Courses 
+    </button>
+    <button
+      class="btn btn-success mx-2 my-1"
+      id="btn-add-instructor"
+      type="button"
+    >
+       Add New Instructor 
     </button>
   </div><div
     class="collapse"
@@ -384,18 +384,18 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
     class="card-body text-center"
   >
     <button
-      class="btn btn-success mx-2 my-1"
-      id="btn-add-instructor"
-      type="button"
-    >
-       Add New Instructor 
-    </button>
-    <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       type="button"
     >
        Copy Instructors from Other Courses 
+    </button>
+    <button
+      class="btn btn-success mx-2 my-1"
+      id="btn-add-instructor"
+      type="button"
+    >
+       Add New Instructor 
     </button>
   </div><div
     class="collapse"
@@ -689,18 +689,18 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
     class="card-body text-center"
   >
     <button
-      class="btn btn-success mx-2 my-1"
-      id="btn-add-instructor"
-      type="button"
-    >
-       Add New Instructor 
-    </button>
-    <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       type="button"
     >
        Copy Instructors from Other Courses 
+    </button>
+    <button
+      class="btn btn-success mx-2 my-1"
+      id="btn-add-instructor"
+      type="button"
+    >
+       Add New Instructor 
     </button>
   </div><div
     class="collapse"
@@ -1153,18 +1153,18 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
     class="card-body text-center"
   >
     <button
-      class="btn btn-success mx-2 my-1"
-      id="btn-add-instructor"
-      type="button"
-    >
-       Add New Instructor 
-    </button>
-    <button
       class="btn btn-info mx-2 my-1"
       id="btn-copy-instructor"
       type="button"
     >
        Copy Instructors from Other Courses 
+    </button>
+    <button
+      class="btn btn-success mx-2 my-1"
+      id="btn-add-instructor"
+      type="button"
+    >
+       Add New Instructor 
     </button>
   </div><div
     class="collapse"

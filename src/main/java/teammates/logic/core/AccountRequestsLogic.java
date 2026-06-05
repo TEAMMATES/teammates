@@ -84,13 +84,6 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Get a list of approved account requests associated with email and institute provided.
-     */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        return accountRequestDb.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
-    }
-
-    /**
      * Deletes account request associated with the {@code id}.
      *
      * <p>

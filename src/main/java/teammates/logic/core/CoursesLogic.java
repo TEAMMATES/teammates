@@ -249,16 +249,6 @@ public final class CoursesLogic {
     }
 
     /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        assert courseId != null;
-        assert teamName != null;
-
-        return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
-    }
-
-    /**
      * Gets the sections for the given {@code courseId}.
      */
     public Set<Section> getSectionsForCourse(String courseId) throws EntityDoesNotExistException {
