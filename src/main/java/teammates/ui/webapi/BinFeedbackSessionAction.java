@@ -30,7 +30,7 @@ public class BinFeedbackSessionAction extends Action {
         }
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

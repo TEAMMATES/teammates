@@ -50,9 +50,9 @@ public class CreateResponseInstructorCommentAction extends Action {
         ResponseRecipient recipient = feedbackResponse.getRecipient();
         String recipientSectionName = recipient.getSectionName();
         gateKeeper.verifyInstructorCanAccessSession(instructor, session);
-        gateKeeper.verifyAccessible(instructor, giverSectionName,
+        gateKeeper.verifyInstructorHasPrivilege(instructor, giverSectionName,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, recipientSectionName,
+        gateKeeper.verifyInstructorHasPrivilege(instructor, recipientSectionName,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for instructor comment");

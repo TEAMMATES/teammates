@@ -47,9 +47,9 @@ public class DeleteResponseInstructorCommentAction extends Action {
         String giverSectionName = giver.getSectionName();
         String recipientSectionName = response.getRecipient().getSectionName();
         gateKeeper.verifyInstructorCanAccessSession(instructor, session);
-        gateKeeper.verifyAccessible(instructor, giverSectionName,
+        gateKeeper.verifyInstructorHasPrivilege(instructor, giverSectionName,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, recipientSectionName,
+        gateKeeper.verifyInstructorHasPrivilege(instructor, recipientSectionName,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

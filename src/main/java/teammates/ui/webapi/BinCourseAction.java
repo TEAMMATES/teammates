@@ -23,7 +23,7 @@ public class BinCourseAction extends Action {
 
         Course course = logic.getCourse(idOfCourseToBin);
         gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(idOfCourseToBin), course);
-        gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToBin),
+        gateKeeper.verifyInstructorHasPrivilege(getInstructorFromRequest(idOfCourseToBin),
                 Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

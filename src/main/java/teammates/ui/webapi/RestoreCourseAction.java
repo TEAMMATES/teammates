@@ -22,7 +22,7 @@ public class RestoreCourseAction extends Action {
         Course course = logic.getCourse(idOfCourseToRestore);
 
         gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(idOfCourseToRestore), course);
-        gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToRestore),
+        gateKeeper.verifyInstructorHasPrivilege(getInstructorFromRequest(idOfCourseToRestore),
                 Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

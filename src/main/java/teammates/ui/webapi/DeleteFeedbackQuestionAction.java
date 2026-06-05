@@ -35,7 +35,7 @@ public class DeleteFeedbackQuestionAction extends Action {
         FeedbackSession feedbackSession = getNonNullFeedbackSession(question.getFeedbackSession().getName(),
                 question.getCourseId());
         gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
 
     }
 

@@ -48,9 +48,9 @@ public class UpdateResponseInstructorCommentAction extends Action {
             return;
         }
         gateKeeper.verifyInstructorCanAccessSession(instructor, session);
-        gateKeeper.verifyAccessible(instructor, response.getGiver().getSectionName(),
+        gateKeeper.verifyInstructorHasPrivilege(instructor, response.getGiver().getSectionName(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, response.getRecipient().getSectionName(),
+        gateKeeper.verifyInstructorHasPrivilege(instructor, response.getRecipient().getSectionName(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

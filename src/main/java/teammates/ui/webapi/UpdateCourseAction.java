@@ -29,7 +29,7 @@ public class UpdateCourseAction extends Action {
         Instructor instructor = getInstructorFromRequest(courseId);
 
         gateKeeper.verifyInstructorInCourse(instructor, course);
-        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

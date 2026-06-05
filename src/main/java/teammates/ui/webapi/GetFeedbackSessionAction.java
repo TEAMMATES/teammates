@@ -55,7 +55,8 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             Instructor fullDetailInstructor = getInstructorFromRequest(courseId);
             gateKeeper.verifyInstructorCanAccessSession(fullDetailInstructor, feedbackSession);
-            gateKeeper.verifyAccessible(fullDetailInstructor, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            gateKeeper.verifyInstructorHasPrivilege(fullDetailInstructor,
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

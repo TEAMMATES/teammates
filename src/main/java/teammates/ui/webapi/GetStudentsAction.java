@@ -34,7 +34,7 @@ public class GetStudentsAction extends Action {
             // request to get all students of a course by instructor
             Instructor instructor = getInstructorFromRequest(courseId);
             gateKeeper.verifyInstructorInCourse(instructor, logic.getCourse(courseId));
-            gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
+            gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
             Student student = getStudentFromRequest(courseId);

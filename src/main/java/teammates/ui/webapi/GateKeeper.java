@@ -127,7 +127,7 @@ final class GateKeeper {
     /**
      * Verifies the instructor is not null and has the privilege specified by privilegeName.
      */
-    void verifyAccessible(Instructor instructor, String privilegeName)
+    void verifyInstructorHasPrivilege(Instructor instructor, String privilegeName)
             throws UnauthorizedAccessException {
         boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
         boolean instructorIsAllowedSectionPrivilege = !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
@@ -140,7 +140,7 @@ final class GateKeeper {
     /**
      * Verifies the instructor is not null and has the privilege specified by privilegeName for sectionName.
      */
-    void verifyAccessible(Instructor instructor, String sectionName, String privilegeName)
+    void verifyInstructorHasPrivilege(Instructor instructor, String sectionName, String privilegeName)
             throws UnauthorizedAccessException {
         verifyNotNull(sectionName, "section name");
 

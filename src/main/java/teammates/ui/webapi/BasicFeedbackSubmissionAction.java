@@ -125,7 +125,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
             gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-            gateKeeper.verifyAccessible(instructor,
+            gateKeeper.verifyInstructorHasPrivilege(instructor,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
@@ -168,11 +168,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-            gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            gateKeeper.verifyInstructorHasPrivilege(instructor,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-            gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            gateKeeper.verifyInstructorHasPrivilege(instructor,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }
@@ -191,7 +193,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
         if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-            gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
         } else {
             checkAccessControlForPreview(feedbackSession);
         }
@@ -202,7 +204,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges(authContext);
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
-        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     /**

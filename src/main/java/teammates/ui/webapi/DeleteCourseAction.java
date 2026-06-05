@@ -21,7 +21,7 @@ public class DeleteCourseAction extends Action {
         Course course = logic.getCourse(idOfCourseToDelete);
 
         gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(idOfCourseToDelete), course);
-        gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToDelete),
+        gateKeeper.verifyInstructorHasPrivilege(getInstructorFromRequest(idOfCourseToDelete),
                 Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
