@@ -198,7 +198,7 @@ public class UserProvision {
             effectiveAccount = accountsLogic.getAccount(UUID.fromString(masqueradeAccountId));
             if (effectiveAccount == null) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: no account found for user id %s", masqueradeAccountId));
+                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountId));
             }
         }
 
