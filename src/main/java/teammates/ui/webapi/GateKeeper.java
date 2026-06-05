@@ -95,7 +95,7 @@ final class GateKeeper {
     /**
      * Verifies that the specified student can access the specified feedback session.
      */
-    void verifyAccessible(Student student, FeedbackSession feedbackSession)
+    void verifyStudentCanAccessSession(Student student, FeedbackSession feedbackSession)
             throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
         verifyNotNull(feedbackSession, "feedback session");
@@ -107,6 +107,20 @@ final class GateKeeper {
 
         if (!feedbackSession.isVisible()) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+        }
+    }
+
+    /**
+     * Verifies that the specified instructor can access the specified feedback session.
+     */
+    void verifyInstructorCanAccessSession(Instructor instructor, FeedbackSession feedbackSession)
+            throws UnauthorizedAccessException {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(feedbackSession, "feedback session");
+
+        if (!instructor.getCourse().equals(feedbackSession.getCourse())) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
+                                                  + "] is not accessible to instructor [" + instructor.getEmail() + "]");
         }
     }
 
@@ -138,27 +152,13 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified instructor can access the specified feedback session.
-     */
-    void verifyAccessible(Instructor instructor, FeedbackSession feedbackSession)
-            throws UnauthorizedAccessException {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(feedbackSession, "feedback session");
-
-        if (!instructor.getCourse().equals(feedbackSession.getCourse())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail() + "]");
-        }
-    }
-
-    /**
      * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
      * privilegeName for feedbackSession.
      */
     void verifyAccessible(Instructor instructor, FeedbackSession feedbacksession, String privilegeName)
             throws UnauthorizedAccessException {
-        verifyAccessible(instructor, feedbacksession);
+        verifyInstructorCanAccessSession(instructor, feedbacksession);
 
         if (!instructor.isAllowedForPrivilege(privilegeName)
                 && !instructor.isAllowedForPrivilegeAnySection(feedbacksession.getName(), privilegeName)) {
@@ -173,7 +173,7 @@ final class GateKeeper {
      */
     void verifyAccessible(Instructor instructor, FeedbackSession feedbackSession, String sectionName, String privilegeName)
             throws UnauthorizedAccessException {
-        verifyAccessible(instructor, feedbackSession);
+        verifyInstructorCanAccessSession(instructor, feedbackSession);
 
         if (!instructor.isAllowedForPrivilege(sectionName, feedbackSession.getName(), privilegeName)) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()

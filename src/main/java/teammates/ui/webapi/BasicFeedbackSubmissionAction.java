@@ -130,7 +130,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             checkAccessControlForPreview(feedbackSession);
         } else {
-            gateKeeper.verifyAccessible(student, feedbackSession);
+            gateKeeper.verifyStudentCanAccessSession(student, feedbackSession);
         }
     }
 
@@ -146,7 +146,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(student, feedbackSession);
+            gateKeeper.verifyStudentCanAccessSession(student, feedbackSession);
         } else {
             checkAccessControlForPreview(feedbackSession);
         }

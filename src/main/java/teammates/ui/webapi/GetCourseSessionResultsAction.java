@@ -29,7 +29,7 @@ public class GetCourseSessionResultsAction extends Action {
         }
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyAccessible(instructor, feedbackSession);
+        gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
     }
 
     @Override

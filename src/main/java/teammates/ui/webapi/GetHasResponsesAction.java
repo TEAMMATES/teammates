@@ -61,7 +61,7 @@ public class GetHasResponsesAction extends Action {
                 continue;
             }
 
-            gateKeeper.verifyAccessible(
+            gateKeeper.verifyStudentCanAccessSession(
                     getStudentFromRequest(courseId),
                     feedbackSession);
         }
@@ -128,7 +128,7 @@ public class GetHasResponsesAction extends Action {
 
         String courseId = feedbackQuestion.getCourseId();
         FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
-        gateKeeper.verifyAccessible(
+        gateKeeper.verifyInstructorCanAccessSession(
                 getInstructorFromRequest(courseId),
                 feedbackSession);
     }
