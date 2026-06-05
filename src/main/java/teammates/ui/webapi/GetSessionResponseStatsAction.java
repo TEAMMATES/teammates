@@ -31,7 +31,7 @@ public class GetSessionResponseStatsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
 

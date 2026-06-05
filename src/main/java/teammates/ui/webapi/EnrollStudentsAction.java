@@ -35,7 +35,7 @@ public class EnrollStudentsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(courseId);
         gateKeeper.verifyAccessible(
                     instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }

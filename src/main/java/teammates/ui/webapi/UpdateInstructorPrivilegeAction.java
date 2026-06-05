@@ -33,7 +33,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
 
         String courseId = instructorToUpdate.getCourseId();
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(courseId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }

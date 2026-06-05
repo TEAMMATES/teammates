@@ -21,7 +21,7 @@ public class RestoreCourseAction extends Action {
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = logic.getCourse(idOfCourseToRestore);
 
-        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToRestore, getCurrentUserGoogleId()),
+        gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToRestore),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

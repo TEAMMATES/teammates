@@ -40,7 +40,7 @@ public class GetStudentAction extends Action {
                 throw new EntityNotFoundException(STUDENT_NOT_FOUND);
             }
 
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+            Instructor instructor = getInstructorFromRequest(courseId);
 
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     student.getTeamName(),

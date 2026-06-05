@@ -36,7 +36,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         gateKeeper.verifyAccessible(
                 instructor,
                 feedbackSession,
@@ -66,7 +66,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify = isSendingCopyToInstructor
-                ? logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId())
+                ? getInstructorFromRequest(feedbackSession.getCourseId())
                 : null;
 
         for (UUID userId : usersToRemind) {

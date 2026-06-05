@@ -31,7 +31,7 @@ public class SendJoinReminderEmailAction extends Action {
             throw new EntityNotFoundException("Course does not exist!");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(course.getId(), getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(course.getId());
 
         if (user == null || user instanceof Student) {
             gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
@@ -56,7 +56,7 @@ public class SendJoinReminderEmailAction extends Action {
 
         } else if (user instanceof Instructor instructorData) {
             Course course = instructorData.getCourse();
-            Instructor inviter = logic.getInstructorByGoogleId(course.getId(), getCurrentUserGoogleId());
+            Instructor inviter = getInstructorFromRequest(course.getId());
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter does not exist.");
             }
