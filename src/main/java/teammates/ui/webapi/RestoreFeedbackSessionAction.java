@@ -30,10 +30,9 @@ public class RestoreFeedbackSessionAction extends Action {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
-        gateKeeper.verifyAccessible(
-                getInstructorFromRequest(feedbackSession.getCourseId()),
-                feedbackSession,
-                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

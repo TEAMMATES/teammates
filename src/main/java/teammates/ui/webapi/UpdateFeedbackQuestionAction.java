@@ -6,6 +6,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackQuestionData;
@@ -31,9 +33,11 @@ public class UpdateFeedbackQuestionAction extends Action {
             throw new EntityNotFoundException("Unknown question id");
         }
 
-        gateKeeper.verifyAccessible(getInstructorFromRequest(feedbackQuestion.getCourseId()),
-                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSession().getName(), feedbackQuestion.getCourseId()),
-                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        Instructor instructor = getInstructorFromRequest(feedbackQuestion.getCourseId());
+        FeedbackSession feedbackSession = getNonNullFeedbackSession(
+                feedbackQuestion.getFeedbackSession().getName(), feedbackQuestion.getCourseId());
+        gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

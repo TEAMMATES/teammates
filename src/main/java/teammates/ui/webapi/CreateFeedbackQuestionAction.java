@@ -37,8 +37,8 @@ public class CreateFeedbackQuestionAction extends Action {
 
         Instructor instructorDetailForCourse =
                 getInstructorFromRequest(feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorCanAccessSession(instructorDetailForCourse, feedbackSession);
         gateKeeper.verifyAccessible(instructorDetailForCourse,
-                feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

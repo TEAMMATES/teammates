@@ -504,8 +504,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
         UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Feedback session [test-feedbacksession] is not accessible to instructor "
-                + "[valid1@teammates.tmt] for privilege [canmodifysessioncommentinsection]", uae2.getMessage());
+        assertEquals("Instructor [valid1@teammates.tmt] does not have privilege [canmodifysessioncommentinsection]",
+                uae2.getMessage());
     }
 
     @Test

@@ -152,38 +152,6 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName for feedbackSession.
-     */
-    void verifyAccessible(Instructor instructor, FeedbackSession feedbacksession, String privilegeName)
-            throws UnauthorizedAccessException {
-        verifyInstructorCanAccessSession(instructor, feedbacksession);
-
-        if (!instructor.isAllowedForPrivilege(privilegeName)
-                && !instructor.isAllowedForPrivilegeAnySection(feedbacksession.getName(), privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail()
-                                                  + "] for privilege [" + privilegeName + "]");
-        }
-    }
-
-    /**
-     * Verifies that the specified instructor has specified privilege for a section in the specified feedback session.
-     */
-    void verifyAccessible(Instructor instructor, FeedbackSession feedbackSession, String sectionName, String privilegeName)
-            throws UnauthorizedAccessException {
-        verifyInstructorCanAccessSession(instructor, feedbackSession);
-
-        if (!instructor.isAllowedForPrivilege(sectionName, feedbackSession.getName(), privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail()
-                                                  + "] for privilege [" + privilegeName + "] on section ["
-                                                  + sectionName + "]");
-        }
-    }
-
-    /**
      * Verifies that an instructor has submission privilege for a feedback session.
      */
     void verifySessionSubmissionPrivilegeForInstructor(FeedbackSession session, Instructor instructor)
