@@ -7,7 +7,7 @@ import teammates.storage.entity.AccountRequest;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new account request.

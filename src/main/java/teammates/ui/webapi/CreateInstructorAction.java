@@ -17,7 +17,7 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * Action: adds another instructor to a course that already exists.
