@@ -109,7 +109,7 @@ public class Logic {
     /**
      * Returns the student associated with the given authentication context and
      * course ID.
-     * 
+     *
      * <p>
      * If the authentication type is REG_KEY, it returns the unregistered student
      * from the authentication context.
@@ -123,7 +123,7 @@ public class Logic {
     /**
      * Returns the instructor associated with the given authentication context and
      * course ID.
-     * 
+     *
      * <p>
      * If the authentication type is REG_KEY, it returns the unregistered instructor
      * from the authentication context. Otherwise, it retrieves the instructor from
