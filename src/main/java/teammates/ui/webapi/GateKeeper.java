@@ -109,10 +109,6 @@ final class GateKeeper {
             throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
                                                   + "] is not accessible to student [" + student.getEmail() + "]");
         }
-
-        if (!feedbackSession.isVisible()) {
-            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
-        }
     }
 
     /**

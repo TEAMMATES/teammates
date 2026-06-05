@@ -132,6 +132,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             checkAccessControlForPreview(feedbackSession);
         } else {
             gateKeeper.verifyStudentCanAccessSession(student, feedbackSession);
+            if (!feedbackSession.isVisible()) {
+                throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+            }
         }
     }
 
@@ -148,6 +151,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
         if (StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyStudentCanAccessSession(student, feedbackSession);
+            if (!feedbackSession.isVisible()) {
+                throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+            }
         } else {
             checkAccessControlForPreview(feedbackSession);
         }
