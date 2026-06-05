@@ -225,9 +225,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedStudentManageAccountLink(Student student) {
-        UUID accountId = student.isRegistered() ? student.getAccountId() : null;
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withMasqueradeAccount(accountId)
+                .withParam(Const.ParamsNames.ACCOUNT_ID, student.getAccountId().toString())
                 .toAbsoluteString()
                 : "";
     }
@@ -253,9 +252,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {
-        UUID accountId = instructor.isRegistered() ? instructor.getAccountId() : null;
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withMasqueradeAccount(accountId)
+                .withParam(Const.ParamsNames.ACCOUNT_ID, instructor.getAccountId().toString())
                 .toAbsoluteString();
     }
 

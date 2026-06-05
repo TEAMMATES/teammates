@@ -157,7 +157,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     protected String[] addMasqueradeAccountToParams(UUID accountId, String[] params) {
         List<String> list = new ArrayList<>();
         list.add(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
-        list.add(accountId.toString());
+        list.add(accountId == null ? "" : accountId.toString());
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
     }

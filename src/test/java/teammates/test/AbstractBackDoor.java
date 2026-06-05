@@ -376,10 +376,11 @@ public abstract class AbstractBackDoor {
     /**
      * Get soft deleted feedback session from database.
      */
-    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName) {
+    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName, UUID instructorAccountId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
+        params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -442,11 +443,13 @@ public abstract class AbstractBackDoor {
      *
      * @param commentId the ID of the comment to update
      * @param commentText the new comment text
+     * @param instructorAccountId the ID of the instructor account
      */
-    public void updateResponseInstructorComment(UUID commentId, String commentText) {
+    public void updateResponseInstructorComment(UUID commentId, String commentText, UUID instructorAccountId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
+        params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
 
         ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
                 commentText,

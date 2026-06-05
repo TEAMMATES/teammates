@@ -274,7 +274,7 @@ describe('SearchService', () => {
     );
     expect(result.profilePageLink).toBe(
       '/web/instructor/courses/student/details?' +
-        'courseid=dog.gma-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000003',
+        'courseid=dog.gma-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000001',
     );
   });
 

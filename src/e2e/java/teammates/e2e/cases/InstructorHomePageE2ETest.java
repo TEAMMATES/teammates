@@ -197,7 +197,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         otherCourseIndex = 1;
         FeedbackSession[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
-        assertNotNull(getSoftDeletedSession(copiedSession2.getName()));
+        assertNotNull(getSoftDeletedSession(copiedSession2.getName(), instructor.getAccountId()));
 
         ______TS("delete course");
         otherCourseIndex = 1;
