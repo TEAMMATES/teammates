@@ -27,36 +27,35 @@ public class UsersDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getUser_userExists_returnsUser() {
-        UUID studentId = given.student("student");
+        var student = given.student("student");
         persistGivenData(given);
 
-        User actual = inTransaction(() -> usersDb.getUser(studentId));
+        User actual = inTransaction(() -> usersDb.getUser(student.id()));
 
         assertNotNull(actual);
-        assertEquals(studentId, actual.getId());
+        assertEquals(student.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void getUserByRegKey_userExists_returnsUser() {
-        UUID instructorId = given.instructor("instructor");
+        var instructor = given.instructor("instructor");
         persistGivenData(given);
-        String regKey = getEntityInTransaction(Instructor.class, instructorId).getRegKey();
 
-        User actual = inTransaction(() -> usersDb.getUserByRegKey(regKey));
+        User actual = inTransaction(() -> usersDb.getUserByRegKey(instructor.regKey()));
 
         assertNotNull(actual);
-        assertEquals(instructorId, actual.getId());
+        assertEquals(instructor.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void persistInstructor_instructorIsNew_instructorIsPersisted() {
-        String courseId = given.course("course");
+        var course = given.course("course");
         persistGivenData(given);
-        UUID instructorId = given.uuid("instructor");
+        var instructorId = given.uuid("instructor");
 
         Instructor actual = inTransaction(() -> {
-            Course course = getEntity(Course.class, courseId);
-            Instructor instructor = buildDefaultInstructor(course, instructorId);
+            Course courseEntity = getEntity(Course.class, course.id());
+            Instructor instructor = buildDefaultInstructor(courseEntity, instructorId);
             return usersDb.persistInstructor(instructor);
         });
 
@@ -66,12 +65,12 @@ public class UsersDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistStudent_studentIsNew_studentIsPersisted() {
-        UUID teamId = given.team("team");
+        var teamRef = given.team("team");
         persistGivenData(given);
-        UUID studentId = given.uuid("student");
+        var studentId = given.uuid("student");
 
         Student actual = inTransaction(() -> {
-            Team team = getEntity(Team.class, teamId);
+            Team team = getEntity(Team.class, teamRef.id());
             Student student = buildDefaultStudent(team, studentId);
             return usersDb.persistStudent(student);
         });
@@ -82,57 +81,61 @@ public class UsersDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void removeUser_userExists_userIsRemoved() {
-        UUID studentId = given.student("student");
+        var student = given.student("student");
         persistGivenData(given);
 
-        inTransaction(() -> usersDb.removeUser(usersDb.getStudent(studentId)));
+        inTransaction(() -> usersDb.removeUser(usersDb.getStudent(student.id())));
 
-        verifyAbsentInDatabase(Student.class, studentId);
+        verifyAbsentInDatabase(Student.class, student.id());
     }
 
     @Test(groups = GroupNames.DB)
     public void getUsersForCourse_usersExist_returnsInstructorsAndStudentsForCourse() {
-        String courseId = given.course("course");
-        UUID instructorId = given.instructor("instructor", i -> i.course("course"));
-        UUID studentId = given.student("student", s -> s.course("course"));
+        var course = given.course("course");
+        var instructor = given.instructor("instructor", i -> i.course(course.alias()));
+        var student = given.student("student", s -> s.course(course.alias()));
         given.instructor("another-instructor", i -> i.course("another-course"));
         given.student("another-student", s -> s.course("another-course"));
         persistGivenData(given);
 
-        List<User> actual = inTransaction(() -> usersDb.getUsersForCourse(courseId));
+        List<User> actual = inTransaction(() -> usersDb.getUsersForCourse(course.id()));
 
-        assertEquals(Set.of(instructorId, studentId), actual.stream().map(User::getId).collect(Collectors.toSet()));
+        assertEquals(Set.of(instructor.id(), student.id()), actual.stream().map(User::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getStudentsForTeam_studentsExist_returnsStudentsInMatchingCourseAndTeam() {
-        String courseId = given.course("course");
-        given.team("team", t -> t.course("course").name("Team Name"));
-        given.team("another-team", t -> t.course("course").name("Another Team Name"));
-        given.team("another-course-team", t -> t.course("another-course").name("Team Name"));
-        UUID studentId = given.student("student", s -> s.course("course").team("team"));
-        given.student("another-team-student", s -> s.course("course").team("another-team"));
-        given.student("another-course-student", s -> s.course("another-course").team("another-course-team"));
+        var course = given.course("course");
+        var team = given.team("team", t -> t.course(course.alias()).name("Team Name"));
+        var anotherTeam = given.team("another-team", t -> t.course(course.alias()).name("Another Team Name"));
+        var anotherCourse = given.course("another-course");
+        var anotherCourseTeam = given.team("another-course-team",
+                t -> t.course(anotherCourse.alias()).name("Team Name"));
+        var student = given.student("student", s -> s.course(course.alias()).team(team.alias()));
+        given.student("another-team-student", s -> s.course(course.alias()).team(anotherTeam.alias()));
+        given.student("another-course-student",
+                s -> s.course(anotherCourse.alias()).team(anotherCourseTeam.alias()));
         persistGivenData(given);
 
-        List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam("Team Name", courseId));
+        List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam("Team Name", course.id()));
 
-        assertEquals(List.of(studentId), actual.stream().map(Student::getId).toList());
+        assertEquals(List.of(student.id()), actual.stream().map(Student::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void deleteStudentsInCourse_studentsExist_deletesOnlyStudentsInCourse() {
-        String courseId = given.course("course");
-        UUID studentId1 = given.student("student-1", s -> s.course("course"));
-        UUID studentId2 = given.student("student-2", s -> s.course("course"));
-        UUID anotherCourseStudentId = given.student("another-course-student", s -> s.course("another-course"));
+        var course = given.course("course");
+        var student1 = given.student("student-1", s -> s.course(course.alias()));
+        var student2 = given.student("student-2", s -> s.course(course.alias()));
+        var anotherCourse = given.course("another-course");
+        var anotherCourseStudent = given.student("another-course-student", s -> s.course(anotherCourse.alias()));
         persistGivenData(given);
 
-        inTransaction(() -> usersDb.deleteStudentsInCourse(courseId));
+        inTransaction(() -> usersDb.deleteStudentsInCourse(course.id()));
 
-        verifyAbsentInDatabase(Student.class, studentId1);
-        verifyAbsentInDatabase(Student.class, studentId2);
-        verifyPresentInDatabase(Student.class, anotherCourseStudentId);
+        verifyAbsentInDatabase(Student.class, student1.id());
+        verifyAbsentInDatabase(Student.class, student2.id());
+        verifyPresentInDatabase(Student.class, anotherCourseStudent.id());
     }
 
     // TODO: add tests for search related methods in UsersDb

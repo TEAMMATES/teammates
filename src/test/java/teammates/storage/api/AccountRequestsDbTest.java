@@ -23,13 +23,13 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getAccountRequest_accountRequestExists_returnsAccountRequest() {
-        UUID accountRequestId = given.accountRequest("account-request");
+        var accountRequest = given.accountRequest("account-request");
         persistGivenData(given);
 
-        AccountRequest actual = inTransaction(() -> accountRequestsDb.getAccountRequest(accountRequestId));
+        AccountRequest actual = inTransaction(() -> accountRequestsDb.getAccountRequest(accountRequest.id()));
 
         assertNotNull(actual);
-        assertEquals(accountRequestId, actual.getId());
+        assertEquals(accountRequest.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
@@ -45,7 +45,7 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistAccountRequest_accountRequestIsNew_accountRequestIsPersisted() {
-        UUID accountRequestId = given.uuid("account-request");
+        var accountRequestId = given.uuid("account-request");
         AccountRequest accountRequest = buildDefaultAccountRequest(accountRequestId);
 
         AccountRequest actual = inTransaction(() -> accountRequestsDb.persistAccountRequest(accountRequest));
@@ -57,22 +57,22 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getPendingAccountRequests_accountRequestsExist_returnsOnlyPendingRequestsInCreatedAtOrder() {
         Instant now = Instant.now();
-        UUID olderPendingRequestId = given.accountRequest("older-pending-request",
+        var olderPendingRequest = given.accountRequest("older-pending-request",
                 ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));
-        UUID newerPendingRequestId = given.accountRequest("newer-pending-request",
+        var newerPendingRequest = given.accountRequest("newer-pending-request",
                 ar -> ar.pending().createdAt(now.minus(1, ChronoUnit.HOURS)));
         given.accountRequest("approved-request", ar -> ar.approved());
         persistGivenData(given);
 
         List<AccountRequest> actual = inTransaction(accountRequestsDb::getPendingAccountRequests);
 
-        assertEquals(List.of(newerPendingRequestId, olderPendingRequestId),
+        assertEquals(List.of(newerPendingRequest.id(), olderPendingRequest.id()),
                 actual.stream().map(AccountRequest::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void getAccountRequestByRegistrationKey_accountRequestExists_returnsAccountRequest() {
-        UUID accountRequestId = given.accountRequest("account-request",
+        var accountRequest = given.accountRequest("account-request",
                 ar -> ar.registrationKey("registration-key"));
         given.accountRequest("another-account-request", ar -> ar.registrationKey("another-registration-key"));
         persistGivenData(given);
@@ -81,18 +81,18 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
                 () -> accountRequestsDb.getAccountRequestByRegistrationKey("registration-key"));
 
         assertNotNull(actual);
-        assertEquals(accountRequestId, actual.getId());
+        assertEquals(accountRequest.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void removeAccountRequest_accountRequestExists_accountRequestIsRemoved() {
-        UUID accountRequestId = given.accountRequest("account-request");
+        var accountRequest = given.accountRequest("account-request");
         persistGivenData(given);
 
         inTransaction(() -> accountRequestsDb.removeAccountRequest(
-                accountRequestsDb.getAccountRequest(accountRequestId)));
+                accountRequestsDb.getAccountRequest(accountRequest.id())));
 
-        verifyAbsentInDatabase(AccountRequest.class, accountRequestId);
+        verifyAbsentInDatabase(AccountRequest.class, accountRequest.id());
     }
 
     private static AccountRequest buildDefaultAccountRequest(UUID accountRequestId) {

@@ -45,7 +45,7 @@ import teammates.storage.entity.Team;
  * test, they will be automatically created with default values.
  *
  * <pre>
- * UUID teamId = given.team("teamAlias");
+ * TeamRef team = given.team("teamAlias");
  * </pre>
  *
  * <p>
@@ -53,8 +53,8 @@ import teammates.storage.entity.Team;
  * customize them.
  *
  * <pre>
- * String courseId = given.course("courseAlias", c -> c.name("Custom Course Name"));
- * String softDeletedCourseId = given.course("softDeletedCourseAlias", c -> {
+ * CourseRef course = given.course("courseAlias", c -> c.name("Custom Course Name"));
+ * CourseRef softDeletedCourse = given.course("softDeletedCourseAlias", c -> {
  *     c.name("Soft Deleted Course");
  *     c.softDeleted();
  * });
@@ -67,8 +67,8 @@ import teammates.storage.entity.Team;
  * course alias in the section options.
  *
  * <pre>
- * String courseId = given.course("courseAlias");
- * UUID sectionId = given.section("sectionAlias", s -> s.course("courseAlias"));
+ * CourseRef course = given.course("courseAlias");
+ * SectionRef section = given.section("sectionAlias", s -> s.course(course.alias()));
  * </pre>
  *
  * <p>
@@ -93,7 +93,7 @@ public final class GivenData {
     /**
      * Creates an account with default values.
      */
-    public UUID account(String alias) {
+    public AccountRef account(String alias) {
         return account(alias, a -> {
         });
     }
@@ -101,18 +101,18 @@ public final class GivenData {
     /**
      * Creates an account and applies the provided options to customize it.
      */
-    public UUID account(String alias, Consumer<GivenAccount> options) {
+    public AccountRef account(String alias, Consumer<GivenAccount> options) {
         GivenAccount accountData = new GivenAccount(this, uuid(alias));
         options.accept(accountData);
         Account account = accountData.build();
         registerEntity(alias, account, dataBundle.accounts);
-        return account.getId();
+        return new AccountRef(account.getId(), alias);
     }
 
     /**
      * Creates an account request with default values.
      */
-    public UUID accountRequest(String alias) {
+    public AccountRequestRef accountRequest(String alias) {
         return accountRequest(alias, ar -> {
         });
     }
@@ -120,18 +120,18 @@ public final class GivenData {
     /**
      * Creates an account request and applies the provided options to customize it.
      */
-    public UUID accountRequest(String alias, Consumer<GivenAccountRequest> options) {
+    public AccountRequestRef accountRequest(String alias, Consumer<GivenAccountRequest> options) {
         GivenAccountRequest accountRequestData = new GivenAccountRequest(this, uuid(alias));
         options.accept(accountRequestData);
         AccountRequest accountRequest = accountRequestData.build();
         registerEntity(alias, accountRequest, dataBundle.accountRequests);
-        return accountRequest.getId();
+        return new AccountRequestRef(accountRequest.getId(), alias);
     }
 
     /**
      * Creates a course with default values.
      */
-    public String course(String alias) {
+    public CourseRef course(String alias) {
         return course(alias, c -> {
         });
     }
@@ -139,18 +139,18 @@ public final class GivenData {
     /**
      * Creates a course and applies the provided options to customize it.
      */
-    public String course(String alias, Consumer<GivenCourse> options) {
+    public CourseRef course(String alias, Consumer<GivenCourse> options) {
         GivenCourse courseData = new GivenCourse(this, stringId(alias));
         options.accept(courseData);
         Course course = courseData.build();
         registerEntity(alias, course, dataBundle.courses);
-        return course.getId();
+        return new CourseRef(course.getId(), alias);
     }
 
     /**
      * Creates a section with default values.
      */
-    public UUID section(String alias) {
+    public SectionRef section(String alias) {
         return section(alias, s -> {
         });
     }
@@ -158,18 +158,18 @@ public final class GivenData {
     /**
      * Creates a section and applies the provided options to customize it.
      */
-    public UUID section(String alias, Consumer<GivenSection> options) {
+    public SectionRef section(String alias, Consumer<GivenSection> options) {
         GivenSection sectionData = new GivenSection(this, uuid(alias));
         options.accept(sectionData);
         Section section = sectionData.build();
         registerEntity(alias, section, dataBundle.sections);
-        return section.getId();
+        return new SectionRef(section.getId(), alias);
     }
 
     /**
      * Creates a team with default values.
      */
-    public UUID team(String alias) {
+    public TeamRef team(String alias) {
         return team(alias, t -> {
         });
     }
@@ -177,18 +177,18 @@ public final class GivenData {
     /**
      * Creates a team and applies the provided options to customize it.
      */
-    public UUID team(String alias, Consumer<GivenTeam> options) {
+    public TeamRef team(String alias, Consumer<GivenTeam> options) {
         GivenTeam teamData = new GivenTeam(this, uuid(alias));
         options.accept(teamData);
         Team team = teamData.build();
         registerEntity(alias, team, dataBundle.teams);
-        return team.getId();
+        return new TeamRef(team.getId(), alias);
     }
 
     /**
      * Creates a student with default values.
      */
-    public UUID student(String alias) {
+    public StudentRef student(String alias) {
         return student(alias, s -> {
         });
     }
@@ -196,18 +196,18 @@ public final class GivenData {
     /**
      * Creates a student and applies the provided options to customize it.
      */
-    public UUID student(String alias, Consumer<GivenStudent> options) {
+    public StudentRef student(String alias, Consumer<GivenStudent> options) {
         GivenStudent studentData = new GivenStudent(this, uuid(alias));
         options.accept(studentData);
         Student student = studentData.build();
         registerEntity(alias, student, dataBundle.students);
-        return student.getId();
+        return new StudentRef(student.getId(), alias, student.getRegKey());
     }
 
     /**
      * Creates an instructor with default values.
      */
-    public UUID instructor(String alias) {
+    public InstructorRef instructor(String alias) {
         return instructor(alias, i -> {
         });
     }
@@ -215,18 +215,18 @@ public final class GivenData {
     /**
      * Creates an instructor and applies the provided options to customize it.
      */
-    public UUID instructor(String alias, Consumer<GivenInstructor> options) {
+    public InstructorRef instructor(String alias, Consumer<GivenInstructor> options) {
         GivenInstructor instructorData = new GivenInstructor(this, uuid(alias));
         options.accept(instructorData);
         Instructor instructor = instructorData.build();
         registerEntity(alias, instructor, dataBundle.instructors);
-        return instructor.getId();
+        return new InstructorRef(instructor.getId(), alias, instructor.getRegKey());
     }
 
     /**
      * Creates a feedback session with default values.
      */
-    public UUID feedbackSession(String alias) {
+    public FeedbackSessionRef feedbackSession(String alias) {
         return feedbackSession(alias, fs -> {
         });
     }
@@ -234,18 +234,18 @@ public final class GivenData {
     /**
      * Creates a feedback session and applies the provided options to customize it.
      */
-    public UUID feedbackSession(String alias, Consumer<GivenFeedbackSession> options) {
+    public FeedbackSessionRef feedbackSession(String alias, Consumer<GivenFeedbackSession> options) {
         GivenFeedbackSession feedbackSessionData = new GivenFeedbackSession(this, uuid(alias));
         options.accept(feedbackSessionData);
         FeedbackSession feedbackSession = feedbackSessionData.build();
         registerEntity(alias, feedbackSession, dataBundle.feedbackSessions);
-        return feedbackSession.getId();
+        return new FeedbackSessionRef(feedbackSession.getId(), alias);
     }
 
     /**
      * Creates a feedback question with default values.
      */
-    public UUID feedbackQuestion(String alias) {
+    public FeedbackQuestionRef feedbackQuestion(String alias) {
         return feedbackQuestion(alias, fq -> {
         });
     }
@@ -253,18 +253,18 @@ public final class GivenData {
     /**
      * Creates a feedback question and applies the provided options to customize it.
      */
-    public UUID feedbackQuestion(String alias, Consumer<GivenFeedbackQuestion> options) {
+    public FeedbackQuestionRef feedbackQuestion(String alias, Consumer<GivenFeedbackQuestion> options) {
         GivenFeedbackQuestion feedbackQuestionData = new GivenFeedbackQuestion(this, uuid(alias));
         options.accept(feedbackQuestionData);
         FeedbackQuestion feedbackQuestion = feedbackQuestionData.build();
         registerEntity(alias, feedbackQuestion, dataBundle.feedbackQuestions);
-        return feedbackQuestion.getId();
+        return new FeedbackQuestionRef(feedbackQuestion.getId(), alias);
     }
 
     /**
      * Creates a feedback response with default values.
      */
-    public UUID feedbackResponse(String alias) {
+    public FeedbackResponseRef feedbackResponse(String alias) {
         return feedbackResponse(alias, fr -> {
         });
     }
@@ -272,18 +272,18 @@ public final class GivenData {
     /**
      * Creates a feedback response and applies the provided options to customize it.
      */
-    public UUID feedbackResponse(String alias, Consumer<GivenFeedbackResponse> options) {
+    public FeedbackResponseRef feedbackResponse(String alias, Consumer<GivenFeedbackResponse> options) {
         GivenFeedbackResponse feedbackResponseData = new GivenFeedbackResponse(this, uuid(alias));
         options.accept(feedbackResponseData);
         FeedbackResponse feedbackResponse = feedbackResponseData.build();
         registerEntity(alias, feedbackResponse, dataBundle.feedbackResponses);
-        return feedbackResponse.getId();
+        return new FeedbackResponseRef(feedbackResponse.getId(), alias);
     }
 
     /**
      * Creates a response instructor comment with default values.
      */
-    public UUID responseInstructorComment(String alias) {
+    public ResponseInstructorCommentRef responseInstructorComment(String alias) {
         return responseInstructorComment(alias, ric -> {
         });
     }
@@ -291,19 +291,20 @@ public final class GivenData {
     /**
      * Creates a response instructor comment and applies the provided options to customize it.
      */
-    public UUID responseInstructorComment(String alias, Consumer<GivenResponseInstructorComment> options) {
+    public ResponseInstructorCommentRef responseInstructorComment(
+            String alias, Consumer<GivenResponseInstructorComment> options) {
         GivenResponseInstructorComment responseInstructorCommentData =
                 new GivenResponseInstructorComment(this, uuid(alias));
         options.accept(responseInstructorCommentData);
         ResponseInstructorComment responseInstructorComment = responseInstructorCommentData.build();
         registerEntity(alias, responseInstructorComment, dataBundle.responseInstructorComments);
-        return responseInstructorComment.getId();
+        return new ResponseInstructorCommentRef(responseInstructorComment.getId(), alias);
     }
 
     /**
      * Creates a deadline extension with default values.
      */
-    public UUID deadlineExtension(String alias) {
+    public DeadlineExtensionRef deadlineExtension(String alias) {
         return deadlineExtension(alias, de -> {
         });
     }
@@ -311,18 +312,18 @@ public final class GivenData {
     /**
      * Creates a deadline extension and applies the provided options to customize it.
      */
-    public UUID deadlineExtension(String alias, Consumer<GivenDeadlineExtension> options) {
+    public DeadlineExtensionRef deadlineExtension(String alias, Consumer<GivenDeadlineExtension> options) {
         GivenDeadlineExtension deadlineExtensionData = new GivenDeadlineExtension(this, uuid(alias));
         options.accept(deadlineExtensionData);
         DeadlineExtension deadlineExtension = deadlineExtensionData.build();
         registerEntity(alias, deadlineExtension, dataBundle.deadlineExtensions);
-        return deadlineExtension.getId();
+        return new DeadlineExtensionRef(deadlineExtension.getId(), alias);
     }
 
     /**
      * Creates a feedback session log with default values.
      */
-    public UUID feedbackSessionLog(String alias) {
+    public FeedbackSessionLogRef feedbackSessionLog(String alias) {
         return feedbackSessionLog(alias, fsl -> {
         });
     }
@@ -330,18 +331,18 @@ public final class GivenData {
     /**
      * Creates a feedback session log and applies the provided options to customize it.
      */
-    public UUID feedbackSessionLog(String alias, Consumer<GivenFeedbackSessionLog> options) {
+    public FeedbackSessionLogRef feedbackSessionLog(String alias, Consumer<GivenFeedbackSessionLog> options) {
         GivenFeedbackSessionLog feedbackSessionLogData = new GivenFeedbackSessionLog(this, uuid(alias));
         options.accept(feedbackSessionLogData);
         FeedbackSessionLog feedbackSessionLog = feedbackSessionLogData.build();
         registerEntity(alias, feedbackSessionLog, dataBundle.feedbackSessionLogs);
-        return feedbackSessionLog.getId();
+        return new FeedbackSessionLogRef(feedbackSessionLog.getId(), alias);
     }
 
     /**
      * Creates a notification with default values.
      */
-    public UUID notification(String alias) {
+    public NotificationRef notification(String alias) {
         return notification(alias, n -> {
         });
     }
@@ -349,18 +350,18 @@ public final class GivenData {
     /**
      * Creates a notification and applies the provided options to customize it.
      */
-    public UUID notification(String alias, Consumer<GivenNotification> options) {
+    public NotificationRef notification(String alias, Consumer<GivenNotification> options) {
         GivenNotification notificationData = new GivenNotification(this, uuid(alias));
         options.accept(notificationData);
         Notification notification = notificationData.build();
         registerEntity(alias, notification, dataBundle.notifications);
-        return notification.getId();
+        return new NotificationRef(notification.getId(), alias);
     }
 
     /**
      * Creates a read notification with default values.
      */
-    public UUID readNotification(String alias) {
+    public ReadNotificationRef readNotification(String alias) {
         return readNotification(alias, rn -> {
         });
     }
@@ -368,12 +369,12 @@ public final class GivenData {
     /**
      * Creates a read notification and applies the provided options to customize it.
      */
-    public UUID readNotification(String alias, Consumer<GivenReadNotification> options) {
+    public ReadNotificationRef readNotification(String alias, Consumer<GivenReadNotification> options) {
         GivenReadNotification readNotificationData = new GivenReadNotification(this, uuid(alias));
         options.accept(readNotificationData);
         ReadNotification readNotification = readNotificationData.build();
         registerEntity(alias, readNotification, dataBundle.readNotifications);
-        return readNotification.getId();
+        return new ReadNotificationRef(readNotification.getId(), alias);
     }
 
     /**
@@ -428,4 +429,126 @@ public final class GivenData {
     public UUID uuid(String alias) {
         return UUID.nameUUIDFromBytes((testName + ":" + alias).getBytes(StandardCharsets.UTF_8));
     }
+
+    /**
+     * Reference to an account created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record AccountRef(UUID id, String alias) {}
+
+    /**
+     * Reference to an account request created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record AccountRequestRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a course created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record CourseRef(String id, String alias) {}
+
+    /**
+     * Reference to a section created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record SectionRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a team created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record TeamRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a student created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     * @param regKey registration key
+     */
+    public record StudentRef(UUID id, String alias, String regKey) {}
+
+    /**
+     * Reference to an instructor created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     * @param regKey registration key
+     */
+    public record InstructorRef(UUID id, String alias, String regKey) {}
+
+    /**
+     * Reference to a feedback session created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record FeedbackSessionRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a feedback question created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record FeedbackQuestionRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a feedback response created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record FeedbackResponseRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a response instructor comment created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record ResponseInstructorCommentRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a deadline extension created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record DeadlineExtensionRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a feedback session log created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record FeedbackSessionLogRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a notification created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record NotificationRef(UUID id, String alias) {}
+
+    /**
+     * Reference to a read notification created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record ReadNotificationRef(UUID id, String alias) {}
 }

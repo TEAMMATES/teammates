@@ -27,13 +27,13 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSession_feedbackSessionExists_returnsFeedbackSession() {
-        UUID feedbackSessionId = given.feedbackSession("feedback-session");
+        var feedbackSession = given.feedbackSession("feedback-session");
         persistGivenData(given);
 
-        FeedbackSession actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSession(feedbackSessionId));
+        FeedbackSession actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSession(feedbackSession.id()));
 
         assertNotNull(actual);
-        assertEquals(feedbackSessionId, actual.getId());
+        assertEquals(feedbackSession.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
@@ -49,30 +49,30 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionByNameAndCourse_feedbackSessionExists_returnsFeedbackSession() {
-        String courseId = given.course("course");
-        UUID feedbackSessionId = given.feedbackSession("feedback-session",
-                fs -> fs.course("course").name("Feedback Session Name"));
+        var course = given.course("course");
+        var feedbackSession = given.feedbackSession("feedback-session",
+                fs -> fs.course(course.alias()).name("Feedback Session Name"));
         given.feedbackSession("same-name-feedback-session-in-another-course",
                 fs -> fs.course("another-course").name("Feedback Session Name"));
         persistGivenData(given);
 
         FeedbackSession actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSession(
-                "Feedback Session Name", courseId));
+                "Feedback Session Name", course.id()));
 
         assertNotNull(actual);
-        assertEquals(feedbackSessionId, actual.getId());
+        assertEquals(feedbackSession.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void persistFeedbackSession_feedbackSessionIsNew_feedbackSessionIsPersisted() {
-        String courseId = given.course("course");
-        UUID creatorId = given.instructor("creator", i -> i.course("course"));
+        var courseRef = given.course("course");
+        var creatorRef = given.instructor("creator", i -> i.course(courseRef.alias()));
         persistGivenData(given);
-        UUID feedbackSessionId = given.uuid("feedback-session");
+        var feedbackSessionId = given.uuid("feedback-session");
 
         FeedbackSession actual = inTransaction(() -> {
-            Course course = getEntity(Course.class, courseId);
-            Instructor creator = getEntity(Instructor.class, creatorId);
+            Course course = getEntity(Course.class, courseRef.id());
+            Instructor creator = getEntity(Instructor.class, creatorRef.id());
             FeedbackSession feedbackSession = buildDefaultFeedbackSession(course, creator, feedbackSessionId);
             return feedbackSessionsDb.persistFeedbackSession(feedbackSession);
         });
@@ -83,56 +83,56 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void removeFeedbackSession_feedbackSessionExists_feedbackSessionIsRemoved() {
-        UUID feedbackSessionId = given.feedbackSession("feedback-session");
+        var feedbackSession = given.feedbackSession("feedback-session");
         persistGivenData(given);
 
         inTransaction(() -> feedbackSessionsDb.removeFeedbackSession(
-                feedbackSessionsDb.getFeedbackSession(feedbackSessionId)));
+                feedbackSessionsDb.getFeedbackSession(feedbackSession.id())));
 
-        verifyAbsentInDatabase(FeedbackSession.class, feedbackSessionId);
+        verifyAbsentInDatabase(FeedbackSession.class, feedbackSession.id());
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsForCourses_sessionsExist_returnsNonSoftDeletedSessionsInActiveCourses() {
-        String courseId = given.course("course");
-        String anotherCourseId = given.course("another-course");
-        given.course("soft-deleted-course", c -> c.softDeleted());
-        UUID feedbackSessionId = given.feedbackSession("feedback-session", fs -> fs.course("course"));
-        UUID anotherCourseFeedbackSessionId = given.feedbackSession("another-course-feedback-session",
-                fs -> fs.course("another-course"));
-        given.feedbackSession("soft-deleted-feedback-session", fs -> fs.course("course").softDeleted());
-        given.feedbackSession("feedback-session-in-soft-deleted-course", fs -> fs.course("soft-deleted-course"));
+        var course = given.course("course");
+        var anotherCourse = given.course("another-course");
+        var softDeletedCourse = given.course("soft-deleted-course", c -> c.softDeleted());
+        var feedbackSession = given.feedbackSession("feedback-session", fs -> fs.course(course.alias()));
+        var anotherCourseFeedbackSession = given.feedbackSession("another-course-feedback-session",
+                fs -> fs.course(anotherCourse.alias()));
+        given.feedbackSession("soft-deleted-feedback-session", fs -> fs.course(course.alias()).softDeleted());
+        given.feedbackSession("feedback-session-in-soft-deleted-course", fs -> fs.course(softDeletedCourse.alias()));
         persistGivenData(given);
 
         List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSessionsForCourses(
-                List.of(courseId, anotherCourseId, given.stringId("soft-deleted-course"))));
+                List.of(course.id(), anotherCourse.id(), softDeletedCourse.id())));
 
-        assertEquals(Set.of(feedbackSessionId, anotherCourseFeedbackSessionId),
+        assertEquals(Set.of(feedbackSession.id(), anotherCourseFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getSoftDeletedFeedbackSessionsForCourses_sessionsExist_returnsSoftDeletedSessionsInActiveCourses() {
-        String courseId = given.course("course");
-        given.course("soft-deleted-course", c -> c.softDeleted());
-        UUID softDeletedFeedbackSessionId = given.feedbackSession("soft-deleted-feedback-session",
-                fs -> fs.course("course").softDeleted());
-        given.feedbackSession("feedback-session", fs -> fs.course("course"));
+        var course = given.course("course");
+        var softDeletedCourse = given.course("soft-deleted-course", c -> c.softDeleted());
+        var softDeletedFeedbackSession = given.feedbackSession("soft-deleted-feedback-session",
+                fs -> fs.course(course.alias()).softDeleted());
+        given.feedbackSession("feedback-session", fs -> fs.course(course.alias()));
         given.feedbackSession("soft-deleted-feedback-session-in-soft-deleted-course",
-                fs -> fs.course("soft-deleted-course").softDeleted());
+                fs -> fs.course(softDeletedCourse.alias()).softDeleted());
         persistGivenData(given);
 
         List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getSoftDeletedFeedbackSessionsForCourses(
-                List.of(courseId, given.stringId("soft-deleted-course"))));
+                List.of(course.id(), softDeletedCourse.id())));
 
-        assertEquals(Set.of(softDeletedFeedbackSessionId),
+        assertEquals(Set.of(softDeletedFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getOngoingSessions_sessionsExist_returnsSessionsOverlappingRange() {
         Instant now = Instant.now();
-        UUID ongoingFeedbackSessionId = given.feedbackSession("ongoing-feedback-session", fs -> fs.opened());
+        var ongoingFeedbackSession = given.feedbackSession("ongoing-feedback-session", fs -> fs.opened());
         given.feedbackSession("ended-before-range-feedback-session",
                 fs -> fs.closed());
         persistGivenData(given);
@@ -140,30 +140,30 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
         List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getOngoingSessions(
                 now.minus(30, ChronoUnit.MINUTES), now.plus(30, ChronoUnit.MINUTES)));
 
-        assertEquals(Set.of(ongoingFeedbackSessionId),
+        assertEquals(Set.of(ongoingFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsForCourseStartingAfter_sessionsExist_returnsMatchingSessions() {
         Instant now = Instant.now();
-        String courseId = given.course("course");
-        UUID matchingFeedbackSessionId = given.feedbackSession("matching-feedback-session",
-                fs -> fs.course("course").waitingToOpen());
+        var course = given.course("course");
+        var matchingFeedbackSession = given.feedbackSession("matching-feedback-session",
+                fs -> fs.course(course.alias()).waitingToOpen());
         given.feedbackSession("earlier-feedback-session",
-                fs -> fs.course("course").opened());
+                fs -> fs.course(course.alias()).opened());
         persistGivenData(given);
 
         List<FeedbackSession> actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSessionsForCourseStartingAfter(
-                courseId, now));
+                course.id(), now));
 
-        assertEquals(Set.of(matchingFeedbackSessionId),
+        assertEquals(Set.of(matchingFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsPossiblyNeedingOpeningSoonEmail_sessionsExist_returnsEligibleSessions() {
-        UUID openingSoonFeedbackSessionId = given.feedbackSession("opening-soon-feedback-session",
+        var openingSoonFeedbackSession = given.feedbackSession("opening-soon-feedback-session",
                 fs -> fs.openingSoon().openingSoonEmailSent(false));
         given.feedbackSession("sent-opening-soon-feedback-session",
                 fs -> fs.openingSoon().openingSoonEmailSent(true));
@@ -172,13 +172,13 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
         List<FeedbackSession> actual = inTransaction(
                 feedbackSessionsDb::getFeedbackSessionsPossiblyNeedingOpeningSoonEmail);
 
-        assertEquals(Set.of(openingSoonFeedbackSessionId),
+        assertEquals(Set.of(openingSoonFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsPossiblyNeedingClosingSoonEmail_sessionsExist_returnsEligibleSessions() {
-        UUID closingSoonFeedbackSessionId = given.feedbackSession("closing-soon-feedback-session",
+        var closingSoonFeedbackSession = given.feedbackSession("closing-soon-feedback-session",
                 fs -> fs.closingSoon()
                         .closingSoonEmailSent(false)
                         .closedEmailSent(false)
@@ -193,13 +193,13 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
         List<FeedbackSession> actual = inTransaction(
                 feedbackSessionsDb::getFeedbackSessionsPossiblyNeedingClosingSoonEmail);
 
-        assertEquals(Set.of(closingSoonFeedbackSessionId),
+        assertEquals(Set.of(closingSoonFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsPossiblyNeedingClosedEmail_sessionsExist_returnsEligibleSessions() {
-        UUID closedFeedbackSessionId = given.feedbackSession("closed-feedback-session",
+        var closedFeedbackSession = given.feedbackSession("closed-feedback-session",
                 fs -> fs.closed()
                         .closedEmailSent(false)
                         .closingSoonEmailEnabled(true));
@@ -211,13 +211,13 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
 
         List<FeedbackSession> actual = inTransaction(feedbackSessionsDb::getFeedbackSessionsPossiblyNeedingClosedEmail);
 
-        assertEquals(Set.of(closedFeedbackSessionId),
+        assertEquals(Set.of(closedFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsPossiblyNeedingPublishedEmail_sessionsExist_returnsEligibleSessions() {
-        UUID publishedFeedbackSessionId = given.feedbackSession("published-feedback-session",
+        var publishedFeedbackSession = given.feedbackSession("published-feedback-session",
                 fs -> fs.published().publishedEmailSent(false).publishedEmailEnabled(true));
         given.feedbackSession("sent-published-feedback-session",
                 fs -> fs.published().publishedEmailSent(true).publishedEmailEnabled(true));
@@ -226,20 +226,20 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
         List<FeedbackSession> actual = inTransaction(
                 feedbackSessionsDb::getFeedbackSessionsPossiblyNeedingPublishedEmail);
 
-        assertEquals(Set.of(publishedFeedbackSessionId),
+        assertEquals(Set.of(publishedFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackSessionsPossiblyNeedingOpenedEmail_sessionsExist_returnsEligibleSessions() {
-        UUID openedFeedbackSessionId = given.feedbackSession("opened-feedback-session",
+        var openedFeedbackSession = given.feedbackSession("opened-feedback-session",
                 fs -> fs.opened().openedEmailSent(false));
         given.feedbackSession("sent-opened-feedback-session", fs -> fs.opened().openedEmailSent(true));
         persistGivenData(given);
 
         List<FeedbackSession> actual = inTransaction(feedbackSessionsDb::getFeedbackSessionsPossiblyNeedingOpenedEmail);
 
-        assertEquals(Set.of(openedFeedbackSessionId),
+        assertEquals(Set.of(openedFeedbackSession.id()),
                 actual.stream().map(FeedbackSession::getId).collect(Collectors.toSet()));
     }
 

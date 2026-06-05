@@ -28,13 +28,13 @@ public class NotificationsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getNotification_notificationExists_returnsNotification() {
-        UUID notificationId = given.notification("notification");
+        var notification = given.notification("notification");
         persistGivenData(given);
 
-        Notification actual = inTransaction(() -> notificationsDb.getNotification(notificationId));
+        Notification actual = inTransaction(() -> notificationsDb.getNotification(notification.id()));
 
         assertNotNull(actual);
-        assertEquals(notificationId, actual.getId());
+        assertEquals(notification.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
@@ -50,7 +50,7 @@ public class NotificationsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistNotification_notificationIsNew_notificationIsPersisted() {
-        UUID notificationId = given.uuid("notification");
+        var notificationId = given.uuid("notification");
         Notification notification = buildDefaultNotification(notificationId);
 
         Notification actual = inTransaction(() -> notificationsDb.persistNotification(notification));
@@ -61,20 +61,20 @@ public class NotificationsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void removeNotification_notificationExists_notificationIsRemoved() {
-        UUID notificationId = given.notification("notification");
+        var notification = given.notification("notification");
         persistGivenData(given);
 
-        inTransaction(() -> notificationsDb.removeNotification(notificationsDb.getNotification(notificationId)));
+        inTransaction(() -> notificationsDb.removeNotification(notificationsDb.getNotification(notification.id())));
 
-        verifyAbsentInDatabase(Notification.class, notificationId);
+        verifyAbsentInDatabase(Notification.class, notification.id());
     }
 
     @Test(groups = GroupNames.DB)
     public void getNotificationsByTargetUsers_activeOnly_returnsActiveMatchingNotificationsInStartTimeOrder() {
         Instant now = Instant.now();
-        UUID activeGeneralNotificationId1 = given.notification("active-general-notification-1",
+        var activeGeneralNotification1 = given.notification("active-general-notification-1",
                 n -> n.startTime(now.minus(2, ChronoUnit.HOURS)).endTime(now.plus(1, ChronoUnit.HOURS)).forGeneral());
-        UUID activeGeneralNotificationId2 = given.notification("active-general-notification-2",
+        var activeGeneralNotification2 = given.notification("active-general-notification-2",
                 n -> n.startTime(now.minus(1, ChronoUnit.HOURS)).endTime(now.plus(1, ChronoUnit.HOURS)).forGeneral());
         given.notification("expired-general-notification", n -> n.expired().forGeneral());
         given.notification("yet-to-be-shown-general-notification", n -> n.yetToBeShown().forGeneral());
@@ -84,15 +84,15 @@ public class NotificationsDbTest extends BaseDbTestcase {
         List<Notification> actual = inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
                 List.of(NotificationTargetUser.GENERAL), true));
 
-        assertEquals(List.of(activeGeneralNotificationId1, activeGeneralNotificationId2),
+        assertEquals(List.of(activeGeneralNotification1.id(), activeGeneralNotification2.id()),
                 actual.stream().map(Notification::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void getNotificationsByTargetUsers_notActiveOnly_returnsMatchingNotificationsRegardlessOfTime() {
-        UUID activeInstructorNotificationId = given.notification("active-instructor-notification",
+        var activeInstructorNotification = given.notification("active-instructor-notification",
                 n -> n.active().forInstructor());
-        UUID expiredInstructorNotificationId = given.notification("expired-instructor-notification",
+        var expiredInstructorNotification = given.notification("expired-instructor-notification",
                 n -> n.expired().forInstructor());
         given.notification("active-student-notification", n -> n.active().forStudent());
         persistGivenData(given);
@@ -100,20 +100,20 @@ public class NotificationsDbTest extends BaseDbTestcase {
         List<Notification> actual = inTransaction(() -> notificationsDb.getNotificationsByTargetUsers(
                 List.of(NotificationTargetUser.INSTRUCTOR), false));
 
-        assertEquals(List.of(expiredInstructorNotificationId, activeInstructorNotificationId),
+        assertEquals(List.of(expiredInstructorNotification.id(), activeInstructorNotification.id()),
                 actual.stream().map(Notification::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void persistReadNotification_readNotificationIsNew_readNotificationIsPersisted() {
-        UUID accountId = given.account("account");
-        UUID notificationId = given.notification("notification");
+        var accountRef = given.account("account");
+        var notificationRef = given.notification("notification");
         persistGivenData(given);
-        UUID readNotificationId = given.uuid("read-notification");
+        var readNotificationId = given.uuid("read-notification");
 
         ReadNotification actual = inTransaction(() -> {
-            Account account = getEntity(Account.class, accountId);
-            Notification notification = getEntity(Notification.class, notificationId);
+            Account account = getEntity(Account.class, accountRef.id());
+            Notification notification = getEntity(Notification.class, notificationRef.id());
             ReadNotification readNotification = buildDefaultReadNotification(
                     account, notification, readNotificationId);
             return notificationsDb.persistReadNotification(readNotification);
@@ -125,29 +125,29 @@ public class NotificationsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getReadNotificationsByAccountId_readNotificationsExist_returnsReadNotificationsForAccount() {
-        UUID accountId = given.account("account");
-        UUID readNotificationId1 = given.readNotification("read-notification-1",
-                rn -> rn.account("account").notification("notification-1"));
-        UUID readNotificationId2 = given.readNotification("read-notification-2",
-                rn -> rn.account("account").notification("notification-2"));
+        var account = given.account("account");
+        var readNotification1 = given.readNotification("read-notification-1",
+                rn -> rn.account(account.alias()).notification("notification-1"));
+        var readNotification2 = given.readNotification("read-notification-2",
+                rn -> rn.account(account.alias()).notification("notification-2"));
         given.readNotification("another-account-read-notification", rn -> rn.account("another-account"));
         persistGivenData(given);
 
-        List<ReadNotification> actual = inTransaction(() -> notificationsDb.getReadNotificationsByAccountId(accountId));
+        List<ReadNotification> actual = inTransaction(() -> notificationsDb.getReadNotificationsByAccountId(account.id()));
 
-        assertEquals(Set.of(readNotificationId1, readNotificationId2),
+        assertEquals(Set.of(readNotification1.id(), readNotification2.id()),
                 actual.stream().map(ReadNotification::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void deleteReadNotification_readNotificationExists_readNotificationIsRemoved() {
-        UUID readNotificationId = given.readNotification("read-notification");
+        var readNotification = given.readNotification("read-notification");
         persistGivenData(given);
 
         inTransaction(() -> notificationsDb.deleteReadNotification(
-                notificationsDb.getReadNotification(readNotificationId)));
+                notificationsDb.getReadNotification(readNotification.id())));
 
-        verifyAbsentInDatabase(ReadNotification.class, readNotificationId);
+        verifyAbsentInDatabase(ReadNotification.class, readNotification.id());
     }
 
     private static Notification buildDefaultNotification(UUID notificationId) {

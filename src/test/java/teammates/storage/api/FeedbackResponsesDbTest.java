@@ -28,27 +28,27 @@ public class FeedbackResponsesDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackResponse_feedbackResponseExists_returnsFeedbackResponse() {
-        UUID feedbackResponseId = given.feedbackResponse("feedback-response");
+        var feedbackResponse = given.feedbackResponse("feedback-response");
         persistGivenData(given);
 
-        FeedbackResponse actual = inTransaction(() -> feedbackResponsesDb.getFeedbackResponse(feedbackResponseId));
+        FeedbackResponse actual = inTransaction(() -> feedbackResponsesDb.getFeedbackResponse(feedbackResponse.id()));
 
         assertNotNull(actual);
-        assertEquals(feedbackResponseId, actual.getId());
+        assertEquals(feedbackResponse.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void persistFeedbackResponse_feedbackResponseIsNew_feedbackResponseIsPersisted() {
-        UUID feedbackQuestionId = given.feedbackQuestion("feedback-question");
-        UUID giverId = given.student("giver");
-        UUID recipientId = given.student("recipient");
+        var feedbackQuestionRef = given.feedbackQuestion("feedback-question");
+        var giverRef = given.student("giver");
+        var recipientRef = given.student("recipient");
         persistGivenData(given);
-        UUID feedbackResponseId = given.uuid("feedback-response");
+        var feedbackResponseId = given.uuid("feedback-response");
 
         FeedbackResponse actual = inTransaction(() -> {
-            FeedbackQuestion feedbackQuestion = getEntity(FeedbackQuestion.class, feedbackQuestionId);
-            Student giver = getEntity(Student.class, giverId);
-            Student recipient = getEntity(Student.class, recipientId);
+            FeedbackQuestion feedbackQuestion = getEntity(FeedbackQuestion.class, feedbackQuestionRef.id());
+            Student giver = getEntity(Student.class, giverRef.id());
+            Student recipient = getEntity(Student.class, recipientRef.id());
             FeedbackResponse feedbackResponse = buildDefaultFeedbackResponse(
                     feedbackQuestion, giver, recipient, feedbackResponseId);
             return feedbackResponsesDb.persistFeedbackResponse(feedbackResponse);
@@ -60,71 +60,71 @@ public class FeedbackResponsesDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void removeFeedbackResponse_feedbackResponseExists_feedbackResponseIsRemoved() {
-        UUID feedbackResponseId = given.feedbackResponse("feedback-response");
+        var feedbackResponse = given.feedbackResponse("feedback-response");
         persistGivenData(given);
 
         inTransaction(() -> feedbackResponsesDb.removeFeedbackResponse(
-                feedbackResponsesDb.getFeedbackResponse(feedbackResponseId)));
+                feedbackResponsesDb.getFeedbackResponse(feedbackResponse.id())));
 
-        verifyAbsentInDatabase(FeedbackResponse.class, feedbackResponseId);
+        verifyAbsentInDatabase(FeedbackResponse.class, feedbackResponse.id());
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackResponsesFromGiverForQuestion_responsesExist_returnsResponsesFromGiver() {
-        UUID feedbackQuestionId = given.feedbackQuestion("feedback-question");
-        UUID giverId = given.student("giver");
-        UUID feedbackResponseId = given.feedbackResponse("feedback-response",
-                r -> r.feedbackQuestion("feedback-question").giverStudent("giver"));
+        var feedbackQuestion = given.feedbackQuestion("feedback-question");
+        var giver = given.student("giver");
+        var feedbackResponse = given.feedbackResponse("feedback-response",
+                r -> r.feedbackQuestion(feedbackQuestion.alias()).giverStudent(giver.alias()));
         given.feedbackResponse("another-giver-feedback-response",
-                r -> r.feedbackQuestion("feedback-question").giverStudent("another-giver"));
+                r -> r.feedbackQuestion(feedbackQuestion.alias()).giverStudent("another-giver"));
         persistGivenData(given);
 
         List<FeedbackResponse> actual = inTransaction(() -> feedbackResponsesDb.getFeedbackResponsesFromGiverForQuestion(
-                feedbackQuestionId, giverId, null));
+                feedbackQuestion.id(), giver.id(), null));
 
-        assertEquals(List.of(feedbackResponseId), actual.stream().map(FeedbackResponse::getId).toList());
+        assertEquals(List.of(feedbackResponse.id()), actual.stream().map(FeedbackResponse::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackResponsesForRecipientForQuestion_responsesExist_returnsResponsesForRecipient() {
-        UUID feedbackQuestionId = given.feedbackQuestion("feedback-question");
-        UUID recipientId = given.student("recipient");
-        UUID feedbackResponseId = given.feedbackResponse("feedback-response",
-                r -> r.feedbackQuestion("feedback-question").recipientStudent("recipient"));
+        var feedbackQuestion = given.feedbackQuestion("feedback-question");
+        var recipient = given.student("recipient");
+        var feedbackResponse = given.feedbackResponse("feedback-response",
+                r -> r.feedbackQuestion(feedbackQuestion.alias()).recipientStudent(recipient.alias()));
         given.feedbackResponse("another-recipient-feedback-response",
-                r -> r.feedbackQuestion("feedback-question").recipientStudent("another-recipient"));
+                r -> r.feedbackQuestion(feedbackQuestion.alias()).recipientStudent("another-recipient"));
         persistGivenData(given);
 
         List<FeedbackResponse> actual = inTransaction(() -> feedbackResponsesDb
-                .getFeedbackResponsesForRecipientForQuestion(feedbackQuestionId, recipientId, null));
+                .getFeedbackResponsesForRecipientForQuestion(feedbackQuestion.id(), recipient.id(), null));
 
-        assertEquals(List.of(feedbackResponseId), actual.stream().map(FeedbackResponse::getId).toList());
+        assertEquals(List.of(feedbackResponse.id()), actual.stream().map(FeedbackResponse::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackResponsesForSession_responsesExist_returnsResponsesInSessionAndCourse() {
-        String courseId = given.course("course");
-        UUID feedbackSessionId = given.feedbackSession("feedback-session", fs -> fs.course("course"));
-        UUID feedbackResponseId = given.feedbackResponse("feedback-response",
-                r -> r.feedbackSession("feedback-session"));
+        var course = given.course("course");
+        var feedbackSession = given.feedbackSession("feedback-session", fs -> fs.course(course.alias()));
+        var feedbackResponse = given.feedbackResponse("feedback-response",
+                r -> r.feedbackSession(feedbackSession.alias()));
         given.feedbackResponse("another-session-feedback-response",
                 r -> r.feedbackSession("another-feedback-session"));
         persistGivenData(given);
 
         List<FeedbackResponse> actual = inTransaction(() -> feedbackResponsesDb.getFeedbackResponsesForSession(
-                getEntity(FeedbackSession.class, feedbackSessionId), courseId));
+                getEntity(FeedbackSession.class, feedbackSession.id()), course.id()));
 
-        assertEquals(Set.of(feedbackResponseId),
+        assertEquals(Set.of(feedbackResponse.id()),
                 actual.stream().map(FeedbackResponse::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void hasResponsesForCourse_responseExists_returnsTrue() {
-        String courseId = given.course("course");
-        given.feedbackResponse("feedback-response", r -> r.course("course"));
+        var course = given.course("course");
+        given.feedbackResponse("feedback-response", r -> r.course(course.alias()));
         persistGivenData(given);
 
-        boolean actual = inTransaction(() -> feedbackResponsesDb.hasResponsesForCourse(courseId));
+        boolean actual = inTransaction(() -> feedbackResponsesDb.hasResponsesForCourse(course.id()));
 
         assertTrue(actual);
     }

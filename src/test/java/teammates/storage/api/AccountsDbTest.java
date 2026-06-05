@@ -21,13 +21,13 @@ public class AccountsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getAccount_accountExists_returnsAccount() {
-        UUID accountId = given.account("account");
+        var account = given.account("account");
         persistGivenData(given);
 
-        Account actual = inTransaction(() -> accountsDb.getAccount(accountId));
+        Account actual = inTransaction(() -> accountsDb.getAccount(account.id()));
 
         assertNotNull(actual);
-        assertEquals(accountId, actual.getId());
+        assertEquals(account.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
@@ -42,7 +42,7 @@ public class AccountsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistAccount_accountIsNew_accountIsPersisted() {
-        UUID accountId = given.uuid("account");
+        var accountId = given.uuid("account");
         Account account = buildDefaultAccount(accountId);
 
         Account actual = inTransaction(() -> accountsDb.persistAccount(account));
@@ -53,21 +53,21 @@ public class AccountsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistAccount_accountIdExists_throwsException() {
-        UUID accountId = given.account("account");
+        var account = given.account("account");
         persistGivenData(given);
-        Account account = buildDefaultAccount(accountId);
+        Account duplicateAccount = buildDefaultAccount(account.id());
 
-        assertThrowsInTransaction(ConstraintViolationException.class, () -> accountsDb.persistAccount(account));
+        assertThrowsInTransaction(ConstraintViolationException.class, () -> accountsDb.persistAccount(duplicateAccount));
     }
 
     @Test(groups = GroupNames.DB)
     public void removeAccount_accountExists_accountIsRemoved() {
-        UUID accountId = given.account("account");
+        var account = given.account("account");
         persistGivenData(given);
 
-        inTransaction(() -> accountsDb.removeAccount(accountsDb.getAccount(accountId)));
+        inTransaction(() -> accountsDb.removeAccount(accountsDb.getAccount(account.id())));
 
-        verifyAbsentInDatabase(Account.class, accountId);
+        verifyAbsentInDatabase(Account.class, account.id());
     }
 
     private static Account buildDefaultAccount(UUID accountId) {

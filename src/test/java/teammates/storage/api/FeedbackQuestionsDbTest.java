@@ -28,23 +28,23 @@ public class FeedbackQuestionsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackQuestion_feedbackQuestionExists_returnsFeedbackQuestion() {
-        UUID feedbackQuestionId = given.feedbackQuestion("feedback-question");
+        var feedbackQuestion = given.feedbackQuestion("feedback-question");
         persistGivenData(given);
 
-        FeedbackQuestion actual = inTransaction(() -> feedbackQuestionsDb.getFeedbackQuestion(feedbackQuestionId));
+        FeedbackQuestion actual = inTransaction(() -> feedbackQuestionsDb.getFeedbackQuestion(feedbackQuestion.id()));
 
         assertNotNull(actual);
-        assertEquals(feedbackQuestionId, actual.getId());
+        assertEquals(feedbackQuestion.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
     public void persistFeedbackQuestion_feedbackQuestionIsNew_feedbackQuestionIsPersisted() {
-        UUID feedbackSessionId = given.feedbackSession("feedback-session");
+        var feedbackSessionRef = given.feedbackSession("feedback-session");
         persistGivenData(given);
-        UUID feedbackQuestionId = given.uuid("feedback-question");
+        var feedbackQuestionId = given.uuid("feedback-question");
 
         FeedbackQuestion actual = inTransaction(() -> {
-            FeedbackSession feedbackSession = getEntity(FeedbackSession.class, feedbackSessionId);
+            FeedbackSession feedbackSession = getEntity(FeedbackSession.class, feedbackSessionRef.id());
             FeedbackQuestion feedbackQuestion = buildDefaultFeedbackQuestion(feedbackSession, feedbackQuestionId);
             return feedbackQuestionsDb.persistFeedbackQuestion(feedbackQuestion);
         });
@@ -55,60 +55,62 @@ public class FeedbackQuestionsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void removeFeedbackQuestion_feedbackQuestionExists_feedbackQuestionIsRemoved() {
-        UUID feedbackQuestionId = given.feedbackQuestion("feedback-question");
+        var feedbackQuestion = given.feedbackQuestion("feedback-question");
         persistGivenData(given);
 
         inTransaction(() -> feedbackQuestionsDb.removeFeedbackQuestion(
-                feedbackQuestionsDb.getFeedbackQuestion(feedbackQuestionId)));
+                feedbackQuestionsDb.getFeedbackQuestion(feedbackQuestion.id())));
 
-        verifyAbsentInDatabase(FeedbackQuestion.class, feedbackQuestionId);
+        verifyAbsentInDatabase(FeedbackQuestion.class, feedbackQuestion.id());
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackQuestionsForSession_questionsExist_returnsQuestionsInSession() {
-        UUID feedbackSessionId = given.feedbackSession("feedback-session");
-        UUID feedbackQuestionId1 = given.feedbackQuestion("feedback-question-1",
-                q -> q.feedbackSession("feedback-session"));
-        UUID feedbackQuestionId2 = given.feedbackQuestion("feedback-question-2",
-                q -> q.feedbackSession("feedback-session"));
+        var feedbackSession = given.feedbackSession("feedback-session");
+        var feedbackQuestion1 = given.feedbackQuestion("feedback-question-1",
+                q -> q.feedbackSession(feedbackSession.alias()));
+        var feedbackQuestion2 = given.feedbackQuestion("feedback-question-2",
+                q -> q.feedbackSession(feedbackSession.alias()));
         given.feedbackQuestion("another-session-feedback-question",
                 q -> q.feedbackSession("another-feedback-session"));
         persistGivenData(given);
 
         List<FeedbackQuestion> actual = inTransaction(() -> feedbackQuestionsDb.getFeedbackQuestionsForSession(
-                feedbackSessionId));
+                feedbackSession.id()));
 
-        assertEquals(Set.of(feedbackQuestionId1, feedbackQuestionId2),
+        assertEquals(Set.of(feedbackQuestion1.id(), feedbackQuestion2.id()),
                 actual.stream().map(FeedbackQuestion::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
     public void getFeedbackQuestionsForGiverType_questionsExist_returnsQuestionsForGiverType() {
-        UUID feedbackSessionId = given.feedbackSession("feedback-session");
-        UUID feedbackQuestionId = given.feedbackQuestion("student-feedback-question",
-                q -> q.feedbackSession("feedback-session").giverType(QuestionGiverType.STUDENTS));
+        var feedbackSession = given.feedbackSession("feedback-session");
+        var feedbackQuestion = given.feedbackQuestion("student-feedback-question",
+                q -> q.feedbackSession(feedbackSession.alias()).giverType(QuestionGiverType.STUDENTS));
         given.feedbackQuestion("instructor-feedback-question",
-                q -> q.feedbackSession("feedback-session").giverType(QuestionGiverType.INSTRUCTORS));
+                q -> q.feedbackSession(feedbackSession.alias()).giverType(QuestionGiverType.INSTRUCTORS));
         persistGivenData(given);
 
         List<FeedbackQuestion> actual = inTransaction(() -> {
-            FeedbackSession feedbackSession = getEntity(FeedbackSession.class, feedbackSessionId);
-            return feedbackQuestionsDb.getFeedbackQuestionsForGiverType(feedbackSession, QuestionGiverType.STUDENTS);
+            FeedbackSession feedbackSessionEntity = getEntity(FeedbackSession.class, feedbackSession.id());
+            return feedbackQuestionsDb.getFeedbackQuestionsForGiverType(
+                    feedbackSessionEntity, QuestionGiverType.STUDENTS);
         });
 
-        assertEquals(List.of(feedbackQuestionId), actual.stream().map(FeedbackQuestion::getId).toList());
+        assertEquals(List.of(feedbackQuestion.id()), actual.stream().map(FeedbackQuestion::getId).toList());
     }
 
     @Test(groups = GroupNames.DB)
     public void hasFeedbackQuestionsForGiverType_matchingQuestionExists_returnsTrue() {
-        String courseId = given.course("course");
-        given.feedbackSession("feedback-session", fs -> fs.course("course").name("Feedback Session"));
+        var course = given.course("course");
+        var feedbackSession = given.feedbackSession("feedback-session",
+                fs -> fs.course(course.alias()).name("Feedback Session"));
         given.feedbackQuestion("feedback-question",
-                q -> q.feedbackSession("feedback-session").giverType(QuestionGiverType.STUDENTS));
+                q -> q.feedbackSession(feedbackSession.alias()).giverType(QuestionGiverType.STUDENTS));
         persistGivenData(given);
 
         boolean actual = inTransaction(() -> feedbackQuestionsDb.hasFeedbackQuestionsForGiverType(
-                "Feedback Session", courseId, QuestionGiverType.STUDENTS));
+                "Feedback Session", course.id(), QuestionGiverType.STUDENTS));
 
         assertTrue(actual);
     }
