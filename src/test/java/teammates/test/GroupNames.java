@@ -6,6 +6,7 @@ package teammates.test;
 public final class GroupNames {
 
     public static final String INTEGRATION = "integration";
+    public static final String DB = "db-test";
 
     private GroupNames() {
         // Utility class.

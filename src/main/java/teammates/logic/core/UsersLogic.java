@@ -250,13 +250,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets instructors matching any of the specified emails.
-     */
-    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
-        return usersDb.getInstructorsForEmails(courseId, userEmails);
-    }
-
-    /**
      * Gets an instructor by associated {@code regkey}.
      */
     public Instructor getInstructorByRegistrationKey(String regKey) {
@@ -392,16 +385,6 @@ public final class UsersLogic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
         return usersDb.getInstructorsForGoogleId(googleId);
-    }
-
-    /**
-     * Gets a non-soft-deleted instructor with the specified email and institute.
-     */
-    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
-        assert email != null;
-        assert institute != null;
-
-        return usersDb.getInstructorByEmailAndInstitute(email, institute);
     }
 
     /**

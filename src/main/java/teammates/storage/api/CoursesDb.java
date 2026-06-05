@@ -77,39 +77,6 @@ public final class CoursesDb {
     }
 
     /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
-        Root<Section> sectionRoot = cr.from(Section.class);
-        Join<Section, Course> courseJoin = sectionRoot.join("course");
-        Join<Section, Team> teamJoin = sectionRoot.join("teams");
-
-        cr.select(sectionRoot).where(cb.and(
-                cb.equal(courseJoin.get("id"), courseId),
-                cb.equal(teamJoin.get("name"), teamName)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Get teams by {@code course}.
-     */
-    public List<Team> getTeamsForCourse(String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
-        Root<Team> teamRoot = cr.from(Team.class);
-        Join<Team, Section> sectionJoin = teamRoot.join("section");
-        Join<Section, Course> courseJoin = sectionJoin.join("course");
-
-        cr.select(teamRoot).where(
-                cb.equal(courseJoin.get("id"), courseId));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Persists a team.
      */
     public Team persistTeam(Team team) {
@@ -131,6 +98,22 @@ public final class CoursesDb {
                 cb.equal(teamRoot.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Get teams by {@code course}.
+     */
+    public List<Team> getTeamsForCourse(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
+        Root<Team> teamRoot = cr.from(Team.class);
+        Join<Team, Section> sectionJoin = teamRoot.join("section");
+        Join<Section, Course> courseJoin = sectionJoin.join("course");
+
+        cr.select(teamRoot).where(
+                cb.equal(courseJoin.get("id"), courseId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
 }

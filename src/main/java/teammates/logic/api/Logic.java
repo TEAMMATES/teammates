@@ -169,13 +169,6 @@ public class Logic {
     }
 
     /**
-     * Get a list of approved account requests associated with email and institute provided.
-     */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
-    }
-
-    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {
@@ -187,13 +180,6 @@ public class Logic {
      */
     public Account getAccountForGoogleId(String googleId) {
         return accountsLogic.getAccountForGoogleId(googleId);
-    }
-
-    /**
-     * Get a list of accounts associated with email provided.
-     */
-    public List<Account> getAccountsForEmail(String email) {
-        return accountsLogic.getAccountsForEmail(email);
     }
 
     /**
@@ -349,13 +335,6 @@ public class Logic {
     }
 
     /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        return coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
-    }
-
-    /**
      * Gets the deadline extensions for a feedback session.
      */
     public Set<DeadlineExtension> getDeadlineExtensions(UUID feedbackSessionId) throws EntityDoesNotExistException {
@@ -458,19 +437,6 @@ public class Logic {
      */
     public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Gets a feedback session from the recycle bin.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
 
     /**
@@ -814,13 +780,6 @@ public class Logic {
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         return usersLogic.getInstructorsForGoogleId(googleId);
-    }
-
-    /**
-     * Gets a non-soft-deleted instructor with the specified email and institute.
-     */
-    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
-        return usersLogic.getInstructorForEmailAndInstitute(email, institute);
     }
 
     /**

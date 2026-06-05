@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 
@@ -24,7 +23,6 @@ import teammates.storage.entity.FeedbackSession;
  */
 public final class FeedbackSessionsDb {
 
-    private static final Logger log = Logger.getLogger();
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 
     private static final Duration REMINDER_LEAD_TIME = Duration.ofHours(24);
@@ -60,36 +58,6 @@ public final class FeedbackSessionsDb {
                 cb.equal(fsRoot.get("name"), feedbackSessionName),
                 cb.equal(fsJoin.get("id"), courseId)));
         return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Gets a soft-deleted feedback session.
-     *
-     * @return null if not found or not soft-deleted.
-     */
-    public FeedbackSession getSoftDeletedFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (feedbackSession != null && feedbackSession.getDeletedAt() == null) {
-            log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
-            return null;
-        }
-
-        return feedbackSession;
-    }
-
-    /**
-     * Gets soft-deleted feedback sessions for course.
-     */
-    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
-        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
-        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
-        cq.select(fsRoot).where(cb.and(
-                cb.isNotNull(fsRoot.get("deletedAt")),
-                cb.equal(fsJoin.get("id"), courseId)));
-        return HibernateUtil.createQuery(cq).getResultList();
     }
 
     /**

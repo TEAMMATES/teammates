@@ -40,6 +40,11 @@ public class Student extends User {
         // required by Hibernate
     }
 
+    public Student(String name, String email, String comments) {
+        super(name, email);
+        this.setComments(comments);
+    }
+
     public Student(Course course, String name, String email, String comments) {
         super(course, name, email);
         this.setComments(comments);
