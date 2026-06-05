@@ -10,7 +10,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -44,13 +43,11 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
             if (courseId != null) {
-                Course course = logic.getCourse(courseId);
-                gateKeeper.verifyStudentInCourse(getStudentFromRequest(courseId), course);
+                gateKeeper.verifyStudentInCourse(authContext, courseId);
             }
         } else {
             if (courseId != null) {
-                Course course = logic.getCourse(courseId);
-                gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(courseId), course);
+                gateKeeper.verifyInstructorInCourse(authContext, courseId);
             }
         }
     }

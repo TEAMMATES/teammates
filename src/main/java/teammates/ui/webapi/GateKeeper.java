@@ -2,8 +2,8 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.util.Const;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -17,6 +17,7 @@ final class GateKeeper {
     private static final GateKeeper instance = new GateKeeper();
 
     private final UsersLogic usersLogic = UsersLogic.inst();
+    private final AuthLogic authLogic = AuthLogic.inst();
 
     private GateKeeper() {
         // prevent initialization
@@ -70,28 +71,28 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified student can access the specified course.
+     * Verifies that the specified auth context has student privileges in the specified course.
      */
-    void verifyStudentInCourse(Student student, Course course) throws UnauthorizedAccessException {
+    void verifyStudentInCourse(AuthContext authContext, String courseId) throws UnauthorizedAccessException {
+        Student student = authLogic.getStudentFromAuthContext(authContext, courseId);
         verifyNotNull(student, "student");
-        verifyNotNull(course, "course");
 
-        if (!course.equals(student.getCourse())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
+        if (!student.getCourseId().equals(courseId)) {
+            throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to student ["
                     + student.getEmail() + "]");
         }
     }
 
     /**
-     * Verifies that the specified instructor can access the specified course.
+     * Verifies that the specified auth context has instructor privileges in the specified course.
      */
-    void verifyInstructorInCourse(Instructor instructor, Course course)
+    void verifyInstructorInCourse(AuthContext authContext, String courseId)
             throws UnauthorizedAccessException {
+        Instructor instructor = authLogic.getInstructorFromAuthContext(authContext, courseId);
         verifyNotNull(instructor, "instructor");
-        verifyNotNull(course, "course");
 
-        if (!course.equals(instructor.getCourse())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+        if (!instructor.getCourseId().equals(courseId)) {
+            throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to instructor ["
                     + instructor.getEmail() + "]");
         }
     }

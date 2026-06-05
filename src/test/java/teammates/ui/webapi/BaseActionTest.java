@@ -9,6 +9,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,8 @@ import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
+import teammates.logic.core.AuthLogic;
+import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -66,6 +69,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic mockLogic = mock(Logic.class);
+    UsersLogic mockUsersLogic = mock(UsersLogic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
@@ -124,6 +128,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
+            stubAuthLogicUsersLogic(action.authContext);
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
@@ -248,6 +253,40 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Account account = authContext.account();
             return account == null ? null : mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
         }).when(mockLogic).getInstructorFromAuthContext(any(AuthContext.class), anyString());
+    }
+
+    private void stubAuthLogicUsersLogic(AuthContext authContext) {
+        injectUsersLogicIntoAuthLogic(mockUsersLogic);
+
+        doAnswer(invocation -> {
+            UUID accountId = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            Account account = authContext.account();
+            if (account != null && account.getId().equals(accountId)) {
+                return mockLogic.getStudentByGoogleId(courseId, account.getGoogleId());
+            }
+            return UsersLogic.inst().getStudentByAccountId(accountId, courseId);
+        }).when(mockUsersLogic).getStudentByAccountId(any(UUID.class), anyString());
+
+        doAnswer(invocation -> {
+            UUID accountId = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            Account account = authContext.account();
+            if (account != null && account.getId().equals(accountId)) {
+                return mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
+            }
+            return UsersLogic.inst().getInstructorByAccountId(accountId, courseId);
+        }).when(mockUsersLogic).getInstructorByAccountId(any(UUID.class), anyString());
+    }
+
+    private void injectUsersLogicIntoAuthLogic(UsersLogic usersLogic) {
+        try {
+            Field usersLogicField = AuthLogic.class.getDeclaredField("usersLogic");
+            usersLogicField.setAccessible(true);
+            usersLogicField.set(AuthLogic.inst(), usersLogic);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

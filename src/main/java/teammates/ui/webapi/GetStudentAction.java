@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
@@ -28,26 +27,21 @@ public class GetStudentAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Course course = logic.getCourse(courseId);
-
-        Student student;
-
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
+
         if (studentId != null) {
-            student = getStudentInCourse(courseId, studentId);
+            Student student = getStudentInCourse(courseId, studentId);
             if (student == null) {
                 throw new EntityNotFoundException(STUDENT_NOT_FOUND);
             }
 
             Instructor instructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyInstructorInCourse(instructor, logic.getCourse(courseId));
+            gateKeeper.verifyInstructorInCourse(authContext, courseId);
             gateKeeper.verifyInstructorHasPrivilege(instructor,
-                    student.getTeamName(),
+                    student.getSectionName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
-            student = getStudentFromRequest(courseId);
-            gateKeeper.verifyStudentInCourse(student, course);
+            gateKeeper.verifyStudentInCourse(authContext, courseId);
         }
     }
 

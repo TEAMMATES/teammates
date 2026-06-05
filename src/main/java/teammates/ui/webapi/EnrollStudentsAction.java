@@ -36,7 +36,7 @@ public class EnrollStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Instructor instructor = getInstructorFromRequest(courseId);
-        gateKeeper.verifyInstructorInCourse(instructor, logic.getCourse(courseId));
+        gateKeeper.verifyInstructorInCourse(authContext, courseId);
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 

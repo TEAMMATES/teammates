@@ -26,15 +26,14 @@ public class GetCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-        Course course = logic.getCourse(courseId);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(courseId), course);
+            gateKeeper.verifyInstructorInCourse(authContext, courseId);
             return;
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            gateKeeper.verifyStudentInCourse(getStudentFromRequest(courseId), course);
+            gateKeeper.verifyStudentInCourse(authContext, courseId);
             return;
         }
 

@@ -35,6 +35,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     void testSpecificAccessControl_courseDoesNotExist_cannotAccess() {
         loginAsInstructor(googleId);
         when(mockLogic.getCourse("course-id")).thenReturn(null);
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",

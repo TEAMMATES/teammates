@@ -38,9 +38,8 @@ public class CreateFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Instructor instructor = getInstructorFromRequest(courseId);
-        Course course = logic.getCourse(courseId);
 
-        gateKeeper.verifyInstructorInCourse(instructor, course);
+        gateKeeper.verifyInstructorInCourse(authContext, courseId);
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

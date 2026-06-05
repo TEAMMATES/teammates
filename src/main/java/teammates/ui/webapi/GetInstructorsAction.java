@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -43,13 +42,11 @@ public class GetInstructorsAction extends Action {
         if (intentStr == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
-            Student student = getStudentFromRequest(courseId);
-            gateKeeper.verifyStudentInCourse(student, course);
+            gateKeeper.verifyStudentInCourse(authContext, courseId);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
-            Instructor instructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyInstructorInCourse(instructor, course);
+            gateKeeper.verifyInstructorInCourse(authContext, courseId);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
         }

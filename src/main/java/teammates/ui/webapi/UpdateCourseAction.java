@@ -25,10 +25,9 @@ public class UpdateCourseAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = logic.getCourse(courseId);
         Instructor instructor = getInstructorFromRequest(courseId);
 
-        gateKeeper.verifyInstructorInCourse(instructor, course);
+        gateKeeper.verifyInstructorInCourse(authContext, courseId);
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
