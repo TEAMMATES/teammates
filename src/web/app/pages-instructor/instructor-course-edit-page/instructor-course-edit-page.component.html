@@ -53,15 +53,6 @@
 @if (!isAddingNewInstructor) {
   <div class="card-body text-center">
     <button
-      id="btn-add-instructor"
-      class="btn btn-success mx-2 my-1"
-      type="button"
-      (click)="isAddingNewInstructor = true"
-      [disabled]="isCopyingInstructor"
-    >
-      Add New Instructor
-    </button>
-    <button
       id="btn-copy-instructor"
       class="btn btn-info mx-2 my-1"
       type="button"
@@ -72,6 +63,15 @@
         <tm-ajax-loading></tm-ajax-loading>
       }
       Copy Instructors from Other Courses
+    </button>
+    <button
+      id="btn-add-instructor"
+      class="btn btn-success mx-2 my-1"
+      type="button"
+      (click)="isAddingNewInstructor = true"
+      [disabled]="isCopyingInstructor"
+    >
+      Add New Instructor
     </button>
   </div>
 }
