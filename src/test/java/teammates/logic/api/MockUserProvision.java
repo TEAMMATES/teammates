@@ -113,24 +113,19 @@ public class MockUserProvision extends UserProvision {
             return PUBLIC_AUTH_CONTEXT;
         }
 
-        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
-        if (masqueradeAccountId != null) {
+        if (isMasqueradeRequest(req)) {
             if (!loggedInUserIsAdmin) {
                 throw new UnauthorizedAccessException(
                         String.format("Masquerade failed: user %s does not have admin privilege", loggedInGoogleId));
             }
-            try {
-                UUID masqueradeAccountUuid = UUID.fromString(masqueradeAccountId);
-                Account masqueradeAccount = logic.getAccount(masqueradeAccountUuid);
-                if (masqueradeAccount == null) {
-                    throw new UnauthorizedAccessException(
-                            String.format("Masquerade failed: no account found for id %s", masqueradeAccountId));
-                }
-                return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
-            } catch (IllegalArgumentException | NullPointerException e) {
+
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            Account masqueradeAccount = logic.getAccount(masqueradeAccountUuid);
+            if (masqueradeAccount == null) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId), e);
+                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountUuid));
             }
+            return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
         }
 
         return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);

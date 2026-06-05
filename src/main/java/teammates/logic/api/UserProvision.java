@@ -145,6 +145,21 @@ public class UserProvision {
         return account != null;
     }
 
+    /**
+     * Gets a valid masquerade account id from the request parameters.
+     *
+     * @throws UnauthorizedAccessException if the masquerade account id is not a valid UUID
+     */
+    protected UUID getValidMasqueradeAccountId(HttpServletRequest req) throws UnauthorizedAccessException {
+        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        try {
+            return UUID.fromString(masqueradeAccountId);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new UnauthorizedAccessException(
+                    String.format("Masquerade failed: invalid account id format: %s", masqueradeAccountId), e);
+        }
+    }
+
     private Account getAccountFromRequest(HttpServletRequest req) {
         String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
         UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
@@ -154,11 +169,11 @@ public class UserProvision {
         return null;
     }
 
-    private AuthContext handleBackdoorRequest(HttpServletRequest req) {
+    private AuthContext handleBackdoorRequest(HttpServletRequest req) throws UnauthorizedAccessException {
         Account account = null;
         if (isMasqueradeRequest(req)) {
-            String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
-            account = accountsLogic.getAccount(UUID.fromString(masqueradeAccountId));
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            account = accountsLogic.getAccount(masqueradeAccountUuid);
         }
 
         return new AuthContext(
@@ -194,17 +209,11 @@ public class UserProvision {
                         String.format("Masquerade failed: user %s does not have admin privilege", account.getEmail()));
             }
 
-            String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
-            try {
-                UUID masqueradeAccountUuid = UUID.fromString(masqueradeAccountId);
-                effectiveAccount = accountsLogic.getAccount(masqueradeAccountUuid);
-                if (effectiveAccount == null) {
-                    throw new UnauthorizedAccessException(
-                            String.format("Masquerade failed: no account found for account id %s", masqueradeAccountId));
-                }
-            } catch (IllegalArgumentException | NullPointerException e) {
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            effectiveAccount = accountsLogic.getAccount(masqueradeAccountUuid);
+            if (effectiveAccount == null) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId), e);
+                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountUuid));
             }
         }
 
