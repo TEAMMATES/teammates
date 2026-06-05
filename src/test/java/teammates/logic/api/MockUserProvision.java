@@ -119,12 +119,14 @@ public class MockUserProvision extends UserProvision {
                 throw new UnauthorizedAccessException(
                         String.format("Masquerade failed: user %s does not have admin privilege", loggedInGoogleId));
             }
-            Account masqueradeAccount = logic.getAccount(UUID.fromString(masqueradeAccountId));
-            if (masqueradeAccount == null) {
+            try {
+                UUID masqueradeAccountUuid = UUID.fromString(masqueradeAccountId);
+                Account masqueradeAccount = logic.getAccount(masqueradeAccountUuid);
+                return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
+            } catch (IllegalArgumentException | NullPointerException e) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountId));
+                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId));
             }
-            return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
         }
 
         return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);

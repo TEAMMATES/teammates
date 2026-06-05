@@ -101,6 +101,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         reset(mockLogic);
 
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        when(mockLogic.getAccount(stubStudent.getAccountId())).thenReturn(stubStudent.getAccount());
+        when(mockLogic.getAccount(stubInstructor.getAccountId())).thenReturn(stubInstructor.getAccount());
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructor);

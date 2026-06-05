@@ -154,7 +154,7 @@ public class UserProvisionTest extends BaseTestCase {
     public void getAuthContextFromRequest_nonAdminMasquerade_throwsUnauthorizedAccessException() {
         Account account = createAccount("user-id", "user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, "target-id");
+        req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, account.getId().toString());
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
         UnauthorizedAccessException ex = assertThrows(

@@ -195,10 +195,16 @@ public class UserProvision {
             }
 
             String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
-            effectiveAccount = accountsLogic.getAccount(UUID.fromString(masqueradeAccountId));
-            if (effectiveAccount == null) {
+            try {
+                UUID masqueradeAccountUuid = UUID.fromString(masqueradeAccountId);
+                effectiveAccount = accountsLogic.getAccount(masqueradeAccountUuid);
+                if (effectiveAccount == null) {
+                    throw new UnauthorizedAccessException(
+                            String.format("Masquerade failed: no account found for account id %s", masqueradeAccountId));
+                }
+            } catch (IllegalArgumentException | NullPointerException e) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountId));
+                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId));
             }
         }
 
