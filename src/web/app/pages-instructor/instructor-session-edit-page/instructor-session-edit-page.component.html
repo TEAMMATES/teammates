@@ -46,7 +46,7 @@
           (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
           (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
           [(formModel)]="questionEditFormModels[i]"
-          [isQuestionPublished]="sessionEditFormModel.publishStatus === FeedbackSessionPublishStatus.PUBLISHED"
+          [questionSubmissionStatus]="sessionEditFormModel.submissionStatus"
         ></tm-question-edit-form>
       </div>
     }

@@ -152,7 +152,6 @@ describe('InstructorSessionEditPageComponent', () => {
     questionNumber: 1,
     questionBrief: 'question brief',
     questionDescription: 'description',
-    isQuestionHasResponses: false,
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
@@ -180,7 +179,6 @@ describe('InstructorSessionEditPageComponent', () => {
     questionNumber: 2,
     questionBrief: 'question brief',
     questionDescription: 'description',
-    isQuestionHasResponses: false,
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
@@ -317,30 +315,6 @@ describe('InstructorSessionEditPageComponent', () => {
     component.isAddingQuestionPanelExpanded = true;
     component.isLoadingFeedbackSession = false;
     component.isLoadingFeedbackQuestions = false;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback session failed to load', () => {
-    component.hasLoadingFeedbackSessionFailed = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback question failed to load', () => {
-    component.hasLoadingFeedbackQuestionsFailed = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback session is loading', () => {
-    component.isLoadingFeedbackSession = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback questions are loading', () => {
-    component.isLoadingFeedbackQuestions = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

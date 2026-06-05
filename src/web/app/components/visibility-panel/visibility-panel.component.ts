@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
@@ -7,6 +6,7 @@ import { CommonVisibilitySetting } from '../../../services/feedback-questions.se
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackQuestionType,
+  FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
@@ -31,7 +31,6 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   templateUrl: './visibility-panel.component.html',
   styleUrls: ['./visibility-panel.component.scss'],
   imports: [
-    NgClass,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
@@ -59,8 +58,6 @@ export class VisibilityPanelComponent {
     questionNumber: 0,
     questionBrief: '',
     questionDescription: '',
-
-    isQuestionHasResponses: false,
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
@@ -91,6 +88,9 @@ export class VisibilityPanelComponent {
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
   };
+
+  @Input()
+  questionSubmissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
 
   @Input()
   isCustomFeedbackVisibilitySettingAllowed = false;
@@ -128,6 +128,20 @@ export class VisibilityPanelComponent {
     [VisibilityControl.SHOW_GIVER_NAME, "Giver's Name"],
     [VisibilityControl.SHOW_RECIPIENT_NAME, "Recipient's Name"],
   ]);
+
+  get mayHaveBeenViewed(): boolean {
+    // A question may have been viewed if it was visible at any point in time.
+    // Note that a question can be visible but not open yet.
+    switch (this.questionSubmissionStatus) {
+      case FeedbackSessionSubmissionStatus.OPEN:
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+      case FeedbackSessionSubmissionStatus.CLOSED:
+      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
+        return true;
+      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
+        return false;
+    }
+  }
 
   constructor() {
     this.QuestionRecipientType = QuestionRecipientType;
