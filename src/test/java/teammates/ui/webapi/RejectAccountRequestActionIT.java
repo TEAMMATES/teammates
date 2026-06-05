@@ -18,6 +18,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
@@ -47,7 +48,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -67,7 +68,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         // See individual test methods below
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
@@ -99,7 +100,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         assertEquals("TEAMMATES: " + TYPICAL_TITLE, sentEmail.getSubject());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
@@ -125,7 +126,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withReasonBodyButNoTitle_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
@@ -142,7 +143,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withReasonTitleButNoBody_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
@@ -159,7 +160,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_alreadyRejected_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
@@ -174,7 +175,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_invalidUuid_shouldThrow() {
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
@@ -184,7 +185,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         verifyNoEmailsSent();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_accountRequestNotFound_shouldThrow() {
         AccountRequestRejectionRequest requestBody = new AccountRequestRejectionRequest(null, null);
         String uuid = UUID.randomUUID().toString();
@@ -196,7 +197,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);

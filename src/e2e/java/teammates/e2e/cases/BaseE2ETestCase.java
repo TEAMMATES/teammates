@@ -400,17 +400,24 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the account data for the given Google ID.
+     * Gets the account data for the given account ID.
      */
-    protected AccountData getAccount(String googleId) {
-        return BACKDOOR.getAccountData(googleId);
+    protected AccountData getAccount(String accountId) {
+        return getAccount(UUID.fromString(accountId));
+    }
+
+    /**
+     * Gets the account data for the given account ID.
+     */
+    protected AccountData getAccount(UUID accountId) {
+        return BACKDOOR.getAccountData(accountId);
     }
 
     /**
      * Gets the account data for the given account.
      */
     protected AccountData getAccount(Account account) {
-        return getAccount(account.getGoogleId());
+        return getAccount(account.getId());
     }
 
     /**

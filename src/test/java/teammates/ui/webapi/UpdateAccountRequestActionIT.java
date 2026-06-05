@@ -16,6 +16,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.AccountRequestData;
@@ -28,7 +29,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequestAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -44,7 +45,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
@@ -181,7 +182,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
         Course course = typicalBundle.courses.get("course1");
         verifyOnlyAdminCanAccess(course);

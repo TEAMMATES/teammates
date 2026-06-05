@@ -42,7 +42,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     private final Logic logic = Logic.inst();
 
-    @BeforeSuite
+    @BeforeSuite(alwaysRun = true)
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
 
@@ -113,7 +113,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         });
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     protected static void tearDownSuite() {
         PGSQL.close();
     }

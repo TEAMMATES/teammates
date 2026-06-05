@@ -15,6 +15,8 @@ import teammates.storage.entity.Instructor;
 public class InstructorData implements ApiOutput {
     private final UUID userId;
     @Nullable
+    private UUID accountId;
+    @Nullable
     private String googleId;
     private final String courseId;
     private final String email;
@@ -44,6 +46,7 @@ public class InstructorData implements ApiOutput {
 
     public InstructorData(Instructor instructor) {
         this.userId = instructor.getId();
+        this.accountId = instructor.getAccountId();
         this.courseId = instructor.getCourseId();
         this.email = instructor.getEmail();
         this.role = instructor.getRole();
@@ -131,14 +134,24 @@ public class InstructorData implements ApiOutput {
         return courseName;
     }
 
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
     /**
      * Adds additional attributes only for search result for admin.
      *
      * @param key Registration key
-     * @param googleId Google ID of the instructor
+     * @param googleId The googleId of the instructor
+     * @param accountId The accountId of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String googleId) {
+    public void addAdditionalInformationForAdminSearch(String key, String googleId, UUID accountId) {
         setKey(key);
         setGoogleId(googleId);
+        setAccountId(accountId);
     }
 }

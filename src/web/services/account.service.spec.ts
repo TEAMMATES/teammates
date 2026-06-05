@@ -32,7 +32,7 @@ describe('AccountService', () => {
   it('should execute GET on account endpoint', () => {
     service.getAccount(id);
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: id,
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
@@ -70,7 +70,7 @@ describe('AccountService', () => {
   it('should execute DELETE on account endpoint', () => {
     service.deleteAccount(id);
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: id,
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });

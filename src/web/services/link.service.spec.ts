@@ -70,7 +70,7 @@ describe('Link Service', () => {
 
   it('should generate the manage account link', () => {
     expect(service.generateManageAccountLink('hello there', '/generalkenobiyouareaboldone')).toBe(
-      '/web/generalkenobiyouareaboldone?instructorid=hello%20there',
+      '/web/generalkenobiyouareaboldone?accountid=hello%20there',
     );
   });
 

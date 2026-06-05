@@ -13,6 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Instructor;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsersDb}.
@@ -23,12 +24,12 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchInstructorsInWholeSystem_typicalCase_success() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -85,7 +86,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         verifySearchResults(results, insUniqueDisplayName);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchInstructorsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -107,7 +108,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         verifySearchResults(results);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchInstructorsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("_"));
 

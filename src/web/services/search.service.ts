@@ -156,6 +156,7 @@ export class SearchService {
       comments = '',
       teamName: team,
       sectionName: section,
+      accountId = '',
       googleId = '',
       institute = '',
     }: Student = student;
@@ -193,7 +194,7 @@ export class SearchService {
     studentResult.homePageLink = this.linkService.generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
     studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeGoogleId);
     studentResult.manageAccountLink = this.linkService.generateManageAccountLink(
-      googleId,
+      accountId,
       this.linkService.ADMIN_ACCOUNTS_PAGE,
     );
 
@@ -237,7 +238,7 @@ export class SearchService {
       notOpenSessions: {},
       publishedSessions: {},
     };
-    const { userId, email, name, googleId = '', institute = '' }: Instructor = instructor;
+    const { userId, email, name, accountId = '', googleId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, userId, email, name, googleId, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
@@ -255,7 +256,7 @@ export class SearchService {
       this.linkService.INSTRUCTOR_HOME_PAGE,
     );
     instructorResult.manageAccountLink = this.linkService.generateManageAccountLink(
-      googleId,
+      accountId,
       this.linkService.ADMIN_ACCOUNTS_PAGE,
     );
 

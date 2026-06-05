@@ -13,6 +13,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link CoursesDb}.
@@ -21,7 +22,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final CoursesDb coursesDb = CoursesDb.inst();
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCourse() {
         ______TS("failure: get course that does not exist");
         Course actual = inTransaction(() -> coursesDb.getCourse("non-existent-course-id"));
@@ -35,7 +36,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expected, actual);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testPersistCourse() {
         Course course = getTypicalCourse();
         inTransaction(() -> coursesDb.persistCourse(course));
@@ -43,7 +44,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(course, actualCourse);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testRemoveCourse() {
         Course course = getTypicalCourse();
         inTransaction(() -> coursesDb.persistCourse(course));
@@ -53,7 +54,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(actualCourse);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testPersistSection() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
@@ -65,7 +66,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(section, actualSection);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetSectionByName() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
@@ -84,7 +85,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertNull(nonExistentSection);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetSectionByCourseIdAndTeam() {
         Course course = getTypicalCourse();
         Section section = new Section("section-name");
@@ -103,7 +104,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(section, actualSection);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetTeamsForCourse() {
         Course course = getTypicalCourse();
         Section section1 = new Section("section-name1");
@@ -138,7 +139,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertTrue(expectedTeams.containsAll(actualTeams));
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateTeam() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
@@ -157,7 +158,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(team, actualTeam);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetTeamByName() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();

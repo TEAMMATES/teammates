@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.storage.entity.UsageStatistics;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsageStatisticsDb}.
@@ -19,7 +20,7 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final UsageStatisticsDb usageStatisticsDb = UsageStatisticsDb.inst();
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetUsageStatisticsForTimeRange() {
         ______TS("returns empty array for no usageStatistics in time range");
         Instant startTime = Instant.parse("2010-01-01T00:00:00Z");
@@ -51,7 +52,7 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(actulUsageStatisticsTwo.size(), 2);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testCreateUsageStatistics() {
         ______TS("success: create new usage statistics");
         Instant startTime = Instant.parse("2011-01-01T00:00:00Z");

@@ -15,6 +15,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentEnrollRequest;
@@ -27,7 +28,7 @@ import teammates.ui.request.StudentsEnrollRequest;
 public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -47,7 +48,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = typicalBundle.courses.get("course1").getId();
@@ -106,7 +107,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         assertEquals(expectedMessage, exception.getMessage());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
