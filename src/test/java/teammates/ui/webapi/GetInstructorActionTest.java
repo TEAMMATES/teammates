@@ -169,20 +169,6 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
     }
 
     @Test
-    void testExecute_fullDetailUnregistered_success() {
-        logoutUser();
-        Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByRegistrationKey(instructor.getRegKey())).thenReturn(instructor);
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.REGKEY, instructor.getRegKey(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-
-        verifyEntityNotFound(params);
-    }
-
-    @Test
     void testSpecificAccessControl_loggedInAsInstuctor_canAccess() {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         when(mockLogic.getInstructorByGoogleId(course.getId(), "user-id")).thenReturn(instructor);

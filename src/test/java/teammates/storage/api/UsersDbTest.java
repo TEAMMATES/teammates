@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 import java.util.Set;
@@ -45,6 +46,56 @@ public class UsersDbTest extends BaseDbTestcase {
 
         assertNotNull(actual);
         assertEquals(instructor.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getInstructorByAccountId_instructorExists_returnsInstructor() {
+        var account = given.account("account");
+        var course = given.course("course");
+        var instructor = given.instructor("instructor", i -> i.account(account.alias()).course(course.alias()));
+        persistGivenData(given);
+
+        Instructor actual = inTransaction(() -> usersDb.getInstructorByAccountId(account.id(), course.id()));
+
+        assertNotNull(actual);
+        assertEquals(instructor.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getInstructorByAccountId_instructorWrongCourse_returnsNull() {
+        var account = given.account("account");
+        var course = given.course("course");
+        given.instructor("instructor", i -> i.account(account.alias()).course("another-course"));
+        persistGivenData(given);
+
+        Instructor actual = inTransaction(() -> usersDb.getInstructorByAccountId(account.id(), course.id()));
+
+        assertNull(actual);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudentByAccountId_studentExists_returnsStudent() {
+        var account = given.account("account");
+        var course = given.course("course");
+        var student = given.student("student", s -> s.account(account.alias()).course(course.alias()));
+        persistGivenData(given);
+
+        Student actual = inTransaction(() -> usersDb.getStudentByAccountId(account.id(), course.id()));
+
+        assertNotNull(actual);
+        assertEquals(student.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudentByAccountId_studentWrongCourse_returnsNull() {
+        var account = given.account("account");
+        var course = given.course("course");
+        given.student("student", s -> s.account(account.alias()).course("another-course"));
+        persistGivenData(given);
+
+        Student actual = inTransaction(() -> usersDb.getStudentByAccountId(account.id(), course.id()));
+
+        assertNull(actual);
     }
 
     @Test(groups = GroupNames.DB)

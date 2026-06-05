@@ -32,12 +32,12 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null) {
             // request to get all students of a course by instructor
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+            Instructor instructor = getInstructorFromRequest(courseId);
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
-            Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+            Student student = getStudentFromRequest(courseId);
             if (student == null || !teamName.equals(student.getTeamName())) {
                 throw new UnauthorizedAccessException("You are not part of the team");
             }
@@ -51,7 +51,7 @@ public class GetStudentsAction extends Action {
 
         Instructor instructor = authContext.isAdmin()
                 ? null
-                : logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+                : getInstructorFromRequest(courseId);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
         boolean hasCoursePrivilege = instructor != null
                 && instructor.isAllowedForPrivilege(privilegeName);

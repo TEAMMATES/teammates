@@ -33,7 +33,7 @@ public class CreateInstructorAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(courseId);
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
@@ -55,7 +55,7 @@ public class CreateInstructorAction extends Action {
             Instructor createdInstructor = logic.createInstructor(instructorToAdd);
 
             // Generate and queue invitation email to priority queue (user-triggered)
-            Instructor inviter = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+            Instructor inviter = getInstructorFromRequest(courseId);
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter does not exist.");
             }

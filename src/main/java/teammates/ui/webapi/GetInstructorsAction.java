@@ -43,12 +43,12 @@ public class GetInstructorsAction extends Action {
         if (intentStr == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
-            Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+            Student student = getStudentFromRequest(courseId);
             gateKeeper.verifyAccessible(student, course);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+            Instructor instructor = getInstructorFromRequest(courseId);
             gateKeeper.verifyAccessible(instructor, course);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
@@ -80,7 +80,7 @@ public class GetInstructorsAction extends Action {
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-            if (authContext.isAdmin() || logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()).getPrivileges()
+            if (authContext.isAdmin() || getInstructorFromRequest(courseId).getPrivileges()
                     .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
 

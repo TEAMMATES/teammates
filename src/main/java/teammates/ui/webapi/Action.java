@@ -260,44 +260,12 @@ public abstract class Action {
         return reqBody;
     }
 
-    private Student getUnregisteredStudent() {
-        if (authContext.regKeyUser() instanceof Student student) {
-            return student;
-        }
-        return null;
-    }
-
-    private Instructor getUnregisteredInstructor() {
-        if (authContext.regKeyUser() instanceof Instructor instructor) {
-            return instructor;
-        }
-        return null;
-    }
-
     Instructor getInstructorFromRequest(String courseId) {
-        if (authContext.authType() == AuthType.REG_KEY) {
-            return getUnregisteredInstructor();
-        }
-
-        Account account = authContext.account();
-        if (account == null) {
-            return null;
-        }
-
-        return logic.getInstructorByGoogleId(courseId, account.getGoogleId());
+        return logic.getInstructorFromAuthContext(authContext, courseId);
     }
 
     Student getStudentFromRequest(String courseId) {
-        if (authContext.authType() == AuthType.REG_KEY) {
-            return getUnregisteredStudent();
-        }
-
-        Account account = authContext.account();
-        if (account == null) {
-            return null;
-        }
-
-        return logic.getStudentByGoogleId(courseId, account.getGoogleId());
+        return logic.getStudentFromAuthContext(authContext, courseId);
     }
 
     InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {

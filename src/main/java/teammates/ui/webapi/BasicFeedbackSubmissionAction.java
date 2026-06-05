@@ -124,7 +124,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
+                    getInstructorFromRequest(feedbackSession.getCourseId()), feedbackSession,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
@@ -167,12 +167,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
+                    getInstructorFromRequest(feedbackSession.getCourseId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
+                    getInstructorFromRequest(feedbackSession.getCourseId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
@@ -202,7 +202,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(authContext);
         gateKeeper.verifyAccessible(
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
+                getInstructorFromRequest(feedbackSession.getCourseId()), feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

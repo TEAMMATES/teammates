@@ -117,6 +117,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);
             stubUserForRegistrationKey();
+            stubUserForAuthContext();
             mockUserProvision.setLogic(mockLogic);
             mockUserProvision.setCreateMissingAccounts(true);
             action.setUserProvision(mockUserProvision);
@@ -225,6 +226,28 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             }
             return mockLogic.getInstructorByRegistrationKey(regKey);
         }).when(mockLogic).getUserByRegistrationKey(anyString());
+    }
+
+    private void stubUserForAuthContext() {
+        doAnswer(invocation -> {
+            AuthContext authContext = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            if (authContext.authType() == AuthType.REG_KEY) {
+                return authContext.regKeyUser() instanceof Student ? authContext.regKeyUser() : null;
+            }
+            Account account = authContext.account();
+            return account == null ? null : mockLogic.getStudentByGoogleId(courseId, account.getGoogleId());
+        }).when(mockLogic).getStudentFromAuthContext(any(AuthContext.class), anyString());
+
+        doAnswer(invocation -> {
+            AuthContext authContext = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            if (authContext.authType() == AuthType.REG_KEY) {
+                return authContext.regKeyUser() instanceof Instructor ? authContext.regKeyUser() : null;
+            }
+            Account account = authContext.account();
+            return account == null ? null : mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
+        }).when(mockLogic).getInstructorFromAuthContext(any(AuthContext.class), anyString());
     }
 
     /**
@@ -779,7 +802,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade, String... params) {
         loginAsAdmin();
         ensureUserHasAccount(instructor);
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        stubInstructorFromGoogleId(instructor);
 
         if (canMasquerade) {
             verifyCanMasquerade(instructor.getAccountId(), params);
@@ -792,7 +815,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor sameCourseInstructor = getTypicalInstructor();
         sameCourseInstructor.setCourse(thisCourse);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(sameCourseInstructor);
+        stubInstructorFromGoogleId(sameCourseInstructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
@@ -804,7 +827,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
+        stubInstructorFromGoogleId(otherCourseInstructor);
 
         logoutUser();
         loginAsInstructor(otherCourseInstructor.getId().toString());
@@ -825,7 +848,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
                 "instructor-googleId", Provider.TEAMMATES_DEV, "validInstructorSubject",
                 "validTenantId", instructor.getName(), instructor.getEmail()));
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         instructor.setCourse(thisCourse);
@@ -858,7 +881,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor instructor = getTypicalInstructor();
         ensureUserHasAccount(instructor);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         instructor.setCourse(thisCourse);
@@ -881,6 +904,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void loginAsStudentOfTheSameCourse(Course thisCourse) {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(thisCourse);
+        stubStudentFromGoogleId(sameCourseStudent);
 
         logoutUser();
         loginAsStudent(sameCourseStudent.getId().toString());
@@ -890,9 +914,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Student otherCourseStudent = getTypicalStudent();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseStudent.setCourse(otherCourse);
+        stubStudentFromGoogleId(otherCourseStudent);
 
         logoutUser();
         loginAsStudent(otherCourseStudent.getId().toString());
+    }
+
+    private void stubInstructorFromGoogleId(Instructor instructor) {
+        ensureUserHasAccount(instructor);
+        when(mockLogic.getInstructorByGoogleId(anyString(), anyString())).thenReturn(instructor);
+    }
+
+    private void stubStudentFromGoogleId(Student student) {
+        ensureUserHasAccount(student);
+        when(mockLogic.getStudentByGoogleId(anyString(), anyString())).thenReturn(student);
     }
 
     private void ensureUserHasAccount(User user) {

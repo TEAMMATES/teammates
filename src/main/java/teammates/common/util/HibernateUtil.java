@@ -163,6 +163,14 @@ public final class HibernateUtil {
     }
 
     /**
+     * Create an instance of TypedQuery for executing a Jakarta Persistence query language statement.
+     * @see Session#createQuery(String, Class)
+     */
+    public static <T> TypedQuery<T> createQuery(String queryString, Class<T> resultClass) {
+        return getCurrentSession().createQuery(queryString, resultClass);
+    }
+
+    /**
      * Returns a generic typed TypedQuery object.
      * @see Session#createQuery(CriteriaQuery)
      */

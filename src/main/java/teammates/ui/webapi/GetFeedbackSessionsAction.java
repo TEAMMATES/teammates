@@ -45,12 +45,12 @@ public class GetFeedbackSessionsAction extends Action {
         if (Const.EntityType.STUDENT.equals(entityType)) {
             if (courseId != null) {
                 Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId()), course);
+                gateKeeper.verifyAccessible(getStudentFromRequest(courseId), course);
             }
         } else {
             if (courseId != null) {
                 Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()), course);
+                gateKeeper.verifyAccessible(getInstructorFromRequest(courseId), course);
             }
         }
     }
@@ -88,14 +88,14 @@ public class GetFeedbackSessionsAction extends Action {
         } else {
             feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
             if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+                Student student = getStudentFromRequest(courseId);
                 assert student != null;
                 for (FeedbackSession session : feedbackSessions) {
                     sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
                 }
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 instructors = Collections.singletonList(
-                        logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()));
+                        getInstructorFromRequest(courseId));
             }
         }
 

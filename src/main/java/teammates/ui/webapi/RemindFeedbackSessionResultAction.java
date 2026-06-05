@@ -36,7 +36,7 @@ public class RemindFeedbackSessionResultAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -62,7 +62,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify =
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+                getInstructorFromRequest(feedbackSession.getCourseId());
 
         for (UUID userId : usersToRemind) {
             User user = logic.getUser(userId);

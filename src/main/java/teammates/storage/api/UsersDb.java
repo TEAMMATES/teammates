@@ -139,6 +139,30 @@ public final class UsersDb {
     }
 
     /**
+     * Gets an instructor by {@code accountId} and {@code courseId}.
+     */
+    public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
+        String jpql = "SELECT i FROM Instructor i WHERE i.accountId = :accountId AND i.courseId = :courseId";
+
+        TypedQuery<Instructor> query = HibernateUtil.createQuery(jpql, Instructor.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("courseId", courseId);
+        return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets a student by {@code accountId} and {@code courseId}.
+     */
+    public Student getStudentByAccountId(UUID accountId, String courseId) {
+        String jpql = "SELECT s FROM Student s WHERE s.accountId = :accountId AND s.courseId = :courseId";
+
+        TypedQuery<Student> query = HibernateUtil.createQuery(jpql, Student.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("courseId", courseId);
+        return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Gets a student by {@code googleId}.
      *
      * @deprecated moving away from googleId based retrieval

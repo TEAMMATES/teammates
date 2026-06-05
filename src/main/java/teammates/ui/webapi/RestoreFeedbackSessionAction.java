@@ -31,7 +31,7 @@ public class RestoreFeedbackSessionAction extends Action {
         }
 
         gateKeeper.verifyAccessible(
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
+                getInstructorFromRequest(feedbackSession.getCourseId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -49,7 +49,7 @@ public class RestoreFeedbackSessionAction extends Action {
 
         FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSession.getName());
         output.setPrivileges(privilege);
 
