@@ -74,6 +74,22 @@ public class UsersDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
+    public void getInstructorsByAccountId_instructorsExist_returnsInstructorsForAccount() {
+        var account = given.account("account");
+        var anotherAccount = given.account("another-account");
+        var instructor1 = given.instructor("instructor-1", i -> i.account(account.alias()).course("course-1"));
+        var instructor2 = given.instructor("instructor-2", i -> i.account(account.alias()).course("course-2"));
+        given.instructor("another-account-instructor", i -> i.account(anotherAccount.alias()).course("course-1"));
+        given.instructor("unregistered-instructor", i -> i.course("course-1"));
+        persistGivenData(given);
+
+        List<Instructor> actual = inTransaction(() -> usersDb.getInstructorsByAccountId(account.id()));
+
+        assertEquals(Set.of(instructor1.id(), instructor2.id()),
+                actual.stream().map(Instructor::getId).collect(Collectors.toSet()));
+    }
+
+    @Test(groups = GroupNames.DB)
     public void getStudentByAccountId_studentExists_returnsStudent() {
         var account = given.account("account");
         var course = given.course("course");
@@ -96,6 +112,22 @@ public class UsersDbTest extends BaseDbTestcase {
         Student actual = inTransaction(() -> usersDb.getStudentByAccountId(account.id(), course.id()));
 
         assertNull(actual);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudentsByAccountId_studentsExist_returnsStudentsForAccount() {
+        var account = given.account("account");
+        var anotherAccount = given.account("another-account");
+        var student1 = given.student("student-1", s -> s.account(account.alias()).course("course-1"));
+        var student2 = given.student("student-2", s -> s.account(account.alias()).course("course-2"));
+        given.student("another-account-student", s -> s.account(anotherAccount.alias()).course("course-1"));
+        given.student("unregistered-student", s -> s.course("course-1"));
+        persistGivenData(given);
+
+        List<Student> actual = inTransaction(() -> usersDb.getStudentsByAccountId(account.id()));
+
+        assertEquals(Set.of(student1.id(), student2.id()),
+                actual.stream().map(Student::getId).collect(Collectors.toSet()));
     }
 
     @Test(groups = GroupNames.DB)
