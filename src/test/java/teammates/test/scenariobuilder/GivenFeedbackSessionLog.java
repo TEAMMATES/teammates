@@ -20,20 +20,20 @@ public final class GivenFeedbackSessionLog extends GivenBase<FeedbackSessionLog>
     }
 
     /**
-     * Sets the user for the feedback session log.
+     * Sets the student for the feedback session log.
      */
-    public GivenFeedbackSessionLog user(String userAlias) {
+    public GivenFeedbackSessionLog student(String studentAlias) {
         assert entity.getUser() == null : "User has already been set for this feedback session log";
-        User user = given.getOrCreate(userAlias, given.dataBundle.students, (String uAlias) -> {
+        User student = given.getOrCreate(studentAlias, given.dataBundle.students, (String sAlias) -> {
             if (entity.getFeedbackSession() == null) {
-                given.student(uAlias);
+                given.student(sAlias);
                 return;
             }
 
             String courseAlias = given.getAlias(entity.getFeedbackSession().getCourse());
-            given.student(uAlias, s -> s.course(courseAlias));
+            given.student(sAlias, s -> s.course(courseAlias));
         });
-        entity.setUser(user);
+        entity.setUser(student);
         return this;
     }
 
@@ -100,7 +100,7 @@ public final class GivenFeedbackSessionLog extends GivenBase<FeedbackSessionLog>
         }
 
         if (entity.getUser() == null) {
-            this.user("default:feedback-session-log-user:" + entity.getId());
+            this.student("default:feedback-session-log-student:" + entity.getId());
         }
     }
 

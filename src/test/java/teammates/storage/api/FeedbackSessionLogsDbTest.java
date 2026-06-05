@@ -61,19 +61,19 @@ public class FeedbackSessionLogsDbTest extends BaseDbTestcase {
         given.student("student-b", s -> s.course("course").email("b@example.com"));
         UUID laterFeedbackSessionLogId = given.feedbackSessionLog("later-feedback-session-log",
                 log -> log.feedbackSession("feedback-session")
-                        .user("student-a")
+                        .student("student-a")
                         .timestamp(now.plus(1, ChronoUnit.HOURS)));
         UUID earlierFeedbackSessionLogId = given.feedbackSessionLog("earlier-feedback-session-log",
                 log -> log.feedbackSession("feedback-session")
-                        .user("student-b")
+                        .student("student-b")
                         .timestamp(now.minus(1, ChronoUnit.HOURS)));
         UUID sameTimestampEarlierEmailFeedbackSessionLogId = given.feedbackSessionLog("same-timestamp-earlier-email-log",
                 log -> log.feedbackSession("feedback-session")
-                        .user("student-a")
+                        .student("student-a")
                         .timestamp(now));
         UUID sameTimestampLaterEmailFeedbackSessionLogId = given.feedbackSessionLog("same-timestamp-later-email-log",
                 log -> log.feedbackSession("feedback-session")
-                        .user("student-b")
+                        .student("student-b")
                         .timestamp(now));
         persistGivenData(given);
 
@@ -95,9 +95,9 @@ public class FeedbackSessionLogsDbTest extends BaseDbTestcase {
         UUID studentId = given.student("student", s -> s.course("course"));
         given.feedbackSession("feedback-session", fs -> fs.course("course"));
         UUID feedbackSessionLogId = given.feedbackSessionLog("feedback-session-log",
-                log -> log.feedbackSession("feedback-session").user("student").timestamp(now));
+                log -> log.feedbackSession("feedback-session").student("student").timestamp(now));
         given.feedbackSessionLog("another-student-feedback-session-log",
-                log -> log.feedbackSession("feedback-session").user("another-student").timestamp(now));
+                log -> log.feedbackSession("feedback-session").student("another-student").timestamp(now));
         persistGivenData(given);
 
         List<FeedbackSessionLog> actual = inTransaction(() -> feedbackSessionLogsDb.getOrderedFeedbackSessionLogs(
