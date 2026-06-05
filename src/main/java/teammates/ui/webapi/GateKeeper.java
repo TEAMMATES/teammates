@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.util.Const;
+import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -16,6 +17,8 @@ import teammates.ui.exception.UnauthorizedAccessException;
 final class GateKeeper {
 
     private static final GateKeeper instance = new GateKeeper();
+
+    private final UsersLogic usersLogic = UsersLogic.inst();
 
     private GateKeeper() {
         // prevent initialization
