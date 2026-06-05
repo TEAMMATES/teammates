@@ -10,6 +10,7 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -32,6 +33,7 @@ import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
@@ -81,6 +83,7 @@ import teammates.ui.request.StudentUpdateRequest;
 public class Logic {
     private static final Logic instance = new Logic();
 
+    final AuthLogic authLogic = AuthLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -101,6 +104,34 @@ public class Logic {
 
     public static Logic inst() {
         return instance;
+    }
+
+    /**
+     * Returns the student associated with the given authentication context and
+     * course ID.
+     * 
+     * <p>
+     * If the authentication type is REG_KEY, it returns the unregistered student
+     * from the authentication context.
+     * Otherwise, it retrieves the student from the database linked to the account
+     * and course ID.
+     */
+    public Student getStudentFromAuthContext(AuthContext authContext, String courseId) {
+        return authLogic.getStudentFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Returns the instructor associated with the given authentication context and
+     * course ID.
+     * 
+     * <p>
+     * If the authentication type is REG_KEY, it returns the unregistered instructor
+     * from the authentication context. Otherwise, it retrieves the instructor from
+     * the database linked to the account
+     * and course ID.
+     */
+    public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
+        return authLogic.getInstructorFromAuthContext(authContext, courseId);
     }
 
     /**
