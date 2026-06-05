@@ -84,7 +84,6 @@ final class GateKeeper {
     void verifyInstructorInCourse(Instructor instructor, Course course)
             throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.getCourse(), "instructor's course");
         verifyNotNull(course, "course");
 
         if (!course.equals(instructor.getCourse())) {
@@ -99,9 +98,7 @@ final class GateKeeper {
     void verifyAccessible(Student student, FeedbackSession feedbackSession)
             throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
-        verifyNotNull(student.getCourse(), "student's course");
         verifyNotNull(feedbackSession, "feedback session");
-        verifyNotNull(feedbackSession.getCourse(), "feedback session's course");
 
         if (!student.getCourse().equals(feedbackSession.getCourse())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
@@ -146,9 +143,7 @@ final class GateKeeper {
     void verifyAccessible(Instructor instructor, FeedbackSession feedbackSession)
             throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.getCourse(), "instructor's course");
         verifyNotNull(feedbackSession, "feedback session");
-        verifyNotNull(feedbackSession.getCourse(), "feedback session's course");
 
         if (!instructor.getCourse().equals(feedbackSession.getCourse())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
