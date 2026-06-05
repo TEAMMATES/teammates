@@ -29,7 +29,7 @@ public class CreateCourseAction extends Action {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
         String institute = courseCreateRequest.getInstitute().trim();
-        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
+        List<Instructor> existingInstructors = logic.getInstructorsByAccountId(authContext.account().getId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> logic.getCourse(instructor.getCourseId()))

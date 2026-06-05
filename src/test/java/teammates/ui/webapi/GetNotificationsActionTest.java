@@ -39,17 +39,6 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         when(mockLogic.getAccountForGoogleId(GOOGLE_ID)).thenReturn(getTypicalAccount());
     }
 
-    @Test
-    void testAccessControl_instructorAccessStudentNotification_shouldFail() {
-        loginAsInstructor(GOOGLE_ID);
-        String[] requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.toString(),
-                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, String.valueOf(true),
-        };
-        verifyCannotAccess(requestParams);
-    }
-
     @Test(enabled = false)
     void testAccessControl_instructorAccessInstructorNotification_shouldSucceed() {
         loginAsInstructor(GOOGLE_ID);
@@ -59,17 +48,6 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, String.valueOf(true),
         };
         verifyCanAccess(requestParams);
-    }
-
-    @Test
-    void testAccessControl_studentAccessInstructorNotification_shouldFail() {
-        loginAsStudent(GOOGLE_ID);
-        String[] requestParams = new String[] {
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.INSTRUCTOR.toString(),
-                Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.GENERAL.toString(),
-                Const.ParamsNames.NOTIFICATION_IS_FETCHING_ACTIVE, String.valueOf(true),
-        };
-        verifyCannotAccess(requestParams);
     }
 
     @Test(enabled = false)

@@ -100,7 +100,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
-        when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
+        when(mockLogic.getInstructorsByAccountId(any())).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(students);
 
         String[] params = {
@@ -111,7 +111,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
+        verify(mockLogic, times(1)).getInstructorsByAccountId(any());
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verifyNoMoreInteractions(mockLogic);
@@ -124,7 +124,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor(instructorId);
         List<Instructor> instructors = setupInstructors();
 
-        when(mockLogic.getInstructorsForGoogleId(instructorId)).thenReturn(instructors);
+        when(mockLogic.getInstructorsByAccountId(any())).thenReturn(instructors);
         when(mockLogic.searchStudents(searchKey, instructors)).thenReturn(List.of());
 
         String[] params = {
@@ -135,7 +135,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
+        verify(mockLogic, times(1)).getInstructorsByAccountId(any());
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verifyNoMoreInteractions(mockLogic);
@@ -157,7 +157,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsByAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);
@@ -179,7 +179,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         SearchStudentsAction action = getAction(params);
         StudentsData studentsData = (StudentsData) getJsonResult(action).getOutput();
 
-        verify(mockLogic, never()).getInstructorsForGoogleId(any());
+        verify(mockLogic, never()).getInstructorsByAccountId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);

@@ -151,6 +151,17 @@ public final class UsersDb {
     }
 
     /**
+     * Gets all instructors by {@code accountId}.
+     */
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        String jpql = "SELECT i FROM Instructor i WHERE i.accountId = :accountId";
+
+        TypedQuery<Instructor> query = HibernateUtil.createQuery(jpql, Instructor.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
+    }
+
+    /**
      * Gets a student by {@code accountId} and {@code courseId}.
      */
     public Student getStudentByAccountId(UUID accountId, String courseId) {
@@ -160,6 +171,17 @@ public final class UsersDb {
         query.setParameter("accountId", accountId);
         query.setParameter("courseId", courseId);
         return query.getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets all students by {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        String jpql = "SELECT s FROM Student s WHERE s.accountId = :accountId";
+
+        TypedQuery<Student> query = HibernateUtil.createQuery(jpql, Student.class);
+        query.setParameter("accountId", accountId);
+        return query.getResultList();
     }
 
     /**

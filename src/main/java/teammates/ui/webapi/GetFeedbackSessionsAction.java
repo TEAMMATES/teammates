@@ -66,7 +66,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = logic.getStudentsByGoogleId(getCurrentUserGoogleId());
+                List<Student> students = logic.getStudentsByAccountId(authContext.account().getId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourseId();
                     List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
@@ -77,7 +77,7 @@ public class GetFeedbackSessionsAction extends Action {
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
+                instructors = logic.getInstructorsByAccountId(authContext.account().getId());
 
                 if (isInRecycleBin) {
                     feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
