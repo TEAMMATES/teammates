@@ -19,17 +19,6 @@ export class AccountService {
   private httpRequestService = inject(HttpRequestService);
 
   /**
-   * Creates an account by calling API.
-   */
-  createAccount(key: string, timezone: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { key };
-    if (timezone) {
-      paramMap['timezone'] = timezone;
-    }
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT, paramMap);
-  }
-
-  /**
    * Creates an account request by calling API.
    */
   createAccountRequest(request: AccountCreateRequest): Observable<AccountRequest> {

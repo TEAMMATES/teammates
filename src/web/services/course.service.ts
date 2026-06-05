@@ -189,4 +189,15 @@ export class CourseService {
       numOfStudents: students.length,
     };
   }
+
+  /**
+   * Creates a demo course.
+   */
+  createDemoCourse(key: string, timezone: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = { key };
+    if (timezone) {
+      paramMap['timezone'] = timezone;
+    }
+    return this.httpRequestService.post(ResourceEndpoints.DEMO_COURSE, paramMap);
+  }
 }
