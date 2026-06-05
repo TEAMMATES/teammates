@@ -26,9 +26,9 @@ import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
- * SUT: {@link CreateAccountAction}.
+ * SUT: {@link CreateDemoCourseAction}.
  */
-public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
+public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseAction> {
     private DataBundle typicalBundle;
 
     @BeforeMethod(alwaysRun = true)
@@ -38,7 +38,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNT;
+        return Const.ResourceURIs.DEMO_COURSE;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
                 Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
-        CreateAccountAction a = getAction(params);
+        CreateDemoCourseAction a = getAction(params);
         getJsonResult(a);
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
@@ -201,7 +201,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     }
 
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
-        CreateAccountAction a = new CreateAccountAction();
+        CreateDemoCourseAction a = new CreateDemoCourseAction();
         return a.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
     }
 
