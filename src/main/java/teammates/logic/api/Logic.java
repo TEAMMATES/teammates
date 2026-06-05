@@ -257,6 +257,13 @@ public class Logic {
     }
 
     /**
+     * Gets all students by associated {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        return usersLogic.getStudentsByAccountId(accountId);
+    }
+
+    /**
      * Gets a course by course id.
      *
      * @param courseId courseId of the course.
@@ -811,6 +818,13 @@ public class Logic {
      */
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         return usersLogic.getInstructorsForGoogleId(googleId);
+    }
+
+    /**
+     * Gets all instructors by associated {@code accountId}.
+     */
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        return usersLogic.getInstructorsByAccountId(accountId);
     }
 
     /**

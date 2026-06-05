@@ -567,6 +567,15 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students by associated {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getStudentsByAccountId(accountId);
+    }
+
+    /**
      * Gets an instructor by associated {@code accountId} and {@code courseId}.
      */
     public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
@@ -574,6 +583,15 @@ public final class UsersLogic {
         Objects.requireNonNull(accountId);
 
         return usersDb.getInstructorByAccountId(accountId, courseId);
+    }
+
+    /**
+     * Gets all instructors by associated {@code accountId}.
+     */
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getInstructorsByAccountId(accountId);
     }
 
     /**
