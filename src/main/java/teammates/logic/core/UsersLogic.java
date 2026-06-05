@@ -557,6 +557,26 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets a student by associated {@code accountId} and {@code courseId}.
+     */
+    public Student getStudentByAccountId(UUID accountId, String courseId) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getStudentByAccountId(accountId, courseId);
+    }
+
+    /**
+     * Gets an instructor by associated {@code accountId} and {@code courseId}.
+     */
+    public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getInstructorByAccountId(accountId, courseId);
+    }
+
+    /**
      * Gets a student by associated {@code googleId}.
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
