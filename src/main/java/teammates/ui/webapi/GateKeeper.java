@@ -98,34 +98,6 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified student can access the specified feedback session.
-     */
-    void verifyStudentCanAccessSession(Student student, FeedbackSession feedbackSession)
-            throws UnauthorizedAccessException {
-        verifyNotNull(student, "student");
-        verifyNotNull(feedbackSession, "feedback session");
-
-        if (!student.getCourse().equals(feedbackSession.getCourse())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to student [" + student.getEmail() + "]");
-        }
-    }
-
-    /**
-     * Verifies that the specified instructor can access the specified feedback session.
-     */
-    void verifyInstructorCanAccessSession(Instructor instructor, FeedbackSession feedbackSession)
-            throws UnauthorizedAccessException {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(feedbackSession, "feedback session");
-
-        if (!instructor.getCourse().equals(feedbackSession.getCourse())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail() + "]");
-        }
-    }
-
-    /**
      * Verifies the instructor is not null and has the privilege specified by privilegeName.
      */
     void verifyInstructorHasPrivilege(Instructor instructor, String privilegeName)

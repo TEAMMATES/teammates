@@ -59,9 +59,7 @@ public class GetHasResponsesAction extends Action {
                 continue;
             }
 
-            gateKeeper.verifyStudentCanAccessSession(
-                    getStudentFromRequest(courseId),
-                    feedbackSession);
+            gateKeeper.verifyStudentInCourse(authContext, courseId);
         }
     }
 
@@ -125,9 +123,6 @@ public class GetHasResponsesAction extends Action {
         }
 
         String courseId = feedbackQuestion.getCourseId();
-        FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
-        gateKeeper.verifyInstructorCanAccessSession(
-                getInstructorFromRequest(courseId),
-                feedbackSession);
+        gateKeeper.verifyInstructorInCourse(authContext, courseId);
     }
 }

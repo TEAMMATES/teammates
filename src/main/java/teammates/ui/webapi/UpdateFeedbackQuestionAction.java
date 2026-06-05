@@ -36,7 +36,7 @@ public class UpdateFeedbackQuestionAction extends Action {
         Instructor instructor = getInstructorFromRequest(feedbackQuestion.getCourseId());
         FeedbackSession feedbackSession = getNonNullFeedbackSession(
                 feedbackQuestion.getFeedbackSession().getName(), feedbackQuestion.getCourseId());
-        gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

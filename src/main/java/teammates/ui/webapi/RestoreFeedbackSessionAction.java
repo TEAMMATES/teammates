@@ -31,7 +31,7 @@ public class RestoreFeedbackSessionAction extends Action {
         }
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

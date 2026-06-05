@@ -124,14 +124,14 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-            gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+            gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
             gateKeeper.verifyInstructorHasPrivilege(instructor,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             checkAccessControlForPreview(feedbackSession);
         } else {
-            gateKeeper.verifyStudentCanAccessSession(student, feedbackSession);
+            gateKeeper.verifyStudentInCourse(authContext, feedbackSession.getCourseId());
             if (!feedbackSession.isVisible()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
             }
@@ -150,7 +150,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyStudentCanAccessSession(student, feedbackSession);
+            gateKeeper.verifyStudentInCourse(authContext, feedbackSession.getCourseId());
             if (!feedbackSession.isVisible()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
             }
@@ -173,12 +173,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+            gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
             gateKeeper.verifyInstructorHasPrivilege(instructor,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+            gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
             gateKeeper.verifyInstructorHasPrivilege(instructor,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
@@ -198,7 +198,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+            gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
             gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
         } else {
             checkAccessControlForPreview(feedbackSession);
@@ -209,7 +209,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(authContext);
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorCanAccessSession(instructor, feedbackSession);
+        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
