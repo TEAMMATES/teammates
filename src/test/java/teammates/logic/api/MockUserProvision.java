@@ -122,10 +122,14 @@ public class MockUserProvision extends UserProvision {
             try {
                 UUID masqueradeAccountUuid = UUID.fromString(masqueradeAccountId);
                 Account masqueradeAccount = logic.getAccount(masqueradeAccountUuid);
+                if (masqueradeAccount == null) {
+                    throw new UnauthorizedAccessException(
+                            String.format("Masquerade failed: no account found for id %s", masqueradeAccountId));
+                }
                 return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
             } catch (IllegalArgumentException | NullPointerException e) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId));
+                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId), e);
             }
         }
 

@@ -204,7 +204,7 @@ public class UserProvision {
                 }
             } catch (IllegalArgumentException | NullPointerException e) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId));
+                        String.format("Masquerade failed: invalid account id format %s", masqueradeAccountId), e);
             }
         }
 
