@@ -28,8 +28,9 @@ public class ResponseInstructorCommentData implements ApiOutput {
     }
 
     public ResponseInstructorCommentData(ResponseInstructorComment frc) {
-        this.commentGiverName = frc.getGiver().getName();
-        this.lastEditorName = frc.getLastEditedBy() == null ? Const.UNKNOWN_USER : frc.getLastEditedBy().getName();
+        this.commentGiverName = frc.getGiver().getDisplayName();
+        this.lastEditorName = frc.getLastEditedBy() == null
+                ? Const.UNKNOWN_USER : frc.getLastEditedBy().getDisplayName();
         this.responseInstructorCommentId = frc.getId();
         this.commentText = frc.getCommentText();
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
