@@ -169,13 +169,6 @@ public class Logic {
     }
 
     /**
-     * Get a list of approved account requests associated with email and institute provided.
-     */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
-    }
-
-    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {

@@ -1,6 +1,5 @@
 package teammates.storage.api;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -74,22 +73,6 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Get all Account Requests for a given {@code email} and {@code institute}.
-     */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(
-                cb.equal(root.get("email"), email),
-                cb.equal(root.get("institute"), institute),
-                cb.equal(root.get("status"), AccountRequestStatus.APPROVED)));
-
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        return query.getResultList();
-    }
-
-    /**
      * Get AccountRequest by {@code registrationKey} from database.
      */
     public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {
@@ -100,20 +83,6 @@ public final class AccountRequestsDb {
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Get AccountRequest with {@code createdTime} within the times {@code startTime} and {@code endTime}.
-     */
-    public List<AccountRequest> getAccountRequests(Instant startTime, Instant endTime) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.and(cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
-                cb.lessThanOrEqualTo(root.get("createdAt"), endTime)));
-
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        return query.getResultList();
     }
 
     /**
