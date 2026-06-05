@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import java.util.UUID;
+
 /**
  * A specific implementation of {@link Url} used to encapsulate URLs of the application.
  */
@@ -10,8 +12,8 @@ public class AppUrl extends Url {
         assert url.startsWith("http"); // must either be http or https
     }
 
-    public AppUrl withUser(String userId) {
-        return withParam(Const.ParamsNames.USER, userId);
+    public AppUrl withMasqueradeAccount(UUID accountId) {
+        return withParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, accountId.toString());
     }
 
     public AppUrl withRegistrationKey(String key) {

@@ -222,11 +222,11 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalAwaitingSessions());
         assertEquals(3L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
-        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
+        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getAccountId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
-        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getGoogleId());
+        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getAccountId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
-        OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getGoogleId());
+        OngoingSession expectedOngoingC3Fs1 = new OngoingSession(c3Fs1, instructor4.getAccountId());
         expectedSessions.put("UCL", Collections.singletonList(expectedOngoingC3Fs1));
         Map<String, List<OngoingSession>> actualSessions = response.getSessions();
         assertEqualSessions(expectedSessions, actualSessions);
@@ -296,9 +296,9 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalAwaitingSessions());
         assertEquals(2L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
-        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
+        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getAccountId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
-        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getGoogleId());
+        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getAccountId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
         Map<String, List<OngoingSession>> actualSessions = response.getSessions();
         assertEqualSessions(expectedSessions, actualSessions);

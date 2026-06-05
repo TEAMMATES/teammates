@@ -892,7 +892,6 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.USER, stubStudent.getGoogleId(),
         };
 
         verifyCanMasquerade(stubStudent.getAccountId(), params);

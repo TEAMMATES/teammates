@@ -55,7 +55,7 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
 
     @Test
     void testAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(Const.ParamsNames.USER);
+        loginAsUnregistered(Const.ParamsNames.USER_ID);
         verifyCannotAccess();
     }
 

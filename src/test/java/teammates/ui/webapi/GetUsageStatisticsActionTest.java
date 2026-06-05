@@ -61,7 +61,7 @@ public class GetUsageStatisticsActionTest extends BaseActionTest<GetUsageStatist
     @Test
     void testAccessControl_unregistered_cannotAccess() {
         logoutUser();
-        loginAsUnregistered(Const.ParamsNames.USER);
+        loginAsUnregistered(Const.ParamsNames.USER_ID);
         verifyCannotAccess();
     }
 

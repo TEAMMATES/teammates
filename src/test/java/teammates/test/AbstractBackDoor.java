@@ -255,7 +255,7 @@ public abstract class AbstractBackDoor {
      */
     public String getUserCookie(String userId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER, userId);
+        params.put(Const.ParamsNames.USER_ID, userId);
         ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
 
         MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
@@ -376,11 +376,10 @@ public abstract class AbstractBackDoor {
     /**
      * Get soft deleted feedback session from database.
      */
-    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName, String instructorId) {
+    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
-        params.put(Const.ParamsNames.USER, instructorId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -443,13 +442,11 @@ public abstract class AbstractBackDoor {
      *
      * @param commentId the ID of the comment to update
      * @param commentText the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
      */
-    public void updateResponseInstructorComment(UUID commentId, String commentText, String instructorGoogleId) {
+    public void updateResponseInstructorComment(UUID commentId, String commentText) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
-        params.put(Const.ParamsNames.USER, instructorGoogleId);
 
         ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
                 commentText,
