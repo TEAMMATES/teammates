@@ -215,8 +215,7 @@ public final class ResponseInstructorCommentsLogic {
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
                 Objects.equals(response.getGiver().getGiverUser(), user) && isVisibleToGiver;
 
-        boolean isUserRelatedResponseCommentGiver = false;
-        isUserRelatedResponseCommentGiver = Objects.equals(user, relatedComment.getGiver());
+        boolean isUserResponseCommentGiver = Objects.equals(user, relatedComment.getGiver());
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 !isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.STUDENTS);
@@ -224,7 +223,7 @@ public final class ResponseInstructorCommentsLogic {
         return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
                 || isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients
                 || isUserResponseGiverAndRelatedResponseCommentVisibleToGivers
-                || isUserRelatedResponseCommentGiver
+                || isUserResponseCommentGiver
                 || isUserStudentAndRelatedResponseCommentVisibleToStudents;
     }
 
