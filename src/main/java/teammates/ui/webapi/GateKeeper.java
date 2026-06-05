@@ -6,7 +6,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -220,20 +219,20 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that comment is created by feedback participant.
+     * Verifies that comment is created by instructor.
      *
      * @param frc comment to be accessed
-     * @param participant the response giver who is trying to access the comment
+     * @param instructor the instructor who is trying to access the comment
      */
-    void verifyOwnership(ResponseInstructorComment frc, ResponseGiver participant)
+    void verifyOwnership(ResponseInstructorComment frc, Instructor instructor)
             throws UnauthorizedAccessException {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.getGiver(), "feedback response comment giver");
-        verifyNotNull(participant, "comment giver");
+        verifyNotNull(instructor, "comment giver");
 
-        if (!frc.getGiver().equals(participant)) {
+        if (!frc.getGiver().equals(instructor)) {
             throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
-                    + participant);
+                    + instructor);
         }
     }
 

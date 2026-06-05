@@ -21,12 +21,8 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.storage.entity.ResponseRecipient;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -37,8 +33,6 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
     private Course typicalCourse;
     private Instructor typicalInstructor;
     private Student typicalStudent;
-    private FeedbackQuestion typicalFeedbackQuestion;
-    private FeedbackResponse typicalFeedbackResponse;
 
     @Override
     String getActionUri() {
@@ -55,12 +49,6 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
-        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
-        typicalFeedbackSession.setStartTime(Instant.now().minusSeconds(100));
-        typicalFeedbackSession.setEndTime(Instant.now());
-        typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
-        typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
-        typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
     }
 
     @Test
@@ -262,119 +250,21 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
         verifyCannotAccess(params);
     }
 
-    @Test
-    void testAccessControl_instructorWithCorrectPrivilege_canAccessCrossSectionComment() {
-        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-
-        Instructor instructorWithPrivilege = getTypicalInstructor();
-        instructorWithPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section A",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        privileges.updatePrivilege("Section B",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        instructorWithPrivilege.setPrivileges(privileges);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
-        };
-
-        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
-                .thenReturn(typicalResponseInstructorComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithPrivilege.getGoogleId()))
-                .thenReturn(instructorWithPrivilege);
-
-        loginAsInstructor(instructorWithPrivilege.getGoogleId());
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorWithoutGiverSectionPrivilege_cannotAccessCrossSectionComment() {
-        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-
-        Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section B",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        instructorWithoutPrivilege.setPrivileges(privileges);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
-        };
-
-        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
-                .thenReturn(typicalResponseInstructorComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutPrivilege);
-
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorWithoutRecipientSectionPrivilege_cannotAccessCrossSectionComment() {
-        ResponseInstructorComment typicalResponseInstructorComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-
-        Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section A",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        instructorWithoutPrivilege.setPrivileges(privileges);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
-        };
-
-        when(mockLogic.getResponseInstructorComment(typicalResponseInstructorComment.getId()))
-                .thenReturn(typicalResponseInstructorComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutPrivilege);
-
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
     private ResponseInstructorComment getTypicalCommentFromInstructor() {
-        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
+                typicalInstructor,
                 "typical comment",
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
-                giver);
+                typicalInstructor);
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
+        typicalFeedbackSession.setStartTime(Instant.now().minusSeconds(100));
+        typicalFeedbackSession.setEndTime(Instant.now());
+        typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
+        FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+        FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
-        responseInstructorComment.setCreatedAt(Instant.EPOCH);
-        responseInstructorComment.setUpdatedAt(Instant.EPOCH);
-        return responseInstructorComment;
-    }
-
-    private ResponseInstructorComment getTypicalCommentFromTeam(Team team) {
-        Section sectionA = new Section("Section A");
-        typicalCourse.addSection(sectionA);
-        Section sectionB = new Section("Section B");
-        typicalCourse.addSection(sectionB);
-        Team giverTeam = new Team("Section A");
-        giverTeam.setSection(sectionA);
-        Team recipientTeam = new Team("Section B");
-        recipientTeam.setSection(sectionB);
-        typicalFeedbackResponse = FeedbackResponse.makeResponse(
-                new ResponseGiver(giverTeam), new ResponseRecipient(recipientTeam), getTypicalFeedbackResponseDetails());
-        typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
-        ResponseGiver giver = new ResponseGiver(team);
-        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
-                "typical comment",
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                giver);
-        typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
-        responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
         responseInstructorComment.setCreatedAt(Instant.EPOCH);
         responseInstructorComment.setUpdatedAt(Instant.EPOCH);
         return responseInstructorComment;

@@ -161,7 +161,7 @@ public class BaseTestCase {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
-        ResponseGiver commentGiver = new ResponseGiver(getTypicalStudent());
+        Instructor commentGiver = getTypicalInstructor();
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(commentGiver,
                 "typical-comment", List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);

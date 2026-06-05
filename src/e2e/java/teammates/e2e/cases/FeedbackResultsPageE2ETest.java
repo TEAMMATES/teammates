@@ -433,6 +433,14 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return getIdentifier(currentStudent, recipient.getIdentifier());
     }
 
+    private String getIdentifier(Student currentStudent, Instructor instructor) {
+        if (instructor == null) {
+            return "";
+        }
+
+        return getIdentifier(currentStudent, instructor.getEmail());
+    }
+
     private String getIdentifier(Student currentStudent, String user) {
         if (currentStudent.getEmail().equals(user)) {
             return "You";

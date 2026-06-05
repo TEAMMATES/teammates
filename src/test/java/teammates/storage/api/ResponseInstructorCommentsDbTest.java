@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.GroupNames;
 
@@ -94,13 +93,12 @@ public class ResponseInstructorCommentsDbTest extends BaseDbTestcase {
             FeedbackResponse feedbackResponse, Instructor instructor, UUID responseInstructorCommentId) {
         assertNotNull(feedbackResponse);
         assertNotNull(instructor);
-        ResponseGiver giver = new ResponseGiver(instructor);
         ResponseInstructorComment comment = new ResponseInstructorComment(
-                giver,
+                instructor,
                 "Comment",
                 List.of(ViewerType.GIVER, ViewerType.RECEIVER, ViewerType.INSTRUCTORS),
                 List.of(ViewerType.GIVER, ViewerType.RECEIVER, ViewerType.INSTRUCTORS),
-                giver);
+                instructor);
         comment.setId(responseInstructorCommentId);
         feedbackResponse.addResponseInstructorComment(comment);
         return comment;

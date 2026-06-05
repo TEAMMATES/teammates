@@ -515,18 +515,17 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
 
     private void mockCreateResponseInstructorComment(ResponseInstructorComment comment) throws Exception {
         when(mockLogic.createResponseInstructorComment(
-                any(UUID.class), any(ResponseGiver.class), any(String.class), any(), any()))
+                any(UUID.class), any(Instructor.class), any(String.class), any(), any()))
                 .thenReturn(comment);
     }
 
     private ResponseInstructorComment getTypicalCommentForInstructorResult() {
-        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
+                typicalInstructor,
                 typicalRequestBody.getCommentText(),
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
-                giver);
+                typicalInstructor);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         responseInstructorComment.setCreatedAt(Instant.EPOCH);

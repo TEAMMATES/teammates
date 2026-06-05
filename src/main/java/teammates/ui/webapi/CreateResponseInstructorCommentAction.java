@@ -72,11 +72,9 @@ public class CreateResponseInstructorCommentAction extends Action {
 
         String courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
         Instructor instructor = getInstructorFromRequest(courseId);
-        ResponseGiver giverRg = new ResponseGiver(instructor);
-
         try {
             ResponseInstructorComment createdComment = logic.createResponseInstructorComment(
-                    feedbackResponseId, giverRg, comment.getCommentText(),
+                    feedbackResponseId, instructor, comment.getCommentText(),
                     comment.getShowCommentTo(), comment.getShowGiverNameTo());
             HibernateUtil.flushSession();
             return new JsonResult(new ResponseInstructorCommentData(createdComment));

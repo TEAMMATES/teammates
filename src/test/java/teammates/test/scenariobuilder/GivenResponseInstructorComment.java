@@ -8,7 +8,6 @@ import java.util.UUID;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 
 /**
@@ -39,7 +38,7 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
         Instructor instructor = given.getOrCreate(
                 instructorAlias, given.dataBundle.instructors, (String iAlias) -> given.instructor(iAlias,
                         i -> i.course(getFeedbackResponseCourseAlias())));
-        entity.setGiver(new ResponseGiver(instructor));
+        entity.setGiver(instructor);
         return this;
     }
 
@@ -47,11 +46,11 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
      * Sets an instructor as the last editor.
      */
     public GivenResponseInstructorComment lastEditedBy(String instructorAlias) {
-        assert isLastEditedByEmpty() : "Last editor has already been set for this comment";
+        assert entity.getLastEditedBy() == null : "Last editor has already been set for this comment";
         Instructor instructor = given.getOrCreate(
                 instructorAlias, given.dataBundle.instructors, (String iAlias) -> given.instructor(iAlias,
                         i -> i.course(getFeedbackResponseCourseAlias())));
-        entity.setLastEditedBy(new ResponseGiver(instructor));
+        entity.setLastEditedBy(instructor);
         return this;
     }
 
@@ -89,7 +88,7 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
             this.giver("default:response-instructor-comment-giver:" + entity.getId());
         }
 
-        if (isLastEditedByEmpty()) {
+        if (entity.getLastEditedBy() == null) {
             entity.setLastEditedBy(entity.getGiver());
         }
 
@@ -110,10 +109,6 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
 
     private static List<ViewerType> viewerTypesList(ViewerType... viewerTypes) {
         return new ArrayList<>(Arrays.asList(viewerTypes));
-    }
-
-    private boolean isLastEditedByEmpty() {
-        return !entity.getLastEditedBy().isGiverUser() && !entity.getLastEditedBy().isGiverTeam();
     }
 
     private ResponseInstructorComment defaultResponseInstructorComment(UUID responseInstructorCommentId) {
