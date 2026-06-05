@@ -273,7 +273,8 @@ describe('SearchService', () => {
       [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
     expect(result.profilePageLink).toBe(
-      '/web/instructor/courses/student/details?' + 'courseid=dog.gma-demo&userid=student-alice&user=test%40example.com',
+      '/web/instructor/courses/student/details?' +
+        'courseid=dog.gma-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000003',
     );
   });
 
@@ -286,7 +287,8 @@ describe('SearchService', () => {
       [mockPrivilegeB, mockPrivilegeC],
     );
     expect(result.profilePageLink).toBe(
-      '/web/instructor/courses/student/details?' + 'courseid=dog.gma-demo&userid=student-alice&user=insC',
+      '/web/instructor/courses/student/details?' +
+        'courseid=dog.gma-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000003',
     );
   });
 
@@ -299,7 +301,7 @@ describe('SearchService', () => {
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('dog@gmail.com');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-000000000001');
-    expect(result.homePageLink).toBe('/web/instructor/home?user=test%40example.com');
+    expect(result.homePageLink).toBe('/web/instructor/home?masqueradeaccountid=00000000-0000-4000-8000-000000000001');
   });
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
