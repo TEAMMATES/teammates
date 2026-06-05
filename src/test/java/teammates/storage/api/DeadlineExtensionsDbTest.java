@@ -46,7 +46,7 @@ public class DeadlineExtensionsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getDeadlineExtensionByUserAndSession_deadlineExtensionExists_returnsDeadlineExtension() {
+    public void getDeadlineExtensionByUserAndSession_studentDeadlineExtensionExists_returnsDeadlineExtension() {
         UUID studentId = given.student("student");
         UUID feedbackSessionId = given.feedbackSession("feedback-session");
         UUID deadlineExtensionId = given.deadlineExtension("deadline-extension",
@@ -57,6 +57,23 @@ public class DeadlineExtensionsDbTest extends BaseDbTestcase {
 
         DeadlineExtension actual = inTransaction(() -> deadlineExtensionsDb.getDeadlineExtension(
                 studentId, feedbackSessionId));
+
+        assertNotNull(actual);
+        assertEquals(deadlineExtensionId, actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getDeadlineExtensionByUserAndSession_instructorDeadlineExtensionExists_returnsDeadlineExtension() {
+        UUID instructorId = given.instructor("instructor");
+        UUID feedbackSessionId = given.feedbackSession("feedback-session");
+        UUID deadlineExtensionId = given.deadlineExtension("deadline-extension",
+                de -> de.instructor("instructor").feedbackSession("feedback-session"));
+        given.deadlineExtension("another-instructor-deadline-extension",
+                de -> de.instructor("another-instructor").feedbackSession("feedback-session"));
+        persistGivenData(given);
+
+        DeadlineExtension actual = inTransaction(() -> deadlineExtensionsDb.getDeadlineExtension(
+                instructorId, feedbackSessionId));
 
         assertNotNull(actual);
         assertEquals(deadlineExtensionId, actual.getId());
