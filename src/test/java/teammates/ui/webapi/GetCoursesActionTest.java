@@ -54,7 +54,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     @Test
     void testExecute_withInstructorAndActiveCourses_success() {
         loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorsByAccountId(any()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getCoursesForInstructors(argThat(
                 argument -> Objects.equals(argument.get(0).getGoogleId(),
@@ -73,7 +73,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     @Test
     void testExecute_withInstructorAndSoftDeletedCourses_success() {
         loginAsInstructor(stubInstructor.getGoogleId());
-        when(mockLogic.getInstructorsForGoogleId(stubInstructor.getGoogleId()))
+        when(mockLogic.getInstructorsByAccountId(any()))
                 .thenReturn(stubInstructorList);
         when(mockLogic.getSoftDeletedCoursesForInstructors(argThat(
                 argument -> Objects.equals(argument.get(0).getGoogleId(),

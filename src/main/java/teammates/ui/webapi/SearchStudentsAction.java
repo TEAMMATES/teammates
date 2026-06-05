@@ -43,7 +43,7 @@ public class SearchStudentsAction extends Action {
         List<Student> students;
 
         if (Const.EntityType.INSTRUCTOR.equals(entity)) {
-            List<Instructor> instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
+            List<Instructor> instructors = logic.getInstructorsByAccountId(authContext.account().getId());
             students = logic.searchStudents(searchKey, instructors);
         } else if (Const.EntityType.ADMIN.equals(entity)) {
             students = logic.searchStudentsInWholeSystem(searchKey);

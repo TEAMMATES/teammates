@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -53,7 +54,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         sessionsInCourse1.add(generateSession1InCourse(course1, "feedbacksession-2"));
 
         when(mockLogic.getFeedbackSessionsForCourse(course1.getId())).thenReturn(sessionsInCourse1);
-        when(mockLogic.getStudentsByGoogleId(student1.getAccount().getGoogleId())).thenReturn(List.of(student1));
+        when(mockLogic.getStudentsByAccountId(any())).thenReturn(List.of(student1));
         when(mockLogic.getInstructorByGoogleId(
                 instructor1.getAccount().getGoogleId(), course1.getId())).thenReturn(instructor1);
         for (FeedbackSession session : sessionsInCourse1) {
@@ -117,7 +118,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         Instant extendedDeadline = Instant.parse("2028-01-01T00:00:00Z");
 
-        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+        when(mockLogic.getInstructorsByAccountId(any()))
                 .thenReturn(List.of(instructor));
         when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
                 .thenReturn(List.of(closedSession));
@@ -148,7 +149,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         Instructor instructor = generateInstructor1InCourse(course);
         FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(course, "closed-session");
 
-        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+        when(mockLogic.getInstructorsByAccountId(any()))
                 .thenReturn(List.of(instructor));
         when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
                 .thenReturn(List.of(closedSession));
