@@ -1,5 +1,4 @@
-package teammates.ui.request;
-
+package teammates.ui.exception;
 import teammates.common.exception.InvalidParametersException;
 
 /**

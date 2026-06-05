@@ -231,7 +231,7 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
         "teammates.common.util.EmailType"
     ]
     excludeClasses = [
-        "teammates.ui.request.InvalidHttpRequestBodyException"
+        "teammates.ui.exception.InvalidHttpRequestBodyException"
     ]
     outputFile = "src/web/types/api-request.ts"
 }
