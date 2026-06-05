@@ -9,7 +9,7 @@ import teammates.ui.webapi.AuthType;
 /**
  * Handles operations related to authentication and authorization.
  */
-public class AuthLogic {
+public final class AuthLogic {
     private static final AuthLogic instance = new AuthLogic();
 
     private UsersLogic usersLogic;
