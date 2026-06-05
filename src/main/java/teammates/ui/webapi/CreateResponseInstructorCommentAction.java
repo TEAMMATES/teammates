@@ -18,7 +18,7 @@ import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.ResponseInstructorCommentData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
 /**

@@ -14,7 +14,7 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.request.DeadlineExtensionsUpdateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * Updates the deadline extensions for a feedback session.

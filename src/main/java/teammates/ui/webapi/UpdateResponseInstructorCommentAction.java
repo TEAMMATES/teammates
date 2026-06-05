@@ -13,7 +13,7 @@ import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.ResponseInstructorCommentData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**

@@ -8,7 +8,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.RegKeyRequest;
 
 /**
