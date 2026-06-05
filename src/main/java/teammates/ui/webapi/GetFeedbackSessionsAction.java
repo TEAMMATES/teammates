@@ -45,12 +45,12 @@ public class GetFeedbackSessionsAction extends Action {
         if (Const.EntityType.STUDENT.equals(entityType)) {
             if (courseId != null) {
                 Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(getStudentFromRequest(courseId), course);
+                gateKeeper.verifyStudentInCourse(getStudentFromRequest(courseId), course);
             }
         } else {
             if (courseId != null) {
                 Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(getInstructorFromRequest(courseId), course);
+                gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(courseId), course);
             }
         }
     }

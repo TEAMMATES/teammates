@@ -47,7 +47,7 @@ public class GetStudentAction extends Action {
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             student = getStudentFromRequest(courseId);
-            gateKeeper.verifyAccessible(student, course);
+            gateKeeper.verifyStudentInCourse(student, course);
         }
     }
 

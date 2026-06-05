@@ -27,7 +27,7 @@ public class GetCourseSectionsAction extends Action {
         Course course = logic.getCourse(courseId);
         Instructor instructor = getInstructorFromRequest(courseId);
 
-        gateKeeper.verifyAccessible(instructor, course);
+        gateKeeper.verifyInstructorInCourse(instructor, course);
     }
 
     @Override

@@ -29,12 +29,12 @@ public class GetCourseAction extends Action {
         Course course = logic.getCourse(courseId);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            gateKeeper.verifyAccessible(getInstructorFromRequest(courseId), course);
+            gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(courseId), course);
             return;
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            gateKeeper.verifyAccessible(getStudentFromRequest(courseId), course);
+            gateKeeper.verifyStudentInCourse(getStudentFromRequest(courseId), course);
             return;
         }
 

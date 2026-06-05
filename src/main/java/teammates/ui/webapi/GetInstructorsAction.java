@@ -44,12 +44,12 @@ public class GetInstructorsAction extends Action {
             // get partial details of instructors with information hiding
             // student should belong to the course
             Student student = getStudentFromRequest(courseId);
-            gateKeeper.verifyAccessible(student, course);
+            gateKeeper.verifyStudentInCourse(student, course);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
             Instructor instructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyAccessible(instructor, course);
+            gateKeeper.verifyInstructorInCourse(instructor, course);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
         }

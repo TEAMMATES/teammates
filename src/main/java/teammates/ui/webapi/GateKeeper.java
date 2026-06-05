@@ -69,13 +69,28 @@ final class GateKeeper {
     /**
      * Verifies that the specified student can access the specified course.
      */
-    void verifyAccessible(Student student, Course course) throws UnauthorizedAccessException {
+    void verifyStudentInCourse(Student student, Course course) throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
         verifyNotNull(course, "course");
 
         if (!course.equals(student.getCourse())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
                     + student.getEmail() + "]");
+        }
+    }
+
+    /**
+     * Verifies that the specified instructor can access the specified course.
+     */
+    void verifyInstructorInCourse(Instructor instructor, Course course)
+            throws UnauthorizedAccessException {
+        verifyNotNull(instructor, "instructor");
+        verifyNotNull(instructor.getCourse(), "instructor's course");
+        verifyNotNull(course, "course");
+
+        if (!course.equals(instructor.getCourse())) {
+            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+                    + instructor.getEmail() + "]");
         }
     }
 
@@ -100,28 +115,13 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified instructor can access the specified course.
-     */
-    void verifyAccessible(Instructor instructor, Course course)
-            throws UnauthorizedAccessException {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.getCourse(), "instructor's course");
-        verifyNotNull(course, "course");
-
-        if (!course.equals(instructor.getCourse())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                    + instructor.getEmail() + "]");
-        }
-    }
-
-    /**
      * Verifies the instructor and course are not null, the instructor belongs to
      * the course and the instructor has the privilege specified by
      * privilegeName.
      */
     void verifyAccessible(Instructor instructor, Course course, String privilegeName)
             throws UnauthorizedAccessException {
-        verifyAccessible(instructor, course);
+        verifyInstructorInCourse(instructor, course);
 
         boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
         boolean instructorIsAllowedSectionPrivilege = !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
@@ -138,7 +138,7 @@ final class GateKeeper {
      */
     void verifyAccessible(Instructor instructor, Course course, String sectionName, String privilegeName)
             throws UnauthorizedAccessException {
-        verifyAccessible(instructor, course);
+        verifyInstructorInCourse(instructor, course);
 
         verifyNotNull(sectionName, "section name");
 

@@ -43,7 +43,7 @@ public class GetHasResponsesAction extends Action {
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-            gateKeeper.verifyAccessible(
+            gateKeeper.verifyInstructorInCourse(
                     getInstructorFromRequest(courseId),
                     logic.getCourse(courseId));
 
