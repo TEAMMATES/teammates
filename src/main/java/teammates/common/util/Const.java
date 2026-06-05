@@ -143,6 +143,7 @@ public final class Const {
 
         public static final String USER_ID = "userid";
         public static final String STUDENT_ID = "googleid";
+        public static final String ACCOUNT_ID = "accountid";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";

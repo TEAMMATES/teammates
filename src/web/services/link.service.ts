@@ -71,11 +71,11 @@ export class LinkService {
   /**
    * Generates manage account link.
    */
-  generateManageAccountLink(googleId: string, accountsPage: string): string {
+  generateManageAccountLink(accountId: string, accountsPage: string): string {
     const params: {
       [key: string]: string;
     } = {
-      instructorid: googleId,
+      accountid: accountId,
     };
 
     this.filterEmptyParams(params);
