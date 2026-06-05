@@ -46,9 +46,10 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         Instructor instructor = getInstructorFromRequest(courseId);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        gateKeeper.verifyInstructorInCourse(instructor, course);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override

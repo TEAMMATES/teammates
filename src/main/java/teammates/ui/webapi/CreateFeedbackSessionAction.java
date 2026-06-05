@@ -40,7 +40,8 @@ public class CreateFeedbackSessionAction extends Action {
         Instructor instructor = getInstructorFromRequest(courseId);
         Course course = logic.getCourse(courseId);
 
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorInCourse(instructor, course);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

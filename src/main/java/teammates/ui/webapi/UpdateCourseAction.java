@@ -28,7 +28,8 @@ public class UpdateCourseAction extends Action {
         Course course = logic.getCourse(courseId);
         Instructor instructor = getInstructorFromRequest(courseId);
 
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyInstructorInCourse(instructor, course);
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

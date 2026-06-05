@@ -22,8 +22,9 @@ public class BinCourseAction extends Action {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Course course = logic.getCourse(idOfCourseToBin);
+        gateKeeper.verifyInstructorInCourse(getInstructorFromRequest(idOfCourseToBin), course);
         gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToBin),
-                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+                Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

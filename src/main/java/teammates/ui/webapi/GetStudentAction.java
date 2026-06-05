@@ -41,8 +41,8 @@ public class GetStudentAction extends Action {
             }
 
             Instructor instructor = getInstructorFromRequest(courseId);
-
-            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+            gateKeeper.verifyInstructorInCourse(instructor, logic.getCourse(courseId));
+            gateKeeper.verifyAccessible(instructor,
                     student.getTeamName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {

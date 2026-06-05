@@ -6,7 +6,6 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -115,36 +114,28 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName.
+     * Verifies the instructor is not null and has the privilege specified by privilegeName.
      */
-    void verifyAccessible(Instructor instructor, Course course, String privilegeName)
+    void verifyAccessible(Instructor instructor, String privilegeName)
             throws UnauthorizedAccessException {
-        verifyInstructorInCourse(instructor, course);
-
         boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
         boolean instructorIsAllowedSectionPrivilege = !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
         if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.getEmail() + "] for privilege [" + privilegeName + "]");
+            throw new UnauthorizedAccessException("Instructor [" + instructor.getEmail()
+                                                  + "] does not have privilege [" + privilegeName + "]");
         }
     }
 
     /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName for sectionName.
+     * Verifies the instructor is not null and has the privilege specified by privilegeName for sectionName.
      */
-    void verifyAccessible(Instructor instructor, Course course, String sectionName, String privilegeName)
+    void verifyAccessible(Instructor instructor, String sectionName, String privilegeName)
             throws UnauthorizedAccessException {
-        verifyInstructorInCourse(instructor, course);
-
         verifyNotNull(sectionName, "section name");
 
         if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.getEmail() + "] for privilege [" + privilegeName
+            throw new UnauthorizedAccessException("Instructor [" + instructor.getEmail()
+                                                  + "] does not have privilege [" + privilegeName
                                                   + "] on section [" + sectionName + "]");
         }
     }
@@ -217,26 +208,6 @@ final class GateKeeper {
             throw new UnauthorizedAccessException("You don't have submission privilege");
         }
     }
-
-    /**
-     * Verifies that comment is created by instructor.
-     *
-     * @param frc comment to be accessed
-     * @param instructor the instructor who is trying to access the comment
-     */
-    void verifyOwnership(ResponseInstructorComment frc, Instructor instructor)
-            throws UnauthorizedAccessException {
-        verifyNotNull(frc, "feedback response comment");
-        verifyNotNull(frc.getGiver(), "feedback response comment giver");
-        verifyNotNull(instructor, "comment giver");
-
-        if (!frc.getGiver().equals(instructor)) {
-            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
-                    + instructor);
-        }
-    }
-
-    // These methods ensures that the nominal user specified can perform the specified action on a given entity.
 
     private void verifyNotNull(Object object, String typeName)
             throws UnauthorizedAccessException {

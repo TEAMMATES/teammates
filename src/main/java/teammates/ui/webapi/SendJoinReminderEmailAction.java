@@ -34,9 +34,11 @@ public class SendJoinReminderEmailAction extends Action {
         Instructor instructor = getInstructorFromRequest(course.getId());
 
         if (user == null || user instanceof Student) {
-            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+            gateKeeper.verifyInstructorInCourse(instructor, course);
+            gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         } else if (user instanceof Instructor) {
-            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+            gateKeeper.verifyInstructorInCourse(instructor, course);
+            gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
         }
     }
 

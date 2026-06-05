@@ -31,8 +31,8 @@ public class DeleteStudentAction extends Action {
         }
 
         Instructor instructor = getInstructorFromRequest(student.getCourseId());
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(student.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyInstructorInCourse(instructor, logic.getCourse(student.getCourseId()));
+        gateKeeper.verifyAccessible(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
