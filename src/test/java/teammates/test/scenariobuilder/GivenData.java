@@ -387,6 +387,7 @@ public final class GivenData {
      * Stores an entity in the data bundle and records its alias.
      */
     private <E extends BaseEntity> E registerEntity(String alias, E entity, Map<String, E> map) {
+        assert !map.containsKey(alias) : "Alias '" + alias + "' is already used for another entity";
         map.put(alias, entity);
         entityToAlias.put(entity, alias);
         return entity;

@@ -20,9 +20,9 @@ public final class GivenDeadlineExtension extends GivenBase<DeadlineExtension> {
     }
 
     /**
-     * Sets the user for the deadline extension.
+     * Sets the student for the deadline extension.
      */
-    public GivenDeadlineExtension user(String userAlias) {
+    public GivenDeadlineExtension student(String userAlias) {
         assert entity.getUser() == null : "User has already been set for this deadline extension";
         User user = given.getOrCreate(userAlias, given.dataBundle.students, (String uAlias) -> {
             if (entity.getFeedbackSession() == null) {
@@ -32,6 +32,24 @@ public final class GivenDeadlineExtension extends GivenBase<DeadlineExtension> {
 
             String courseAlias = given.getAlias(entity.getFeedbackSession().getCourse());
             given.student(uAlias, s -> s.course(courseAlias));
+        });
+        entity.setUser(user);
+        return this;
+    }
+
+    /**
+     * Sets the instructor for the deadline extension.
+     */
+    public GivenDeadlineExtension instructor(String userAlias) {
+        assert entity.getUser() == null : "User has already been set for this deadline extension";
+        User user = given.getOrCreate(userAlias, given.dataBundle.instructors, (String uAlias) -> {
+            if (entity.getFeedbackSession() == null) {
+                given.instructor(uAlias);
+                return;
+            }
+
+            String courseAlias = given.getAlias(entity.getFeedbackSession().getCourse());
+            given.instructor(uAlias, s -> s.course(courseAlias));
         });
         entity.setUser(user);
         return this;
@@ -86,7 +104,7 @@ public final class GivenDeadlineExtension extends GivenBase<DeadlineExtension> {
         }
 
         if (entity.getUser() == null) {
-            this.user("default:deadline-extension-user:" + entity.getId());
+            this.student("default:deadline-extension-student:" + entity.getId());
         }
     }
 

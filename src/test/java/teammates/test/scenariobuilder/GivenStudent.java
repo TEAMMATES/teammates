@@ -86,6 +86,8 @@ public class GivenStudent extends GivenBase<Student> {
             given.team(tAlias, t -> t.section(sectionAlias));
         });
 
+        this.team(teamAlias);
+
         return this;
     }
 

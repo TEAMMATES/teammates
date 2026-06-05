@@ -50,9 +50,9 @@ public class DeadlineExtensionsDbTest extends BaseDbTestcase {
         UUID studentId = given.student("student");
         UUID feedbackSessionId = given.feedbackSession("feedback-session");
         UUID deadlineExtensionId = given.deadlineExtension("deadline-extension",
-                de -> de.user("student").feedbackSession("feedback-session"));
+                de -> de.student("student").feedbackSession("feedback-session"));
         given.deadlineExtension("another-student-deadline-extension",
-                de -> de.user("another-student").feedbackSession("feedback-session"));
+                de -> de.student("another-student").feedbackSession("feedback-session"));
         persistGivenData(given);
 
         DeadlineExtension actual = inTransaction(() -> deadlineExtensionsDb.getDeadlineExtension(
