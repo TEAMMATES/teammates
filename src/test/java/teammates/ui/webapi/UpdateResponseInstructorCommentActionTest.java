@@ -301,7 +301,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
                 .thenReturn(typicalInstructor);
 
         loginAsAdmin();
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+        verifyCanMasquerade(typicalInstructor.getAccountId(), params);
     }
 
     @Test

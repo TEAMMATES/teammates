@@ -233,7 +233,7 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
 
         loginAsAdmin();
 
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+        verifyCanMasquerade(typicalInstructor.getAccountId(), params);
     }
 
     @Test

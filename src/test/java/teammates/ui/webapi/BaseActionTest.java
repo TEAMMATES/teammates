@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 
@@ -143,13 +144,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
-     * Returns The {@code params} array with the {@code userId}
+     * Returns The {@code params} array with the {@code accountId}
      * (together with the parameter name) inserted at the beginning.
      */
-    protected String[] addUserToParams(String userId, String[] params) {
+    protected String[] addMasqueradeAccountToParams(UUID accountId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER);
-        list.add(userId);
+        list.add(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        list.add(accountId.toString());
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
     }
@@ -265,20 +266,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /**
      * Verifies that the {@link Action} matching the {@code params} is
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCanMasquerade(String userId, String... params) {
-        verifyCanAccess(addUserToParams(userId, params));
+    protected void verifyCanMasquerade(UUID accountId, String... params) {
+        verifyCanAccess(addMasqueradeAccountToParams(accountId, params));
     }
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCannotMasquerade(String userId, String... params) {
+    protected void verifyCannotMasquerade(UUID accountId, String... params) {
         assertThrows(UnauthorizedAccessException.class,
-                () -> getAction(addUserToParams(userId, params)).checkAccessControl());
+                () -> getAction(addMasqueradeAccountToParams(accountId, params)).checkAccessControl());
     }
 
     // The next few methods are for parsing results
@@ -651,8 +652,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
 
-        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getAccountId(), params);
+        verifyCannotMasquerade(sameCourseStudent.getAccountId(), params);
     }
 
     void verifyInstructorsOfOtherCoursesCanAccess(Course currentCourse, String... params) {
@@ -665,8 +666,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
 
-        verifyCannotMasquerade(sameCourseInstructor.getId().toString(), params);
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(sameCourseInstructor.getAccountId(), params);
+        verifyCannotMasquerade(sameCourseStudent.getAccountId(), params);
     }
 
     void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
@@ -774,9 +775,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {
-            verifyCanMasquerade(instructor.getGoogleId(), params);
+            verifyCanMasquerade(instructor.getAccountId(), params);
         } else {
-            verifyCannotMasquerade(instructor.getGoogleId(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
     }
 
@@ -833,7 +834,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
         } else {
             verifyCannotAccess(params);
-            verifyCannotMasquerade(instructor.getId().toString(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
     }
 
@@ -865,7 +866,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
         } else {
             verifyCannotAccess(params);
-            verifyCannotMasquerade(instructor.getId().toString(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
     }
 

@@ -111,7 +111,7 @@ public class MockUserProvision extends UserProvision {
             return PUBLIC_AUTH_CONTEXT;
         }
 
-        String masqueradeUserId = req.getParameter(Const.ParamsNames.USER);
+        String masqueradeUserId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
         if (masqueradeUserId != null) {
             if (!loggedInUserIsAdmin) {
                 throw new UnauthorizedAccessException(

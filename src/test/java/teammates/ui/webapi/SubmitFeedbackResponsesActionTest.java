@@ -895,7 +895,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.USER, stubStudent.getGoogleId(),
         };
 
-        verifyCanMasquerade(stubStudent.getGoogleId(), params);
+        verifyCanMasquerade(stubStudent.getAccountId(), params);
     }
 
     @Test

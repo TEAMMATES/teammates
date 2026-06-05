@@ -154,6 +154,7 @@ public final class Const {
 
         public static final String ERROR = "error";
         public static final String USER = "user";
+        public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
 
         public static final String SEARCH_KEY = "searchkey";
 

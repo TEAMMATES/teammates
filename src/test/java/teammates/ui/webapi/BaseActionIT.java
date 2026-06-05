@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 
@@ -150,13 +151,13 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     protected abstract void testAccessControl() throws Exception;
 
     /**
-     * Returns The {@code params} array with the {@code userId}
+     * Returns The {@code params} array with the {@code accountId}
      * (together with the parameter name) inserted at the beginning.
      */
-    protected String[] addUserToParams(String userId, String[] params) {
+    protected String[] addMasqueradeAccountToParams(UUID accountId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER);
-        list.add(userId);
+        list.add(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        list.add(accountId.toString());
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
     }
@@ -390,7 +391,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         loginAsAdmin();
 
         // not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
     }
 
     void verifyAccessibleForAdminToMasqueradeAsInstructor(Course course, String[] submissionParams) {
@@ -399,7 +400,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "accessibleforadmintomasqueradeasinstructor@teammates.tmt");
         loginAsAdmin();
         // not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
     }
 
     void verifyInaccessibleWithoutModifySessionPrivilege(Course course, String[] submissionParams) {
@@ -457,8 +458,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         loginAsInstructor(instructorSameCourse.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
-        verifyCannotMasquerade(instructorOtherCourse.getAccount().getGoogleId(), submissionParams);
+        verifyCannotMasquerade(studentSameCourse.getAccountId(), submissionParams);
+        verifyCannotMasquerade(instructorOtherCourse.getAccountId(), submissionParams);
 
     }
 
@@ -477,8 +478,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         loginAsInstructor(instructorOtherCourse.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
-        verifyCannotMasquerade(instructorSameCourse.getAccount().getGoogleId(), submissionParams);
+        verifyCannotMasquerade(studentSameCourse.getAccountId(), submissionParams);
+        verifyCannotMasquerade(instructorSameCourse.getAccountId(), submissionParams);
     }
 
     void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams) {
@@ -542,21 +543,21 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     /**
      * Verifies that the {@link Action} matching the {@code params} is
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCanMasquerade(String userId, String... params) {
-        verifyCanAccess(addUserToParams(userId, params));
+    protected void verifyCanMasquerade(UUID accountId, String... params) {
+        verifyCanAccess(addMasqueradeAccountToParams(accountId, params));
     }
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCannotMasquerade(String userId, String... params) {
+    protected void verifyCannotMasquerade(UUID accountId, String... params) {
         Action action;
         try {
-            action = getAction(addUserToParams(userId, params));
+            action = getAction(addMasqueradeAccountToParams(accountId, params));
         } catch (RuntimeException e) {
             assertTrue(e.getCause() instanceof UnauthorizedAccessException);
             return;

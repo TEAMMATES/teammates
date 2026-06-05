@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import java.util.UUID;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
@@ -106,8 +108,8 @@ public class UserProvision {
      * Checks if the request is a masquerade request.
      */
     protected boolean isMasqueradeRequest(HttpServletRequest req) {
-        String userParam = req.getParameter(Const.ParamsNames.USER);
-        return userParam != null;
+        String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        return masqueradeAccountId != null;
     }
 
     /**
@@ -155,8 +157,8 @@ public class UserProvision {
     private AuthContext handleBackdoorRequest(HttpServletRequest req) {
         Account account = null;
         if (isMasqueradeRequest(req)) {
-            String userId = req.getParameter(Const.ParamsNames.USER);
-            account = accountsLogic.getAccountForGoogleId(userId);
+            String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+            account = accountsLogic.getAccount(UUID.fromString(masqueradeAccountId));
         }
 
         return new AuthContext(
@@ -192,11 +194,11 @@ public class UserProvision {
                         String.format("Masquerade failed: user %s does not have admin privilege", account.getEmail()));
             }
 
-            String userId = req.getParameter(Const.ParamsNames.USER);
-            effectiveAccount = accountsLogic.getAccountForGoogleId(userId);
+            String masqueradeAccountId = req.getParameter(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+            effectiveAccount = accountsLogic.getAccount(UUID.fromString(masqueradeAccountId));
             if (effectiveAccount == null) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: no account found for user id %s", userId));
+                        String.format("Masquerade failed: no account found for user id %s", masqueradeAccountId));
             }
         }
 

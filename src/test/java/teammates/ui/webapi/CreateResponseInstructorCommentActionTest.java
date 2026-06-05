@@ -510,7 +510,7 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+        verifyCanMasquerade(typicalInstructor.getAccountId(), params);
     }
 
     private void mockCreateResponseInstructorComment(ResponseInstructorComment comment) throws Exception {
