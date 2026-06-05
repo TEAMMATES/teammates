@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -106,6 +107,25 @@ public final class GivenData {
         Account account = accountData.build();
         registerEntity(alias, account, dataBundle.accounts);
         return account.getId();
+    }
+
+    /**
+     * Creates an account request with default values.
+     */
+    public UUID accountRequest(String alias) {
+        return accountRequest(alias, ar -> {
+        });
+    }
+
+    /**
+     * Creates an account request and applies the provided options to customize it.
+     */
+    public UUID accountRequest(String alias, Consumer<GivenAccountRequest> options) {
+        GivenAccountRequest accountRequestData = new GivenAccountRequest(this, uuid(alias));
+        options.accept(accountRequestData);
+        AccountRequest accountRequest = accountRequestData.build();
+        registerEntity(alias, accountRequest, dataBundle.accountRequests);
+        return accountRequest.getId();
     }
 
     /**
