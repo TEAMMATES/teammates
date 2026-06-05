@@ -93,8 +93,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyContributionStatistics(11, expectedContribStats);
 
         ______TS("verify comments");
-        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment1"), student);
-        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment2"), student);
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment1"));
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment2"));
         verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
         verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
@@ -129,8 +129,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("preview results as student: visible comments shown");
-        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment1"), student);
-        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment2"), student);
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment1"));
+        verifyCommentDetails(2, testData.responseInstructorComments.get("qn2Comment2"));
         verifyParticipantCommentDetails(3, testData.feedbackResponses.get("qn3response1").getGiverComment());
         verifyParticipantCommentDetails(4, testData.feedbackResponses.get("qn4response1").getGiverComment());
 
@@ -201,15 +201,14 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 visibleRecipients);
     }
 
-    private void verifyCommentDetails(int questionNum, ResponseInstructorComment comment,
-            Student currentStudent) {
+    private void verifyCommentDetails(int questionNum, ResponseInstructorComment comment) {
         String editor = "";
         String giver = "";
 
         if (!Objects.equals(comment.getLastEditedBy(), comment.getGiver())) {
-            editor = getIdentifier(currentStudent, comment.getLastEditedBy());
+            editor = comment.getLastEditedBy().getDisplayName();
         }
-        giver = getIdentifier(currentStudent, comment.getGiver());
+        giver = comment.getGiver().getDisplayName();
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
     }
 

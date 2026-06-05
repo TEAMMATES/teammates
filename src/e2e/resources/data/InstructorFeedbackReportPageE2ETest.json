@@ -508,12 +508,8 @@
   "responseInstructorComments": {
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000971",
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000501",
+      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor first comment to Alice",
       "showCommentTo": ["STUDENTS"],
       "showGiverNameTo": ["STUDENTS"],
@@ -521,12 +517,8 @@
     },
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000972",
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000501",
+      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor second comment to Alice",
       "showCommentTo": ["STUDENTS"],
       "showGiverNameTo": ["STUDENTS"],

@@ -210,10 +210,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("verify feedback response comments deserialized correctly");
         ResponseInstructorComment actualComment1 = dataBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
-        ResponseGiver commentGiver = new ResponseGiver(actualInstructor1);
-        ResponseInstructorComment expectedComment1 = new ResponseInstructorComment(commentGiver,
+        ResponseInstructorComment expectedComment1 = new ResponseInstructorComment(actualInstructor1,
                 "Instructor 1 comment to student 1 self feedback",
-                new ArrayList<>(), new ArrayList<>(), commentGiver);
+                new ArrayList<>(), new ArrayList<>(), actualInstructor1);
         expectedResponse1.addResponseInstructorComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
         assertEquals(expectedComment1, actualComment1);

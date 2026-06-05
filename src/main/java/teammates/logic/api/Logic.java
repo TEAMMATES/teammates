@@ -1291,7 +1291,7 @@ public class Logic {
      * @throws EntityDoesNotExistException if the comment does not exist
      */
     public ResponseInstructorComment updateResponseInstructorComment(UUID frcId,
-            ResponseInstructorCommentUpdateRequest updateRequest, ResponseGiver updater)
+            ResponseInstructorCommentUpdateRequest updateRequest, Instructor updater)
             throws EntityDoesNotExistException {
         return responseInstructorCommentsLogic.updateResponseInstructorComment(frcId, updateRequest, updater);
     }
@@ -1316,7 +1316,7 @@ public class Logic {
      * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException   if the comment is invalid
      */
-    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, ResponseGiver giver,
+    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
             String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         return responseInstructorCommentsLogic.createResponseInstructorComment(

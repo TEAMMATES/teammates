@@ -64,7 +64,7 @@ public final class ResponseInstructorCommentsLogic {
      * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException if the comment is invalid
      */
-    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, ResponseGiver giver,
+    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
             String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackResponse feedbackResponse = frLogic.getFeedbackResponse(feedbackResponseId);
@@ -111,7 +111,7 @@ public final class ResponseInstructorCommentsLogic {
      * @throws EntityDoesNotExistException if the comment does not exist
      */
     public ResponseInstructorComment updateResponseInstructorComment(UUID frcId,
-            ResponseInstructorCommentUpdateRequest updateRequest, ResponseGiver updater)
+            ResponseInstructorCommentUpdateRequest updateRequest, Instructor updater)
             throws EntityDoesNotExistException {
         ResponseInstructorComment comment = frcDb.getResponseInstructorComment(frcId);
         if (comment == null) {
@@ -215,15 +215,7 @@ public final class ResponseInstructorCommentsLogic {
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
                 Objects.equals(response.getGiver().getGiverUser(), user) && isVisibleToGiver;
 
-        boolean isUserRelatedResponseCommentGiver = false;
-        ResponseGiver commentGiver = relatedComment.getGiver();
-        if (commentGiver.isGiverTeam() && user instanceof Student student) {
-            isUserRelatedResponseCommentGiver = student.getTeamId().equals(commentGiver.getGiverTeamId());
-        } else if (commentGiver.isGiverUser() && user instanceof Student student) {
-            isUserRelatedResponseCommentGiver = student.getId().equals(commentGiver.getGiverUserId());
-        } else if (commentGiver.isGiverUser() && user instanceof Instructor instructor) {
-            isUserRelatedResponseCommentGiver = instructor.getId().equals(commentGiver.getGiverUserId());
-        }
+        boolean isUserResponseCommentGiver = Objects.equals(user, relatedComment.getGiver());
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 !isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.STUDENTS);
@@ -231,7 +223,7 @@ public final class ResponseInstructorCommentsLogic {
         return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
                 || isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients
                 || isUserResponseGiverAndRelatedResponseCommentVisibleToGivers
-                || isUserRelatedResponseCommentGiver
+                || isUserResponseCommentGiver
                 || isUserStudentAndRelatedResponseCommentVisibleToStudents;
     }
 
@@ -246,10 +238,8 @@ public final class ResponseInstructorCommentsLogic {
      */
     public boolean checkIsNameVisibleToUser(ResponseInstructorComment comment, FeedbackResponse response, User user) {
         //comment giver can always see
-        ResponseGiver commentGiver = comment.getGiver();
-        if (Objects.equals(user, commentGiver.getGiverUser()) || user instanceof Student student
-                && commentGiver.isGiverTeam()
-                && student.getTeam().equals(commentGiver.getGiverTeam())) {
+        Instructor commentGiver = comment.getGiver();
+        if (Objects.equals(user, commentGiver)) {
             return true;
         }
 

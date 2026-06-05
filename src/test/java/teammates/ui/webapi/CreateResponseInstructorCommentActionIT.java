@@ -59,7 +59,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
                 .filter(frc -> "Instructor result comment".equals(frc.getCommentText()))
                 .findFirst()
                 .orElseThrow());
-        assertEquals(instructor, comment.getGiver().getGiverUser());
+        assertEquals(instructor, comment.getGiver());
     }
 
     @Test(groups = GroupNames.INTEGRATION)

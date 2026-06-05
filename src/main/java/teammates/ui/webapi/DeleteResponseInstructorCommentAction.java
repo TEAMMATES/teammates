@@ -38,7 +38,7 @@ public class DeleteResponseInstructorCommentAction extends Action {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
         }
 
-        if (comment.getGiver().equals(new ResponseGiver(instructor))) {
+        if (comment.getGiver().equals(instructor)) {
             return;
         }
 

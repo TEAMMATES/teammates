@@ -4,13 +4,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.AssociationOverride;
-import jakarta.persistence.AssociationOverrides;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.AttributeOverrides;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -41,27 +37,21 @@ public class ResponseInstructorComment extends BaseEntity {
     @Column(insertable = false, updatable = false)
     private UUID responseId;
 
-    @Embedded
-    private ResponseGiver giver;
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID giverId;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(
-                    name = "giverUserId",
-                    column = @Column(name = "lastEditedByUserId", insertable = false, updatable = false)),
-            @AttributeOverride(
-                    name = "giverTeamId",
-                    column = @Column(name = "lastEditedByTeamId", insertable = false, updatable = false))
-    })
-    @AssociationOverrides({
-            @AssociationOverride(
-                    name = "giverUser",
-                    joinColumns = @JoinColumn(name = "lastEditedByUserId")),
-            @AssociationOverride(
-                    name = "giverTeam",
-                    joinColumns = @JoinColumn(name = "lastEditedByTeamId"))
-    })
-    private ResponseGiver lastEditedBy;
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "giverId", nullable = false)
+    private Instructor giver;
+
+    @Column(insertable = false, updatable = false)
+    private UUID lastEditedById;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "lastEditedById")
+    private Instructor lastEditedBy;
 
     @Column(nullable = false)
     private String commentText;
@@ -82,9 +72,9 @@ public class ResponseInstructorComment extends BaseEntity {
     }
 
     public ResponseInstructorComment(
-            ResponseGiver giver, String commentText,
+            Instructor giver, String commentText,
             List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo,
-            ResponseGiver lastEditedBy
+            @Nullable Instructor lastEditedBy
     ) {
         this.setGiver(giver);
         this.setCommentText(commentText);
@@ -118,12 +108,20 @@ public class ResponseInstructorComment extends BaseEntity {
         this.responseId = feedbackResponse == null ? null : feedbackResponse.getId();
     }
 
-    public ResponseGiver getGiver() {
+    public UUID getGiverId() {
+        return giverId;
+    }
+
+    public Instructor getGiver() {
         return giver;
     }
 
-    public void setGiver(ResponseGiver giver) {
+    /**
+     * Sets the giver of the response comment.
+     */
+    public void setGiver(Instructor giver) {
         this.giver = giver;
+        this.giverId = giver == null ? null : giver.getId();
     }
 
     public String getCommentText() {
@@ -159,17 +157,22 @@ public class ResponseInstructorComment extends BaseEntity {
     }
 
     /**
-     * Gets the last editor of the response comment. If the last editor is not set, returns an empty ResponseGiver.
+     * Gets the last editor of the response comment.
      */
-    public ResponseGiver getLastEditedBy() {
-        if (lastEditedBy == null) {
-            return new ResponseGiver();
-        }
+    public @Nullable Instructor getLastEditedBy() {
         return lastEditedBy;
     }
 
-    public void setLastEditedBy(ResponseGiver lastEditedBy) {
+    public UUID getLastEditedById() {
+        return lastEditedById;
+    }
+
+    /**
+     * Sets the last editor of the response comment.
+     */
+    public void setLastEditedBy(@Nullable Instructor lastEditedBy) {
         this.lastEditedBy = lastEditedBy;
+        this.lastEditedById = lastEditedBy == null ? null : lastEditedBy.getId();
     }
 
     /**

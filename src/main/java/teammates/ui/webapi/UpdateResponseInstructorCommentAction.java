@@ -8,7 +8,6 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -45,7 +44,7 @@ public class UpdateResponseInstructorCommentAction extends Action {
         if (instructor == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
         }
-        if (comment.getGiver().equals(new ResponseGiver(instructor))) {
+        if (comment.getGiver().equals(instructor)) {
             return;
         }
         gateKeeper.verifyAccessible(instructor, session, response.getGiver().getSectionName(),
@@ -67,11 +66,10 @@ public class UpdateResponseInstructorCommentAction extends Action {
 
         String courseId = comment.getFeedbackResponse().getFeedbackQuestion().getCourseId();
         Instructor instructor = getInstructorFromRequest(courseId);
-        ResponseGiver updater = new ResponseGiver(instructor);
 
         try {
             ResponseInstructorComment updatedResponseInstructorComment =
-                    logic.updateResponseInstructorComment(responseInstructorCommentId, updateRequest, updater);
+                    logic.updateResponseInstructorComment(responseInstructorCommentId, updateRequest, instructor);
             return new JsonResult(new ResponseInstructorCommentData(updatedResponseInstructorComment));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

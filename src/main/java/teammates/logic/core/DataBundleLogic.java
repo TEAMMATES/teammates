@@ -254,26 +254,20 @@ public final class DataBundleLogic {
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
             fr.addResponseInstructorComment(responseComment);
 
-            ResponseGiver giver = responseComment.getGiver();
-            if (giver != null) {
-                if (giver.getGiverTeamId() != null) {
-                    Team team = teamsMap.get(giver.getGiverTeamId());
-                    responseComment.setGiver(new ResponseGiver(team));
-                } else if (giver.getGiverUserId() != null) {
-                    User user = usersMap.get(giver.getGiverUserId());
-                    responseComment.setGiver(new ResponseGiver(user));
+            if (responseComment.getGiverId() != null) {
+                User userGiver = usersMap.get(responseComment.getGiverId());
+                if (!(userGiver instanceof Instructor)) {
+                    throw new IllegalArgumentException("ResponseInstructorComment giver must be an instructor");
                 }
+                responseComment.setGiver((Instructor) userGiver);
             }
 
-            ResponseGiver lastEditedBy = responseComment.getLastEditedBy();
-            if (lastEditedBy.getGiverTeamId() != null) {
-                Team team = teamsMap.get(lastEditedBy.getGiverTeamId());
-                responseComment.setLastEditedBy(new ResponseGiver(team));
-            } else if (lastEditedBy.getGiverUserId() != null) {
-                User user = usersMap.get(lastEditedBy.getGiverUserId());
-                responseComment.setLastEditedBy(new ResponseGiver(user));
-            } else {
-                responseComment.setLastEditedBy(responseComment.getGiver());
+            if (responseComment.getLastEditedById() != null) {
+                User userLastEditedBy = usersMap.get(responseComment.getLastEditedById());
+                if (!(userLastEditedBy instanceof Instructor)) {
+                    throw new IllegalArgumentException("ResponseInstructorComment last editor must be an instructor");
+                }
+                responseComment.setLastEditedBy((Instructor) userLastEditedBy);
             }
         }
 
