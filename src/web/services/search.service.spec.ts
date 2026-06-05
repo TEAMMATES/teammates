@@ -36,14 +36,14 @@ describe('SearchService', () => {
   const mockStudent: Student = {
     userId: 'student-alice',
     accountId: '00000000-0000-4000-8000-00000000000a',
-    email: 'alice.b.tmms@gmail.tmt',
-    courseId: 'dog.gma-demo',
-    courseName: 'Test Course',
-    institute: 'NUS',
-    name: 'Alice Betsy',
-    googleId: 'alice.b.tmms.sampleData',
-    comments: "This student's name is Alice Betsy",
-    key: 'keyheehee',
+    email: 'alice.brown@example.edu',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
+    name: 'Alice Brown',
+    googleId: 'alice.brown.sample',
+    comments: 'Student record used for search service tests',
+    key: 'student-key-001',
     joinState: JoinState.JOINED,
     teamName: 'Team 1',
     sectionName: 'Tutorial Group 1',
@@ -52,15 +52,15 @@ describe('SearchService', () => {
   const mockInstructorA: Instructor = {
     userId: '00000000-0000-4000-8000-000000000001',
     accountId: '00000000-0000-4000-8000-000000000001',
-    googleId: 'test@example.com',
-    courseId: 'dog.gma-demo',
-    courseName: 'Test Course',
-    institute: 'Test Institute',
-    email: 'dog@gmail.com',
+    googleId: 'instructor.lee@example.edu',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
+    email: 'lee.instructor@example.edu',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
-    name: 'Hi',
-    key: 'impicklerick',
+    name: 'Lee Wong',
+    key: 'instructor-key-001',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
   };
@@ -68,15 +68,15 @@ describe('SearchService', () => {
   const mockInstructorB: Instructor = {
     userId: '00000000-0000-4000-8000-000000000002',
     accountId: '00000000-0000-4000-8000-000000000002',
-    googleId: 'insB',
-    courseId: 'dog.gma-demo',
-    courseName: 'Test Course',
-    institute: 'Test Institute',
-    email: 'cat@gmail.com',
+    googleId: 'instructor.brown@example.edu',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
+    email: 'brown.instructor@example.edu',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
-    name: 'Cat',
-    key: 'qwertyuiop',
+    name: 'Brown Taylor',
+    key: 'instructor-key-002',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
     joinState: JoinState.JOINED,
   };
@@ -84,15 +84,15 @@ describe('SearchService', () => {
   const mockInstructorC: Instructor = {
     userId: '00000000-0000-4000-8000-000000000003',
     accountId: '00000000-0000-4000-8000-000000000003',
-    googleId: 'insC',
-    courseId: 'dog.gma-demo',
-    courseName: 'Test Course',
-    institute: 'Test Institute',
-    email: 'animal@gmail.com',
+    googleId: 'instructor.chen@example.edu',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
+    email: 'chen.instructor@example.edu',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
-    name: 'QWQ',
-    key: 'vjvkjsnffwicvvcsc',
+    name: 'Chen Lim',
+    key: 'instructor-key-003',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
     joinState: JoinState.JOINED,
   };
@@ -100,10 +100,10 @@ describe('SearchService', () => {
   const mockSessions: FeedbackSession[] = [
     {
       feedbackSessionId: '00000000-0000-4000-8000-000000000001',
-      courseId: 'dog.gma-demo',
+      courseId: 'cs1010-demo',
       timeZone: 'Asia/Singapore',
       feedbackSessionName: 'First team feedback session',
-      instructions: 'Please give your feedback based on the following questions.',
+      instructions: 'Provide feedback based on the questions below.',
       submissionStartTimestamp: 1333295940000,
       submissionEndTimestamp: 1333382340000,
       submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
@@ -117,10 +117,10 @@ describe('SearchService', () => {
     },
     {
       feedbackSessionId: '00000000-0000-4000-8000-000000000002',
-      courseId: 'dog.gma-demo',
+      courseId: 'cs1010-demo',
       timeZone: 'Asia/Singapore',
       feedbackSessionName: 'Second team feedback session',
-      instructions: 'Please give your feedback based on the following questions.',
+      instructions: 'Provide feedback based on the questions below.',
       submissionStartTimestamp: 1333295940000,
       submissionEndTimestamp: 2122300740000,
       submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
@@ -186,9 +186,9 @@ describe('SearchService', () => {
   };
 
   const mockCourse: Course = {
-    courseId: 'dog.gma-demo',
-    courseName: 'Sample Course 101',
-    institute: 'Test Institute',
+    courseId: 'cs1010-demo',
+    courseName: 'Introduction to Software Engineering',
+    institute: 'National University of Singapore',
     timeZone: 'UTC',
     creationTimestamp: 1585487897502,
     deletionTimestamp: 0,
@@ -196,12 +196,12 @@ describe('SearchService', () => {
 
   const mockAccountRequest: AccountRequest = {
     accountRequestId: '132efa02-b208-4195-a262-a8eae25ceb95',
-    registrationKey: 'regkey',
+    registrationKey: 'registration-key-001',
     createdAt: 1585487897502,
-    name: 'Test Instructor',
-    institute: 'Test Institute',
-    email: 'test@example.com',
-    comments: 'This is a test account request',
+    name: 'Jordan Tan',
+    institute: 'National University of Singapore',
+    email: 'jordan.tan@example.edu',
+    comments: 'Account request used for search service tests',
     status: AccountRequestStatus.APPROVED,
   };
 
@@ -233,9 +233,9 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for instructors', () => {
-    service.searchInstructors('YoyoImCoronavirus');
+    service.searchInstructors('Lee Wong');
     const paramMap: { [key: string]: string } = {
-      searchkey: 'YoyoImCoronavirus',
+      searchkey: 'Lee Wong',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   });
@@ -256,11 +256,11 @@ describe('SearchService', () => {
       { feedbackSessions: mockSessions },
       [mockPrivilegeA],
     );
-    expect(result.comments).toBe("This student's name is Alice Betsy");
-    expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
-    expect(result.courseName).toBe('Sample Course 101');
-    expect(result.email).toBe('alice.b.tmms@gmail.tmt');
+    expect(result.comments).toBe('Student record used for search service tests');
+    expect(result.courseId).toBe('cs1010-demo');
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=student-key-001&entitytype=student`);
+    expect(result.courseName).toBe('Introduction to Software Engineering');
+    expect(result.email).toBe('alice.brown@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-00000000000a');
   });
 
@@ -274,7 +274,7 @@ describe('SearchService', () => {
     );
     expect(result.profilePageLink).toBe(
       '/web/instructor/courses/student/details?' +
-        'courseid=dog.gma-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000001',
+        'courseid=cs1010-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000001',
     );
   });
 
@@ -288,7 +288,7 @@ describe('SearchService', () => {
     );
     expect(result.profilePageLink).toBe(
       '/web/instructor/courses/student/details?' +
-        'courseid=dog.gma-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000003',
+        'courseid=cs1010-demo&userid=student-alice&masqueradeaccountid=00000000-0000-4000-8000-000000000003',
     );
   });
 
@@ -296,10 +296,12 @@ describe('SearchService', () => {
     const result: InstructorAccountSearchResult = service.joinAdminInstructor(mockInstructorA, mockCourse, {
       feedbackSessions: mockSessions,
     });
-    expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
-    expect(result.courseName).toBe('Sample Course 101');
-    expect(result.email).toBe('dog@gmail.com');
+    expect(result.courseId).toBe('cs1010-demo');
+    expect(result.courseJoinLink).toBe(
+      `${window.location.origin}/web/join?key=instructor-key-001&entitytype=instructor`,
+    );
+    expect(result.courseName).toBe('Introduction to Software Engineering');
+    expect(result.email).toBe('lee.instructor@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-000000000001');
     expect(result.homePageLink).toBe('/web/instructor/home?masqueradeaccountid=00000000-0000-4000-8000-000000000001');
   });
@@ -314,23 +316,27 @@ describe('SearchService', () => {
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
 
     expect(result.accountRequestId).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
-    expect(result.email).toBe('test@example.com');
-    expect(result.institute).toBe('Test Institute');
-    expect(result.name).toBe('Test Instructor');
+    expect(result.email).toBe('jordan.tan@example.edu');
+    expect(result.institute).toBe('National University of Singapore');
+    expect(result.name).toBe('Jordan Tan');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
     expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
-    expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
+    expect(result.registrationLink).toBe(
+      `${window.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
+    );
   });
 
   it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('');
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(mockAccountRequest);
 
-    expect(result.email).toBe('test@example.com');
-    expect(result.institute).toBe('Test Institute');
-    expect(result.name).toBe('Test Instructor');
+    expect(result.email).toBe('jordan.tan@example.edu');
+    expect(result.institute).toBe('National University of Singapore');
+    expect(result.name).toBe('Jordan Tan');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
     expect(result.registeredAtText).toBe(null);
-    expect(result.registrationLink).toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=regkey`);
+    expect(result.registrationLink).toBe(
+      `${window.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
+    );
   });
 });
