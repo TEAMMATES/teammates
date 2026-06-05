@@ -29,9 +29,9 @@ import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
- * Creates a new instructor account with sample courses.
+ * Creates a new demo course with a demo instructor and student.
  */
-public class CreateAccountAction extends Action {
+public class CreateDemoCourseAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
@@ -42,7 +42,7 @@ public class CreateAccountAction extends Action {
 
     @Override
     void checkSpecificAccessControl() {
-        // Any user can create instructor account as long as the registration key is valid.
+        // Any user can create a demo course as long as the registration key is valid.
     }
 
     @Override
@@ -105,7 +105,7 @@ public class CreateAccountAction extends Action {
             throw new UnexpectedServerException(e);
         }
 
-        return new JsonResult("Account successfully created", HttpStatus.SC_OK);
+        return new JsonResult("Demo course successfully created", HttpStatus.SC_OK);
     }
 
     /**

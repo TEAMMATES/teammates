@@ -74,6 +74,7 @@ export enum ResourceEndpoints {
   BIN_COURSE = "/webapi/bin/course",
   COURSE_SECTIONS = "/webapi/course/sections",
   COURSES = "/webapi/courses",
+  DEMO_COURSE = "/webapi/demo/course",
   INSTRUCTORS = "/webapi/instructors",
   INSTRUCTOR = "/webapi/instructor",
   INSTRUCTOR_PRIVILEGE = "/webapi/instructor/privilege",

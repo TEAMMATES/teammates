@@ -307,6 +307,7 @@ public final class Const {
         public static final String RESPONSE_GIVER_COMMENT = URI_PREFIX + "/response/givercomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
+        public static final String DEMO_COURSE = URI_PREFIX + "/demo/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
         public static final String COURSES = URI_PREFIX + "/courses";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
