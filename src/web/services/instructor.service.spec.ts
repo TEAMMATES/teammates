@@ -7,11 +7,7 @@ import { InstructorService } from './instructor.service';
 import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
-import {
-  InstructorCreateRequest,
-  InstructorPermissionRole,
-  InstructorUpdateRequest,
-} from '../types/api-request';
+import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequest } from '../types/api-request';
 
 const defaultRequestBody: InstructorCreateRequest = {
   name: 'John Doe',
@@ -152,5 +148,4 @@ describe('InstructorService', () => {
     service.loadInstructorPrivilege({ userId: paramMap['userid'] });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
-
 });

@@ -104,5 +104,4 @@ export class InstructorService {
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   }
-
 }
