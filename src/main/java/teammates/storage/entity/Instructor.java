@@ -145,10 +145,14 @@ public class Instructor extends User {
     }
 
     /**
-     * Returns true if the instructor has co-owner privilege.
+     * Returns true if the instructor has co-owner role or custom role with all privileges.
+     *
+     * <p>
+     * This is used to determine if there is a valid instructor in the course who can perform all actions.
      */
     public boolean hasCoownerPrivileges() {
-        return privileges.hasCoownerPrivileges();
+        return this.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                || this.privileges.hasAllPrivileges();
     }
 
     /**

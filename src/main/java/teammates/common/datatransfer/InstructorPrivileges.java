@@ -107,7 +107,7 @@ public final class InstructorPrivileges {
     }
 
     void setDefaultPrivilegesForCoowner() {
-        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_COOWNER);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_ALL);
     }
 
     void setDefaultPrivilegesForManager() {
@@ -123,7 +123,7 @@ public final class InstructorPrivileges {
     }
 
     void setDefaultPrivilegesForCustom() {
-        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_CUSTOM);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_NONE);
     }
 
     private void setDefaultPrivileges(InstructorPermissionSet defaultPrivileges) {
@@ -234,31 +234,10 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Returns true if co-owner privilege exists.
+     * Returns true if the instructor has all course level privileges.
      */
-    public boolean hasCoownerPrivileges() {
-        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_COOWNER);
-    }
-
-    /**
-     * Returns true if manager privilege exists.
-     */
-    public boolean hasManagerPrivileges() {
-        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_MANAGER);
-    }
-
-    /**
-     * Returns true if observer privilege exists.
-     */
-    public boolean hasObserverPrivileges() {
-        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_OBSERVER);
-    }
-
-    /**
-     * Returns true if tutor privilege exists.
-     */
-    public boolean hasTutorPrivileges() {
-        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_TUTOR);
+    public boolean hasAllPrivileges() {
+        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_ALL);
     }
 
     private boolean isAllowedInCourseLevel(String privilegeName) {

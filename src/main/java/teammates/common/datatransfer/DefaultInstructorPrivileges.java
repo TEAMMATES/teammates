@@ -5,22 +5,13 @@ package teammates.common.datatransfer;
  */
 public final class DefaultInstructorPrivileges {
 
-    static final InstructorPermissionSet PRIVILEGES_COOWNER = new InstructorPermissionSet();
     static final InstructorPermissionSet PRIVILEGES_MANAGER = new InstructorPermissionSet();
     static final InstructorPermissionSet PRIVILEGES_OBSERVER = new InstructorPermissionSet();
     static final InstructorPermissionSet PRIVILEGES_TUTOR = new InstructorPermissionSet();
-    static final InstructorPermissionSet PRIVILEGES_CUSTOM = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_ALL = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_NONE = new InstructorPermissionSet();
 
     static {
-        PRIVILEGES_COOWNER.setCanModifyCourse(true);
-        PRIVILEGES_COOWNER.setCanModifyInstructor(true);
-        PRIVILEGES_COOWNER.setCanModifySession(true);
-        PRIVILEGES_COOWNER.setCanModifyStudent(true);
-        PRIVILEGES_COOWNER.setCanViewStudentInSections(true);
-        PRIVILEGES_COOWNER.setCanViewSessionInSections(true);
-        PRIVILEGES_COOWNER.setCanSubmitSessionInSections(true);
-        PRIVILEGES_COOWNER.setCanModifySessionCommentsInSections(true);
-
         PRIVILEGES_MANAGER.setCanModifyCourse(false);
         PRIVILEGES_MANAGER.setCanModifyInstructor(true);
         PRIVILEGES_MANAGER.setCanModifySession(true);
@@ -48,14 +39,23 @@ public final class DefaultInstructorPrivileges {
         PRIVILEGES_TUTOR.setCanSubmitSessionInSections(true);
         PRIVILEGES_TUTOR.setCanModifySessionCommentsInSections(false);
 
-        PRIVILEGES_CUSTOM.setCanModifyCourse(false);
-        PRIVILEGES_CUSTOM.setCanModifyInstructor(false);
-        PRIVILEGES_CUSTOM.setCanModifySession(false);
-        PRIVILEGES_CUSTOM.setCanModifyStudent(false);
-        PRIVILEGES_CUSTOM.setCanViewStudentInSections(false);
-        PRIVILEGES_CUSTOM.setCanViewSessionInSections(false);
-        PRIVILEGES_CUSTOM.setCanSubmitSessionInSections(false);
-        PRIVILEGES_CUSTOM.setCanModifySessionCommentsInSections(false);
+        PRIVILEGES_ALL.setCanModifyCourse(true);
+        PRIVILEGES_ALL.setCanModifyInstructor(true);
+        PRIVILEGES_ALL.setCanModifySession(true);
+        PRIVILEGES_ALL.setCanModifyStudent(true);
+        PRIVILEGES_ALL.setCanViewStudentInSections(true);
+        PRIVILEGES_ALL.setCanViewSessionInSections(true);
+        PRIVILEGES_ALL.setCanSubmitSessionInSections(true);
+        PRIVILEGES_ALL.setCanModifySessionCommentsInSections(true);
+
+        PRIVILEGES_NONE.setCanModifyCourse(false);
+        PRIVILEGES_NONE.setCanModifyInstructor(false);
+        PRIVILEGES_NONE.setCanModifySession(false);
+        PRIVILEGES_NONE.setCanModifyStudent(false);
+        PRIVILEGES_NONE.setCanViewStudentInSections(false);
+        PRIVILEGES_NONE.setCanViewSessionInSections(false);
+        PRIVILEGES_NONE.setCanSubmitSessionInSections(false);
+        PRIVILEGES_NONE.setCanModifySessionCommentsInSections(false);
     }
 
     private DefaultInstructorPrivileges() {
