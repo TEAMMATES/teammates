@@ -156,7 +156,7 @@ public final class UsersLogic {
         instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
         instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
         InstructorPrivileges newPrivileges = instructorRequest.getPrivileges() == null
-                || Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName())
+                || !Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName())
                         ? new InstructorPrivileges(instructorRequest.getRoleName())
                         : instructorRequest.getPrivileges();
         newPrivileges.validatePrivileges();

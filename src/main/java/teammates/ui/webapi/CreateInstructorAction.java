@@ -103,7 +103,7 @@ public class CreateInstructorAction extends Action {
 
         // Only assign privileges if the role is custom, otherwise assign default privileges for the role
         InstructorPrivileges privileges = requestPrivileges == null
-                || Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRole)
+                || !Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRole)
                         ? new InstructorPrivileges(instrRole)
                         : requestPrivileges;
         privileges.validatePrivileges();
