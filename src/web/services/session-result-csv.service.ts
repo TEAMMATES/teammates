@@ -45,6 +45,7 @@ export class SessionResultCsvService {
     isShownStats: boolean,
     sectionName?: string,
     sectionDetail?: InstructorSessionResultSectionType,
+    sectionId?: string,
   ): string {
     const csvRows: string[][] = [];
 
@@ -66,12 +67,8 @@ export class SessionResultCsvService {
     for (const question of result.questions) {
       const currQuestion: QuestionOutput = structuredClone(question);
       currQuestion.allResponses = currQuestion.allResponses.filter((response: ResponseOutput) => {
-        if (sectionName && sectionDetail) {
-          return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
-            response,
-            sectionName,
-            sectionDetail,
-          );
+        if (sectionDetail) {
+          return this.isResponseInSection(response, sectionDetail, sectionName, sectionId);
         }
         return true;
       });
@@ -79,6 +76,33 @@ export class SessionResultCsvService {
     }
 
     return CsvHelper.convertCsvContentsToCsvString(csvRows);
+  }
+
+  private isResponseInSection(
+    response: ResponseOutput,
+    sectionDetail: InstructorSessionResultSectionType,
+    sectionName?: string,
+    sectionId?: string,
+  ): boolean {
+    if (sectionId) {
+      return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(response, sectionId, sectionDetail);
+    }
+    if (!sectionName) {
+      return true;
+    }
+
+    switch (sectionDetail) {
+      case InstructorSessionResultSectionType.EITHER:
+        return response.giverSection === sectionName || response.recipientSection === sectionName;
+      case InstructorSessionResultSectionType.GIVER:
+        return response.giverSection === sectionName;
+      case InstructorSessionResultSectionType.EVALUEE:
+        return response.recipientSection === sectionName;
+      case InstructorSessionResultSectionType.BOTH:
+        return response.giverSection === sectionName && response.recipientSection === sectionName;
+      default:
+        return true;
+    }
   }
 
   /**

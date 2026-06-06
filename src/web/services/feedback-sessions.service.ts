@@ -395,6 +395,7 @@ export class FeedbackSessionsService {
           showStatistics,
           sectionOptions?.sectionNameForCsv,
           sectionOptions?.sectionDetail,
+          sectionOptions?.groupBySectionId,
         ),
       ),
     );
