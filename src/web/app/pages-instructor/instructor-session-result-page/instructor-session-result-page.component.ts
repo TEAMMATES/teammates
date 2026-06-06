@@ -59,6 +59,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
+const DEFAULT_SECTION_ID = 'None';
 const DEFAULT_SECTION_NAME = 'None';
 
 /**
@@ -234,9 +235,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load section tabs
           this.courseService.getCourseSections(this.courseId).subscribe({
             next: (courseSections) => {
-              this.sectionsModel[DEFAULT_SECTION_NAME] = {
+              this.sectionsModel[DEFAULT_SECTION_ID] = {
                 section: {
-                  sectionId: DEFAULT_SECTION_NAME,
+                  sectionId: DEFAULT_SECTION_ID,
                   sectionName: DEFAULT_SECTION_NAME,
                 },
                 questions: [],
@@ -244,7 +245,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
                 isTabExpanded: false,
               };
               for (const section of courseSections.sections) {
-                this.sectionsModel[section.sectionName] = {
+                this.sectionsModel[section.sectionId] = {
                   section,
                   questions: [],
                   hasPopulated: false,
@@ -397,12 +398,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
     }
     of(...Object.keys(this.sectionsModel))
       .pipe(
-        concatMap((sectionName: string) => {
+        concatMap((sectionId: string) => {
           return this.feedbackSessionsService.getCourseSessionResults({
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
-            groupBySection: sectionName === DEFAULT_SECTION_NAME ? undefined : sectionName,
-            isDefaultSection: sectionName === DEFAULT_SECTION_NAME,
+            groupBySection: this.isDefaultSection(sectionId) ? undefined : this.getSectionName(sectionId),
+            isDefaultSection: this.isDefaultSection(sectionId),
           });
         }),
       )
@@ -442,30 +443,31 @@ export class InstructorSessionResultPageComponent implements OnInit {
   /**
    * Toggles the section tab in per section view.
    */
-  toggleSectionTab(sectionName: string): void {
-    this.sectionsModel[sectionName].isTabExpanded = !this.sectionsModel[sectionName].isTabExpanded;
-    if (this.sectionsModel[sectionName].isTabExpanded) {
-      this.loadSectionTab(sectionName);
+  toggleSectionTab(sectionId: string): void {
+    this.sectionsModel[sectionId].isTabExpanded = !this.sectionsModel[sectionId].isTabExpanded;
+    if (this.sectionsModel[sectionId].isTabExpanded) {
+      this.loadSectionTab(sectionId);
     }
   }
 
   /**
    * Loads all the responses and response statistics for the specified section.
    */
-  loadSectionTab(sectionName: string): void {
-    if (this.sectionsModel[sectionName].hasPopulated) {
+  loadSectionTab(sectionId: string): void {
+    if (this.sectionsModel[sectionId].hasPopulated) {
       // Do not re-fetch data
       return;
     }
+    const sectionName: string = this.getSectionName(sectionId);
     this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        groupBySection: sectionName === DEFAULT_SECTION_NAME ? undefined : sectionName,
-        isDefaultSection: sectionName === DEFAULT_SECTION_NAME,
+        groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionName,
+        isDefaultSection: this.isDefaultSection(sectionId),
       })
       .subscribe({
         next: (resp: SessionResults) => {
-          this.sectionsModel[sectionName].questions = resp.questions;
+          this.sectionsModel[sectionId].questions = resp.questions;
 
           // sort questions by question number
           resp.questions.sort(
@@ -477,14 +479,26 @@ export class InstructorSessionResultPageComponent implements OnInit {
           });
         },
         complete: () => {
-          this.sectionsModel[sectionName].hasPopulated = true;
-          this.sectionsModel[sectionName].errorMessage = '';
+          this.sectionsModel[sectionId].hasPopulated = true;
+          this.sectionsModel[sectionId].errorMessage = '';
         },
         error: (resp: ErrorMessageOutput) => {
-          this.sectionsModel[sectionName].errorMessage = resp.error.message;
+          this.sectionsModel[sectionId].errorMessage = resp.error.message;
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  get selectedSectionName(): string {
+    return this.section.length === 0 ? '' : this.getSectionName(this.section);
+  }
+
+  private getSectionName(sectionId: string): string {
+    return this.sectionsModel[sectionId]?.section.sectionName ?? sectionId;
+  }
+
+  private isDefaultSection(sectionId: string): boolean {
+    return sectionId === DEFAULT_SECTION_ID;
   }
 
   /**
@@ -615,7 +629,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.indicateMissingResponses,
         this.showStatistics,
         Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
-        this.section.length === 0 ? undefined : this.section,
+        this.section.length === 0 ? undefined : this.selectedSectionName,
         this.section.length === 0 ? undefined : this.sectionType,
       ),
     )
@@ -677,9 +691,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
       return;
     }
 
-    for (const sectionName of Object.keys(this.sectionsModel)) {
-      this.sectionsModel[sectionName].isTabExpanded = true;
-      this.loadSectionTab(sectionName);
+    for (const sectionId of Object.keys(this.sectionsModel)) {
+      this.sectionsModel[sectionId].isTabExpanded = true;
+      this.loadSectionTab(sectionId);
     }
   }
 
@@ -700,8 +714,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
       return;
     }
 
-    for (const sectionName of Object.keys(this.sectionsModel)) {
-      this.sectionsModel[sectionName].isTabExpanded = false;
+    for (const sectionId of Object.keys(this.sectionsModel)) {
+      this.sectionsModel[sectionId].isTabExpanded = false;
     }
   }
 

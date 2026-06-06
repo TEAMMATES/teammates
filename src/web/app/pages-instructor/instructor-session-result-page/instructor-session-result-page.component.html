@@ -120,7 +120,7 @@
     @if (viewType === InstructorSessionResultViewType.QUESTION) {
       <tm-instructor-session-result-question-view
         [questions]="questionsModel"
-        [section]="section"
+        [section]="selectedSectionName"
         [sectionType]="sectionType"
         [session]="session"
         [showStatistics]="showStatistics"
@@ -138,7 +138,7 @@
       <tm-instructor-session-result-grq-view
         [responses]="sectionsModel"
         [isExpandAll]="isExpandAll"
-        [section]="section"
+        [section]="selectedSectionName"
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
@@ -156,7 +156,7 @@
       <tm-instructor-session-result-rgq-view
         [responses]="sectionsModel"
         [isExpandAll]="isExpandAll"
-        [section]="section"
+        [section]="selectedSectionName"
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
@@ -174,7 +174,7 @@
       <tm-instructor-session-result-gqr-view
         [responses]="sectionsModel"
         [isExpandAll]="isExpandAll"
-        [section]="section"
+        [section]="selectedSectionName"
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
@@ -192,7 +192,7 @@
       <tm-instructor-session-result-rqg-view
         [responses]="sectionsModel"
         [isExpandAll]="isExpandAll"
-        [section]="section"
+        [section]="selectedSectionName"
         [sectionType]="sectionType"
         [groupByTeam]="groupByTeam"
         [session]="session"
@@ -219,7 +219,7 @@
       <tm-instructor-session-no-response-panel
         [allStudents]="allStudentsInCourse"
         [noResponseStudents]="noResponseStudents"
-        [section]="section"
+        [section]="selectedSectionName"
         [session]="session"
         [isNoResponseStudentsLoaded]="isNoResponseStudentsLoaded"
         (studentsToRemindEvent)="sendReminderToStudents($event)"
