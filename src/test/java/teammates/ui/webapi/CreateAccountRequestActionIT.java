@@ -12,9 +12,9 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.GroupNames;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateAccountRequestAction}.

@@ -6,6 +6,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
+
 /**
  * The request for enrolling a list of students.
  */

@@ -11,6 +11,7 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 

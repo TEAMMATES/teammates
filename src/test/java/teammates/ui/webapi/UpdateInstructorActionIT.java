@@ -14,11 +14,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Instructor;
 import teammates.test.GroupNames;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorUpdateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link UpdateInstructorAction}.
