@@ -59,7 +59,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
-const DEFAULT_SECTION_ID = 'None';
+export const DEFAULT_SECTION_ID = 'None';
 const DEFAULT_SECTION_NAME = 'None';
 
 /**

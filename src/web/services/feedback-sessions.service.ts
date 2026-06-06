@@ -31,6 +31,7 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
+import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 
 /**
  * A template session.
@@ -376,10 +377,16 @@ export class FeedbackSessionsService {
       sectionNameForCsv?: string;
     },
   ): Observable<string> {
+    const isDefaultSection = sectionOptions?.groupBySectionId
+      ? sectionOptions.groupBySectionId === DEFAULT_SECTION_ID
+      : undefined;
+    const groupBySectionId =
+      sectionOptions?.groupBySectionId === DEFAULT_SECTION_ID ? undefined : sectionOptions?.groupBySectionId;
     return this.getCourseSessionResults({
       feedbackSessionId,
       questionId,
-      groupBySection: sectionOptions?.groupBySectionId,
+      groupBySection: groupBySectionId,
+      isDefaultSection: isDefaultSection,
     }).pipe(
       map((results: SessionResults) =>
         this.sessionResultCsvService.getCsvForSessionResult(
