@@ -1,0 +1,54 @@
+@switch (recipientType) {
+  @case (QuestionRecipientType.OWN_TEAM_MEMBERS) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for team members and you don't have any team members. Therefore, you will not be able to
+        answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.TEAMS_EXCLUDING_SELF) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for other teams in this course and this course doesn't have any other team. Therefore, you
+        will not be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.STUDENTS_EXCLUDING_SELF) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for other students in this course and this course doesn't have any other student. Therefore,
+        you will not be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.SELF) {
+    <!-- The giver is always a valid recipient of a self-evaluation question, so no warning is needed. -->
+  }
+  @case (QuestionRecipientType.STUDENTS) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.INSTRUCTORS) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.TEAMS) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.OWN_TEAM) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @case (QuestionRecipientType.NONE) {
+    <!-- A "no valid recipients" warning is not applicable for this recipient type. -->
+  }
+  @default never;
+}

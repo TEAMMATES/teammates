@@ -1623,11 +1623,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="col-12 constraint-margins"
             >
             </div>
-            <div
-              class="alert alert-warning"
-              role="alert"
-            >
-            </div>
+            <tm-no-recipients-warning>
+            </tm-no-recipients-warning>
           </div>
         </div>
       </tm-question-submission-form>
@@ -4609,11 +4606,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="col-12 constraint-margins"
             >
             </div>
-            <div
-              class="alert alert-warning"
-              role="alert"
-            >
-            </div>
+            <tm-no-recipients-warning>
+            </tm-no-recipients-warning>
           </div>
         </div>
       </tm-question-submission-form>
