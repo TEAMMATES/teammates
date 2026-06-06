@@ -43,7 +43,7 @@
               <option value="">All</option>
               @for (section of sectionsModel | keyvalue; track section) {
                 <option [value]="section.key">
-                  {{ section.key === 'None' ? 'No specific section' : section.value.section.sectionName }}
+                  {{ section.value.section.sectionName }}
                 </option>
               }
             </select>
