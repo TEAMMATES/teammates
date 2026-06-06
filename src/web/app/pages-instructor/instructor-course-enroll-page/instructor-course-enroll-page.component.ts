@@ -403,7 +403,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       (value: string | EnrollStatus) => typeof value === 'string',
     );
 
-    for (let i = 0; i < statuses.length; i += 1) {
+    for (const _status of statuses) {
       studentLists.push([]);
     }
 
