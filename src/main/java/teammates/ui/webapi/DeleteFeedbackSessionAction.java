@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -25,9 +24,8 @@ public class DeleteFeedbackSessionAction extends Action {
         if (feedbackSession == null) {
             throw new UnauthorizedAccessException("The feedback session does not exist.");
         }
-        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

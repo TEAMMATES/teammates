@@ -504,7 +504,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
         UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Instructor [valid1@teammates.tmt] does not have privilege [canmodifysessioncommentinsection]",
+        assertEquals("Instructor does not have privilege [canmodifysessioncommentinsection]",
                 uae2.getMessage());
     }
 
@@ -602,7 +602,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
         UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
+        assertEquals("Instructor does not have privilege [canmodifysessioncommentinsection] on section [test-section]",
+                uae1.getMessage());
 
         FeedbackQuestion questionThatCannotBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());

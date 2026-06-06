@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -30,9 +29,8 @@ public class DeleteStudentAction extends Action {
             return;
         }
 
-        Instructor instructor = getInstructorFromRequest(student.getCourseId());
-        gateKeeper.verifyInstructorInCourse(requestContext, student.getCourseId());
-        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, student.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

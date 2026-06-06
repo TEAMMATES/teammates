@@ -5,7 +5,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
@@ -25,10 +24,7 @@ public class UpdateCourseAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Instructor instructor = getInstructorFromRequest(courseId);
-
-        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
-        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

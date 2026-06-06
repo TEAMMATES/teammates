@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -18,9 +17,7 @@ public class DeleteStudentsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = getInstructorFromRequest(courseId);
-        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
-        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

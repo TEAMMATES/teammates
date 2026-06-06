@@ -47,10 +47,11 @@ public class UpdateResponseInstructorCommentAction extends Action {
         if (comment.getGiver().equals(instructor)) {
             return;
         }
-        gateKeeper.verifyInstructorInCourse(requestContext, session.getCourseId());
-        gateKeeper.verifyInstructorHasPrivilege(instructor, response.getGiver().getSectionName(),
+        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(),
+                response.getGiver().getSectionName(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyInstructorHasPrivilege(instructor, response.getRecipient().getSectionName(),
+        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(),
+                response.getRecipient().getSectionName(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

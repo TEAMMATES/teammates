@@ -5,7 +5,6 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -31,11 +30,10 @@ public class DeleteFeedbackQuestionAction extends Action {
             throw new EntityNotFoundException("Unknown question id");
         }
 
-        Instructor instructor = getInstructorFromRequest(question.getCourseId());
         FeedbackSession feedbackSession = getNonNullFeedbackSession(question.getFeedbackSession().getName(),
                 question.getCourseId());
-        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
 
     }
 

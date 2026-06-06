@@ -53,9 +53,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(requestContext);
-            Instructor fullDetailInstructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
-            gateKeeper.verifyInstructorHasPrivilege(fullDetailInstructor,
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         default:

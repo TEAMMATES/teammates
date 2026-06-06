@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -35,9 +34,7 @@ public class GetStudentAction extends Action {
                 throw new EntityNotFoundException(STUDENT_NOT_FOUND);
             }
 
-            Instructor instructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
-            gateKeeper.verifyInstructorHasPrivilege(instructor,
+            gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, courseId,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {

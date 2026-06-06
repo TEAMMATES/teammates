@@ -101,29 +101,35 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies the instructor is not null and has the privilege specified by privilegeName.
+     * Verifies the instructor for the specified course has the privileges specified by privilegeNames.
      */
-    void verifyInstructorHasPrivilege(Instructor instructor, String privilegeName)
+    void verifyInstructorHasPrivilege(RequestContext requestContext, String courseId, String... privilegeNames)
             throws UnauthorizedAccessException {
-        boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
-        boolean instructorIsAllowedSectionPrivilege = !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
-        if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
-            throw new UnauthorizedAccessException("Instructor [" + instructor.getEmail()
-                                                  + "] does not have privilege [" + privilegeName + "]");
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        for (String privilegeName : privilegeNames) {
+            boolean instructorIsAllowedCoursePrivilege =
+                    instructor != null && instructor.isAllowedForPrivilege(privilegeName);
+            boolean instructorIsAllowedSectionPrivilege =
+                    instructor != null && !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
+            if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
+                throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName + "]");
+            }
         }
     }
 
     /**
-     * Verifies the instructor is not null and has the privilege specified by privilegeName for sectionName.
+     * Verifies the instructor for the specified course has the privileges specified by privilegeNames for sectionName.
      */
-    void verifyInstructorHasPrivilege(Instructor instructor, String sectionName, String privilegeName)
-            throws UnauthorizedAccessException {
+    void verifyInstructorHasPrivilegeForSection(RequestContext requestContext, String courseId, String sectionName,
+            String... privilegeNames) throws UnauthorizedAccessException {
         verifyNotNull(sectionName, "section name");
 
-        if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Instructor [" + instructor.getEmail()
-                                                  + "] does not have privilege [" + privilegeName
-                                                  + "] on section [" + sectionName + "]");
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        for (String privilegeName : privilegeNames) {
+            if (instructor == null || !instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
+                throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName
+                                                      + "] on section [" + sectionName + "]");
+            }
         }
     }
 

@@ -19,8 +19,7 @@ public class RestoreCourseAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        gateKeeper.verifyInstructorInCourse(requestContext, idOfCourseToRestore);
-        gateKeeper.verifyInstructorHasPrivilege(getInstructorFromRequest(idOfCourseToRestore),
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, idOfCourseToRestore,
                 Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
