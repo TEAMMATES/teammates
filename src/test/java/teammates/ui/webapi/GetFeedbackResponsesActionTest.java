@@ -489,7 +489,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action = getAction(params1);
         UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("You don't have submission privilege", uae.getMessage());
+        assertEquals("Instructor does not have privilege [cansubmitsessioninsection]", uae.getMessage());
 
         questionAnswerableToInstructor.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
         questionAnswerableToInstructor.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));

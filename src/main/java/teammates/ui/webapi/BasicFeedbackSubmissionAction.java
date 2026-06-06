@@ -178,8 +178,19 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
-            gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
+            verifyInstructorCanSubmitToSession(feedbackSession, instructor);
         }
+    }
+
+    private void verifyInstructorCanSubmitToSession(FeedbackSession feedbackSession, Instructor instructor)
+            throws UnauthorizedAccessException {
+        if (instructor.isAllowedForPrivilegeAnySection(feedbackSession.getName(),
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
+            return;
+        }
+
+        gateKeeper.verifyInstructorHasPrivilege(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
     }
 
     /**

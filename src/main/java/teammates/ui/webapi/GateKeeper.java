@@ -1,10 +1,8 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.RequestContext;
-import teammates.common.util.Const;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -106,6 +104,14 @@ final class GateKeeper {
     void verifyInstructorHasPrivilege(RequestContext requestContext, String courseId, String... privilegeNames)
             throws UnauthorizedAccessException {
         Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        verifyInstructorHasPrivilege(instructor, privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames.
+     */
+    void verifyInstructorHasPrivilege(Instructor instructor, String... privilegeNames)
+            throws UnauthorizedAccessException {
         for (String privilegeName : privilegeNames) {
             boolean instructorIsAllowedCoursePrivilege =
                     instructor != null && instructor.isAllowedForPrivilege(privilegeName);
@@ -122,35 +128,22 @@ final class GateKeeper {
      */
     void verifyInstructorHasPrivilegeForSection(RequestContext requestContext, String courseId, String sectionName,
             String... privilegeNames) throws UnauthorizedAccessException {
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        verifyInstructorHasPrivilegeForSection(instructor, sectionName, privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames for sectionName.
+     */
+    void verifyInstructorHasPrivilegeForSection(Instructor instructor, String sectionName, String... privilegeNames)
+            throws UnauthorizedAccessException {
         verifyNotNull(sectionName, "section name");
 
-        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
         for (String privilegeName : privilegeNames) {
             if (instructor == null || !instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
                 throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName
                                                       + "] on section [" + sectionName + "]");
             }
-        }
-    }
-
-    /**
-     * Verifies that an instructor has submission privilege for a feedback session.
-     */
-    void verifySessionSubmissionPrivilegeForInstructor(FeedbackSession session, Instructor instructor)
-            throws UnauthorizedAccessException {
-        verifyNotNull(session, "feedback session");
-        verifyNotNull(instructor, "instructor");
-
-        boolean shouldEnableSubmit =
-                instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-
-        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getName(),
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
-            shouldEnableSubmit = true;
-        }
-
-        if (!shouldEnableSubmit) {
-            throw new UnauthorizedAccessException("You don't have submission privilege");
         }
     }
 
