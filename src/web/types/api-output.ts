@@ -562,8 +562,10 @@ export interface ResponseOutput {
   userIdForModeration?: string;
   giverTeam: string;
   giverEmail?: string;
+  giverSectionId?: string;
   giverSection: string;
   recipient: string;
+  recipientSectionId?: string;
   recipientTeam: string;
   recipientEmail?: string;
   recipientSection: string;

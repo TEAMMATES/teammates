@@ -188,10 +188,12 @@ public class SessionResultsData implements ApiOutput {
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
                 .withGiverSectionName(giver.getSectionName())
+                .withGiverSectionId(giver.getSectionId())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSectionName(recipient.getSectionName())
+                .withRecipientSectionId(recipient.getSectionId())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
@@ -263,10 +265,12 @@ public class SessionResultsData implements ApiOutput {
                 .withGiverEmail(giverEmail)
                 .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
+                .withGiverSectionId(responseGiver.getSectionId())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
+                .withRecipientSectionId(responseRecipient.getSectionId())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
@@ -330,10 +334,12 @@ public class SessionResultsData implements ApiOutput {
                 .withGiverEmail(giverEmail)
                 .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
+                .withGiverSectionId(responseGiver.getSectionId())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
+                .withRecipientSectionId(responseRecipient.getSectionId())
                 .withResponseDetails(responseDetails)
                 .withParticipantComment(null)
                 .withInstructorComments(new ArrayList<>())
@@ -457,8 +463,12 @@ public class SessionResultsData implements ApiOutput {
         private String giverTeam;
         @Nullable
         private String giverEmail;
+        @Nullable
+        private UUID giverSectionId;
         private String giverSection;
         private String recipient;
+        @Nullable
+        private UUID recipientSectionId;
         private String recipientTeam;
         @Nullable
         private String recipientEmail;
@@ -511,6 +521,10 @@ public class SessionResultsData implements ApiOutput {
             return giverSection;
         }
 
+        public UUID getGiverSectionId() {
+            return giverSectionId;
+        }
+
         public String getRecipient() {
             return recipient;
         }
@@ -526,6 +540,10 @@ public class SessionResultsData implements ApiOutput {
 
         public String getRecipientSection() {
             return recipientSection;
+        }
+
+        public UUID getRecipientSectionId() {
+            return recipientSectionId;
         }
 
         public FeedbackResponseDetails getResponseDetails() {
@@ -586,6 +604,11 @@ public class SessionResultsData implements ApiOutput {
                 return this;
             }
 
+            Builder withGiverSectionId(@Nullable UUID giverSectionId) {
+                responseOutput.giverSectionId = giverSectionId;
+                return this;
+            }
+
             Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
                 return this;
@@ -603,6 +626,11 @@ public class SessionResultsData implements ApiOutput {
 
             Builder withRecipientSectionName(String recipientSection) {
                 responseOutput.recipientSection = recipientSection;
+                return this;
+            }
+
+            Builder withRecipientSectionId(@Nullable UUID recipientSectionId) {
+                responseOutput.recipientSectionId = recipientSectionId;
                 return this;
             }
 
