@@ -39,7 +39,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
@@ -557,8 +556,8 @@ public final class FeedbackResponsesLogic {
             assert maxUnusedRank > 0; // if update is needed, there must be at least one unused rank
 
             for (FeedbackResponse response : responses) {
-                if (response instanceof FeedbackRankRecipientsResponse) {
-                    responseDetails = ((FeedbackRankRecipientsResponse) response).getAnswer();
+                if (response instanceof FeedbackRankRecipientsResponse rrResponse) {
+                    responseDetails = rrResponse.getAnswer();
                     answer = responseDetails.getAnswer();
                     if (answer > maxUnusedRank) {
                         answer--;
@@ -582,7 +581,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private SessionResultsBundle buildResultsBundle(
-            boolean isCourseWide, UUID sectionId, User user,
+            boolean isCourseWide, UUID sectionId, boolean isDefaultSection, User user,
             CourseRoster roster, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
@@ -687,7 +686,7 @@ public final class FeedbackResponsesLogic {
         if (isCourseWide && user instanceof Instructor instructor) {
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedQuestions,
-                    existingResponses, roster, sectionId);
+                    existingResponses, roster, sectionId, isDefaultSection);
         }
         RequestTracer.checkRemainingTime();
 
@@ -731,7 +730,7 @@ public final class FeedbackResponsesLogic {
 
         RequestTracer.checkRemainingTime();
 
-        return buildResultsBundle(true, sectionId, instructor, roster, allQuestions, allResponses, false);
+        return buildResultsBundle(true, sectionId, isDefaultSection, instructor, roster, allQuestions, allResponses, false);
     }
 
     /**
@@ -770,7 +769,7 @@ public final class FeedbackResponsesLogic {
             allResponses.addAll(viewableResponses);
         }
 
-        return buildResultsBundle(false, null, user, roster, allQuestions, allResponses, isPreviewResults);
+        return buildResultsBundle(false, null, false, user, roster, allQuestions, allResponses, isPreviewResults);
     }
 
     /**
@@ -813,7 +812,8 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackMissingResponse> buildMissingResponses(
             Instructor instructor, Map<UUID, Boolean> responseGiverVisibilityTable,
             Map<UUID, Boolean> responseRecipientVisibilityTable, List<FeedbackQuestion> relatedQuestions,
-            List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable UUID sectionId) {
+            List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable UUID sectionId,
+            boolean isDefaultSection) {
 
         // get all possible giver recipient pairs
         Map<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> questionCompleteGiverRecipientMap =
@@ -849,9 +849,18 @@ public final class FeedbackResponsesLogic {
                 ResponseGiver giver = giverRecipientEntry.getKey();
 
                 for (ResponseRecipient recipient : giverRecipientEntry.getValue()) {
+                    UUID giverSectionId = giver.getSectionId();
+                    UUID recipientSectionId = recipient.getSectionId();
+                    if (isDefaultSection && giverSectionId != null && recipientSectionId != null) {
+                        // if isDefaultSection is true, either giver or recipient needs
+                        // to be in the default section (i.e. no section)
+                        continue;
+                    }
+
                     if (sectionId != null
-                            && !sectionId.equals(giver.getSectionId())
-                            && !sectionId.equals(recipient.getSectionId())) {
+                            && !sectionId.equals(giverSectionId)
+                            && !sectionId.equals(recipientSectionId)) {
+                        // if sectionId is specified, either giver or recipient needs to be in the section
                         continue;
                     }
 
@@ -1096,32 +1105,21 @@ public final class FeedbackResponsesLogic {
             ResponseGiver giver = response.getGiver();
             ResponseRecipient recipient = response.getRecipient();
 
-            Section giverSection = null;
-            if (giver.isGiverTeam()) {
-                giverSection = giver.getGiverTeam().getSection();
-            } else if (giver.getGiverUser() instanceof Student giverStudent) {
-                giverSection = giverStudent.getSection();
-            }
+            UUID giverSectionId = giver.getSectionId();
+            UUID recipientSectionId = recipient.getSectionId();
 
             boolean isGiverInSection;
             if (isDefaultSection) {
-                isGiverInSection = giverSection == null;
+                isGiverInSection = giverSectionId == null;
             } else {
-                isGiverInSection = giverSection != null && giverSection.getId().equals(sectionId);
-            }
-
-            Section recipientSection = null;
-            if (recipient.isRecipientTeam()) {
-                recipientSection = recipient.getRecipientTeam().getSection();
-            } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
-                recipientSection = recipientStudent.getSection();
+                isGiverInSection = giverSectionId != null && giverSectionId.equals(sectionId);
             }
 
             boolean isRecipientInSection;
             if (isDefaultSection) {
-                isRecipientInSection = recipientSection == null;
+                isRecipientInSection = recipientSectionId == null;
             } else {
-                isRecipientInSection = recipientSection != null && recipientSection.getId().equals(sectionId);
+                isRecipientInSection = recipientSectionId != null && recipientSectionId.equals(sectionId);
             }
 
             if (isGiverInSection || isRecipientInSection) {
