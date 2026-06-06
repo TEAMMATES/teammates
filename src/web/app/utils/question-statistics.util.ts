@@ -722,9 +722,9 @@ export function calculateRubricQuestionStatistics(
   stats.isWeightStatsVisible = stats.hasWeights && stats.weights.length > 0 && stats.weights[0].length > 0;
 
   const emptyAnswers: number[][] = [];
-  for (let i = 0; i < question.rubricSubQuestions.length; i += 1) {
+  for (const _subQuestion of question.rubricSubQuestions) {
     const subQuestionAnswers: number[] = [];
-    for (let j = 0; j < question.rubricChoices.length; j += 1) {
+    for (const _choice of question.rubricChoices) {
       subQuestionAnswers.push(0);
     }
     emptyAnswers.push(subQuestionAnswers);
@@ -878,8 +878,8 @@ function sumValidValuesByColumn(matrix: number[][]): number[] {
   const sums: number[] = [];
   for (let c = 0; c < matrix[0].length; c += 1) {
     let sum = 0;
-    for (let r = 0; r < matrix.length; r += 1) {
-      sum += matrix[r][c] === null ? 0 : matrix[r][c];
+    for (const row of matrix) {
+      sum += row[c] === null ? 0 : row[c];
     }
     sums[c] = sum;
   }
@@ -891,8 +891,8 @@ function countValidValuesByColumn(matrix: number[][]): number[] {
   const counts: number[] = [];
   for (let c = 0; c < matrix[0].length; c += 1) {
     let count = 0;
-    for (let r = 0; r < matrix.length; r += 1) {
-      count += matrix[r][c] === null ? 0 : 1;
+    for (const row of matrix) {
+      count += row[c] === null ? 0 : 1;
     }
     counts[c] = count;
   }
