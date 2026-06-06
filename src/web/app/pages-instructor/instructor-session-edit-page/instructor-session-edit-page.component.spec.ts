@@ -403,7 +403,9 @@ describe('InstructorSessionEditPageComponent', () => {
       institute: 'Test Institute',
       name: 'Alice',
       teamName: 'Team 1',
+      teamId: 'team-1',
       sectionName: 'Section 1',
+      sectionId: 'section-1',
     };
     const testStudent2: Student = {
       userId: 'student-id-2',
@@ -413,7 +415,9 @@ describe('InstructorSessionEditPageComponent', () => {
       institute: 'Test Institute',
       name: 'Bob',
       teamName: 'Team 1',
+      teamId: 'team-1',
       sectionName: 'Section 1',
+      sectionId: 'section-1',
     };
     const students: Students = {
       students: [testStudent1, testStudent2],

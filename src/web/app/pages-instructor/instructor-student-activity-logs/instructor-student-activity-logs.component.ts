@@ -298,8 +298,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       courseId: '',
       email: '',
       name: '',
+      teamId: '',
       sectionName: '',
       teamName: '',
+      sectionId: '',
       institute: '',
       courseName: '',
     };

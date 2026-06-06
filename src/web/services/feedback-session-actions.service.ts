@@ -35,8 +35,11 @@ export class FeedbackSessionActionsService {
     indicateMissingResponses: boolean,
     showStatistics: boolean,
     questions: FeedbackQuestion[],
-    groupBySection?: string,
-    sectionDetail?: InstructorSessionResultSectionType,
+    sectionOptions?: {
+      groupBySectionId?: string;
+      sectionDetail?: InstructorSessionResultSectionType;
+      sectionNameForCsv?: string;
+    },
   ): void {
     const filename = `${courseId}_${feedbackSessionName}_result.csv`;
     let blob: any;
@@ -61,8 +64,7 @@ export class FeedbackSessionActionsService {
           indicateMissingResponses,
           showStatistics,
           question.feedbackQuestionId,
-          groupBySection,
-          sectionDetail,
+          sectionOptions,
         ),
       ),
       this.feedbackSessionsService.downloadFeedbackSessionNonSubmitterList(courseId, feedbackSessionId),

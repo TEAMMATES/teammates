@@ -362,27 +362,32 @@ export class FeedbackSessionsService {
 
   /**
    * Download session results.
+    *
+    * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   downloadSessionResults(
     feedbackSessionId: string,
     indicateMissingResponses: boolean,
     showStatistics: boolean,
     questionId?: string,
-    groupBySection?: string,
-    sectionDetail?: InstructorSessionResultSectionType,
+    sectionOptions?: {
+      groupBySectionId?: string;
+      sectionDetail?: InstructorSessionResultSectionType;
+      sectionNameForCsv?: string;
+    },
   ): Observable<string> {
     return this.getCourseSessionResults({
       feedbackSessionId,
       questionId,
-      groupBySection,
+      groupBySection: sectionOptions?.groupBySectionId,
     }).pipe(
       map((results: SessionResults) =>
         this.sessionResultCsvService.getCsvForSessionResult(
           results,
           indicateMissingResponses,
           showStatistics,
-          groupBySection,
-          sectionDetail,
+          sectionOptions?.sectionNameForCsv,
+          sectionOptions?.sectionDetail,
         ),
       ),
     );
@@ -390,6 +395,8 @@ export class FeedbackSessionsService {
 
   /**
    * Retrieves course-wide results for a feedback session.
+    *
+    * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   getCourseSessionResults(queryParams: {
     feedbackSessionId: string;

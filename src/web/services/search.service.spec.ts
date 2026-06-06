@@ -46,7 +46,9 @@ describe('SearchService', () => {
     key: 'student-key-001',
     joinState: JoinState.JOINED,
     teamName: 'Team 1',
+    teamId: 'team-1',
     sectionName: 'Tutorial Group 1',
+    sectionId: 'section-1',
   };
 
   const mockInstructorA: Instructor = {

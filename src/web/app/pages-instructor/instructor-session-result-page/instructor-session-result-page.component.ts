@@ -402,7 +402,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           return this.feedbackSessionsService.getCourseSessionResults({
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
-            groupBySection: this.isDefaultSection(sectionId) ? undefined : this.getSectionName(sectionId),
+            groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionId,
             isDefaultSection: this.isDefaultSection(sectionId),
           });
         }),
@@ -458,11 +458,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
       // Do not re-fetch data
       return;
     }
-    const sectionName: string = this.getSectionName(sectionId);
     this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionName,
+        groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionId,
         isDefaultSection: this.isDefaultSection(sectionId),
       })
       .subscribe({
@@ -629,8 +628,13 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.indicateMissingResponses,
         this.showStatistics,
         Object.values(this.questionsModel).map((questionTabModel: QuestionTabModel) => questionTabModel.question),
-        this.section.length === 0 ? undefined : this.selectedSectionName,
-        this.section.length === 0 ? undefined : this.sectionType,
+        this.section.length === 0
+          ? undefined
+          : {
+              groupBySectionId: this.section,
+              sectionDetail: this.sectionType,
+              sectionNameForCsv: this.selectedSectionName,
+            },
       ),
     )
       .pipe(
