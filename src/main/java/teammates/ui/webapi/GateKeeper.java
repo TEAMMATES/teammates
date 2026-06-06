@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.RequestContext;
 import teammates.common.util.Const;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
@@ -30,16 +30,19 @@ final class GateKeeper {
     /**
      * Verifies the user is logged in.
      */
-    void verifyLoggedInUserPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext.account() != null) {
+    void verifyLoggedInUserPrivileges(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.getAccount() != null) {
             return;
         }
 
         throw new UnauthorizedAccessException("User is not logged in");
     }
 
-    void verifyAdminPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+    /**
+     * Verifies that the user has admin privileges.
+     */
+    void verifyAdminPrivileges(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -47,11 +50,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified auth context has student privileges in any course.
+     * Verifies that the user has student privileges in any course.
      */
-    void verifyStudentInAnyCourse(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext.account() != null
-                && !usersLogic.getStudentsByAccountId(authContext.account().getId()).isEmpty()) {
+    void verifyStudentInAnyCourse(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.getAccount() != null
+                && !usersLogic.getStudentsByAccountId(requestContext.getAccount().getId()).isEmpty()) {
             return;
         }
 
@@ -59,11 +62,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified auth context has instructor privileges in any course.
+     * Verifies that the user has instructor privileges in any course.
      */
-    void verifyInstructorInAnyCourse(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext.account() != null
-                && !usersLogic.getInstructorsByAccountId(authContext.account().getId()).isEmpty()) {
+    void verifyInstructorInAnyCourse(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.getAccount() != null
+                && !usersLogic.getInstructorsByAccountId(requestContext.getAccount().getId()).isEmpty()) {
             return;
         }
 
@@ -71,10 +74,10 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified auth context has student privileges in the specified course.
+     * Verifies that the user has student privileges in the specified course.
      */
-    void verifyStudentInCourse(AuthContext authContext, String courseId) throws UnauthorizedAccessException {
-        Student student = authLogic.getStudentFromAuthContext(authContext, courseId);
+    void verifyStudentInCourse(RequestContext requestContext, String courseId) throws UnauthorizedAccessException {
+        Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         verifyNotNull(student, "student");
 
         if (!student.getCourseId().equals(courseId)) {
@@ -84,11 +87,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified auth context has instructor privileges in the specified course.
+     * Verifies that the user has instructor privileges in the specified course.
      */
-    void verifyInstructorInCourse(AuthContext authContext, String courseId)
+    void verifyInstructorInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
-        Instructor instructor = authLogic.getInstructorFromAuthContext(authContext, courseId);
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
         verifyNotNull(instructor, "instructor");
 
         if (!instructor.getCourseId().equals(courseId)) {

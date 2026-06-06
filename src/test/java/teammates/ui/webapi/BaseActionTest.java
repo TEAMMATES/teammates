@@ -128,7 +128,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
-            stubAuthLogicUsersLogic(action.authContext);
+            stubAuthLogicUsersLogic(action.requestContext.getAuthContext());
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);

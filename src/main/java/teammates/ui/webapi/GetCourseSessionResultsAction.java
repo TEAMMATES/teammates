@@ -28,7 +28,7 @@ public class GetCourseSessionResultsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
     }
 
     @Override

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.RequestContext;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
@@ -47,7 +48,7 @@ public abstract class Action {
     LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
-    AuthContext authContext;
+    RequestContext requestContext;
 
     // buffer to store the request body
     private String requestBody;
@@ -57,7 +58,8 @@ public abstract class Action {
      */
     public void init(HttpServletRequest req) throws UnauthorizedAccessException {
         this.req = req;
-        this.authContext = userProvision.getAuthContextFromRequest(req);
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
+        this.requestContext = new RequestContext(authContext);
     }
 
     /**
@@ -95,12 +97,12 @@ public abstract class Action {
      * Checks if the requesting user has sufficient authority to access the resource.
      */
     public void checkAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
-        if (authContext.authType().getLevel() < getMinAuthLevel().getLevel()) {
+        if (requestContext.getAuthType().getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
         }
 
-        if (authContext.authType() == AuthType.ALL_ACCESS) {
+        if (requestContext.getAuthType() == AuthType.ALL_ACCESS) {
             // All-access auth type is allowed to access all resources without further checks
             return;
         }
@@ -116,7 +118,7 @@ public abstract class Action {
         RequestLogUser user = new RequestLogUser();
 
         Account account = getCurrentAccount();
-        User regKeyUser = authContext.regKeyUser();
+        User regKeyUser = requestContext.getRegKeyUser();
 
         if (account != null) {
             user.setEmail(account.getEmail());
@@ -129,7 +131,7 @@ public abstract class Action {
     }
 
     Account getCurrentAccount() {
-        return authContext.account();
+        return requestContext.getAccount();
     }
 
     String getCurrentUserGoogleId() {
@@ -261,11 +263,11 @@ public abstract class Action {
     }
 
     Instructor getInstructorFromRequest(String courseId) {
-        return logic.getInstructorFromAuthContext(authContext, courseId);
+        return requestContext.getInstructorForCourse(courseId, logic::getInstructorFromAuthContext);
     }
 
     Student getStudentFromRequest(String courseId) {
-        return logic.getStudentFromAuthContext(authContext, courseId);
+        return requestContext.getStudentForCourse(courseId, logic::getStudentFromAuthContext);
     }
 
     InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {

@@ -20,7 +20,7 @@ public class GetSessionResponseStatsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -30,7 +30,7 @@ public class GetSessionResponseStatsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
     }
 
     @Override

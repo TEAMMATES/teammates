@@ -29,7 +29,7 @@ public class BinFeedbackSessionAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

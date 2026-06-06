@@ -46,7 +46,7 @@ public class GetCoursesAction extends Action {
     }
 
     private JsonResult getStudentCourses() {
-        List<Course> courses = logic.getCoursesForStudentAccount(authContext.account());
+        List<Course> courses = logic.getCoursesForStudentAccount(requestContext.getAccount());
         CoursesData coursesData = new CoursesData(courses);
         List<CourseData> courseDataList = coursesData.getCourses();
 
@@ -58,7 +58,7 @@ public class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
-        List<Instructor> instructors = logic.getInstructorsByAccountId(authContext.account().getId());
+        List<Instructor> instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
         List<Course> courses;
 
         switch (courseStatus) {

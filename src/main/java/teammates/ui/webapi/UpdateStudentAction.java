@@ -57,7 +57,7 @@ public class UpdateStudentAction extends Action {
         }
 
         Instructor instructor = getInstructorFromRequest(existingStudent.getCourseId());
-        gateKeeper.verifyInstructorInCourse(authContext, existingStudent.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, existingStudent.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 

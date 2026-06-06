@@ -52,9 +52,9 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
+            gateKeeper.verifyLoggedInUserPrivileges(requestContext);
             Instructor fullDetailInstructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyInstructorInCourse(authContext, courseId);
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
             gateKeeper.verifyInstructorHasPrivilege(fullDetailInstructor,
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;

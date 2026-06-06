@@ -18,7 +18,7 @@ public class DeleteCourseAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        gateKeeper.verifyInstructorInCourse(authContext, idOfCourseToDelete);
+        gateKeeper.verifyInstructorInCourse(requestContext, idOfCourseToDelete);
         gateKeeper.verifyInstructorHasPrivilege(getInstructorFromRequest(idOfCourseToDelete),
                 Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }

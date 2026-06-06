@@ -26,12 +26,12 @@ public class DeleteStudentAction extends Action {
             throw new EntityNotFoundException("Student with user ID " + userId + " does not exist.");
         }
 
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
         Instructor instructor = getInstructorFromRequest(student.getCourseId());
-        gateKeeper.verifyInstructorInCourse(authContext, student.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, student.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 

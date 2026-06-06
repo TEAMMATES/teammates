@@ -23,7 +23,7 @@ public class GetCourseSectionsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        gateKeeper.verifyInstructorInCourse(authContext, courseId);
+        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
     }
 
     @Override

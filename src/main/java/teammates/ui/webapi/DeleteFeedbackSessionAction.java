@@ -26,7 +26,7 @@ public class DeleteFeedbackSessionAction extends Action {
             throw new UnauthorizedAccessException("The feedback session does not exist.");
         }
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyInstructorInCourse(authContext, feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

@@ -36,12 +36,12 @@ public class GetStudentAction extends Action {
             }
 
             Instructor instructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyInstructorInCourse(authContext, courseId);
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
             gateKeeper.verifyInstructorHasPrivilege(instructor,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
-            gateKeeper.verifyStudentInCourse(authContext, courseId);
+            gateKeeper.verifyStudentInCourse(requestContext, courseId);
         }
     }
 
@@ -64,7 +64,7 @@ public class GetStudentAction extends Action {
         }
 
         StudentData studentData = new StudentData(student);
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             studentData.setKey(student.getRegKey());
             studentData.setGoogleId(
                     Optional.ofNullable(student.getAccount())

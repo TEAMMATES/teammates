@@ -43,7 +43,7 @@ public class GetHasResponsesAction extends Action {
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-            gateKeeper.verifyInstructorInCourse(authContext, courseId);
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
 
             return;
         }
@@ -59,7 +59,7 @@ public class GetHasResponsesAction extends Action {
                 continue;
             }
 
-            gateKeeper.verifyStudentInCourse(authContext, courseId);
+            gateKeeper.verifyStudentInCourse(requestContext, courseId);
         }
     }
 
@@ -123,6 +123,6 @@ public class GetHasResponsesAction extends Action {
         }
 
         String courseId = feedbackQuestion.getCourseId();
-        gateKeeper.verifyInstructorInCourse(authContext, courseId);
+        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
     }
 }

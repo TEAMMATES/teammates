@@ -49,7 +49,7 @@ public class CreateResponseInstructorCommentAction extends Action {
         String giverSectionName = giver.getSectionName();
         ResponseRecipient recipient = feedbackResponse.getRecipient();
         String recipientSectionName = recipient.getSectionName();
-        gateKeeper.verifyInstructorInCourse(authContext, session.getCourseId());
+        gateKeeper.verifyInstructorInCourse(requestContext, session.getCourseId());
         gateKeeper.verifyInstructorHasPrivilege(instructor, giverSectionName,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         gateKeeper.verifyInstructorHasPrivilege(instructor, recipientSectionName,

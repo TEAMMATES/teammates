@@ -339,7 +339,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCanAccess(params);
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
-        verify(mockLogic, times(3))
+        verify(mockLogic, times(1))
                 .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
     }
 
