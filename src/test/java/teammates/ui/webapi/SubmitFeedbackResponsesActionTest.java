@@ -695,7 +695,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
 
         InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                Const.InstructorPermissionRoleNames.CUSTOM);
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false);
         stubInstructor.setPrivileges(privileges);
 

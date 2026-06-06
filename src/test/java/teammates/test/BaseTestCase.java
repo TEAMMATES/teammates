@@ -122,9 +122,9 @@ public class BaseTestCase {
     protected Instructor getTypicalInstructor() {
         Course course = getTypicalCourse();
         InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                .getEnum(Const.InstructorPermissionRoleNames.COOWNER);
 
         return new Instructor(course, "instructor-name", "valid@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);

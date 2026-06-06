@@ -232,7 +232,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         // Instructor with observer role cannot modify student
         Instructor instructor = getTypicalInstructor();
         InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
         instructor.setPrivileges(instructorPrivileges);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
         when(mockLogic.getStudent(student.getId())).thenReturn(student);

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.OBSERVER;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -231,7 +231,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
         // create instructor without modify session privilege
         Instructor instructorWithoutAccess = getTypicalInstructor();
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(OBSERVER));
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),

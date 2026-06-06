@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.OBSERVER;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -416,7 +416,7 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
     @Test
     void testAccessControl_instructorWithoutSubmitSessionInSectionsPrivilege_cannotAccess() {
         Instructor instructorWithoutAccess = getTypicalInstructor();
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(OBSERVER));
 
         String[] params = new String[] { Const.ParamsNames.FEEDBACK_RESPONSE_ID,
                 typicalFeedbackResponse.getId().toString(),

@@ -62,20 +62,20 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         // Instructor without any privileges
         InstructorPrivileges customInstructorPrivileges1 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         stubInstructorWithoutPrivileges = getTypicalInstructor();
         stubInstructorWithoutPrivileges.setPrivileges(customInstructorPrivileges1);
 
         // Instructor with only privilege to view students in sections they are in
         sectionPrivilegesOnly =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         sectionPrivilegesOnly.updatePrivilege("section-1", Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
         stubInstructorWithOnlyViewSectionPrivileges = getTypicalInstructor();
         stubInstructorWithOnlyViewSectionPrivileges.setPrivileges(sectionPrivilegesOnly);
 
         // Instructor with privilege to view students in sections other than the one the student is in
         InstructorPrivileges customInstructorPrivileges2 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         customInstructorPrivileges2.updatePrivilege("random-1",
                 Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
         stubInstructorWithOnlyViewPrivilegesForDifferentSection = getTypicalInstructor();
@@ -87,7 +87,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         // Instructor with privilege to view students in sections at course level
         InstructorPrivileges customInstructorPrivileges3 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         customInstructorPrivileges3.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
         stubInstructorWithCourseLevelPrivilege = getTypicalInstructor();
         stubInstructorWithCourseLevelPrivilege.setPrivileges(customInstructorPrivileges3);

@@ -892,7 +892,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         instructor.setCourse(thisCourse);
         instructor.setPrivileges(
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
         stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
@@ -926,7 +926,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         instructor.setCourse(thisCourse);
         instructor.setPrivileges(
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
         stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 

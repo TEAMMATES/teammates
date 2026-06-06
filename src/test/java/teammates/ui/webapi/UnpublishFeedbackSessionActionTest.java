@@ -203,7 +203,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
     @Test
     void testCheckSpecificAccessControl_instructorOfSameCourseWithoutPermission_throwsUnauthorizedAccessException() {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+                Const.InstructorPermissionRoleNames.OBSERVER);
         typicalInstructor.setPrivileges(instructorPrivileges);
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),

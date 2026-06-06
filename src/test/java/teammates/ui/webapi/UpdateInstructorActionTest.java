@@ -6,7 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.datatransfer.InstructorPermissionRole.getEnum;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.CUSTOM;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -58,7 +58,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorEmail = "newinstructor@teammates.tmt";
-        String updatedInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor updatedInstructor = new Instructor(typicalCourse, updatedInstructorName, updatedInstructorEmail,
                 false, null, getEnum(updatedInstructorRole),
                 new InstructorPrivileges(updatedInstructorRole));
@@ -95,7 +95,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         String updatedInstructorName = "New Instructor";
         String invalidEmail = "invalidemail.com";
-        String updatedInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
                 invalidEmail, updatedInstructorRole,
                 instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
@@ -120,7 +120,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorEmail = "newinstructor@teammates.tmt";
-        String updatedInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
                 null, false);
@@ -146,7 +146,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorEmail = "newinstructor@teammates.tmt";
-        String updatedInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor updatedInstructor = new Instructor(typicalCourse, updatedInstructorName, updatedInstructorEmail,
                 false, null, getEnum(updatedInstructorRole),
                 new InstructorPrivileges(updatedInstructorRole));
@@ -192,7 +192,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         String updatedInstructorName = "New Instructor";
-        String updatedInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
                 null, updatedInstructorRole,
                 instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
@@ -262,7 +262,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
         instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
         instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
-        instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+        instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
