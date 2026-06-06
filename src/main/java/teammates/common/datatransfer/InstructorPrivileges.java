@@ -16,59 +16,6 @@ import teammates.common.util.Const;
  */
 public final class InstructorPrivileges {
 
-    private static final InstructorPermissionSet PRIVILEGES_COOWNER = new InstructorPermissionSet();
-    private static final InstructorPermissionSet PRIVILEGES_MANAGER = new InstructorPermissionSet();
-    private static final InstructorPermissionSet PRIVILEGES_OBSERVER = new InstructorPermissionSet();
-    private static final InstructorPermissionSet PRIVILEGES_TUTOR = new InstructorPermissionSet();
-    private static final InstructorPermissionSet PRIVILEGES_CUSTOM = new InstructorPermissionSet();
-
-    static {
-        PRIVILEGES_COOWNER.setCanModifyCourse(true);
-        PRIVILEGES_COOWNER.setCanModifyInstructor(true);
-        PRIVILEGES_COOWNER.setCanModifySession(true);
-        PRIVILEGES_COOWNER.setCanModifyStudent(true);
-        PRIVILEGES_COOWNER.setCanViewStudentInSections(true);
-        PRIVILEGES_COOWNER.setCanViewSessionInSections(true);
-        PRIVILEGES_COOWNER.setCanSubmitSessionInSections(true);
-        PRIVILEGES_COOWNER.setCanModifySessionCommentsInSections(true);
-
-        PRIVILEGES_MANAGER.setCanModifyCourse(false);
-        PRIVILEGES_MANAGER.setCanModifyInstructor(true);
-        PRIVILEGES_MANAGER.setCanModifySession(true);
-        PRIVILEGES_MANAGER.setCanModifyStudent(true);
-        PRIVILEGES_MANAGER.setCanViewStudentInSections(true);
-        PRIVILEGES_MANAGER.setCanViewSessionInSections(true);
-        PRIVILEGES_MANAGER.setCanSubmitSessionInSections(true);
-        PRIVILEGES_MANAGER.setCanModifySessionCommentsInSections(true);
-
-        PRIVILEGES_OBSERVER.setCanModifyCourse(false);
-        PRIVILEGES_OBSERVER.setCanModifyInstructor(false);
-        PRIVILEGES_OBSERVER.setCanModifySession(false);
-        PRIVILEGES_OBSERVER.setCanModifyStudent(false);
-        PRIVILEGES_OBSERVER.setCanViewStudentInSections(true);
-        PRIVILEGES_OBSERVER.setCanViewSessionInSections(true);
-        PRIVILEGES_OBSERVER.setCanSubmitSessionInSections(false);
-        PRIVILEGES_OBSERVER.setCanModifySessionCommentsInSections(false);
-
-        PRIVILEGES_TUTOR.setCanModifyCourse(false);
-        PRIVILEGES_TUTOR.setCanModifyInstructor(false);
-        PRIVILEGES_TUTOR.setCanModifySession(false);
-        PRIVILEGES_TUTOR.setCanModifyStudent(false);
-        PRIVILEGES_TUTOR.setCanViewStudentInSections(true);
-        PRIVILEGES_TUTOR.setCanViewSessionInSections(true);
-        PRIVILEGES_TUTOR.setCanSubmitSessionInSections(true);
-        PRIVILEGES_TUTOR.setCanModifySessionCommentsInSections(false);
-
-        PRIVILEGES_CUSTOM.setCanModifyCourse(false);
-        PRIVILEGES_CUSTOM.setCanModifyInstructor(false);
-        PRIVILEGES_CUSTOM.setCanModifySession(false);
-        PRIVILEGES_CUSTOM.setCanModifyStudent(false);
-        PRIVILEGES_CUSTOM.setCanViewStudentInSections(false);
-        PRIVILEGES_CUSTOM.setCanViewSessionInSections(false);
-        PRIVILEGES_CUSTOM.setCanSubmitSessionInSections(false);
-        PRIVILEGES_CUSTOM.setCanModifySessionCommentsInSections(false);
-    }
-
     private static final String[] COURSE_LEVEL_ONLY_LIST = new String[] {
             Const.InstructorPermissions.CAN_MODIFY_COURSE,
             Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR,
@@ -160,23 +107,23 @@ public final class InstructorPrivileges {
     }
 
     void setDefaultPrivilegesForCoowner() {
-        setDefaultPrivileges(PRIVILEGES_COOWNER);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_COOWNER);
     }
 
     void setDefaultPrivilegesForManager() {
-        setDefaultPrivileges(PRIVILEGES_MANAGER);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_MANAGER);
     }
 
     void setDefaultPrivilegesForObserver() {
-        setDefaultPrivileges(PRIVILEGES_OBSERVER);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_OBSERVER);
     }
 
     void setDefaultPrivilegesForTutor() {
-        setDefaultPrivileges(PRIVILEGES_TUTOR);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_TUTOR);
     }
 
     void setDefaultPrivilegesForCustom() {
-        setDefaultPrivileges(PRIVILEGES_CUSTOM);
+        setDefaultPrivileges(DefaultInstructorPrivileges.PRIVILEGES_CUSTOM);
     }
 
     private void setDefaultPrivileges(InstructorPermissionSet defaultPrivileges) {
@@ -290,28 +237,28 @@ public final class InstructorPrivileges {
      * Returns true if co-owner privilege exists.
      */
     public boolean hasCoownerPrivileges() {
-        return courseLevel.equals(PRIVILEGES_COOWNER);
+        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_COOWNER);
     }
 
     /**
      * Returns true if manager privilege exists.
      */
     public boolean hasManagerPrivileges() {
-        return courseLevel.equals(PRIVILEGES_MANAGER);
+        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_MANAGER);
     }
 
     /**
      * Returns true if observer privilege exists.
      */
     public boolean hasObserverPrivileges() {
-        return courseLevel.equals(PRIVILEGES_OBSERVER);
+        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_OBSERVER);
     }
 
     /**
      * Returns true if tutor privilege exists.
      */
     public boolean hasTutorPrivileges() {
-        return courseLevel.equals(PRIVILEGES_TUTOR);
+        return courseLevel.equals(DefaultInstructorPrivileges.PRIVILEGES_TUTOR);
     }
 
     private boolean isAllowedInCourseLevel(String privilegeName) {
