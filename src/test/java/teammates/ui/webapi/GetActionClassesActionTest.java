@@ -40,7 +40,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateFeedbackSessionLogAction.class,
                 GetFeedbackSessionLogsAction.class,
                 GetInstructorPrivilegeAction.class,
-                UpdateInstructorPrivilegeAction.class,
                 GetFeedbackSessionsAction.class,
                 GenerateEmailAction.class,
                 GetFeedbackQuestionsAction.class,

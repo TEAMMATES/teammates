@@ -62,9 +62,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 false, null, getEnum(newInstructorRole),
                 new InstructorPrivileges(newInstructorRole));
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
-                newInstructorName, newInstructorEmail, newInstructorRole,
-                null, false);
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(newInstructorName, newInstructorEmail,
+                newInstructorRole, null, false, null);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);
@@ -100,9 +99,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         String existingInstructorEmail = "valid@teammates.tmt";
         String existingInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
-                existingInstructorName, existingInstructorEmail, existingInstructorRole,
-                null, false);
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(existingInstructorName,
+                existingInstructorEmail, existingInstructorRole,
+                null, false, null);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenThrow(EntityAlreadyExistsException.class);
@@ -129,9 +128,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         String invalidInstructorEmail = "newInvalidInstructor.email.tmt";
         String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
-                newInstructorName, invalidInstructorEmail, newInstructorRole,
-                null, false);
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(newInstructorName, invalidInstructorEmail,
+                newInstructorRole, null, false, null);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenThrow(InvalidParametersException.class);
@@ -159,9 +157,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 false, null, getEnum(newInstructorRole),
                 new InstructorPrivileges(newInstructorRole));
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
-                newInstructorName, newInstructorEmail, newInstructorRole,
-                null, false);
+        InstructorCreateRequest requestBody = new InstructorCreateRequest(newInstructorName, newInstructorEmail,
+                newInstructorRole, null, false, null);
 
         when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.createInstructor(any(Instructor.class))).thenReturn(newInstructor);

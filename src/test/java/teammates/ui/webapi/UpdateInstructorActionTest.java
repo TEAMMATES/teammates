@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -19,8 +20,9 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
-import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InstructorUpdateRequest;
 
 /**
  * SUT: {@link UpdateInstructorAction}.
@@ -48,14 +50,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
     @Test
     void testExecute_typicalCase_success() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
-        loginAsInstructor(instructorToUpdateId);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        loginAsInstructor(typicalInstructorToUpdate.getGoogleId());
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorEmail = "newinstructor@teammates.tmt";
@@ -64,14 +61,15 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 false, null, getEnum(updatedInstructorRole),
                 new InstructorPrivileges(updatedInstructorRole));
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
-                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
+                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
-        when(mockLogic.updateInstructorCascade(any(String.class), any(InstructorCreateRequest.class)))
+        when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenReturn(updatedInstructor);
 
-        UpdateInstructorAction updateInstructorAction = getAction(requestBody, params);
+        UpdateInstructorAction updateInstructorAction = getAction(requestBody);
         JsonResult r = getJsonResult(updateInstructorAction);
 
         InstructorData response = (InstructorData) r.getOutput();
@@ -80,70 +78,56 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
 
         verify(mockLogic, times(1))
-                .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
+                .updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);
     }
 
     @Test
     void testExecute_invalidEmail_throwsInvalidHttpRequestBodyException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
-        loginAsInstructor(instructorToUpdateId);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        loginAsInstructor(typicalInstructorToUpdate.getGoogleId());
 
         String updatedInstructorName = "New Instructor";
         String invalidEmail = "invalidemail.com";
         String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                updatedInstructorName,
                 invalidEmail, updatedInstructorRole,
-                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
+                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
-        when(mockLogic.updateInstructorCascade(any(String.class), any(InstructorCreateRequest.class)))
+        when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InvalidParametersException.class);
 
-        verifyHttpRequestBodyFailure(requestBody, params);
+        verifyHttpRequestBodyFailure(requestBody);
 
         verifyNoTasksAdded();
     }
 
     @Test
     void testExecute_noInstructorDisplayed_throwsInvalidOperationException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
-
-        loginAsInstructor(instructorToUpdateId);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        loginAsInstructor(typicalInstructorToUpdate.getGoogleId());
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorEmail = "newinstructor@teammates.tmt";
         String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
-                null, false);
+                null, false, null);
 
-        when(mockLogic.updateInstructorCascade(any(String.class), any(InstructorCreateRequest.class)))
+        when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InstructorUpdateException.class);
 
-        verifyInvalidOperation(requestBody, params);
+        verifyInvalidOperation(requestBody);
 
         verifyNoTasksAdded();
     }
 
     @Test
     void testExecute_adminToMasqueradeAsInstructor_success() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
         loginAsAdmin();
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorEmail = "newinstructor@teammates.tmt";
@@ -152,14 +136,15 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 false, null, getEnum(updatedInstructorRole),
                 new InstructorPrivileges(updatedInstructorRole));
 
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
-                instructorToUpdateDisplayName, true);
+                instructorToUpdateDisplayName, true, null);
 
-        when(mockLogic.updateInstructorCascade(any(String.class), any(InstructorCreateRequest.class)))
+        when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenReturn(updatedInstructor);
 
-        UpdateInstructorAction updateInstructorAction = getAction(requestBody, params);
+        UpdateInstructorAction updateInstructorAction = getAction(requestBody);
         JsonResult r = getJsonResult(updateInstructorAction);
 
         InstructorData response = (InstructorData) r.getOutput();
@@ -168,73 +153,75 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
 
         verify(mockLogic, times(1))
-                .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
+                .updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);
     }
 
     @Test
-    void testExecute_nullHttpParameters_throwsInvalidHttpParameterException() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, null,
-        };
-        verifyHttpParameterFailure(params);
+        void testExecute_nullInstructorId_throwsInvalidHttpRequestBodyException() throws Exception {
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(null, typicalInstructorToUpdate.getName(),
+                typicalInstructorToUpdate.getEmail(), Const.InstructorPermissionRoleNames.COOWNER,
+                typicalInstructorToUpdate.getDisplayName(), typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
+        when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
+                .thenThrow(InvalidParametersException.class);
+
+        verifyHttpRequestBodyFailure(requestBody);
         verifyNoTasksAdded();
     }
 
     @Test
     void testExecute_nullInstructorEmail_throwsInvalidHttpRequestBodyException() throws Exception {
-        String instructorToUpdateId = typicalInstructorToUpdate.getGoogleId();
         String instructorToUpdateDisplayName = typicalInstructorToUpdate.getDisplayName();
 
-        loginAsInstructor(instructorToUpdateId);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        loginAsInstructor(typicalInstructorToUpdate.getGoogleId());
 
         String updatedInstructorName = "New Instructor";
         String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
-        InstructorCreateRequest requestBody = new InstructorCreateRequest(instructorToUpdateId, updatedInstructorName,
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                updatedInstructorName,
                 null, updatedInstructorRole,
-                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
+                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
-        when(mockLogic.updateInstructorCascade(any(String.class), any(InstructorCreateRequest.class)))
+        when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InvalidParametersException.class);
 
-        verifyHttpRequestBodyFailure(requestBody, params);
+        verifyHttpRequestBodyFailure(requestBody);
 
         verifyNoTasksAdded();
     }
 
     @Test
     void testAccessControl_noLogin_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
+                typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         logoutUser();
-        verifyCannotAccess(params);
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
     }
 
     @Test
     void testAccessControl_unregisteredUsers_cannotAccess() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
+                typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         loginAsUnregistered("unregistered user");
-        verifyCannotAccess(params);
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
     }
 
     @Test
     void testAccessControl_students_cannotAccess() {
         Student typicalStudent = getTypicalStudent();
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
+                typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         loginAsStudent(typicalStudent.getGoogleId());
-        verifyCannotAccess(params);
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
     }
 
     @Test
@@ -245,17 +232,16 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         instructorFromDifferentCourse.setCourse(differentCourse);
         instructorFromDifferentCourse.setGoogleId("different google id");
 
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
+                typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(differentCourse.getId(), instructorFromDifferentCourse.getGoogleId()))
-                .thenReturn(instructorFromDifferentCourse);
+        when(mockLogic.getInstructor(typicalInstructorToUpdate.getId())).thenReturn(typicalInstructorToUpdate);
 
         loginAsInstructor(instructorFromDifferentCourse.getGoogleId());
 
-        verifyCannotAccess(params);
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
     }
 
     @Test
@@ -266,17 +252,16 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         instructorWithoutCorrectPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(CUSTOM));
 
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
+        InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
+                typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
+                typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutCorrectPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutCorrectPrivilege);
+        when(mockLogic.getInstructor(typicalInstructorToUpdate.getId())).thenReturn(typicalInstructorToUpdate);
 
         loginAsInstructor(instructorWithoutCorrectPrivilege.getGoogleId());
 
-        verifyCannotAccess(params);
+        assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
     }
 
 }

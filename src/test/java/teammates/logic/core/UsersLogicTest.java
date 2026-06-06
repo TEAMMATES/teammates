@@ -203,7 +203,7 @@ public class UsersLogicTest extends BaseTestCase {
         InstructorPrivileges privileges = instructor.getPrivileges();
         privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         instructor.setPrivileges(privileges);
-        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor);
 
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));

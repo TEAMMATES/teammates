@@ -173,7 +173,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             updatedInstructor.setPrivileges(instructorPrivileges);
             updatedInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
 
-            logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
+            logic.updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);
         });
     }
 

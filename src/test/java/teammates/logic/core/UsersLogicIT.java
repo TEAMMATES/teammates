@@ -115,7 +115,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         InstructorPrivileges privileges = instructor.getPrivileges();
         privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         instructor.setPrivileges(privileges);
-        inTransaction(() -> usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor));
+        inTransaction(() -> usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor));
 
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
