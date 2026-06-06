@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -12,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
@@ -145,44 +143,14 @@ public class Instructor extends User {
     }
 
     /**
-     * Returns true if the instructor has co-owner privilege.
+     * Returns true if the instructor has co-owner role or custom role with all privileges.
+     *
+     * <p>
+     * This is used to determine if there is a valid instructor in the course who can perform all actions.
      */
     public boolean hasCoownerPrivileges() {
-        return privileges.hasCoownerPrivileges();
+        return this.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
+                || this.privileges.hasAllPrivileges();
     }
 
-    /**
-     * Returns a list of sections this instructor has the specified privilege.
-     */
-    public Map<String, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
-        return this.privileges.getSectionsWithPrivilege(privilegeName);
-    }
-
-    /**
-     * Returns true if the instructor has the given privilege in the course.
-     */
-    public boolean isAllowedForPrivilege(String privilegeName) {
-        return this.privileges.isAllowedForPrivilege(privilegeName);
-    }
-
-    /**
-     * Returns true if the instructor has the given privilege in the given section for the given feedback session.
-     */
-    public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
-        return privileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
-    }
-
-    /**
-     * Returns true if the instructor has the given privilege in the given section.
-     */
-    public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
-        return privileges.isAllowedForPrivilege(sectionName, privilegeName);
-    }
-
-    /**
-     * Returns true if privilege for session is present for any section.
-     */
-    public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
-        return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
-    }
 }

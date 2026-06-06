@@ -85,11 +85,11 @@ public final class Const {
      * Represents role names for instructors based on their permission settings.
      */
     public static class InstructorPermissionRoleNames {
-        public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
+        public static final String COOWNER = "Co-owner";
+        public static final String MANAGER = "Manager";
+        public static final String OBSERVER = "Observer";
+        public static final String TUTOR = "Tutor";
+        public static final String CUSTOM = "Custom";
     }
 
     /**

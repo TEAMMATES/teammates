@@ -122,7 +122,7 @@ public class UpdateDeadlineExtensionsActionTest
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {

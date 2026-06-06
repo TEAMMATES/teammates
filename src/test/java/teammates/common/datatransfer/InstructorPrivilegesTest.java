@@ -87,25 +87,25 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     public void testConstructor() {
         InstructorPrivileges privileges = new InstructorPrivileges();
         InstructorPrivileges privileges1 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
 
         privileges.setDefaultPrivilegesForCoowner();
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForManager();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER);
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForObserver();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForTutor();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
+        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.TUTOR);
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForCustom();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         assertEquals(privileges, privileges1);
 
         privileges1 = new InstructorPrivileges("random string");
@@ -169,7 +169,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testUpdatePrivilegeInCourseLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
 
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
         InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();
@@ -199,7 +199,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testUpdatePrivilegeInSectionLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
         String sectionId = "sectionId";
 
         privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
@@ -226,7 +226,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testUpdatePrivilegeInSessionLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
         String sectionId = "sectionId";
         String sessionId = "sessionId";
 
@@ -252,7 +252,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testAddSectionWithDefaultPrivilegesToSectionLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
         String sectionId = "sectionId";
         String sectionId2 = "sectionId2";
 
@@ -273,7 +273,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testIsAllowedForPrivilege() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
 
         assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
 
@@ -294,7 +294,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testValidatePrivileges() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
         privileges.validatePrivileges();
@@ -319,49 +319,6 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertTrue(privileges.isAllowedForPrivilege(
                 sectionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-    }
-
-    @Test
-    public void testHasDefaultPrivileges() {
-
-        InstructorPrivileges coownerPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        assertTrue(coownerPrivileges.hasCoownerPrivileges());
-        assertFalse(coownerPrivileges.hasManagerPrivileges());
-        assertFalse(coownerPrivileges.hasObserverPrivileges());
-        assertFalse(coownerPrivileges.hasTutorPrivileges());
-
-        InstructorPrivileges managerPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        assertTrue(managerPrivileges.hasManagerPrivileges());
-        assertFalse(managerPrivileges.hasCoownerPrivileges());
-        assertFalse(managerPrivileges.hasObserverPrivileges());
-        assertFalse(managerPrivileges.hasTutorPrivileges());
-
-        InstructorPrivileges observerPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
-        assertTrue(observerPrivileges.hasObserverPrivileges());
-        assertFalse(observerPrivileges.hasCoownerPrivileges());
-        assertFalse(observerPrivileges.hasManagerPrivileges());
-        assertFalse(observerPrivileges.hasTutorPrivileges());
-
-        InstructorPrivileges tutorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
-        assertTrue(tutorPrivileges.hasTutorPrivileges());
-        assertFalse(tutorPrivileges.hasCoownerPrivileges());
-        assertFalse(tutorPrivileges.hasManagerPrivileges());
-        assertFalse(tutorPrivileges.hasObserverPrivileges());
-
-        InstructorPrivileges nonDefaultPrivileges = new InstructorPrivileges();
-        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
-        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
-        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
-
-        assertFalse(nonDefaultPrivileges.hasCoownerPrivileges());
-        assertFalse(nonDefaultPrivileges.hasManagerPrivileges());
-        assertFalse(nonDefaultPrivileges.hasObserverPrivileges());
-        assertFalse(nonDefaultPrivileges.hasTutorPrivileges());
     }
 
 }

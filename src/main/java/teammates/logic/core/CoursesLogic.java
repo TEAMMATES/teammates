@@ -95,7 +95,7 @@ public final class CoursesLogic {
 
         // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                Const.InstructorPermissionRoleNames.COOWNER);
         Instructor instructor = new Instructor(
                 course,
                 courseCreator.getName(),

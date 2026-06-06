@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.COOWNER;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.CUSTOM;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
@@ -246,7 +247,8 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
         Instructor instructorWithPrivileges = getTypicalInstructor();
         instructorWithPrivileges.setEmail("helper@teammates.tmt");
-        instructorWithPrivileges.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+        instructorWithPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithPrivileges.setPrivileges(new InstructorPrivileges(COOWNER));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),
@@ -266,7 +268,8 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
         Instructor instructorWithoutPrivileges = getTypicalInstructor();
         instructorWithoutPrivileges.setEmail("helper@teammates.tmt");
-        instructorWithoutPrivileges.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+        instructorWithoutPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithoutPrivileges.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),

@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -170,6 +171,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             Instructor updatedInstructor = logic.getInstructor(instructor.getId());
             updatedInstructor.getCourse().setId(courseId);
             updatedInstructor.setPrivileges(instructorPrivileges);
+            updatedInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
 
             logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
         });

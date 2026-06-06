@@ -59,6 +59,7 @@ public final class FeedbackQuestionsLogic {
     private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
     private FeedbackSessionsLogic feedbackSessionsLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private FeedbackQuestionsLogic() {
         // prevent initialization
@@ -69,12 +70,14 @@ public final class FeedbackQuestionsLogic {
     }
 
     void initLogicDependencies(FeedbackQuestionsDb fqDb, CoursesLogic coursesLogic, FeedbackResponsesLogic frLogic,
-                               UsersLogic usersLogic, FeedbackSessionsLogic feedbackSessionsLogic) {
+                               UsersLogic usersLogic, FeedbackSessionsLogic feedbackSessionsLogic,
+                               InstructorPermissionsLogic instructorPermissionsLogic) {
         this.fqDb = fqDb;
         this.coursesLogic = coursesLogic;
         this.frLogic = frLogic;
         this.usersLogic = usersLogic;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -592,9 +595,9 @@ public final class FeedbackQuestionsLogic {
                 // based on instructor permissions
                 boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
-                        && !instructor.isAllowedForPrivilege(
-                        student.getSectionName(), question.getFeedbackSession().getName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                        && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                                instructor, student.getSectionName(), question.getFeedbackSession().getName(),
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
                 if (shouldExcludeStudentForInstructor || shouldExcludeStudent) {
                     continue;
                 }
@@ -649,9 +652,9 @@ public final class FeedbackQuestionsLogic {
                 // based on instructor permissions
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
-                        && !instructor.isAllowedForPrivilege(
-                        team.getSection().getName(), question.getFeedbackSession().getName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                        && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                                instructor, team.getSection().getName(), question.getFeedbackSession().getName(),
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
 
                 if (shouldExcludeTeamForInstructor || shouldExcludeTeam) {
                     continue;

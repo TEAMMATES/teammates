@@ -13,6 +13,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -41,6 +42,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
@@ -97,6 +99,7 @@ public class Logic {
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    final InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -132,6 +135,46 @@ public class Logic {
      */
     public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
         return authLogic.getInstructorFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Checks if the given instructor has the specified permissions.
+     */
+    public boolean hasInstructorPermissions(Instructor instructor, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissions(instructor, permissionNames);
+    }
+
+    /**
+     * Checks if the given instructor has the specified section-level permissions.
+     */
+    public boolean hasInstructorPermissionsForSection(Instructor instructor, String sectionName,
+            String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionName, permissionNames);
+    }
+
+    /**
+     * Checks if the given instructor has the specified session-in-section-level permissions.
+     */
+    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, String sectionName,
+            String feedbackSessionName, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                instructor, sectionName, feedbackSessionName, permissionNames);
+    }
+
+    /**
+     * Checks if the given instructor has the specified session-in-section-level permissions in any section.
+     */
+    public boolean hasInstructorPermissionsForSectionInAnySection(Instructor instructor,
+            String sessionName, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionName, permissionNames);
+    }
+
+    /**
+     * Returns a map of sections with the specified permission for the given instructor.
+     */
+    public Map<String, InstructorPermissionSet> getSectionsWithInstructorPermission(
+            Instructor instructor, String permissionName) {
+        return instructorPermissionsLogic.getSectionsWithPermission(instructor, permissionName);
     }
 
     /**

@@ -291,7 +291,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
     @Test
     public void testGetInvalidityInfoForRole_valid_returnEmptyString() {
-        String validRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String validRole = Const.InstructorPermissionRoleNames.COOWNER;
         String actual = FieldValidator.getInvalidityInfoForRole(validRole);
         assertEquals("", actual, "Valid role should return empty string");
     }

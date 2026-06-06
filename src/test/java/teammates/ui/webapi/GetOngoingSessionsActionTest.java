@@ -163,7 +163,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                         "instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(InstructorPermissionRoleNames.COOWNER));
         instructor2.setAccount(instructor2Account);
         when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
         Account instructor3Account = new Account(
@@ -171,7 +171,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                         "instructor3", "test3@test.com");
         Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(InstructorPermissionRoleNames.COOWNER));
         instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
         Account instructor4Account = new Account(
@@ -179,7 +179,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                         "instructor4", "test4@test.com");
         Instructor instructor4 = new Instructor(course3, "instructor4", "test4@test.com", false, "instructor4",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(InstructorPermissionRoleNames.COOWNER));
         instructor4.setAccount(instructor4Account);
         when(mockLogic.getInstructorsByCourse(course3.getId())).thenReturn(Collections.singletonList(instructor4));
         FeedbackSession c1Fs2 = new FeedbackSession("name1-2", null, "test-instruction",
@@ -251,7 +251,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                         "instructor2", "test2@test.com");
         Instructor instructor2 = new Instructor(course1, "instructor2", "test2@test.com", false, "instructor2",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(InstructorPermissionRoleNames.COOWNER));
         instructor2.setAccount(instructor2Account);
         when(mockLogic.getInstructorsByCourse(course1.getId())).thenReturn(Collections.singletonList(instructor2));
         Account instructor3Account = new Account(
@@ -259,7 +259,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                         "instructor3", "test3@test.com");
         Instructor instructor3 = new Instructor(course2, "instructor3", "test3@test.com", false, "instructor3",
                 InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(InstructorPermissionRoleNames.COOWNER));
         instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
         FeedbackSession c1Fs2 = new FeedbackSession("name1-2", null, "test-instruction",

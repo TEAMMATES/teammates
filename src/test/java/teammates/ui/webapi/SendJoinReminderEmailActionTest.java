@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -124,6 +125,7 @@ public class SendJoinReminderEmailActionTest
         InstructorPrivileges canModifyStudentPrivileges = new InstructorPrivileges();
         canModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(canModifyStudentPrivileges);
 
         when(mockLogic.getUser(student.getId())).thenReturn(student);
@@ -141,6 +143,7 @@ public class SendJoinReminderEmailActionTest
         InstructorPrivileges cannotModifyStudentPrivileges = new InstructorPrivileges();
         cannotModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(cannotModifyStudentPrivileges);
 
         when(mockLogic.getUser(student.getId())).thenReturn(student);
@@ -158,6 +161,7 @@ public class SendJoinReminderEmailActionTest
         InstructorPrivileges canModifyStudentPrivileges = new InstructorPrivileges();
         canModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(canModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -175,6 +179,7 @@ public class SendJoinReminderEmailActionTest
         InstructorPrivileges cannotModifyStudentPrivileges = new InstructorPrivileges();
         cannotModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(cannotModifyStudentPrivileges);
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -192,6 +197,7 @@ public class SendJoinReminderEmailActionTest
         InstructorPrivileges canModifyInstructorPrivileges = new InstructorPrivileges();
         canModifyInstructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(canModifyInstructorPrivileges);
 
         when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
@@ -209,6 +215,7 @@ public class SendJoinReminderEmailActionTest
         InstructorPrivileges cannotModifyInstructorPrivileges = new InstructorPrivileges();
         cannotModifyInstructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(cannotModifyInstructorPrivileges);
 
         when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
