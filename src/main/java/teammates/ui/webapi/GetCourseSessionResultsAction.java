@@ -36,8 +36,8 @@ public class GetCourseSessionResultsAction extends Action {
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID); 
+        UUID selectedSection = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
         Optional<Boolean> isDefaultSection = getNullableBooleanRequestParamValue(Const.ParamsNames.IS_DEFAULT_SECTION);
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
