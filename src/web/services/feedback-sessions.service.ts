@@ -31,7 +31,7 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
-import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * A template session.

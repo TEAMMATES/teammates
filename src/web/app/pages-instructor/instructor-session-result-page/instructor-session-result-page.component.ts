@@ -12,7 +12,12 @@ import { InstructorSessionResultRgqViewComponent } from './instructor-session-re
 import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
-import { SectionTabModel, QuestionTabModel } from './instructor-session-tab.model';
+import {
+  SectionTabModel,
+  QuestionTabModel,
+  DEFAULT_SECTION_ID,
+  DEFAULT_SECTION_NAME,
+} from './instructor-session-tab.model';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
@@ -59,8 +64,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
-export const DEFAULT_SECTION_ID = 'None';
-const DEFAULT_SECTION_NAME = 'None';
 
 /**
  * Instructor feedback session result page.

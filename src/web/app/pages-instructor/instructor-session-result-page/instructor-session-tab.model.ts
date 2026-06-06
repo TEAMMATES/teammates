@@ -1,5 +1,8 @@
 import { CourseSection, FeedbackQuestion, QuestionOutput, ResponseOutput } from '../../../types/api-output';
 
+export const DEFAULT_SECTION_ID = 'None';
+export const DEFAULT_SECTION_NAME = 'None';
+
 /**
  * Per section view tab model.
  */
