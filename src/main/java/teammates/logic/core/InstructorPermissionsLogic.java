@@ -119,12 +119,6 @@ public final class InstructorPermissionsLogic {
     public InstructorPrivileges getInstructorPrivileges(Instructor instructor) {
         Objects.requireNonNull(instructor, "Instructor cannot be null");
 
-        // TODO: revert to intended behaviour of defaulting to role-based privileges and only considering stored privileges if role is custom.
-        InstructorPrivileges storedPrivileges = instructor.getPrivileges();
-        if (storedPrivileges != null) {
-            return storedPrivileges;
-        }
-
         InstructorPermissionRole role = instructor.getRole();
         switch (role) {
         case INSTRUCTOR_PERMISSION_ROLE_COOWNER:

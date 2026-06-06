@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -231,6 +232,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
         // create instructor without modify session privilege
         Instructor instructorWithoutAccess = getTypicalInstructor();
+        instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutAccess.setPrivileges(new InstructorPrivileges(OBSERVER));
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);

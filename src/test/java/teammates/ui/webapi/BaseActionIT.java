@@ -437,6 +437,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
         instructorPrivileges.updatePrivilege(privilege, true);
         instructor.setPrivileges(instructorPrivileges);
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         inTransaction(() -> logic.getInstructor(instructor.getId()).setPrivileges(instructorPrivileges));
 
         verifyCanAccess(submissionParams);
@@ -726,7 +727,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (instructor == null) {
             instructor = inTransaction(() -> {
                 Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
+                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
                 Instructor createdInstructor = logic.createInstructor(toCreate);
 
                 String googleId = email;

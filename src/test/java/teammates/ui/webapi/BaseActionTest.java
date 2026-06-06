@@ -26,7 +26,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.mockito.invocation.InvocationOnMock;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
@@ -145,7 +145,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
             List<String> permissionNames = getStringArguments(invocation, 1);
-            InstructorPrivileges privileges = instructor.getPrivileges();
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
             for (String permissionName : permissionNames) {
                 if (!privileges.isAllowedForPrivilege(permissionName)) {
                     return false;
@@ -158,7 +158,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Instructor instructor = invocation.getArgument(0);
             String sectionName = invocation.getArgument(1);
             List<String> permissionNames = getStringArguments(invocation, 2);
-            InstructorPrivileges privileges = instructor.getPrivileges();
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
             for (String permissionName : permissionNames) {
                 if (!privileges.isAllowedForPrivilege(sectionName, permissionName)) {
                     return false;
@@ -172,7 +172,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             String sectionName = invocation.getArgument(1);
             String feedbackSessionName = invocation.getArgument(2);
             List<String> permissionNames = getStringArguments(invocation, 3);
-            InstructorPrivileges privileges = instructor.getPrivileges();
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
             for (String permissionName : permissionNames) {
                 if (!privileges.isAllowedForPrivilege(sectionName, feedbackSessionName, permissionName)) {
                     return false;
@@ -186,7 +186,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Instructor instructor = invocation.getArgument(0);
             String sessionName = invocation.getArgument(1);
             List<String> permissionNames = getStringArguments(invocation, 2);
-            InstructorPrivileges privileges = instructor.getPrivileges();
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
             for (String permissionName : permissionNames) {
                 if (privileges.isAllowedForPrivilegeAnySection(sessionName, permissionName)) {
                     return true;
@@ -199,10 +199,19 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
             String permissionName = invocation.getArgument(1);
-            Map<String, InstructorPermissionSet> sectionsWithPermission =
-                    instructor.getPrivileges().getSectionsWithPrivilege(permissionName);
-            return sectionsWithPermission;
+            return getEffectivePrivileges(instructor).getSectionsWithPrivilege(permissionName);
         }).when(mockLogic).getSectionsWithInstructorPermission(any(Instructor.class), anyString());
+    }
+
+    private InstructorPrivileges getEffectivePrivileges(Instructor instructor) {
+        InstructorPermissionRole role = instructor.getRole();
+        if (role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+            return instructor.getPrivileges();
+        }
+        if (role == null) {
+            return instructor.getPrivileges();
+        }
+        return new InstructorPrivileges(role.getRoleName());
     }
 
     private List<String> getStringArguments(InvocationOnMock invocation, int startIndex) {
@@ -980,6 +989,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(params);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(instructorPrivileges);
 
         if (canAccess) {
@@ -1014,6 +1024,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(params);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(instructorPrivileges);
 
         if (canAccess) {

@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -233,6 +234,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         Instructor instructor = getTypicalInstructor();
         InstructorPrivileges instructorPrivileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(instructorPrivileges);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorId)).thenReturn(instructor);
         when(mockLogic.getStudent(student.getId())).thenReturn(student);

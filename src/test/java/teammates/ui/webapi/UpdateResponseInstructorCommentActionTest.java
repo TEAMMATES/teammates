@@ -15,6 +15,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
@@ -246,6 +247,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
         Instructor instructorWithPrivileges = getTypicalInstructor();
         instructorWithPrivileges.setEmail("helper@teammates.tmt");
+        instructorWithPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithPrivileges.setPrivileges(new InstructorPrivileges(COOWNER));
 
         String[] params = new String[] {
@@ -266,6 +268,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
         Instructor instructorWithoutPrivileges = getTypicalInstructor();
         instructorWithoutPrivileges.setEmail("helper@teammates.tmt");
+        instructorWithoutPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutPrivileges.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {

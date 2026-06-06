@@ -20,6 +20,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -58,7 +59,11 @@ public class UsersLogicTest extends BaseTestCase {
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
             String permissionName = invocation.getArgument(1);
-            return instructor.getPrivileges().isAllowedForPrivilege(permissionName);
+            InstructorPrivileges effectivePrivileges = instructor.getRole()
+                    == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+                            ? instructor.getPrivileges()
+                            : new InstructorPrivileges(instructor.getRole().getRoleName());
+            return effectivePrivileges.isAllowedForPrivilege(permissionName);
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
         usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
 

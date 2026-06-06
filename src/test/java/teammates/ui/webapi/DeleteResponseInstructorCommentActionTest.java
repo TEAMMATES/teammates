@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
@@ -102,6 +103,7 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
 
         Instructor instructorWithoutAccess = getTypicalInstructor();
         instructorWithoutAccess.setEmail("helper@teammates.tmt");
+        instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutAccess.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {
@@ -234,6 +236,7 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
         InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege("test-section1",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        instructorWithoutPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] {

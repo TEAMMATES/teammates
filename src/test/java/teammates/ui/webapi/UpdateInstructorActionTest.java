@@ -11,6 +11,7 @@ import static teammates.common.util.Const.InstructorPermissionRoleNames.CUSTOM;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
@@ -262,6 +263,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         Instructor instructorWithoutCorrectPrivilege = getTypicalInstructor();
         instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
         instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
+        instructorWithoutCorrectPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {
