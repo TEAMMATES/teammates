@@ -155,7 +155,12 @@ public final class UsersLogic {
         instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
         instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
         instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
-        instructor.setPrivileges(new InstructorPrivileges(instructorRequest.getRoleName()));
+        InstructorPrivileges newPrivileges = instructorRequest.getPrivileges() == null
+                || Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName())
+                        ? new InstructorPrivileges(instructorRequest.getRoleName())
+                        : instructorRequest.getPrivileges();
+        newPrivileges.validatePrivileges();
+        instructor.setPrivileges(newPrivileges);
         instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
@@ -217,26 +222,6 @@ public final class UsersLogic {
 
         Instructor instructor = getInstructor(id);
         return instructor != null && courseId.equals(instructor.getCourseId()) ? instructor : null;
-    }
-
-    /**
-     * Updates the privileges of an instructor by user id.
-     *
-     * @return the updated instructor
-     * @throws EntityDoesNotExistException if the instructor does not exist in the database
-     */
-    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
-            throws EntityDoesNotExistException {
-        Instructor instructorToUpdate = getInstructor(userId);
-        if (instructorToUpdate == null) {
-            throw new EntityDoesNotExistException("Instructor does not exist.");
-        }
-
-        newPrivileges.validatePrivileges();
-        instructorToUpdate.setPrivileges(newPrivileges);
-        updateToEnsureValidityOfInstructorsForTheCourse(instructorToUpdate);
-
-        return instructorToUpdate;
     }
 
     /**

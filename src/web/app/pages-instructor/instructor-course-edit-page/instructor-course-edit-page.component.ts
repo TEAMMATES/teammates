@@ -420,6 +420,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: panelDetail.editPanel.role,
       displayName: panelDetail.editPanel.displayedToStudentsAs,
       isDisplayedToStudent: panelDetail.editPanel.isDisplayedToStudents,
+      privileges:
+        panelDetail.editPanel.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+          ? this.toInstructorPrivileges(panelDetail.editPanel.permission)
+          : undefined,
     };
 
     this.instructorService
@@ -440,8 +444,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
           panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
           panelDetail.editPanel.permission = permission;
-
-          this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
 
           this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
         },
@@ -538,6 +540,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: this.newInstructorPanel.role,
       displayName: this.newInstructorPanel.displayedToStudentsAs,
       isDisplayedToStudent: this.newInstructorPanel.isDisplayedToStudents,
+      privileges:
+        this.newInstructorPanel.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+          ? this.toInstructorPrivileges(this.newInstructorPanel.permission)
+          : undefined,
     };
 
     this.instructorService
@@ -562,8 +568,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
             `The instructor ${resp.name} has been added successfully. ` +
               `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes.`,
           );
-
-          this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
           this.isAddingNewInstructor = false;
 
@@ -680,13 +684,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   /**
-   * Updates privilege for instructor
+   * Converts the edit panel permission model into API request privileges.
    */
-  updatePrivilegeForInstructor(instructor: Instructor, permission: InstructorOverallPermission): void {
-    if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
-      return;
-    }
-
+  private toInstructorPrivileges(permission: InstructorOverallPermission): InstructorPrivileges {
     const privileges: InstructorPrivileges = {
       courseLevel: permission.privilege,
       sectionLevel: {},
@@ -703,23 +703,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
     });
 
-    this.instructorService
-      .updateInstructorPrivilege({
-        userId: instructor.userId,
-        requestBody: { privileges },
-      })
-      .subscribe({
-        next: () => {
-          // privileges updated
-          // filter out empty permission setting
-          permission.sectionLevel = permission.sectionLevel.filter(
-            (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0,
-          );
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+    return privileges;
   }
 
   /**

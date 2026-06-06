@@ -1,10 +1,10 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,8 +14,8 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Instructor;
 import teammates.test.GroupNames;
-import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -59,7 +59,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorUpdateRequest reqBody = new InstructorUpdateRequest(instructorToEdit.getId(), newInstructorName,
                 newInstructorEmail, newInstructorRole,
-                instructorDisplayName, false);
+                instructorDisplayName, false, null);
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
@@ -86,7 +86,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         String invalidEmail = "wrongemail.com";
         reqBody = new InstructorUpdateRequest(instructorToEdit.getId(), instructorToEdit.getName(),
                 invalidEmail, Const.InstructorPermissionRoleNames.COOWNER,
-                instructorDisplayName, true);
+                instructorDisplayName, true, null);
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
@@ -103,7 +103,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         reqBody = new InstructorUpdateRequest(instructorWithNoVisiblePeers.getId(),
                 instructorWithNoVisiblePeers.getName(), instructorWithNoVisiblePeers.getEmail(),
                 Const.InstructorPermissionRoleNames.COOWNER,
-                null, false);
+                null, false, null);
 
         InvalidOperationException ioe = verifyInvalidOperation(reqBody);
 
@@ -120,7 +120,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         reqBody = new InstructorUpdateRequest(instructorToEdit.getId(), newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
-                instructorDisplayName, true);
+                instructorDisplayName, true, null);
 
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
@@ -141,7 +141,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         String[] emptySubmissionParams = new String[0];
         InstructorUpdateRequest newReqBody = new InstructorUpdateRequest(null, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
-                instructorDisplayName, true);
+                instructorDisplayName, true, null);
 
         verifyHttpRequestBodyFailure(newReqBody, emptySubmissionParams);
 
@@ -151,7 +151,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorUpdateRequest nullNameReq = new InstructorUpdateRequest(
                 null, null, newInstructorEmail,
-                Const.InstructorPermissionRoleNames.COOWNER, instructorDisplayName, true);
+                Const.InstructorPermissionRoleNames.COOWNER, instructorDisplayName, true, null);
 
         verifyHttpRequestBodyFailure(nullNameReq, submissionParams);
 
@@ -161,7 +161,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorUpdateRequest nullEmailReq = new InstructorUpdateRequest(
                 null, newInstructorName, null,
-                Const.InstructorPermissionRoleNames.COOWNER, instructorDisplayName, true);
+                Const.InstructorPermissionRoleNames.COOWNER, instructorDisplayName, true, null);
 
         verifyHttpRequestBodyFailure(nullEmailReq, submissionParams);
 
@@ -177,24 +177,24 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InstructorUpdateRequest reqBody = new InstructorUpdateRequest(instructor.getId(),
                 instructor.getName(), instructor.getEmail(), Const.InstructorPermissionRoleNames.COOWNER,
-                instructor.getDisplayName(), true);
+                instructor.getDisplayName(), true, null);
 
         Instructor privilegedInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(privilegedInstructor.getGoogleId());
         final UpdateInstructorAction sameCourseAction = getAction(reqBody);
-                inTransaction(() -> {
-                        assertDoesNotThrow(sameCourseAction::checkAccessControl);
-                        return null;
-                });
+        inTransaction(() -> {
+            assertDoesNotThrow(sameCourseAction::checkAccessControl);
+            return null;
+        });
 
-                ______TS("instructors without correct privilege cannot access");
+        ______TS("instructors without correct privilege cannot access");
 
-                Instructor noPrivilegeInstructor = typicalBundle.instructors.get("instructor2OfCourse1");
-                loginAsInstructor(noPrivilegeInstructor.getGoogleId());
-                final UpdateInstructorAction noPrivilegeAction = getAction(reqBody);
-                inTransaction(() -> {
-                        assertThrows(UnauthorizedAccessException.class, noPrivilegeAction::checkAccessControl);
-                        return null;
-                });
+        Instructor noPrivilegeInstructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        loginAsInstructor(noPrivilegeInstructor.getGoogleId());
+        final UpdateInstructorAction noPrivilegeAction = getAction(reqBody);
+        inTransaction(() -> {
+            assertThrows(UnauthorizedAccessException.class, noPrivilegeAction::checkAccessControl);
+            return null;
+        });
     }
 }

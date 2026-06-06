@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
-import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, InstructorUpdateRequest, Intent } from '../types/api-request';
+import { InstructorCreateRequest, InstructorUpdateRequest, Intent } from '../types/api-request';
 
 /**
  * Handles instructor related logic provision.
@@ -105,16 +105,4 @@ export class InstructorService {
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   }
 
-  /**
-   * Updates the privilege of an instructor.
-   */
-  updateInstructorPrivilege(queryParams: {
-    userId: string;
-    requestBody: InstructorPrivilegeUpdateRequest;
-  }): Observable<InstructorPrivilege> {
-    const paramMap: Record<string, string> = {
-      userid: queryParams.userId,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
-  }
 }

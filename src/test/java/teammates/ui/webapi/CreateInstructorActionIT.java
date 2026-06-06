@@ -63,7 +63,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
                 "newInstructorName",
                 "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.COOWNER,
-                "instructorDisplayName", false);
+                "instructorDisplayName", false, null);
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
 
         JsonResult response = getJsonResult(action);
@@ -100,7 +100,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
                 "instructor3ofCourse1",
                 instructor1OfCourse1.getEmail(), Const.InstructorPermissionRoleNames.TUTOR,
-                "instructor3ofCourse1", false);
+                "instructor3ofCourse1", false, null);
 
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
         assertThrowsInTransaction(InvalidOperationException.class, action::execute);

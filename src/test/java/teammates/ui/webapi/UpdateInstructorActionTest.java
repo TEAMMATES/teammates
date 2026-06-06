@@ -64,7 +64,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
-                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
+                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenReturn(updatedInstructor);
@@ -93,7 +93,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
                 invalidEmail, updatedInstructorRole,
-                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
+                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InvalidParametersException.class);
@@ -113,7 +113,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
-                null, false);
+                null, false, null);
 
         when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InstructorUpdateException.class);
@@ -139,7 +139,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
                 updatedInstructorEmail, updatedInstructorRole,
-                instructorToUpdateDisplayName, true);
+                instructorToUpdateDisplayName, true, null);
 
         when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenReturn(updatedInstructor);
@@ -160,13 +160,12 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         void testExecute_nullInstructorId_throwsInvalidHttpRequestBodyException() throws Exception {
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(null, typicalInstructorToUpdate.getName(),
                 typicalInstructorToUpdate.getEmail(), Const.InstructorPermissionRoleNames.COOWNER,
-                typicalInstructorToUpdate.getDisplayName(), typicalInstructorToUpdate.isDisplayedToStudents());
+                typicalInstructorToUpdate.getDisplayName(), typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InvalidParametersException.class);
 
-                verifyHttpRequestBodyFailure(requestBody);
-
+        verifyHttpRequestBodyFailure(requestBody);
         verifyNoTasksAdded();
     }
 
@@ -181,7 +180,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
                 null, updatedInstructorRole,
-                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents());
+                instructorToUpdateDisplayName, typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         when(mockLogic.updateInstructorCascade(any(InstructorUpdateRequest.class)))
                 .thenThrow(InvalidParametersException.class);
@@ -196,7 +195,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
                 typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
-                typicalInstructorToUpdate.isDisplayedToStudents());
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         logoutUser();
         assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
@@ -207,7 +206,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
                 typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
-                typicalInstructorToUpdate.isDisplayedToStudents());
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         loginAsUnregistered("unregistered user");
         assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
@@ -219,7 +218,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
                 typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
-                typicalInstructorToUpdate.isDisplayedToStudents());
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         loginAsStudent(typicalStudent.getGoogleId());
         assertThrows(UnauthorizedAccessException.class, () -> getAction(requestBody).checkAccessControl());
@@ -236,7 +235,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
                 typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
-                typicalInstructorToUpdate.isDisplayedToStudents());
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         when(mockLogic.getInstructor(typicalInstructorToUpdate.getId())).thenReturn(typicalInstructorToUpdate);
 
@@ -256,7 +255,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),
                 typicalInstructorToUpdate.getRole().getRoleName(), typicalInstructorToUpdate.getDisplayName(),
-                typicalInstructorToUpdate.isDisplayedToStudents());
+                typicalInstructorToUpdate.isDisplayedToStudents(), null);
 
         when(mockLogic.getInstructor(typicalInstructorToUpdate.getId())).thenReturn(typicalInstructorToUpdate);
 

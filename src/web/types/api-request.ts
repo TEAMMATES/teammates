@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 
 export interface AccountCreateRequest extends BasicRequest {
   instructorEmail: string;
@@ -180,15 +181,7 @@ export interface InstructorCreateRequest extends BasicRequest {
   role: InstructorPermissionRole;
   displayName?: string;
   isDisplayedToStudent: boolean;
-}
-
-export interface InstructorUpdateRequest extends BasicRequest {
-  id: string;
-  name: string;
-  email: string;
-  role: InstructorPermissionRole;
-  displayName?: string;
-  isDisplayedToStudent: boolean;
+  privileges?: InstructorPrivileges;
 }
 
 export interface InstructorPermissionSet {
@@ -208,8 +201,14 @@ export interface InstructorPrivileges {
   sessionLevel: { [index: string]: { [index: string]: InstructorPermissionSet } };
 }
 
-export interface InstructorPrivilegeUpdateRequest extends BasicRequest {
-  privileges: InstructorPrivileges;
+export interface InstructorUpdateRequest extends BasicRequest {
+  id: string;
+  name: string;
+  email: string;
+  role: InstructorPermissionRole;
+  displayName?: string;
+  isDisplayedToStudent: boolean;
+  privileges?: InstructorPrivileges;
 }
 
 export interface MarkNotificationAsReadRequest extends BasicRequest {

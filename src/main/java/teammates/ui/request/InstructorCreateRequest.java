@@ -3,6 +3,7 @@ package teammates.ui.request;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 
 /**
  * The create request for an instructor to be created.
@@ -16,18 +17,23 @@ public class InstructorCreateRequest extends BasicRequest {
     private String displayName;
     private Boolean isDisplayedToStudent;
 
+    @Nullable
+    private InstructorPrivileges privileges;
+
     @SuppressWarnings("unused")
     private InstructorCreateRequest() {
         // for Jackson deserialization
     }
 
     public InstructorCreateRequest(String name, String email, String roleName,
-                                   String displayName, Boolean isDisplayedToStudent) {
+                                   String displayName, Boolean isDisplayedToStudent,
+                                   @Nullable InstructorPrivileges privileges) {
         this.name = name;
         this.email = email;
         this.role = InstructorPermissionRole.getEnum(roleName);
         this.displayName = displayName;
         this.isDisplayedToStudent = isDisplayedToStudent;
+        this.privileges = privileges;
     }
 
     @Override
@@ -56,5 +62,9 @@ public class InstructorCreateRequest extends BasicRequest {
 
     public Boolean getIsDisplayedToStudent() {
         return isDisplayedToStudent;
+    }
+
+    public InstructorPrivileges getPrivileges() {
+        return privileges;
     }
 }

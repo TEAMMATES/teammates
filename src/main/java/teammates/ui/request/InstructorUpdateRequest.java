@@ -5,6 +5,7 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 
 /**
  * The update request for an instructor.
@@ -20,19 +21,24 @@ public class InstructorUpdateRequest extends BasicRequest {
     private String displayName;
     private Boolean isDisplayedToStudent;
 
+    @Nullable
+    private InstructorPrivileges privileges;
+
     @SuppressWarnings("unused")
     private InstructorUpdateRequest() {
         // for Jackson deserialization
     }
 
     public InstructorUpdateRequest(UUID id, String name, String email, String roleName,
-                                   String displayName, Boolean isDisplayedToStudent) {
+                                   String displayName, Boolean isDisplayedToStudent,
+                                   @Nullable InstructorPrivileges privileges) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.role = InstructorPermissionRole.getEnum(roleName);
         this.displayName = displayName;
         this.isDisplayedToStudent = isDisplayedToStudent;
+        this.privileges = privileges;
     }
 
     @Override
@@ -66,5 +72,9 @@ public class InstructorUpdateRequest extends BasicRequest {
 
     public Boolean getIsDisplayedToStudent() {
         return isDisplayedToStudent;
+    }
+
+    public InstructorPrivileges getPrivileges() {
+        return privileges;
     }
 }

@@ -14,7 +14,6 @@ import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
@@ -815,17 +814,6 @@ public class Logic {
      */
     public Instructor getInstructorOfCourse(String courseId, UUID id) {
         return usersLogic.getInstructorOfCourse(courseId, id);
-    }
-
-    /**
-     * Updates the privileges of an instructor by user id.
-     *
-     * @return the updated instructor
-     * @throws EntityDoesNotExistException if the instructor does not exist in the database
-     */
-    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
-            throws EntityDoesNotExistException {
-        return usersLogic.updateInstructorPrivileges(userId, newPrivileges);
     }
 
     /**
