@@ -1105,7 +1105,7 @@ public final class FeedbackResponsesLogic {
 
             boolean isGiverInSection;
             if (isDefaultSection) {
-                isGiverInSection = giverSection == null || Const.DEFAULT_SECTION.equals(giverSection.getName());
+                isGiverInSection = giverSection == null;
             } else {
                 isGiverInSection = giverSection != null && giverSection.getId().equals(sectionId);
             }
@@ -1119,7 +1119,7 @@ public final class FeedbackResponsesLogic {
 
             boolean isRecipientInSection;
             if (isDefaultSection) {
-                isRecipientInSection = recipientSection == null || Const.DEFAULT_SECTION.equals(recipientSection.getName());
+                isRecipientInSection = recipientSection == null;
             } else {
                 isRecipientInSection = recipientSection != null && recipientSection.getId().equals(sectionId);
             }
