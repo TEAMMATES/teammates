@@ -30,9 +30,9 @@ public class GetAuthInfoAction extends PublicAction {
             nextUrl = "";
         }
 
-        UserInfo userInfo = userProvision.getUserInfo(authContext);
+        UserInfo userInfo = userProvision.getUserInfo(requestContext.getAuthContext());
         AuthInfo output = new AuthInfo(
-                createLoginUrl(frontendUrl, nextUrl), userInfo, authContext.authType() == AuthType.MASQUERADE);
+                createLoginUrl(frontendUrl, nextUrl), userInfo, requestContext.getAuthType() == AuthType.MASQUERADE);
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);

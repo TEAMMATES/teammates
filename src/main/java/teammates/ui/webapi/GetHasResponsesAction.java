@@ -43,9 +43,7 @@ public class GetHasResponsesAction extends Action {
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-            gateKeeper.verifyAccessible(
-                    getInstructorFromRequest(courseId),
-                    logic.getCourse(courseId));
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
 
             return;
         }
@@ -61,9 +59,7 @@ public class GetHasResponsesAction extends Action {
                 continue;
             }
 
-            gateKeeper.verifyAccessible(
-                    getStudentFromRequest(courseId),
-                    feedbackSession);
+            gateKeeper.verifyStudentInCourse(requestContext, courseId);
         }
     }
 
@@ -127,9 +123,6 @@ public class GetHasResponsesAction extends Action {
         }
 
         String courseId = feedbackQuestion.getCourseId();
-        FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
-        gateKeeper.verifyAccessible(
-                getInstructorFromRequest(courseId),
-                feedbackSession);
+        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
     }
 }

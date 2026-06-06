@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -28,26 +26,19 @@ public class GetStudentAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Course course = logic.getCourse(courseId);
-
-        Student student;
-
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
+
         if (studentId != null) {
-            student = getStudentInCourse(courseId, studentId);
+            Student student = getStudentInCourse(courseId, studentId);
             if (student == null) {
                 throw new EntityNotFoundException(STUDENT_NOT_FOUND);
             }
 
-            Instructor instructor = getInstructorFromRequest(courseId);
-
-            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
-                    student.getTeamName(),
+            gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, courseId,
+                    student.getSectionName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
-            student = getStudentFromRequest(courseId);
-            gateKeeper.verifyAccessible(student, course);
+            gateKeeper.verifyStudentInCourse(requestContext, courseId);
         }
     }
 
@@ -70,7 +61,7 @@ public class GetStudentAction extends Action {
         }
 
         StudentData studentData = new StudentData(student);
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             studentData.setKey(student.getRegKey());
             studentData.setGoogleId(
                     Optional.ofNullable(student.getAccount())

@@ -8,7 +8,6 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -32,9 +31,8 @@ public class PublishFeedbackSessionAction extends Action {
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
-        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-
-        gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

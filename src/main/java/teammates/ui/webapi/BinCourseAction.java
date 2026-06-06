@@ -21,9 +21,8 @@ public class BinCourseAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Course course = logic.getCourse(idOfCourseToBin);
-        gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToBin),
-                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, idOfCourseToBin,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

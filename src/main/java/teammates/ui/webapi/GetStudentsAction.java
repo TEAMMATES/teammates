@@ -23,7 +23,7 @@ public class GetStudentsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -32,8 +32,7 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null) {
             // request to get all students of a course by instructor
-            Instructor instructor = getInstructorFromRequest(courseId);
-            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
@@ -49,7 +48,7 @@ public class GetStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
 
-        Instructor instructor = authContext.isAdmin()
+        Instructor instructor = requestContext.isAdmin()
                 ? null
                 : getInstructorFromRequest(courseId);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
@@ -58,7 +57,7 @@ public class GetStudentsAction extends Action {
         boolean hasSectionPrivilege = instructor != null
                 && !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
 
-        if (authContext.isAdmin() || teamName == null && hasCoursePrivilege) {
+        if (requestContext.isAdmin() || teamName == null && hasCoursePrivilege) {
             // request to get all course students by instructor with course privilege
             List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
 

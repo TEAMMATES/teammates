@@ -10,7 +10,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -30,7 +29,7 @@ public class GetFeedbackSessionsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -44,13 +43,11 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
             if (courseId != null) {
-                Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(getStudentFromRequest(courseId), course);
+                gateKeeper.verifyStudentInCourse(requestContext, courseId);
             }
         } else {
             if (courseId != null) {
-                Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(getInstructorFromRequest(courseId), course);
+                gateKeeper.verifyInstructorInCourse(requestContext, courseId);
             }
         }
     }
@@ -66,7 +63,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = logic.getStudentsByAccountId(authContext.account().getId());
+                List<Student> students = logic.getStudentsByAccountId(requestContext.getAccount().getId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourseId();
                     List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
@@ -77,7 +74,7 @@ public class GetFeedbackSessionsAction extends Action {
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = logic.getInstructorsByAccountId(authContext.account().getId());
+                instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
 
                 if (isInRecycleBin) {
                     feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);

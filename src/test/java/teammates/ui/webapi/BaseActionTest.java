@@ -9,6 +9,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,8 @@ import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
+import teammates.logic.core.AuthLogic;
+import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -66,6 +69,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic mockLogic = mock(Logic.class);
+    UsersLogic mockUsersLogic = mock(UsersLogic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
@@ -124,6 +128,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
+            stubAuthLogicUsersLogic(action.requestContext.getAuthContext());
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
@@ -248,6 +253,40 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Account account = authContext.account();
             return account == null ? null : mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
         }).when(mockLogic).getInstructorFromAuthContext(any(AuthContext.class), anyString());
+    }
+
+    private void stubAuthLogicUsersLogic(AuthContext authContext) {
+        injectUsersLogicIntoAuthLogic(mockUsersLogic);
+
+        doAnswer(invocation -> {
+            UUID accountId = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            Account account = authContext.account();
+            if (account != null && account.getId().equals(accountId)) {
+                return mockLogic.getStudentByGoogleId(courseId, account.getGoogleId());
+            }
+            return UsersLogic.inst().getStudentByAccountId(accountId, courseId);
+        }).when(mockUsersLogic).getStudentByAccountId(any(UUID.class), anyString());
+
+        doAnswer(invocation -> {
+            UUID accountId = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            Account account = authContext.account();
+            if (account != null && account.getId().equals(accountId)) {
+                return mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
+            }
+            return UsersLogic.inst().getInstructorByAccountId(accountId, courseId);
+        }).when(mockUsersLogic).getInstructorByAccountId(any(UUID.class), anyString());
+    }
+
+    private void injectUsersLogicIntoAuthLogic(UsersLogic usersLogic) {
+        try {
+            Field usersLogicField = AuthLogic.class.getDeclaredField("usersLogic");
+            usersLogicField.setAccessible(true);
+            usersLogicField.set(AuthLogic.inst(), usersLogic);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -674,6 +713,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
         ensureUserHasAccount(otherCourseInstructor);
+        otherCourseInstructor.setGoogleId("other-course-instructor-googleId");
 
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
@@ -819,18 +859,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
-        loginAsInstructor(sameCourseInstructor.getId().toString());
+        loginAsInstructor(sameCourseInstructor.getGoogleId());
     }
 
     private void loginAsInstructorOfOtherCourse() {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
+        ensureUserHasAccount(otherCourseInstructor);
+        otherCourseInstructor.setGoogleId("other-course-instructor-googleId");
 
         stubInstructorFromGoogleId(otherCourseInstructor);
 
         logoutUser();
-        loginAsInstructor(otherCourseInstructor.getId().toString());
+        loginAsInstructor(otherCourseInstructor.getGoogleId());
     }
 
     private void verifySameCourseAccessibility(
@@ -848,13 +890,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
                 "instructor-googleId", Provider.TEAMMATES_DEV, "validInstructorSubject",
                 "validTenantId", instructor.getName(), instructor.getEmail()));
 
+        instructor.setCourse(thisCourse);
+        instructor.setPrivileges(
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
-        instructor.setCourse(thisCourse);
-
         logoutUser();
-        loginAsInstructor(instructor.getId().toString());
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(params);
 
         instructor.setPrivileges(instructorPrivileges);
@@ -881,13 +924,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor instructor = getTypicalInstructor();
         ensureUserHasAccount(instructor);
 
+        instructor.setCourse(thisCourse);
+        instructor.setPrivileges(
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
-        instructor.setCourse(thisCourse);
-
         logoutUser();
-        loginAsInstructor(instructor.getId().toString());
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(params);
 
         instructor.setPrivileges(instructorPrivileges);
@@ -907,27 +951,29 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         stubStudentFromGoogleId(sameCourseStudent);
 
         logoutUser();
-        loginAsStudent(sameCourseStudent.getId().toString());
+        loginAsStudent(sameCourseStudent.getGoogleId());
     }
 
     private void loginAsStudentOfOtherCourse() {
         Student otherCourseStudent = getTypicalStudent();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseStudent.setCourse(otherCourse);
+        ensureUserHasAccount(otherCourseStudent);
+        otherCourseStudent.setGoogleId("other-course-student-googleId");
         stubStudentFromGoogleId(otherCourseStudent);
 
         logoutUser();
-        loginAsStudent(otherCourseStudent.getId().toString());
+        loginAsStudent(otherCourseStudent.getGoogleId());
     }
 
     private void stubInstructorFromGoogleId(Instructor instructor) {
         ensureUserHasAccount(instructor);
-        when(mockLogic.getInstructorByGoogleId(anyString(), anyString())).thenReturn(instructor);
+        when(mockLogic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())).thenReturn(instructor);
     }
 
     private void stubStudentFromGoogleId(Student student) {
         ensureUserHasAccount(student);
-        when(mockLogic.getStudentByGoogleId(anyString(), anyString())).thenReturn(student);
+        when(mockLogic.getStudentByGoogleId(student.getCourseId(), student.getGoogleId())).thenReturn(student);
     }
 
     private void ensureUserHasAccount(User user) {

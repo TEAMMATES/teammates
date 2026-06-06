@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
@@ -56,9 +55,8 @@ public class UpdateStudentAction extends Action {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
-        Instructor instructor = getInstructorFromRequest(existingStudent.getCourseId());
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(existingStudent.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, existingStudent.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

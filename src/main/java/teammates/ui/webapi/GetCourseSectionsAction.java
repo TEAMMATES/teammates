@@ -4,8 +4,6 @@ import java.util.Set;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -24,10 +22,8 @@ public class GetCourseSectionsAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = logic.getCourse(courseId);
-        Instructor instructor = getInstructorFromRequest(courseId);
 
-        gateKeeper.verifyAccessible(instructor, course);
+        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
     }
 
     @Override

@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -26,13 +25,12 @@ public class DeleteStudentAction extends Action {
             throw new EntityNotFoundException("Student with user ID " + userId + " does not exist.");
         }
 
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
-        Instructor instructor = getInstructorFromRequest(student.getCourseId());
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(student.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, student.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

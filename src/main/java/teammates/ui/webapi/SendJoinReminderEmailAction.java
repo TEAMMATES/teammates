@@ -31,12 +31,12 @@ public class SendJoinReminderEmailAction extends Action {
             throw new EntityNotFoundException("Course does not exist!");
         }
 
-        Instructor instructor = getInstructorFromRequest(course.getId());
-
         if (user == null || user instanceof Student) {
-            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, course.getId(),
+                    Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         } else if (user instanceof Instructor) {
-            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, course.getId(),
+                    Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
         }
     }
 

@@ -489,7 +489,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action = getAction(params1);
         UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("You don't have submission privilege", uae.getMessage());
+        assertEquals("Instructor does not have privilege [cansubmitsessioninsection]", uae.getMessage());
 
         questionAnswerableToInstructor.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
         questionAnswerableToInstructor.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));
@@ -504,8 +504,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
         UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Feedback session [test-feedbacksession] is not accessible to instructor "
-                + "[valid1@teammates.tmt] for privilege [canmodifysessioncommentinsection]", uae2.getMessage());
+        assertEquals("Instructor does not have privilege [canmodifysessioncommentinsection]",
+                uae2.getMessage());
     }
 
     @Test
@@ -602,7 +602,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
         UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
+        assertEquals("Instructor does not have privilege [canmodifysessioncommentinsection] on section [test-section]",
+                uae1.getMessage());
 
         FeedbackQuestion questionThatCannotBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());

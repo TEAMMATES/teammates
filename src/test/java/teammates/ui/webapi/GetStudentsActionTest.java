@@ -409,10 +409,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @Test
     void testGetStudents_invalidCourse_cannotAccess() {
         loginAsInstructor(stubInstructorWithAllPrivileges.getGoogleId());
-        when(mockLogic.getInstructorByGoogleId(
-                "invalid-course-id",
-                stubInstructorWithAllPrivileges.getGoogleId()))
-                .thenReturn(stubInstructorWithAllPrivileges);
         when(mockLogic.getCourse("invalid-course-id")).thenReturn(null);
         verifyCannotAccess(
                 Const.ParamsNames.COURSE_ID, "invalid-course-id"

@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.entity.Course;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -19,10 +18,9 @@ public class RestoreCourseAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = logic.getCourse(idOfCourseToRestore);
 
-        gateKeeper.verifyAccessible(getInstructorFromRequest(idOfCourseToRestore),
-                course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, idOfCourseToRestore,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

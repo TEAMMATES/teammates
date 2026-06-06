@@ -30,9 +30,7 @@ public class GetDeadlineExtensionsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        gateKeeper.verifyAccessible(
-                getInstructorFromRequest(feedbackSession.getCourseId()),
-                feedbackSession,
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
