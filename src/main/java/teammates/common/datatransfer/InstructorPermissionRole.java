@@ -11,27 +11,27 @@ public enum InstructorPermissionRole {
     /**
      * Co-owner.
      */
-    INSTRUCTOR_PERMISSION_ROLE_COOWNER(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
+    INSTRUCTOR_PERMISSION_ROLE_COOWNER(Const.InstructorPermissionRoleNames.COOWNER),
 
     /**
      * Manager.
      */
-    INSTRUCTOR_PERMISSION_ROLE_MANAGER(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER),
+    INSTRUCTOR_PERMISSION_ROLE_MANAGER(Const.InstructorPermissionRoleNames.MANAGER),
 
     /**
      * Observer.
      */
-    INSTRUCTOR_PERMISSION_ROLE_OBSERVER(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER),
+    INSTRUCTOR_PERMISSION_ROLE_OBSERVER(Const.InstructorPermissionRoleNames.OBSERVER),
 
     /**
      * Tutor.
      */
-    INSTRUCTOR_PERMISSION_ROLE_TUTOR(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR),
+    INSTRUCTOR_PERMISSION_ROLE_TUTOR(Const.InstructorPermissionRoleNames.TUTOR),
 
     /**
      * Custom.
      */
-    INSTRUCTOR_PERMISSION_ROLE_CUSTOM(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+    INSTRUCTOR_PERMISSION_ROLE_CUSTOM(Const.InstructorPermissionRoleNames.CUSTOM);
 
     private String roleName;
 
@@ -48,15 +48,15 @@ public enum InstructorPermissionRole {
      */
     public static InstructorPermissionRole getEnum(String role) {
         switch (role) {
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+        case Const.InstructorPermissionRoleNames.COOWNER:
             return INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+        case Const.InstructorPermissionRoleNames.MANAGER:
             return INSTRUCTOR_PERMISSION_ROLE_MANAGER;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+        case Const.InstructorPermissionRoleNames.OBSERVER:
             return INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+        case Const.InstructorPermissionRoleNames.TUTOR:
             return INSTRUCTOR_PERMISSION_ROLE_TUTOR;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+        case Const.InstructorPermissionRoleNames.CUSTOM:
             return INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
         default:
             return INSTRUCTOR_PERMISSION_ROLE_CUSTOM;

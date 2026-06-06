@@ -57,13 +57,13 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         stubAccount3.setId(new UUID(100, 30));
 
         InstructorPermissionRole customRole = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                .getEnum(Const.InstructorPermissionRoleNames.CUSTOM);
         InstructorPrivileges customInstructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         stubInstructorWithoutPermission = new Instructor(stubCourse, "instructor-1-name", "valid1@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, customInstructorPrivileges);
         InstructorPrivileges modifyInstructorPrivilegeOnly =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         modifyInstructorPrivilegeOnly.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         stubInstructorWithOnlyModifyInstructorPrivilege = new Instructor(stubCourse, "instructor-2-name",
                 "valid2@teammates.tmt", false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,

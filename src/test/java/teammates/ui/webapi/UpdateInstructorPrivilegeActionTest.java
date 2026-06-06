@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -62,7 +63,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, true);
         instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
         instructor = new Instructor(course, "name", instructorEmail,
-                false, "", null, instructorPrivileges);
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, instructorPrivileges);
 
         InstructorPrivileges helperPrivileges = new InstructorPrivileges();
         helper = new Instructor(course, "name", helperEmail,
@@ -333,7 +334,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         Instructor instructorWithAccess = new Instructor(courseWithAccess, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, instructorPrivileges);
         Instructor instructorToUpdate = getTypicalInstructor();
         instructorToUpdate.setCourse(courseWithAccess);
 
@@ -364,4 +365,3 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         verifyCannotAccess(params);
     }
 }
-

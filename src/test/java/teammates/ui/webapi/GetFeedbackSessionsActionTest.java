@@ -301,7 +301,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private Instructor generateInstructor1InCourse(Course course) {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
         String subject = "validInstructorSubject";
         String tenantId = "validTenantId";
         instructor.setAccount(new Account(

@@ -69,7 +69,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         newInstructor.setDisplayedToStudents(true);
         newInstructor.setDisplayName("Instructor");
         InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
+                .getEnum(Const.InstructorPermissionRoleNames.TUTOR);
         newInstructor.setRole(role);
 
         editPage.addInstructor(newInstructor);

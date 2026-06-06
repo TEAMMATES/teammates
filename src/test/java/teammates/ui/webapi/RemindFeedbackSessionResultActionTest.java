@@ -127,7 +127,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private Student generateStudent1InCourse(Course courseStudentIsIn) {

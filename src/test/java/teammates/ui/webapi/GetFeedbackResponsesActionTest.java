@@ -468,9 +468,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     @Test
     void testSpecificAccessControl_instructorWithNoPrivileges_cannotAccess() {
         InstructorPrivileges customInstructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         InstructorPermissionRole customRole = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                .getEnum(Const.InstructorPermissionRoleNames.CUSTOM);
         Instructor stubInstructorWithoutPrivileges = new Instructor(stubCourse, "instructor-1-name", "valid1@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, customInstructorPrivileges);
         loginAsInstructor(stubInstructorWithoutPrivileges.getGoogleId());
@@ -823,9 +823,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     private @NotNull Instructor getInstructorWithLimitedPrivileges(String privilege) {
         InstructorPermissionRole customRole = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                .getEnum(Const.InstructorPermissionRoleNames.CUSTOM);
         InstructorPrivileges submitSessionPrivilegesOnly =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
         submitSessionPrivilegesOnly.updatePrivilege(stubFeedbackSession.getName(), privilege, true);
         return new Instructor(stubCourse, "instructor-2-name", "valid2@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, submitSessionPrivilegesOnly);

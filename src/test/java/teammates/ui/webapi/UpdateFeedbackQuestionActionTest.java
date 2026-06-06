@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.OBSERVER;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -231,7 +232,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     void testSpecificAccessControl_withoutModifySessionPrivilege_cannotAccess() {
         // create instructor without modify session privilege
         Instructor instructorWithoutAccess = getTypicalInstructor();
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+        instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(OBSERVER));
 
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getFeedbackSession(typicalFeedbackQuestion.getFeedbackSession().getName(),

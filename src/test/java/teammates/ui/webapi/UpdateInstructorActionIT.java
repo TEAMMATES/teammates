@@ -57,7 +57,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         String newInstructorName = "newName";
         String newInstructorEmail = "newemail@email.com";
-        String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, newInstructorRole,
@@ -74,16 +74,20 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertFalse(editedInstructor.isDisplayedToStudents());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
         String invalidEmail = "wrongemail.com";
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
-                invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                invalidEmail, Const.InstructorPermissionRoleNames.COOWNER,
                 instructorDisplayName, true);
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
@@ -99,7 +103,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         loginAsInstructor(instructorToEdit.getGoogleId());
 
         reqBody = new InstructorCreateRequest(instructorToEdit.getGoogleId(), instructorToEdit.getName(),
-                instructorToEdit.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                instructorToEdit.getEmail(), Const.InstructorPermissionRoleNames.COOWNER,
                 null, false);
 
         InvalidOperationException ioe = verifyInvalidOperation(reqBody,
@@ -117,7 +121,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         newInstructorEmail = "newemail2@email.com";
 
         reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
                 instructorDisplayName, true);
 
         updateInstructorAction = getAction(reqBody, submissionParams);
@@ -138,7 +142,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         String[] emptySubmissionParams = new String[0];
         InstructorCreateRequest newReqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
                 instructorDisplayName, true);
 
         verifyHttpParameterFailure(newReqBody, emptySubmissionParams);
@@ -148,7 +152,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         ______TS("Unsuccessful case: test null instructor name parameter");
 
         InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
                 instructorDisplayName, true);
 
         verifyHttpRequestBodyFailure(nullNameReq, submissionParams);
@@ -158,7 +162,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         ______TS("Unsuccessful case: test null instructor email parameter");
 
         InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
-                null, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                null, Const.InstructorPermissionRoleNames.COOWNER,
                 instructorDisplayName, true);
 
         verifyHttpRequestBodyFailure(nullEmailReq, submissionParams);

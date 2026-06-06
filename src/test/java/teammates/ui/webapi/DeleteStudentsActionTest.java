@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -101,6 +102,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(instructorPrivileges);
 
         loginAsInstructor(instructorId);

@@ -57,7 +57,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         String newInstructorName = "New Instructor";
         String newInstructorEmail = "newinstructor@teammates.tmt";
-        String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor newInstructor = new Instructor(typicalCourse, newInstructorName, newInstructorEmail,
                 false, null, getEnum(newInstructorRole),
                 new InstructorPrivileges(newInstructorRole));
@@ -98,7 +98,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         String existingInstructorName = "instructor-name";
         String existingInstructorEmail = "valid@teammates.tmt";
-        String existingInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String existingInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
 
         InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
                 existingInstructorName, existingInstructorEmail, existingInstructorRole,
@@ -127,7 +127,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         String newInstructorName = "New Instructor";
         String invalidInstructorEmail = "newInvalidInstructor.email.tmt";
-        String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
 
         InstructorCreateRequest requestBody = new InstructorCreateRequest(typicalInstructor.getGoogleId(),
                 newInstructorName, invalidInstructorEmail, newInstructorRole,
@@ -154,7 +154,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         String newInstructorName = "New Instructor";
         String newInstructorEmail = "newinstructor@teammates.tmt";
-        String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor newInstructor = new Instructor(typicalCourse, newInstructorName, newInstructorEmail,
                 false, null, getEnum(newInstructorRole),
                 new InstructorPrivileges(newInstructorRole));

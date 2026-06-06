@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.CUSTOM;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
@@ -102,7 +103,8 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
 
         Instructor instructorWithoutAccess = getTypicalInstructor();
         instructorWithoutAccess.setEmail("helper@teammates.tmt");
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+        instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
@@ -234,6 +236,7 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
         InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege("test-section1",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        instructorWithoutPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] {

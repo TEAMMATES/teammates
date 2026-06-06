@@ -65,6 +65,7 @@ public final class UsersLogic {
     private CoursesLogic coursesLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private UsersLogic() {
         // prevent initialization
@@ -75,10 +76,12 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
-                               FeedbackResponsesLogic feedbackResponsesLogic) {
+                               FeedbackResponsesLogic feedbackResponsesLogic,
+                               InstructorPermissionsLogic instructorPermissionsLogic) {
         this.usersDb = usersDb;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -326,7 +329,8 @@ public final class UsersLogic {
         for (Instructor instr : instructors) {
             hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
                     && !instr.equals(instructorToDelete)
-                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                    && instructorPermissionsLogic.hasPermissions(instr,
+                            Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
 
             hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
                     || instr.isDisplayedToStudents()
@@ -685,7 +689,8 @@ public final class UsersLogic {
         int numOfInstrCanModifyInstructor = 0;
         Instructor instrWithModifyInstructorPrivilege = null;
         for (Instructor instructor : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+            if (instructorPermissionsLogic.hasPermissions(instructor,
+                    Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 numOfInstrCanModifyInstructor++;
                 instrWithModifyInstructorPrivilege = instructor;
             }

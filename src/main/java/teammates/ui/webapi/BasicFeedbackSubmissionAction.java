@@ -184,7 +184,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
     private void verifyInstructorCanSubmitToSession(FeedbackSession feedbackSession, Instructor instructor)
             throws UnauthorizedAccessException {
-        if (instructor.isAllowedForPrivilegeAnySection(feedbackSession.getName(),
+        if (logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getName(),
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
             return;
         }

@@ -136,7 +136,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     @Test
     void testAccessControl_instructorWithoutPrivilege_cannotAccess() {
         InstructorPrivileges observerPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
@@ -200,7 +200,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor inst) {

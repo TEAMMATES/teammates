@@ -95,7 +95,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
     @Test
     void testAccessControl_instructorWithoutPrivilege_cannotAccess() {
         InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
