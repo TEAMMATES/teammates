@@ -274,17 +274,20 @@ public abstract class Action {
         InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
+                    logic.hasInstructorPermissions(instructor,
+                            Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
+                            || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
                             feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
+                    logic.hasInstructorPermissions(instructor,
+                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
+                            || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
                             feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
-                    instructor.isAllowedForPrivilege(
+                    logic.hasInstructorPermissions(instructor,
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
+                            || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
+                            feedbackSessionName,
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;

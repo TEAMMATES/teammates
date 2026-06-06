@@ -74,10 +74,14 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertFalse(editedInstructor.isDisplayedToStudents());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 

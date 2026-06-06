@@ -53,7 +53,7 @@ public final class InstructorPermissionsLogic {
         InstructorPrivileges privileges = getInstructorPrivileges(instructor);
 
         for (String permissionName : permissionNames) {
-            if (!privileges.isAllowedForPrivilege(permissionName, sectionName)) {
+            if (!privileges.isAllowedForPrivilege(sectionName, permissionName)) {
                 return false;
             }
         }
@@ -72,7 +72,7 @@ public final class InstructorPermissionsLogic {
         InstructorPrivileges privileges = getInstructorPrivileges(instructor);
 
         for (String permissionName : permissionNames) {
-            if (!privileges.isAllowedForPrivilege(permissionName, sectionName, feedbackSessionName)) {
+            if (!privileges.isAllowedForPrivilege(sectionName, feedbackSessionName, permissionName)) {
                 return false;
             }
         }
@@ -119,8 +119,13 @@ public final class InstructorPermissionsLogic {
     public InstructorPrivileges getInstructorPrivileges(Instructor instructor) {
         Objects.requireNonNull(instructor, "Instructor cannot be null");
 
-        InstructorPermissionRole role = instructor.getRole();
+        // TODO: revert to intended behaviour of defaulting to role-based privileges and only considering stored privileges if role is custom.
+        InstructorPrivileges storedPrivileges = instructor.getPrivileges();
+        if (storedPrivileges != null) {
+            return storedPrivileges;
+        }
 
+        InstructorPermissionRole role = instructor.getRole();
         switch (role) {
         case INSTRUCTOR_PERMISSION_ROLE_COOWNER:
             return new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);

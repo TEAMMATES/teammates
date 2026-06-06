@@ -77,8 +77,9 @@ public class GetInstructorsAction extends Action {
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-            if (requestContext.isAdmin() || getInstructorFromRequest(courseId).getPrivileges()
-                    .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+            if (requestContext.isAdmin()
+                    || logic.hasInstructorPermissions(getInstructorFromRequest(courseId),
+                            Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
 
                 for (Instructor instructor : instructorsOfCourse) {

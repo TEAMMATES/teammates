@@ -77,10 +77,14 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         assertEquals(createdInstructor.getName(), instructorData.getName());
         assertEquals(createdInstructor.getEmail(), instructorData.getEmail());
         assertFalse(createdInstructor.isDisplayedToStudents());
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
     }
 
     @Test(groups = GroupNames.INTEGRATION)

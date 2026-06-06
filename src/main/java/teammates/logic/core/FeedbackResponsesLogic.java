@@ -61,6 +61,7 @@ public final class FeedbackResponsesLogic {
     private UsersLogic usersLogic;
     private FeedbackQuestionsLogic fqLogic;
     private ResponseInstructorCommentsLogic frcLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -74,11 +75,13 @@ public final class FeedbackResponsesLogic {
      * Initialize dependencies for {@code FeedbackResponsesLogic}.
      */
     void initLogicDependencies(FeedbackResponsesDb frDb,
-            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, ResponseInstructorCommentsLogic frcLogic) {
+            UsersLogic usersLogic, FeedbackQuestionsLogic fqLogic, ResponseInstructorCommentsLogic frcLogic,
+            InstructorPermissionsLogic instructorPermissionsLogic) {
         this.frDb = frDb;
         this.usersLogic = usersLogic;
         this.fqLogic = fqLogic;
         this.frcLogic = frcLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -987,7 +990,8 @@ public final class FeedbackResponsesLogic {
         boolean isRecipientSectionRestrictedForInstructor = false;
         boolean isVisibleToInstructor = false;
         if (user instanceof Instructor instructor) {
-            isGiverSectionRestrictedForInstructor = !instructor.isAllowedForPrivilege(
+            isGiverSectionRestrictedForInstructor = !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                        instructor,
                         Const.DEFAULT_SECTION,
                         relatedQuestion.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
@@ -995,7 +999,8 @@ public final class FeedbackResponsesLogic {
 
             isRecipientSectionRestrictedForInstructor =
                     relatedQuestion.getRecipientType() != QuestionRecipientType.NONE
-                    && !instructor.isAllowedForPrivilege(
+                    && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                            instructor,
                             Const.DEFAULT_SECTION,
                             relatedQuestion.getFeedbackSessionName(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
