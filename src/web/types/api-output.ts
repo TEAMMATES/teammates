@@ -562,8 +562,10 @@ export interface ResponseOutput {
   userIdForModeration?: string;
   giverTeam: string;
   giverEmail?: string;
+  giverSectionId?: string;
   giverSection: string;
   recipient: string;
+  recipientSectionId?: string;
   recipientTeam: string;
   recipientEmail?: string;
   recipientSection: string;
@@ -601,7 +603,9 @@ export interface Student extends ApiOutput {
   email: string;
   courseId: string;
   name: string;
+  teamId: string;
   teamName: string;
+  sectionId: string;
   sectionName: string;
   institute: string;
   courseName: string;

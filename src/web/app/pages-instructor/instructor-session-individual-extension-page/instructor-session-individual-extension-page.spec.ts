@@ -71,7 +71,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     institute: 'Test Institute',
     name: 'AliceHasExtension',
     teamName: 'Team 1',
+    teamId: 'team-1',
     sectionName: 'Section 1',
+    sectionId: 'section-1',
   };
   const testStudent2: Student = {
     userId: 'bob-id',
@@ -81,7 +83,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     institute: 'Test Institute',
     name: 'Bob',
     teamName: 'Team 1',
+    teamId: 'team-1',
     sectionName: 'Section 1',
+    sectionId: 'section-1',
   };
   const testStudent3: Student = {
     userId: 'alex-id',
@@ -91,7 +95,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     institute: 'Test Institute',
     name: 'Alex',
     teamName: 'Team 1',
+    teamId: 'team-1',
     sectionName: 'Section 1',
+    sectionId: 'section-1',
   };
   const students: Students = {
     students: [testStudent1, testStudent2, testStudent3],

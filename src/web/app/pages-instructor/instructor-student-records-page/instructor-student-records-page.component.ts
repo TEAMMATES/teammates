@@ -99,7 +99,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     })
       .pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
-          return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
+          return this.getFeedbackSessionResults(feedbackSession, student.sectionId);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
@@ -148,16 +148,16 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
   /**
    * Fetches the full detail result of the given feedback session in the current course
-   * grouped by the student's section.
+   * grouped by the student's section ID.
    */
   private getFeedbackSessionResults(
     feedbackSession: FeedbackSession,
-    groupBySection: string,
+    groupBySectionId: string,
   ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: feedbackSession.feedbackSessionId,
-        groupBySection,
+        groupBySection: groupBySectionId,
       })
       .pipe(
         map((results: SessionResults) => {

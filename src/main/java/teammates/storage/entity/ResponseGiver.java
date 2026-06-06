@@ -114,6 +114,22 @@ public class ResponseGiver {
     }
 
     /**
+     * Gets the section ID of the giver.
+     */
+    public UUID getSectionId() {
+        if (isGiverTeam()) {
+            return giverTeam != null && giverTeam.getSection() != null ? giverTeam.getSection().getId() : null;
+        }
+        if (giverUser instanceof Student student) {
+            return student.getSectionId();
+        }
+        if (giverUser instanceof Instructor) {
+            return null; // instructors do not belong to any section
+        }
+        return null;
+    }
+
+    /**
      * Gets the section name of the giver. If the giver is an instructor, returns the default section name.
      */
     public String getSectionName() {

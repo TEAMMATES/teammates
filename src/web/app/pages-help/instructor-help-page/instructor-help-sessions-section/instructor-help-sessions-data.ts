@@ -158,7 +158,9 @@ export const EXAMPLE_STUDENTS: Student[] = [
     courseId: 'test.exa-demo',
     name: 'Alice Betsy',
     comments: 'Alice is a transfer student.',
+    teamId: 'team-a',
     teamName: 'Team A',
+    sectionId: 'section-a',
     sectionName: 'Section A',
     joinState: JoinState.JOINED,
     institute: 'NUS',
@@ -254,6 +256,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
  */
 export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
   'Section A': {
+    section: {
+      sectionId: 'Section A',
+      sectionName: 'Section A',
+    },
     questions: [
       {
         feedbackQuestion: {

@@ -34,7 +34,9 @@ describe('InstructorCourseEnrollPageComponent', () => {
       email: 'test@gmail.com',
       name: 'Existing Student',
       sectionName: 'Section A',
+      sectionId: 'section-a',
       teamName: 'Team A',
+      teamId: 'team-a',
       comments: 'old comment',
       joinState: JoinState.JOINED,
     };

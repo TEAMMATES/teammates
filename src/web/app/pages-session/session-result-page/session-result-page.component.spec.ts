@@ -268,7 +268,9 @@ describe('SessionResultPageComponent', () => {
         institute: '',
         userId: 'student-name-id',
         sectionName: '',
+        sectionId: '',
         teamName: '',
+        teamId: '',
       }),
     );
     vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));

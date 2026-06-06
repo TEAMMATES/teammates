@@ -37,7 +37,9 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
       name: 'firstName',
       comments: 'This is a comment',
       teamName: 'myTeam',
+      teamId: 'team-a',
       sectionName: 'mySection',
+      sectionId: 'section-a',
       joinState: JoinState.JOINED,
     };
     fixture.detectChanges();

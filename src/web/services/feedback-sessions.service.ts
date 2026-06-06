@@ -31,6 +31,7 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
+import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * A template session.
@@ -362,27 +363,39 @@ export class FeedbackSessionsService {
 
   /**
    * Download session results.
+   *
+   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   downloadSessionResults(
     feedbackSessionId: string,
     indicateMissingResponses: boolean,
     showStatistics: boolean,
     questionId?: string,
-    groupBySection?: string,
-    sectionDetail?: InstructorSessionResultSectionType,
+    sectionOptions?: {
+      groupBySectionId?: string;
+      sectionDetail?: InstructorSessionResultSectionType;
+      sectionNameForCsv?: string;
+    },
   ): Observable<string> {
+    const isDefaultSection = sectionOptions?.groupBySectionId
+      ? sectionOptions.groupBySectionId === DEFAULT_SECTION_ID
+      : undefined;
+    const groupBySectionId =
+      sectionOptions?.groupBySectionId === DEFAULT_SECTION_ID ? undefined : sectionOptions?.groupBySectionId;
     return this.getCourseSessionResults({
       feedbackSessionId,
       questionId,
-      groupBySection,
+      groupBySection: groupBySectionId,
+      isDefaultSection: isDefaultSection,
     }).pipe(
       map((results: SessionResults) =>
         this.sessionResultCsvService.getCsvForSessionResult(
           results,
           indicateMissingResponses,
           showStatistics,
-          groupBySection,
-          sectionDetail,
+          sectionOptions?.sectionNameForCsv,
+          sectionOptions?.sectionDetail,
+          sectionOptions?.groupBySectionId,
         ),
       ),
     );
@@ -390,11 +403,14 @@ export class FeedbackSessionsService {
 
   /**
    * Retrieves course-wide results for a feedback session.
+   *
+   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   getCourseSessionResults(queryParams: {
     feedbackSessionId: string;
     questionId?: string;
     groupBySection?: string;
+    isDefaultSection?: boolean;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
@@ -406,6 +422,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.groupBySection) {
       paramMap['frgroupbysection'] = queryParams.groupBySection;
+    }
+
+    if (queryParams.isDefaultSection !== undefined) {
+      paramMap['isdefaultsection'] = queryParams.isDefaultSection.toString();
     }
 
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);

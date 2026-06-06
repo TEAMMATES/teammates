@@ -169,7 +169,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Alice Betsy",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'benny.c.tmms@gmail.tmt',
@@ -181,7 +183,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Benny Charles",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'charlie.d.tmms@gmail.tmt',
@@ -193,7 +197,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Charlie Davis",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
+        teamId: 'team-2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
       {
         email: 'danny.e.tmms@gmail.tmt',
@@ -205,7 +211,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Danny Engrid",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'emma.f.tmms@gmail.tmt',
@@ -217,7 +225,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Emma Farrell",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'francis.g.tmms@gmail.tmt',
@@ -229,7 +239,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Francis Gabriel",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
+        teamId: 'team-2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
       {
         email: 'gene.h.tmms@gmail.tmt',
@@ -241,7 +253,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Gene Hudson",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
+        teamId: 'team-2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
       {
         email: 'hugh.i.tmms@gmail.tmt',
@@ -253,7 +267,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Hugh Ivanov",
         joinState: JoinState.NOT_JOINED,
         teamName: 'Team 3',
+        teamId: 'team-3',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
     ],
   };

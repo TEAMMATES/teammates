@@ -29,7 +29,9 @@ const student1: Student = {
   courseName: 'Test Course',
   institute: 'Test Institute',
   name: 'student1Model',
+  teamId: '1',
   teamName: '1',
+  sectionId: '1',
   sectionName: '1',
 };
 const student1Model: StudentExtensionTableColumnModel = {
@@ -50,7 +52,9 @@ const student2: Student = {
   institute: 'Test Institute',
   name: 'student2Model',
   teamName: '2',
+  teamId: '2',
   sectionName: '1',
+  sectionId: '1',
 };
 const student2Model: StudentExtensionTableColumnModel = {
   userId: 'student2-id',

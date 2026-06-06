@@ -70,6 +70,8 @@ export const studentBuilder = createBuilder<Student>({
   institute: 'example institute',
   email: 'examplestudent@gmail.com',
   name: 'test-student',
+  teamId: 'test-team-id',
   teamName: 'test-team-name',
+  sectionId: 'test-section-id',
   sectionName: 'test-section-name',
 });

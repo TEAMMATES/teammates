@@ -133,6 +133,19 @@ public class ResponseRecipient {
     }
 
     /**
+     * Gets the section ID of the recipient.
+     */
+    public UUID getSectionId() {
+        if (recipientType == ResponseRecipientType.TEAM) {
+            return recipientTeam != null ? recipientTeam.getSection().getId() : null;
+        } else if (recipientUser instanceof Student student) {
+            return student.getSectionId();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Gets the section name of the recipient. If the recipient is an instructor, returns the default section name.
      */
     public String getSectionName() {

@@ -138,6 +138,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
+        public static final String IS_DEFAULT_SECTION = "isdefaultsection";
 
         public static final String PREVIEWAS = "previewas";
 

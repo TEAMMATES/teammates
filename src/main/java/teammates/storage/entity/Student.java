@@ -89,6 +89,10 @@ public class Student extends User {
         return getTeam().getName();
     }
 
+    public UUID getSectionId() {
+        return getSection().getId();
+    }
+
     public String getSectionName() {
         return getSection().getName();
     }
