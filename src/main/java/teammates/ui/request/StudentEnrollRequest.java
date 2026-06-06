@@ -5,6 +5,7 @@ import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.util.Const;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The request for enrolling a student.

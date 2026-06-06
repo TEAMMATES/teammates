@@ -1,8 +1,8 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Logger;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.ErrorReportRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Actions: sends an error report to the system admin.

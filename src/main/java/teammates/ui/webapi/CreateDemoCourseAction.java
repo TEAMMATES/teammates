@@ -24,9 +24,9 @@ import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnexpectedServerException;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new demo course with a demo instructor and student.

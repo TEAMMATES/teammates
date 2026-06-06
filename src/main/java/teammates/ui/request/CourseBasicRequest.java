@@ -1,5 +1,7 @@
 package teammates.ui.request;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
+
 /**
  * The basic request of modifying a course.
  */
