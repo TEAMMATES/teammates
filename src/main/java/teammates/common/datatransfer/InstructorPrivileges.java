@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import teammates.common.util.Const;
 
 /**
- * Representation of instructor privileges. Store the privileges of the instructor
+ * Stores the permissions of an instructor.
  */
 public final class InstructorPrivileges {
 
