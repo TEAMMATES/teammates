@@ -362,8 +362,8 @@ export class FeedbackSessionsService {
 
   /**
    * Download session results.
-    *
-    * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
+   *
+   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   downloadSessionResults(
     feedbackSessionId: string,
@@ -395,8 +395,8 @@ export class FeedbackSessionsService {
 
   /**
    * Retrieves course-wide results for a feedback session.
-    *
-    * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
+   *
+   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   getCourseSessionResults(queryParams: {
     feedbackSessionId: string;
