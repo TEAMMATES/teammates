@@ -601,7 +601,9 @@ export interface Student extends ApiOutput {
   email: string;
   courseId: string;
   name: string;
+  teamId: string;
   teamName: string;
+  sectionId: string;
   sectionName: string;
   institute: string;
   courseName: string;
