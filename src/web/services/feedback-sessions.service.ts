@@ -395,6 +395,7 @@ export class FeedbackSessionsService {
     feedbackSessionId: string;
     questionId?: string;
     groupBySection?: string;
+    isDefaultSection?: boolean;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
@@ -406,6 +407,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.groupBySection) {
       paramMap['frgroupbysection'] = queryParams.groupBySection;
+    }
+
+    if (queryParams.isDefaultSection !== undefined) {
+      paramMap['isdefaultsection'] = queryParams.isDefaultSection.toString();
     }
 
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);

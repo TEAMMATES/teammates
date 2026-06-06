@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -179,6 +180,17 @@ public abstract class Action {
             throw new InvalidHttpParameterException(
                     "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]");
         }
+    }
+
+    /**
+     * Returns the first value or null for the specified parameter expected to be present in the HTTP request as boolean.
+     */
+    Optional<Boolean> getNullableBooleanRequestParamValue(String paramName) {
+        String value = getRequestParamValue(paramName);
+        if (value == null) {
+            return Optional.empty();
+        }
+        return Optional.of(getBooleanRequestParamValue(paramName));
     }
 
     /**

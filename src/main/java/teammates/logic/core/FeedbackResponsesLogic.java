@@ -39,6 +39,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
+import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
@@ -703,11 +704,12 @@ public final class FeedbackResponsesLogic {
      * @param instructor the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
+     * @param isDefaultSection true if the section is the default section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable String sectionName) {
+            @Nullable UUID questionId, @Nullable String sectionName, boolean isDefaultSection) {
 
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
@@ -722,10 +724,11 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> allResponses;
         // load all response for instructors and passively filter them later
         if (questionId == null) {
-            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName);
+            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName, isDefaultSection);
         } else {
-            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionName);
+            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionName, isDefaultSection);
         }
+
         RequestTracer.checkRemainingTime();
 
         return buildResultsBundle(true, sectionName, instructor, roster, allQuestions, allResponses, false);
@@ -1055,15 +1058,16 @@ public final class FeedbackResponsesLogic {
      * @param feedbackSession the session
      * @param courseId the course ID of the session
      * @param sectionName if null, will retrieve all responses in the session
+     * @param isDefaultSection true if the section is the default section
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
-            FeedbackSession feedbackSession, String courseId, @Nullable String sectionName) {
+            FeedbackSession feedbackSession, String courseId, @Nullable String sectionName, boolean isDefaultSection) {
         List<FeedbackResponse> responses = frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
-        if (sectionName == null) {
+        if (sectionName == null && !isDefaultSection) {
             return responses;
         } else {
-            return filterResponsesBySection(responses, sectionName);
+            return filterResponsesBySection(responses, sectionName, isDefaultSection);
         }
     }
 
@@ -1072,47 +1076,59 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackQuestionId the question UUID
      * @param sectionName if null, will retrieve all responses for the question
+     * @param isDefaultSection true if the section is the default section
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
-            UUID feedbackQuestionId, @Nullable String sectionName) {
+            UUID feedbackQuestionId, @Nullable String sectionName, boolean isDefaultSection) {
         List<FeedbackResponse> responses = frDb.getResponsesForQuestion(feedbackQuestionId);
-        if (sectionName == null) {
+        if (sectionName == null && !isDefaultSection) {
             return responses;
         } else {
-            return filterResponsesBySection(responses, sectionName);
+            return filterResponsesBySection(responses, sectionName, isDefaultSection);
         }
     }
 
-    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses, String sectionName) {
+    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses,
+            String sectionName, boolean isDefaultSection) {
         List<FeedbackResponse> filteredResponses = new ArrayList<>();
         for (FeedbackResponse response : responses) {
             ResponseGiver giver = response.getGiver();
             ResponseRecipient recipient = response.getRecipient();
-            boolean isGiverInSection;
+
+            Section giverSection = null;
             if (giver.isGiverTeam()) {
-                isGiverInSection = giver.getGiverTeam().getSection().getName().equals(sectionName);
+                giverSection = giver.getGiverTeam().getSection();
             } else if (giver.getGiverUser() instanceof Student giverStudent) {
-                isGiverInSection = giverStudent.getSection().getName().equals(sectionName);
+                giverSection = giverStudent.getSection();
+            }
+
+            boolean isGiverInSection;
+            if (isDefaultSection) {
+                isGiverInSection = giverSection == null || Const.DEFAULT_SECTION.equals(giverSection.getName());
             } else {
-                // instructor
-                isGiverInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
+                isGiverInSection = giverSection != null && giverSection.getName().equals(sectionName);
+            }
+
+            Section recipientSection = null;
+            if (recipient.isRecipientTeam()) {
+                recipientSection = recipient.getRecipientTeam().getSection();
+            } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
+                recipientSection = recipientStudent.getSection();
             }
 
             boolean isRecipientInSection;
-            if (recipient.isRecipientTeam()) {
-                isRecipientInSection = recipient.getRecipientTeam().getSection().getName().equals(sectionName);
-            } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
-                isRecipientInSection = recipientStudent.getSection().getName().equals(sectionName);
+            if (isDefaultSection) {
+                isRecipientInSection = recipientSection == null || Const.DEFAULT_SECTION.equals(recipientSection.getName());
             } else {
-                // instructor
-                isRecipientInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
+                isRecipientInSection = recipientSection != null && recipientSection.getName().equals(sectionName);
             }
 
             if (isGiverInSection || isRecipientInSection) {
                 filteredResponses.add(response);
             }
         }
+
         return filteredResponses;
     }
 

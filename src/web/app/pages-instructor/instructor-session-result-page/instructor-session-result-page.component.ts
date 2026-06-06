@@ -59,6 +59,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
+const DEFAULT_SECTION_NAME = 'None';
 
 /**
  * Instructor feedback session result page.
@@ -233,7 +234,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load section tabs
           this.courseService.getCourseSections(this.courseId).subscribe({
             next: (courseSections) => {
-              this.sectionsModel['None'] = {
+              this.sectionsModel[DEFAULT_SECTION_NAME] = {
                 questions: [],
                 hasPopulated: false,
                 isTabExpanded: false,
@@ -395,7 +396,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
           return this.feedbackSessionsService.getCourseSessionResults({
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
-            groupBySection: sectionName,
+            groupBySection: sectionName === DEFAULT_SECTION_NAME ? undefined : sectionName,
+            isDefaultSection: sectionName === DEFAULT_SECTION_NAME,
           });
         }),
       )
@@ -453,7 +455,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        groupBySection: sectionName,
+        groupBySection: sectionName === DEFAULT_SECTION_NAME ? undefined : sectionName,
+        isDefaultSection: sectionName === DEFAULT_SECTION_NAME,
       })
       .subscribe({
         next: (resp: SessionResults) => {

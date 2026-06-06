@@ -72,7 +72,7 @@ public class GetCourseSessionResultsActionTest extends BaseActionTest<GetCourseS
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
         when(mockLogic.getSessionResults(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(instructorStub), isNull(), isNull())).thenReturn(resultsStub);
+                eq(instructorStub), isNull(), isNull(), eq(false))).thenReturn(resultsStub);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),

@@ -1212,9 +1212,9 @@ public class Logic {
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable String sectionName) {
+            @Nullable UUID questionId, @Nullable String sectionName, boolean isDefaultSection) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructor, questionId, sectionName);
+                feedbackSession, instructor, questionId, sectionName, isDefaultSection);
     }
 
     /**

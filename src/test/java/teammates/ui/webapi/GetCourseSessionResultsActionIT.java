@@ -51,7 +51,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         SessionResultsData output = (SessionResultsData) result.getOutput();
 
         SessionResultsData expected = inTransaction(() -> SessionResultsData.init(logic.getSessionResults(
-                feedbackSession, instructor, null, null)));
+                feedbackSession, instructor, null, null, false)));
 
         assertEquals(expected.getQuestions().size(), output.getQuestions().size());
     }
