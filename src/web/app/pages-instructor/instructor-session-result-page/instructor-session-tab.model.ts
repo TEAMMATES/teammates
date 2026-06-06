@@ -1,9 +1,10 @@
-import { FeedbackQuestion, QuestionOutput, ResponseOutput } from '../../../types/api-output';
+import { CourseSection, FeedbackQuestion, QuestionOutput, ResponseOutput } from '../../../types/api-output';
 
 /**
  * Per section view tab model.
  */
 export interface SectionTabModel {
+  section: CourseSection;
   questions: QuestionOutput[];
   hasPopulated: boolean;
   errorMessage?: string;

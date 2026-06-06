@@ -235,12 +235,17 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.courseService.getCourseSections(this.courseId).subscribe({
             next: (courseSections) => {
               this.sectionsModel[DEFAULT_SECTION_NAME] = {
+                section: {
+                  sectionId: DEFAULT_SECTION_NAME,
+                  sectionName: DEFAULT_SECTION_NAME,
+                },
                 questions: [],
                 hasPopulated: false,
                 isTabExpanded: false,
               };
               for (const section of courseSections.sections) {
                 this.sectionsModel[section.sectionName] = {
+                  section,
                   questions: [],
                   hasPopulated: false,
                   isTabExpanded: false,

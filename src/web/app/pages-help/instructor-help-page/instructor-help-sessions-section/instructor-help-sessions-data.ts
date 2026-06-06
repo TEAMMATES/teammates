@@ -254,6 +254,10 @@ export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTable
  */
 export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
   'Section A': {
+    section: {
+      sectionId: 'Section A',
+      sectionName: 'Section A',
+    },
     questions: [
       {
         feedbackQuestion: {
