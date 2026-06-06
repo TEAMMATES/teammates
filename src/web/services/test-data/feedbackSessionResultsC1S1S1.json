@@ -27,9 +27,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "instructor1@course1.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "Good work, keep it up!",
             "questionType": "TEXT"
@@ -80,9 +82,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "instructor1@course1.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -122,10 +126,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "Response from student 3 &#34;to&#34; student 2.\r\nMultiline test.",
             "questionType": "TEXT"
@@ -140,10 +146,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
           "recipientSection": "Section 2",
+          "recipientSectionId": "section-2",
           "responseDetails": {
             "answer": "Response from student 2 to student 5.",
             "questionType": "TEXT"
@@ -169,10 +177,12 @@
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
           "giverSection": "Section 2",
+          "giverSectionId": "section-2",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "Response from student 5 to student 2.",
             "questionType": "TEXT"
@@ -187,10 +197,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -205,10 +217,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -223,10 +237,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -241,10 +257,12 @@
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
           "giverSection": "Section 2",
+          "giverSectionId": "section-2",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -259,10 +277,12 @@
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
           "giverSection": "Section 2",
+          "giverSectionId": "section-2",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -277,10 +297,12 @@
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
           "giverSection": "Section 2",
+          "giverSectionId": "section-2",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -295,10 +317,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -313,10 +337,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
           "recipientSection": "Section 2",
+          "recipientSectionId": "section-2",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -331,10 +357,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -349,10 +377,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -367,10 +397,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -385,10 +417,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
           "recipientSection": "Section 2",
+          "recipientSectionId": "section-2",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -403,10 +437,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -421,10 +457,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -439,10 +477,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
           "recipientSection": "Section 2",
+          "recipientSectionId": "section-2",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -457,10 +497,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -475,10 +517,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -517,9 +561,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "instructor2@course1.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -534,9 +580,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "instructorNotYetJoinedCourse1@email.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -551,9 +599,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "instructor3@course1.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -568,9 +618,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "helper@course1.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -585,9 +637,11 @@
           "giverTeam": "Instructors",
           "giverEmail": "instructor1@course1.tmt",
           "giverSection": "None",
+          "giverSectionId": null,
           "recipient": "-",
           "recipientTeam": "-",
           "recipientSection": "None",
+          "recipientSectionId": null,
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -627,10 +681,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student1InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student1 In Course1</td></div>'\"",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "Student 1 self feedback.",
             "questionType": "TEXT"
@@ -656,10 +712,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student2InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student2 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "I&#39;m cool&#39;",
             "questionType": "TEXT"
@@ -674,10 +732,12 @@
           "giverTeam": "Team 1.2",
           "giverEmail": "student5InCourse1@gmail.tmt",
           "giverSection": "Section 2",
+          "giverSectionId": "section-2",
           "recipient": "student5 In Course1",
           "recipientTeam": "Team 1.2",
           "recipientEmail": "student5InCourse1@gmail.tmt",
           "recipientSection": "Section 2",
+          "recipientSectionId": "section-2",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -692,10 +752,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student4InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student4 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"
@@ -710,10 +772,12 @@
           "giverTeam": "Team 1.1</td></div>'\"",
           "giverEmail": "student3InCourse1@gmail.tmt",
           "giverSection": "Section 1",
+          "giverSectionId": "section-1",
           "recipient": "student3 In Course1",
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "Section 1",
+          "recipientSectionId": "section-1",
           "responseDetails": {
             "answer": "No Response",
             "questionType": "TEXT"

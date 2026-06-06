@@ -80,6 +80,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.EITHER,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -93,6 +94,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.GIVER,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -106,6 +108,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.EVALUEE,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -119,6 +122,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.BOTH,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -174,6 +178,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.EITHER,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -187,6 +192,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.GIVER,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -200,6 +206,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.EVALUEE,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
@@ -213,6 +220,7 @@ describe('SessionResultCsvService', () => {
       false,
       'Section 1',
       InstructorSessionResultSectionType.BOTH,
+      'section-1',
     );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
