@@ -71,7 +71,7 @@ import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
-import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
@@ -914,9 +914,9 @@ public class Logic {
      * @throws EntityDoesNotExistException if the instructor does not exist in the
      *                                     database
      */
-    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest)
+    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest)
             throws InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        return usersLogic.updateInstructorCascade(courseId, instructorRequest);
+        return usersLogic.updateInstructorCascade(instructorRequest);
     }
 
     /**
@@ -1148,11 +1148,10 @@ public class Logic {
      * * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(String,
-     *      Instructor)
+     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(Instructor)
      */
-    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
-        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+    public void updateToEnsureValidityOfInstructorsForTheCourse(Instructor instructorToEdit) {
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructorToEdit);
     }
 
     /**

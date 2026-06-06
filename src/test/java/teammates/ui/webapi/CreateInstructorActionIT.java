@@ -61,7 +61,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         };
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
-                "00000000-0000-4000-8000-000000000006", "newInstructorName",
+                "newInstructorName",
                 "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.COOWNER,
                 "instructorDisplayName", false);
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
@@ -98,7 +98,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         };
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
-                instructor1OfCourse1.getCourseId(), "instructor3ofCourse1",
+                "instructor3ofCourse1",
                 instructor1OfCourse1.getEmail(), Const.InstructorPermissionRoleNames.TUTOR,
                 "instructor3ofCourse1", false);
 

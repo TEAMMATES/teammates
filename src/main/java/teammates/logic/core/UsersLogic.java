@@ -37,7 +37,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -136,22 +136,16 @@ public final class UsersLogic {
      * @throws InstructorUpdateException if the update violates instructor validity
      * @throws EntityDoesNotExistException if the instructor does not exist in the database
      */
-    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
+    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        Instructor instructor;
-        String instructorId = instructorRequest.getId();
-        if (instructorId == null) {
-            instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
-        } else {
-            instructor = getInstructorByGoogleId(courseId, instructorId);
-        }
+        Instructor instructor = getInstructor(instructorRequest.getId());
 
         if (instructor == null) {
             throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
         }
 
         verifyAtLeastOneInstructorIsDisplayed(
-                courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
+                instructor.getCourseId(), instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
 
         String newDisplayName = instructorRequest.getDisplayName();
         if (newDisplayName == null || newDisplayName.isEmpty()) {
@@ -240,7 +234,7 @@ public final class UsersLogic {
 
         newPrivileges.validatePrivileges();
         instructorToUpdate.setPrivileges(newPrivileges);
-        updateToEnsureValidityOfInstructorsForTheCourse(instructorToUpdate.getCourseId(), instructorToUpdate);
+        updateToEnsureValidityOfInstructorsForTheCourse(instructorToUpdate);
 
         return instructorToUpdate;
     }
@@ -680,11 +674,11 @@ public final class UsersLogic {
      * If there are none, the instructor currently being edited will be granted the privilege
      * of modifying instructors automatically.
      *
-     * @param courseId         Id of the course.
      * @param instructorToEdit Instructor that will be edited.
      *                         This may be modified within the method.
      */
-    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
+    public void updateToEnsureValidityOfInstructorsForTheCourse(Instructor instructorToEdit) {
+        String courseId = instructorToEdit.getCourseId();
         List<Instructor> instructors = getInstructorsForCourse(courseId);
         int numOfInstrCanModifyInstructor = 0;
         Instructor instrWithModifyInstructorPrivilege = null;

@@ -1,13 +1,17 @@
 package teammates.ui.request;
 
+import java.util.UUID;
+
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 
 /**
- * The create request for an instructor to be created.
+ * The update request for an instructor.
  */
-public class InstructorCreateRequest extends BasicRequest {
+public class InstructorUpdateRequest extends BasicRequest {
+    private UUID id;
+
     private String name;
     private String email;
     private InstructorPermissionRole role;
@@ -17,12 +21,13 @@ public class InstructorCreateRequest extends BasicRequest {
     private Boolean isDisplayedToStudent;
 
     @SuppressWarnings("unused")
-    private InstructorCreateRequest() {
+    private InstructorUpdateRequest() {
         // for Jackson deserialization
     }
 
-    public InstructorCreateRequest(String name, String email, String roleName,
+    public InstructorUpdateRequest(UUID id, String name, String email, String roleName,
                                    String displayName, Boolean isDisplayedToStudent) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.role = InstructorPermissionRole.getEnum(roleName);
@@ -32,10 +37,15 @@ public class InstructorCreateRequest extends BasicRequest {
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
+        validateTrue(id != null, "id cannot be null");
         validateTrue(name != null, "name cannot be null");
         validateTrue(email != null, "email cannot be null");
         validateTrue(role != null, "role name cannot be null");
         validateTrue(isDisplayedToStudent != null, "displayed to student boolean cannot be null");
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {

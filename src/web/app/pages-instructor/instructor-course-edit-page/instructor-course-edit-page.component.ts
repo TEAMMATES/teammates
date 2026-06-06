@@ -42,7 +42,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { InstructorCreateRequest, Intent } from '../../../types/api-request';
+import { InstructorCreateRequest, InstructorUpdateRequest, Intent } from '../../../types/api-request';
 import {
   DEFAULT_INSTRUCTOR_PRIVILEGE,
   DEFAULT_PRIVILEGE_COOWNER,
@@ -89,16 +89,16 @@ interface InstructorEditPanelDetail {
   ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private navigationService = inject(NavigationService);
-  private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private statusMessageService = inject(StatusMessageService);
-  private courseService = inject(CourseService);
-  private authService = inject(AuthService);
-  private ngbModal = inject(NgbModal);
-  private simpleModalService = inject(SimpleModalService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly navigationService = inject(NavigationService);
+  private readonly studentService = inject(StudentService);
+  private readonly instructorService = inject(InstructorService);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly courseService = inject(CourseService);
+  private readonly authService = inject(AuthService);
+  private readonly ngbModal = inject(NgbModal);
+  private readonly simpleModalService = inject(SimpleModalService);
 
   // enum
   EditMode!: typeof EditMode;
@@ -410,11 +410,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   saveInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel.isSavingInstructorEdit = true;
-    const reqBody: InstructorCreateRequest = {
-      id:
-        panelDetail.originalInstructor.joinState === JoinState.JOINED
-          ? panelDetail.originalInstructor.googleId
-          : undefined,
+    const reqBody: InstructorUpdateRequest = {
+      id: panelDetail.originalInstructor.userId,
       name: panelDetail.editPanel.name,
       email:
         panelDetail.originalInstructor.joinState === JoinState.JOINED

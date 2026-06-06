@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 
 export interface AccountCreateRequest extends BasicRequest {
   instructorEmail: string;
@@ -176,7 +175,15 @@ export interface FeedbackTextResponseDetails extends FeedbackResponseDetails {
 }
 
 export interface InstructorCreateRequest extends BasicRequest {
-  id?: string;
+  name: string;
+  email: string;
+  role: InstructorPermissionRole;
+  displayName?: string;
+  isDisplayedToStudent: boolean;
+}
+
+export interface InstructorUpdateRequest extends BasicRequest {
+  id: string;
   name: string;
   email: string;
   role: InstructorPermissionRole;
