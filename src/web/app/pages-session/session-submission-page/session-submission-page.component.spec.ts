@@ -864,6 +864,68 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.questionsNeedingSubmission.length).toEqual(0);
   });
 
+  it('should classify a question for nobody specific as ungrouped instead of grouping it by recipient', () => {
+    const testSessionSubmissionData: SessionSubmission = {
+      questions: [
+        {
+          question: {
+            feedbackQuestionId: testTextQuestionSubmissionForm.feedbackQuestionId,
+            questionNumber: testTextQuestionSubmissionForm.questionNumber,
+            questionBrief: testTextQuestionSubmissionForm.questionBrief,
+            questionDescription: testTextQuestionSubmissionForm.questionDescription,
+            questionDetails: testTextQuestionSubmissionForm.questionDetails,
+            questionType: testTextQuestionSubmissionForm.questionType,
+            giverType: testTextQuestionSubmissionForm.giverType,
+            recipientType: QuestionRecipientType.STUDENTS,
+            numberOfEntitiesToGiveFeedbackToSetting:
+              testTextQuestionSubmissionForm.numberOfEntitiesToGiveFeedbackToSetting,
+            customNumberOfEntitiesToGiveFeedbackTo:
+              testTextQuestionSubmissionForm.customNumberOfEntitiesToGiveFeedbackTo,
+            showResponsesTo: testTextQuestionSubmissionForm.showResponsesTo,
+            showGiverNameTo: testTextQuestionSubmissionForm.showGiverNameTo,
+            showRecipientNameTo: testTextQuestionSubmissionForm.showRecipientNameTo,
+          },
+          recipients: [{ identifier: 'barry-harris-id', name: 'Barry Harris', section: 'Section A', team: 'Team 1' }],
+          responses: [],
+        },
+        {
+          question: {
+            feedbackQuestionId: 'feedback-question-id-general',
+            questionNumber: 11,
+            questionBrief: testTextQuestionSubmissionForm.questionBrief,
+            questionDescription: testTextQuestionSubmissionForm.questionDescription,
+            questionDetails: testTextQuestionSubmissionForm.questionDetails,
+            questionType: testTextQuestionSubmissionForm.questionType,
+            giverType: testTextQuestionSubmissionForm.giverType,
+            recipientType: QuestionRecipientType.NONE,
+            numberOfEntitiesToGiveFeedbackToSetting:
+              testTextQuestionSubmissionForm.numberOfEntitiesToGiveFeedbackToSetting,
+            customNumberOfEntitiesToGiveFeedbackTo:
+              testTextQuestionSubmissionForm.customNumberOfEntitiesToGiveFeedbackTo,
+            showResponsesTo: testTextQuestionSubmissionForm.showResponsesTo,
+            showGiverNameTo: testTextQuestionSubmissionForm.showGiverNameTo,
+            showRecipientNameTo: testTextQuestionSubmissionForm.showRecipientNameTo,
+          },
+          recipients: [{ identifier: '%GENERAL%', name: '-', section: '', team: '' }],
+          responses: [],
+        },
+      ],
+    };
+
+    vi.spyOn(feedbackSessionsService, 'getSessionSubmissionData').mockReturnValue(of(testSessionSubmissionData));
+
+    component.loadFeedbackQuestions();
+
+    // The question for nobody specific is treated as ungroupable
+    expect(component.ungroupableQuestionsSorted).toContain(11);
+    expect(component.recipientQuestionMap.has('%GENERAL%')).toBe(false);
+    // The question with a specific recipient is still grouped by that recipient
+    expect(component.ungroupableQuestionsSorted).not.toContain(testTextQuestionSubmissionForm.questionNumber);
+    expect(
+      component.recipientQuestionMap.get('barry-harris-id')?.has(testTextQuestionSubmissionForm.questionNumber),
+    ).toBe(true);
+  });
+
   it('should check that there are no responses to submit', () => {
     const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
     testSubmissionForm.recipientSubmissionForms = [];

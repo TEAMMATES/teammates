@@ -537,6 +537,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   private addQuestionGrouping(model: QuestionSubmissionFormModel): void {
     const isGroupableQuestion =
       this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT &&
+      model.recipientType !== QuestionRecipientType.NONE &&
       model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS &&
       model.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS &&
       model.questionType !== FeedbackQuestionType.CONTRIB;
