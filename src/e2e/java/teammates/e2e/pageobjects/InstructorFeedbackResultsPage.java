@@ -1174,7 +1174,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                     .map(Student::getSectionName)
                     .orElse(null);
         } else if (type == QuestionGiverType.INSTRUCTORS) {
-            sectionName = "None";
+            sectionName = NO_SECTION_LABEL;
         } else {
             sectionName = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
@@ -1184,9 +1184,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
         if (sectionName == null) {
             throw new RuntimeException("cannot find section name for " + participant);
-        }
-        if ("None".equals(sectionName)) {
-            sectionName = NO_SECTION_LABEL;
         }
         return sectionName;
     }
@@ -1200,7 +1197,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                     .map(Student::getSectionName)
                     .orElse(null);
         } else if (type == QuestionRecipientType.INSTRUCTORS || type == QuestionRecipientType.NONE) {
-            sectionName = "None";
+            sectionName = NO_SECTION_LABEL;
         } else {
             sectionName = students.stream()
                     .filter(student -> student.getEmail().equals(participant))
@@ -1210,9 +1207,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
         if (sectionName == null) {
             throw new RuntimeException("cannot find section name for " + participant);
-        }
-        if ("None".equals(sectionName)) {
-            sectionName = NO_SECTION_LABEL;
         }
         return sectionName;
     }
