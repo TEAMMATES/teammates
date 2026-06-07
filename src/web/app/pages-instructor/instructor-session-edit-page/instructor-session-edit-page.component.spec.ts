@@ -735,7 +735,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
     expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
-    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2View);
+    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2View.course);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/instructor/sessions/edit',
