@@ -1624,6 +1624,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
             >
             </div>
             <tm-no-recipients-warning>
+              <div
+                class="alert alert-warning"
+                role="alert"
+              >
+                <span>
+                  This question is for teams in this course and this course doesn't have any team. Therefore, you will not be able to answer this question.
+                </span>
+              </div>
             </tm-no-recipients-warning>
           </div>
         </div>
@@ -4607,6 +4615,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
             >
             </div>
             <tm-no-recipients-warning>
+              <div
+                class="alert alert-warning"
+                role="alert"
+              >
+                <span>
+                  This question is for teams in this course and this course doesn't have any team. Therefore, you will not be able to answer this question.
+                </span>
+              </div>
             </tm-no-recipients-warning>
           </div>
         </div>
