@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { PageComponent } from '../page.component';
+import { NavItem } from '../page.model';
 
 /**
  * Base skeleton for static pages.
@@ -18,7 +19,7 @@ export class StaticPageComponent implements OnInit {
   isStudent = false;
   isAdmin = false;
   isMaintainer = false;
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/front',
       display: 'Home',

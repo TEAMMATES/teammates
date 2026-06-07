@@ -10,7 +10,7 @@ export class SectionTypeDescriptionPipe implements PipeTransform {
   /**
    * Transforms a {@link InstructorSessionResultSectionType} to a description
    */
-  transform(sectionType: InstructorSessionResultSectionType): any {
+  transform(sectionType: InstructorSessionResultSectionType): string {
     return instructorSessionResultToDescription(sectionType);
   }
 }

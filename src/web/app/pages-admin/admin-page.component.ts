@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
 import { AuthInfo } from '../../types/api-output';
 import { PageComponent } from '../page.component';
+import { NavItem } from '../page.model';
 
 /**
  * Base skeleton for admin pages.
@@ -22,7 +23,7 @@ export class AdminPageComponent implements OnInit {
   isStudent = false;
   isAdmin = false;
   isMaintainer = false;
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/admin',
       display: 'Home',

@@ -4,6 +4,11 @@ import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
 import { PageComponent } from '../page.component';
 
+interface NavItem {
+  url: string;
+  display: string;
+}
+
 /**
  * Base skeleton for maintainer pages.
  */
@@ -20,7 +25,7 @@ export class MaintainerPageComponent implements OnInit {
   isStudent = false;
   isAdmin = false;
   isMaintainer = false;
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/maintainer',
       display: 'Home',

@@ -10,7 +10,7 @@ export class CommentVisibilityControlNamePipe implements PipeTransform {
   /**
    * Transforms {@code type} to a simple name.
    */
-  transform(type: CommentVisibilityControl): any {
+  transform(type: CommentVisibilityControl): string {
     switch (type) {
       case CommentVisibilityControl.SHOW_COMMENT:
         return 'Can see this comment';
@@ -31,7 +31,7 @@ export class CommentVisibilityTypeDescriptionPipe implements PipeTransform {
   /**
    * Transforms {@code type} to a detailed description.
    */
-  transform(type: CommentVisibilityType): any {
+  transform(type: CommentVisibilityType): string {
     switch (type) {
       case CommentVisibilityType.GIVER:
         return 'Control what response giver(s) can view';
@@ -59,7 +59,7 @@ export class CommentVisibilityTypeNamePipe implements PipeTransform {
   /**
    * Transforms {@code type} to a simple name.
    */
-  transform(type: CommentVisibilityType): any {
+  transform(type: CommentVisibilityType): string {
     switch (type) {
       case CommentVisibilityType.GIVER:
         return 'Response Giver(s)';
@@ -87,7 +87,7 @@ export class CommentVisibilityTypesJointNamePipe implements PipeTransform {
   /**
    * Transforms {@code types} to a joint name.
    */
-  transform(types: CommentVisibilityType[]): any {
+  transform(types: CommentVisibilityType[]): string {
     if (types.length === 0) {
       return 'nobody';
     }

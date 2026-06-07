@@ -357,11 +357,11 @@ describe('InstructorSessionsPageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-session');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-add-session');
     button.click();
     fixture.detectChanges();
 
-    const div: any = fixture.debugElement.nativeElement.querySelector('#add-session-section');
+    const div = fixture.debugElement.nativeElement.querySelector('#add-session-section');
     expect(div).toBeTruthy();
     expect(button.disabled).toBeTruthy();
   });

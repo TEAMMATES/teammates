@@ -137,7 +137,7 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#show-student-links');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#show-student-links');
     button.click();
     expect(component.students[0].showLinks).toEqual(true);
   });
@@ -166,7 +166,7 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual("The student's Google ID has been reset.");
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
+    const link: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
+    const link: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -284,7 +284,7 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual('success');
       });
 
-    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    const regenerateButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -358,7 +358,7 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    const regenerateButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -386,7 +386,7 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const sendButton: any = fixture.debugElement.nativeElement.querySelector('[data-testid="send-course-join-button"]');
+    const sendButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('[data-testid="send-course-join-button"]');
     sendButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -414,28 +414,28 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const sendAwaitingSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+    const sendAwaitingSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
       '[data-testid="send-awaiting-session-reminder-button"]',
     );
     sendAwaitingSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
 
-    const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+    const sendOpenSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
       '[data-testid="send-open-session-reminder-button"]',
     );
     sendOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
 
-    const sendNotOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+    const sendNotOpenSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
       '[data-testid="send-not-open-session-reminder-button"]',
     );
     sendNotOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
 
-    const sendPublishedSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+    const sendPublishedSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
       '[data-testid="send-published-session-reminder-button"]',
     );
     sendPublishedSessionReminderButton.click();

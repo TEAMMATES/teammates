@@ -10,13 +10,17 @@ import { SortBy, SortOrder } from '../types/sort-properties';
 import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
 
+type Spy<T> = {
+  [K in keyof T]: (...args: unknown[]) => unknown;
+};
+
 describe('InstructorCommentService', () => {
   const timezone = 'Asia/Singapore';
   const errorMessage = 'Something went wrong';
 
-  let spyResponseInstructorCommentService: any;
-  let spyStatusMessageService: any;
-  let spyTableComparatorService: any;
+  let spyResponseInstructorCommentService: Spy<ResponseInstructorCommentService>;
+  let spyStatusMessageService: Spy<StatusMessageService>;
+  let spyTableComparatorService: Spy<TableComparatorService>;
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({

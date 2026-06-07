@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
 import { PageComponent } from '../page.component';
+import { NavItem } from '../page.model';
 
 /**
  * Base skeleton for instructor pages.
@@ -20,7 +21,7 @@ export class InstructorPageComponent implements OnInit {
   isStudent = false;
   isAdmin = false;
   isMaintainer = false;
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/instructor',
       display: 'Home',

@@ -163,7 +163,7 @@ describe('InstructorHomePageComponent', () => {
     component.hasCoursesLoaded = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('.card-header');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.card-header');
     button.click();
     expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
     button.click();
@@ -190,10 +190,10 @@ describe('InstructorHomePageComponent', () => {
     );
     vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
-    const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
+    const courseButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const deleteButton: any = document.querySelector('body > div > div > .btn-delete-course');
-    deleteButton.click();
+    const deleteButton: HTMLElement | null = document.querySelector('body > div > div > .btn-delete-course');
+    deleteButton?.click();
 
     expect(component.courseTabModels.length).toEqual(1);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');

@@ -83,7 +83,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.searchString = 'test';
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
     button.click();
     expect(component.accountRequests[0].showLinks).toEqual(true);
   });
@@ -136,13 +136,13 @@ describe('AdminAccountSearchTableComponent', () => {
       }),
     );
 
-    const spyStatusMessageService: any = vi
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Account request successfully deleted.');
       });
 
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
     deleteButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -167,13 +167,13 @@ describe('AdminAccountSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: any = vi
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
     deleteButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -189,7 +189,7 @@ describe('AdminAccountSearchTableComponent', () => {
 
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    const viewCommentButton: any = fixture.debugElement.nativeElement.querySelector('#view-account-request-0');
+    const viewCommentButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-account-request-0');
     viewCommentButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(
@@ -212,7 +212,7 @@ describe('AdminAccountSearchTableComponent', () => {
 
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
@@ -234,7 +234,7 @@ describe('AdminAccountSearchTableComponent', () => {
 
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
+    const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
     fixture.detectChanges();
     expect(modalSpy).toHaveBeenCalledTimes(1);
@@ -281,13 +281,13 @@ describe('AdminAccountSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: any = vi
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const approveButton: any = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
+    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
     approveButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -352,7 +352,7 @@ describe('AdminAccountSearchTableComponent', () => {
 
     vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(editedAccountRequest));
 
-    const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
@@ -383,7 +383,7 @@ describe('AdminAccountSearchTableComponent', () => {
 
     vi.spyOn(accountService, 'approveAccountRequest').mockReturnValue(of(approvedRequest));
 
-    const approveButton: any = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
+    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
     approveButton.click();
 
     fixture.detectChanges();
@@ -409,7 +409,7 @@ describe('AdminAccountSearchTableComponent', () => {
 
     vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
 
-    const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
+    const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
     rejectButton.click();
 
     fixture.detectChanges();
