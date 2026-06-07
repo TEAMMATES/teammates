@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * The API output format of a course view.
  */
@@ -15,6 +17,7 @@ public class CourseViewData implements ApiOutput {
         this.course = course;
     }
 
+    @JsonCreator
     public CourseViewData(CourseData course, @Nullable InstructorCoursePermissionsData instructorPermissions) {
         this.course = course;
         this.instructorPermissions = instructorPermissions;

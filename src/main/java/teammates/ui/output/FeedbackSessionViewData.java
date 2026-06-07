@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import jakarta.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * The API output format of a feedback session view.
  */
@@ -15,6 +17,7 @@ public class FeedbackSessionViewData implements ApiOutput {
         this.feedbackSession = feedbackSession;
     }
 
+    @JsonCreator
     public FeedbackSessionViewData(FeedbackSessionData feedbackSession,
             @Nullable InstructorFeedbackSessionPermissionsData instructorPermissions) {
         this.feedbackSession = feedbackSession;
