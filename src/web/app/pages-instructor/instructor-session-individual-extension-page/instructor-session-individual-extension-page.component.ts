@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
@@ -118,10 +118,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
-      this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
-      this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
+      this.isAllYetToSubmitInstructorsSelected = queryParams['preselectnonsubmitters'] === 'true';
+      this.isAllYetToSubmitStudentsSelected = queryParams['preselectnonsubmitters'] === 'true';
       this.loadFeedbackSessionAndIndividuals();
     });
   }

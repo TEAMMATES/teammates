@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { finalize } from 'rxjs/operators';
@@ -69,7 +68,6 @@ interface StudentSession {
   providers: [FormatDateDetailPipe],
 })
 export class StudentHomePageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
   private statusMessageService = inject(StatusMessageService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
@@ -107,9 +105,7 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(() => {
-      this.loadStudentCourses();
-    });
+    this.loadStudentCourses();
   }
 
   /**

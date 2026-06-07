@@ -1,7 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -168,16 +168,16 @@ export class SessionSubmissionPageComponent implements OnInit {
         }),
         switchMap(() => this.route.queryParams),
       )
-      .subscribe((queryParams: any) => {
-        this.feedbackSessionId = queryParams.fsid;
-        this.regKey = queryParams.key ? queryParams.key : '';
-        this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
-        this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
-        if (queryParams.entitytype === 'instructor') {
+      .subscribe((queryParams: Params) => {
+        this.feedbackSessionId = queryParams['fsid'];
+        this.regKey = queryParams['key'] ? queryParams['key'] : '';
+        this.moderatedPerson = queryParams['moderatedperson'] ? queryParams['moderatedperson'] : '';
+        this.previewAsPerson = queryParams['previewas'] ? queryParams['previewas'] : '';
+        if (queryParams['entitytype'] === 'instructor') {
           this.entityType = 'instructor';
           this.intent = Intent.INSTRUCTOR_SUBMISSION;
         }
-        this.moderatedQuestionId = queryParams.moderatedquestionId ? queryParams.moderatedquestionId : '';
+        this.moderatedQuestionId = queryParams['moderatedquestionId'] ? queryParams['moderatedquestionId'] : '';
 
         if (this.previewAsPerson) {
           // disable submission in the preview mode

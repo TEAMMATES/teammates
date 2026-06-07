@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -96,8 +96,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   studentSortOrder: SortOrder = SortOrder.ASC;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.loadCourseDetails(queryParams.courseid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.loadCourseDetails(queryParams['courseid']);
     });
   }
 

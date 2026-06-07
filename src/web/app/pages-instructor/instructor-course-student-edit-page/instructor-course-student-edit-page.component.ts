@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -87,10 +87,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       return;
     }
 
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.studentId = queryParams.userid;
-      this.loadStudentEditDetails(queryParams.courseid, queryParams.userid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
+      this.studentId = queryParams['userid'];
+      this.loadStudentEditDetails(queryParams['courseid'], queryParams['userid']);
     });
   }
 

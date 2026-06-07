@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
@@ -42,7 +42,7 @@ export class UserJoinPageComponent implements OnInit {
   private backendUrl: string = environment.backendUrl;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams) => {
+    this.route.queryParams.subscribe((queryParams: Params) => {
       this.entityType = queryParams['entitytype'];
       this.key = queryParams['key'];
       this.isCreatingAccount = queryParams['iscreatingaccount'] === 'true';

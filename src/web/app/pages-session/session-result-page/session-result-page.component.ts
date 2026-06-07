@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
@@ -123,11 +123,11 @@ export class SessionResultPageComponent implements OnInit {
         }),
         switchMap(() => this.route.queryParams),
       )
-      .subscribe((queryParams: any) => {
-        this.feedbackSessionId = queryParams.fsid;
-        this.regKey = queryParams.key || '';
-        this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
-        if (queryParams.entitytype === 'instructor') {
+      .subscribe((queryParams: Params) => {
+        this.feedbackSessionId = queryParams['fsid'];
+        this.regKey = queryParams['key'] || '';
+        this.previewAsPerson = queryParams['previewas'] ? queryParams['previewas'] : '';
+        if (queryParams['entitytype'] === 'instructor') {
           this.entityType = 'instructor';
           this.intent = Intent.INSTRUCTOR_RESULT;
         }

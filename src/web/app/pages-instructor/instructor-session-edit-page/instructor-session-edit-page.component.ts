@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap } from 'rxjs/operators';
@@ -176,9 +176,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
-      this.isEditingMode = queryParams.editingMode === 'true';
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
+      this.isEditingMode = queryParams['editingMode'] === 'true';
 
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();

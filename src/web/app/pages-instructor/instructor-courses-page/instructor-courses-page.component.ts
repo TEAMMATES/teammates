@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
@@ -137,9 +137,9 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      if (queryParams.isAddNewCourse) {
-        this.isAddNewCourseFormExpanded = queryParams.isAddNewCourse;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      if (queryParams['isAddNewCourse']) {
+        this.isAddNewCourseFormExpanded = queryParams['isAddNewCourse'];
       }
       this.loadInstructorCourses();
     });

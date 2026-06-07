@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
@@ -119,8 +119,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     };
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
     });
 
     this.isSessionEditFormExpanded = !!this.courseId;

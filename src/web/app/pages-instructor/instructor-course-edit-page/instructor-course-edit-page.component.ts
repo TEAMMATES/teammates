@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -141,8 +141,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
 
       this.loadCourseInfo();
       this.loadCurrInstructorInfo();

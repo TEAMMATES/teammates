@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { Observable, of } from 'rxjs';
@@ -179,8 +179,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
       this.loadFeedbackSessionResults(this.feedbackSessionId);
     });
   }

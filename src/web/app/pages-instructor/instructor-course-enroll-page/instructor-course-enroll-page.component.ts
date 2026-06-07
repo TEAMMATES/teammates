@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { type CellValue } from 'handsontable/common';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
@@ -103,9 +103,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.getCourseEnrollPageData(queryParams.courseid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
+      this.getCourseEnrollPageData(queryParams['courseid']);
     });
   }
 
