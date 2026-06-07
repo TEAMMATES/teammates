@@ -57,7 +57,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
       ],
     ]);
 
-    const panels = (component as any).populateEnrollResultPanelList(
+    const panels = component.populateEnrollResultPanelList(
       [existingStudent],
       [enrolledStudent],
       enrollRequests,
@@ -92,7 +92,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
       ],
     ]);
 
-    (component as any).checkEmailNotRepeated(enrollRequests);
+    component.checkEmailNotRepeated(enrollRequests);
 
     expect(component.invalidRowsIndex).toEqual(new Set([0, 1]));
   });

@@ -160,12 +160,12 @@ describe('UserJoinPageComponent', () => {
     component.entityType = entityType;
     component.validUrl = true;
 
-    const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
+    const courseSpy = vi.spyOn(courseService, 'joinCourse');
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
+    const btn = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -304,7 +304,7 @@ describe('UserJoinPageComponent creating account', () => {
 
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
+    const btn = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
     expect(courseSpy).toHaveBeenCalledTimes(1);

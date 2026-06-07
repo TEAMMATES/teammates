@@ -115,7 +115,7 @@ describe('InstructorCourseEditPageComponent', () => {
     component.courseFormModel.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-course');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-cancel-course');
     button.click();
 
     expect(component.courseFormModel.isEditing).toBeFalsy();
@@ -142,7 +142,7 @@ describe('InstructorCourseEditPageComponent', () => {
       }),
     );
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
     button.click();
 
     expect(component.courseFormModel.isEditing).toBeFalsy();
@@ -177,7 +177,7 @@ describe('InstructorCourseEditPageComponent', () => {
       }),
     );
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-instructor-1');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-save-instructor-1');
     button.click();
 
     expect(component.instructorDetailPanels[0].editPanel.isEditing).toBeFalsy();
@@ -218,7 +218,7 @@ describe('InstructorCourseEditPageComponent', () => {
     component.newInstructorPanel.isEditing = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector(
+    const button = fixture.debugElement.nativeElement.querySelector(
       `#btn-cancel-instructor-${component.instructorDetailPanels.length + 1}`,
     );
     button.click();
@@ -260,7 +260,7 @@ describe('InstructorCourseEditPageComponent', () => {
     component.newInstructorPanel.isEditing = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector(
+    const button = fixture.debugElement.nativeElement.querySelector(
       `#btn-save-instructor-${component.instructorDetailPanels.length + 1}`,
     );
     button.click();
@@ -273,7 +273,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-order if instructor is deleted', async () => {
-    vi.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
+    vi.spyOn(instructorService, 'deleteInstructor');
 
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
@@ -332,7 +332,7 @@ describe('InstructorCourseEditPageComponent', () => {
     ];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector(
+    const button = fixture.debugElement.nativeElement.querySelector(
       `#btn-resend-invite-${component.instructorDetailPanels.length}`,
     );
     button.click();

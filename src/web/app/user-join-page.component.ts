@@ -99,7 +99,7 @@ export class UserJoinPageComponent implements OnInit {
         const errorMessage = resp.error.message;
 
         if (resp.status >= 500) {
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          const modalRef = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
           modalRef.componentInstance.errorMessage = errorMessage;
         } else {

@@ -31,7 +31,7 @@ function setCaptchaState(
 ): void {
   component.captchaLoaded = state.loaded;
   component.captchaError = state.error;
-  (component as any).captchaSiteKey = 'fake-key';
+  component.captchaSiteKey = 'fake-key';
 }
 
 describe('SessionLinksRecoveryPageComponent', () => {

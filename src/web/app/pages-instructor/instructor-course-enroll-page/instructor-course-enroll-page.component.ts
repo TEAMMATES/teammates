@@ -347,7 +347,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
   }
 
-  private checkEmailNotRepeated(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+  checkEmailNotRepeated(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     const emailMap: Map<string, number> = new Map();
     const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
 
@@ -392,7 +392,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.newStudentsGrid().styleRows(rowIdxToClass);
   }
 
-  private populateEnrollResultPanelList(
+  populateEnrollResultPanelList(
     existingStudents: Student[],
     enrolledStudents: Student[],
     enrollRequests: Map<number, StudentEnrollRequest>,

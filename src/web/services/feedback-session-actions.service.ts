@@ -42,7 +42,6 @@ export class FeedbackSessionActionsService {
     },
   ): void {
     const filename = `${courseId}_${feedbackSessionName}_result.csv`;
-    let blob: any;
     let downloadAborted = false;
     const outputData: string[] = [];
     const modalContent = 'Downloading the results of your feedback session...';
@@ -54,8 +53,7 @@ export class FeedbackSessionActionsService {
     loadingModal.result.then(() => {
       downloadAborted = true;
     });
-    outputData.push(`Course,${courseId}\n`);
-    outputData.push(`Session Name,${feedbackSessionName}\n`);
+    outputData.push(`Course,${courseId}\n`, `Session Name,${feedbackSessionName}\n`);
 
     concat(
       ...questions.map((question: FeedbackQuestion) =>
@@ -86,7 +84,7 @@ export class FeedbackSessionActionsService {
           if (downloadAborted) {
             return;
           }
-          blob = new Blob(outputData, { type: 'text/csv' });
+          const blob = new Blob(outputData, { type: 'text/csv' });
           this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {

@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
+import { Instructor, InstructorPrivilege, Instructors, MessageOutput } from '../types/api-output';
 import { InstructorCreateRequest, InstructorUpdateRequest, Intent } from '../types/api-request';
 
 /**
@@ -78,7 +78,7 @@ export class InstructorService {
   /**
    * Deletes an instructor by calling API.
    */
-  deleteInstructor(queryParams: { userId: string }): Observable<any> {
+  deleteInstructor(queryParams: { userId: string }): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       userid: queryParams.userId,
     };

@@ -528,7 +528,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.questionEditFormModels = [testQuestionEditFormModel1, testQuestionEditFormModel2];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
     button.click();
 
     expect(component.questionEditFormModels[0].isCollapsed).toBe(true);
@@ -542,7 +542,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.isLoadingFeedbackQuestions = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
     button.click();
 
     expect(component.questionEditFormModels[0].isCollapsed).toBe(false);

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Data, Params } from '@angular/router';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import { InstructorHelpGeneralSectionComponent } from './instructor-help-general-section/instructor-help-general-section.component';
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section/instructor-help-questions-section.component';
@@ -57,8 +57,8 @@ export class InstructorHelpPageComponent implements AfterViewInit {
     while (r.firstChild) {
       r = r.firstChild;
     }
-    r.data.subscribe((resp: any) => {
-      this.instructorGettingStartedPath = resp.instructorGettingStartedPath;
+    r.data.subscribe((resp: Data) => {
+      this.instructorGettingStartedPath = resp['instructorGettingStartedPath'];
     });
   }
 

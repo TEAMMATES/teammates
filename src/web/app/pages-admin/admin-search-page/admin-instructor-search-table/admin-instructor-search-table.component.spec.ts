@@ -139,7 +139,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#show-instructor-links');
+    const button = fixture.debugElement.nativeElement.querySelector('#show-instructor-links');
     button.click();
     expect(component.instructors[0].showLinks).toEqual(true);
   });
@@ -184,7 +184,7 @@ describe('AdminInstructorSearchTableComponent', () => {
         expect(args).toEqual("The instructor's Google ID has been reset.");
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
+    const link = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -233,7 +233,7 @@ describe('AdminInstructorSearchTableComponent', () => {
         expect(args).toEqual('This is the error message');
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
+    const link = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -247,15 +247,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
@@ -270,7 +262,7 @@ describe('AdminInstructorSearchTableComponent', () => {
         expect(args).toEqual('success');
       });
 
-    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
+    const regenerateButton = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -286,15 +278,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       throwError(() => ({
@@ -310,7 +294,7 @@ describe('AdminInstructorSearchTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
+    const regenerateButton = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();

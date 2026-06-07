@@ -776,8 +776,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(fixture).toMatchSnapshot();
 
-    const instructorOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
-    const instructorTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
+    const instructorOneCheckBox = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
+    const instructorTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();

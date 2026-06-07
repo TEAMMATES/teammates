@@ -1,5 +1,5 @@
 import { InstructorPermissionRole } from '../../types/api-output';
-export function instructorRoleToName(role: InstructorPermissionRole): any {
+export function instructorRoleToName(role: InstructorPermissionRole): string {
   switch (role) {
     case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
       return 'Co-owner';

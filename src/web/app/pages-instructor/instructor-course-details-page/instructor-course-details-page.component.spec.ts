@@ -180,7 +180,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
 
-    const deleteAllButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-all');
+    const deleteAllButton = fixture.debugElement.nativeElement.querySelector('#btn-delete-all');
     deleteAllButton.click();
     fixture.detectChanges();
 
