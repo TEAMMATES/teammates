@@ -20,6 +20,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionStats,
   FeedbackSessionSubmissionStatus,
+  FeedbackSessionView,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../types/api-output';
@@ -111,7 +112,7 @@ export abstract class InstructorSessionBasePageComponent {
     newSessionName: string,
     newCourseId: string,
     oldCourseId: string,
-  ): Observable<FeedbackSession> {
+  ): Observable<FeedbackSessionView> {
     // Local constants
     const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
     const endHour = moment(fromFeedbackSession.submissionEndTimestamp).tz(fromFeedbackSession.timeZone).hours();
@@ -365,8 +366,8 @@ export abstract class InstructorSessionBasePageComponent {
   createSessionCopyRequestsFromRowModel(
     model: SessionsTableRowModel,
     result: CopySessionResult,
-  ): Observable<FeedbackSession>[] {
-    const copySessionRequests: Observable<FeedbackSession>[] = [];
+  ): Observable<FeedbackSessionView>[] {
+    const copySessionRequests: Observable<FeedbackSessionView>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
         this.copyFeedbackSession(
@@ -395,8 +396,8 @@ export abstract class InstructorSessionBasePageComponent {
   createSessionCopyRequestsFromModal(
     result: CopySessionModalResult,
     feedbackSessionId: string,
-  ): Observable<FeedbackSession>[] {
-    const copySessionRequests: Observable<FeedbackSession>[] = [];
+  ): Observable<FeedbackSessionView>[] {
+    const copySessionRequests: Observable<FeedbackSessionView>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
         this.feedbackSessionsService
@@ -405,9 +406,9 @@ export abstract class InstructorSessionBasePageComponent {
             intent: Intent.FULL_DETAIL,
           })
           .pipe(
-            switchMap((feedbackSession: FeedbackSession) =>
+            switchMap((feedbackSessionView: FeedbackSessionView) =>
               this.copyFeedbackSession(
-                feedbackSession,
+                feedbackSessionView.feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
                 result.sessionToCopyCourseId,
@@ -426,9 +427,12 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<any>): void {
+  copySingleSession(
+    copySessionRequest: Observable<FeedbackSessionView>,
+    modifiedTimestampsModal: TemplateRef<any>,
+  ): void {
     copySessionRequest.subscribe({
-      next: (createdSession: FeedbackSession) => {
+      next: (createdSession: FeedbackSessionView) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
           this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
         } else if (this.coursesOfModifiedSession.length > 0) {
@@ -439,7 +443,7 @@ export abstract class InstructorSessionBasePageComponent {
             {
               onClosed: () =>
                 this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                  fsid: createdSession.feedbackSessionId,
+                  fsid: createdSession.feedbackSession.feedbackSessionId,
                 }),
             },
           );
@@ -448,7 +452,7 @@ export abstract class InstructorSessionBasePageComponent {
             '/web/instructor/sessions/edit',
             'The feedback session has been copied. Please modify settings/questions as necessary.',
             {
-              fsid: createdSession.feedbackSessionId,
+              fsid: createdSession.feedbackSession.feedbackSessionId,
             },
           );
         }
@@ -545,8 +549,8 @@ export abstract class InstructorSessionBasePageComponent {
         }),
       )
       .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
-          model.feedbackSession = feedbackSession;
+        next: (feedbackSessionView: FeedbackSessionView) => {
+          model.feedbackSession = feedbackSessionView.feedbackSession;
           model.responseRate = '';
 
           rowData[colIdx].customComponent!.componentData = () => {
@@ -601,8 +605,8 @@ export abstract class InstructorSessionBasePageComponent {
         }),
       )
       .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
-          model.feedbackSession = feedbackSession;
+        next: (feedbackSessionView: FeedbackSessionView) => {
+          model.feedbackSession = feedbackSessionView.feedbackSession;
           model.responseRate = '';
 
           rowData[responseColIdx].customComponent!.componentData = () => {

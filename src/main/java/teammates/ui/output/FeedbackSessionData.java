@@ -7,7 +7,6 @@ import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 
@@ -50,8 +49,6 @@ public class FeedbackSessionData implements ApiOutput {
     private long createdAtTimestamp;
     @Nullable
     private final Long deletedAtTimestamp;
-    @Nullable
-    private InstructorPermissionSet privileges;
 
     @JsonCreator
     private FeedbackSessionData(UUID feedbackSessionId, String courseId, String timeZone,
@@ -281,14 +278,6 @@ public class FeedbackSessionData implements ApiOutput {
 
     public Long getDeletedAtTimestamp() {
         return deletedAtTimestamp;
-    }
-
-    public InstructorPermissionSet getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(InstructorPermissionSet privileges) {
-        this.privileges = privileges;
     }
 
     /**

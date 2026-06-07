@@ -12,6 +12,7 @@ import {
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionPublishStatus,
+  FeedbackSessionView,
   FeedbackSessions,
   FeedbackSessionStats,
   FeedbackSessionSubmittedGiverSet,
@@ -68,7 +69,7 @@ export class FeedbackSessionsService {
     key?: string;
     moderatedPerson?: string;
     previewAs?: string;
-  }): Observable<FeedbackSession> {
+  }): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
       fsid: queryParams.feedbackSessionId,
@@ -122,7 +123,7 @@ export class FeedbackSessionsService {
   /**
    * Creates a feedback session by calling API.
    */
-  createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSession> {
+  createFeedbackSession(courseId: string, request: FeedbackSessionCreateRequest): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = { courseid: courseId };
     return this.httpRequestService.post(ResourceEndpoints.SESSION, paramMap, request);
   }
@@ -130,7 +131,10 @@ export class FeedbackSessionsService {
   /**
    * Updates a feedback session by calling API.
    */
-  updateFeedbackSession(feedbackSessionId: string, request: FeedbackSessionUpdateRequest): Observable<FeedbackSession> {
+  updateFeedbackSession(
+    feedbackSessionId: string,
+    request: FeedbackSessionUpdateRequest,
+  ): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -331,7 +335,7 @@ export class FeedbackSessionsService {
   /**
    * publishes a feedback session.
    */
-  publishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
+  publishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -342,7 +346,7 @@ export class FeedbackSessionsService {
   /**
    * Unpublishes a feedback session.
    */
-  unpublishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
+  unpublishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -459,7 +463,7 @@ export class FeedbackSessionsService {
   /**
    * Soft delete a session by moving it to the recycle bin.
    */
-  moveSessionToRecycleBin(feedbackSessionId: string): Observable<any> {
+  moveSessionToRecycleBin(feedbackSessionId: string): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -470,7 +474,7 @@ export class FeedbackSessionsService {
   /**
    * Restores a session from the recycle bin.
    */
-  restoreSessionFromRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
+  restoreSessionFromRecycleBin(feedbackSessionId: string): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };

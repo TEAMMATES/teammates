@@ -5,9 +5,12 @@ import java.util.UUID;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
+import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 
 /**
  * Move the feedback session to the recycle bin.
@@ -37,9 +40,29 @@ public class BinFeedbackSessionAction extends Action {
 
         try {
             FeedbackSession fs = logic.moveFeedbackSessionToRecycleBin(feedbackSessionId);
-            return new JsonResult(new FeedbackSessionData(fs));
+            FeedbackSessionViewData output = new FeedbackSessionViewData(new FeedbackSessionData(fs));
+            Instructor instructor = getInstructorFromRequest(fs.getCourseId());
+            if (instructor != null) {
+                output.setInstructorPermissions(getPermissions(fs, instructor));
+            }
+            return new JsonResult(output);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
+    }
+
+    private InstructorFeedbackSessionPermissionsData getPermissions(FeedbackSession fs, Instructor instructor) {
+        boolean canModifySession =
+                logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, fs.getName(),
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+        boolean canViewSessionInSections = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, fs.getName(),
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+        return new InstructorFeedbackSessionPermissionsData(canModifySession,
+                canSubmitSessionInSections, canViewSessionInSections);
     }
 }

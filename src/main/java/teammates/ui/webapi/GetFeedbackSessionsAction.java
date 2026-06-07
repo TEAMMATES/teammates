@@ -8,14 +8,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
+import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 
 /**
  * Get a list of feedback sessions.
@@ -107,24 +107,37 @@ public class GetFeedbackSessionsAction extends Action {
             }
             responseData = new FeedbackSessionsData(sessionToDeadline);
             responseData.getFeedbackSessions().forEach(session -> {
-                Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-                if (instructor == null) {
-                    return;
-                }
-
-                InstructorPermissionSet privilege =
-                        constructInstructorPrivileges(instructor, session.getFeedbackSessionName());
-                session.setPrivileges(privilege);
+                var permissionsData = getPermissionsData(courseIdToInstructor, session);
+                session.setInstructorPermissions(permissionsData);
             });
         } else if (Const.EntityType.STUDENT.equals(entityType)) {
             // hide sessions not visible to student
             sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
             responseData = new FeedbackSessionsData(sessionToDeadline);
-            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformation);
+            responseData.getFeedbackSessions().forEach(session -> session.getFeedbackSession().hideInformation());
         } else {
             responseData = new FeedbackSessionsData(feedbackSessions);
         }
 
         return new JsonResult(responseData);
+    }
+
+    private InstructorFeedbackSessionPermissionsData getPermissionsData(Map<String, Instructor> courseIdToInstructor,
+            FeedbackSessionViewData session) {
+        Instructor instructor = courseIdToInstructor.get(session.getFeedbackSession().getCourseId());
+        assert instructor != null;
+        String sessionName = session.getFeedbackSession().getFeedbackSessionName();
+        boolean canModifySession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionName,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+        boolean canViewSessionInSections = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionName,
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+        return new InstructorFeedbackSessionPermissionsData(canModifySession,
+                canSubmitSessionInSections, canViewSessionInSections);
     }
 }

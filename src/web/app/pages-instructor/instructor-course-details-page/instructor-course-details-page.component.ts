@@ -11,6 +11,7 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
+  CourseView,
   Instructor,
   InstructorPermissionSet,
   InstructorPrivilege,
@@ -114,8 +115,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   private loadCourseName(courseid: string): void {
     this.courseService.getCourseAsInstructor(courseid).subscribe({
-      next: (course: Course) => {
-        this.courseDetails.course = course;
+      next: (courseView: CourseView) => {
+        this.courseDetails.course = courseView.course;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);

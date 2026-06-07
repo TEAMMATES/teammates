@@ -28,10 +28,12 @@ import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
   Course,
+  CourseView,
   Courses,
-  FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessions,
   Instructor,
+  InstructorCoursePermissions,
   InstructorPermissionRole,
   InstructorPermissionSet,
   InstructorPrivilege,
@@ -108,15 +110,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   courseId = '';
   currInstructorGoogleId = '';
-  currInstructorCoursePrivilege: InstructorPermissionSet = {
-    canModifyCourse: true,
-    canModifySession: true,
-    canModifyStudent: true,
-    canModifyInstructor: true,
-    canViewStudentInSections: true,
-    canModifySessionCommentsInSections: true,
-    canViewSessionInSections: true,
-    canSubmitSessionInSections: true,
+  currInstructorCoursePrivilege: InstructorCoursePermissions = {
+    canModifyCourse: false,
+    canModifyStudent: false,
+    canModifyInstructor: false,
   };
 
   instructorDetailPanels: InstructorEditPanelDetail[] = [];
@@ -163,7 +160,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
 
         this.allSections = Array.from(new Set(students.students.map((value: Student) => value.sectionName)));
-        this.allSessions = sessions.feedbackSessions.map((session: FeedbackSession) => session.feedbackSessionName);
+        this.allSessions = sessions.feedbackSessions.map(
+          (sessionView: FeedbackSessionView) => sessionView.feedbackSession.feedbackSessionName,
+        );
 
         this.loadCourseInstructors();
       });
@@ -184,10 +183,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (resp: Course) => {
-          this.courseFormModel.course = resp;
-          this.courseFormModel.originalCourse = { ...resp };
-          this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
+        next: (resp: CourseView) => {
+          this.courseFormModel.course = resp.course;
+          this.courseFormModel.originalCourse = { ...resp.course };
+          this.currInstructorCoursePrivilege = resp.instructorPermissions || {
+            canModifyCourse: false,
+            canModifyStudent: false,
+            canModifyInstructor: false,
+          };
           this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
         },
         error: (resp: ErrorMessageOutput) => {
@@ -216,10 +219,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteCourse(): void {
     this.courseService.binCourse(this.courseId).subscribe({
-      next: (course: Course) => {
+      next: (course: CourseView) => {
         this.navigationService.navigateWithSuccessMessage(
           '/web/instructor/courses',
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
+          `The course ${course.course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
         );
       },
       error: (resp: ErrorMessageOutput) => {
@@ -244,11 +247,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (resp: Course) => {
+        next: (resp: CourseView) => {
           this.statusMessageService.showSuccessToast('The course has been edited.');
           this.courseFormModel.isEditing = false;
-          this.courseFormModel.course = resp;
-          this.courseFormModel.originalCourse = { ...resp };
+          this.courseFormModel.course = resp.course;
+          this.courseFormModel.originalCourse = { ...resp.course };
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -717,7 +720,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
       next: (values: Courses[]) => {
         const activeCourses: Courses = values[0];
 
-        activeCourses.courses.forEach((course: Course) => {
+        activeCourses.courses.forEach((courseView: CourseView) => {
+          const course: Course = courseView.course;
           if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
             const model: CourseTabModel = this.getDefaultCourseTab({
               courseId: course.courseId,

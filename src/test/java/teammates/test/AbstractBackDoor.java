@@ -37,12 +37,14 @@ import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -287,7 +289,8 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        return JsonUtils.fromJson(response.responseBody, CourseData.class);
+        CourseViewData courseViewData = JsonUtils.fromJson(response.responseBody, CourseViewData.class);
+        return courseViewData == null ? null : courseViewData.getCourse();
     }
 
     /**
@@ -355,7 +358,9 @@ public abstract class AbstractBackDoor {
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
-        return JsonUtils.fromJson(response.responseBody, FeedbackSessionData.class);
+        FeedbackSessionViewData feedbackSessionViewData = JsonUtils.fromJson(response.responseBody,
+                FeedbackSessionViewData.class);
+        return feedbackSessionViewData == null ? null : feedbackSessionViewData.getFeedbackSession();
     }
 
     /**
@@ -370,7 +375,9 @@ public abstract class AbstractBackDoor {
             return Collections.emptyList();
         }
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
-        return sessionsData.getFeedbackSessions();
+        return sessionsData.getFeedbackSessions().stream()
+                .map(FeedbackSessionViewData::getFeedbackSession)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -389,6 +396,7 @@ public abstract class AbstractBackDoor {
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
         return sessionsData.getFeedbackSessions()
                 .stream()
+                .map(FeedbackSessionViewData::getFeedbackSession)
                 .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
                 .findFirst()
                 .orElse(null);

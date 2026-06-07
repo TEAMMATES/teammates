@@ -1,10 +1,7 @@
 package teammates.ui.output;
 
-import jakarta.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.storage.entity.Course;
 
 /**
@@ -18,8 +15,6 @@ public class CourseData implements ApiOutput {
     private final String institute;
     private long creationTimestamp;
     private long deletionTimestamp;
-    @Nullable
-    private InstructorPermissionSet privileges;
 
     @JsonCreator
     private CourseData(String courseId, String courseName, String timeZone, String institute) {
@@ -64,20 +59,12 @@ public class CourseData implements ApiOutput {
         return deletionTimestamp;
     }
 
-    public InstructorPermissionSet getPrivileges() {
-        return privileges;
-    }
-
     public void setCreationTimestamp(long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
     }
 
     public void setDeletionTimestamp(long deletionTimestamp) {
         this.deletionTimestamp = deletionTimestamp;
-    }
-
-    public void setPrivileges(InstructorPermissionSet privileges) {
-        this.privileges = privileges;
     }
 
     /**

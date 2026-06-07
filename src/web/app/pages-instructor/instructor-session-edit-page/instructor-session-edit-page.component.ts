@@ -14,6 +14,7 @@ import { StudentService } from '../../../services/student.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
+  CourseView,
   Courses,
   DeadlineExtensions,
   FeedbackQuestion,
@@ -21,6 +22,7 @@ import {
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessions,
+  FeedbackSessionView,
   FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   Instructor,
@@ -195,7 +197,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         intent: Intent.FULL_DETAIL,
       })
       .pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
+        switchMap((feedbackSessionView: FeedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.courseId = feedbackSession.courseId;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
 
@@ -205,9 +208,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.getAllStudentsOfCourse(),
             this.getAllInstructors(),
           ]).pipe(
-            map(([course, deadlineExtensions]: [Course, DeadlineExtensions, Student[], Instructor[]]) => ({
+            map(([courseView, deadlineExtensions]: [CourseView, DeadlineExtensions, Student[], Instructor[]]) => ({
               feedbackSession,
-              course,
+              course: courseView.course,
               deadlineExtensions,
             })),
           );
@@ -260,7 +263,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           modalRef.result
             .then(
               (result: CopySessionModalResult) => {
-                const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
+                const requestList: Observable<FeedbackSessionView>[] = this.createSessionCopyRequestsFromModal(
                   result,
                   this.feedbackSessionId,
                 );
@@ -454,8 +457,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }),
       )
       .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
-          this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+        next: (feedbackSessionView: FeedbackSessionView) => {
+          this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSessionView.feedbackSession);
 
           this.statusMessageService.showSuccessToast('The feedback session has been updated.');
         },
@@ -1092,7 +1095,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       )
       .subscribe({
         next: (response: FeedbackSessions) => {
-          response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+          response.feedbackSessions.forEach((feedbackSessionView: FeedbackSessionView) => {
+            const feedbackSession = feedbackSessionView.feedbackSession;
             const model: FeedbackSessionTabModel = {
               feedbackSessionId: feedbackSession.feedbackSessionId,
               courseId: feedbackSession.courseId,

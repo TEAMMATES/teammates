@@ -15,7 +15,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
-  Course,
+  CourseView,
   DeadlineExtensions,
   FeedbackSession,
   FeedbackSessionSubmittedGiverSet,
@@ -142,7 +142,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         intent: Intent.FULL_DETAIL,
       })
       .pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
+        switchMap((feedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.courseId = feedbackSession.courseId;
           this.setFeedbackSessionDetails(feedbackSession);
@@ -159,8 +160,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         }),
       )
       .subscribe({
-        next: ([course, deadlineExtensions]: [Course, DeadlineExtensions]) => {
-          this.courseName = course.courseName;
+        next: ([courseView, deadlineExtensions]: [CourseView, DeadlineExtensions]) => {
+          this.courseName = courseView.course.courseName;
           this.userDeadlines = deadlineExtensions.userDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
