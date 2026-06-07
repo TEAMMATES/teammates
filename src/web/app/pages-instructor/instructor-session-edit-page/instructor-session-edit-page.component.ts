@@ -165,7 +165,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<void>;
 
   constructor() {
     super();

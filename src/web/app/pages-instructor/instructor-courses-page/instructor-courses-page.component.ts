@@ -128,7 +128,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<void>;
 
   constructor() {
     this.SortBy = SortBy;

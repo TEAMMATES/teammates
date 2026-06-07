@@ -104,7 +104,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   initialSortBy = SortBy.SESSION_END_DATE;
   sortOrder = SortOrder.DESC;
 
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<void>;
 
   constructor() {
     super();

@@ -181,14 +181,14 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   /**
    * Opens modal for contribution info.
    */
-  openContribInfoModal(modal: TemplateRef<any>): void {
+  openContribInfoModal(modal: TemplateRef<void>): void {
     this.simpleModalService.openInformationModal('Team contribution calculation', SimpleModalType.NEUTRAL, modal);
   }
 
   /**
    * Opens modal for rank info.
    */
-  openRankInfoModal(modal: TemplateRef<any>): void {
+  openRankInfoModal(modal: TemplateRef<void>): void {
     this.simpleModalService.openInformationModal('Rank calculation', SimpleModalType.NEUTRAL, modal);
   }
 }

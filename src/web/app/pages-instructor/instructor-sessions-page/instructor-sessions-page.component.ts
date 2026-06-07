@@ -100,7 +100,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed = false;
   hasFeedbackSessionLoadingFailed = false;
 
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<void>;
 
   constructor() {
     super();

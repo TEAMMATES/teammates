@@ -49,11 +49,11 @@ export class StatusMessageService {
   /**
    * Shows a success toast containing HTML on the page
    */
-  showSuccessToastTemplate(template: TemplateRef<any>, delay: number = Milliseconds.IN_TEN_SECONDS): void {
+  showSuccessToastTemplate(template: TemplateRef<void>, delay: number = Milliseconds.IN_TEN_SECONDS): void {
     this.showToastTemplate(template, 'bg-success text-light', delay);
   }
 
-  private showToastTemplate(template: TemplateRef<any>, classes: string, delay: number): void {
+  private showToastTemplate(template: TemplateRef<void>, classes: string, delay: number): void {
     this.toast.next({
       classes,
       delay,

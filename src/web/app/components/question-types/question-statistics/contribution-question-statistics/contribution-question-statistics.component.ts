@@ -144,7 +144,7 @@ export class ContributionQuestionStatisticsComponent implements OnChanges {
     });
   }
 
-  openHelpModal(modal: TemplateRef<any>): void {
+  openHelpModal(modal: TemplateRef<void>): void {
     this.simpleModalService.openInformationModal(
       'More info about contribution questions',
       SimpleModalType.NEUTRAL,

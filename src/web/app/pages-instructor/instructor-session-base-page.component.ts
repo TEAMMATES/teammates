@@ -427,7 +427,7 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<any>): void {
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<void>): void {
     copySessionRequest.subscribe({
       next: (createdSession: FeedbackSession) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
@@ -460,7 +460,7 @@ export abstract class InstructorSessionBasePageComponent {
     });
   }
 
-  showCopyStatusMessage(modifiedTimestampsModal: TemplateRef<any>): void {
+  showCopyStatusMessage(modifiedTimestampsModal: TemplateRef<void>): void {
     if (Object.keys(this.failedToCopySessions).length > 0) {
       this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
     } else if (this.coursesOfModifiedSession.length > 0) {
