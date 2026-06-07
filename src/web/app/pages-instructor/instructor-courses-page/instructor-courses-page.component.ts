@@ -50,7 +50,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface CourseModel {
+export interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
