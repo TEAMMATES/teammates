@@ -206,9 +206,7 @@ describe('CourseEditFormComponent', () => {
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);
     expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse1);
-    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse1.courseId]).toEqual([
-      testFeedbackSessionView,
-    ]);
+    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse1.courseId]).toEqual([testFeedbackSession]);
   });
 
   it('should handle errors in copyCourseHandler when promise is rejected', async () => {

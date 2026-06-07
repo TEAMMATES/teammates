@@ -125,7 +125,9 @@ public class GetFeedbackSessionsAction extends Action {
     private InstructorFeedbackSessionPermissionsData getPermissionsData(Map<String, Instructor> courseIdToInstructor,
             FeedbackSessionViewData session) {
         Instructor instructor = courseIdToInstructor.get(session.getFeedbackSession().getCourseId());
-        assert instructor != null;
+        if (instructor == null) {
+            return new InstructorFeedbackSessionPermissionsData(false, false, false);
+        }
         String sessionName = session.getFeedbackSession().getFeedbackSessionName();
         boolean canModifySession = logic.hasInstructorPermissions(instructor,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
