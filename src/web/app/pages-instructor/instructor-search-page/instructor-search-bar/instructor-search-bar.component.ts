@@ -24,7 +24,7 @@ export class InstructorSearchBarComponent {
     searchKey: '',
   };
 
-  @Output() searched: EventEmitter<any> = new EventEmitter();
+  @Output() searched: EventEmitter<void> = new EventEmitter();
 
   @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 

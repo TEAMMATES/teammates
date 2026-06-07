@@ -131,7 +131,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     QuestionsSectionQuestions.RANK_RECIPIENTS,
   ];
 
-  @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
+  @Output() collapsePeerEvalTips: EventEmitter<void> = new EventEmitter();
 
   constructor() {
     super();

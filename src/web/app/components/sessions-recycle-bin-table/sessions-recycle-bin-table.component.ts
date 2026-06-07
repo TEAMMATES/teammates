@@ -59,19 +59,19 @@ export class SessionsRecycleBinTableComponent {
   restoreSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
 
   @Output()
-  restoreAllRecycleBinFeedbackSessionEvent: EventEmitter<any> = new EventEmitter();
+  restoreAllRecycleBinFeedbackSessionEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
   permanentlyDeleteSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();
 
   @Output()
-  permanentDeleteAllSessionsEvent: EventEmitter<any> = new EventEmitter();
+  permanentDeleteAllSessionsEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
   sortRecycleBinFeedbackSessionRowsEvent: EventEmitter<SortBy> = new EventEmitter();
 
   @Output()
-  recycleBinExpandEvent: EventEmitter<any> = new EventEmitter<any>();
+  recycleBinExpandEvent: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {
     this.SortBy = SortBy;
