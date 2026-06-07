@@ -1,0 +1,98 @@
+import { FeedbackQuestionType, FeedbackRankOptionsResponseDetails } from '../../../../../types/api-output';
+import { Response } from '../../../../../types/question-statistics.model';
+
+export const rankOptionQuestionResponses = {
+  responses: [
+    {
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Alice',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'alice@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [1, 2, 3, 4],
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [4, 3, 2, 1],
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Charles',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'charles@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [2, 3, 1, 4],
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+      },
+    },
+  ] as Response<FeedbackRankOptionsResponseDetails>[],
+  responsesSameRank: [
+    {
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Alice',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'alice@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [1, 2, 3, 4],
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [4, 1, 2, 3],
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Charles',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'charles@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [2, 3, 1, 4],
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+      },
+    },
+  ] as Response<FeedbackRankOptionsResponseDetails>[],
+} satisfies {
+  responses: Response<FeedbackRankOptionsResponseDetails>[];
+  responsesSameRank: Response<FeedbackRankOptionsResponseDetails>[];
+};
+
+export default rankOptionQuestionResponses;
