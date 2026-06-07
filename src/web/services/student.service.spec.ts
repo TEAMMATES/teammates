@@ -6,7 +6,7 @@ import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, Students } from '../types/api-output';
+import { Course, CourseView, Students } from '../types/api-output';
 import { StudentUpdateRequest } from '../types/api-request';
 
 const defaultStudentUpdateRequest: StudentUpdateRequest = {
@@ -21,19 +21,22 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
 const studentCsvListTester: (
   courseId: string,
   service: StudentService,
-  spyCourseService: any,
+  spyCourseService: CourseService,
   testFn: (str: string) => void,
 ) => Promise<void> = async (
   courseId: string,
   service: StudentService,
-  spyCourseService: any,
+  spyCourseService: CourseService,
   testFn: (str: string) => void,
 ): Promise<void> => {
   const testDataModule = await import(`./test-data/${courseId}`);
   const testData = testDataModule.default ?? testDataModule;
   const course: Course = testData.course;
+  const courseView: CourseView = {
+    course,
+  };
   const students: Students = testData.students;
-  vi.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
+  vi.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(courseView));
   vi.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
   await new Promise<void>((resolve) => {
     service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => {
@@ -44,8 +47,8 @@ const studentCsvListTester: (
 };
 
 describe('StudentService', () => {
-  let spyHttpRequestService: any;
-  let spyCourseService: any;
+  let spyHttpRequestService: HttpRequestService;
+  let spyCourseService: CourseService;
   let service: StudentService;
 
   beforeEach(() => {

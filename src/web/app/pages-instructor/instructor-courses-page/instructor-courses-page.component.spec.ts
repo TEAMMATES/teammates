@@ -297,11 +297,11 @@ describe('InstructorCoursesPageComponent', () => {
       .spyOn(courseService, 'getAllCoursesAsInstructor')
       .mockImplementation((courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
-          return of({ courses: [courseCS1231, courseCS3281, courseCS3282] });
+          return of({ courses: [{ course: courseCS1231 }, { course: courseCS3281 }, { course: courseCS3282 }] } as any);
         }
 
         // softDeleted
-        return of({ courses: [courseST4234] });
+        return of({ courses: [{ course: courseST4234 }] } as any);
       });
 
     component.loadInstructorCourses();
@@ -357,7 +357,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
-    const courseSpy = vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
+    const courseSpy = vi.spyOn(courseService, 'binCourse').mockReturnValue(of({ course: courseCS1231 } as any));
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDelete('CS1231').then(() => {

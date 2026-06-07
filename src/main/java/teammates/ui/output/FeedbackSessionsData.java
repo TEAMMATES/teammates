@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -21,16 +22,15 @@ public class FeedbackSessionsData implements ApiOutput {
     }
 
     public FeedbackSessionsData(List<FeedbackSession> feedbackSessionList) {
-        this.feedbackSessions =
-                feedbackSessionList.stream()
-                        .map(session -> new FeedbackSessionViewData(new FeedbackSessionData(session)))
-                        .toList();
+        this.feedbackSessions = feedbackSessionList.stream()
+                .map(session -> new FeedbackSessionViewData(new FeedbackSessionData(session)))
+                .collect(Collectors.toList());
     }
 
     public FeedbackSessionsData(Map<FeedbackSession, Instant> feedbackSessionToDeadline) {
         this.feedbackSessions = feedbackSessionToDeadline.entrySet().stream()
                 .map(e -> new FeedbackSessionViewData(new FeedbackSessionData(e.getKey(), e.getValue())))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<FeedbackSessionViewData> getFeedbackSessions() {

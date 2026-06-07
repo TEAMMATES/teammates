@@ -22,7 +22,7 @@ import teammates.common.util.TimeHelperExtension;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -78,9 +78,9 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
 
-        assertEquals(feedbackSession.getId(), response.getFeedbackSessionId());
+        assertEquals(feedbackSession.getId(), response.getFeedbackSession().getFeedbackSessionId());
         verify(mockLogic, times(1)).updateFeedbackSession(eq(feedbackSession.getId()), any());
     }
 

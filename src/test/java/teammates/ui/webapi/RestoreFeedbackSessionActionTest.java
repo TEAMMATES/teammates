@@ -13,7 +13,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
 
 /**
  * SUT: {@link RestoreFeedbackSessionAction}.
@@ -60,9 +60,9 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
         RestoreFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        FeedbackSessionData output = (FeedbackSessionData) result.getOutput();
+        FeedbackSessionViewData output = (FeedbackSessionViewData) result.getOutput();
 
-        assertEquals(stubFeedbackSession.getId(), output.getFeedbackSessionId());
+        assertEquals(stubFeedbackSession.getId(), output.getFeedbackSession().getFeedbackSessionId());
     }
 
     @Test

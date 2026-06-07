@@ -10,6 +10,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
+  CourseView,
   Courses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -188,7 +189,8 @@ describe('InstructorHomePageComponent', () => {
         type: SimpleModalType.WARNING,
       }),
     );
-    vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
+    const courseToDeleteView: CourseView = { course: courseToDelete };
+    vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDeleteView));
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
@@ -202,7 +204,7 @@ describe('InstructorHomePageComponent', () => {
 
   it('should load courses of the current instructor', () => {
     const activeCourses: Courses = {
-      courses: [testCourse1, testCourse2],
+      courses: [{ course: testCourse1 }, { course: testCourse2 }],
     };
 
     vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
@@ -220,7 +222,7 @@ describe('InstructorHomePageComponent', () => {
 
   it('should load feedbackSessions in the course', () => {
     const courseSessions: FeedbackSessions = {
-      feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
+      feedbackSessions: [{ feedbackSession: testFeedbackSession1 }, { feedbackSession: testFeedbackSession2 }],
     };
 
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));

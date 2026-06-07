@@ -1,6 +1,7 @@
 package teammates.ui.output;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import teammates.storage.entity.Course;
 
@@ -14,7 +15,7 @@ public class CoursesData implements ApiOutput {
     public CoursesData(List<Course> coursesList) {
         this.courses = coursesList.stream()
                 .map(course -> new CourseViewData(new CourseData(course)))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<CourseViewData> getCourses() {

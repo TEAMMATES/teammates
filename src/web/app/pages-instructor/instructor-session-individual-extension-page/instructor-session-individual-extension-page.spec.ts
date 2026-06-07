@@ -14,8 +14,10 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseView,
   DeadlineExtensions,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
@@ -38,6 +40,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     deletionTimestamp: 1000,
   };
 
+  const testCourseView: CourseView = {
+    course: testCourse,
+  };
+
   const testFeedbackSession: FeedbackSession = {
     feedbackSessionId: '23901a20-48bb-4fcc-a3fb-0b2489b07886',
     courseId: 'testId1',
@@ -54,6 +60,10 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+  };
+
+  const testFeedbackSessionView: FeedbackSessionView = {
+    feedbackSession: testFeedbackSession,
   };
 
   const testDeadlineExtensions: DeadlineExtensions = {
@@ -209,8 +219,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when there are no students', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -224,8 +234,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when there are no instructors', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -244,8 +254,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -267,8 +277,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if instructor service returns 404', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -295,7 +305,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should stop loading if feedback session service returns 404', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
       throwError(() => ({
         status: 404,
@@ -325,8 +335,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   it('should stop loading if feedback session service get feedback session submitted giver set returns 404', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -364,7 +374,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -387,9 +397,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap with details and extended students', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -405,8 +415,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when clicking the Select All Students button', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -424,8 +434,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should snap when clicking the Select All Instructors button', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -443,8 +453,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should not select all students and instructors after unselecting', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -482,8 +492,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should disable extend and delete button when no student selected', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -501,8 +511,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should enable the extend button when a student is selected', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -521,8 +531,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should enable extend and delete button when student with extension selected', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -541,8 +551,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should enable delete button even if one of selected students does not have extension', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -562,8 +572,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should not automatically select students that have not submitted yet if preselectnonsubmitters is false', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -593,8 +603,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     });
 
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -617,8 +627,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should select students that have not submitted yet if Select Not Submitted Student Button is checked', async () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -650,8 +660,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should unselect only students that have not submitted yet if Select Not Submitted Student Button is unchecked', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -688,8 +698,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   it('should select those that have not submitted yet if Select Not Submitted Instructor and Student Button is checked', async () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -737,8 +747,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   it('should unselect instructors that have not submitted yet if Select Not Submitted Instructor Button is unchecked', () => {
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );

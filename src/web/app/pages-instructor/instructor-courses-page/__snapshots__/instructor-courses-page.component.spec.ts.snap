@@ -6655,15 +6655,13 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                         >
                            Edit 
                         </a>
-                        <button
+                        <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
-                          id="btn-copy-0"
-                          ngbtooltip="Copy the course and its corresponding sessions"
-                          placement="left"
+                          href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/student-activity-logs"
                         >
-                           Copy 
-                        </button>
+                           View Logs 
+                        </a>
                         <button
                           class="btn btn-primary btn-sm dropdown-item clickable"
                           container="body"
@@ -13664,15 +13662,13 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                         >
                            Edit 
                         </a>
-                        <button
+                        <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
-                          id="btn-copy-0"
-                          ngbtooltip="Copy the course and its corresponding sessions"
-                          placement="left"
+                          href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/student-activity-logs"
                         >
-                           Copy 
-                        </button>
+                           View Logs 
+                        </a>
                         <button
                           class="btn btn-primary btn-sm dropdown-item clickable"
                           container="body"
@@ -20707,15 +20703,13 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                         >
                            Edit 
                         </a>
-                        <button
+                        <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          container="body"
-                          id="btn-copy-0"
-                          ngbtooltip="Copy the course and its corresponding sessions"
-                          placement="left"
+                          href="/web/instructor/courses/student-activity-logs?courseid=CS3281"
+                          tmrouterlink="/web/instructor/courses/student-activity-logs"
                         >
-                           Copy 
-                        </button>
+                           View Logs 
+                        </a>
                         <button
                           class="btn btn-primary btn-sm dropdown-item clickable"
                           container="body"

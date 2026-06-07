@@ -27,6 +27,7 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 
@@ -86,7 +87,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
         UnpublishFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
+        FeedbackSessionViewData feedbackSessionData = (FeedbackSessionViewData) result.getOutput();
 
         verifyFeedbackSessionData(feedbackSessionData, outputFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
@@ -116,7 +117,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
         UnpublishFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
+        FeedbackSessionViewData feedbackSessionData = (FeedbackSessionViewData) result.getOutput();
 
         verifyFeedbackSessionData(feedbackSessionData, outputFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
@@ -237,29 +238,32 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         verifyCanAccess(params);
     }
 
-    private void verifyFeedbackSessionData(FeedbackSessionData output, FeedbackSession session,
+    private void verifyFeedbackSessionData(FeedbackSessionViewData output, FeedbackSession session,
             FeedbackSessionPublishStatus publishStatus) {
-        assertEquals(output.getFeedbackSessionId(), session.getId());
-        assertEquals(output.getCourseId(), session.getCourseId());
-        assertEquals(output.getTimeZone(), session.getCourse().getTimeZone());
-        assertEquals(output.getFeedbackSessionName(), session.getName());
-        assertEquals(output.getInstructions(), session.getInstructions());
-        assertEquals(output.getSubmissionStartTimestamp(), session.getStartTime().toEpochMilli());
-        assertEquals(output.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
-        assertEquals(output.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
-        assertEquals((long) output.getGracePeriod(), session.getGracePeriod().toMinutes());
-        assertEquals((long) output.getSessionVisibleFromTimestamp(), session.getSessionVisibleFromTime().toEpochMilli());
-        assertEquals(output.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
-        assertEquals(output.getCustomSessionVisibleTimestamp(), output.getSessionVisibleFromTimestamp());
-        assertEquals((long) output.getResultVisibleFromTimestamp(), session.getResultsVisibleFromTime().toEpochMilli());
-        assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
-        assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
-        assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);
-        assertEquals(output.getPublishStatus(), publishStatus);
-        assertEquals(output.getIsClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
-        assertEquals(output.getIsPublishedEmailEnabled(), session.isPublishedEmailEnabled());
-        assertEquals(output.getCreatedAtTimestamp(), session.getCreatedAt().toEpochMilli());
-        assertEquals(output.getDeletedAtTimestamp(), session.getDeletedAt() == null
+        FeedbackSessionData sessionData = output.getFeedbackSession();
+        assertEquals(sessionData.getFeedbackSessionId(), session.getId());
+        assertEquals(sessionData.getCourseId(), session.getCourseId());
+        assertEquals(sessionData.getTimeZone(), session.getCourse().getTimeZone());
+        assertEquals(sessionData.getFeedbackSessionName(), session.getName());
+        assertEquals(sessionData.getInstructions(), session.getInstructions());
+        assertEquals(sessionData.getSubmissionStartTimestamp(), session.getStartTime().toEpochMilli());
+        assertEquals(sessionData.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
+        assertEquals(sessionData.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
+        assertEquals((long) sessionData.getGracePeriod(), session.getGracePeriod().toMinutes());
+        assertEquals((long) sessionData.getSessionVisibleFromTimestamp(),
+                session.getSessionVisibleFromTime().toEpochMilli());
+        assertEquals(sessionData.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
+        assertEquals(sessionData.getCustomSessionVisibleTimestamp(), sessionData.getSessionVisibleFromTimestamp());
+        assertEquals((long) sessionData.getResultVisibleFromTimestamp(),
+                session.getResultsVisibleFromTime().toEpochMilli());
+        assertEquals(sessionData.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
+        assertEquals(sessionData.getCustomResponseVisibleTimestamp(), sessionData.getResultVisibleFromTimestamp());
+        assertEquals(sessionData.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);
+        assertEquals(sessionData.getPublishStatus(), publishStatus);
+        assertEquals(sessionData.getIsClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
+        assertEquals(sessionData.getIsPublishedEmailEnabled(), session.isPublishedEmailEnabled());
+        assertEquals(sessionData.getCreatedAtTimestamp(), session.getCreatedAt().toEpochMilli());
+        assertEquals(sessionData.getDeletedAtTimestamp(), session.getDeletedAt() == null
                 ? null
                 : session.getDeletedAt().toEpochMilli());
     }

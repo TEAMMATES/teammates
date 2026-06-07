@@ -54,6 +54,7 @@ interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
+  canModifyInstructor: boolean;
   isLoadingCourseStats: boolean;
 }
 
@@ -211,6 +212,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       course: courseView.course,
       canModifyCourse: courseView.instructorPermissions?.canModifyCourse ?? false,
       canModifyStudent: courseView.instructorPermissions?.canModifyStudent ?? false,
+      canModifyInstructor: courseView.instructorPermissions?.canModifyInstructor ?? false,
       isLoadingCourseStats: false,
     };
   }
@@ -413,6 +415,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       course: courseView.course,
       canModifyCourse: courseView.instructorPermissions?.canModifyCourse ?? false,
       canModifyStudent: courseView.instructorPermissions?.canModifyStudent ?? false,
+      canModifyInstructor: courseView.instructorPermissions?.canModifyInstructor ?? false,
       isLoadingCourseStats,
     };
   }

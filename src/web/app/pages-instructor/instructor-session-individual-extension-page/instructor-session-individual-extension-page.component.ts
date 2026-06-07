@@ -18,6 +18,7 @@ import {
   CourseView,
   DeadlineExtensions,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
@@ -142,7 +143,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         intent: Intent.FULL_DETAIL,
       })
       .pipe(
-        switchMap((feedbackSessionView) => {
+        switchMap((feedbackSessionView: FeedbackSessionView) => {
           const feedbackSession = feedbackSessionView.feedbackSession;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.courseId = feedbackSession.courseId;

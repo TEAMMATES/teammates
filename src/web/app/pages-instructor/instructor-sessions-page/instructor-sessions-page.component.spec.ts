@@ -149,7 +149,7 @@ describe('InstructorSessionsPageComponent', () => {
 
   it('should load courses of the current instructor', () => {
     const activeCourses: Courses = {
-      courses: [testCourse1, testCourse2],
+      courses: [{ course: testCourse1 }, { course: testCourse2 }],
     };
 
     vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
@@ -173,7 +173,7 @@ describe('InstructorSessionsPageComponent', () => {
 
   it('should load all sessions by the instructor', () => {
     const courseSessions: FeedbackSessions = {
-      feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
+      feedbackSessions: [{ feedbackSession: testFeedbackSession1 }, { feedbackSession: testFeedbackSession2 }],
     };
     const sessionSpy = vi.spyOn(sessionService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
 
@@ -190,7 +190,7 @@ describe('InstructorSessionsPageComponent', () => {
 
   it('should load all feedback sessions in recycle bin that can be accessed by instructor', () => {
     const recycleBinSessions: FeedbackSessions = {
-      feedbackSessions: [testFeedbackSession3, testFeedbackSession4],
+      feedbackSessions: [{ feedbackSession: testFeedbackSession3 }, { feedbackSession: testFeedbackSession4 }],
     };
     const sessionSpy = vi
       .spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
@@ -224,7 +224,9 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.sessionsTableRowModels = [sessionsTableRowModel1, sessionsTableRowModel2];
     component.recycleBinFeedbackSessionRowModels = [];
-    const courseSpy = vi.spyOn(sessionService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSession1));
+    const courseSpy = vi
+      .spyOn(sessionService, 'moveSessionToRecycleBin')
+      .mockReturnValue(of({ feedbackSession: testFeedbackSession1 }));
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -243,7 +245,7 @@ describe('InstructorSessionsPageComponent', () => {
     component.sessionsTableRowModels = [];
     const sessionSpy = vi
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
-      .mockReturnValue(of(testFeedbackSession3));
+      .mockReturnValue(of({ feedbackSession: testFeedbackSession3 }));
 
     component.restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel1);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
@@ -268,9 +270,9 @@ describe('InstructorSessionsPageComponent', () => {
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockImplementation((feedbackSessionId: string) => {
         if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
-          return of(testFeedbackSession3);
+          return of({ feedbackSession: testFeedbackSession3 });
         }
-        return of(testFeedbackSession4);
+        return of({ feedbackSession: testFeedbackSession4 });
       });
 
     component.restoreAllRecycleBinFeedbackSession();

@@ -110,11 +110,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   courseId = '';
   currInstructorGoogleId = '';
-  currInstructorCoursePrivilege: InstructorCoursePermissions = {
-    canModifyCourse: false,
-    canModifyStudent: false,
-    canModifyInstructor: false,
-  };
+  currInstructorCoursePrivilege?: InstructorCoursePermissions;
 
   instructorDetailPanels: InstructorEditPanelDetail[] = [];
 
@@ -186,12 +182,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
         next: (resp: CourseView) => {
           this.courseFormModel.course = resp.course;
           this.courseFormModel.originalCourse = { ...resp.course };
-          this.currInstructorCoursePrivilege = resp.instructorPermissions || {
-            canModifyCourse: false,
-            canModifyStudent: false,
-            canModifyInstructor: false,
-          };
-          this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
+          this.currInstructorCoursePrivilege = resp.instructorPermissions;
+          this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege?.canModifyCourse ?? false;
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasCourseLoadingFailed = true;
