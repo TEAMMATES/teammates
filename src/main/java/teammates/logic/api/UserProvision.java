@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
@@ -95,7 +96,7 @@ public class UserProvision {
     protected boolean isBackdoorRequest(HttpServletRequest req) {
         return Config.IS_DEV_SERVER
                 && Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY));
-}
+    }
 
     /**
      * Checks if the request is from a trusted automated cron or worker.
