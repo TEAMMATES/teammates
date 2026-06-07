@@ -17,7 +17,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionViewData;
 
 /**
  * SUT: {@link BinFeedbackSessionAction}.
@@ -64,8 +63,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
         BinFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
-        FeedbackSessionData responseData = response.getFeedbackSession();
+        FeedbackSessionData responseData = (FeedbackSessionData) r.getOutput();
 
         assertEquals(typicalFeedbackSession.getName(), responseData.getFeedbackSessionName());
         assertEquals(typicalFeedbackSession.getCourseId(), responseData.getCourseId());

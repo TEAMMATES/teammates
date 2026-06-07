@@ -428,7 +428,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     newCourseId: string,
     newTimeZone: string,
     oldCourseId: string,
-  ): Observable<FeedbackSessionView> {
+  ): Observable<FeedbackSession> {
     return this.feedbackSessionsService.createFeedbackSession(
       newCourseId,
       this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId),
@@ -598,10 +598,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     return modalRef.result
       .then(() => {
         this.courseService.binCourse(courseId).subscribe({
-          next: (courseView: CourseView) => {
-            this.moveCourseToRecycleBin(courseId, courseView.course.deletionTimestamp);
+          next: (course: Course) => {
+            this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
             this.statusMessageService.showSuccessToast(
-              `The course ${courseView.course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
+              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
             );
           },
           error: (resp: ErrorMessageOutput) => {

@@ -25,7 +25,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
 import teammates.ui.request.FeedbackSessionCreateRequest;
@@ -89,8 +88,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
             CreateFeedbackSessionAction a = getAction(createRequest, params);
             JsonResult r = getJsonResult(a);
 
-            FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
-            FeedbackSessionData responseData = response.getFeedbackSession();
+            FeedbackSessionData responseData = (FeedbackSessionData) r.getOutput();
 
             FeedbackSession createdFeedbackSession = feedbackSession;
 

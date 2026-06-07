@@ -112,7 +112,7 @@ export abstract class InstructorSessionBasePageComponent {
     newSessionName: string,
     newCourseId: string,
     oldCourseId: string,
-  ): Observable<FeedbackSessionView> {
+  ): Observable<FeedbackSession> {
     // Local constants
     const startHour = moment.utc(fromFeedbackSession.submissionStartTimestamp).tz(fromFeedbackSession.timeZone).hours();
     const endHour = moment(fromFeedbackSession.submissionEndTimestamp).tz(fromFeedbackSession.timeZone).hours();
@@ -366,8 +366,8 @@ export abstract class InstructorSessionBasePageComponent {
   createSessionCopyRequestsFromRowModel(
     model: SessionsTableRowModel,
     result: CopySessionResult,
-  ): Observable<FeedbackSessionView>[] {
-    const copySessionRequests: Observable<FeedbackSessionView>[] = [];
+  ): Observable<FeedbackSession>[] {
+    const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
         this.copyFeedbackSession(
@@ -396,8 +396,8 @@ export abstract class InstructorSessionBasePageComponent {
   createSessionCopyRequestsFromModal(
     result: CopySessionModalResult,
     feedbackSessionId: string,
-  ): Observable<FeedbackSessionView>[] {
-    const copySessionRequests: Observable<FeedbackSessionView>[] = [];
+  ): Observable<FeedbackSession>[] {
+    const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
         this.feedbackSessionsService
@@ -427,12 +427,9 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(
-    copySessionRequest: Observable<FeedbackSessionView>,
-    modifiedTimestampsModal: TemplateRef<any>,
-  ): void {
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<any>): void {
     copySessionRequest.subscribe({
-      next: (createdSession: FeedbackSessionView) => {
+      next: (createdSession: FeedbackSession) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
           this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
         } else if (this.coursesOfModifiedSession.length > 0) {
@@ -443,7 +440,7 @@ export abstract class InstructorSessionBasePageComponent {
             {
               onClosed: () =>
                 this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                  fsid: createdSession.feedbackSession.feedbackSessionId,
+                  fsid: createdSession.feedbackSessionId,
                 }),
             },
           );
@@ -452,7 +449,7 @@ export abstract class InstructorSessionBasePageComponent {
             '/web/instructor/sessions/edit',
             'The feedback session has been copied. Please modify settings/questions as necessary.',
             {
-              fsid: createdSession.feedbackSession.feedbackSessionId,
+              fsid: createdSession.feedbackSessionId,
             },
           );
         }
@@ -549,8 +546,8 @@ export abstract class InstructorSessionBasePageComponent {
         }),
       )
       .subscribe({
-        next: (feedbackSessionView: FeedbackSessionView) => {
-          model.feedbackSession = feedbackSessionView.feedbackSession;
+        next: (feedbackSession: FeedbackSession) => {
+          model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
           rowData[colIdx].customComponent!.componentData = () => {
@@ -605,8 +602,8 @@ export abstract class InstructorSessionBasePageComponent {
         }),
       )
       .subscribe({
-        next: (feedbackSessionView: FeedbackSessionView) => {
-          model.feedbackSession = feedbackSessionView.feedbackSession;
+        next: (feedbackSession: FeedbackSession) => {
+          model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
           rowData[responseColIdx].customComponent!.componentData = () => {

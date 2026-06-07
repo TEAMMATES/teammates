@@ -16,7 +16,6 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.CourseViewData;
 import teammates.ui.request.CourseUpdateRequest;
 
 /**
@@ -80,9 +79,9 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         };
 
         UpdateCourseAction action = getAction(request, params);
-        CourseViewData actionOutput = (CourseViewData) getJsonResult(action).getOutput();
+        CourseData actionOutput = (CourseData) getJsonResult(action).getOutput();
 
-        assertEquals(JsonUtils.toJson(new CourseViewData(new CourseData(expectedCourse))),
+        assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)),
                 JsonUtils.toJson(actionOutput));
     }
 

@@ -43,10 +43,7 @@ import {
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
-
-interface RecycleBinFeedbackSessionRowModel {
-  feedbackSession: FeedbackSession;
-}
+import { RecycleBinFeedbackSessionRowModel } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 /**
  * Instructor feedback sessions list page.
  */
@@ -163,8 +160,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             }),
           )
           .subscribe({
-            next: (createdFeedbackSessionView: FeedbackSessionView) => {
-              const createdFeedbackSession = createdFeedbackSessionView.feedbackSession;
+            next: (createdFeedbackSession: FeedbackSession) => {
               if (this.coursesOfModifiedSession.length > 0) {
                 this.simpleModalService.openInformationModal(
                   'Note On Tweaked Session Timestamps',
@@ -325,8 +321,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
       })
       .subscribe({
-        next: (feedbackSessionView: FeedbackSessionView) => {
-          const feedbackSession = feedbackSessionView.feedbackSession;
+        next: (feedbackSession: FeedbackSession) => {
           // begin to populate session with template
           const templateSession: TemplateSession | undefined = this.feedbackSessionsService
             .getTemplateSessions()
@@ -478,14 +473,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }),
       )
       .subscribe({
-        next: (feedbackSessionView: FeedbackSessionView) => {
-          const feedbackSession: FeedbackSession = feedbackSessionView.feedbackSession;
+        next: (feedbackSession: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels.splice(this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
           const m: SessionsTableRowModel = {
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: feedbackSessionView.instructorPermissions || {
+            instructorPrivilege: model.instructorPrivilege ?? {
               canModifySession: false,
               canSubmitSessionInSections: false,
               canViewSessionInSections: false,
@@ -514,11 +508,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }),
       )
       .subscribe({
-        next: (feedbackSessionView: FeedbackSessionView) => {
-          const feedbackSession = feedbackSessionView.feedbackSession;
+        next: (feedbackSession: FeedbackSession) => {
           this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
           this.recycleBinFeedbackSessionRowModels.push({
             feedbackSession,
+            instructorPrivilege: model.instructorPrivilege,
           });
           this.statusMessageService.showSuccessToast(
             'The feedback session has been deleted. ' + 'You can restore it from the deleted sessions table below.',
@@ -538,7 +532,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.failedToCopySessions = {};
     this.coursesOfModifiedSession = [];
     this.modifiedSession = {};
-    const requestList: Observable<FeedbackSessionView>[] = this.createSessionCopyRequestsFromRowModel(
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
       this.sessionsTableRowModels[result.sessionToCopyRowIndex],
       result,
     );
@@ -559,19 +553,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             this.isCopySessionLoading = false;
           }),
         )
-        .subscribe((newSessions: FeedbackSessionView[]) => {
+        .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
-            newSessions.forEach((sessionView: FeedbackSessionView) => {
-              const session: FeedbackSession = sessionView.feedbackSession;
+            newSessions.forEach((session: FeedbackSession) => {
               const model: SessionsTableRowModel = {
                 feedbackSession: session,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: sessionView.instructorPermissions || {
-                  canModifySession: false,
-                  canSubmitSessionInSections: false,
-                  canViewSessionInSections: false,
-                },
+                instructorPrivilege: this.sessionsTableRowModels[result.sessionToCopyRowIndex].instructorPrivilege,
               };
               this.sessionsTableRowModels.push(model);
             });
@@ -627,6 +616,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             const session: FeedbackSession = sessionView.feedbackSession;
             this.recycleBinFeedbackSessionRowModels.push({
               feedbackSession: session,
+              instructorPrivilege: sessionView.instructorPermissions || {
+                canModifySession: false,
+                canSubmitSessionInSections: false,
+                canViewSessionInSections: false,
+              },
             });
           });
         },
@@ -644,8 +638,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   restoreAllRecycleBinFeedbackSession(): void {
     this.isRestoreFeedbackSessionLoading = true;
-    const restoreRequests: Observable<FeedbackSessionView>[] = [];
+    const restoreRequests: Observable<FeedbackSession>[] = [];
+    const restorePrivileges: SessionsTableRowModel['instructorPrivilege'][] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
+      restorePrivileges.push(
+        model.instructorPrivilege ?? {
+          canModifySession: false,
+          canSubmitSessionInSections: false,
+          canViewSessionInSections: false,
+        },
+      );
       restoreRequests.push(
         this.feedbackSessionsService.restoreSessionFromRecycleBin(model.feedbackSession.feedbackSessionId),
       );
@@ -658,15 +660,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }),
       )
       .subscribe({
-        next: (restoredSessions: FeedbackSessionView[]) => {
-          restoredSessions.forEach((sessionView: FeedbackSessionView) => {
-            const session: FeedbackSession = sessionView.feedbackSession;
-            this.recycleBinFeedbackSessionRowModels = [];
+        next: (restoredSessions: FeedbackSession[]) => {
+          this.recycleBinFeedbackSessionRowModels = [];
+          restoredSessions.forEach((session: FeedbackSession, index: number) => {
             const m: SessionsTableRowModel = {
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-              instructorPrivilege: sessionView.instructorPermissions || {
+              instructorPrivilege: restorePrivileges[index] ?? {
                 canModifySession: false,
                 canSubmitSessionInSections: false,
                 canViewSessionInSections: false,

@@ -587,8 +587,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
           : this.feedbackSessionsService.publishFeedbackSession(this.session.feedbackSessionId);
 
         response.subscribe({
-          next: (res: FeedbackSessionView) => {
-            this.session = res.feedbackSession;
+          next: (res: FeedbackSession) => {
+            this.session = res;
             if (this.session.resultVisibleFromTimestamp) {
               this.formattedResultVisibleFromTime = this.timezoneService.formatToString(
                 this.session.resultVisibleFromTimestamp,

@@ -573,7 +573,7 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should delete current session', () => {
     component.sessionEditFormModel = structuredClone(sessionEditFormModel);
     const navSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockResolvedValue();
-    vi.spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSessionView));
+    vi.spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSession));
     component.deleteExistingSessionHandler();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
@@ -718,18 +718,15 @@ describe('InstructorSessionEditPageComponent', () => {
     );
     const copiedFeedbackSession: FeedbackSession = structuredClone(testFeedbackSession);
     copiedFeedbackSession.courseId = 'testId2';
-    const copiedFeedbackSessionView: FeedbackSessionView = {
-      feedbackSession: copiedFeedbackSession,
-    };
 
     component.feedbackSessionName = testFeedbackSession.feedbackSessionName;
     component.courseId = testCourse1.courseId;
     vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(testCourses));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
-    vi.spyOn(feedbackSessionsService, 'createFeedbackSession').mockReturnValue(of(copiedFeedbackSessionView));
+    vi.spyOn(feedbackSessionsService, 'createFeedbackSession').mockReturnValue(of(copiedFeedbackSession));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
     vi.spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal').mockReturnValue([
-      of(copiedFeedbackSessionView),
+      of(copiedFeedbackSession),
     ]);
     const navSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockResolvedValue();
 

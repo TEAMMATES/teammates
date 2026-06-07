@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -13,8 +12,6 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.CourseViewData;
-import teammates.ui.output.InstructorCoursePermissionsData;
 import teammates.ui.request.CourseCreateRequest;
 
 /**
@@ -53,15 +50,7 @@ public class CreateCourseAction extends Action {
             Course createdCourse = logic.createCourseAndInstructor(
                     getCurrentAccount(), courseCreateRequest);
             HibernateUtil.flushSession();
-            CourseViewData output = new CourseViewData(new CourseData(createdCourse));
-            Instructor instructor = getInstructorFromRequest(createdCourse.getId());
-            if (instructor != null) {
-                output.setInstructorPermissions(new InstructorCoursePermissionsData(
-                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE),
-                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT),
-                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)));
-            }
-            return new JsonResult(output);
+            return new JsonResult(new CourseData(createdCourse));
         } catch (EntityAlreadyExistsException e) {
             String newCourseId = courseCreateRequest.getCourseId().trim();
             throw new InvalidOperationException("The course ID " + newCourseId

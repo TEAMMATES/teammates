@@ -263,7 +263,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           modalRef.result
             .then(
               (result: CopySessionModalResult) => {
-                const requestList: Observable<FeedbackSessionView>[] = this.createSessionCopyRequestsFromModal(
+                const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
                   result,
                   this.feedbackSessionId,
                 );
@@ -457,8 +457,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }),
       )
       .subscribe({
-        next: (feedbackSessionView: FeedbackSessionView) => {
-          this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSessionView.feedbackSession);
+        next: (feedbackSession: FeedbackSession) => {
+          this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
 
           this.statusMessageService.showSuccessToast('The feedback session has been updated.');
         },

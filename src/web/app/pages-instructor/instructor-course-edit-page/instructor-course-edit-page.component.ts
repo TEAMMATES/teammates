@@ -211,10 +211,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteCourse(): void {
     this.courseService.binCourse(this.courseId).subscribe({
-      next: (course: CourseView) => {
+      next: (course: Course) => {
         this.navigationService.navigateWithSuccessMessage(
           '/web/instructor/courses',
-          `The course ${course.course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
         );
       },
       error: (resp: ErrorMessageOutput) => {
@@ -239,11 +239,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (resp: CourseView) => {
+        next: (resp: Course) => {
           this.statusMessageService.showSuccessToast('The course has been edited.');
           this.courseFormModel.isEditing = false;
-          this.courseFormModel.course = resp.course;
-          this.courseFormModel.originalCourse = { ...resp.course };
+          this.courseFormModel.course = resp;
+          this.courseFormModel.originalCourse = { ...resp };
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

@@ -279,12 +279,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     modalRef.result.then(
       () => {
         this.courseService.binCourse(courseId).subscribe({
-          next: (courseView: CourseView) => {
+          next: (course: Course) => {
             this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-              return model.course.courseId !== courseView.course.courseId;
+              return model.course.courseId !== course.courseId;
             });
             this.statusMessageService.showSuccessToast(
-              `The course ${courseView.course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
+              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
             );
           },
           error: (resp: ErrorMessageOutput) => {
@@ -493,8 +493,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.failedToCopySessions = {};
     this.coursesOfModifiedSession = [];
     this.modifiedSession = {};
-    const requestList: Observable<FeedbackSessionView>[] = this.createSessionCopyRequestsFromRowModel(
-      this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex],
+    const sourceSessionRow: SessionsTableRowModel =
+      this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex];
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
+      sourceSessionRow,
       result,
     );
     if (requestList.length === 1) {
@@ -514,19 +516,14 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             this.isCopyLoading = false;
           }),
         )
-        .subscribe((newSessions: FeedbackSessionView[]) => {
+        .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
-            newSessions.forEach((sessionView: FeedbackSessionView) => {
-              const session: FeedbackSession = sessionView.feedbackSession;
+            newSessions.forEach((session: FeedbackSession) => {
               const model: SessionsTableRowModel = {
                 feedbackSession: session,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: sessionView.instructorPermissions || {
-                  canModifySession: false,
-                  canSubmitSessionInSections: false,
-                  canViewSessionInSections: false,
-                },
+                instructorPrivilege: sourceSessionRow.instructorPrivilege,
               };
               const courseModel: CourseTabModel | undefined = this.courseTabModels.find(
                 (tabModel: CourseTabModel) => tabModel.course.courseId === session.courseId,

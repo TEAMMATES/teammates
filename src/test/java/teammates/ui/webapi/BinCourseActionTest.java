@@ -15,7 +15,6 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.CourseViewData;
 
 /**
  * SUT: {@link BinCourseAction}.
@@ -63,9 +62,9 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         };
 
         BinCourseAction action = getAction(params);
-        CourseViewData actionOutput = (CourseViewData) getJsonResult(action).getOutput();
+        CourseData actionOutput = (CourseData) getJsonResult(action).getOutput();
 
-        assertEquals(JsonUtils.toJson(new CourseViewData(new CourseData(course))), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
     }
 
     @Test

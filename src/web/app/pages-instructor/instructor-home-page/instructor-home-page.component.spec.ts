@@ -10,7 +10,6 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
-  CourseView,
   Courses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -189,8 +188,7 @@ describe('InstructorHomePageComponent', () => {
         type: SimpleModalType.WARNING,
       }),
     );
-    const courseToDeleteView: CourseView = { course: courseToDelete };
-    vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDeleteView));
+    vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();

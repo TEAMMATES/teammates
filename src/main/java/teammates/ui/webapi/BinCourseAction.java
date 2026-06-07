@@ -3,12 +3,9 @@ package teammates.ui.webapi;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.CourseViewData;
-import teammates.ui.output.InstructorCoursePermissionsData;
 
 /**
  * Move a course to the recycle bin.
@@ -33,15 +30,7 @@ public class BinCourseAction extends Action {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             Course binnedCourse = logic.moveCourseToRecycleBin(idOfCourseToBin);
-            CourseViewData output = new CourseViewData(new CourseData(binnedCourse));
-            Instructor instructor = getInstructorFromRequest(idOfCourseToBin);
-            if (instructor != null) {
-                output.setInstructorPermissions(new InstructorCoursePermissionsData(
-                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE),
-                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT),
-                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)));
-            }
-            return new JsonResult(output);
+            return new JsonResult(new CourseData(binnedCourse));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

@@ -18,8 +18,6 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionViewData;
-import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 
 /**
@@ -111,27 +109,7 @@ public class CreateFeedbackSessionAction extends Action {
             createCopiedFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
                     feedbackSessionName, createRequest.getToCopySessionName());
         }
-        FeedbackSessionViewData output = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession));
-        output.setInstructorPermissions(getPermissions(feedbackSessionName, instructor));
-
-        return new JsonResult(output);
-    }
-
-    private InstructorFeedbackSessionPermissionsData getPermissions(String feedbackSessionName, Instructor instructor) {
-        boolean canModifySession =
-                logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSessionName,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        boolean canViewSessionInSections = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSessionName,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-        return new InstructorFeedbackSessionPermissionsData(
-                canModifySession,
-                canSubmitSessionInSections,
-                canViewSessionInSections);
+        return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 
     private void createCopiedFeedbackQuestions(String oldCourseId, String newCourseId,

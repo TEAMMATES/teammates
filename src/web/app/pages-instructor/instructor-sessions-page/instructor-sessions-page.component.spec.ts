@@ -18,6 +18,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
+  InstructorFeedbackSessionPermissions,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -29,6 +30,11 @@ describe('InstructorSessionsPageComponent', () => {
   let sessionService: FeedbackSessionsService;
   let timezoneService: TimezoneService;
   let ngbModal: NgbModal;
+  const testInstructorPrivilege: InstructorFeedbackSessionPermissions = {
+    canModifySession: true,
+    canSubmitSessionInSections: true,
+    canViewSessionInSections: true,
+  };
 
   const testCourse1: Course = {
     courseId: 'CS1231',
@@ -224,9 +230,7 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.sessionsTableRowModels = [sessionsTableRowModel1, sessionsTableRowModel2];
     component.recycleBinFeedbackSessionRowModels = [];
-    const courseSpy = vi
-      .spyOn(sessionService, 'moveSessionToRecycleBin')
-      .mockReturnValue(of({ feedbackSession: testFeedbackSession1 }));
+    const courseSpy = vi.spyOn(sessionService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSession1));
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -235,17 +239,19 @@ describe('InstructorSessionsPageComponent', () => {
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels[0].feedbackSession.courseId).toEqual('CS1231');
+    expect(component.recycleBinFeedbackSessionRowModels[0].instructorPrivilege).toEqual(testTutorPrivilege);
   });
 
   it('should restore a session', () => {
     const recycleBinFeedbackSessionRowModel1: any = {
       feedbackSession: testFeedbackSession3,
+      instructorPrivilege: testInstructorPrivilege,
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
     const sessionSpy = vi
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
-      .mockReturnValue(of({ feedbackSession: testFeedbackSession3 }));
+      .mockReturnValue(of(testFeedbackSession3));
 
     component.restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel1);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
@@ -257,9 +263,11 @@ describe('InstructorSessionsPageComponent', () => {
   it('should restore all sessions', () => {
     const recycleBinFeedbackSessionRowModel1: any = {
       feedbackSession: testFeedbackSession3,
+      instructorPrivilege: testInstructorPrivilege,
     };
     const recycleBinFeedbackSessionRowModel2: any = {
       feedbackSession: testFeedbackSession4,
+      instructorPrivilege: testInstructorPrivilege,
     };
     component.recycleBinFeedbackSessionRowModels = [
       recycleBinFeedbackSessionRowModel1,
@@ -270,9 +278,9 @@ describe('InstructorSessionsPageComponent', () => {
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockImplementation((feedbackSessionId: string) => {
         if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
-          return of({ feedbackSession: testFeedbackSession3 });
+          return of(testFeedbackSession3);
         }
-        return of({ feedbackSession: testFeedbackSession4 });
+        return of(testFeedbackSession4);
       });
 
     component.restoreAllRecycleBinFeedbackSession();

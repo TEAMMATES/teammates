@@ -133,14 +133,12 @@ describe('InstructorCourseEditPageComponent', () => {
 
     vi.spyOn(courseService, 'updateCourse').mockReturnValue(
       of({
-        course: {
-          courseId: 'exampleId',
-          courseName: 'Example Course Changed',
-          timeZone: 'UTC (UTC)',
-          institute: 'Test institute',
-          creationTimestamp: 0,
-          deletionTimestamp: 1000,
-        },
+        courseId: 'exampleId',
+        courseName: 'Example Course Changed',
+        timeZone: 'UTC (UTC)',
+        institute: 'Test institute',
+        creationTimestamp: 0,
+        deletionTimestamp: 1000,
       }),
     );
 

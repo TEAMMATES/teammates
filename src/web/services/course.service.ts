@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { CourseSections, CourseView, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
+import { Course, CourseSections, CourseView, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 /**
@@ -85,14 +85,14 @@ export class CourseService {
   /**
    * Creates a course by calling API.
    */
-  createCourse(request: CourseCreateRequest): Observable<CourseView> {
+  createCourse(request: CourseCreateRequest): Observable<Course> {
     return this.httpRequestService.post(ResourceEndpoints.COURSE, {}, request);
   }
 
   /**
    * Updates a course by calling API.
    */
-  updateCourse(courseid: string, request: CourseUpdateRequest): Observable<CourseView> {
+  updateCourse(courseid: string, request: CourseUpdateRequest): Observable<Course> {
     const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.put(ResourceEndpoints.COURSE, paramMap, request);
   }
@@ -108,7 +108,7 @@ export class CourseService {
   /**
    * Bin (soft-delete) a course by calling API.
    */
-  binCourse(courseid: string): Observable<CourseView> {
+  binCourse(courseid: string): Observable<Course> {
     const paramMap: Record<string, string> = { courseid };
     return this.httpRequestService.put(ResourceEndpoints.BIN_COURSE, paramMap);
   }
