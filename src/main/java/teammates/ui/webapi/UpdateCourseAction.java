@@ -42,7 +42,6 @@ public class UpdateCourseAction extends Action {
 
         try {
             Course updatedCourse = logic.updateCourse(courseId, courseName, courseTimeZone);
-
             return new JsonResult(new CourseData(updatedCourse));
 
         } catch (InvalidParametersException ipe) {

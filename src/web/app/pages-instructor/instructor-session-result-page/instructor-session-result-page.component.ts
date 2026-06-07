@@ -35,6 +35,7 @@ import {
   ContributionStatisticsEntry,
   FeedbackQuestions,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
@@ -195,7 +196,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
         intent: Intent.FULL_DETAIL,
       })
       .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
+        next: (feedbackSessionView: FeedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.session = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId!;
           this.courseId = feedbackSession.courseId;

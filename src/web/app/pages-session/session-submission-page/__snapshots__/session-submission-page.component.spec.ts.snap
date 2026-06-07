@@ -1623,11 +1623,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="col-12 constraint-margins"
             >
             </div>
-            <div
-              class="alert alert-warning"
-              role="alert"
-            >
-            </div>
+            <tm-no-recipients-warning>
+              <div
+                class="alert alert-warning"
+                role="alert"
+              >
+                <span>
+                  This question is for teams in this course and this course doesn't have any team. Therefore, you will not be able to answer this question.
+                </span>
+              </div>
+            </tm-no-recipients-warning>
           </div>
         </div>
       </tm-question-submission-form>
@@ -4609,11 +4614,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="col-12 constraint-margins"
             >
             </div>
-            <div
-              class="alert alert-warning"
-              role="alert"
-            >
-            </div>
+            <tm-no-recipients-warning>
+              <div
+                class="alert alert-warning"
+                role="alert"
+              >
+                <span>
+                  This question is for teams in this course and this course doesn't have any team. Therefore, you will not be able to answer this question.
+                </span>
+              </div>
+            </tm-no-recipients-warning>
           </div>
         </div>
       </tm-question-submission-form>

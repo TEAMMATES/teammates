@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -110,11 +109,7 @@ public class CreateFeedbackSessionAction extends Action {
             createCopiedFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
                     feedbackSessionName, createRequest.getToCopySessionName());
         }
-        FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
-        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
-        output.setPrivileges(privilege);
-
-        return new JsonResult(output);
+        return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 
     private void createCopiedFeedbackQuestions(String oldCourseId, String newCourseId,

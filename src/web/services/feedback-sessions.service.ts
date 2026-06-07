@@ -11,6 +11,7 @@ import {
   DeadlineExtensions,
   FeedbackQuestion,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionStats,
@@ -68,7 +69,7 @@ export class FeedbackSessionsService {
     key?: string;
     moderatedPerson?: string;
     previewAs?: string;
-  }): Observable<FeedbackSession> {
+  }): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
       fsid: queryParams.feedbackSessionId,
@@ -459,7 +460,7 @@ export class FeedbackSessionsService {
   /**
    * Soft delete a session by moving it to the recycle bin.
    */
-  moveSessionToRecycleBin(feedbackSessionId: string): Observable<any> {
+  moveSessionToRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };

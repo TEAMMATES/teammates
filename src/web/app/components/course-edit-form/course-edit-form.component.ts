@@ -241,7 +241,9 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
           this.feedbackSessionsService
             .getFeedbackSessionsForInstructor(courseId)
             .subscribe((feedbackSessions: FeedbackSessions) => {
-              modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
+              modalRef.componentInstance.courseToFeedbackSession[courseId] = [
+                ...feedbackSessions.feedbackSessions.map((session) => session.feedbackSession),
+              ];
             });
         },
         (resp: ErrorMessageOutput) => {

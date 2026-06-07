@@ -10,13 +10,15 @@ import teammates.storage.entity.Course;
  */
 public class CoursesData implements ApiOutput {
 
-    private List<CourseData> courses;
+    private final List<CourseViewData> courses;
 
     public CoursesData(List<Course> coursesList) {
-        this.courses = coursesList.stream().map(CourseData::new).collect(Collectors.toList());
+        this.courses = coursesList.stream()
+                .map(course -> new CourseViewData(new CourseData(course)))
+                .collect(Collectors.toList());
     }
 
-    public List<CourseData> getCourses() {
+    public List<CourseViewData> getCourses() {
         return courses;
     }
 

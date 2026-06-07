@@ -249,7 +249,7 @@
                               Copy
                             </button>
                           }
-                          @if (course.course.privileges?.canModifyInstructor) {
+                          @if (course.canModifyInstructor) {
                             <a
                               class="btn btn-primary btn-sm dropdown-item clickable"
                               tmRouterLink="/web/instructor/courses/student-activity-logs"

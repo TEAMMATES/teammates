@@ -12,8 +12,10 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseView,
   Courses,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
@@ -126,7 +128,8 @@ export class StudentHomePageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: Courses) => {
-          resp.courses.forEach((course: Course) => {
+          resp.courses.forEach((courseView: CourseView) => {
+            const course = courseView.course;
             this.courses.push({
               course,
               feedbackSessions: [],
@@ -310,7 +313,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
     return fss.feedbackSessions
-      .map((fs: FeedbackSession) => ({ ...fs }))
+      .map((fsView: FeedbackSessionView) => ({ ...fsView.feedbackSession }))
       .sort((a: FeedbackSession, b: FeedbackSession) => {
         if (a.createdAtTimestamp > b.createdAtTimestamp) {
           return 1;
