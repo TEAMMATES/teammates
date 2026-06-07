@@ -10,7 +10,7 @@ export class EnumToArrayPipe implements PipeTransform {
   /**
    * Transforms enum to an array of all types it has.
    */
-  transform(enumObj: Record<string, string>): string[] {
+  transform(enumObj: Record<string, any>): any[] {
     return Object.keys(enumObj).map((s: string) => enumObj[s]);
   }
 }

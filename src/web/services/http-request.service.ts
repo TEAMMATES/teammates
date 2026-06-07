@@ -74,18 +74,13 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get<TResponse>(
-    endpoint: string,
-    paramsMap: Record<string, string | string[]> = {},
-    responseType: 'json' | 'text' = 'json',
-  ): Observable<TResponse> {
+  get<TResponse>(endpoint: string, paramsMap: Record<string, string | string[]> = {}): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(false);
     return this.httpClient.get<TResponse>(`${this.backendUrl}${endpoint}`, {
       params,
       headers,
-      responseType,
       withCredentials,
     });
   }
