@@ -5,6 +5,8 @@ import { of } from 'rxjs';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
+import * as studentCsvListWithSection from './test-data/student-csv-list-with-section';
+import * as studentCsvListWithoutSection from './test-data/student-csv-list-without-section';
 import { ResourceEndpoints } from '../types/api-const';
 import { Course, CourseView, Students } from '../types/api-output';
 import { StudentUpdateRequest } from '../types/api-request';
@@ -19,27 +21,23 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
 };
 
 const studentCsvListTester: (
-  courseId: string,
+  testData: { course: Course; students: Students },
   service: StudentService,
   spyCourseService: CourseService,
   testFn: (str: string) => void,
 ) => Promise<void> = async (
-  courseId: string,
+  testData: { course: Course; students: Students },
   service: StudentService,
   spyCourseService: CourseService,
   testFn: (str: string) => void,
 ): Promise<void> => {
-  const testDataModule = await import(`./test-data/${courseId}`);
-  const testData = testDataModule.default ?? testDataModule;
-  const course: Course = testData.course;
   const courseView: CourseView = {
-    course,
+    course: testData.course,
   };
-  const students: Students = testData.students;
   vi.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(courseView));
-  vi.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
+  vi.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(testData.students));
   await new Promise<void>((resolve) => {
-    service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => {
+    service.loadStudentListAsCsv({ courseId: testData.course.courseId }).subscribe((csvResult: string) => {
       testFn(csvResult);
       resolve();
     });
@@ -113,13 +111,13 @@ describe('StudentService', () => {
   });
 
   it('should generate course student list with section as csv', async () => {
-    await studentCsvListTester('studentCsvListWithSection.json', service, spyCourseService, (csvResult: string) => {
+    await studentCsvListTester(studentCsvListWithSection, service, spyCourseService, (csvResult: string) => {
       expect(csvResult).toMatchSnapshot();
     });
   });
 
   it('should generate course student list without section as csv', async () => {
-    await studentCsvListTester('studentCsvListWithoutSection.json', service, spyCourseService, (csvResult: string) => {
+    await studentCsvListTester(studentCsvListWithoutSection, service, spyCourseService, (csvResult: string) => {
       expect(csvResult).toMatchSnapshot();
     });
   });
