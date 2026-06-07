@@ -54,8 +54,8 @@ describe('Question Statistics Utility Functions', () => {
       const question: FeedbackConstantSumOptionsQuestionDetails = {
         constSumOptions: ['optionA', 'optionB', 'optionC'],
       } as any;
-      const responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = JSON.parse(
-        JSON.stringify(constsumOptionQuestionResponses.responses),
+      const responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = structuredClone(
+        constsumOptionQuestionResponses.responses,
       );
 
       const stats: ConstsumOptionsQuestionStatistics = calculateConstsumOptionsQuestionStatistics(question, responses);
