@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
@@ -56,6 +56,7 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 
 describe('SessionSubmissionPageComponent', () => {
   const deepCopy: <T>(obj: T) => T = <T>(obj: T) => structuredClone(obj);
@@ -729,7 +730,7 @@ describe('SessionSubmissionPageComponent', () => {
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
       .mockReturnValue(of(toFeedbackSessionView(testOpenFeedbackSession)));
-    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -753,7 +754,7 @@ describe('SessionSubmissionPageComponent', () => {
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
       .mockReturnValue(of(toFeedbackSessionView(testClosedFeedbackSession)));
-    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -773,7 +774,7 @@ describe('SessionSubmissionPageComponent', () => {
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
       .mockReturnValue(of(toFeedbackSessionView(testVisibleNotOpenFeedbackSession)));
-    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -794,7 +795,7 @@ describe('SessionSubmissionPageComponent', () => {
         status: 404,
       })),
     );
-    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -815,7 +816,7 @@ describe('SessionSubmissionPageComponent', () => {
         status: 403,
       })),
     );
-    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.loadFeedbackSession(false, testInfo);
 

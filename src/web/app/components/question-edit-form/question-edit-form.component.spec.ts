@@ -1,13 +1,13 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of } from 'rxjs';
 import { QuestionEditFormModel } from './question-edit-form-model';
 import { QuestionEditFormComponent } from './question-edit-form.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { EXAMPLE_ESSAY_QUESTION_MODEL } from '../../pages-help/instructor-help-page/instructor-help-questions-section/instructor-help-questions-data';
 
 describe('QuestionEditFormComponent', () => {
@@ -80,10 +80,7 @@ describe('QuestionEditFormComponent', () => {
     const hasResponsesSpy = vi
       .spyOn(feedbackSessionsService, 'hasResponsesForQuestion')
       .mockReturnValue(of({ hasResponses: true }));
-    const modalRef = {
-      result: Promise.resolve(),
-    } as NgbModalRef;
-    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(modalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
     const saveSpy = vi.fn();
 
     component.formModel = EXAMPLE_ESSAY_QUESTION_MODEL;
