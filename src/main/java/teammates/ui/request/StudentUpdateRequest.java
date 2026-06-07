@@ -2,6 +2,7 @@ package teammates.ui.request;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The create request for an student update request.

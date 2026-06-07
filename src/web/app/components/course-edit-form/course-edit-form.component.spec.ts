@@ -21,7 +21,9 @@ import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
+  CourseView,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
@@ -49,6 +51,9 @@ describe('CourseEditFormComponent', () => {
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
+  const testCourseView1: CourseView = {
+    course: testCourse1,
+  };
   const errorMsg = 'Error occured';
 
   const customError: ErrorMessageOutput = {
@@ -67,7 +72,7 @@ describe('CourseEditFormComponent', () => {
 
   const spyCourseService = createSpyFromClass(CourseService);
   spyCourseService.createCourse.mockReturnValue(of({}));
-  spyCourseService.getAllCoursesAsInstructor.mockReturnValue(of({ courses: [testCourse1, testCourse1] }));
+  spyCourseService.getAllCoursesAsInstructor.mockReturnValue(of({ courses: [testCourseView1, testCourseView1] }));
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -159,7 +164,7 @@ describe('CourseEditFormComponent', () => {
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
 
-    const mockModalRef: any = createMockNgbModalRef({
+    const mockModalRef = createMockNgbModalRef({
       isCopyFromOtherSession: false,
       courses: [],
       courseToFeedbackSession: {},
@@ -183,9 +188,12 @@ describe('CourseEditFormComponent', () => {
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
     };
+    const testFeedbackSessionView: FeedbackSessionView = {
+      feedbackSession: testFeedbackSession,
+    };
 
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
-      of({ feedbackSessions: [testFeedbackSession] }),
+      of({ feedbackSessions: [testFeedbackSessionView] }),
     );
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
@@ -206,7 +214,7 @@ describe('CourseEditFormComponent', () => {
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
 
-    const mockModalRef: any = createMockNgbModalRef(
+    const mockModalRef = createMockNgbModalRef(
       {
         isCopyFromOtherSession: false,
         courses: [],
@@ -228,7 +236,7 @@ describe('CourseEditFormComponent', () => {
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
 
-    const mockModalRef: any = createMockNgbModalRef({
+    const mockModalRef = createMockNgbModalRef({
       isCopyFromOtherSession: false,
       courses: [],
       courseToFeedbackSession: {},

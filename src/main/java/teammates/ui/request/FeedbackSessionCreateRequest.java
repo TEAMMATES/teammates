@@ -2,6 +2,8 @@ package teammates.ui.request;
 
 import jakarta.annotation.Nullable;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
+
 /**
  * The request body format for creation of feedback session.
  */

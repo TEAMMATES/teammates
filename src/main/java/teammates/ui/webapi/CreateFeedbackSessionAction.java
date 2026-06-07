@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -15,11 +14,11 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a feedback session.
@@ -110,11 +109,7 @@ public class CreateFeedbackSessionAction extends Action {
             createCopiedFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
                     feedbackSessionName, createRequest.getToCopySessionName());
         }
-        FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
-        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
-        output.setPrivileges(privilege);
-
-        return new JsonResult(output);
+        return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 
     private void createCopiedFeedbackQuestions(String oldCourseId, String newCourseId,

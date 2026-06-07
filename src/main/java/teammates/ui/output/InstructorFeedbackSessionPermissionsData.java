@@ -1,0 +1,33 @@
+package teammates.ui.output;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+
+/**
+ * The instructor permissions exposed for feedback session responses.
+ */
+public class InstructorFeedbackSessionPermissionsData implements ApiOutput {
+
+    private final boolean canModifySession;
+    private final boolean canSubmitSessionInSections;
+    private final boolean canViewSessionInSections;
+
+    @JsonCreator
+    public InstructorFeedbackSessionPermissionsData(boolean canModifySession,
+            boolean canSubmitSessionInSections, boolean canViewSessionInSections) {
+        this.canModifySession = canModifySession;
+        this.canSubmitSessionInSections = canSubmitSessionInSections;
+        this.canViewSessionInSections = canViewSessionInSections;
+    }
+
+    public boolean getCanModifySession() {
+        return canModifySession;
+    }
+
+    public boolean getCanSubmitSessionInSections() {
+        return canSubmitSessionInSections;
+    }
+
+    public boolean getCanViewSessionInSections() {
+        return canViewSessionInSections;
+    }
+}

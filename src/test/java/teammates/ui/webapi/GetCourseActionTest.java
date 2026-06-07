@@ -13,6 +13,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 
 /**
  * SUT: {@link GetCourseAction}.
@@ -161,8 +162,8 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         GetCourseAction getCourseAction = getAction(params);
-        CourseData actionOutput = (CourseData) getJsonResult(getCourseAction).getOutput();
-        assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
+        CourseViewData actionOutput = (CourseViewData) getJsonResult(getCourseAction).getOutput();
+        assertEquals(JsonUtils.toJson(new CourseViewData(new CourseData(course))), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -178,12 +179,13 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         };
 
         GetCourseAction getCourseAction = getAction(params);
-        CourseData actionOutput = (CourseData) getJsonResult(getCourseAction).getOutput();
+        CourseViewData actionOutput = (CourseViewData) getJsonResult(getCourseAction).getOutput();
 
         Course expectedCourse = course;
         expectedCourse.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         expectedCourse.setDeletedAt(Instant.ofEpochMilli(0));
 
-        assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseViewData(new CourseData(expectedCourse))),
+                JsonUtils.toJson(actionOutput));
     }
 }

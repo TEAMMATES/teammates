@@ -4,10 +4,10 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new account request.

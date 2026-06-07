@@ -94,7 +94,8 @@ public class UserProvision {
      * Checks if the request is a backdoor request.
      */
     protected boolean isBackdoorRequest(HttpServletRequest req) {
-        return Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY));
+        return Config.IS_DEV_SERVER
+                && Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY));
     }
 
     /**

@@ -2,8 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
-import { InstructorPermissionSet } from '../../../types/api-request';
+import {
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  InstructorFeedbackSessionPermissions,
+} from '../../../types/api-output';
 
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table.component';
@@ -24,15 +27,10 @@ export class GroupButtonsComponent {
   @Input() publishStatus: FeedbackSessionPublishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
   @Input() submissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
 
-  @Input() instructorPrivileges: InstructorPermissionSet = {
-    canModifyCourse: false,
-    canModifyInstructor: false,
+  @Input() instructorPrivileges: InstructorFeedbackSessionPermissions = {
     canModifySession: false,
-    canModifyStudent: false,
-    canViewStudentInSections: false,
-    canViewSessionInSections: false,
     canSubmitSessionInSections: false,
-    canModifySessionCommentsInSections: false,
+    canViewSessionInSections: false,
   };
 
   @Input() copySession: () => void = () => {};

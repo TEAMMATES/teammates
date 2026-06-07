@@ -18,8 +18,10 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseView,
   Courses,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessions,
   JoinState,
   MessageOutput,
@@ -48,10 +50,11 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-interface CourseModel {
+export interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
+  canModifyInstructor: boolean;
   isLoadingCourseStats: boolean;
 }
 
@@ -163,16 +166,16 @@ export class InstructorCoursesPageComponent implements OnInit {
       softDeletedCourses: this.courseService.getAllCoursesAsInstructor('softDeleted'),
     }).subscribe({
       next: ({ activeCourses, softDeletedCourses }: { activeCourses: Courses; softDeletedCourses: Courses }) => {
-        activeCourses.courses.forEach((course: Course) => {
-          this.allCoursesList.push(course);
-          this.activeCoursesList.push(course);
-          this.activeCourses.push(this.buildCourseModel(course));
+        activeCourses.courses.forEach((courseView: CourseView) => {
+          this.allCoursesList.push(courseView.course);
+          this.activeCoursesList.push(courseView.course);
+          this.activeCourses.push(this.buildCourseModel(courseView));
         });
         this.activeCoursesDefaultSort();
 
-        softDeletedCourses.courses.forEach((course: Course) => {
-          this.allCoursesList.push(course);
-          const softDeletedCourse: CourseModel = this.buildCourseModel(course);
+        softDeletedCourses.courses.forEach((courseView: CourseView) => {
+          this.allCoursesList.push(courseView.course);
+          const softDeletedCourse: CourseModel = this.buildCourseModel(courseView);
           this.softDeletedCourses.push(softDeletedCourse);
           this.deletedCoursesDefaultSort();
           if (!softDeletedCourse.canModifyCourse) {
@@ -204,11 +207,12 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Builds a CourseModel from a Course object.
    */
-  private buildCourseModel(course: Course): CourseModel {
+  private buildCourseModel(courseView: CourseView): CourseModel {
     return {
-      course,
-      canModifyCourse: course.privileges?.canModifyCourse ?? false,
-      canModifyStudent: course.privileges?.canModifyStudent ?? false,
+      course: courseView.course,
+      canModifyCourse: courseView.instructorPermissions?.canModifyCourse ?? false,
+      canModifyStudent: courseView.instructorPermissions?.canModifyStudent ?? false,
+      canModifyInstructor: courseView.instructorPermissions?.canModifyInstructor ?? false,
       isLoadingCourseStats: false,
     };
   }
@@ -311,8 +315,12 @@ export class InstructorCoursesPageComponent implements OnInit {
         modalRef.componentInstance.oldCourseName = courseName;
         modalRef.componentInstance.allCourses = this.allCoursesList;
         modalRef.componentInstance.newTimeZone = timeZone;
-        modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
-        modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
+        modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions.map(
+          (sessionView: FeedbackSessionView) => sessionView.feedbackSession,
+        );
+        modalRef.componentInstance.selectedFeedbackSessions = new Set(
+          response.feedbackSessions.map((sessionView: FeedbackSessionView) => sessionView.feedbackSession),
+        );
         modalRef.result.then(
           (result: CopyCourseModalResult) => this.createCopiedCourse(result),
           () => {},
@@ -372,10 +380,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           });
 
           promise.then(() => {
-            this.courseService.getCourseAsInstructor(result.newCourseId).subscribe((course: Course) => {
-              this.activeCourses.push(this.getCourseModelFromCourse(course));
-              this.activeCoursesList.push(course);
-              this.allCoursesList.push(course);
+            this.courseService.getCourseAsInstructor(result.newCourseId).subscribe((courseView: CourseView) => {
+              this.activeCourses.push(this.getCourseModelFromCourse(courseView));
+              this.activeCoursesList.push(courseView.course);
+              this.allCoursesList.push(courseView.course);
               this.activeCoursesDefaultSort();
               this.setIsCopyingCourse(false);
               if (Object.keys(this.modifiedSessions).length > 0) {
@@ -401,15 +409,15 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Gets a CourseModel from courseID
    */
-  private getCourseModelFromCourse(course: Course): CourseModel {
-    let canModifyCourse = false;
-    let canModifyStudent = false;
-    if (course.privileges) {
-      canModifyCourse = course.privileges.canModifyCourse;
-      canModifyStudent = course.privileges.canModifyStudent;
-    }
+  private getCourseModelFromCourse(courseView: CourseView): CourseModel {
     const isLoadingCourseStats = false;
-    return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
+    return {
+      course: courseView.course,
+      canModifyCourse: courseView.instructorPermissions?.canModifyCourse ?? false,
+      canModifyStudent: courseView.instructorPermissions?.canModifyStudent ?? false,
+      canModifyInstructor: courseView.instructorPermissions?.canModifyInstructor ?? false,
+      isLoadingCourseStats,
+    };
   }
 
   /**

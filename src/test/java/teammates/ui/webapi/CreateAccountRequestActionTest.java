@@ -14,9 +14,9 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateAccountRequestAction}.

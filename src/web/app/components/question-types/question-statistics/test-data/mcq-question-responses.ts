@@ -1,0 +1,191 @@
+import { FeedbackMcqResponseDetails, FeedbackQuestionType } from '../../../../../types/api-output';
+import { Response } from '../../../../../types/question-statistics.model';
+
+export const mcqQuestionResponses = {
+  responsesNoOther: [
+    {
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Alice',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'alice@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 'optionA',
+        isOther: false,
+        otherFieldContent: 'nothing',
+        questionType: FeedbackQuestionType.MCQ,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 'optionA',
+        isOther: false,
+        otherFieldContent: 'nothing',
+        questionType: FeedbackQuestionType.MCQ,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Charles',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'charles@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 'optionB',
+        isOther: false,
+        otherFieldContent: 'nothing',
+        questionType: FeedbackQuestionType.MCQ,
+      },
+    },
+  ] as Response<FeedbackMcqResponseDetails>[],
+  responsesWithOther: [
+    {
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Alice',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'alice@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 'etcetra',
+        isOther: true,
+        otherFieldContent: 'nothing',
+        questionType: FeedbackQuestionType.MCQ,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 'optionA',
+        isOther: false,
+        otherFieldContent: 'nothing',
+        questionType: FeedbackQuestionType.MCQ,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Charles',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'charles@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 'optionB',
+        isOther: false,
+        otherFieldContent: 'nothing',
+        questionType: FeedbackQuestionType.MCQ,
+      },
+    },
+  ] as Response<FeedbackMcqResponseDetails>[],
+  expectedPerRecipientResponses: {
+    Alice: {
+      average: 1,
+      recipient: 'Alice',
+      recipientEmail: 'alice@gmail.com',
+      recipientTeam: 'Team 1',
+      responses: {
+        optionA: 1,
+        optionB: 0,
+        optionC: 0,
+      },
+      total: 1,
+    },
+    Bob: {
+      average: 1,
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      responses: {
+        optionA: 1,
+        optionB: 0,
+        optionC: 0,
+      },
+      total: 1,
+    },
+    Charles: {
+      average: 2,
+      recipient: 'Charles',
+      recipientEmail: 'charles@gmail.com',
+      recipientTeam: 'Team 1',
+      responses: {
+        optionA: 0,
+        optionB: 1,
+        optionC: 0,
+      },
+      total: 2,
+    },
+  },
+  expectedPerRecipientResponsesWithOther: {
+    Alice: {
+      average: 4,
+      recipient: 'Alice',
+      recipientEmail: 'alice@gmail.com',
+      recipientTeam: 'Team 1',
+      responses: {
+        Other: 1,
+        optionA: 0,
+        optionB: 0,
+        optionC: 0,
+      },
+      total: 4,
+    },
+    Bob: {
+      average: 1,
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      responses: {
+        Other: 0,
+        optionA: 1,
+        optionB: 0,
+        optionC: 0,
+      },
+      total: 1,
+    },
+    Charles: {
+      average: 2,
+      recipient: 'Charles',
+      recipientEmail: 'charles@gmail.com',
+      recipientTeam: 'Team 1',
+      responses: {
+        Other: 0,
+        optionA: 0,
+        optionB: 1,
+        optionC: 0,
+      },
+      total: 2,
+    },
+  },
+} satisfies {
+  responsesNoOther: Response<FeedbackMcqResponseDetails>[];
+  responsesWithOther: Response<FeedbackMcqResponseDetails>[];
+  expectedPerRecipientResponses: Record<string, unknown>;
+  expectedPerRecipientResponsesWithOther: Record<string, unknown>;
+};
+
+export default mcqQuestionResponses;

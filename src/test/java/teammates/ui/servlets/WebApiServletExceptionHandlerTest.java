@@ -14,10 +14,10 @@ import teammates.test.MockHttpServletResponse;
 import teammates.ui.exception.ActionMappingException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.exception.UnexpectedServerException;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link WebApiServletExceptionHandler}.

@@ -16,8 +16,9 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  Course,
+  CourseView,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -211,7 +212,7 @@ export class SessionResultPageComponent implements OnInit {
 
   private loadCourseInfo(): void {
     this.isCourseLoading = true;
-    let request: Observable<Course>;
+    let request: Observable<CourseView>;
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
         if (this.previewAsPerson) {
@@ -228,9 +229,9 @@ export class SessionResultPageComponent implements OnInit {
         return;
     }
     request.subscribe({
-      next: (resp: Course) => {
-        this.courseName = resp.courseName;
-        this.courseInstitute = resp.institute;
+      next: (resp: CourseView) => {
+        this.courseName = resp.course.courseName;
+        this.courseInstitute = resp.course.institute;
         this.isCourseLoading = false;
       },
       error: () => {
@@ -293,8 +294,9 @@ export class SessionResultPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (feedbackSession: FeedbackSession) => {
+        next: (feedbackSessionView: FeedbackSessionView) => {
           const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.session = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
           this.courseId = feedbackSession.courseId;

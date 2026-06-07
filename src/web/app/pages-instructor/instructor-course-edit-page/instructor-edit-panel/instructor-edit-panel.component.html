@@ -8,7 +8,7 @@
           class="btn btn-primary btn-sm"
           ngbTooltip="Send invitation email to the instructor"
           placement="top-right"
-          [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
+          [disabled]="!currInstructorCoursePrivilege?.canModifyInstructor || instructor.isSavingInstructorEdit"
           (click)="sendRemindJoinEmail.emit()"
         >
           <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -19,7 +19,7 @@
         <button
           id="btn-edit-instructor-{{ instructorIndex + 1 }}"
           class="btn btn-primary btn-sm"
-          [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
+          [disabled]="!currInstructorCoursePrivilege?.canModifyInstructor || instructor.isSavingInstructorEdit"
           (click)="triggerModelChange('isEditing', true)"
         >
           @if (!instructor.isSavingInstructorEdit) {
@@ -45,7 +45,7 @@
           class="btn btn-primary btn-sm"
           ngbTooltip="Delete the instructor from the course"
           placement="top-right"
-          [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
+          [disabled]="!currInstructorCoursePrivilege?.canModifyInstructor || instructor.isSavingInstructorEdit"
           (click)="deleteInstructor.emit()"
         >
           <i class="fa fa-trash" aria-hidden="true"></i>
@@ -56,7 +56,7 @@
   </div>
 
   <div class="card-body text-center" [ngClass]="{ 'fill-plain': editMode === EditMode.ADD }">
-    @if (editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor) {
+    @if (editMode === EditMode.EDIT && currInstructorCoursePrivilege?.canModifyInstructor) {
       <div class="row form-group">
         <label for="google-id-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label"> Google ID: </label>
         @if (instructor.joinState === JoinState.JOINED) {

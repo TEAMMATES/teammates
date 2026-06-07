@@ -10,6 +10,7 @@ import {
   QuestionSubmissionFormModel,
   ResponseSubmissionStatus,
 } from './question-submission-form-model';
+import { NoRecipientsWarningComponent } from './no-recipients-warning.component';
 import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
@@ -104,6 +105,7 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
     RecipientTypeNamePipe,
+    NoRecipientsWarningComponent,
   ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {

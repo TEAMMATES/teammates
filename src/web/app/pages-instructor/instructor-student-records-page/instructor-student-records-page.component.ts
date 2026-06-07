@@ -143,7 +143,11 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private getFeedbackSessions(courseId: string): Observable<FeedbackSession> {
     return this.feedbackSessionsService
       .getFeedbackSessionsForInstructor(courseId)
-      .pipe(mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions));
+      .pipe(
+        mergeMap((feedbackSessions: FeedbackSessions) =>
+          feedbackSessions.feedbackSessions.map((fs) => fs.feedbackSession),
+        ),
+      );
   }
 
   /**
