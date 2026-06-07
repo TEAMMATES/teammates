@@ -1,26 +1,30 @@
 import { TestBed } from '@angular/core/testing';
+import { Mock, vi } from 'vitest';
 import { of, throwError } from 'rxjs';
 import { ResponseInstructorCommentService } from './feedback-response-comment.service';
 import { InstructorCommentService } from './instructor-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, ResponseInstructorComment } from '../types/api-output';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import type { InstructorCommentRowModel, NewCommentRowModel } from '../app/components/comment-box/comment.model';
 import { CommentTableModel } from '../app/components/comment-box/comment-table/comment-table.model';
 
-type Spy<T> = {
-  [K in keyof T]: (...args: unknown[]) => unknown;
-};
-
 describe('InstructorCommentService', () => {
   const timezone = 'Asia/Singapore';
   const errorMessage = 'Something went wrong';
 
-  let spyResponseInstructorCommentService: Spy<ResponseInstructorCommentService>;
-  let spyStatusMessageService: Spy<StatusMessageService>;
-  let spyTableComparatorService: Spy<TableComparatorService>;
+  let spyResponseInstructorCommentService: {
+    createComment: Mock;
+    deleteComment: Mock;
+    updateComment: Mock;
+  };
+  let spyStatusMessageService: {
+    showErrorToast: Mock;
+  };
+  let spyTableComparatorService: {
+    compare: Mock;
+  };
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<ResponseInstructorComment> = {}): ResponseInstructorComment => ({
@@ -74,10 +78,17 @@ describe('InstructorCommentService', () => {
   });
 
   beforeEach(() => {
-    spyResponseInstructorCommentService = createSpyFromClass(ResponseInstructorCommentService);
-    spyStatusMessageService = createSpyFromClass(StatusMessageService);
-    spyTableComparatorService = createSpyFromClass(TableComparatorService);
-    spyTableComparatorService.compare.mockReturnValue(0);
+    spyResponseInstructorCommentService = {
+      createComment: vi.fn() as Mock,
+      deleteComment: vi.fn() as Mock,
+      updateComment: vi.fn() as Mock,
+    };
+    spyStatusMessageService = {
+      showErrorToast: vi.fn() as Mock,
+    };
+    spyTableComparatorService = {
+      compare: vi.fn().mockReturnValue(0) as Mock,
+    };
 
     TestBed.configureTestingModule({
       providers: [

@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, Observable } from 'rxjs';
@@ -17,7 +18,6 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
@@ -63,16 +63,19 @@ describe('CourseEditFormComponent', () => {
     status: 0,
   };
 
-  const spyStatusMessageService = createSpyFromClass(StatusMessageService);
-  spyStatusMessageService.showErrorToast.mockReturnValue(errorMsg);
+  const spyStatusMessageService: Partial<StatusMessageService> = {
+    showErrorToast: vi.fn().mockReturnValue(errorMsg),
+  };
 
-  const timezoneServiceStub = createSpyFromClass(TimezoneService);
-  timezoneServiceStub.getTzOffsets.mockReturnValue(timeZoneOffsets1);
-  timezoneServiceStub.guessTimezone.mockReturnValue(testTimeZone);
+  const timezoneServiceStub: Partial<TimezoneService> = {
+    getTzOffsets: vi.fn().mockReturnValue(timeZoneOffsets1),
+    guessTimezone: vi.fn().mockReturnValue(testTimeZone),
+  };
 
-  const spyCourseService = createSpyFromClass(CourseService);
-  spyCourseService.createCourse.mockReturnValue(of({}));
-  spyCourseService.getAllCoursesAsInstructor.mockReturnValue(of({ courses: [testCourseView1, testCourseView1] }));
+  const spyCourseService: Partial<CourseService> = {
+    createCourse: vi.fn().mockReturnValue(of({})),
+    getAllCoursesAsInstructor: vi.fn().mockReturnValue(of({ courses: [testCourseView1, testCourseView1] })),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

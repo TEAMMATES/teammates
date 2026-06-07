@@ -1,20 +1,27 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { CommentRowComponent } from './comment-row.component';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { ResponseInstructorCommentService } from '../../../../services/feedback-response-comment.service';
-import createSpyFromClass from '../../../../test-helpers/create-spy-from-class';
 import { CommentVisibilityType, FeedbackVisibilityType } from '../../../../types/api-output';
 
 describe('CommentRowComponent', () => {
   let component: CommentRowComponent;
   let fixture: ComponentFixture<CommentRowComponent>;
 
-  const spyVisibilityStateMachine = createSpyFromClass(CommentVisibilityStateMachine);
+  const spyVisibilityStateMachine: Partial<CommentVisibilityStateMachine> = {
+    applyVisibilitySettings: vi.fn(),
+    isVisibilityTypeApplicable: vi.fn().mockReturnValue(true),
+    isVisible: vi.fn().mockReturnValue(true),
+    getVisibilityTypesUnderVisibilityControl: vi.fn().mockReturnValue([]),
+    allowAllApplicableTypesToSee: vi.fn(),
+  };
 
-  const spyCommentService = createSpyFromClass(ResponseInstructorCommentService);
-  spyCommentService.getNewVisibilityStateMachine.mockReturnValue(spyVisibilityStateMachine);
+  const spyCommentService: Partial<ResponseInstructorCommentService> = {
+    getNewVisibilityStateMachine: vi.fn().mockReturnValue(spyVisibilityStateMachine),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
