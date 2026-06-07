@@ -386,7 +386,9 @@ describe('AdminStudentSearchTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const sendButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('[data-testid="send-course-join-button"]');
+    const sendButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '[data-testid="send-course-join-button"]',
+    );
     sendButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();

@@ -235,7 +235,8 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     fixture.detectChanges();
 
     const instructors: Instructor[] = [testInstructor1, testInstructor3, testInstructor4];
-    const buttonConfirmCopy: HTMLElement = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const buttonConfirmCopy: HTMLElement =
+      fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
     vi.spyOn(component.copyClickedEvent, 'emit');
 
     expect(component.isAnyInstructorCandidatesSelected).toBeTruthy();
@@ -252,8 +253,10 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2];
     fixture.detectChanges();
 
-    const buttonConfirmCopy: HTMLElement = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
-    const buttonCancelCopy: HTMLElement = fixture.debugElement.nativeElement.querySelector('#btn-cancel-copy-instructor');
+    const buttonConfirmCopy: HTMLElement =
+      fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const buttonCancelCopy: HTMLElement =
+      fixture.debugElement.nativeElement.querySelector('#btn-cancel-copy-instructor');
     const buttonCloseModal: HTMLElement = fixture.debugElement.nativeElement.querySelector('#btn-close-modal');
 
     buttonConfirmCopy.click();

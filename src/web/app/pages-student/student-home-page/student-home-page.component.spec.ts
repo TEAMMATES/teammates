@@ -737,8 +737,12 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const href1: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-team-btn-0').getAttribute('href');
-    const href2: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-team-btn-1').getAttribute('href');
+    const href1: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-team-btn-0')
+      .getAttribute('href');
+    const href2: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-team-btn-1')
+      .getAttribute('href');
     expect(href1).toEqual('/web/student/course?courseid=CS3281');
     expect(href2).toEqual('/web/student/course?courseid=CS3282');
   });
@@ -810,8 +814,12 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const href1: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0').getAttribute('href');
-    const href2: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-1').getAttribute('href');
+    const href1: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-responses-btn-0')
+      .getAttribute('href');
+    const href2: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-responses-btn-1')
+      .getAttribute('href');
     expect(href1).toEqual('/web/student/sessions/result?fsid=fs-id-1');
     expect(href2).toEqual('/web/student/sessions/result?fsid=fs-id-2');
   });
@@ -885,8 +893,12 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const href1: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0').getAttribute('href');
-    const href2: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-1').getAttribute('href');
+    const href1: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-submit-btn-0')
+      .getAttribute('href');
+    const href2: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-submit-btn-1')
+      .getAttribute('href');
     expect(href1).toEqual('/web/student/sessions/submission?fsid=fs-id-1');
     expect(href2).toEqual('/web/student/sessions/submission?fsid=fs-id-2');
   });

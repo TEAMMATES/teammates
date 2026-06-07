@@ -93,7 +93,11 @@ export class HttpRequestService {
   /**
    * Executes POST request.
    */
-  post<TResponse>(endpoint: string, paramsMap: Record<string, string> = {}, body: unknown = null): Observable<TResponse> {
+  post<TResponse>(
+    endpoint: string,
+    paramsMap: Record<string, string> = {},
+    body: unknown = null,
+  ): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
@@ -103,7 +107,11 @@ export class HttpRequestService {
   /**
    * Executes PUT request.
    */
-  put<TResponse>(endpoint: string, paramsMap: Record<string, string> = {}, body: unknown = null): Observable<TResponse> {
+  put<TResponse>(
+    endpoint: string,
+    paramsMap: Record<string, string> = {},
+    body: unknown = null,
+  ): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
