@@ -348,7 +348,7 @@ describe('SessionResultPageComponent', () => {
 
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#join-course-btn');
+    const btn = fixture.debugElement.nativeElement.querySelector('#join-course-btn');
     btn.click();
 
     expect(navSpy).toHaveBeenCalledTimes(1);

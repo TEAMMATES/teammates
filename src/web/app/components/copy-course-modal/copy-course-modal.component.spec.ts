@@ -91,7 +91,7 @@ describe('CopyCourseModalComponent', () => {
     component.newCourseName = 'TestName02';
     component.newCourseInstitute = 'Test institute';
     fixture.detectChanges();
-    const copyButton: any = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
+    const copyButton = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
     expect(copyButton.nativeElement.disabled).toBeFalsy();
   });
 
@@ -99,7 +99,7 @@ describe('CopyCourseModalComponent', () => {
     component.newCourseId = '';
     component.newCourseName = 'TestName02';
     fixture.detectChanges();
-    const copyButton: any = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
+    const copyButton = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
     expect(copyButton.nativeElement.disabled).toBeTruthy();
   });
 
