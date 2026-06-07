@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * The instructor permissions exposed for course responses.
  */
@@ -9,6 +11,7 @@ public class InstructorCoursePermissionsData implements ApiOutput {
     private final boolean canModifyStudent;
     private final boolean canModifyInstructor;
 
+    @JsonCreator
     public InstructorCoursePermissionsData(boolean canModifyCourse, boolean canModifyStudent,
             boolean canModifyInstructor) {
         this.canModifyCourse = canModifyCourse;
