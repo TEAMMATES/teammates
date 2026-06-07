@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
@@ -174,7 +174,7 @@ describe('AccountRequestTableComponent', () => {
       result: Promise.resolve({}),
     };
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as NgbModalRef);
 
     const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
@@ -191,12 +191,9 @@ describe('AccountRequestTableComponent', () => {
     const mockModalRef = {
       componentInstance: {},
       result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
     };
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as NgbModalRef);
 
     const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
@@ -268,7 +265,7 @@ describe('AccountRequestTableComponent', () => {
       result: Promise.resolve({}),
     };
 
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as NgbModalRef);
 
     vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(
       throwError(() => ({
@@ -301,7 +298,7 @@ describe('AccountRequestTableComponent', () => {
       result: Promise.resolve({}),
     };
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as NgbModalRef);
 
     const editedAccountRequest: AccountRequest = {
       accountRequestId: 'id',
@@ -373,7 +370,7 @@ describe('AccountRequestTableComponent', () => {
 
     vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
 
-    const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
+    const rejectButton = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
     rejectButton.click();
 
     fixture.detectChanges();
