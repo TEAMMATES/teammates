@@ -198,6 +198,12 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
+    const resultData = {
+      rejectionReasonTitle: 'Title',
+      rejectionReasonBody: 'Body',
+    };
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
+
     vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(
       throwError(() => ({
         error: {

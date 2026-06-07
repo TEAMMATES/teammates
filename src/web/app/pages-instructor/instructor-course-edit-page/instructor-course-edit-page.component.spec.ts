@@ -273,7 +273,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-order if instructor is deleted', async () => {
-    vi.spyOn(instructorService, 'deleteInstructor');
+    vi.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({ message: 'Instructor deleted' }));
 
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 

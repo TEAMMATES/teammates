@@ -160,7 +160,7 @@ describe('UserJoinPageComponent', () => {
     component.entityType = entityType;
     component.validUrl = true;
 
-    const courseSpy = vi.spyOn(courseService, 'joinCourse');
+    const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({ message: 'Joined course' }));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
