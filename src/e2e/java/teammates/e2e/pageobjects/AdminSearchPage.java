@@ -282,7 +282,8 @@ public class AdminSearchPage extends AppPage {
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-admin-account-request-search-table tbody tr"));
+        List<WebElement> rows = browser.driver.findElements(
+                By.cssSelector("tm-admin-account-request-search-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (columns.size() >= ACCOUNT_REQUEST_COL_INSTITUTE
