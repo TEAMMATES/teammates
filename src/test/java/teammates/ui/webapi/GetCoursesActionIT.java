@@ -12,6 +12,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.GroupNames;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 import teammates.ui.output.CoursesData;
 
 /**
@@ -120,7 +121,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         loginAsStudent(student.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        courses.getCourses().sort((c1, c2) -> c1.getCourseId().compareTo(c2.getCourseId()));
+        courses.getCourses().sort((c1, c2) -> c1.getCourse().getCourseId().compareTo(c2.getCourse().getCourseId()));
         assertEquals(2, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
@@ -129,14 +130,15 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
     }
 
-    private void verifySameCourseData(CourseData actualCourse, Course expectedCourse) {
-        assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
-        assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
-        assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
+    private void verifySameCourseData(CourseViewData actualCourse, Course expectedCourse) {
+        CourseData actualCourseData = actualCourse.getCourse();
+        assertEquals(actualCourseData.getCourseId(), expectedCourse.getId());
+        assertEquals(actualCourseData.getCourseName(), expectedCourse.getName());
+        assertEquals(actualCourseData.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
         if (expectedCourse.getDeletedAt() != null) {
-            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+            assertEquals(actualCourseData.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
         }
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
+        assertEquals(actualCourseData.getTimeZone(), expectedCourse.getTimeZone());
     }
 
     private CoursesData getValidCourses(String... params) {

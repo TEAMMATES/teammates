@@ -13,6 +13,7 @@ import {
   AccountRequests,
   AccountRequestStatus,
   Course,
+  CourseView,
   FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -274,7 +275,8 @@ export class SearchService {
       notOpenSessions: {},
       publishedSessions: {},
     };
-    for (const feedbackSession of feedbackSessions.feedbackSessions) {
+    for (const feedbackSessionView of feedbackSessions.feedbackSessions) {
+      const feedbackSession = feedbackSessionView.feedbackSession;
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
         feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionId] = {
           ...this.formatProperties(feedbackSession),
@@ -439,10 +441,10 @@ export class SearchService {
 
   private getDistinctCourses(distinctCourseIds: string[]): Observable<DistinctCoursesMap> {
     return forkJoin(distinctCourseIds.map((id: string) => this.courseService.getCourseAsInstructor(id))).pipe(
-      map((courses: Course[]) => {
+      map((courses: CourseView[]) => {
         const distinctCoursesMap: DistinctCoursesMap = {};
-        courses.forEach((course: Course, index: number) => {
-          distinctCoursesMap[distinctCourseIds[index]] = course;
+        courses.forEach((courseView: CourseView, index: number) => {
+          distinctCoursesMap[distinctCourseIds[index]] = courseView.course;
         });
         return distinctCoursesMap;
       }),

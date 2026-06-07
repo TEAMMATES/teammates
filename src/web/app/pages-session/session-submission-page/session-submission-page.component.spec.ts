@@ -33,6 +33,7 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -76,6 +77,9 @@ describe('SessionSubmissionPageComponent', () => {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
+  const toFeedbackSessionView = (feedbackSession: FeedbackSession): FeedbackSessionView => ({
+    feedbackSession,
+  });
 
   const createGiverComment = (commentText: string): GiverCommentRowModel => {
     const originalCommentFormModel = {
@@ -722,7 +726,9 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load an open feedback session', () => {
-    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testOpenFeedbackSession));
+    const fsSpy = vi
+      .spyOn(feedbackSessionsService, 'getFeedbackSession')
+      .mockReturnValue(of(toFeedbackSessionView(testOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
@@ -746,7 +752,7 @@ describe('SessionSubmissionPageComponent', () => {
     testClosedFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(testClosedFeedbackSession));
+      .mockReturnValue(of(toFeedbackSessionView(testClosedFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
@@ -766,7 +772,7 @@ describe('SessionSubmissionPageComponent', () => {
     testVisibleNotOpenFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(testVisibleNotOpenFeedbackSession));
+      .mockReturnValue(of(toFeedbackSessionView(testVisibleNotOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);

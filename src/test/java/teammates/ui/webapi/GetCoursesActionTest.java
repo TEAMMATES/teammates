@@ -18,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 import teammates.ui.output.CoursesData;
 
 /**
@@ -146,7 +147,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         }
     }
 
-    private void verifySameCourseDataStudent(CourseData expectedCourseData, CourseData actualCourseData) {
+    private void verifySameCourseDataStudent(CourseViewData expectedCourse, CourseViewData actualCourse) {
+        CourseData expectedCourseData = expectedCourse.getCourse();
+        CourseData actualCourseData = actualCourse.getCourse();
         assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
         assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
         assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
@@ -154,7 +157,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
     }
 
-    private void verifySameCourseData(CourseData expectedCourseData, CourseData actualCourseData) {
+    private void verifySameCourseData(CourseViewData expectedCourse, CourseViewData actualCourse) {
+        CourseData expectedCourseData = expectedCourse.getCourse();
+        CourseData actualCourseData = actualCourse.getCourse();
         assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
         assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
         assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());

@@ -20,6 +20,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionStats,
   FeedbackSessionSubmissionStatus,
+  FeedbackSessionView,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../types/api-output';
@@ -405,9 +406,9 @@ export abstract class InstructorSessionBasePageComponent {
             intent: Intent.FULL_DETAIL,
           })
           .pipe(
-            switchMap((feedbackSession: FeedbackSession) =>
+            switchMap((feedbackSessionView: FeedbackSessionView) =>
               this.copyFeedbackSession(
-                feedbackSession,
+                feedbackSessionView.feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
                 result.sessionToCopyCourseId,

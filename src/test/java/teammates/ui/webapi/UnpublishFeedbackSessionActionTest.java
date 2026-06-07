@@ -248,10 +248,12 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         assertEquals(output.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
         assertEquals(output.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
         assertEquals((long) output.getGracePeriod(), session.getGracePeriod().toMinutes());
-        assertEquals((long) output.getSessionVisibleFromTimestamp(), session.getSessionVisibleFromTime().toEpochMilli());
+        assertEquals((long) output.getSessionVisibleFromTimestamp(),
+                session.getSessionVisibleFromTime().toEpochMilli());
         assertEquals(output.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
         assertEquals(output.getCustomSessionVisibleTimestamp(), output.getSessionVisibleFromTimestamp());
-        assertEquals((long) output.getResultVisibleFromTimestamp(), session.getResultsVisibleFromTime().toEpochMilli());
+        assertEquals((long) output.getResultVisibleFromTimestamp(),
+                session.getResultsVisibleFromTime().toEpochMilli());
         assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
         assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
         assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);

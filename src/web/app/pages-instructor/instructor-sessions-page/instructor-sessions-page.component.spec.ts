@@ -18,6 +18,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
+  InstructorFeedbackSessionPermissions,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -29,6 +30,11 @@ describe('InstructorSessionsPageComponent', () => {
   let sessionService: FeedbackSessionsService;
   let timezoneService: TimezoneService;
   let ngbModal: NgbModal;
+  const testInstructorPrivilege: InstructorFeedbackSessionPermissions = {
+    canModifySession: true,
+    canSubmitSessionInSections: true,
+    canViewSessionInSections: true,
+  };
 
   const testCourse1: Course = {
     courseId: 'CS1231',
@@ -149,7 +155,7 @@ describe('InstructorSessionsPageComponent', () => {
 
   it('should load courses of the current instructor', () => {
     const activeCourses: Courses = {
-      courses: [testCourse1, testCourse2],
+      courses: [{ course: testCourse1 }, { course: testCourse2 }],
     };
 
     vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
@@ -173,7 +179,7 @@ describe('InstructorSessionsPageComponent', () => {
 
   it('should load all sessions by the instructor', () => {
     const courseSessions: FeedbackSessions = {
-      feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
+      feedbackSessions: [{ feedbackSession: testFeedbackSession1 }, { feedbackSession: testFeedbackSession2 }],
     };
     const sessionSpy = vi.spyOn(sessionService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
 
@@ -190,7 +196,7 @@ describe('InstructorSessionsPageComponent', () => {
 
   it('should load all feedback sessions in recycle bin that can be accessed by instructor', () => {
     const recycleBinSessions: FeedbackSessions = {
-      feedbackSessions: [testFeedbackSession3, testFeedbackSession4],
+      feedbackSessions: [{ feedbackSession: testFeedbackSession3 }, { feedbackSession: testFeedbackSession4 }],
     };
     const sessionSpy = vi
       .spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
@@ -233,11 +239,13 @@ describe('InstructorSessionsPageComponent', () => {
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels[0].feedbackSession.courseId).toEqual('CS1231');
+    expect(component.recycleBinFeedbackSessionRowModels[0].instructorPrivilege).toEqual(testTutorPrivilege);
   });
 
   it('should restore a session', () => {
     const recycleBinFeedbackSessionRowModel1: any = {
       feedbackSession: testFeedbackSession3,
+      instructorPrivilege: testInstructorPrivilege,
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
@@ -255,9 +263,11 @@ describe('InstructorSessionsPageComponent', () => {
   it('should restore all sessions', () => {
     const recycleBinFeedbackSessionRowModel1: any = {
       feedbackSession: testFeedbackSession3,
+      instructorPrivilege: testInstructorPrivilege,
     };
     const recycleBinFeedbackSessionRowModel2: any = {
       feedbackSession: testFeedbackSession4,
+      instructorPrivilege: testInstructorPrivilege,
     };
     component.recycleBinFeedbackSessionRowModels = [
       recycleBinFeedbackSessionRowModel1,

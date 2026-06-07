@@ -17,6 +17,7 @@ import {
   FeedbackQuestion,
   FeedbackQuestionType,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -46,6 +47,9 @@ describe('SessionResultPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+  };
+  const testFeedbackSessionView: FeedbackSessionView = {
+    feedbackSession: testFeedbackSession,
   };
 
   const testInfo: AuthInfo = {
@@ -273,7 +277,7 @@ describe('SessionResultPageComponent', () => {
         teamId: '',
       }),
     );
-    vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     const logSpy = vi.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('log created'));
 
     component.ngOnInit();
@@ -385,7 +389,7 @@ describe('SessionResultPageComponent', () => {
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     const getResultsSpy = vi
       .spyOn(feedbackSessionService, 'getUserSessionResults')
       .mockReturnValue(of(testSessionResults));

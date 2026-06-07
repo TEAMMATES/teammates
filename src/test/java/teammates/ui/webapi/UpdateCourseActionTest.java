@@ -81,7 +81,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         UpdateCourseAction action = getAction(request, params);
         CourseData actionOutput = (CourseData) getJsonResult(action).getOutput();
 
-        assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)),
+                JsonUtils.toJson(actionOutput));
     }
 
     @Test

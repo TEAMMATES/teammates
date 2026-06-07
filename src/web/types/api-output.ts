@@ -61,11 +61,10 @@ export interface Course extends ApiOutput {
   institute: string;
   creationTimestamp: number;
   deletionTimestamp: number;
-  privileges?: InstructorPermissionSet;
 }
 
 export interface Courses extends ApiOutput {
-  courses: Course[];
+  courses: CourseView[];
 }
 
 export interface CourseSection extends ApiOutput {
@@ -75,6 +74,11 @@ export interface CourseSection extends ApiOutput {
 
 export interface CourseSections extends ApiOutput {
   sections: CourseSection[];
+}
+
+export interface CourseView extends ApiOutput {
+  course: Course;
+  instructorPermissions?: InstructorCoursePermissions;
 }
 
 export interface DeadlineExtensions extends ApiOutput {
@@ -305,7 +309,6 @@ export interface FeedbackSession extends ApiOutput {
   isClosingSoonEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;
   createdAtTimestamp: number;
-  privileges?: InstructorPermissionSet;
 }
 
 export interface FeedbackSessionAuditLogDetails extends LogDetails {
@@ -329,7 +332,7 @@ export interface FeedbackSessionLogs extends ApiOutput {
 }
 
 export interface FeedbackSessions extends ApiOutput {
-  feedbackSessions: FeedbackSession[];
+  feedbackSessions: FeedbackSessionView[];
 }
 
 export interface FeedbackSessionStats extends ApiOutput {
@@ -342,6 +345,11 @@ export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
   instructorGivers: string[];
   studentNonGivers: string[];
   instructorNonGivers: string[];
+}
+
+export interface FeedbackSessionView extends ApiOutput {
+  feedbackSession: FeedbackSession;
+  instructorPermissions?: InstructorFeedbackSessionPermissions;
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -393,6 +401,18 @@ export interface Instructor extends ApiOutput {
   role?: InstructorPermissionRole;
   joinState: JoinState;
   key?: string;
+}
+
+export interface InstructorCoursePermissions extends ApiOutput {
+  canModifyCourse: boolean;
+  canModifyStudent: boolean;
+  canModifyInstructor: boolean;
+}
+
+export interface InstructorFeedbackSessionPermissions extends ApiOutput {
+  canModifySession: boolean;
+  canSubmitSessionInSections: boolean;
+  canViewSessionInSections: boolean;
 }
 
 export interface InstructorPermissionSet {

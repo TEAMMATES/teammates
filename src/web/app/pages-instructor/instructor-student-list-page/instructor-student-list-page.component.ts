@@ -9,6 +9,7 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
+  CourseView,
   Courses,
   InstructorPermissionSet,
   InstructorPrivilege,
@@ -95,7 +96,8 @@ export class InstructorStudentListPageComponent implements OnInit {
       )
       .subscribe({
         next: (courses: Courses) => {
-          courses.courses.forEach((course: Course) => {
+          courses.courses.forEach((courseView: CourseView) => {
+            const course = courseView.course;
             const courseTab: CourseTab = {
               course,
               studentList: [],

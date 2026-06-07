@@ -14,6 +14,7 @@ import { StudentService } from '../../../services/student.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
+  CourseView,
   Courses,
   DeadlineExtensions,
   FeedbackQuestion,
@@ -21,6 +22,7 @@ import {
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessions,
+  FeedbackSessionView,
   FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   Instructor,
@@ -195,7 +197,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         intent: Intent.FULL_DETAIL,
       })
       .pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
+        switchMap((feedbackSessionView: FeedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.courseId = feedbackSession.courseId;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
 
@@ -205,9 +208,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.getAllStudentsOfCourse(),
             this.getAllInstructors(),
           ]).pipe(
-            map(([course, deadlineExtensions]: [Course, DeadlineExtensions, Student[], Instructor[]]) => ({
+            map(([courseView, deadlineExtensions]: [CourseView, DeadlineExtensions, Student[], Instructor[]]) => ({
               feedbackSession,
-              course,
+              course: courseView.course,
               deadlineExtensions,
             })),
           );
@@ -254,7 +257,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.modifiedSession = {};
           const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
           modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
-          modalRef.componentInstance.courseCandidates = courses.courses;
+          modalRef.componentInstance.courseCandidates = courses.courses.map(
+            (courseView: CourseView) => courseView.course,
+          );
           modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
           modalRef.result
@@ -1092,7 +1097,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       )
       .subscribe({
         next: (response: FeedbackSessions) => {
-          response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+          response.feedbackSessions.forEach((feedbackSessionView: FeedbackSessionView) => {
+            const feedbackSession = feedbackSessionView.feedbackSession;
             const model: FeedbackSessionTabModel = {
               feedbackSessionId: feedbackSession.feedbackSessionId,
               courseId: feedbackSession.courseId,

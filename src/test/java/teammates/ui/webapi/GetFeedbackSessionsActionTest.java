@@ -24,6 +24,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
 
 /**
@@ -104,7 +105,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -137,7 +138,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -168,7 +169,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -194,7 +195,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -204,7 +205,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             FeedbackSessionsData sessionsData, List<FeedbackSession> expectedSessions) {
 
         assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
-        for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
+        for (FeedbackSessionViewData sessionViewData : sessionsData.getFeedbackSessions()) {
+            FeedbackSessionData sessionData = sessionViewData.getFeedbackSession();
             List<FeedbackSession> matchedSessions =
                     expectedSessions.stream().filter(session -> session.getName().equals(
                             sessionData.getFeedbackSessionName())

@@ -24,7 +24,7 @@ import { SubmissionReceiptService } from '../../../services/submission-receipt.s
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  Course,
+  CourseView,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionType,
@@ -255,8 +255,8 @@ export class SessionSubmissionPageComponent implements OnInit {
       });
   }
 
-  private loadCourseInfoData$(): Observable<Course | null> {
-    let request: Observable<Course>;
+  private loadCourseInfoData$(): Observable<CourseView | null> {
+    let request: Observable<CourseView>;
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAsPerson) {
@@ -273,9 +273,9 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
 
     return request.pipe(
-      tap((resp: Course) => {
-        this.courseName = resp.courseName;
-        this.courseInstitute = resp.institute;
+      tap((resp: CourseView) => {
+        this.courseName = resp.course.courseName;
+        this.courseInstitute = resp.course.institute;
       }),
       catchError(() => of(null)),
     );
@@ -349,7 +349,8 @@ export class SessionSubmissionPageComponent implements OnInit {
         previewAs: this.previewAsPerson,
       })
       .pipe(
-        tap((feedbackSession: FeedbackSession) => {
+        tap((feedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
           this.courseId = feedbackSession.courseId;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;

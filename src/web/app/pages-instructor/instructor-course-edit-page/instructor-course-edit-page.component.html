@@ -57,7 +57,7 @@
       class="btn btn-info mx-2 my-1"
       type="button"
       (click)="copyInstructors()"
-      [disabled]="!this.currInstructorCoursePrivilege.canModifyInstructor || isCopyingInstructor"
+      [disabled]="!this.currInstructorCoursePrivilege?.canModifyInstructor || isCopyingInstructor"
     >
       @if (isCopyingInstructor) {
         <tm-ajax-loading></tm-ajax-loading>

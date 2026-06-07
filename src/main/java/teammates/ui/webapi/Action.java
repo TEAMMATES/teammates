@@ -7,10 +7,8 @@ import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.RequestContext;
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.EmailGenerator;
@@ -280,29 +278,6 @@ public abstract class Action {
 
     Student getStudentFromRequest(String courseId) {
         return requestContext.getStudentForCourse(courseId, logic::getStudentFromAuthContext);
-    }
-
-    InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {
-        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
-        if (feedbackSessionName != null) {
-            privilege.setCanSubmitSessionInSections(
-                    logic.hasInstructorPermissions(instructor,
-                            Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                            || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
-                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-            privilege.setCanViewSessionInSections(
-                    logic.hasInstructorPermissions(instructor,
-                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                            || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
-                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-            privilege.setCanModifySessionCommentsInSections(
-                    logic.hasInstructorPermissions(instructor,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                            || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
-                            feedbackSessionName,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        }
-        return privilege;
     }
 
     /**
