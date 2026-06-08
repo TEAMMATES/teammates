@@ -875,7 +875,7 @@ describe('Question Statistics Utility Functions', () => {
 
       const statsWithNull: ContributionQuestionStatistics = calculateContributionQuestionStatistics(
         responses,
-        null as any,
+        '',
         false,
       );
 

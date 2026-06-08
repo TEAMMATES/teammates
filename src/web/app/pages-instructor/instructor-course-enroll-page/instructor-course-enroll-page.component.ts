@@ -540,6 +540,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Converts returned student list to a suitable format required by Handsontable.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   studentListDataToHandsontableData(studentsData: Student[], handsontableColHeader: any[]): string[][] {
     const headers: string[] = handsontableColHeader.map(this.unCapitalizeFirstLetter);
     return studentsData.map((student: Student) =>
@@ -550,6 +551,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         if (header === 'section') {
           return student.sectionName;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (student as any)[header];
       }),
     );

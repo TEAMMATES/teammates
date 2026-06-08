@@ -939,7 +939,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should save feedback responses', () => {
-    const mockModalRef: any = { componentInstance: {} };
+    const mockModalRef = createMockNgbModalRef();
     const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
     // leave question unanswered
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
@@ -1003,7 +1003,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should submit empty question responses to delete saved responses', () => {
-    const mockModalRef: any = { componentInstance: {} };
+    const mockModalRef = createMockNgbModalRef();
     const testQuestionSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
     testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm.recipientSubmissionForms[0].responseDetails = {
@@ -1043,7 +1043,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should not save invalid feedback responses', () => {
-    const mockModalRef: any = { componentInstance: {} };
+    const mockModalRef = createMockNgbModalRef();
     const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
     const testResponseDetails2 = structuredClone(testConstsumRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);

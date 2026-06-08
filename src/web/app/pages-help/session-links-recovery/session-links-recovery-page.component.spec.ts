@@ -60,6 +60,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
 
     fixture.detectChanges();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component.captchaElem = { reloadCaptcha: vi.fn() } as any;
   });
 
