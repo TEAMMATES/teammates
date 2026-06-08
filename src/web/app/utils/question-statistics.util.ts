@@ -90,7 +90,7 @@ export function calculateConstsumRecipientsQuestionStatistics(
     recipientType === QuestionRecipientType.TEAMS || recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF;
 
   for (const response of responses) {
-    const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail ?? response.recipient;
+    const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail ?? response.recipient);
 
     stats.pointsPerOption[identifier] = stats.pointsPerOption[identifier] ?? [];
     stats.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
@@ -597,7 +597,7 @@ export function calculateRankRecipientsQuestionStatistics(
   const teamMembersPerTeam: Record<string, string[]> = {};
 
   for (const response of responses) {
-    const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail ?? response.recipient;
+    const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail ?? response.recipient);
 
     stats.ranksReceivedPerOption[identifier] = stats.ranksReceivedPerOption[identifier] ?? [];
     stats.ranksReceivedPerOption[identifier].push(response.responseDetails.answer);

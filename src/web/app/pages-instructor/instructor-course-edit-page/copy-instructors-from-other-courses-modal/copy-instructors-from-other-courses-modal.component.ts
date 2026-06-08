@@ -221,12 +221,12 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
           break;
         case SortBy.INSTRUCTOR_DISPLAYED_TEXT:
           strA = a.instructor.isDisplayedToStudents
-        ? a.instructor.displayedToStudentsAs ?? ''
-        : this.notDisplayedToStudentText;
+            ? (a.instructor.displayedToStudentsAs ?? '')
+            : this.notDisplayedToStudentText;
 
-        strB = b.instructor.isDisplayedToStudents
-        ? b.instructor.displayedToStudentsAs ?? ''
-        : this.notDisplayedToStudentText;
+          strB = b.instructor.isDisplayedToStudents
+            ? (b.instructor.displayedToStudentsAs ?? '')
+            : this.notDisplayedToStudentText;
           break;
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
           strA = a.instructor.role ?? '';
