@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
-import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for static pages.
@@ -50,5 +49,4 @@ export class StaticPageComponent {
       ],
     },
   ];
-  pageAuthType = PageAuthType.PUBLIC;
 }

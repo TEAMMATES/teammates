@@ -204,15 +204,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.isInstructorsLoading = false;
         }),
       )
-    .subscribe({
-      next: (authInfo) => {
-        this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.hasInstructorsLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      }
-    });
+      .subscribe({
+        next: (authInfo) => {
+          this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**

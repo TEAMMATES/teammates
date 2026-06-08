@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NotificationTargetUser } from '../../types/api-output';
 import { PageComponent } from '../page.component';
-import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for student pages.
@@ -27,5 +26,4 @@ export class StudentPageComponent {
     },
   ];
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.STUDENT;
-  pageAuthType = PageAuthType.ROLE_BASED_AUTHENTICATED;
 }

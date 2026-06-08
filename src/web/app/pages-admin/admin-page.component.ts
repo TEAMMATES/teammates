@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
-import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for admin pages.
@@ -42,5 +41,4 @@ export class AdminPageComponent {
       ],
     },
   ];
-  pageAuthType = PageAuthType.ROLE_BASED_AUTHENTICATED;
 }

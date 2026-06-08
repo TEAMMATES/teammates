@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { PageComponent } from '../page.component';
-import { PageAuthType } from '../page.authtype';
 
 /**
  * Base skeleton for maintainer pages.
@@ -26,5 +25,4 @@ export class MaintainerPageComponent {
       display: 'Usage Statistics',
     },
   ];
-  pageAuthType = PageAuthType.ROLE_BASED_AUTHENTICATED;
 }

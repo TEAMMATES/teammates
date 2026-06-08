@@ -32,8 +32,7 @@
               }
             </div>
           </li>
-        }
-        @if (!navItem.children) {
+        } @else {
           <li class="nav-item">
             <a class="nav-link" [tmRouterLink]="navItem.url" (click)="toggleCollapse(); closeModal()">{{
               navItem.display
@@ -42,7 +41,7 @@
         }
       }
     </ul>
-    @if (!hideAuthInfo && !isFetchingAuthDetails) {
+    @if (!isFetchingAuthDetails) {
       <ul class="nav navbar-nav pull-right">
         @if (!user) {
           <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
@@ -61,8 +60,7 @@
               >
             </div>
           </li>
-        }
-        @if (user) {
+        } @else {
           <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
             <button
               class="bg-transparent btn btn-link nav-link dropdown-toggle"
@@ -126,12 +124,10 @@
         </div>
       </div>
     }
-    @if (pageTitle && isValidUser) {
+    @if (pageTitle) {
       <h1>{{ pageTitle }}</h1>
     }
-    @if (isValidUser) {
-      <router-outlet></router-outlet>
-    }
+    <router-outlet></router-outlet>
   </div>
 </main>
 <footer class="footer">

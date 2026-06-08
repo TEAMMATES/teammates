@@ -26,7 +26,6 @@ import { TeammatesRouterDirective } from './components/teammates-router/teammate
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
 import { AuthService } from '../services/auth.service';
-import { PageAuthType } from './page.authtype';
 import { finalize } from 'rxjs/operators';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
@@ -94,9 +93,7 @@ export class PageComponent implements OnInit {
   isMaintainer = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
-  @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
-  @Input() pageAuthType: PageAuthType = PageAuthType.PUBLIC;
 
   readonly isNetworkOnline = signal(navigator.onLine);
   readonly isCookieEnabled = signal(navigator.cookieEnabled);
@@ -207,26 +204,5 @@ export class PageComponent implements OnInit {
   logout(): void {
     this.authService.clearAuthCache();
     globalThis.location.href = this.logoutUrl;
-  }
-
-  get isValidUser(): boolean {
-    switch (this.pageAuthType) {
-      case PageAuthType.PUBLIC:
-        return true;
-      case PageAuthType.AUTHENTICATED:
-        return this.isLoggedIn;
-      case PageAuthType.ROLE_BASED_AUTHENTICATED:
-        return this.isLoggedIn && this.hasRole;
-      default:
-        return false;
-    }
-  }
-
-  get hasRole(): boolean {
-    return this.isStudent || this.isInstructor || this.isAdmin || this.isMaintainer;
-  }
-
-  get isLoggedIn(): boolean {
-    return !!this.user;
   }
 }

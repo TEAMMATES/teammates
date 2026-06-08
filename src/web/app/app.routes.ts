@@ -3,12 +3,12 @@ import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
-import { PublicPageComponent } from './public-page.component';
+// import { PageShellComponent } from './page-shell.component';
 import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { RoleGuard } from '../route-guards/role.guard';
 import { AuthGuard } from '../route-guards/auth.guard';
-import { AuthenticatedPageComponent } from './authenticated-page.component';
+import { PageComponent } from './page.component';
 
 const routes: Routes = [
   {
@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: 'join',
-        component: AuthenticatedPageComponent,
+        component: PageComponent,
         children: [
           {
             path: '',
@@ -34,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: 'sessions',
-        component: PublicPageComponent,
+        component: PageComponent,
         children: [
           {
             path: 'result',
@@ -105,7 +105,7 @@ const routes: Routes = [
       },
       {
         path: 'unauthorized',
-        component: AuthenticatedPageComponent,
+        component: PageComponent,
         children: [
           {
             path: '',
