@@ -29,7 +29,7 @@ export class ViewResultsPanelComponent {
   InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
   InstructorSessionResultViewType!: typeof InstructorSessionResultViewType;
 
-  readonly sectionTypes = Object.values(InstructorSessionResultSectionType) as InstructorSessionResultSectionType[];
+  readonly sectionTypes = Object.values(InstructorSessionResultSectionType);
 
   viewTooltipText = 'View results in different formats';
 

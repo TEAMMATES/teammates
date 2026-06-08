@@ -66,7 +66,7 @@ export interface MsqQuestionStatistics extends McqMsqQuestionStatistics {
 }
 
 export interface NumScaleRecipientStatistics {
-  responses: Array<{ answer: number; isSelf: boolean }>;
+  responses: { answer: number; isSelf: boolean }[];
   max?: number;
   min?: number;
   average?: number;

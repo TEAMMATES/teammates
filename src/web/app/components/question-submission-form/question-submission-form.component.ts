@@ -122,7 +122,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isMCQDropDownEnabled = false;
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
-  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType) as FeedbackVisibilityType[];
+  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
   get isSaved(): boolean {
     return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);

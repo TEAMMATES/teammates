@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import { ErrorReportRequest } from '../types/api-request';
+import { MessageOutput } from '../types/api-output';
 
 /**
  * Handles Error reporting related logic provision.
@@ -16,7 +17,7 @@ export class ErrorReportService {
   /**
    * Sends an error report.
    */
-  sendErrorReport(queryParams: { request: ErrorReportRequest }): Observable<any> {
+  sendErrorReport(queryParams: { request: ErrorReportRequest }): Observable<MessageOutput> {
     return this.httpRequestService.post(ResourceEndpoints.ERROR_REPORT, {}, queryParams.request);
   }
 }

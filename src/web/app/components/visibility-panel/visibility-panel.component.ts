@@ -49,8 +49,8 @@ export class VisibilityPanelComponent {
   VisibilityControl!: typeof VisibilityControl;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
 
-  readonly visibilityControls = Object.values(VisibilityControl) as VisibilityControl[];
-  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType) as FeedbackVisibilityType[];
+  readonly visibilityControls = Object.values(VisibilityControl);
+  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
   @Input()
   model: QuestionEditFormModel = {

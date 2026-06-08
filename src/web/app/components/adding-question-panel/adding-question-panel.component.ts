@@ -27,7 +27,7 @@ export class AddingQuestionPanelComponent {
   // enum
   FeedbackQuestionType!: typeof FeedbackQuestionType;
 
-  readonly questionTypes = Object.values(FeedbackQuestionType) as FeedbackQuestionType[];
+  readonly questionTypes = Object.values(FeedbackQuestionType);
 
   @Input()
   isCopyingQuestion = false;

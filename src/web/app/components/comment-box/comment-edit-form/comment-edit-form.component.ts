@@ -38,8 +38,8 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   CommentVisibilityControl!: typeof CommentVisibilityControl;
   CommentRowMode!: typeof CommentRowMode;
 
-  readonly commentVisibilityTypes = Object.values(CommentVisibilityType) as CommentVisibilityType[];
-  readonly commentVisibilityControls = Object.values(CommentVisibilityControl) as CommentVisibilityControl[];
+  readonly commentVisibilityTypes = Object.values(CommentVisibilityType);
+  readonly commentVisibilityControls = Object.values(CommentVisibilityControl);
 
   @Input()
   mode: CommentRowMode = CommentRowMode.ADD;
