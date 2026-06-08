@@ -2,6 +2,7 @@ package teammates.common.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
 
@@ -120,9 +121,9 @@ public class AppUrlTest extends BaseTestCase {
         AppUrl urlWithParam = url.withParam("key", "#&?");
         String result = urlWithParam.toString();
         // Verify special characters are percent-encoded
-        assertEquals(true, result.contains("%23")); // #
-        assertEquals(true, result.contains("%26")); // &
-        assertEquals(true, result.contains("%3F")); // ?
+        assertTrue(result.contains("%23")); // #
+        assertTrue(result.contains("%26")); // &
+        assertTrue(result.contains("%3F")); // ?
     }
 
     @Test

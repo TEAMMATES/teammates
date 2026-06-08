@@ -90,17 +90,17 @@ public class OriginCheckFilter implements Filter {
         }
 
         switch (request.getMethod()) {
-            case HttpPost.METHOD_NAME:
-            case HttpPut.METHOD_NAME:
-            case HttpDelete.METHOD_NAME:
-                String message = getCsrfTokenErrorIfAny(request);
-                if (message != null) {
-                    denyAccess(message, request, response);
-                    return;
-                }
-                break;
-            default:
-                break;
+        case HttpPost.METHOD_NAME:
+        case HttpPut.METHOD_NAME:
+        case HttpDelete.METHOD_NAME:
+            String message = getCsrfTokenErrorIfAny(request);
+            if (message != null) {
+                denyAccess(message, request, response);
+                return;
+            }
+            break;
+        default:
+            break;
         }
 
         chain.doFilter(req, res);
@@ -119,7 +119,7 @@ public class OriginCheckFilter implements Filter {
      *
      * <p>
      * Example of malicious request originating from embedded image in email:
-     * 
+     *
      * <pre>
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://mail.google.com/mail/u/0/
@@ -127,13 +127,13 @@ public class OriginCheckFilter implements Filter {
      * Target: https://teammatesv4.appspot.com
      * Origin: https://mail.google.com
      * </pre>
-     * 
+     *
      * Origin does not match target. This request is invalid.
      * </p>
      *
      * <p>
      * Example of legitimate request originating from instructor courses page:
-     * 
+     *
      * <pre>
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
@@ -141,7 +141,7 @@ public class OriginCheckFilter implements Filter {
      * Target: https://teammatesv4.appspot.com
      * Origin: https://teammatesv4.appspot.com
      * </pre>
-     * 
+     *
      * Origin matches target. This request is valid.
      * </p>
      */
@@ -149,7 +149,7 @@ public class OriginCheckFilter implements Filter {
         String origin;
         try {
             origin = new AppUrl(referrer).getBaseUrl();
-        } catch (AssertionError e) { // due to MalformedURLException
+        } catch (IllegalArgumentException e) {
             return false;
         }
 

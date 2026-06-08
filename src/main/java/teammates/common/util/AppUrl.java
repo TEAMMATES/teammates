@@ -124,13 +124,13 @@ public class AppUrl {
         for (int i = 0; i < additionalParams.size(); i++) {
             Entry<String, String> entry = additionalParams.get(i);
             if (i == 0 && initialQuery.isEmpty()) {
-                sb.append("?");
+                sb.append('?');
             } else {
-                sb.append("&");
+                sb.append('&');
             }
-            sb.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
-            sb.append("=");
-            sb.append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
+            sb.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8))
+                    .append('=')
+                    .append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
         }
 
         return sb.toString();
