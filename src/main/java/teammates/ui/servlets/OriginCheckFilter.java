@@ -19,12 +19,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.AppUrl;
 import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
-import teammates.common.util.Url;
 import teammates.ui.webapi.JsonResult;
 
 /**
@@ -39,22 +39,20 @@ public class OriginCheckFilter implements Filter {
             HttpPost.METHOD_NAME,
             HttpPut.METHOD_NAME,
             HttpDelete.METHOD_NAME,
-            HttpOptions.METHOD_NAME
-    ));
+            HttpOptions.METHOD_NAME));
 
     private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
             Const.HeaderNames.CSRF_TOKEN,
             "Content-Type",
             Const.HeaderNames.WEB_VERSION,
-            "ngsw-bypass"
-    ));
+            "ngsw-bypass"));
 
     private static final String EXPOSED_HEADERS = String.join(", ", Arrays.asList(
-            Const.HeaderNames.REQUEST_ID
-    ));
+            Const.HeaderNames.REQUEST_ID));
 
     @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
@@ -74,7 +72,8 @@ public class OriginCheckFilter implements Filter {
         }
 
         if (AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request)) {
-            // Requests from cron or worker (with valid bearer token) are allowed to bypass CSRF check
+            // Requests from cron or worker (with valid bearer token) are allowed to bypass
+            // CSRF check
             chain.doFilter(req, res);
             return;
         }
@@ -82,7 +81,8 @@ public class OriginCheckFilter implements Filter {
         String referrer = request.getHeader("referer");
         if (referrer == null) {
             // Requests with missing referrer information are given the benefit of the doubt
-            // to accommodate users who choose to disable the HTTP referrer setting in their browser
+            // to accommodate users who choose to disable the HTTP referrer setting in their
+            // browser
             // for privacy reasons
         } else if (!isHttpReferrerValid(referrer, request.getRequestURL().toString())) {
             denyAccess("Invalid HTTP referrer.", request, response);
@@ -90,17 +90,17 @@ public class OriginCheckFilter implements Filter {
         }
 
         switch (request.getMethod()) {
-        case HttpPost.METHOD_NAME:
-        case HttpPut.METHOD_NAME:
-        case HttpDelete.METHOD_NAME:
-            String message = getCsrfTokenErrorIfAny(request);
-            if (message != null) {
-                denyAccess(message, request, response);
-                return;
-            }
-            break;
-        default:
-            break;
+            case HttpPost.METHOD_NAME:
+            case HttpPut.METHOD_NAME:
+            case HttpDelete.METHOD_NAME:
+                String message = getCsrfTokenErrorIfAny(request);
+                if (message != null) {
+                    denyAccess(message, request, response);
+                    return;
+                }
+                break;
+            default:
+                break;
         }
 
         chain.doFilter(req, res);
@@ -108,13 +108,18 @@ public class OriginCheckFilter implements Filter {
 
     /**
      * Validates the HTTP referrer against the request URL.
-     * The origin is the base URL of the HTTP referrer, which includes the protocol and authority
+     * The origin is the base URL of the HTTP referrer, which includes the protocol
+     * and authority
      * (host name + port number if specified).
      * Similarly, the target is the base URL of the requested action URL.
-     * For the referrer to be considered valid, origin and target must match exactly.
-     * Otherwise, the request is likely to be a CSRF attack, and is considered invalid.
+     * For the referrer to be considered valid, origin and target must match
+     * exactly.
+     * Otherwise, the request is likely to be a CSRF attack, and is considered
+     * invalid.
      *
-     * <p>Example of malicious request originating from embedded image in email:
+     * <p>
+     * Example of malicious request originating from embedded image in email:
+     * 
      * <pre>
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://mail.google.com/mail/u/0/
@@ -122,9 +127,13 @@ public class OriginCheckFilter implements Filter {
      * Target: https://teammatesv4.appspot.com
      * Origin: https://mail.google.com
      * </pre>
-     * Origin does not match target. This request is invalid.</p>
+     * 
+     * Origin does not match target. This request is invalid.
+     * </p>
      *
-     * <p>Example of legitimate request originating from instructor courses page:
+     * <p>
+     * Example of legitimate request originating from instructor courses page:
+     * 
      * <pre>
      * Request URL: https://teammatesv4.appspot.com/page/instructorCourseDelete?courseid=abcdef
      * Referrer:    https://teammatesv4.appspot.com/page/instructorCoursesPage
@@ -132,22 +141,25 @@ public class OriginCheckFilter implements Filter {
      * Target: https://teammatesv4.appspot.com
      * Origin: https://teammatesv4.appspot.com
      * </pre>
-     * Origin matches target. This request is valid.</p>
+     * 
+     * Origin matches target. This request is valid.
+     * </p>
      */
     private boolean isHttpReferrerValid(String referrer, String requestUrl) {
         String origin;
         try {
-            origin = new Url(referrer).getBaseUrl();
+            origin = new AppUrl(referrer).getBaseUrl();
         } catch (AssertionError e) { // due to MalformedURLException
             return false;
         }
 
         if (Config.IS_DEV_SERVER && Config.APP_FRONTEND_URL.equals(origin)) {
-            // Exception to the rule: front-end dev server requesting data from back-end dev server
+            // Exception to the rule: front-end dev server requesting data from back-end dev
+            // server
             return true;
         }
 
-        String target = new Url(requestUrl).getBaseUrl();
+        String target = new AppUrl(requestUrl).getBaseUrl();
         return origin.replaceFirst("^https?://", "").equals(target.replaceFirst("^https?://", ""));
     }
 
@@ -170,7 +182,8 @@ public class OriginCheckFilter implements Filter {
         }
     }
 
-    private void denyAccess(String message, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void denyAccess(String message, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         int statusCode = HttpStatus.SC_FORBIDDEN;
         JsonResult result = new JsonResult(message, statusCode);
         result.send(response);
