@@ -56,7 +56,6 @@ import { NumScaleQuestionInstructionComponent } from '../question-types/question
 import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
 import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
-import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
 import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
@@ -100,7 +99,6 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
     RankRecipientsQuestionConstraintComponent,
     ConstsumRecipientsQuestionConstraintComponent,
     AjaxLoadingComponent,
-    EnumToArrayPipe,
     SafeHtmlPipe,
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
@@ -123,6 +121,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   isMCQDropDownEnabled = false;
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
+
+  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType) as FeedbackVisibilityType[];
 
   get isSaved(): boolean {
     return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);

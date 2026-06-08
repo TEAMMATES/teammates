@@ -175,14 +175,21 @@ export class SessionsTableComponent implements OnInit {
       return [];
     }
 
-    const rowData: SortableTableCellData = {
-      ...(config.value && { value: config.value }),
-      ...(config.displayValue && { displayValue: config.displayValue }),
-      ...(config.customComponent && { customComponent: config.customComponent }),
-      ...(config.style && { style: config.style }),
-    };
+    const rowData: Partial<SortableTableCellData> = {};
+    if (config.value) {
+      rowData.value = config.value;
+    }
+    if (config.displayValue) {
+      rowData.displayValue = config.displayValue;
+    }
+    if (config.customComponent) {
+      rowData.customComponent = config.customComponent;
+    }
+    if (config.style) {
+      rowData.style = config.style;
+    }
 
-    return [rowData];
+    return [rowData as SortableTableCellData];
   }
 
   setColumnData(): void {

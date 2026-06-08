@@ -6,7 +6,6 @@ import { StringHelper } from '../../../../services/string-helper';
 import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
-import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import {
@@ -26,7 +25,6 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
     NgbCollapse,
     NgbTooltip,
     RichTextEditorComponent,
-    EnumToArrayPipe,
     CommentVisibilityControlNamePipe,
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
@@ -39,6 +37,9 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   CommentVisibilityType!: typeof CommentVisibilityType;
   CommentVisibilityControl!: typeof CommentVisibilityControl;
   CommentRowMode!: typeof CommentRowMode;
+
+  readonly commentVisibilityTypes = Object.values(CommentVisibilityType) as CommentVisibilityType[];
+  readonly commentVisibilityControls = Object.values(CommentVisibilityControl) as CommentVisibilityControl[];
 
   @Input()
   mode: CommentRowMode = CommentRowMode.ADD;

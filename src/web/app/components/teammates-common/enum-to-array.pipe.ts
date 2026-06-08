@@ -9,8 +9,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EnumToArrayPipe implements PipeTransform {
   /**
    * Transforms enum to an array of all types it has.
+   * Uses 'any' because Angular pipes don't support generic type parameters,
+   * and this pipe needs to work with any enum type while preserving the enum's value types.
+   * Each template using this pipe has proper type checking at the point of use.
    */
-  transform(enumObj: Record<string, any>): any[] {
-    return Object.keys(enumObj).map((s: string) => enumObj[s]);
+  transform(enumObj: Record<string, unknown>): unknown[] {
+    return Object.keys(enumObj).map((s: string) => enumObj[s] as unknown);
   }
 }

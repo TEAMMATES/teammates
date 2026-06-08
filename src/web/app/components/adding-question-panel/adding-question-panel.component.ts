@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { FeedbackQuestionType } from '../../../types/api-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
-import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { QuestionTypeHelpPathPipe } from '../teammates-common/question-type-help-path.pipe';
 import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
@@ -20,7 +19,6 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     NgbDropdownMenu,
     TeammatesRouterDirective,
     AjaxLoadingComponent,
-    EnumToArrayPipe,
     QuestionTypeNamePipe,
     QuestionTypeHelpPathPipe,
   ],
@@ -28,6 +26,8 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 export class AddingQuestionPanelComponent {
   // enum
   FeedbackQuestionType!: typeof FeedbackQuestionType;
+
+  readonly questionTypes = Object.values(FeedbackQuestionType) as FeedbackQuestionType[];
 
   @Input()
   isCopyingQuestion = false;

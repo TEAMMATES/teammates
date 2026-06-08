@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
@@ -209,7 +209,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Open the modal for different buttons and link.
    */
-  openModal(content: any): void {
+  openModal(content: TemplateRef<unknown>): void {
     this.ngbModal.open(content);
   }
 
@@ -275,7 +275,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   downloadAllStudentsFromCourse(courseId: string): void {
     this.isLoadingCsv = true;
     const filename = `${courseId.concat('_studentList')}.csv`;
-    let blob: any;
 
     this.studentService
       .loadStudentListAsCsv({ courseId })
@@ -286,7 +285,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: string) => {
-          blob = new Blob([resp], { type: 'text/csv' });
+          const blob = new Blob([resp], { type: 'text/csv' });
           this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {

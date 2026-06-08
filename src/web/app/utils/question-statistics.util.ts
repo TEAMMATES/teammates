@@ -467,8 +467,8 @@ export function calculateNumScaleQuestionStatistics(
 
   for (const team of Object.keys(stats.teamToRecipientToScores)) {
     for (const recipient of Object.keys(stats.teamToRecipientToScores[team])) {
-      const recipientStats: any = stats.teamToRecipientToScores[team][recipient];
-      const answersAsArray: number[] = recipientStats.responses.map((resp: any) => resp.answer);
+      const recipientStats = stats.teamToRecipientToScores[team][recipient];
+      const answersAsArray: number[] = recipientStats.responses.map((resp) => resp.answer);
       recipientStats.max = Math.max(...answersAsArray);
       recipientStats.min = Math.min(...answersAsArray);
       const average: number = answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length;

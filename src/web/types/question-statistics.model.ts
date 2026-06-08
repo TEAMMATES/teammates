@@ -42,12 +42,21 @@ export interface ContributionQuestionStatistics {
   questionStatisticsForStudent?: ContributionStatisticsEntry & { claimedOthersValues: number[] };
 }
 
+export interface McqMsqPerRecipientStatistics {
+  recipient: string;
+  recipientEmail?: string;
+  total: number;
+  average: number;
+  recipientTeam: string;
+  responses: Record<string, number>;
+}
+
 export interface McqMsqQuestionStatistics {
   answerFrequency: Record<string, number>;
   percentagePerOption: Record<string, number>;
   weightPerOption: Record<string, number>;
   weightedPercentagePerOption: Record<string, number>;
-  perRecipientResponses: Record<string, any>;
+  perRecipientResponses: Record<string, McqMsqPerRecipientStatistics>;
 }
 
 export type McqQuestionStatistics = McqMsqQuestionStatistics;
@@ -56,8 +65,16 @@ export interface MsqQuestionStatistics extends McqMsqQuestionStatistics {
   hasAnswers: boolean;
 }
 
+export interface NumScaleRecipientStatistics {
+  responses: Array<{ answer: number; isSelf: boolean }>;
+  max?: number;
+  min?: number;
+  average?: number;
+  averageExcludingSelf?: number;
+}
+
 export interface NumScaleQuestionStatistics {
-  teamToRecipientToScores: Record<string, Record<string, any>>;
+  teamToRecipientToScores: Record<string, Record<string, NumScaleRecipientStatistics>>;
   recipientEmails: Record<string, string>;
 }
 

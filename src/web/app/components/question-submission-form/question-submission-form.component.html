@@ -38,7 +38,7 @@
         @if (model.recipientType === QuestionRecipientType.SELF) {
           <li>You can see your own feedback in the results page later on.</li>
         }
-        @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+        @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
           @if (
             visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
             visibilityStateMachine.hasAnyVisibilityControl(visibilityType)
@@ -320,7 +320,7 @@
                       @if (model.recipientType === QuestionRecipientType.SELF) {
                         <li>You can see your own feedback in the results page later on.</li>
                       }
-                      @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+                      @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
                         @if (
                           visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
                           visibilityStateMachine.hasAnyVisibilityControl(visibilityType)

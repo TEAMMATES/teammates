@@ -169,10 +169,10 @@ export class SessionEditFormComponent {
   /**
    * Adjusts session visibility time to ensure it does not occur after submission opening time.
    */
-  adjustSessionVisibilityTime(value: any, field: string): void {
+  adjustSessionVisibilityTime(value: unknown, field: string): void {
     const submissionDateTime = this.combineDateAndTime(
-      field === 'submissionStartDate' ? value : this.model.submissionStartDate,
-      field === 'submissionStartTime' ? value : this.model.submissionStartTime,
+      field === 'submissionStartDate' ? (value as DateFormat) : this.model.submissionStartDate,
+      field === 'submissionStartTime' ? (value as TimeFormat) : this.model.submissionStartTime,
     );
 
     const visibilityDateTime = this.combineDateAndTime(
@@ -182,9 +182,9 @@ export class SessionEditFormComponent {
 
     if (submissionDateTime.isBefore(visibilityDateTime)) {
       if (field === 'submissionStartDate') {
-        this.model.customSessionVisibleDate = value;
+        this.model.customSessionVisibleDate = value as DateFormat;
       } else {
-        this.model.customSessionVisibleTime = value;
+        this.model.customSessionVisibleTime = value as TimeFormat;
       }
     }
   }
