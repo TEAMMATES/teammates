@@ -169,7 +169,24 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+    const resultData = {
+      accountRequestName: 'name',
+      accountRequestEmail: 'email',
+      accountRequestInstitution: 'institute',
+      accountRequestComment: 'comment',
+    };
+    const mockAccountRequest: AccountRequest = {
+      accountRequestId: '',
+      email: 'email',
+      name: 'name',
+      institute: 'institute',
+      registrationKey: '',
+      status: AccountRequestStatus.PENDING,
+      createdAt: 0,
+      comments: 'comment',
+    };
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
+    vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(mockAccountRequest));
 
     const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
@@ -183,7 +200,21 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+    const resultData = {
+      rejectionReasonTitle: 'Title',
+      rejectionReasonBody: 'Body',
+    };
+    const mockAccountRequest: AccountRequest = {
+      accountRequestId: '',
+      email: 'email',
+      name: 'name',
+      institute: 'institute',
+      registrationKey: '',
+      status: AccountRequestStatus.REJECTED,
+      createdAt: 0,
+    };
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
+    vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(mockAccountRequest));
 
     const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
