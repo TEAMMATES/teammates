@@ -94,7 +94,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         FeedbackSession feedbackSession = testData.feedbackSessions.get("Open Session");
 
         resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
-                .withFeedbackSessionId(feedbackSession.getId().toString());
+                .withFeedbackSessionId(feedbackSession.getId());
 
         organiseResponses(course.getId());
 
@@ -337,7 +337,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         FeedbackSession feedbackSession = testData.feedbackSessions.get("Open Session 2");
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
-                .withFeedbackSessionId(feedbackSession.getId().toString());
+                .withFeedbackSessionId(feedbackSession.getId());
         resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
