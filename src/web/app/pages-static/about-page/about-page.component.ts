@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { default as developers } from '../../../data/developers.json';
+import { default as developersData } from '../../../data/developers.json';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
@@ -8,8 +8,8 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
  */
 interface TeamMember {
   name: string;
-  username: string;
-  currentPosition: string;
+  username?: string;
+  currentPosition?: string;
   pastPositions?: string[];
   url?: string;
   avatarUrl?: string;
@@ -39,15 +39,6 @@ interface Contributor {
   multiple?: boolean;
   url?: string;
   displayedName?: string;
-}
-
-/**
- * Root structure of developers.json
- */
-interface DevelopersData {
-  teammembers: TeamMember[];
-  committers: Committer[];
-  contributors: Contributor[];
 }
 
 /**
@@ -87,7 +78,6 @@ export class AboutPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const developersData = developers as DevelopersData;
     this.nDevelopers =
       developersData.teammembers.length + developersData.committers.length + developersData.contributors.length;
     this.teamMembers = developersData.teammembers.filter((n) => n.currentPosition).map((n) => this.setUrl(n));
