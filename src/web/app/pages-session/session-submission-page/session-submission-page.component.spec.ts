@@ -59,8 +59,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 
 describe('SessionSubmissionPageComponent', () => {
-  const deepCopy: <T>(obj: T) => T = <T>(obj: T) => structuredClone(obj);
-
   const testOpenFeedbackSession: FeedbackSession = {
     feedbackSessionId: '00000000-0000-4000-8000-000000000001',
     feedbackSessionName: 'First Session',
@@ -749,7 +747,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load a closed feedback session', () => {
-    const testClosedFeedbackSession: FeedbackSession = deepCopy(testOpenFeedbackSession);
+    const testClosedFeedbackSession: FeedbackSession = structuredClone(testOpenFeedbackSession);
     testClosedFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
@@ -769,7 +767,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load a visible not open feedback session', () => {
-    const testVisibleNotOpenFeedbackSession: FeedbackSession = deepCopy(testOpenFeedbackSession);
+    const testVisibleNotOpenFeedbackSession: FeedbackSession = structuredClone(testOpenFeedbackSession);
     testVisibleNotOpenFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
@@ -934,7 +932,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should check that there are no responses to submit', () => {
-    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    const testSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
     testSubmissionForm.recipientSubmissionForms = [];
     component.questionSubmissionForms = [testSubmissionForm];
     expect(component.questionsNeedingSubmission.length).toEqual(0);
@@ -942,11 +940,11 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should save feedback responses', () => {
     const mockModalRef: any = { componentInstance: {} };
-    const testResponseDetails1 = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
     // leave question unanswered
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
-    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
-    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);
+    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
@@ -1006,7 +1004,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should submit empty question responses to delete saved responses', () => {
     const mockModalRef: any = { componentInstance: {} };
-    const testQuestionSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    const testQuestionSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
     testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm.recipientSubmissionForms[0].responseDetails = {
       answer: '',
@@ -1046,10 +1044,10 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should not save invalid feedback responses', () => {
     const mockModalRef: any = { componentInstance: {} };
-    const testResponseDetails1 = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
-    const testResponseDetails2 = deepCopy(testConstsumRecipientSubmissionForm.responseDetails);
-    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
-    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
+    const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails2 = structuredClone(testConstsumRecipientSubmissionForm.responseDetails);
+    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);
+    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = structuredClone(testConstsumQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
@@ -1106,8 +1104,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show one backend error modal when batch save fails', () => {
-    const testResponseDetails1 = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
-    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
+    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     component.questionSubmissionForms = [testQuestionSubmissionForm1];
 
@@ -1132,7 +1130,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should delete participant comment', () => {
-    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMsqQuestionSubmissionForm);
+    const testSubmissionForm: QuestionSubmissionFormModel = structuredClone(testMsqQuestionSubmissionForm);
     const commentSpy = vi.spyOn(feedbackResponsesService, 'deleteGiverComment').mockReturnValue(
       of({
         message: 'Successfully deleted feedback response giver comment.',
@@ -1182,8 +1180,8 @@ describe('SessionSubmissionPageComponent', () => {
     component.personName = 'Alice Betsy';
     component.personEmail = 'alice@tmms.com';
     component.questionSubmissionForms = [
-      deepCopy(testMcqQuestionSubmissionForm),
-      deepCopy(testTextQuestionSubmissionForm),
+      structuredClone(testMcqQuestionSubmissionForm),
+      structuredClone(testTextQuestionSubmissionForm),
     ];
     component.questionSubmissionForms[0].recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     component.questionSubmissionForms[1].recipientSubmissionForms[0].status = ResponseSubmissionStatus.NEW;
