@@ -1,11 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminAccountSearchTableComponent > should display account requests with no reset or expand links button 1`] = `
-<tm-admin-account-search-table
+exports[`AdminAccountRequestSearchTableComponent > should display account requests with no reset or expand links button 1`] = `
+<tm-admin-account-request-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
-  isRejectingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
+  isRejectingAccountRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -384,15 +384,15 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
       </table>
     </div>
   </div>
-</tm-admin-account-search-table>
+</tm-admin-account-request-search-table>
 `;
 
-exports[`AdminAccountSearchTableComponent > should display account requests with reset button and expandable links buttons 1`] = `
-<tm-admin-account-search-table
+exports[`AdminAccountRequestSearchTableComponent > should display account requests with reset button and expandable links buttons 1`] = `
+<tm-admin-account-request-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
-  isRejectingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
+  isRejectingAccountRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function _SimpleModalService]}
@@ -775,15 +775,15 @@ exports[`AdminAccountSearchTableComponent > should display account requests with
       </table>
     </div>
   </div>
-</tm-admin-account-search-table>
+</tm-admin-account-request-search-table>
 `;
 
-exports[`AdminAccountSearchTableComponent > should snap with an expanded account requests table 1`] = `
-<tm-admin-account-search-table
+exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded account requests table 1`] = `
+<tm-admin-account-request-search-table
   accountRequests={[Function Array]}
   accountService={[Function _AccountService]}
-  isApprovingAccount={[Function Array]}
-  isRejectingAccount={[Function Array]}
+  isApprovingAccountRequest={[Function Array]}
+  isRejectingAccountRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -1011,5 +1011,5 @@ exports[`AdminAccountSearchTableComponent > should snap with an expanded account
       </table>
     </div>
   </div>
-</tm-admin-account-search-table>
+</tm-admin-account-request-search-table>
 `;
