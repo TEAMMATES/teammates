@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
-import { default as templateQuestions } from '../data/template-questions.json';
+import { TemplateQuestion, templateQuestions } from '../data/template-questions';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackMcqQuestionDetails,
@@ -33,14 +33,6 @@ import {
 } from '../types/default-question-structs';
 import { NO_VALUE } from '../types/feedback-response-details';
 import { VisibilityControl } from '../types/visibility-control';
-
-/**
- * A template question.
- */
-export interface TemplateQuestion {
-  description: string;
-  question: FeedbackQuestion;
-}
 
 /**
  * Handles feedback question logic provision.
@@ -631,7 +623,7 @@ export class FeedbackQuestionsService {
    * Gets template questions.
    */
   getTemplateQuestions(): TemplateQuestion[] {
-    return templateQuestions as any;
+    return templateQuestions;
   }
 
   /**

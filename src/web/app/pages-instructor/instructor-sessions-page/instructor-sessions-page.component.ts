@@ -10,7 +10,6 @@ import { CopyFromOtherSessionsModalComponent } from './copy-from-other-sessions-
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
-import { TemplateSession } from '../../../services/feedback-sessions.service';
 import {
   Course,
   Courses,
@@ -28,7 +27,10 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
 import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 import { SessionEditFormMode } from '../../components/session-edit-form/session-edit-form-model';
 import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
-import { SessionsRecycleBinTableComponent } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import {
+  SessionsRecycleBinTableComponent,
+  RecycleBinFeedbackSessionRowModel,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -43,7 +45,7 @@ import {
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
-import { RecycleBinFeedbackSessionRowModel } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { TemplateSession } from '../../../data/template-sessions';
 /**
  * Instructor feedback sessions list page.
  */

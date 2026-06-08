@@ -5,11 +5,10 @@ import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { default as templateSessions } from '../data/template-sessions.json';
+import { TemplateSession, templateSessions } from '../data/template-sessions';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   DeadlineExtensions,
-  FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionView,
   FeedbackSessionPublishStatus,
@@ -35,14 +34,6 @@ import {
 import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
- * A template session.
- */
-export interface TemplateSession {
-  name: string;
-  questions: FeedbackQuestion[];
-}
-
-/**
  * Handles sessions related logic provision.
  */
 @Injectable({
@@ -57,7 +48,7 @@ export class FeedbackSessionsService {
    * Gets template sessions.
    */
   getTemplateSessions(): TemplateSession[] {
-    return templateSessions as any;
+    return templateSessions;
   }
 
   /**

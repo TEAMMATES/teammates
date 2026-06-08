@@ -7,7 +7,6 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
-import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
   Course,
@@ -33,6 +32,7 @@ import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.p
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 import { TimepickerComponent } from '../timepicker/timepicker.component';
+import { TemplateSession } from '../../../data/template-sessions';
 
 /**
  * Form to Add/Edit feedback sessions.
