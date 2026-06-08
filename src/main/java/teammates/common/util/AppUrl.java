@@ -2,8 +2,6 @@ package teammates.common.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,9 +126,9 @@ public class AppUrl {
             } else {
                 sb.append('&');
             }
-            sb.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8))
+            sb.append(SanitizationHelper.sanitizeForUri(entry.getKey()))
                     .append('=')
-                    .append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
+                    .append(SanitizationHelper.sanitizeForUri(entry.getValue()));
         }
 
         return sb.toString();
