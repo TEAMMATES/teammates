@@ -205,7 +205,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.reject('dismiss')));
 
     const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
@@ -219,7 +219,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.reject('dismiss')));
 
     const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
@@ -286,7 +286,14 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+    const modalResult = {
+      accountRequestName: 'new name',
+      accountRequestEmail: 'new email',
+      accountRequestInstitution: 'new institute',
+      accountRequestComment: 'new comment',
+    };
+
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef(modalResult, Promise.resolve(modalResult)));
 
     vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(
       throwError(() => ({
@@ -314,7 +321,14 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+    const modalResult = {
+      accountRequestName: 'new name',
+      accountRequestEmail: 'new email',
+      accountRequestInstitution: 'new institute',
+      accountRequestComment: 'new comment',
+    };
+
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef(modalResult, Promise.resolve(modalResult)));
 
     const editedAccountRequest: AccountRequest = {
       accountRequestId: 'id',
