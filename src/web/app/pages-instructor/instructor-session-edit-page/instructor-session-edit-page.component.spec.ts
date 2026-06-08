@@ -654,7 +654,7 @@ describe('InstructorSessionEditPageComponent', () => {
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef({}, promise));
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy = vi.spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion').mockReturnValue(of(true));
+    const feedbackQuestionSpy = vi.spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion');
 
     component.deleteExistingQuestionHandler(0);
     await promise;

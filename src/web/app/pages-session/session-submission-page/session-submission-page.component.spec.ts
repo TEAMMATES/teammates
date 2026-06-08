@@ -495,12 +495,12 @@ describe('SessionSubmissionPageComponent', () => {
     },
   };
 
-  const testQueryParams: any = {
+  const testQueryParams = {
     fsid: '00000000-0000-4000-8000-000000000001',
     key: 'reg-key',
   };
 
-  const getFeedbackSessionArgs: any = {
+  const getFeedbackSessionArgs = {
     feedbackSessionId: '00000000-0000-4000-8000-000000000001',
     intent: Intent.STUDENT_SUBMISSION,
     key: testQueryParams.key,
@@ -508,7 +508,7 @@ describe('SessionSubmissionPageComponent', () => {
     previewAs: '',
   };
 
-  const getSessionSubmissionDataArgs: any = {
+  const getSessionSubmissionDataArgs = {
     feedbackSessionId: testQueryParams.fsid,
     intent: Intent.STUDENT_SUBMISSION,
     key: testQueryParams.key,
@@ -539,7 +539,7 @@ describe('SessionSubmissionPageComponent', () => {
               intent: Intent.STUDENT_SUBMISSION,
               pipe: () => {
                 return {
-                  subscribe: (fn: (value: any) => void) => fn(testQueryParams),
+                  subscribe: (fn: (_value: unknown) => void) => fn(testQueryParams),
                 };
               },
             },
@@ -942,7 +942,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should save feedback responses', () => {
     const mockModalRef: any = { componentInstance: {} };
-    const testResponseDetails1: any = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails1 = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
     // leave question unanswered
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
@@ -1046,8 +1046,8 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should not save invalid feedback responses', () => {
     const mockModalRef: any = { componentInstance: {} };
-    const testResponseDetails1: any = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
-    const testResponseDetails2: any = deepCopy(testConstsumRecipientSubmissionForm.responseDetails);
+    const testResponseDetails1 = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails2 = deepCopy(testConstsumRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testConstsumQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
@@ -1106,7 +1106,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show one backend error modal when batch save fails', () => {
-    const testResponseDetails1: any = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails1 = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     component.questionSubmissionForms = [testQuestionSubmissionForm1];
