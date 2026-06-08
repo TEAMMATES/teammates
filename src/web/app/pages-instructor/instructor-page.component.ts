@@ -1,7 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { AuthService } from '../../services/auth.service';
-import { AuthInfo, NotificationTargetUser } from '../../types/api-output';
+import { Component } from '@angular/core';
+import { NotificationTargetUser } from '../../types/api-output';
 import { PageComponent } from '../page.component';
 import { NavItem } from '../page.model';
 
@@ -13,14 +11,7 @@ import { NavItem } from '../page.model';
   templateUrl: './instructor-page.component.html',
   imports: [PageComponent],
 })
-export class InstructorPageComponent implements OnInit {
-  private authService = inject(AuthService);
-
-  user = '';
-  isInstructor = false;
-  isStudent = false;
-  isAdmin = false;
-  isMaintainer = false;
+export class InstructorPageComponent {
   navItems: NavItem[] = [
     {
       url: '/web/instructor',
@@ -60,37 +51,5 @@ export class InstructorPageComponent implements OnInit {
       ],
     },
   ];
-  isFetchingAuthDetails = false;
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
-
-  private backendUrl: string = environment.backendUrl;
-
-  ngOnInit(): void {
-    this.isFetchingAuthDetails = true;
-
-    this.authService.getAuthUser('/web/instructor/home').subscribe({
-      next: (res: AuthInfo) => {
-        if (res.user) {
-          this.user = res.user.id;
-          if (res.masquerade) {
-            this.user += ' (M)';
-          }
-          this.isInstructor = res.user.isInstructor;
-          this.isStudent = res.user.isStudent;
-          this.isAdmin = res.user.isAdmin;
-          this.isMaintainer = res.user.isMaintainer;
-        } else {
-          window.location.href = `${this.backendUrl}${res.loginUrl}`;
-        }
-        this.isFetchingAuthDetails = false;
-      },
-      error: () => {
-        this.isInstructor = false;
-        this.isStudent = false;
-        this.isAdmin = false;
-        this.isMaintainer = false;
-        this.isFetchingAuthDetails = false;
-      },
-    });
-  }
 }

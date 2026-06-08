@@ -5,6 +5,7 @@ import { createMockHttpRequestService, type MockHttpRequestService } from '../te
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
 import { Intent } from '../types/api-request';
+import { of } from 'rxjs';
 
 describe('AuthService', () => {
   const frontendUrl: string = environment.frontendUrl;
@@ -25,6 +26,7 @@ describe('AuthService', () => {
   });
 
   it('should execute getAuthUser', () => {
+    spyHttpRequestService.get.mockReturnValue(of({ loginUrl: '/login', masquerade: false }));
     service.getAuthUser();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, { frontendUrl });
   });

@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
 import { NavItem } from '../page.model';
 
@@ -11,14 +10,7 @@ import { NavItem } from '../page.model';
   templateUrl: './static-page.component.html',
   imports: [PageComponent],
 })
-export class StaticPageComponent implements OnInit {
-  private authService = inject(AuthService);
-
-  user = '';
-  isInstructor = false;
-  isStudent = false;
-  isAdmin = false;
-  isMaintainer = false;
+export class StaticPageComponent {
   navItems: NavItem[] = [
     {
       url: '/web/front',
@@ -58,31 +50,4 @@ export class StaticPageComponent implements OnInit {
       ],
     },
   ];
-  isFetchingAuthDetails = false;
-
-  ngOnInit(): void {
-    this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser().subscribe({
-      next: (res) => {
-        if (res.user) {
-          this.user = res.user.id;
-          if (res.masquerade) {
-            this.user += ' (M)';
-          }
-          this.isInstructor = res.user.isInstructor;
-          this.isStudent = res.user.isStudent;
-          this.isAdmin = res.user.isAdmin;
-          this.isMaintainer = res.user.isMaintainer;
-        }
-        this.isFetchingAuthDetails = false;
-      },
-      error: () => {
-        this.isInstructor = false;
-        this.isStudent = false;
-        this.isAdmin = false;
-        this.isMaintainer = false;
-        this.isFetchingAuthDetails = false;
-      },
-    });
-  }
 }

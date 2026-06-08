@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AccountRequestSearchResult } from '../../../../services/search.service';
-import { AdminAccountSearchTableComponent } from './admin-account-search-table.component';
+import { AdminAccountRequestSearchTableComponent } from './admin-account-request-search-table.component';
 import { AccountService } from '../../../../services/account.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -15,9 +15,9 @@ import { EditRequestModalComponent } from '../../../components/account-requests-
 import { RejectWithReasonModalComponent } from '../../../components/account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
-describe('AdminAccountSearchTableComponent', () => {
-  let component: AdminAccountSearchTableComponent;
-  let fixture: ComponentFixture<AdminAccountSearchTableComponent>;
+describe('AdminAccountRequestSearchTableComponent', () => {
+  let component: AdminAccountRequestSearchTableComponent;
+  let fixture: ComponentFixture<AdminAccountRequestSearchTableComponent>;
   let accountService: AccountService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
@@ -54,7 +54,7 @@ describe('AdminAccountSearchTableComponent', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminAccountSearchTableComponent);
+    fixture = TestBed.createComponent(AdminAccountRequestSearchTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
     statusMessageService = TestBed.inject(StatusMessageService);

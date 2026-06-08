@@ -3,9 +3,10 @@ import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
-import { PublicPageComponent } from './public-page.component';
 import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
+import { RoleGuard, UserRole } from '../route-guards/role.guard';
+import { PageComponent } from './page.component';
 
 const routes: Routes = [
   {
@@ -18,17 +19,19 @@ const routes: Routes = [
       },
       {
         path: 'join',
-        component: PublicPageComponent,
+        component: PageComponent,
         children: [
           {
             path: '',
             loadComponent: () => import('./user-join-page.component').then((m) => m.UserJoinPageComponent),
           },
         ],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
       },
       {
         path: 'sessions',
-        component: PublicPageComponent,
+        component: PageComponent,
         children: [
           {
             path: 'result',
@@ -57,21 +60,56 @@ const routes: Routes = [
         path: 'student',
         component: StudentPageComponent,
         loadChildren: () => import('./pages-student/student.routes'),
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+        data: {
+          role: UserRole.STUDENT,
+        },
       },
       {
         path: 'instructor',
         component: InstructorPageComponent,
         loadChildren: () => import('./pages-instructor/instructor.routes'),
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+        data: {
+          role: UserRole.INSTRUCTOR,
+        },
       },
       {
         path: 'admin',
         component: AdminPageComponent,
         loadChildren: () => import('./pages-admin/admin.routes'),
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+        data: {
+          role: UserRole.ADMIN,
+        },
       },
       {
         path: 'maintainer',
         component: MaintainerPageComponent,
         loadChildren: () => import('./pages-maintainer/maintainer.routes'),
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+        data: {
+          role: UserRole.MAINTAINER,
+        },
+      },
+      {
+        path: 'unauthorized',
+        component: PageComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./page-unauthorized-warning/unauthorized-warning-page.component').then(
+                (m) => m.UnauthorizedWarningPageComponent,
+              ),
+          },
+        ],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
       },
       {
         path: '**',
