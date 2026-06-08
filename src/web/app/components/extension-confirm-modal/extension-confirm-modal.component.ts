@@ -17,6 +17,8 @@ import {
 } from '../sortable-table/sortable-table.component';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
+import { DateFormatService } from '../../../services/date-format.service';
+import { instructorRoleToName } from '../../utils/instructor-role-name.util';
 
 export enum ExtensionModalType {
   EXTEND,
@@ -34,8 +36,7 @@ export enum ExtensionModalType {
 export class ExtensionConfirmModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private tableComparatorService = inject(TableComparatorService);
-  private dateDetailPipe = inject(FormatDateDetailPipe);
-  private instructorRoleNamePipe = inject(InstructorRoleNamePipe);
+  private dateFormatService = inject(DateFormatService);
 
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
@@ -165,7 +166,10 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: studentData.extensionDeadline,
-          displayValue: this.dateDetailPipe.transform(studentData.extensionDeadline, this.feedbackSessionTimeZone),
+          displayValue: this.dateFormatService.formatDateDetailed(
+            studentData.extensionDeadline,
+            this.feedbackSessionTimeZone,
+          ),
         },
       ];
       return rowData;
@@ -208,13 +212,14 @@ export class ExtensionConfirmModalComponent implements OnInit {
         },
         {
           value: instructorData.role,
-          displayValue: instructorData.role
-            ? this.instructorRoleNamePipe.transform(instructorData.role)
-            : instructorData.role,
+          displayValue: instructorData.role ? instructorRoleToName(instructorData.role) : instructorData.role,
         },
         {
           value: instructorData.extensionDeadline,
-          displayValue: this.dateDetailPipe.transform(instructorData.extensionDeadline, this.feedbackSessionTimeZone),
+          displayValue: this.dateFormatService.formatDateDetailed(
+            instructorData.extensionDeadline,
+            this.feedbackSessionTimeZone,
+          ),
         },
       ];
       return rowData;

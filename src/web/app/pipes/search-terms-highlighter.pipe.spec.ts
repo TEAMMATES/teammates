@@ -1,10 +1,14 @@
+import { TestBed } from '@angular/core/testing';
 import { SearchTermsHighlighterPipe } from './search-terms-highlighter.pipe';
 
 describe('SearchTermsHighlighterPipe', () => {
   let highlighterPipe: SearchTermsHighlighterPipe;
 
   beforeEach(() => {
-    highlighterPipe = new SearchTermsHighlighterPipe();
+    TestBed.configureTestingModule({
+      providers: [SearchTermsHighlighterPipe],
+    });
+    highlighterPipe = TestBed.inject(SearchTermsHighlighterPipe);
   });
 
   it('should be instantiated', () => {
@@ -39,10 +43,8 @@ describe('SearchTermsHighlighterPipe', () => {
         expected: '<span class="highlighted-text">Student</span>',
       },
     ];
-    for (let i = 0; i < consolidatedSamples.length; i += 1) {
-      expect(
-        highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch),
-      ).toEqual(consolidatedSamples[i].expected);
+    for (const sample of consolidatedSamples) {
+      expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch)).toEqual(sample.expected);
     }
   });
 
@@ -61,10 +63,8 @@ describe('SearchTermsHighlighterPipe', () => {
         sampleValue: 'Student',
       },
     ];
-    for (let i = 0; i < consolidatedSamples.length; i += 1) {
-      expect(
-        highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch),
-      ).toEqual(consolidatedSamples[i].sampleValue);
+    for (const sample of consolidatedSamples) {
+      expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch)).toEqual(sample.sampleValue);
     }
   });
 
@@ -117,10 +117,8 @@ describe('SearchTermsHighlighterPipe', () => {
         expected: '<span class="highlighted-text">new student</span>' + ' <span class="highlighted-text">team</span> a',
       },
     ];
-    for (let i = 0; i < consolidatedSamples.length; i += 1) {
-      expect(
-        highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch),
-      ).toEqual(consolidatedSamples[i].expected);
+    for (const sample of consolidatedSamples) {
+      expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch)).toEqual(sample.expected);
     }
   });
 
@@ -159,10 +157,8 @@ describe('SearchTermsHighlighterPipe', () => {
           'r</span>s<span class="highlighted-text">e</span>',
       },
     ];
-    for (let i = 0; i < consolidatedSamples.length; i += 1) {
-      expect(
-        highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true),
-      ).toEqual(consolidatedSamples[i].expected);
+    for (const sample of consolidatedSamples) {
+      expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch, true)).toEqual(sample.expected);
     }
   });
 
@@ -194,10 +190,8 @@ describe('SearchTermsHighlighterPipe', () => {
         expected: '',
       },
     ];
-    for (let i = 0; i < consolidatedSamples.length; i += 1) {
-      expect(
-        highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true),
-      ).toEqual(consolidatedSamples[i].expected);
+    for (const sample of consolidatedSamples) {
+      expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch, true)).toEqual(sample.expected);
     }
   });
 
@@ -252,10 +246,8 @@ describe('SearchTermsHighlighterPipe', () => {
           expected: 'Test<span class="highlighted-text"> Course</span>',
         },
       ];
-      for (let i = 0; i < consolidatedSamples.length; i += 1) {
-        expect(
-          highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true),
-        ).toEqual(consolidatedSamples[i].expected);
+      for (const sample of consolidatedSamples) {
+        expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch, true)).toEqual(sample.expected);
       }
     },
   );
@@ -273,10 +265,8 @@ describe('SearchTermsHighlighterPipe', () => {
         expected: 'Test Course',
       },
     ];
-    for (let i = 0; i < consolidatedSamples.length; i += 1) {
-      expect(
-        highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true),
-      ).toEqual(consolidatedSamples[i].expected);
+    for (const sample of consolidatedSamples) {
+      expect(highlighterPipe.transform(sample.sampleValue, sample.sampleSearch, true)).toEqual(sample.expected);
     }
   });
 });

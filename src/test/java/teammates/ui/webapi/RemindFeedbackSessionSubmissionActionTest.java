@@ -17,6 +17,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
@@ -125,15 +126,17 @@ public class RemindFeedbackSessionSubmissionActionTest
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private Student generateStudent1InCourse(Course courseStudentIsIn) {
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
+        String subject = "validStudentSubject";
+        String tenantId = "validTenantId";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        s.setAccount(new Account(googleId, Provider.TEAMMATES_DEV, subject, tenantId, name, email));
         return s;
     }
 
@@ -141,7 +144,7 @@ public class RemindFeedbackSessionSubmissionActionTest
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
         Instant afterNow = nearestHour.plus(3, java.time.temporal.ChronoUnit.HOURS);
         FeedbackSession fs = new FeedbackSession("published-feedback-session",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 beforeNow, afterNow,
                 beforeNow, afterNow,
                 Duration.ofHours(0), false, false);
@@ -154,7 +157,7 @@ public class RemindFeedbackSessionSubmissionActionTest
     private FeedbackSession generateClosedSessionInCourse(Course course, Instructor instructor) {
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
         FeedbackSession fs = new FeedbackSession("unpublished-feedback-session",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 beforeNow,
                 beforeNow,
                 beforeNow, beforeNow,

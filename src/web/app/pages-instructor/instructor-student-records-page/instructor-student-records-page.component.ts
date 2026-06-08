@@ -26,6 +26,7 @@ import { PanelChevronComponent } from '../../components/panel-chevron/panel-chev
 import { GrqRgqViewResponsesComponent } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 interface SessionTab {
   isCollapsed: boolean;
@@ -53,7 +54,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
-  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
   private tableComparatorService = inject(TableComparatorService);
   private statusMessageService = inject(StatusMessageService);
   private commentService = inject(InstructorCommentService);
@@ -99,7 +99,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     })
       .pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
-          return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
+          return this.getFeedbackSessionResults(feedbackSession, student.sectionId);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
@@ -143,21 +143,25 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private getFeedbackSessions(courseId: string): Observable<FeedbackSession> {
     return this.feedbackSessionsService
       .getFeedbackSessionsForInstructor(courseId)
-      .pipe(mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions));
+      .pipe(
+        mergeMap((feedbackSessions: FeedbackSessions) =>
+          feedbackSessions.feedbackSessions.map((fs) => fs.feedbackSession),
+        ),
+      );
   }
 
   /**
    * Fetches the full detail result of the given feedback session in the current course
-   * grouped by the student's section.
+   * grouped by the student's section ID.
    */
   private getFeedbackSessionResults(
     feedbackSession: FeedbackSession,
-    groupBySection: string,
+    groupBySectionId: string,
   ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: feedbackSession.feedbackSessionId,
-        groupBySection,
+        groupBySection: groupBySectionId,
       })
       .pipe(
         map((results: SessionResults) => {
@@ -216,7 +220,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     questionShowResponsesTo: FeedbackVisibilityType[],
   ): void {
     responses.forEach((response: ResponseOutput) => {
-      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = commentToReadOnlyComment(
         response.instructorComments,
         false,
         timezone,

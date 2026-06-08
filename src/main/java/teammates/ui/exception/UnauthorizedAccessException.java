@@ -33,6 +33,11 @@ public class UnauthorizedAccessException extends Exception {
         this.showErrorMessage = showErrorMessage;
     }
 
+    public UnauthorizedAccessException(String message, Throwable cause) {
+        super(message, cause);
+        this.showErrorMessage = false;
+    }
+
     public boolean isShowErrorMessage() {
         return showErrorMessage;
     }

@@ -8,7 +8,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function _FormatDateDetailPipe]}
+  dateFormatService={[Function _DateFormatService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
@@ -158,7 +158,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function _FormatDateDetailPipe]}
+  dateFormatService={[Function _DateFormatService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
@@ -353,7 +353,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function _FormatDateDetailPipe]}
+  dateFormatService={[Function _DateFormatService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -623,7 +623,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function _FormatDateDetailPipe]}
+  dateFormatService={[Function _DateFormatService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -774,7 +774,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function _FormatDateDetailPipe]}
+  dateFormatService={[Function _DateFormatService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}

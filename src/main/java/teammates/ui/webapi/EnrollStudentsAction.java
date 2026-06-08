@@ -6,12 +6,11 @@ import teammates.common.datatransfer.EnrollResults;
 import teammates.common.exception.EnrollException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.EnrollStudentsData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentsEnrollRequest;
 
@@ -35,9 +34,7 @@ public class EnrollStudentsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(
-                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

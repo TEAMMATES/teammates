@@ -33,7 +33,11 @@
         >. <br />If this is not you, please log out and log in using your own Google account. <br />If this is you,
         please confirm below to complete your registration.<br />
         <div class="text-center" style="margin-top: 20px">
-          <button id="btn-confirm" class="btn btn-success" (click)="isCreatingAccount ? createAccount() : joinCourse()">
+          <button
+            id="btn-confirm"
+            class="btn btn-success"
+            (click)="isCreatingAccount ? createDemoCourse() : joinCourse()"
+          >
             Register for course
           </button>
         </div>

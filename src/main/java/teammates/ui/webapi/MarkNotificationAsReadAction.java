@@ -6,11 +6,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.ReadNotification;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.ReadNotificationData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
 
 /**

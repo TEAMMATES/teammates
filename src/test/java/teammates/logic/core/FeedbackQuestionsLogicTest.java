@@ -49,7 +49,9 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         usersLogic = mock(UsersLogic.class);
         FeedbackResponsesLogic frLogic = mock(FeedbackResponsesLogic.class);
         FeedbackSessionsLogic feedbackSessionsLogic = mock(FeedbackSessionsLogic.class);
-        fqLogic.initLogicDependencies(fqDb, coursesLogic, frLogic, usersLogic, feedbackSessionsLogic);
+        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        fqLogic.initLogicDependencies(fqDb, coursesLogic, frLogic, usersLogic, feedbackSessionsLogic,
+                instructorPermissionsLogic);
     }
 
     @Test
@@ -105,7 +107,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(newQuestion)).thenReturn(newQuestion);
+        when(fqDb.persistFeedbackQuestion(newQuestion)).thenReturn(newQuestion);
 
         FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(newQuestion);
         assertEquals(newQuestion, createdQuestion);
@@ -129,7 +131,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.persistFeedbackQuestion(fq5)).thenReturn(fq5);
 
         FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(fq5);
 
@@ -155,7 +157,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.persistFeedbackQuestion(fq5)).thenReturn(fq5);
 
         fqLogic.createFeedbackQuestion(fq5);
 
@@ -183,7 +185,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsBefore = new ArrayList<>(List.of(fq1, fq2, fq3, fq4));
         fs.setId(UUID.randomUUID());
         when(fqDb.getFeedbackQuestionsForSession(fs.getId())).thenReturn(questionsBefore);
-        when(fqDb.createFeedbackQuestion(fq5)).thenReturn(fq5);
+        when(fqDb.persistFeedbackQuestion(fq5)).thenReturn(fq5);
 
         fqLogic.createFeedbackQuestion(fq5);
 
@@ -220,9 +222,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     public void testGetFeedbackQuestionsForInstructors_instructorIsCreator_success() {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        fs.setCreatorEmail("instr1@teammates.tmt");
         Instructor instructor = mock(Instructor.class);
-        when(instructor.getEmail()).thenReturn("instr1@teammates.tmt");
+        fs.setSessionCreator(instructor);
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);
@@ -246,9 +247,9 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     public void testGetFeedbackQuestionsForInstructors_instructorIsNotCreator_success() {
         Course c = getTypicalCourse();
         FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        fs.setCreatorEmail("instr1@teammates.tmt");
+        Instructor creator = mock(Instructor.class);
+        fs.setSessionCreator(creator);
         Instructor instructor = mock(Instructor.class);
-        when(instructor.getEmail()).thenReturn("instr2@teammates.tmt");
         FeedbackQuestion fq1 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq2 = getTypicalFeedbackQuestionForSession(fs);
         FeedbackQuestion fq3 = getTypicalFeedbackQuestionForSession(fs);

@@ -130,31 +130,6 @@ public final class DataBundleLogic {
             section.addTeam(team);
         }
 
-        for (FeedbackSession session : sessions) {
-            UUID placeholderId = session.getId();
-            session.setId(UUID.randomUUID());
-            sessionsMap.put(placeholderId, session);
-            Course course = coursesMap.get(session.getCourseId());
-            session.setCourse(course);
-            course.addFeedbackSession(session);
-        }
-
-        for (FeedbackQuestion question : questions) {
-            UUID placeholderId = question.getId();
-            question.setId(UUID.randomUUID());
-            questionMap.put(placeholderId, question);
-            FeedbackSession fs = sessionsMap.get(question.getSessionId());
-            fs.addFeedbackQuestion(question);
-        }
-
-        for (FeedbackResponse response : responses) {
-            UUID placeholderId = response.getId();
-            response.setId(UUID.randomUUID());
-            responseMap.put(placeholderId, response);
-            FeedbackQuestion fq = questionMap.get(response.getQuestionId());
-            fq.addFeedbackResponse(response);
-        }
-
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
@@ -172,6 +147,35 @@ public final class DataBundleLogic {
                 instructor.setAccount(account);
             }
             instructor.generateNewRegistrationKey();
+        }
+
+        for (FeedbackSession session : sessions) {
+            UUID placeholderId = session.getId();
+            session.setId(UUID.randomUUID());
+            sessionsMap.put(placeholderId, session);
+            Course course = coursesMap.get(session.getCourseId());
+            session.setCourse(course);
+            User creator = usersMap.get(session.getCreatorId());
+            if (creator instanceof Instructor instructor) {
+                session.setSessionCreator(instructor);
+            }
+            course.addFeedbackSession(session);
+        }
+
+        for (FeedbackQuestion question : questions) {
+            UUID placeholderId = question.getId();
+            question.setId(UUID.randomUUID());
+            questionMap.put(placeholderId, question);
+            FeedbackSession fs = sessionsMap.get(question.getSessionId());
+            fs.addFeedbackQuestion(question);
+        }
+
+        for (FeedbackResponse response : responses) {
+            UUID placeholderId = response.getId();
+            response.setId(UUID.randomUUID());
+            responseMap.put(placeholderId, response);
+            FeedbackQuestion fq = questionMap.get(response.getQuestionId());
+            fq.addFeedbackResponse(response);
         }
 
         for (Student student : students) {
@@ -250,26 +254,20 @@ public final class DataBundleLogic {
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
             fr.addResponseInstructorComment(responseComment);
 
-            ResponseGiver giver = responseComment.getGiver();
-            if (giver != null) {
-                if (giver.getGiverTeamId() != null) {
-                    Team team = teamsMap.get(giver.getGiverTeamId());
-                    responseComment.setGiver(new ResponseGiver(team));
-                } else if (giver.getGiverUserId() != null) {
-                    User user = usersMap.get(giver.getGiverUserId());
-                    responseComment.setGiver(new ResponseGiver(user));
+            if (responseComment.getGiverId() != null) {
+                User userGiver = usersMap.get(responseComment.getGiverId());
+                if (!(userGiver instanceof Instructor)) {
+                    throw new IllegalArgumentException("ResponseInstructorComment giver must be an instructor");
                 }
+                responseComment.setGiver((Instructor) userGiver);
             }
 
-            ResponseGiver lastEditedBy = responseComment.getLastEditedBy();
-            if (lastEditedBy.getGiverTeamId() != null) {
-                Team team = teamsMap.get(lastEditedBy.getGiverTeamId());
-                responseComment.setLastEditedBy(new ResponseGiver(team));
-            } else if (lastEditedBy.getGiverUserId() != null) {
-                User user = usersMap.get(lastEditedBy.getGiverUserId());
-                responseComment.setLastEditedBy(new ResponseGiver(user));
-            } else {
-                responseComment.setLastEditedBy(responseComment.getGiver());
+            if (responseComment.getLastEditedById() != null) {
+                User userLastEditedBy = usersMap.get(responseComment.getLastEditedById());
+                if (!(userLastEditedBy instanceof Instructor)) {
+                    throw new IllegalArgumentException("ResponseInstructorComment last editor must be an instructor");
+                }
+                responseComment.setLastEditedBy((Instructor) userLastEditedBy);
             }
         }
 
@@ -309,10 +307,10 @@ public final class DataBundleLogic {
         persistEntities(courses);
         persistEntities(sections);
         persistEntities(teams);
-        persistEntities(sessions);
-        persistEntities(questions);
         persistEntities(instructors);
         persistEntities(students);
+        persistEntities(sessions);
+        persistEntities(questions);
         persistEntities(responses);
         persistEntities(responseComments);
         persistEntities(sessionLogs);

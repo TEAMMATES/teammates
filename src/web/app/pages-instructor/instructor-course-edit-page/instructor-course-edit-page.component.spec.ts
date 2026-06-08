@@ -10,9 +10,8 @@ import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { instructorBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
+import { Course, CourseView, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { InstructorCreateRequest } from '../../../types/api-request';
-import { MockedFunction } from 'vitest';
 
 const testCourse: Course = {
   courseId: 'exampleId',
@@ -21,6 +20,10 @@ const testCourse: Course = {
   timeZone: 'UTC (UTC)',
   creationTimestamp: 0,
   deletionTimestamp: 1000,
+};
+
+const testCourseView: CourseView = {
+  course: testCourse,
 };
 
 const testInstructor1: Instructor = instructorBuilder.email('instructor1@gmail.com').name('Instructor 1').build();
@@ -90,7 +93,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct course details for given API output', () => {
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));
 
     component.loadCourseInfo();
 
@@ -132,7 +135,6 @@ describe('InstructorCourseEditPageComponent', () => {
       of({
         courseId: 'exampleId',
         courseName: 'Example Course Changed',
-        isCourseDeleted: false,
         timeZone: 'UTC (UTC)',
         institute: 'Test institute',
         creationTimestamp: 0,
@@ -300,9 +302,9 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-send reminder email for new instructors', () => {
-    const mockReminderFunction: MockedFunction<any> = vi.fn(() =>
+    const mockReminderFunction = vi.fn(() =>
       of({
-        message: `An email has been sent`,
+        message: 'An email has been sent',
       }),
     );
     vi.spyOn(courseService, 'remindUserForJoin').mockImplementation(mockReminderFunction);
@@ -311,6 +313,11 @@ describe('InstructorCourseEditPageComponent', () => {
 
     component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
+    component.currInstructorCoursePrivilege = {
+      canModifyCourse: true,
+      canModifyStudent: true,
+      canModifyInstructor: true,
+    };
     component.instructorDetailPanels = [
       {
         originalInstructor: { ...testInstructor1 },

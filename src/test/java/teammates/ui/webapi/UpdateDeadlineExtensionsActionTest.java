@@ -122,12 +122,12 @@ public class UpdateDeadlineExtensionsActionTest
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {
         FeedbackSession fs = new FeedbackSession("feedbacksession-1",
-                instructor.getEmail(), "generic instructions",
+                instructor, "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
                 Duration.ofHours(10), false, false);

@@ -9,13 +9,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a feedback question.
@@ -35,10 +34,7 @@ public class CreateFeedbackQuestionAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructorDetailForCourse =
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(instructorDetailForCourse,
-                feedbackSession,
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

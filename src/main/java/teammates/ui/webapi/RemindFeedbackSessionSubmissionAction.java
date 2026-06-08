@@ -12,10 +12,10 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Remind students about the feedback submission.
@@ -36,10 +36,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(
-                instructor,
-                feedbackSession,
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -66,7 +63,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify = isSendingCopyToInstructor
-                ? logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId())
+                ? getInstructorFromRequest(feedbackSession.getCourseId())
                 : null;
 
         for (UUID userId : usersToRemind) {

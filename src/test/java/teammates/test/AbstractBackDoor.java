@@ -37,12 +37,14 @@ import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -255,7 +257,7 @@ public abstract class AbstractBackDoor {
      */
     public String getUserCookie(String userId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER, userId);
+        params.put(Const.ParamsNames.USER_ID, userId);
         ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
 
         MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
@@ -265,9 +267,9 @@ public abstract class AbstractBackDoor {
     /**
      * Gets account data from the database.
      */
-    public AccountData getAccountData(String googleId) {
+    public AccountData getAccountData(UUID accountId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
+        params.put(Const.ParamsNames.ACCOUNT_ID, accountId.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -287,7 +289,8 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        return JsonUtils.fromJson(response.responseBody, CourseData.class);
+        CourseViewData courseViewData = JsonUtils.fromJson(response.responseBody, CourseViewData.class);
+        return courseViewData == null ? null : courseViewData.getCourse();
     }
 
     /**
@@ -355,7 +358,9 @@ public abstract class AbstractBackDoor {
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
-        return JsonUtils.fromJson(response.responseBody, FeedbackSessionData.class);
+        FeedbackSessionViewData feedbackSessionViewData = JsonUtils.fromJson(response.responseBody,
+                FeedbackSessionViewData.class);
+        return feedbackSessionViewData == null ? null : feedbackSessionViewData.getFeedbackSession();
     }
 
     /**
@@ -370,17 +375,19 @@ public abstract class AbstractBackDoor {
             return Collections.emptyList();
         }
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
-        return sessionsData.getFeedbackSessions();
+        return sessionsData.getFeedbackSessions().stream()
+                .map(FeedbackSessionViewData::getFeedbackSession)
+                .collect(Collectors.toList());
     }
 
     /**
      * Get soft deleted feedback session from database.
      */
-    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName, String instructorId) {
+    public FeedbackSessionData getSoftDeletedSessionData(String feedbackSessionName, UUID instructorAccountId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
-        params.put(Const.ParamsNames.USER, instructorId);
+        params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -389,6 +396,7 @@ public abstract class AbstractBackDoor {
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
         return sessionsData.getFeedbackSessions()
                 .stream()
+                .map(FeedbackSessionViewData::getFeedbackSession)
                 .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
                 .findFirst()
                 .orElse(null);
@@ -443,13 +451,13 @@ public abstract class AbstractBackDoor {
      *
      * @param commentId the ID of the comment to update
      * @param commentText the new comment text
-     * @param instructorGoogleId the Google ID of an instructor with permission to modify comments
+     * @param instructorAccountId the ID of the instructor account
      */
-    public void updateResponseInstructorComment(UUID commentId, String commentText, String instructorGoogleId) {
+    public void updateResponseInstructorComment(UUID commentId, String commentText, UUID instructorAccountId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
-        params.put(Const.ParamsNames.USER, instructorGoogleId);
+        params.put(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, instructorAccountId.toString());
 
         ResponseInstructorCommentUpdateRequest body = new ResponseInstructorCommentUpdateRequest(
                 commentText,

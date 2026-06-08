@@ -3,6 +3,7 @@ package teammates.ui.request;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.util.EmailWrapper;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The request of sending an email.

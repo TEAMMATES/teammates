@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -61,48 +64,35 @@ public final class AccountsLogic {
     }
 
     /**
-     * Gets accounts associated with email.
-     */
-    public List<Account> getAccountsForEmail(String email) {
-        assert email != null;
-
-        return accountsDb.getAccountsByEmail(email);
-    }
-
-    /**
      * Creates and returns an account for the given email if it does not exist,
      * otherwise just return the existing account.
      *
+     * @param provider the provider of the account
+     * @param subject the subject of the account
+     * @param tenantId the tenant ID of the account
      * @param email the email of the account
      * @return the created or existing account
      */
-    public Account createOrGetAccountForEmail(String email) {
-        assert email != null;
+    public Account createOrGetAccount(Provider provider, String subject, @Nullable String tenantId, String email) {
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
+        Objects.requireNonNull(email);
 
-        Account account = getAccountForGoogleId(email);
+        String googleId = email;
+        // TODO: Fetch account by provider, subject and tenantId.
+        Account account = getAccountForGoogleId(googleId);
         if (account != null) {
             return account;
         }
 
         try {
-            return createAccountForEmail(email);
+            return createAccount(provider, subject, tenantId, email, googleId);
         } catch (EntityAlreadyExistsException e) {
             // This should not happen.
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);
         } catch (InvalidParametersException e) {
             throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
         }
-    }
-
-    private Account createAccountForEmail(String email)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        assert email != null;
-
-        // TODO: Account googleId will be replaced by OIDC subject in the future,
-        // for now we can just use email as googleId.
-        // Account name will also be removed, use a generic "User" for now.
-        Account account = new Account(email, "User", email);
-        return createAccount(account);
     }
 
     /**
@@ -113,7 +103,19 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(Account account)
+    public Account createAccount(Provider provider, String subject, @Nullable String tenantId, String email, String googleId)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
+        Objects.requireNonNull(email);
+        Objects.requireNonNull(googleId);
+        // TODO: Account name will be removed, use a generic "User" for now.
+        // googleId will be removed as well.
+        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
+        return validateThenPersistAccount(account);
+    }
+
+    private Account validateThenPersistAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
 
@@ -123,7 +125,7 @@ public final class AccountsLogic {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 
-        return accountsDb.createAccount(account);
+        return accountsDb.persistAccount(account);
     }
 
     /**
@@ -137,7 +139,7 @@ public final class AccountsLogic {
             return;
         }
 
-        accountsDb.deleteAccount(account);
+        accountsDb.removeAccount(account);
     }
 
     /**
@@ -157,7 +159,7 @@ public final class AccountsLogic {
             usersLogic.deleteUser(user);
         }
 
-        accountsDb.deleteAccount(account);
+        accountsDb.removeAccount(account);
     }
 
     /**

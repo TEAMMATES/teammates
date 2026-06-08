@@ -85,11 +85,11 @@ public final class Const {
      * Represents role names for instructors based on their permission settings.
      */
     public static class InstructorPermissionRoleNames {
-        public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
+        public static final String COOWNER = "Co-owner";
+        public static final String MANAGER = "Manager";
+        public static final String OBSERVER = "Observer";
+        public static final String TUTOR = "Tutor";
+        public static final String CUSTOM = "Custom";
     }
 
     /**
@@ -138,11 +138,14 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
+        public static final String IS_DEFAULT_SECTION = "isdefaultsection";
 
         public static final String PREVIEWAS = "previewas";
 
         public static final String USER_ID = "userid";
         public static final String STUDENT_ID = "googleid";
+        public static final String ACCOUNT_ID = "accountid";
+        public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -152,7 +155,6 @@ public final class Const {
         public static final String TEAM_NAME = "teamname";
 
         public static final String ERROR = "error";
-        public static final String USER = "user";
 
         public static final String SEARCH_KEY = "searchkey";
 
@@ -306,6 +308,7 @@ public final class Const {
         public static final String RESPONSE_GIVER_COMMENT = URI_PREFIX + "/response/givercomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
+        public static final String DEMO_COURSE = URI_PREFIX + "/demo/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
         public static final String COURSES = URI_PREFIX + "/courses";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
@@ -326,6 +329,7 @@ public final class Const {
         public static final String SESSION_REMIND_SUBMISSION = URI_PREFIX + "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = URI_PREFIX + "/session/remind/result";
         public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
+        public static final String SESSION_SUBMISSION = URI_PREFIX + "/session/submission";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
         public static final String SEARCH_ACCOUNT_REQUESTS = URI_PREFIX + "/search/accountrequests";
@@ -334,7 +338,6 @@ public final class Const {
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
         public static final String QUESTIONS = URI_PREFIX + "/questions";
         public static final String QUESTION = URI_PREFIX + "/question";
-        public static final String QUESTION_RECIPIENTS = URI_PREFIX + "/question/recipients";
         public static final String RESPONSES = URI_PREFIX + "/responses";
         public static final String USAGE_STATISTICS = URI_PREFIX + "/usagestats";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";

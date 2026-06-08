@@ -69,7 +69,7 @@ public final class CoursesLogic {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
         }
 
-        return coursesDb.createCourse(course);
+        return coursesDb.persistCourse(course);
     }
 
     /**
@@ -95,7 +95,7 @@ public final class CoursesLogic {
 
         // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                Const.InstructorPermissionRoleNames.COOWNER);
         Instructor instructor = new Instructor(
                 course,
                 courseCreator.getName(),
@@ -132,7 +132,7 @@ public final class CoursesLogic {
      * @param account The account of the student
      */
     public List<Course> getCoursesForStudentAccount(Account account) {
-        List<Student> students = usersLogic.getAllStudentsByGoogleId(account.getGoogleId());
+        List<Student> students = usersLogic.getStudentsByAccountId(account.getId());
 
         return students
                 .stream()
@@ -178,7 +178,7 @@ public final class CoursesLogic {
             return;
         }
 
-        coursesDb.deleteCourse(course);
+        coursesDb.removeCourse(course);
     }
 
     /**
@@ -245,17 +245,7 @@ public final class CoursesLogic {
 
         validateSection(section);
 
-        return coursesDb.createSection(section);
-    }
-
-    /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        assert courseId != null;
-        assert teamName != null;
-
-        return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
+        return coursesDb.persistSection(section);
     }
 
     /**
@@ -286,7 +276,7 @@ public final class CoursesLogic {
 
         validateTeam(team);
 
-        return coursesDb.createTeam(team);
+        return coursesDb.persistTeam(team);
     }
 
     /**

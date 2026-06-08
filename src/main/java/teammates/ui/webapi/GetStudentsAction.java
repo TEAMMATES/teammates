@@ -23,7 +23,7 @@ public class GetStudentsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -32,12 +32,11 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null) {
             // request to get all students of a course by instructor
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
-            Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+            Student student = getStudentFromRequest(courseId);
             if (student == null || !teamName.equals(student.getTeamName())) {
                 throw new UnauthorizedAccessException("You are not part of the team");
             }
@@ -49,16 +48,16 @@ public class GetStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
 
-        Instructor instructor = authContext.isAdmin()
+        Instructor instructor = requestContext.isAdmin()
                 ? null
-                : logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+                : getInstructorFromRequest(courseId);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
         boolean hasCoursePrivilege = instructor != null
-                && instructor.isAllowedForPrivilege(privilegeName);
+                && logic.hasInstructorPermissions(instructor, privilegeName);
         boolean hasSectionPrivilege = instructor != null
-                && !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
+                && !logic.getSectionsWithInstructorPermission(instructor, privilegeName).isEmpty();
 
-        if (authContext.isAdmin() || teamName == null && hasCoursePrivilege) {
+        if (requestContext.isAdmin() || teamName == null && hasCoursePrivilege) {
             // request to get all course students by instructor with course privilege
             List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
 
@@ -67,8 +66,8 @@ public class GetStudentsAction extends Action {
             // request to get students by instructor with section privilege
             List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
             List<Student> studentsToReturn = new LinkedList<>();
-            Set<String> sectionsWithViewPrivileges = instructor
-                    .getSectionsWithPrivilege(privilegeName).keySet();
+            Set<String> sectionsWithViewPrivileges =
+                    logic.getSectionsWithInstructorPermission(instructor, privilegeName).keySet();
 
             studentsForCourse.forEach(student -> {
                 if (sectionsWithViewPrivileges.contains(student.getSectionName())) {

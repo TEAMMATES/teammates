@@ -1,400 +1,9 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorSessionEditPageComponent > should snap when feedback question failed to load 1`] = `
-<tm-instructor-session-edit-page
-  FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
-  QuestionEditFormMode={[Function Object]}
-  SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef]}
-  courseId=""
-  courseName=""
-  courseService={[Function _CourseService]}
-  coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function _DateTimeService]}
-  failedToCopySessions={[Function Object]}
-  feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName=""
-  feedbackSessionsService={[Function _FeedbackSessionsService]}
-  hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
-  hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function _InstructorService]}
-  instructorsOfCourse={[Function Array]}
-  isAddingFromTemplate="false"
-  isAddingQuestionPanelExpanded="false"
-  isCopyingQuestion="false"
-  isEditingMode="false"
-  isLoadingFeedbackQuestions={[Function Boolean]}
-  isLoadingFeedbackSession={[Function Boolean]}
-  isResultActionLoading="false"
-  modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function _NavigationService]}
-  newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
-  progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
-  questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
-  sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function _SimpleModalService]}
-  statusMessageService={[Function _StatusMessageService]}
-  studentService={[Function _StudentService]}
-  studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function _TableComparatorService]}
-  timezoneService={[Function _TimezoneService]}
-  userDeadlines={[Function Object]}
-  userIdOfInstructorToPreview=""
-  userIdOfStudentToPreview=""
->
-  <tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </tm-loading-retry><tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <div
-      class="text-center"
-    >
-      <p
-        class="text-muted m-1"
-      >
-        Failed to load feedback questions
-      </p>
-      <button
-        class="btn btn-primary"
-      >
-        <i
-          aria-hidden="true"
-          class="fas fa-redo"
-        />
-         Retry 
-      </button>
-    </div>
-  </tm-loading-retry>
-</tm-instructor-session-edit-page>
-`;
-
-exports[`InstructorSessionEditPageComponent > should snap when feedback questions are loading 1`] = `
-<tm-instructor-session-edit-page
-  FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
-  QuestionEditFormMode={[Function Object]}
-  SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef]}
-  courseId=""
-  courseName=""
-  courseService={[Function _CourseService]}
-  coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function _DateTimeService]}
-  failedToCopySessions={[Function Object]}
-  feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName=""
-  feedbackSessionsService={[Function _FeedbackSessionsService]}
-  hasLoadingFeedbackQuestionsFailed="false"
-  hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function _InstructorService]}
-  instructorsOfCourse={[Function Array]}
-  isAddingFromTemplate="false"
-  isAddingQuestionPanelExpanded="false"
-  isCopyingQuestion="false"
-  isEditingMode="false"
-  isLoadingFeedbackQuestions={[Function Boolean]}
-  isLoadingFeedbackSession={[Function Boolean]}
-  isResultActionLoading="false"
-  modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function _NavigationService]}
-  newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
-  progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
-  questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
-  sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function _SimpleModalService]}
-  statusMessageService={[Function _StatusMessageService]}
-  studentService={[Function _StudentService]}
-  studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function _TableComparatorService]}
-  timezoneService={[Function _TimezoneService]}
-  userDeadlines={[Function Object]}
-  userIdOfInstructorToPreview=""
-  userIdOfStudentToPreview=""
->
-  <tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </tm-loading-retry><tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-    <div />
-    <br />
-    <br />
-  </tm-loading-retry>
-</tm-instructor-session-edit-page>
-`;
-
-exports[`InstructorSessionEditPageComponent > should snap when feedback session failed to load 1`] = `
-<tm-instructor-session-edit-page
-  FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
-  QuestionEditFormMode={[Function Object]}
-  SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef]}
-  courseId=""
-  courseName=""
-  courseService={[Function _CourseService]}
-  coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function _DateTimeService]}
-  failedToCopySessions={[Function Object]}
-  feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName=""
-  feedbackSessionsService={[Function _FeedbackSessionsService]}
-  hasLoadingFeedbackQuestionsFailed="false"
-  hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  instructorService={[Function _InstructorService]}
-  instructorsOfCourse={[Function Array]}
-  isAddingFromTemplate="false"
-  isAddingQuestionPanelExpanded="false"
-  isCopyingQuestion="false"
-  isEditingMode="false"
-  isLoadingFeedbackQuestions={[Function Boolean]}
-  isLoadingFeedbackSession={[Function Boolean]}
-  isResultActionLoading="false"
-  modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function _NavigationService]}
-  newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
-  progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
-  questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
-  sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function _SimpleModalService]}
-  statusMessageService={[Function _StatusMessageService]}
-  studentService={[Function _StudentService]}
-  studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function _TableComparatorService]}
-  timezoneService={[Function _TimezoneService]}
-  userDeadlines={[Function Object]}
-  userIdOfInstructorToPreview=""
-  userIdOfStudentToPreview=""
->
-  <tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <div
-      class="text-center"
-    >
-      <p
-        class="text-muted m-1"
-      >
-        Failed to load feedback session
-      </p>
-      <button
-        class="btn btn-primary"
-      >
-        <i
-          aria-hidden="true"
-          class="fas fa-redo"
-        />
-         Retry 
-      </button>
-    </div>
-  </tm-loading-retry><tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-    <div />
-    <br />
-    <br />
-  </tm-loading-retry>
-</tm-instructor-session-edit-page>
-`;
-
-exports[`InstructorSessionEditPageComponent > should snap when feedback session is loading 1`] = `
-<tm-instructor-session-edit-page
-  FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
-  QuestionEditFormMode={[Function Object]}
-  SessionEditFormMode={[Function Object]}
-  changeDetectorRef={[Function ViewRef]}
-  courseId=""
-  courseName=""
-  courseService={[Function _CourseService]}
-  coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function _DateTimeService]}
-  failedToCopySessions={[Function Object]}
-  feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName=""
-  feedbackSessionsService={[Function _FeedbackSessionsService]}
-  hasLoadingFeedbackQuestionsFailed="false"
-  hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function _InstructorService]}
-  instructorsOfCourse={[Function Array]}
-  isAddingFromTemplate="false"
-  isAddingQuestionPanelExpanded="false"
-  isCopyingQuestion="false"
-  isEditingMode="false"
-  isLoadingFeedbackQuestions={[Function Boolean]}
-  isLoadingFeedbackSession={[Function Boolean]}
-  isResultActionLoading="false"
-  modifiedSession={[Function Object]}
-  modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function _NavigationService]}
-  newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function NgbModal]}
-  progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts="undefined"
-  questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
-  sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function _SimpleModalService]}
-  statusMessageService={[Function _StatusMessageService]}
-  studentService={[Function _StudentService]}
-  studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function _TableComparatorService]}
-  timezoneService={[Function _TimezoneService]}
-  userDeadlines={[Function Object]}
-  userIdOfInstructorToPreview=""
-  userIdOfStudentToPreview=""
->
-  <tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </tm-loading-retry><tm-loading-retry>
-    <div
-      aria-hidden="true"
-    />
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-    <div />
-    <br />
-    <br />
-  </tm-loading-retry>
-</tm-instructor-session-edit-page>
-`;
-
 exports[`InstructorSessionEditPageComponent > should snap with default fields 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
@@ -428,7 +37,6 @@ exports[`InstructorSessionEditPageComponent > should snap with default fields 1`
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -491,7 +99,7 @@ exports[`InstructorSessionEditPageComponent > should snap with default fields 1`
 exports[`InstructorSessionEditPageComponent > should snap with feedback session questions 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
@@ -525,7 +133,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
@@ -2151,6 +1758,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                        (Who is giving feedback about whom?)
                     </div>
                     <div
+                      class="alert alert-warning my-2"
+                    >
+                      <strong>
+                        Changing feedback path settings is not recommended
+                      </strong>
+                      <p>
+                         There may already be responses to this question. Changing the feedback path will result in existing responses being deleted. 
+                      </p>
+                    </div>
+                    <div
                       autoclose="outside"
                       class="margin-top-15px w-100"
                       ngbdropdown=""
@@ -2306,6 +1923,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         Visibility
                       </b>
                        (Who can see the responses?) 
+                    </div>
+                    <div
+                      class="alert alert-warning my-2"
+                    >
+                      <strong>
+                        Changing visibility settings is not recommended
+                      </strong>
+                      <p>
+                         This question and its visibility settings have already been made visible to participants. Consider carefully before making changes to the visibility settings as participants may already have expectations regarding the visibility of responses. 
+                      </p>
                     </div>
                     <div
                       class="margin-top-15px"
@@ -2867,6 +2494,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                        (Who is giving feedback about whom?)
                     </div>
                     <div
+                      class="alert alert-warning my-2"
+                    >
+                      <strong>
+                        Changing feedback path settings is not recommended
+                      </strong>
+                      <p>
+                         There may already be responses to this question. Changing the feedback path will result in existing responses being deleted. 
+                      </p>
+                    </div>
+                    <div
                       autoclose="outside"
                       class="margin-top-15px w-100"
                       ngbdropdown=""
@@ -3022,6 +2659,16 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                         Visibility
                       </b>
                        (Who can see the responses?) 
+                    </div>
+                    <div
+                      class="alert alert-warning my-2"
+                    >
+                      <strong>
+                        Changing visibility settings is not recommended
+                      </strong>
+                      <p>
+                         This question and its visibility settings have already been made visible to participants. Consider carefully before making changes to the visibility settings as participants may already have expectations regarding the visibility of responses. 
+                      </p>
                     </div>
                     <div
                       class="margin-top-15px"
@@ -3730,7 +3377,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
 exports[`InstructorSessionEditPageComponent > should snap with new question added 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
-  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
@@ -3764,7 +3411,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
   newQuestionEditFormModel={[Function Object]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}

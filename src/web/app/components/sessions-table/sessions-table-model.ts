@@ -1,4 +1,4 @@
-import { FeedbackSession, InstructorPermissionSet } from '../../../types/api-output';
+import { FeedbackSession, InstructorFeedbackSessionPermissions } from '../../../types/api-output';
 import { ColumnData, SortableTableCellData } from '../sortable-table/sortable-table.component';
 
 /**
@@ -9,7 +9,7 @@ export interface SessionsTableRowModel {
   responseRate: string;
   isLoadingResponseRate: boolean;
 
-  instructorPrivilege: InstructorPermissionSet;
+  instructorPrivilege: InstructorFeedbackSessionPermissions;
 }
 
 /**

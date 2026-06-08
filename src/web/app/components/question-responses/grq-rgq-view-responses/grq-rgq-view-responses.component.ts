@@ -12,6 +12,7 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { DEFAULT_SECTION_ID } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { GroupedResponsesComponent } from '../grouped-responses/grouped-responses.component';
@@ -102,8 +103,8 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
         if (this.sectionOfView) {
           if (
-            (this.isGrq && response.giverSection !== this.sectionOfView) ||
-            (!this.isGrq && response.recipientSection !== this.sectionOfView)
+            (this.isGrq && !this.isResponseSection(response.giverSectionId, this.sectionOfView)) ||
+            (!this.isGrq && !this.isResponseSection(response.recipientSectionId, this.sectionOfView))
           ) {
             continue;
           }
@@ -209,5 +210,9 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
         }
       }
     }
+  }
+
+  private isResponseSection(responseSectionId: string | null | undefined, sectionId: string): boolean {
+    return sectionId === DEFAULT_SECTION_ID ? !responseSectionId : responseSectionId === sectionId;
   }
 }

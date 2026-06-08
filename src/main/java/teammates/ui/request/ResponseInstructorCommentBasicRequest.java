@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.CommentVisibilityType;
 
 /**

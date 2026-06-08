@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -101,6 +102,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         reset(mockLogic);
 
         when(mockLogic.getCourse(stubCourse.getId())).thenReturn(stubCourse);
+        when(mockLogic.getAccount(stubStudent.getAccountId())).thenReturn(stubStudent.getAccount());
+        when(mockLogic.getAccount(stubInstructor.getAccountId())).thenReturn(stubInstructor.getAccount());
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(stubStudent);
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId()))
                 .thenReturn(stubInstructor);
@@ -693,8 +696,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
 
         InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+                Const.InstructorPermissionRoleNames.CUSTOM);
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false);
+        stubInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         stubInstructor.setPrivileges(privileges);
 
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
@@ -892,10 +896,9 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.USER, stubStudent.getGoogleId(),
         };
 
-        verifyCanMasquerade(stubStudent.getGoogleId(), params);
+        verifyCanMasquerade(stubStudent.getAccountId(), params);
     }
 
     @Test

@@ -11,6 +11,7 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
+  CourseView,
   Instructor,
   InstructorPermissionSet,
   InstructorPrivilege,
@@ -25,11 +26,11 @@ import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
 import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { joinStateToString } from '../../utils/join-state.util';
 
 interface CourseDetailsBundle {
   course: Course;
@@ -114,8 +115,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   private loadCourseName(courseid: string): void {
     this.courseService.getCourseAsInstructor(courseid).subscribe({
-      next: (course: Course) => {
-        this.courseDetails.course = course;
+      next: (courseView: CourseView) => {
+        this.courseDetails.course = courseView.course;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -379,7 +380,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder): (a: StudentListRowModel, b: StudentListRowModel) => number {
-    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name
       return (a: StudentListRowModel, b: StudentListRowModel): number => {
@@ -416,8 +416,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           strB = b.student.email;
           break;
         case SortBy.JOIN_STATUS:
-          strA = joinStatePipe.transform(a.student.joinState);
-          strB = joinStatePipe.transform(b.student.joinState);
+          strA = joinStateToString(a.student.joinState);
+          strB = joinStateToString(b.student.joinState);
           break;
         default:
           strA = '';

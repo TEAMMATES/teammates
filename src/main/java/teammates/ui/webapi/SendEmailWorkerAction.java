@@ -4,7 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.SendEmailRequest;
 
 /**

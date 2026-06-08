@@ -13,10 +13,10 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Remind the student about the published result of a feedback session.
@@ -36,8 +36,8 @@ public class RemindFeedbackSessionResultAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify =
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+                getInstructorFromRequest(feedbackSession.getCourseId());
 
         for (UUID userId : usersToRemind) {
             User user = logic.getUser(userId);

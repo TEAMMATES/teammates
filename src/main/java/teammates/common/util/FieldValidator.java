@@ -96,11 +96,11 @@ public final class FieldValidator {
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+                    Arrays.asList(Const.InstructorPermissionRoleNames.COOWNER,
+                            Const.InstructorPermissionRoleNames.MANAGER,
+                            Const.InstructorPermissionRoleNames.OBSERVER,
+                            Const.InstructorPermissionRoleNames.TUTOR,
+                            Const.InstructorPermissionRoleNames.CUSTOM));
 
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";

@@ -18,6 +18,7 @@ import {
   FeedbackSessionLog,
   FeedbackSessionLogs,
   FeedbackSessionLogType,
+  FeedbackSessionView,
   Student,
 } from '../../../types/api-output';
 import {
@@ -282,9 +283,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       )
       .subscribe({
         next: ({ course, feedbackSessions, students }) => {
-          this.course = course;
+          this.course = course.course;
           this.feedbackSessions = new Map(
-            feedbackSessions.feedbackSessions.map((fs: FeedbackSession) => [fs.feedbackSessionId, fs]),
+            feedbackSessions.feedbackSessions.map((fsView: FeedbackSessionView) => [
+              fsView.feedbackSession.feedbackSessionId,
+              fsView.feedbackSession,
+            ]),
           );
           this.students = this.toStudentSelectionList(students.students);
         },
@@ -298,8 +302,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       courseId: '',
       email: '',
       name: '',
+      teamId: '',
       sectionName: '',
       teamName: '',
+      sectionId: '',
       institute: '',
       courseName: '',
     };

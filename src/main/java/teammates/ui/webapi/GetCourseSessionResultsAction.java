@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -28,8 +29,7 @@ public class GetCourseSessionResultsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
-        gateKeeper.verifyAccessible(instructor, feedbackSession);
+        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
     }
 
     @Override
@@ -37,7 +37,8 @@ public class GetCourseSessionResultsAction extends Action {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        UUID selectedSection = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        Optional<Boolean> isDefaultSection = getNullableBooleanRequestParamValue(Const.ParamsNames.IS_DEFAULT_SECTION);
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -46,7 +47,7 @@ public class GetCourseSessionResultsAction extends Action {
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor,
-                questionId, selectedSection);
+                questionId, selectedSection, isDefaultSection.orElse(false));
 
         return new JsonResult(SessionResultsData.init(bundle));
     }

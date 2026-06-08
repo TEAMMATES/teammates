@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -15,6 +14,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.Provider;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
@@ -47,7 +47,7 @@ public class AccountsLogicTest extends BaseTestCase {
 
         accountsLogic.deleteAccount(googleId);
 
-        verify(accountsDb, times(1)).deleteAccount(account);
+        verify(accountsDb, times(1)).removeAccount(account);
     }
 
     @Test
@@ -69,17 +69,20 @@ public class AccountsLogicTest extends BaseTestCase {
         for (User user : users) {
             verify(usersLogic, times(1)).deleteUser(user);
         }
-        verify(accountsDb, times(1)).deleteAccount(account);
+        verify(accountsDb, times(1)).removeAccount(account);
     }
 
     @Test
     public void testCreateOrGetAccountForEmail_accountExists_success() {
         Account account = getTypicalAccount();
         String email = account.getEmail();
+        Provider provider = account.getProvider();
+        String subject = account.getSubject();
+        String tenantId = account.getTenantId();
 
         when(accountsDb.getAccountByGoogleId(email)).thenReturn(account);
 
-        Account result = accountsLogic.createOrGetAccountForEmail(email);
+        Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
 
         assertEquals(result, account);
     }
@@ -87,20 +90,17 @@ public class AccountsLogicTest extends BaseTestCase {
     @Test
     public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
         String email = "nonexistent@example.com";
+        Provider provider = Provider.TEAMMATES_DEV;
+        String subject = "nonexistentSubject";
+        String tenantId = "nonexistentTenantId";
 
         when(accountsDb.getAccountByGoogleId(email)).thenReturn(null);
-        when(accountsDb.createAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(accountsDb.persistAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
 
-        Account result = accountsLogic.createOrGetAccountForEmail(email);
+        Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
 
-        verify(accountsDb, times(1)).createAccount(result);
+        verify(accountsDb, times(1)).persistAccount(result);
         assertNotNull(result);
         assertEquals(result.getEmail(), email);
-    }
-
-    @Test
-    public void testCreateOrGetAccountForEmail_nullEmail_throwsException() {
-        assertThrows(AssertionError.class,
-                () -> accountsLogic.createOrGetAccountForEmail(null));
     }
 }

@@ -9,10 +9,12 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 
@@ -21,9 +23,12 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.mockito.invocation.InvocationOnMock;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -34,19 +39,22 @@ import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
+import teammates.logic.core.AuthLogic;
+import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.exception.ActionMappingException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Base class for all action tests.
@@ -63,6 +71,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     static final String DELETE = HttpDelete.METHOD_NAME;
 
     Logic mockLogic = mock(Logic.class);
+    UsersLogic mockUsersLogic = mock(UsersLogic.class);
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
@@ -109,17 +118,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         try {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
+            stubInstructorPermissionFacadeMethods();
             action.setLogic(mockLogic);
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);
             stubUserForRegistrationKey();
+            stubUserForAuthContext();
             mockUserProvision.setLogic(mockLogic);
             mockUserProvision.setCreateMissingAccounts(true);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
+            stubAuthLogicUsersLogic(action.requestContext.getAuthContext());
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
@@ -127,6 +139,92 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             BaseActionTest.<RuntimeException>sneakyThrow(e);
             return null;
         }
+    }
+
+    private void stubInstructorPermissionFacadeMethods() {
+        doAnswer(invocation -> {
+            Instructor instructor = invocation.getArgument(0);
+            List<String> permissionNames = getStringArguments(invocation, 1);
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            for (String permissionName : permissionNames) {
+                if (!privileges.isAllowedForPrivilege(permissionName)) {
+                    return false;
+                }
+            }
+            return true;
+        }).when(mockLogic).hasInstructorPermissions(any(Instructor.class), any());
+
+        doAnswer(invocation -> {
+            Instructor instructor = invocation.getArgument(0);
+            String sectionName = invocation.getArgument(1);
+            List<String> permissionNames = getStringArguments(invocation, 2);
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            for (String permissionName : permissionNames) {
+                if (!privileges.isAllowedForPrivilege(sectionName, permissionName)) {
+                    return false;
+                }
+            }
+            return true;
+        }).when(mockLogic).hasInstructorPermissionsForSection(any(Instructor.class), anyString(), any());
+
+        doAnswer(invocation -> {
+            Instructor instructor = invocation.getArgument(0);
+            String sectionName = invocation.getArgument(1);
+            String feedbackSessionName = invocation.getArgument(2);
+            List<String> permissionNames = getStringArguments(invocation, 3);
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            for (String permissionName : permissionNames) {
+                if (!privileges.isAllowedForPrivilege(sectionName, feedbackSessionName, permissionName)) {
+                    return false;
+                }
+            }
+            return true;
+        }).when(mockLogic).hasInstructorPermissionsForSessionInSection(
+                any(Instructor.class), anyString(), anyString(), any());
+
+        doAnswer(invocation -> {
+            Instructor instructor = invocation.getArgument(0);
+            String sessionName = invocation.getArgument(1);
+            List<String> permissionNames = getStringArguments(invocation, 2);
+            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            for (String permissionName : permissionNames) {
+                if (privileges.isAllowedForPrivilegeAnySection(sessionName, permissionName)) {
+                    return true;
+                }
+            }
+            return false;
+        }).when(mockLogic).hasInstructorPermissionsForSectionInAnySection(
+                any(Instructor.class), anyString(), any());
+
+        doAnswer(invocation -> {
+            Instructor instructor = invocation.getArgument(0);
+            String permissionName = invocation.getArgument(1);
+            return getEffectivePrivileges(instructor).getSectionsWithPrivilege(permissionName);
+        }).when(mockLogic).getSectionsWithInstructorPermission(any(Instructor.class), anyString());
+    }
+
+    private InstructorPrivileges getEffectivePrivileges(Instructor instructor) {
+        InstructorPermissionRole role = instructor.getRole();
+        if (role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+            return instructor.getPrivileges();
+        }
+        if (role == null) {
+            return instructor.getPrivileges();
+        }
+        return new InstructorPrivileges(role.getRoleName());
+    }
+
+    private List<String> getStringArguments(InvocationOnMock invocation, int startIndex) {
+        List<String> arguments = new ArrayList<>();
+        for (int i = startIndex; i < invocation.getArguments().length; i++) {
+            Object argument = invocation.getArgument(i);
+            if (argument instanceof String[] strings) {
+                arguments.addAll(Arrays.asList(strings));
+            } else {
+                arguments.add((String) argument);
+            }
+        }
+        return arguments;
     }
 
     @SuppressWarnings("unchecked")
@@ -142,13 +240,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
-     * Returns The {@code params} array with the {@code userId}
+     * Returns The {@code params} array with the {@code accountId}
      * (together with the parameter name) inserted at the beginning.
      */
-    protected String[] addUserToParams(String userId, String[] params) {
+    protected String[] addMasqueradeAccountToParams(UUID accountId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER);
-        list.add(userId);
+        list.add(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        list.add(accountId == null ? UUID.randomUUID().toString() : accountId.toString());
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
     }
@@ -224,6 +322,62 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         }).when(mockLogic).getUserByRegistrationKey(anyString());
     }
 
+    private void stubUserForAuthContext() {
+        doAnswer(invocation -> {
+            AuthContext authContext = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            if (authContext.authType() == AuthType.REG_KEY) {
+                return authContext.regKeyUser() instanceof Student ? authContext.regKeyUser() : null;
+            }
+            Account account = authContext.account();
+            return account == null ? null : mockLogic.getStudentByGoogleId(courseId, account.getGoogleId());
+        }).when(mockLogic).getStudentFromAuthContext(any(AuthContext.class), anyString());
+
+        doAnswer(invocation -> {
+            AuthContext authContext = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            if (authContext.authType() == AuthType.REG_KEY) {
+                return authContext.regKeyUser() instanceof Instructor ? authContext.regKeyUser() : null;
+            }
+            Account account = authContext.account();
+            return account == null ? null : mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
+        }).when(mockLogic).getInstructorFromAuthContext(any(AuthContext.class), anyString());
+    }
+
+    private void stubAuthLogicUsersLogic(AuthContext authContext) {
+        injectUsersLogicIntoAuthLogic(mockUsersLogic);
+
+        doAnswer(invocation -> {
+            UUID accountId = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            Account account = authContext.account();
+            if (account != null && account.getId().equals(accountId)) {
+                return mockLogic.getStudentByGoogleId(courseId, account.getGoogleId());
+            }
+            return UsersLogic.inst().getStudentByAccountId(accountId, courseId);
+        }).when(mockUsersLogic).getStudentByAccountId(any(UUID.class), anyString());
+
+        doAnswer(invocation -> {
+            UUID accountId = invocation.getArgument(0);
+            String courseId = invocation.getArgument(1);
+            Account account = authContext.account();
+            if (account != null && account.getId().equals(accountId)) {
+                return mockLogic.getInstructorByGoogleId(courseId, account.getGoogleId());
+            }
+            return UsersLogic.inst().getInstructorByAccountId(accountId, courseId);
+        }).when(mockUsersLogic).getInstructorByAccountId(any(UUID.class), anyString());
+    }
+
+    private void injectUsersLogicIntoAuthLogic(UsersLogic usersLogic) {
+        try {
+            Field usersLogicField = AuthLogic.class.getDeclaredField("usersLogic");
+            usersLogicField.setAccessible(true);
+            usersLogicField.set(AuthLogic.inst(), usersLogic);
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Models a verified cron/worker principal ({@link AuthType#AUTOMATED_SERVICE}), for actions that allow
      * automated services as well as human admins.
@@ -264,20 +418,21 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /**
      * Verifies that the {@link Action} matching the {@code params} is
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCanMasquerade(String userId, String... params) {
-        verifyCanAccess(addUserToParams(userId, params));
+    protected void verifyCanMasquerade(UUID accountId, String... params) {
+        verifyCanAccess(addMasqueradeAccountToParams(ensureMasqueradeAccountId(accountId), params));
     }
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCannotMasquerade(String userId, String... params) {
+    protected void verifyCannotMasquerade(UUID accountId, String... params) {
         assertThrows(UnauthorizedAccessException.class,
-                () -> getAction(addUserToParams(userId, params)).checkAccessControl());
+                () -> getAction(addMasqueradeAccountToParams(ensureMasqueradeAccountId(accountId), params))
+                        .checkAccessControl());
     }
 
     // The next few methods are for parsing results
@@ -646,12 +801,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
+        ensureUserHasAccount(otherCourseInstructor);
+        otherCourseInstructor.setGoogleId("other-course-instructor-googleId");
 
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
+        ensureUserHasAccount(sameCourseStudent);
 
-        verifyCannotMasquerade(otherCourseInstructor.getId().toString(), params);
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(otherCourseInstructor.getAccountId(), params);
+        verifyCannotMasquerade(sameCourseStudent.getAccountId(), params);
     }
 
     void verifyInstructorsOfOtherCoursesCanAccess(Course currentCourse, String... params) {
@@ -660,12 +818,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         Instructor sameCourseInstructor = getTypicalInstructor();
         sameCourseInstructor.setCourse(currentCourse);
+        ensureUserHasAccount(sameCourseInstructor);
 
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(currentCourse);
+        ensureUserHasAccount(sameCourseStudent);
 
-        verifyCannotMasquerade(sameCourseInstructor.getId().toString(), params);
-        verifyCannotMasquerade(sameCourseStudent.getId().toString(), params);
+        verifyCannotMasquerade(sameCourseInstructor.getAccountId(), params);
+        verifyCannotMasquerade(sameCourseStudent.getAccountId(), params);
     }
 
     void verifyInstructorsOfOtherCoursesCannotAccess(String... params) {
@@ -770,12 +930,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade, String... params) {
         loginAsAdmin();
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
+        ensureUserHasAccount(instructor);
+        stubInstructorFromGoogleId(instructor);
 
         if (canMasquerade) {
-            verifyCanMasquerade(instructor.getGoogleId(), params);
+            verifyCanMasquerade(instructor.getAccountId(), params);
         } else {
-            verifyCannotMasquerade(instructor.getGoogleId(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
     }
 
@@ -783,22 +944,24 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         Instructor sameCourseInstructor = getTypicalInstructor();
         sameCourseInstructor.setCourse(thisCourse);
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(sameCourseInstructor);
+        stubInstructorFromGoogleId(sameCourseInstructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
-        loginAsInstructor(sameCourseInstructor.getId().toString());
+        loginAsInstructor(sameCourseInstructor.getGoogleId());
     }
 
     private void loginAsInstructorOfOtherCourse() {
         Instructor otherCourseInstructor = getTypicalInstructor();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseInstructor.setCourse(otherCourse);
+        ensureUserHasAccount(otherCourseInstructor);
+        otherCourseInstructor.setGoogleId("other-course-instructor-googleId");
 
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(otherCourseInstructor);
+        stubInstructorFromGoogleId(otherCourseInstructor);
 
         logoutUser();
-        loginAsInstructor(otherCourseInstructor.getId().toString());
+        loginAsInstructor(otherCourseInstructor.getGoogleId());
     }
 
     private void verifySameCourseAccessibility(
@@ -812,17 +975,21 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void verifySameCourseAccessibility(
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
-        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+        instructor.setAccount(new Account(
+                "instructor-googleId", Provider.TEAMMATES_DEV, "validInstructorSubject",
+                "validTenantId", instructor.getName(), instructor.getEmail()));
 
         instructor.setCourse(thisCourse);
+        instructor.setPrivileges(
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
+        stubInstructorFromGoogleId(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
-        loginAsInstructor(instructor.getId().toString());
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(params);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(instructorPrivileges);
 
         if (canAccess) {
@@ -830,7 +997,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
         } else {
             verifyCannotAccess(params);
-            verifyCannotMasquerade(instructor.getId().toString(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
     }
 
@@ -845,16 +1012,19 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void verifyDifferentCourseAccessibility(
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
-
-        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
-        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
+        ensureUserHasAccount(instructor);
 
         instructor.setCourse(thisCourse);
+        instructor.setPrivileges(
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
+        stubInstructorFromGoogleId(instructor);
+        when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
         logoutUser();
-        loginAsInstructor(instructor.getId().toString());
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(params);
 
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructor.setPrivileges(instructorPrivileges);
 
         if (canAccess) {
@@ -862,24 +1032,56 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             verifyAccessibleForAdminsToMasqueradeAsInstructor(instructor, params);
         } else {
             verifyCannotAccess(params);
-            verifyCannotMasquerade(instructor.getId().toString(), params);
+            verifyCannotMasquerade(instructor.getAccountId(), params);
         }
     }
 
     private void loginAsStudentOfTheSameCourse(Course thisCourse) {
         Student sameCourseStudent = getTypicalStudent();
         sameCourseStudent.setCourse(thisCourse);
+        stubStudentFromGoogleId(sameCourseStudent);
 
         logoutUser();
-        loginAsStudent(sameCourseStudent.getId().toString());
+        loginAsStudent(sameCourseStudent.getGoogleId());
     }
 
     private void loginAsStudentOfOtherCourse() {
         Student otherCourseStudent = getTypicalStudent();
         Course otherCourse = new Course("other-course-id", "other-course-name", Const.DEFAULT_TIME_ZONE, "teammates");
         otherCourseStudent.setCourse(otherCourse);
+        ensureUserHasAccount(otherCourseStudent);
+        otherCourseStudent.setGoogleId("other-course-student-googleId");
+        stubStudentFromGoogleId(otherCourseStudent);
 
         logoutUser();
-        loginAsStudent(otherCourseStudent.getId().toString());
+        loginAsStudent(otherCourseStudent.getGoogleId());
+    }
+
+    private void stubInstructorFromGoogleId(Instructor instructor) {
+        ensureUserHasAccount(instructor);
+        when(mockLogic.getInstructorByGoogleId(instructor.getCourseId(), instructor.getGoogleId())).thenReturn(instructor);
+    }
+
+    private void stubStudentFromGoogleId(Student student) {
+        ensureUserHasAccount(student);
+        when(mockLogic.getStudentByGoogleId(student.getCourseId(), student.getGoogleId())).thenReturn(student);
+    }
+
+    private void ensureUserHasAccount(User user) {
+        if (user.getAccount() == null) {
+            Account account = getTypicalAccount();
+            user.setAccount(account);
+        }
+        when(mockLogic.getAccount(user.getAccountId())).thenReturn(user.getAccount());
+    }
+
+    private UUID ensureMasqueradeAccountId(UUID accountId) {
+        if (accountId != null) {
+            return accountId;
+        }
+
+        Account account = getTypicalAccount();
+        when(mockLogic.getAccount(account.getId())).thenReturn(account);
+        return account.getId();
     }
 }

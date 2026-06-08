@@ -13,11 +13,11 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Action: adds another instructor to a course that already exists.
@@ -33,9 +33,8 @@ public class CreateInstructorAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -50,12 +49,13 @@ public class CreateInstructorAction extends Action {
                     SanitizationHelper.sanitizeName(instructorRequest.getName()),
                     SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
                     instructorRequest.getIsDisplayedToStudent(),
-                    SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
+                    SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()),
+                    instructorRequest.getPrivileges());
 
             Instructor createdInstructor = logic.createInstructor(instructorToAdd);
 
             // Generate and queue invitation email to priority queue (user-triggered)
-            Instructor inviter = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+            Instructor inviter = getInstructorFromRequest(courseId);
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter does not exist.");
             }
@@ -90,7 +90,7 @@ public class CreateInstructorAction extends Action {
      */
     private Instructor createInstructorWithBasicAttributes(Course course, String instructorName,
             String instructorEmail, String instructorRole,
-            boolean isDisplayedToStudents, String displayedName) {
+            boolean isDisplayedToStudents, String displayedName, InstructorPrivileges requestPrivileges) {
 
         String instrName = SanitizationHelper.sanitizeName(instructorName);
         String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
@@ -101,7 +101,12 @@ public class CreateInstructorAction extends Action {
             instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
-        InstructorPrivileges privileges = new InstructorPrivileges(instrRole);
+        // Only assign privileges if the role is custom, otherwise assign default privileges for the role
+        InstructorPrivileges privileges = requestPrivileges == null
+                || !Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRole)
+                        ? new InstructorPrivileges(instrRole)
+                        : requestPrivileges;
+        privileges.validatePrivileges();
         InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
 
         return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,

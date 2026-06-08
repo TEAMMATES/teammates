@@ -23,6 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -153,7 +154,7 @@ public class UserProvisionTest extends BaseTestCase {
     public void getAuthContextFromRequest_nonAdminMasquerade_throwsUnauthorizedAccessException() {
         Account account = createAccount("user-id", "user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.USER, "target-id");
+        req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, account.getId().toString());
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
         UnauthorizedAccessException ex = assertThrows(
@@ -167,9 +168,9 @@ public class UserProvisionTest extends BaseTestCase {
         Account adminAccount = createAccount("admin-id", "admin@example.com");
         Account targetAccount = createAccount("target-id", "target@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(adminAccount);
-        req.addParam(Const.ParamsNames.USER, targetAccount.getGoogleId());
+        req.addParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, targetAccount.getId().toString());
         when(mockAccountsLogic.getAccount(adminAccount.getId())).thenReturn(adminAccount);
-        when(mockAccountsLogic.getAccountForGoogleId(targetAccount.getGoogleId())).thenReturn(targetAccount);
+        when(mockAccountsLogic.getAccount(targetAccount.getId())).thenReturn(targetAccount);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminAccount.getEmail()));
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
@@ -216,7 +217,9 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     private static Account createAccount(String googleId, String email) {
-        Account account = new Account(googleId, "Test User", email);
+        Account account = new Account(
+                googleId, Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
+                "Test User", email);
         account.setId(UUID.randomUUID());
         return account;
     }

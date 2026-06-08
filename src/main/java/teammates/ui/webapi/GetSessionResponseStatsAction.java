@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionStatsData;
@@ -21,7 +20,7 @@ public class GetSessionResponseStatsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -31,8 +30,7 @@ public class GetSessionResponseStatsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(instructor, feedbackSession);
+        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
     }
 
     @Override

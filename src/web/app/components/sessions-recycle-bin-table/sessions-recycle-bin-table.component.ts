@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
-import { FeedbackSession } from '../../../types/api-output';
+import { FeedbackSession, InstructorFeedbackSessionPermissions } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { PanelChevronComponent } from '../panel-chevron/panel-chevron.component';
@@ -13,6 +13,7 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
  */
 export interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;
+  instructorPrivilege?: InstructorFeedbackSessionPermissions;
 }
 
 /**

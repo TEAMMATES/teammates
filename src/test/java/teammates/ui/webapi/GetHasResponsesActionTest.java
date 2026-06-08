@@ -235,7 +235,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
 
         ______TS("Non-logged-in users cannot access");
@@ -264,8 +263,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verify(mockLogic, times(2))
                 .getInstructorByGoogleId(typicalCourse.getId(), getTypicalStudent().getGoogleId());
 
-        // check that getCourse and getFeedbackQuestion are run once per test for logged in users
-        verify(mockLogic, times(2)).getCourse(typicalCourse.getId());
+        // check that getFeedbackQuestion is run once per test for logged in users
         verify(mockLogic, times(2)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
 
@@ -281,7 +279,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
 
         Instructor instructorOfOtherCourse = getTypicalInstructor();
@@ -296,7 +293,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verify(mockLogic, times(2))
                 .getInstructorByGoogleId(typicalCourse.getId(), instructorOfOtherCourse.getGoogleId());
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
 
@@ -312,7 +308,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        when(mockLogic.getCourse(typicalCourse.getId())).thenReturn(typicalCourse);
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
@@ -324,7 +319,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         verify(mockLogic, times(2))
                 .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
-        verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
     }
 
@@ -345,7 +339,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         verifyCanAccess(params);
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
-        verify(mockLogic, times(3))
+        verify(mockLogic, times(1))
                 .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
     }
 
@@ -371,7 +365,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         Instant startTime = Instant.now().minus(Duration.ofDays(3));
         Instant endTime = Instant.now().minus(Duration.ofDays(1));
         FeedbackSession fs = new FeedbackSession("Template feedback session",
-                "test@teammates.tmt",
+                null,
                 "test-instructions",
                 startTime,
                 endTime,

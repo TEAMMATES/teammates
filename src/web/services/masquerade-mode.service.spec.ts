@@ -17,6 +17,6 @@ describe('MasqueradeModeService', () => {
   });
 
   it('should be defined', () => {
-    expect(service.getMasqueradeUser()).toBeDefined();
+    expect(service.getMasqueradeAccountId()).toBeDefined();
   });
 });

@@ -116,6 +116,19 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
   });
 
+  it('should call get with section ID when grouping course feedback session results by section', () => {
+    const paramMap: Record<string, string> = {
+      fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
+      frgroupbysection: '1b5d916f-f81d-4bc9-a6bf-6f9f6f81f102',
+    };
+
+    service.getCourseSessionResults({
+      feedbackSessionId: paramMap['fsid'],
+      groupBySection: paramMap['frgroupbysection'],
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
+  });
+
   it('should call get when retrieving user feedback session results', () => {
     const paramMap: Record<string, string> = {
       fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
@@ -127,6 +140,25 @@ describe('FeedbackSessionsService', () => {
       intent: Intent.STUDENT_RESULT,
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.USER_SESSION_RESULTS, paramMap);
+  });
+
+  it('should call get when retrieving feedback session submission data', () => {
+    const paramMap: Record<string, string> = {
+      fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
+      intent: Intent.STUDENT_SUBMISSION,
+      key: 'reg-key',
+      moderatedperson: 'moderated-person',
+      previewas: 'preview-person',
+    };
+
+    service.getSessionSubmissionData({
+      feedbackSessionId: paramMap['fsid'],
+      intent: Intent.STUDENT_SUBMISSION,
+      key: paramMap['key'],
+      moderatedPerson: paramMap['moderatedperson'],
+      previewAs: paramMap['previewas'],
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_SUBMISSION, paramMap);
   });
 
   it('should call put when moving session to recycle bin', () => {

@@ -94,26 +94,10 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets all soft-deleted feedback sessions of a course.
-     */
-    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
-        return fsDb.getSoftDeletedFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
         return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
-    }
-
-    /**
-     * Gets a feedback session from the recycle bin.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return fsDb.getSoftDeletedFeedbackSession(feedbackSessionName, courseId);
     }
 
     /**
@@ -259,7 +243,7 @@ public final class FeedbackSessionsLogic {
                     String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
         }
 
-        return fsDb.createFeedbackSession(session);
+        return fsDb.persistFeedbackSession(session);
     }
 
     /**
@@ -397,7 +381,7 @@ public final class FeedbackSessionsLogic {
             return;
         }
 
-        fsDb.deleteFeedbackSession(feedbackSession);
+        fsDb.removeFeedbackSession(feedbackSession);
     }
 
     /**

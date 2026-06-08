@@ -1,0 +1,79 @@
+@switch (recipientType) {
+  @case (QuestionRecipientType.STUDENTS) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for students in this course and this course doesn't have any student. Therefore, you will not
+        be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.STUDENTS_EXCLUDING_SELF) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for other students in this course and this course doesn't have any other student. Therefore,
+        you will not be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for other students in your section and your section doesn't have any other student. Therefore,
+        you will not be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.TEAMS) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for teams in this course and this course doesn't have any team. Therefore, you will not be
+        able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.TEAMS_EXCLUDING_SELF) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for other teams in this course and this course doesn't have any other team. Therefore, you
+        will not be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for other teams in your section and your section doesn't have any other team. Therefore, you
+        will not be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.INSTRUCTORS) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for instructors and there are no instructors you can give feedback to. Therefore, you will not
+        be able to answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.OWN_TEAM_MEMBERS) {
+    <div class="alert alert-warning" role="alert">
+      <span
+        >This question is for team members and you don't have any team members. Therefore, you will not be able to
+        answer this question.</span
+      >
+    </div>
+  }
+  @case (QuestionRecipientType.SELF) {
+    <!-- The giver is always a valid recipient of a self-evaluation question, so an empty recipient list is impossible. -->
+  }
+  @case (QuestionRecipientType.OWN_TEAM) {
+    <!-- Only a student giver can use this path and a student always has an own team, so an empty recipient list is impossible. -->
+  }
+  @case (QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+    <!-- The giver is always included as a recipient, so an empty recipient list is impossible. -->
+  }
+  @case (QuestionRecipientType.NONE) {
+    <!-- This question type has no specific recipient, so a "no valid recipients" warning is not applicable. -->
+  }
+  @default never;
+}

@@ -12,7 +12,7 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function _CourseService]}
-  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorCoursePrivilege="undefined"
   currInstructorGoogleId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
@@ -79,18 +79,19 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
     class="card-body text-center"
   >
     <button
+      class="btn btn-info mx-2 my-1"
+      disabled=""
+      id="btn-copy-instructor"
+      type="button"
+    >
+       Copy Instructors from Other Courses 
+    </button>
+    <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       type="button"
     >
        Add New Instructor 
-    </button>
-    <button
-      class="btn btn-info mx-2 my-1"
-      id="btn-copy-instructor"
-      type="button"
-    >
-       Copy Instructors from Other Courses 
     </button>
   </div><div
     class="collapse"
@@ -317,7 +318,7 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function _CourseService]}
-  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorCoursePrivilege="undefined"
   currInstructorGoogleId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
@@ -384,18 +385,19 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
     class="card-body text-center"
   >
     <button
+      class="btn btn-info mx-2 my-1"
+      disabled=""
+      id="btn-copy-instructor"
+      type="button"
+    >
+       Copy Instructors from Other Courses 
+    </button>
+    <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       type="button"
     >
        Add New Instructor 
-    </button>
-    <button
-      class="btn btn-info mx-2 my-1"
-      id="btn-copy-instructor"
-      type="button"
-    >
-       Copy Instructors from Other Courses 
     </button>
   </div><div
     class="collapse"
@@ -622,7 +624,7 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function _CourseService]}
-  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorCoursePrivilege="undefined"
   currInstructorGoogleId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
@@ -689,18 +691,19 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
     class="card-body text-center"
   >
     <button
+      class="btn btn-info mx-2 my-1"
+      disabled=""
+      id="btn-copy-instructor"
+      type="button"
+    >
+       Copy Instructors from Other Courses 
+    </button>
+    <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       type="button"
     >
        Add New Instructor 
-    </button>
-    <button
-      class="btn btn-info mx-2 my-1"
-      id="btn-copy-instructor"
-      type="button"
-    >
-       Copy Instructors from Other Courses 
     </button>
   </div><div
     class="collapse"
@@ -927,7 +930,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
   courseFormModel={[Function Object]}
   courseId="undefined"
   courseService={[Function _CourseService]}
-  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorCoursePrivilege="undefined"
   currInstructorGoogleId=""
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
@@ -1004,6 +1007,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
             >
               <button
                 class="btn btn-primary btn-sm"
+                disabled=""
                 id="btn-edit-instructor-1"
               >
                 <i
@@ -1014,6 +1018,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
               </button>
               <button
                 class="btn btn-primary btn-sm"
+                disabled=""
                 id="btn-delete-instructor-1"
                 ngbtooltip="Delete the instructor from the course"
                 placement="top-right"
@@ -1029,25 +1034,6 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
           <div
             class="card-body text-center"
           >
-            <div
-              class="row form-group"
-            >
-              <label
-                class="col-sm-2 control-label"
-                for="google-id-instructor-1"
-              >
-                 Google ID: 
-              </label>
-              <div
-                class="col-sm-9"
-              >
-                <input
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  id="google-id-instructor-1"
-                  maxlength="254"
-                />
-              </div>
-            </div>
             <div
               class="row form-group"
             >
@@ -1153,18 +1139,19 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
     class="card-body text-center"
   >
     <button
+      class="btn btn-info mx-2 my-1"
+      disabled=""
+      id="btn-copy-instructor"
+      type="button"
+    >
+       Copy Instructors from Other Courses 
+    </button>
+    <button
       class="btn btn-success mx-2 my-1"
       id="btn-add-instructor"
       type="button"
     >
        Add New Instructor 
-    </button>
-    <button
-      class="btn btn-info mx-2 my-1"
-      id="btn-copy-instructor"
-      type="button"
-    >
-       Copy Instructors from Other Courses 
     </button>
   </div><div
     class="collapse"

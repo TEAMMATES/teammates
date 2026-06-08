@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,7 +20,9 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
@@ -51,7 +55,17 @@ public class UsersLogicTest extends BaseTestCase {
         usersDb = mock(UsersDb.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic);
+        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        doAnswer(invocation -> {
+            Instructor instructor = invocation.getArgument(0);
+            String permissionName = invocation.getArgument(1);
+            InstructorPrivileges effectivePrivileges = instructor.getRole()
+                    == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+                            ? instructor.getPrivileges()
+                            : new InstructorPrivileges(instructor.getRole().getRoleName());
+            return effectivePrivileges.isAllowedForPrivilege(permissionName);
+        }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
+        usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = getTypicalInstructor();
@@ -98,7 +112,8 @@ public class UsersLogicTest extends BaseTestCase {
 
     @Test
     public void testGetUnregisteredStudentsForCourse_success() {
-        Account registeredAccount = new Account("valid-google-id", "student-name", "valid1-student@email.tmt");
+        Account registeredAccount = new Account("valid-google-id", Provider.TEAMMATES_DEV, "validStudentSubject",
+                "validTenantId", "student-name", "valid1-student@email.tmt");
         Student registeredStudent = new Student(course, "reg-student-name", "valid1-student@email.tmt", "comments");
         registeredStudent.setAccount(registeredAccount);
 
@@ -136,7 +151,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.deleteInstructorCascade(instructorToDelete.getId());
 
-        verify(usersDb, times(1)).deleteUser(instructorToDelete);
+        verify(usersDb, times(1)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -146,7 +161,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.deleteInstructorCascade(userId);
 
-        verify(usersDb, times(0)).deleteUser(instructor);
+        verify(usersDb, times(0)).removeUser(instructor);
     }
 
     @Test
@@ -163,7 +178,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+        verify(usersDb, times(0)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -180,7 +195,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+        verify(usersDb, times(0)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -188,7 +203,7 @@ public class UsersLogicTest extends BaseTestCase {
         InstructorPrivileges privileges = instructor.getPrivileges();
         privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         instructor.setPrivileges(privileges);
-        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor);
 
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));

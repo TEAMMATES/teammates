@@ -1,8 +1,12 @@
 package teammates.logic.api;
 
+import java.util.UUID;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
@@ -109,22 +113,43 @@ public class MockUserProvision extends UserProvision {
             return PUBLIC_AUTH_CONTEXT;
         }
 
-        String masqueradeUserId = req.getParameter(Const.ParamsNames.USER);
-        if (masqueradeUserId != null) {
+        if (isMasqueradeRequest(req)) {
             if (!loggedInUserIsAdmin) {
                 throw new UnauthorizedAccessException(
                         String.format("Masquerade failed: user %s does not have admin privilege", loggedInGoogleId));
             }
-            return createAccountAuthContext(AuthType.MASQUERADE, masqueradeUserId, isAdmin, isMaintainer);
+
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            Account masqueradeAccount = logic.getAccount(masqueradeAccountUuid);
+            if (masqueradeAccount == null) {
+                throw new UnauthorizedAccessException(
+                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountUuid));
+            }
+            return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
         }
 
         return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);
     }
 
+    @Override
+    public UserInfo getUserInfo(AuthContext authContext) {
+        if (authContext == null || authContext.account() == null) {
+            return null;
+        }
+
+        Account account = authContext.account();
+        UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId());
+        userInfo.isAdmin = authContext.isAdmin();
+        userInfo.isMaintainer = authContext.isMaintainer();
+        return userInfo;
+    }
+
     private AuthContext createAccountAuthContext(
             AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
         Account account = createMissingAccounts
-                ? new Account(googleId, "Test User", googleId + "@example.com")
+                ? new Account(
+                        googleId, Provider.TEAMMATES_DEV, googleId, "tenant-id",
+                        "Test User", googleId + "@example.com")
                 : logic.getAccountForGoogleId(googleId);
         return new AuthContext(authType, account, null, isAdmin, isMaintainer);
     }

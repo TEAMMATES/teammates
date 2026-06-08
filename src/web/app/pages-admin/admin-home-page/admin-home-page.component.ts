@@ -10,6 +10,7 @@ import { AccountRequestTableRowModel } from '../../components/account-requests-t
 import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { DateFormatService } from '../../../services/date-format.service';
 
 /**
  * Admin home page.
@@ -25,7 +26,7 @@ export class AdminHomePageComponent implements OnInit {
   private accountService = inject(AccountService);
   private statusMessageService = inject(StatusMessageService);
   private timezoneService = inject(TimezoneService);
-  private formatDateDetailPipe = inject(FormatDateDetailPipe);
+  private dateFormatService = inject(DateFormatService);
 
   instructorDetails = '';
   instructorName = '';
@@ -158,9 +159,9 @@ export class AdminHomePageComponent implements OnInit {
         email: request.email,
         status: request.status,
         instituteAndCountry: request.institute,
-        createdAtText: this.formatDateDetailPipe.transform(request.createdAt, timezone),
+        createdAtText: this.dateFormatService.formatDateDetailed(request.createdAt, timezone),
         registeredAtText: request.registeredAt
-          ? this.formatDateDetailPipe.transform(request.registeredAt, timezone)
+          ? this.dateFormatService.formatDateDetailed(request.registeredAt, timezone)
           : '',
         comments: request.comments || '',
         registrationLink: '',

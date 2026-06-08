@@ -42,9 +42,9 @@ export class NavigationService {
     params: Record<string, string> = {},
     extras: NavigationExtras = {},
   ): Promise<boolean> {
-    const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
-    if (masqueradeUser !== '') {
-      params['user'] = masqueradeUser;
+    const masqueradeAccountId: string = this.masqueradeModeService.getMasqueradeAccountId();
+    if (masqueradeAccountId !== '') {
+      params['masqueradeaccountid'] = masqueradeAccountId;
     }
     return this.router.navigateByUrl(`${urlWithoutParams}${this.encodeParams(params)}`, extras);
   }

@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -14,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -22,6 +24,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
 
 /**
@@ -52,7 +55,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         sessionsInCourse1.add(generateSession1InCourse(course1, "feedbacksession-2"));
 
         when(mockLogic.getFeedbackSessionsForCourse(course1.getId())).thenReturn(sessionsInCourse1);
-        when(mockLogic.getStudentsByGoogleId(student1.getAccount().getGoogleId())).thenReturn(List.of(student1));
+        when(mockLogic.getStudentsByAccountId(any())).thenReturn(List.of(student1));
         when(mockLogic.getInstructorByGoogleId(
                 instructor1.getAccount().getGoogleId(), course1.getId())).thenReturn(instructor1);
         for (FeedbackSession session : sessionsInCourse1) {
@@ -102,7 +105,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -116,7 +119,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         Instant extendedDeadline = Instant.parse("2028-01-01T00:00:00Z");
 
-        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+        when(mockLogic.getInstructorsByAccountId(any()))
                 .thenReturn(List.of(instructor));
         when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
                 .thenReturn(List.of(closedSession));
@@ -135,7 +138,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -147,7 +150,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         Instructor instructor = generateInstructor1InCourse(course);
         FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(course, "closed-session");
 
-        when(mockLogic.getInstructorsForGoogleId(instructor.getAccount().getGoogleId()))
+        when(mockLogic.getInstructorsByAccountId(any()))
                 .thenReturn(List.of(instructor));
         when(mockLogic.getFeedbackSessionsForInstructors(List.of(instructor)))
                 .thenReturn(List.of(closedSession));
@@ -166,7 +169,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -192,7 +195,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
         assertEquals(1, response.getFeedbackSessions().size());
-        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
+        FeedbackSessionData sessionData = response.getFeedbackSessions().get(0).getFeedbackSession();
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
@@ -202,7 +205,8 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             FeedbackSessionsData sessionsData, List<FeedbackSession> expectedSessions) {
 
         assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
-        for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
+        for (FeedbackSessionViewData sessionViewData : sessionsData.getFeedbackSessions()) {
+            FeedbackSessionData sessionData = sessionViewData.getFeedbackSession();
             List<FeedbackSession> matchedSessions =
                     expectedSessions.stream().filter(session -> session.getName().equals(
                             sessionData.getFeedbackSessionName())
@@ -277,14 +281,16 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
+        String subject = "validStudentSubject";
+        String tenantId = "validTenantId";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        s.setAccount(new Account(googleId, Provider.TEAMMATES_DEV, subject, tenantId, name, email));
         return s;
     }
 
     private FeedbackSession generateSession1InCourse(Course course, String name) {
         FeedbackSession fs = new FeedbackSession(name,
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
                 Duration.ofHours(10), true, true);
@@ -297,15 +303,18 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private Instructor generateInstructor1InCourse(Course course) {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-        instructor.setAccount(new Account("instructor-1", instructor.getName(), instructor.getEmail()));
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
+        String subject = "validInstructorSubject";
+        String tenantId = "validTenantId";
+        instructor.setAccount(new Account(
+                "instructor-1", Provider.TEAMMATES_DEV, subject, tenantId, instructor.getName(), instructor.getEmail()));
         return instructor;
     }
 
     private FeedbackSession generateClosedFeedbackSessionInCourse(Course course, String name) {
         FeedbackSession closedSession = new FeedbackSession(
                 name,
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"),
                 Instant.parse("2025-01-01T00:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"),

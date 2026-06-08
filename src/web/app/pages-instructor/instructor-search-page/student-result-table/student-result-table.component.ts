@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../../components/student-list/student-list.component';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
+import { joinStateToString } from '../../../utils/join-state.util';
 
 /**
  * Search result for a list of students in a course
@@ -48,7 +48,6 @@ export class StudentResultTableComponent {
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder): (a: StudentListRowModel, b: StudentListRowModel) => number {
-    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name
       return (a: StudentListRowModel, b: StudentListRowModel): number => {
@@ -85,8 +84,8 @@ export class StudentResultTableComponent {
           strB = b.student.email;
           break;
         case SortBy.JOIN_STATUS:
-          strA = joinStatePipe.transform(a.student.joinState);
-          strB = joinStatePipe.transform(b.student.joinState);
+          strA = joinStateToString(a.student.joinState);
+          strB = joinStateToString(b.student.joinState);
           break;
         default:
           strA = '';

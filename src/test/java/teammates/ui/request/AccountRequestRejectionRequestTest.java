@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link AccountRequestRejectionRequest}.

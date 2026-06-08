@@ -1,17 +1,17 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
-import { TimezoneService } from '../../../services/timezone.service';
+import { DateFormatService } from '../../../services/date-format.service';
 
 /**
  * Pipe to handle the display of a timestamp in detail.
  */
 @Pipe({ name: 'formatDateDetail' })
 export class FormatDateDetailPipe implements PipeTransform {
-  private timezoneService = inject(TimezoneService);
+  private dateFormatService = inject(DateFormatService);
 
   /**
    * Transforms a timestamp to a date string in detail.
    */
   transform(timestamp: number, timeZone: string): string {
-    return this.timezoneService.formatToString(timestamp, timeZone, 'ddd, DD MMM YYYY, hh:mm A z');
+    return this.dateFormatService.formatDateDetailed(timestamp, timeZone);
   }
 }

@@ -16,7 +16,9 @@ const student: Student = {
   comments: '',
   joinState: JoinState.NOT_JOINED,
   sectionName: 'Tutorial Group 2',
+  sectionId: 'tutorial-group-2',
   teamName: 'Team 2',
+  teamId: 'team-2',
 };
 
 const instructorDetails: Instructor[] = [
@@ -81,7 +83,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'iam2@hello.com',
         name: '2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
     ];
 
@@ -118,7 +122,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'iam2@hello.com',
         name: 'billy',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
       {
         courseId: '1.1.c-demo2',
@@ -128,7 +134,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'iam3@hello.com',
         name: 'amy',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
       {
         courseId: '1.1.c-demo2',
@@ -138,7 +146,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'iam4@hello.com',
         name: 'dawson',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
     ];
 
@@ -167,7 +177,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'cam2@hello.com',
         name: 'billy',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
       {
         courseId: '1.1.c-demo2',
@@ -177,7 +189,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'bam3@hello.com',
         name: 'amy',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
       {
         courseId: '1.1.c-demo2',
@@ -187,7 +201,9 @@ describe('StudentCourseDetailsPageComponent', () => {
         email: 'aam4@hello.com',
         name: 'dawson',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
         teamName: 'Team 2',
+        teamId: 'team-2',
       },
     ];
 

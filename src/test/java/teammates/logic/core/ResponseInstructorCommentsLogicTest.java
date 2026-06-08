@@ -22,7 +22,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.CommentVisibilityType;
@@ -72,16 +71,16 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
             throws InvalidParametersException, EntityDoesNotExistException {
         ResponseInstructorComment comment = getTypicalResponseComment(TYPICAL_ID);
         FeedbackResponse feedbackResponse = comment.getFeedbackResponse();
-        ResponseGiver giver = getRandomInstructorGiver();
+        Instructor giver = getRandomInstructor();
 
         when(frLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
-        when(frcDb.createResponseInstructorComment(any(ResponseInstructorComment.class)))
+        when(frcDb.persistResponseInstructorComment(any(ResponseInstructorComment.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         ResponseInstructorComment createdComment = frcLogic.createResponseInstructorComment(feedbackResponse.getId(), giver,
                 "new comment", List.of(ViewerType.STUDENTS), List.of(ViewerType.INSTRUCTORS));
 
-        verify(frcDb, times(1)).createResponseInstructorComment(createdComment);
+        verify(frcDb, times(1)).persistResponseInstructorComment(createdComment);
         assertEquals("new comment", createdComment.getCommentText());
         assertEquals(giver, createdComment.getGiver());
         assertEquals(List.of(ViewerType.STUDENTS), createdComment.getShowCommentTo());
@@ -95,7 +94,7 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
 
         frcLogic.deleteResponseInstructorComment(TYPICAL_ID);
 
-        verify(frcDb, times(1)).deleteResponseInstructorComment(comment);
+        verify(frcDb, times(1)).removeResponseInstructorComment(comment);
     }
 
     @Test
@@ -115,7 +114,7 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
         ResponseInstructorCommentUpdateRequest updateRequest = new ResponseInstructorCommentUpdateRequest(
                 updatedCommentText, showCommentTo, showGiverNameTo);
         ResponseInstructorComment updatedComment = frcLogic.updateResponseInstructorComment(TYPICAL_ID, updateRequest,
-                getRandomInstructorGiver());
+                getRandomInstructor());
 
         verify(frcDb, times(1)).getResponseInstructorComment(TYPICAL_ID);
 
@@ -150,7 +149,7 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> frcLogic.updateResponseInstructorComment(nonExistentId, updateRequest,
-                        getRandomInstructorGiver()
+                        getRandomInstructor()
                 ));
 
         assertEquals("Trying to update a feedback response comment that does not exist.", ex.getMessage());
@@ -162,9 +161,9 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
         return comment;
     }
 
-    private ResponseGiver getRandomInstructorGiver() {
+    private Instructor getRandomInstructor() {
         Instructor instructor = getTypicalInstructor();
         instructor.setId(UUID.randomUUID());
-        return new ResponseGiver(instructor);
+        return instructor;
     }
 }

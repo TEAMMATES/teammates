@@ -13,7 +13,6 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 
@@ -24,7 +23,6 @@ import teammates.storage.entity.FeedbackSession;
  */
 public final class FeedbackSessionsDb {
 
-    private static final Logger log = Logger.getLogger();
     private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
 
     private static final Duration REMINDER_LEAD_TIME = Duration.ofHours(24);
@@ -63,39 +61,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Gets a soft-deleted feedback session.
-     *
-     * @return null if not found or not soft-deleted.
-     */
-    public FeedbackSession getSoftDeletedFeedbackSession(String feedbackSessionName, String courseId) {
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (feedbackSession != null && feedbackSession.getDeletedAt() == null) {
-            log.info(feedbackSessionName + "/" + courseId + " is not soft-deleted!");
-            return null;
-        }
-
-        return feedbackSession;
-    }
-
-    /**
-     * Gets soft-deleted feedback sessions for course.
-     */
-    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
-        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
-        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
-        cq.select(fsRoot).where(cb.and(
-                cb.isNotNull(fsRoot.get("deletedAt")),
-                cb.equal(fsJoin.get("id"), courseId)));
-        return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
      * Gets all non-soft-deleted feedback sessions for the given course IDs, excluding sessions in deleted courses.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourses(List<String> courseIds) {
@@ -131,8 +96,6 @@ public final class FeedbackSessionsDb {
      * Gets all and only the feedback sessions ongoing within a range of time.
      */
     public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
-        assert rangeStart != null;
-        assert rangeEnd != null;
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -144,19 +107,17 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Creates a feedback session.
+     * Persists a feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session) {
-        assert session != null;
-
+    public FeedbackSession persistFeedbackSession(FeedbackSession session) {
         HibernateUtil.persist(session);
         return session;
     }
 
     /**
-     * Deletes a feedback session.
+     * Removes a feedback session.
      */
-    public void deleteFeedbackSession(FeedbackSession feedbackSession) {
+    public void removeFeedbackSession(FeedbackSession feedbackSession) {
         HibernateUtil.remove(feedbackSession);
     }
 
@@ -165,8 +126,6 @@ public final class FeedbackSessionsDb {
      * Includes sessions from soft-deleted courses.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        assert courseId != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cq.from(FeedbackSession.class);
@@ -183,9 +142,6 @@ public final class FeedbackSessionsDb {
      * Gets feedback sessions for a given {@code courseId} that start after {@code after}.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
-        assert courseId != null;
-        assert after != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);

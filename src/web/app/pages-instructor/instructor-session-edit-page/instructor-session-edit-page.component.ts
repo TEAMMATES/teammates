@@ -14,16 +14,17 @@ import { StudentService } from '../../../services/student.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
+  CourseView,
   Courses,
   DeadlineExtensions,
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackSession,
-  FeedbackSessionPublishStatus,
   FeedbackSessions,
+  FeedbackSessionView,
+  FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
-  HasResponses,
   Instructor,
   Instructors,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -82,17 +83,17 @@ import {
   ],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
-  private datetimeService = inject(DateTimeService);
-  private studentService = inject(StudentService);
-  private courseService = inject(CourseService);
-  private route = inject(ActivatedRoute);
-  private changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly datetimeService = inject(DateTimeService);
+  private readonly studentService = inject(StudentService);
+  private readonly courseService = inject(CourseService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   // enum
   SessionEditFormMode!: typeof SessionEditFormMode;
   QuestionEditFormMode!: typeof QuestionEditFormMode;
   FeedbackQuestionType!: typeof FeedbackQuestionType;
-  FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
 
   // url param
   courseId = '';
@@ -116,8 +117,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     questionNumber: 0,
     questionBrief: '',
     questionDescription: '',
-
-    isQuestionHasResponses: false,
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
@@ -173,7 +172,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.SessionEditFormMode = SessionEditFormMode;
     this.QuestionEditFormMode = QuestionEditFormMode;
     this.FeedbackQuestionType = FeedbackQuestionType;
-    this.FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   }
 
   ngOnInit(): void {
@@ -198,7 +197,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         intent: Intent.FULL_DETAIL,
       })
       .pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
+        switchMap((feedbackSessionView: FeedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.courseId = feedbackSession.courseId;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
 
@@ -208,9 +208,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.getAllStudentsOfCourse(),
             this.getAllInstructors(),
           ]).pipe(
-            map(([course, deadlineExtensions]: [Course, DeadlineExtensions, Student[], Instructor[]]) => ({
+            map(([courseView, deadlineExtensions]: [CourseView, DeadlineExtensions, Student[], Instructor[]]) => ({
               feedbackSession,
-              course,
+              course: courseView.course,
               deadlineExtensions,
             })),
           );
@@ -257,7 +257,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.modifiedSession = {};
           const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
           modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
-          modalRef.componentInstance.courseCandidates = courses.courses;
+          modalRef.componentInstance.courseCandidates = courses.courses.map(
+            (courseView: CourseView) => courseView.course,
+          );
           modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
           modalRef.result
@@ -622,7 +624,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
             this.questionEditFormModels.push(addedQuestionEditFormModel);
-            this.loadResponseStatusForQuestion(addedQuestionEditFormModel);
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
           });
         },
@@ -643,8 +644,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       questionNumber: feedbackQuestion.questionNumber,
       questionBrief: feedbackQuestion.questionBrief,
       questionDescription: feedbackQuestion.questionDescription,
-
-      isQuestionHasResponses: false,
 
       questionType: feedbackQuestion.questionType,
       questionDetails: this.deepCopy(feedbackQuestion.questionDetails),
@@ -671,20 +670,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isFeedbackPathChanged: false,
       isQuestionDetailsChanged: false,
     };
-  }
-
-  /**
-   * Loads the isQuestionHasResponses value for a question edit for model.
-   */
-  private loadResponseStatusForQuestion(model: QuestionEditFormModel): void {
-    this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId).subscribe({
-      next: (resp: HasResponses) => {
-        model.isQuestionHasResponses = resp.hasResponses;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
   }
 
   /**
@@ -725,7 +710,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         next: (updatedQuestion: FeedbackQuestion) => {
           this.questionEditFormModels[index] = this.getQuestionEditFormModel(updatedQuestion);
           this.feedbackQuestionModels.set(updatedQuestion.feedbackQuestionId, updatedQuestion);
-          this.loadResponseStatusForQuestion(this.questionEditFormModels[index]);
 
           // shift question if needed
           if (originalQuestionNumber !== updatedQuestion.questionNumber) {
@@ -782,7 +766,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       questionEditFormModel.feedbackQuestionId,
     )!;
     this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
-    this.questionEditFormModels[index].isQuestionHasResponses = questionEditFormModel.isQuestionHasResponses;
   }
 
   /**
@@ -939,8 +922,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       questionNumber: this.questionEditFormModels.length + 1,
       questionBrief: newQuestionModel.questionBrief,
       questionDescription: newQuestionModel.questionDescription,
-
-      isQuestionHasResponses: false,
 
       questionType: newQuestionModel.questionType,
       questionDetails: newQuestionModel.questionDetails,
@@ -1116,7 +1097,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       )
       .subscribe({
         next: (response: FeedbackSessions) => {
-          response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
+          response.feedbackSessions.forEach((feedbackSessionView: FeedbackSessionView) => {
+            const feedbackSession = feedbackSessionView.feedbackSession;
             const model: FeedbackSessionTabModel = {
               feedbackSessionId: feedbackSession.feedbackSessionId,
               courseId: feedbackSession.courseId,

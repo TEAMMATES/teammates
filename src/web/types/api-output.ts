@@ -61,11 +61,10 @@ export interface Course extends ApiOutput {
   institute: string;
   creationTimestamp: number;
   deletionTimestamp: number;
-  privileges?: InstructorPermissionSet;
 }
 
 export interface Courses extends ApiOutput {
-  courses: Course[];
+  courses: CourseView[];
 }
 
 export interface CourseSection extends ApiOutput {
@@ -75,6 +74,11 @@ export interface CourseSection extends ApiOutput {
 
 export interface CourseSections extends ApiOutput {
   sections: CourseSection[];
+}
+
+export interface CourseView extends ApiOutput {
+  course: Course;
+  instructorPermissions?: InstructorCoursePermissions;
 }
 
 export interface DeadlineExtensions extends ApiOutput {
@@ -305,7 +309,6 @@ export interface FeedbackSession extends ApiOutput {
   isClosingSoonEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;
   createdAtTimestamp: number;
-  privileges?: InstructorPermissionSet;
 }
 
 export interface FeedbackSessionAuditLogDetails extends LogDetails {
@@ -329,7 +332,7 @@ export interface FeedbackSessionLogs extends ApiOutput {
 }
 
 export interface FeedbackSessions extends ApiOutput {
-  feedbackSessions: FeedbackSession[];
+  feedbackSessions: FeedbackSessionView[];
 }
 
 export interface FeedbackSessionStats extends ApiOutput {
@@ -342,6 +345,11 @@ export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
   instructorGivers: string[];
   studentNonGivers: string[];
   instructorNonGivers: string[];
+}
+
+export interface FeedbackSessionView extends ApiOutput {
+  feedbackSession: FeedbackSession;
+  instructorPermissions?: InstructorFeedbackSessionPermissions;
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -386,12 +394,25 @@ export interface Instructor extends ApiOutput {
   name: string;
   institute: string;
   courseName: string;
+  accountId?: string;
   googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;
   joinState: JoinState;
   key?: string;
+}
+
+export interface InstructorCoursePermissions extends ApiOutput {
+  canModifyCourse: boolean;
+  canModifyStudent: boolean;
+  canModifyInstructor: boolean;
+}
+
+export interface InstructorFeedbackSessionPermissions extends ApiOutput {
+  canModifySession: boolean;
+  canSubmitSessionInSections: boolean;
+  canViewSessionInSections: boolean;
 }
 
 export interface InstructorPermissionSet {
@@ -561,8 +582,10 @@ export interface ResponseOutput {
   userIdForModeration?: string;
   giverTeam: string;
   giverEmail?: string;
+  giverSectionId?: string;
   giverSection: string;
   recipient: string;
+  recipientSectionId?: string;
   recipientTeam: string;
   recipientEmail?: string;
   recipientSection: string;
@@ -579,6 +602,16 @@ export interface SessionResults extends ApiOutput {
   questions: QuestionOutput[];
 }
 
+export interface SessionSubmission extends ApiOutput {
+  questions: SessionSubmissionQuestion[];
+}
+
+export interface SessionSubmissionQuestion extends ApiOutput {
+  question: FeedbackQuestion;
+  recipients: FeedbackQuestionRecipient[];
+  responses: FeedbackResponse[];
+}
+
 export interface SourceLocation {
   file: string;
   line: number;
@@ -590,10 +623,13 @@ export interface Student extends ApiOutput {
   email: string;
   courseId: string;
   name: string;
+  teamId: string;
   teamName: string;
+  sectionId: string;
   sectionName: string;
   institute: string;
   courseName: string;
+  accountId?: string;
   googleId?: string;
   comments?: string;
   key?: string;

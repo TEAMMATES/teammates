@@ -63,11 +63,11 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
         BinFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionData responseData = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(typicalFeedbackSession.getName(), response.getFeedbackSessionName());
-        assertEquals(typicalFeedbackSession.getCourseId(), response.getCourseId());
-        assertEquals(typicalFeedbackSession.getId(), response.getFeedbackSessionId());
+        assertEquals(typicalFeedbackSession.getName(), responseData.getFeedbackSessionName());
+        assertEquals(typicalFeedbackSession.getCourseId(), responseData.getCourseId());
+        assertEquals(typicalFeedbackSession.getId(), responseData.getFeedbackSessionId());
 
         verify(mockLogic, times(1))
                 .moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getId());
@@ -95,7 +95,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
     @Test
     void testAccessControl_instructorWithoutPrivilege_cannotAccess() {
         InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),

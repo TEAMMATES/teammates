@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { CommentTableModel } from './comment-table/comment-table.model';
-import { createNewCommentRowModel, instructorCommentToCommentRowModel } from './comment-row-model-mapper';
 import { ResponseInstructorComment, FeedbackVisibilityType } from '../../../types/api-output';
+import { commentToReadOnlyComment } from '../../utils/comment-to-comment-table.util';
 
 /**
  * Transforms comments to readonly comment table model.
@@ -14,13 +14,6 @@ export class CommentsToCommentTableModelPipe implements PipeTransform {
     timezone: string,
     questionShowResponsesTo: FeedbackVisibilityType[] = [],
   ): CommentTableModel {
-    return {
-      isReadOnly,
-      commentRows: comments.map((comment: ResponseInstructorComment) => {
-        return instructorCommentToCommentRowModel(comment, timezone);
-      }),
-      newCommentRow: createNewCommentRowModel(questionShowResponsesTo),
-      isAddingNewComment: false,
-    };
+    return commentToReadOnlyComment(comments, isReadOnly, timezone, questionShowResponsesTo);
   }
 }

@@ -65,7 +65,7 @@ export class HttpRequestService {
     }
 
     if (this.masqueradeModeService.isInMasqueradingMode()) {
-      params = params.set('user', this.masqueradeModeService.getMasqueradeUser());
+      params = params.set('masqueradeaccountid', this.masqueradeModeService.getMasqueradeAccountId());
     }
 
     return params;

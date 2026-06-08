@@ -73,7 +73,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         copySession = new FeedbackSession(
                 "Second Session",
-                instructor.getEmail(),
+                instructor,
                 session.getInstructions(),
                 ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
                     .plus(Duration.ofDays(2))
@@ -97,7 +97,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         copySession2 = new FeedbackSession(
                 "Second Session",
-                instructor.getEmail(),
+                instructor,
                 copySession.getInstructions(),
                 copySession.getStartTime(),
                 copySession.getEndTime(),

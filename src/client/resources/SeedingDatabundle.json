@@ -4,181 +4,241 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "alice@teammates.tmt",
       "name": "Alice",
-      "email": "alice@teammates.tmt"
+      "email": "alice@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "alice@teammates.tmt"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tanaka@teammates.tmt",
       "name": "Hiroshi Tanaka",
-      "email": "tanaka@teammates.tmt"
+      "email": "tanaka@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tanaka@teammates.tmt"
     },
     "instructor3": {
       "id": "00000000-0000-4000-8000-000000000003",
       "googleId": "elena@teammates.tmt",
       "name": "Elena Vasquez",
-      "email": "elena@teammates.tmt"
+      "email": "elena@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "elena@teammates.tmt"
     },
     "instructor4": {
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "marcus.okonkwo@teammates.tmt",
       "name": "Marcus Okonkwo",
-      "email": "marcus.okonkwo@teammates.tmt"
+      "email": "marcus.okonkwo@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "marcus.okonkwo@teammates.tmt"
     },
     "instructor5": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "priya.sharma@teammates.tmt",
       "name": "Priya Sharma",
-      "email": "priya.sharma@teammates.tmt"
+      "email": "priya.sharma@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "priya.sharma@teammates.tmt"
     },
     "instructor6": {
       "id": "00000000-0000-4000-8000-000000000006",
       "googleId": "lars.eriksson@teammates.tmt",
       "name": "Lars Eriksson",
-      "email": "lars.eriksson@teammates.tmt"
+      "email": "lars.eriksson@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "lars.eriksson@teammates.tmt"
     },
     "student1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "googleId": "mei.lin.chen@teammates.tmt",
       "name": "Mei Lin Chen",
-      "email": "mei.lin.chen@teammates.tmt"
+      "email": "mei.lin.chen@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "mei.lin.chen@teammates.tmt"
     },
     "student2": {
       "id": "00000000-0000-4000-8000-000000000102",
       "googleId": "carlos.silva@teammates.tmt",
       "name": "Carlos Silva",
-      "email": "carlos.silva@teammates.tmt"
+      "email": "carlos.silva@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "carlos.silva@teammates.tmt"
     },
     "student3": {
       "id": "00000000-0000-4000-8000-000000000103",
       "googleId": "fatima.alrashid@teammates.tmt",
       "name": "Fatima Al-Rashid",
-      "email": "fatima.alrashid@teammates.tmt"
+      "email": "fatima.alrashid@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "fatima.alrashid@teammates.tmt"
     },
     "student4": {
       "id": "00000000-0000-4000-8000-000000000104",
       "googleId": "kenji.yamamoto@teammates.tmt",
       "name": "Kenji Yamamoto",
-      "email": "kenji.yamamoto@teammates.tmt"
+      "email": "kenji.yamamoto@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "kenji.yamamoto@teammates.tmt"
     },
     "student5": {
       "id": "00000000-0000-4000-8000-000000000105",
       "googleId": "olga.petrov@teammates.tmt",
       "name": "Olga Petrov",
-      "email": "olga.petrov@teammates.tmt"
+      "email": "olga.petrov@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "olga.petrov@teammates.tmt"
     },
     "student6": {
       "id": "00000000-0000-4000-8000-000000000106",
       "googleId": "raj.patel@teammates.tmt",
       "name": "Raj Patel",
-      "email": "raj.patel@teammates.tmt"
+      "email": "raj.patel@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "raj.patel@teammates.tmt"
     },
     "student7": {
       "id": "00000000-0000-4000-8000-000000000107",
       "googleId": "sofia.andersson@teammates.tmt",
       "name": "Sofia Andersson",
-      "email": "sofia.andersson@teammates.tmt"
+      "email": "sofia.andersson@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "sofia.andersson@teammates.tmt"
     },
     "student8": {
       "id": "00000000-0000-4000-8000-000000000108",
       "googleId": "david.okafor@teammates.tmt",
       "name": "David Okafor",
-      "email": "david.okafor@teammates.tmt"
+      "email": "david.okafor@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "david.okafor@teammates.tmt"
     },
     "student11": {
       "id": "00000000-0000-4000-8000-000000000111",
       "googleId": "liam.obrien@teammates.tmt",
       "name": "Liam O'Brien",
-      "email": "liam.obrien@teammates.tmt"
+      "email": "liam.obrien@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "liam.obrien@teammates.tmt"
     },
     "student12": {
       "id": "00000000-0000-4000-8000-000000000112",
       "googleId": "anya.ivanova@teammates.tmt",
       "name": "Anya Ivanova",
-      "email": "anya.ivanova@teammates.tmt"
+      "email": "anya.ivanova@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "anya.ivanova@teammates.tmt"
     },
     "student13": {
       "id": "00000000-0000-4000-8000-000000000113",
       "googleId": "tariq.hassan@teammates.tmt",
       "name": "Tariq Hassan",
-      "email": "tariq.hassan@teammates.tmt"
+      "email": "tariq.hassan@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tariq.hassan@teammates.tmt"
     },
     "student14": {
       "id": "00000000-0000-4000-8000-000000000114",
       "googleId": "sakura.ito@teammates.tmt",
       "name": "Sakura Ito",
-      "email": "sakura.ito@teammates.tmt"
+      "email": "sakura.ito@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "sakura.ito@teammates.tmt"
     },
     "student15": {
       "id": "00000000-0000-4000-8000-000000000115",
       "googleId": "nadia.kowalski@teammates.tmt",
       "name": "Nadia Kowalski",
-      "email": "nadia.kowalski@teammates.tmt"
+      "email": "nadia.kowalski@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "nadia.kowalski@teammates.tmt"
     },
     "student16": {
       "id": "00000000-0000-4000-8000-000000000116",
       "googleId": "chen.wei@teammates.tmt",
       "name": "Chen Wei",
-      "email": "chen.wei@teammates.tmt"
+      "email": "chen.wei@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "chen.wei@teammates.tmt"
     },
     "student17": {
       "id": "00000000-0000-4000-8000-000000000117",
       "googleId": "isabella.martinez@teammates.tmt",
       "name": "Isabella Martinez",
-      "email": "isabella.martinez@teammates.tmt"
+      "email": "isabella.martinez@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "isabella.martinez@teammates.tmt"
     },
     "student18": {
       "id": "00000000-0000-4000-8000-000000000118",
       "googleId": "kwame.asante@teammates.tmt",
       "name": "Kwame Asante",
-      "email": "kwame.asante@teammates.tmt"
+      "email": "kwame.asante@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "kwame.asante@teammates.tmt"
     },
     "student21": {
       "id": "00000000-0000-4000-8000-000000000121",
       "googleId": "amara.diallo@teammates.tmt",
       "name": "Amara Diallo",
-      "email": "amara.diallo@teammates.tmt"
+      "email": "amara.diallo@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "amara.diallo@teammates.tmt"
     },
     "student22": {
       "id": "00000000-0000-4000-8000-000000000122",
       "googleId": "viktor.novak@teammates.tmt",
       "name": "Viktor Novak",
-      "email": "viktor.novak@teammates.tmt"
+      "email": "viktor.novak@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "viktor.novak@teammates.tmt"
     },
     "student23": {
       "id": "00000000-0000-4000-8000-000000000123",
       "googleId": "zara.osman@teammates.tmt",
       "name": "Zara Osman",
-      "email": "zara.osman@teammates.tmt"
+      "email": "zara.osman@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "zara.osman@teammates.tmt"
     },
     "student24": {
       "id": "00000000-0000-4000-8000-000000000124",
       "googleId": "tomas.herrera@teammates.tmt",
       "name": "Tomas Herrera",
-      "email": "tomas.herrera@teammates.tmt"
+      "email": "tomas.herrera@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "tomas.herrera@teammates.tmt"
     },
     "student25": {
       "id": "00000000-0000-4000-8000-000000000125",
       "googleId": "ingrid.mueller@teammates.tmt",
       "name": "Ingrid Mueller",
-      "email": "ingrid.mueller@teammates.tmt"
+      "email": "ingrid.mueller@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "ingrid.mueller@teammates.tmt"
     },
     "student26": {
       "id": "00000000-0000-4000-8000-000000000126",
       "googleId": "ravi.krishnan@teammates.tmt",
       "name": "Ravi Krishnan",
-      "email": "ravi.krishnan@teammates.tmt"
+      "email": "ravi.krishnan@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "ravi.krishnan@teammates.tmt"
     },
     "student27": {
       "id": "00000000-0000-4000-8000-000000000127",
       "googleId": "chloe.dubois@teammates.tmt",
       "name": "Chloe Dubois",
-      "email": "chloe.dubois@teammates.tmt"
+      "email": "chloe.dubois@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "chloe.dubois@teammates.tmt"
     },
     "student28": {
       "id": "00000000-0000-4000-8000-000000000128",
       "googleId": "jian.li@teammates.tmt",
       "name": "Jian Li",
-      "email": "jian.li@teammates.tmt"
+      "email": "jian.li@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "jian.li@teammates.tmt"
     }
   },
   "accountRequests": {
@@ -802,7 +862,6 @@
       "id": "00000000-0000-4000-8000-000000000701",
       "courseId": "CS1101S",
       "name": "Midterm Peer Review",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "Please provide thoughtful and constructive feedback for each question below. Your responses will help your peers improve.",
       "startTime": "seed.d(-14)T08:00:00Z",
       "endTime": "seed.d(+30)T22:00:00Z",
@@ -815,13 +874,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
       "courseId": "CS1101S",
       "name": "Team Project Milestone 1",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "Evaluate your team members' contributions to Milestone 1. Be honest but respectful in your assessments.",
       "startTime": "seed.d(-30)T08:00:00Z",
       "endTime": "seed.d(+14)T22:00:00Z",
@@ -834,13 +893,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000703",
       "courseId": "CS1101S",
       "name": "Final Peer Evaluation",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "This is the final evaluation of the semester. Please rank and rate your teammates comprehensively.",
       "startTime": "seed.d(+45)T08:00:00Z",
       "endTime": "seed.d(+75)T22:00:00Z",
@@ -853,13 +912,13 @@
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000704",
       "courseId": "CS1101S",
       "name": "Instructor Feedback",
-      "creatorEmail": "alice@teammates.tmt",
       "instructions": "Please share your honest feedback about the instruction quality and course content.",
       "startTime": "seed.d(-60)T08:00:00Z",
       "endTime": "seed.d(-30)T22:00:00Z",
@@ -872,13 +931,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000501"
     },
     "session1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000705",
       "courseId": "CS2103T",
       "name": "Sprint 1 Review",
-      "creatorEmail": "elena@teammates.tmt",
       "instructions": "Reflect on Sprint 1 and evaluate your teammates. Focus on concrete examples of contribution.",
       "startTime": "seed.d(-14)T08:00:00Z",
       "endTime": "seed.d(+30)T22:00:00Z",
@@ -891,13 +950,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     },
     "session2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000706",
       "courseId": "CS2103T",
       "name": "Sprint 2 Review",
-      "creatorEmail": "elena@teammates.tmt",
       "instructions": "Evaluate your team's performance during Sprint 2. Consider code quality, collaboration, and process adherence.",
       "startTime": "seed.d(-30)T08:00:00Z",
       "endTime": "seed.d(+14)T22:00:00Z",
@@ -910,13 +969,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     },
     "session3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000707",
       "courseId": "CS2103T",
       "name": "Final Team Assessment",
-      "creatorEmail": "elena@teammates.tmt",
       "instructions": "Provide your final assessment of all team members. This evaluation covers the entire project duration.",
       "startTime": "seed.d(+45)T08:00:00Z",
       "endTime": "seed.d(+75)T22:00:00Z",
@@ -929,13 +988,13 @@
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000503"
     },
     "session1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000708",
       "courseId": "CS2040DE",
       "name": "Lab Partner Evaluation",
-      "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Evaluate your lab partner's problem-solving skills and collaboration during the laboratory sessions.",
       "startTime": "seed.d(-14)T12:00:00Z",
       "endTime": "seed.d(+30)T22:00:00Z",
@@ -948,13 +1007,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000709",
       "courseId": "CS2040DE",
       "name": "Algorithm Design Review",
-      "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Evaluate your peer's algorithm design quality, correctness analysis, and presentation clarity.",
       "startTime": "seed.d(-60)T12:00:00Z",
       "endTime": "seed.d(-30)T12:00:00Z",
@@ -967,13 +1026,13 @@
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
-      "isPublishedEmailSent": true
+      "isPublishedEmailSent": true,
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     },
     "session3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000710",
       "courseId": "CS2040DE",
       "name": "End-of-Term Feedback",
-      "creatorEmail": "priya.sharma@teammates.tmt",
       "instructions": "Share your thoughts on the course, your team's work on the final project, and any suggestions for improvement.",
       "startTime": "seed.d(+45)T08:00:00Z",
       "endTime": "seed.d(+75)T22:00:00Z",
@@ -986,7 +1045,8 @@
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
-      "isPublishedEmailSent": false
+      "isPublishedEmailSent": false,
+      "creatorId": "00000000-0000-4000-8000-000000000505"
     }
   },
   "feedbackQuestions": {
@@ -3172,96 +3232,64 @@
   },
   "responseInstructorComments": {
     "comment1ToResp1ForQ1InSession1InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000501",
+      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Excellent self-awareness, Mei Lin. Your identification of closures as a growth area is spot on. I recommend working through the supplementary exercises on environment model diagrams.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment1ToResp2ForQ1InSession1InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000501",
+      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Good progress, Carlos. Consider pairing up with a classmate to practice environment model walkthroughs before the midterm.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResp1ForQ2InSession1InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000502"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000502"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000502",
+      "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Thank you for this evaluation. The peer feedback process is important for team development.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000904"
     },
     "comment1ToResp1ForQ1InSession1InCourse2": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000503"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000503"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000503",
+      "lastEditedById": "00000000-0000-4000-8000-000000000503",
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000934"
     },
     "comment1ToResp1ForQ1InSession1InCourse3": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000505"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000505"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000505",
+      "lastEditedById": "00000000-0000-4000-8000-000000000505",
       "commentText": "Thoughtful feedback, Amara. Encouraging your partner to consider edge cases earlier is exactly the kind of constructive observation we value.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000961"
     },
     "comment1ToResp1ForQ1InSession4InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000501",
+      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Thank you for the positive feedback. I will continue to incorporate more interactive examples in my teaching.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000925"
     },
     "comment1ToResp1ForQ2InSession2InCourse1": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000501"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000501",
+      "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "This rubric evaluation aligns well with my own observations. Carlos has been steadily improving his communication in team settings.",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "responseId": "00000000-0000-4000-8000-000000000919"
     },
     "comment1ToResp1ForQ1InSession2InCourse2": {
-      "giver": {
-        "giverUserId": "00000000-0000-4000-8000-000000000503"
-      },
-      "lastEditedBy": {
-        "giverUserId": "00000000-0000-4000-8000-000000000503"
-      },
+      "giverId": "00000000-0000-4000-8000-000000000503",
+      "lastEditedById": "00000000-0000-4000-8000-000000000503",
       "commentText": "Good evaluation. I notice Anya has been very consistent in following coding standards. Encourage her to also share her documentation practices with the team.",
       "showCommentTo": [],
       "showGiverNameTo": [],

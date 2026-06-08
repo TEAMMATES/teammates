@@ -38,7 +38,7 @@ public class DeleteResponseInstructorCommentAction extends Action {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
         }
 
-        if (comment.getGiver().equals(new ResponseGiver(instructor))) {
+        if (comment.getGiver().equals(instructor)) {
             return;
         }
 
@@ -46,9 +46,9 @@ public class DeleteResponseInstructorCommentAction extends Action {
         ResponseGiver giver = response.getGiver();
         String giverSectionName = giver.getSectionName();
         String recipientSectionName = response.getRecipient().getSectionName();
-        gateKeeper.verifyAccessible(instructor, session, giverSectionName,
+        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), giverSectionName,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, recipientSectionName,
+        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionName,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

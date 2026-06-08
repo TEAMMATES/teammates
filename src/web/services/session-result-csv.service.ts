@@ -3,10 +3,10 @@ import { CsvHelper } from './csv-helper';
 import { FeedbackResponsesService } from './feedback-responses.service';
 import { StringHelper } from './string-helper';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { SectionTypeDescriptionPipe } from '../app/pages-instructor/instructor-session-result-page/section-type-description.pipe';
 import { FeedbackQuestion, QuestionOutput, ResponseOutput, SessionResults, Student } from '../types/api-output';
 import { FeedbackQuestionDetailsFactory } from '../types/question-details-impl/feedback-question-details-factory';
 import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/feedback-response-details-factory';
+import { instructorSessionResultToDescription } from '../app/utils/section-type-description.util';
 
 /**
  * Service to generate CSV for a feedback session result.
@@ -45,6 +45,7 @@ export class SessionResultCsvService {
     isShownStats: boolean,
     sectionName?: string,
     sectionDetail?: InstructorSessionResultSectionType,
+    sectionId?: string,
   ): string {
     const csvRows: string[][] = [];
 
@@ -52,8 +53,7 @@ export class SessionResultCsvService {
       csvRows.push(['Section Name', sectionName]);
     }
     if (sectionDetail) {
-      const descriptionPipe: SectionTypeDescriptionPipe = new SectionTypeDescriptionPipe();
-      csvRows.push(['Section View Detail', descriptionPipe.transform(sectionDetail)]);
+      csvRows.push(['Section View Detail', instructorSessionResultToDescription(sectionDetail)]);
     }
 
     this.generateEmptyRow(csvRows);
@@ -67,10 +67,10 @@ export class SessionResultCsvService {
     for (const question of result.questions) {
       const currQuestion: QuestionOutput = structuredClone(question);
       currQuestion.allResponses = currQuestion.allResponses.filter((response: ResponseOutput) => {
-        if (sectionName && sectionDetail) {
+        if (sectionId && sectionDetail) {
           return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
             response,
-            sectionName,
+            sectionId,
             sectionDetail,
           );
         }

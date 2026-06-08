@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -30,7 +31,6 @@ import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
@@ -63,14 +63,14 @@ public class BaseTestCase {
     }
     // CHECKSTYLE.ON:AbbreviationAsWordInName|MethodName
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void printTestClassHeader() {
         System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void printTestClassFooter() {
         System.out.println(getClass().getCanonicalName() + " completed");
     }
@@ -98,6 +98,7 @@ public class BaseTestCase {
      * The entity fields can be changed using setter methods if needed.
      * New entity generator functions for tests should be added here, and follow the
      * same naming convention.
+     * Subject is randomly generated to avoid conflicts during account creation.
      *
      * <p>Example usage:
      * Account account = getTypicalAccount();
@@ -106,7 +107,8 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
+        return new Account("google-id", Provider.TEAMMATES_DEV,
+                UUID.randomUUID().toString(), "tenant-id", "name", "email@teammates.com");
     }
 
     protected Notification getTypicalNotificationWithId() {
@@ -120,9 +122,9 @@ public class BaseTestCase {
     protected Instructor getTypicalInstructor() {
         Course course = getTypicalCourse();
         InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                .getEnum(Const.InstructorPermissionRoleNames.COOWNER);
 
         return new Instructor(course, "instructor-name", "valid@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
@@ -159,7 +161,7 @@ public class BaseTestCase {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
-        ResponseGiver commentGiver = new ResponseGiver(getTypicalStudent());
+        Instructor commentGiver = getTypicalInstructor();
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(commentGiver,
                 "typical-comment", List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);
@@ -174,7 +176,7 @@ public class BaseTestCase {
         Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
         Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
         FeedbackSession feedbackSession = new FeedbackSession("test-feedbacksession",
-                "test@teammates.tmt",
+                null,
                 "<p>test-instructions</p>",
                 startTime,
                 endTime,
@@ -214,28 +216,8 @@ public class BaseTestCase {
                 AccountRequestStatus.PENDING, "");
     }
 
-    protected UsageStatistics getTypicalUsageStatistics() {
-        return getTypicalUsageStatistics(Instant.parse("2011-01-01T00:00:00Z"));
-    }
-
     protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
         return new UsageStatistics(startTime, 60, 2, 2, 2, 2, 2, 0, 0);
-    }
-
-    protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
-        DeadlineExtension de = new DeadlineExtension(
-                getTypicalStudent(),
-                Instant.now());
-        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
-        return de;
-    }
-
-    protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
-        DeadlineExtension de = new DeadlineExtension(
-                getTypicalInstructor(),
-                Instant.now());
-        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
-        return de;
     }
 
     /**
@@ -266,13 +248,6 @@ public class BaseTestCase {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedErrorMessage",
                                      new Class<?>[] { String.class, String.class, String.class, String.class, int.class },
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
-    }
-
-    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength)
-            throws ReflectiveOperationException {
-        return (String) invokeMethod(FieldValidator.class, "getPopulatedEmptyStringErrorMessage",
-                new Class<?>[] { String.class, String.class, int.class },
-                null, new Object[] { messageTemplate, fieldName, maxLength });
     }
 
 }

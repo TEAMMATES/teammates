@@ -11,6 +11,7 @@ import java.util.Map;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
@@ -300,7 +301,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
 
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, new InstructorPrivileges());
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -320,7 +321,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", null, instructorPrivileges);
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, instructorPrivileges);
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);

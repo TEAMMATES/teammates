@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.OBSERVER;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -416,7 +417,8 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
     @Test
     void testAccessControl_instructorWithoutSubmitSessionInSectionsPrivilege_cannotAccess() {
         Instructor instructorWithoutAccess = getTypicalInstructor();
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
+        instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(OBSERVER));
 
         String[] params = new String[] { Const.ParamsNames.FEEDBACK_RESPONSE_ID,
                 typicalFeedbackResponse.getId().toString(),
@@ -439,6 +441,7 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
         InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege("Section B",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        instructorWithoutPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         instructorWithoutPrivilege.setPrivileges(privileges);
 
         String[] params = new String[] { Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -510,23 +513,22 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
                 typicalFeedbackResponse.getId().toString(),
         };
 
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+        verifyCanMasquerade(typicalInstructor.getAccountId(), params);
     }
 
     private void mockCreateResponseInstructorComment(ResponseInstructorComment comment) throws Exception {
         when(mockLogic.createResponseInstructorComment(
-                any(UUID.class), any(ResponseGiver.class), any(String.class), any(), any()))
+                any(UUID.class), any(Instructor.class), any(String.class), any(), any()))
                 .thenReturn(comment);
     }
 
     private ResponseInstructorComment getTypicalCommentForInstructorResult() {
-        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
+                typicalInstructor,
                 typicalRequestBody.getCommentText(),
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
-                giver);
+                typicalInstructor);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         responseInstructorComment.setCreatedAt(Instant.EPOCH);

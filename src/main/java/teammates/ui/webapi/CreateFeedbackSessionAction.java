@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -15,11 +14,11 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a feedback session.
@@ -37,10 +36,8 @@ public class CreateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-        Course course = logic.getCourse(courseId);
-
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
@@ -54,7 +51,7 @@ public class CreateFeedbackSessionAction extends Action {
         if (course == null) {
             throw new InvalidHttpParameterException("Failed to find course with the given course id.");
         }
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(courseId);
         if (instructor == null) {
             throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
         }
@@ -85,7 +82,7 @@ public class CreateFeedbackSessionAction extends Action {
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
-                instructor.getEmail(),
+                instructor,
                 createRequest.getInstructions(),
                 startTime,
                 endTime,
@@ -112,11 +109,7 @@ public class CreateFeedbackSessionAction extends Action {
             createCopiedFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
                     feedbackSessionName, createRequest.getToCopySessionName());
         }
-        FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
-        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
-        output.setPrivileges(privilege);
-
-        return new JsonResult(output);
+        return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 
     private void createCopiedFeedbackQuestions(String oldCourseId, String newCourseId,

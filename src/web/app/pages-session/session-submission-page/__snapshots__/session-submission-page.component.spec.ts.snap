@@ -14,7 +14,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
@@ -170,7 +169,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
@@ -323,7 +321,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
@@ -476,7 +473,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions={[Function String]}
@@ -762,7 +758,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
@@ -1628,11 +1623,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="col-12 constraint-margins"
             >
             </div>
-            <div
-              class="alert alert-warning"
-              role="alert"
-            >
-            </div>
+            <tm-no-recipients-warning>
+              <div
+                class="alert alert-warning"
+                role="alert"
+              >
+                <span>
+                  This question is for teams in this course and this course doesn't have any team. Therefore, you will not be able to answer this question.
+                </span>
+              </div>
+            </tm-no-recipients-warning>
           </div>
         </div>
       </tm-question-submission-form>
@@ -3740,7 +3740,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
@@ -4615,11 +4614,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="col-12 constraint-margins"
             >
             </div>
-            <div
-              class="alert alert-warning"
-              role="alert"
-            >
-            </div>
+            <tm-no-recipients-warning>
+              <div
+                class="alert alert-warning"
+                role="alert"
+              >
+                <span>
+                  This question is for teams in this course and this course doesn't have any team. Therefore, you will not be able to answer this question.
+                </span>
+              </div>
+            </tm-no-recipients-warning>
           </div>
         </div>
       </tm-question-submission-form>
@@ -6756,7 +6760,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
@@ -6910,7 +6913,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   courseService={[Function _CourseService]}
   currentSelectedSessionView={[Function String]}
   entityType={[Function String]}
-  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackResponsesService={[Function _FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""

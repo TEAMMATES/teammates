@@ -15,8 +15,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.NotificationData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationUpdateRequest;
 
 /**
@@ -94,7 +94,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
     @Test
     void testAccessControl_unregistered_cannotAccess() {
         logoutUser();
-        loginAsUnregistered(Const.ParamsNames.USER);
+        loginAsUnregistered(Const.ParamsNames.USER_ID);
         verifyCannotAccess();
     }
 

@@ -39,7 +39,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         session = new FeedbackSession(
                 "session-name",
-                "creater_email@tm.tmt",
+                null,
                 null,
                 Instant.parse("2020-01-01T00:00:00.000Z"),
                 Instant.parse("2020-10-01T00:00:00.000Z"),

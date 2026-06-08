@@ -5,7 +5,6 @@ import { finalize } from 'rxjs/operators';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from './error-message-output';
-import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
@@ -24,7 +23,6 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
 })
 export class UserJoinPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private accountService = inject(AccountService);
   private courseService = inject(CourseService);
   private navigationService = inject(NavigationService);
   private authService = inject(AuthService);
@@ -104,13 +102,13 @@ export class UserJoinPageComponent implements OnInit {
   }
 
   /**
-   * Creates an account.
-   * Account is only created after instructor joins for the first time.
+   * Creates a demo course.
+   * Demo course is only created after instructor joins for the first time.
    */
-  createAccount(): void {
+  createDemoCourse(): void {
     this.isLoading = true;
-    this.accountService
-      .createAccount(this.key, this.timezoneService.guessTimezone())
+    this.courseService
+      .createDemoCourse(this.key, this.timezoneService.guessTimezone())
       .pipe(
         finalize(() => {
           this.isLoading = false;

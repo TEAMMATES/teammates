@@ -27,11 +27,11 @@ public class SearchStudentsAction extends Action {
         String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (Const.EntityType.INSTRUCTOR.equals(entity)) {
-            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+            gateKeeper.verifyInstructorInAnyCourse(requestContext);
         }
 
         if (Const.EntityType.ADMIN.equals(entity)) {
-            gateKeeper.verifyAdminPrivileges(authContext);
+            gateKeeper.verifyAdminPrivileges(requestContext);
         }
     }
 
@@ -43,7 +43,7 @@ public class SearchStudentsAction extends Action {
         List<Student> students;
 
         if (Const.EntityType.INSTRUCTOR.equals(entity)) {
-            List<Instructor> instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
+            List<Instructor> instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
             students = logic.searchStudents(searchKey, instructors);
         } else if (Const.EntityType.ADMIN.equals(entity)) {
             students = logic.searchStudentsInWholeSystem(searchKey);
@@ -55,10 +55,11 @@ public class SearchStudentsAction extends Action {
         for (Student s : students) {
             StudentData studentData = new StudentData(s);
 
-            if (authContext.isAdmin() && Const.EntityType.ADMIN.equals(entity)) {
+            if (requestContext.isAdmin() && Const.EntityType.ADMIN.equals(entity)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         s.getRegKey(),
-                        s.getGoogleId()
+                        s.getGoogleId(),
+                        s.getAccountId()
                 );
             }
 

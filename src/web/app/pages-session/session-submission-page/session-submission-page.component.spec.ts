@@ -6,7 +6,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { AuthService } from '../../../services/auth.service';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
@@ -24,7 +23,6 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleQuestionDetails,
-  FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
@@ -34,6 +32,7 @@ import {
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -44,6 +43,7 @@ import {
   QuestionRecipientType,
   RegkeyValidity,
   ResponseVisibleSetting,
+  SessionSubmission,
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
@@ -76,6 +76,9 @@ describe('SessionSubmissionPageComponent', () => {
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
+  const toFeedbackSessionView = (feedbackSession: FeedbackSession): FeedbackSessionView => ({
+    feedbackSession,
+  });
 
   const createGiverComment = (commentText: string): GiverCommentRowModel => {
     const originalCommentFormModel = {
@@ -503,7 +506,7 @@ describe('SessionSubmissionPageComponent', () => {
     previewAs: '',
   };
 
-  const getFeedbackQuestionsArgs: any = {
+  const getSessionSubmissionDataArgs: any = {
     feedbackSessionId: testQueryParams.fsid,
     intent: Intent.STUDENT_SUBMISSION,
     key: testQueryParams.key,
@@ -517,7 +520,6 @@ describe('SessionSubmissionPageComponent', () => {
   let navService: NavigationService;
   let feedbackSessionsService: FeedbackSessionsService;
   let feedbackResponsesService: FeedbackResponsesService;
-  let feedbackQuestionsService: FeedbackQuestionsService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
   let logService: LogService;
@@ -547,7 +549,6 @@ describe('SessionSubmissionPageComponent', () => {
     fixture = TestBed.createComponent(SessionSubmissionPageComponent);
     authService = TestBed.inject(AuthService);
     navService = TestBed.inject(NavigationService);
-    feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     feedbackResponsesService = TestBed.inject(FeedbackResponsesService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     simpleModalService = TestBed.inject(SimpleModalService);
@@ -716,7 +717,9 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load an open feedback session', () => {
-    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testOpenFeedbackSession));
+    const fsSpy = vi
+      .spyOn(feedbackSessionsService, 'getFeedbackSession')
+      .mockReturnValue(of(toFeedbackSessionView(testOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
@@ -740,7 +743,7 @@ describe('SessionSubmissionPageComponent', () => {
     testClosedFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(testClosedFeedbackSession));
+      .mockReturnValue(of(toFeedbackSessionView(testClosedFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
@@ -760,7 +763,7 @@ describe('SessionSubmissionPageComponent', () => {
     testVisibleNotOpenFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
     const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(testVisibleNotOpenFeedbackSession));
+      .mockReturnValue(of(toFeedbackSessionView(testVisibleNotOpenFeedbackSession)));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
@@ -818,37 +821,106 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load feedback questions', () => {
-    const testFeedbackQuestions: FeedbackQuestions = {
+    const testSessionSubmissionData: SessionSubmission = {
       questions: [
         {
-          feedbackQuestionId: testMcqQuestionSubmissionForm2.feedbackQuestionId,
-          questionNumber: testMcqQuestionSubmissionForm2.questionNumber,
-          questionBrief: testMcqQuestionSubmissionForm2.questionBrief,
-          questionDescription: testMcqQuestionSubmissionForm2.questionDescription,
-          questionDetails: testMcqQuestionSubmissionForm2.questionDetails,
-          questionType: testMcqQuestionSubmissionForm2.questionType,
-          giverType: testMcqQuestionSubmissionForm2.giverType,
-          recipientType: testMcqQuestionSubmissionForm2.recipientType,
-          numberOfEntitiesToGiveFeedbackToSetting:
-            testMcqQuestionSubmissionForm2.numberOfEntitiesToGiveFeedbackToSetting,
-          customNumberOfEntitiesToGiveFeedbackTo: testMcqQuestionSubmissionForm2.customNumberOfEntitiesToGiveFeedbackTo,
-          showResponsesTo: testMcqQuestionSubmissionForm2.showResponsesTo,
-          showGiverNameTo: testMcqQuestionSubmissionForm2.showGiverNameTo,
-          showRecipientNameTo: testMcqQuestionSubmissionForm2.showRecipientNameTo,
+          question: {
+            feedbackQuestionId: testMcqQuestionSubmissionForm2.feedbackQuestionId,
+            questionNumber: testMcqQuestionSubmissionForm2.questionNumber,
+            questionBrief: testMcqQuestionSubmissionForm2.questionBrief,
+            questionDescription: testMcqQuestionSubmissionForm2.questionDescription,
+            questionDetails: testMcqQuestionSubmissionForm2.questionDetails,
+            questionType: testMcqQuestionSubmissionForm2.questionType,
+            giverType: testMcqQuestionSubmissionForm2.giverType,
+            recipientType: testMcqQuestionSubmissionForm2.recipientType,
+            numberOfEntitiesToGiveFeedbackToSetting:
+              testMcqQuestionSubmissionForm2.numberOfEntitiesToGiveFeedbackToSetting,
+            customNumberOfEntitiesToGiveFeedbackTo:
+              testMcqQuestionSubmissionForm2.customNumberOfEntitiesToGiveFeedbackTo,
+            showResponsesTo: testMcqQuestionSubmissionForm2.showResponsesTo,
+            showGiverNameTo: testMcqQuestionSubmissionForm2.showGiverNameTo,
+            showRecipientNameTo: testMcqQuestionSubmissionForm2.showRecipientNameTo,
+          },
+          recipients: [],
+          responses: [],
         },
       ],
     };
 
-    const getQuestionsSpy = vi
-      .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-      .mockReturnValue(of(testFeedbackQuestions));
+    const getSessionSubmissionDataSpy = vi
+      .spyOn(feedbackSessionsService, 'getSessionSubmissionData')
+      .mockReturnValue(of(testSessionSubmissionData));
+    const getResponseSpy = vi.spyOn(feedbackResponsesService, 'getFeedbackResponse');
 
     component.loadFeedbackQuestions();
 
-    expect(getQuestionsSpy).toHaveBeenLastCalledWith(getFeedbackQuestionsArgs);
+    expect(getSessionSubmissionDataSpy).toHaveBeenLastCalledWith(getSessionSubmissionDataArgs);
+    expect(getResponseSpy).not.toHaveBeenCalled();
     expect(component.questionSubmissionForms.length).toEqual(1);
     expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
     expect(component.questionsNeedingSubmission.length).toEqual(0);
+  });
+
+  it('should classify a question for nobody specific as ungrouped instead of grouping it by recipient', () => {
+    const testSessionSubmissionData: SessionSubmission = {
+      questions: [
+        {
+          question: {
+            feedbackQuestionId: testTextQuestionSubmissionForm.feedbackQuestionId,
+            questionNumber: testTextQuestionSubmissionForm.questionNumber,
+            questionBrief: testTextQuestionSubmissionForm.questionBrief,
+            questionDescription: testTextQuestionSubmissionForm.questionDescription,
+            questionDetails: testTextQuestionSubmissionForm.questionDetails,
+            questionType: testTextQuestionSubmissionForm.questionType,
+            giverType: testTextQuestionSubmissionForm.giverType,
+            recipientType: QuestionRecipientType.STUDENTS,
+            numberOfEntitiesToGiveFeedbackToSetting:
+              testTextQuestionSubmissionForm.numberOfEntitiesToGiveFeedbackToSetting,
+            customNumberOfEntitiesToGiveFeedbackTo:
+              testTextQuestionSubmissionForm.customNumberOfEntitiesToGiveFeedbackTo,
+            showResponsesTo: testTextQuestionSubmissionForm.showResponsesTo,
+            showGiverNameTo: testTextQuestionSubmissionForm.showGiverNameTo,
+            showRecipientNameTo: testTextQuestionSubmissionForm.showRecipientNameTo,
+          },
+          recipients: [{ identifier: 'barry-harris-id', name: 'Barry Harris', section: 'Section A', team: 'Team 1' }],
+          responses: [],
+        },
+        {
+          question: {
+            feedbackQuestionId: 'feedback-question-id-general',
+            questionNumber: 11,
+            questionBrief: testTextQuestionSubmissionForm.questionBrief,
+            questionDescription: testTextQuestionSubmissionForm.questionDescription,
+            questionDetails: testTextQuestionSubmissionForm.questionDetails,
+            questionType: testTextQuestionSubmissionForm.questionType,
+            giverType: testTextQuestionSubmissionForm.giverType,
+            recipientType: QuestionRecipientType.NONE,
+            numberOfEntitiesToGiveFeedbackToSetting:
+              testTextQuestionSubmissionForm.numberOfEntitiesToGiveFeedbackToSetting,
+            customNumberOfEntitiesToGiveFeedbackTo:
+              testTextQuestionSubmissionForm.customNumberOfEntitiesToGiveFeedbackTo,
+            showResponsesTo: testTextQuestionSubmissionForm.showResponsesTo,
+            showGiverNameTo: testTextQuestionSubmissionForm.showGiverNameTo,
+            showRecipientNameTo: testTextQuestionSubmissionForm.showRecipientNameTo,
+          },
+          recipients: [{ identifier: '%GENERAL%', name: '-', section: '', team: '' }],
+          responses: [],
+        },
+      ],
+    };
+
+    vi.spyOn(feedbackSessionsService, 'getSessionSubmissionData').mockReturnValue(of(testSessionSubmissionData));
+
+    component.loadFeedbackQuestions();
+
+    // The question for nobody specific is treated as ungroupable
+    expect(component.ungroupableQuestionsSorted).toContain(11);
+    expect(component.recipientQuestionMap.has('%GENERAL%')).toBe(false);
+    // The question with a specific recipient is still grouped by that recipient
+    expect(component.ungroupableQuestionsSorted).not.toContain(testTextQuestionSubmissionForm.questionNumber);
+    expect(
+      component.recipientQuestionMap.get('barry-harris-id')?.has(testTextQuestionSubmissionForm.questionNumber),
+    ).toBe(true);
   });
 
   it('should check that there are no responses to submit', () => {

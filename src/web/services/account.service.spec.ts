@@ -32,29 +32,9 @@ describe('AccountService', () => {
   it('should execute GET on account endpoint', () => {
     service.getAccount(id);
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: id,
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
-  });
-
-  it('should execute POST on account endpoint with timezone string', () => {
-    const testKey = 'testKey';
-    const testTimezone = 'UTC';
-    const paramMap: Record<string, string> = {
-      key: testKey,
-      timezone: testTimezone,
-    };
-    service.createAccount(testKey, testTimezone);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
-  });
-
-  it('should execute POST on account endpoint with empty timezone string', () => {
-    const testKey = 'testKey';
-    const paramMap: Record<string, string> = {
-      key: testKey,
-    };
-    service.createAccount(testKey, '');
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
   it('should execute POST on account request endpoint', () => {
@@ -70,7 +50,7 @@ describe('AccountService', () => {
   it('should execute DELETE on account endpoint', () => {
     service.deleteAccount(id);
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: id,
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });

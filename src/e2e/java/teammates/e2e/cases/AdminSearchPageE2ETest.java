@@ -3,6 +3,7 @@ package teammates.e2e.cases;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -216,15 +217,16 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedStudentHomePageLink(Student student) {
+        UUID accountId = student.isRegistered() ? student.getAccountId() : null;
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withUser(student.getGoogleId())
+                .withMasqueradeAccount(accountId)
                 .toAbsoluteString()
                 : "";
     }
 
     private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.getGoogleId())
+                .withParam(Const.ParamsNames.ACCOUNT_ID, student.getAccountId().toString())
                 .toAbsoluteString()
                 : "";
     }
@@ -243,16 +245,15 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorHomePageLink(Instructor instructor) {
-        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
+        UUID accountId = instructor.isRegistered() ? instructor.getAccountId() : null;
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withUser(googleId)
+                .withMasqueradeAccount(accountId)
                 .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {
-        String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
         return createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
+                .withParam(Const.ParamsNames.ACCOUNT_ID, instructor.getAccountId().toString())
                 .toAbsoluteString();
     }
 

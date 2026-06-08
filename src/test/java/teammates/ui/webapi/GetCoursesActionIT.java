@@ -1,0 +1,171 @@
+package teammates.ui.webapi;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Const;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
+import teammates.ui.output.CoursesData;
+
+/**
+ * SUT: {@link GetCoursesAction}.
+ */
+public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
+    private DataBundle typicalBundle;
+
+    @BeforeMethod(alwaysRun = true)
+    protected void setUp() {
+        typicalBundle = persistDataBundle(loadDataBundle("/GetCoursesActionIT.json"));
+    }
+
+    @Override
+    protected String getActionUri() {
+        return Const.ResourceURIs.COURSES;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return GET;
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    @Override
+    protected void testExecute() throws Exception {
+        // See separated test cases below.
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withNoParameter_shouldThrowHttpParameterException() {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        verifyHttpParameterFailure();
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withInvalidEntityType_shouldReturnBadResponse() {
+        String[] params = new String[] { Const.ParamsNames.ENTITY_TYPE, "invalid_entity_type" };
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withInstructorEntityTypeAndNoCourseStatus_shouldThrowParameterFailure() {
+        String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR, };
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withInvalidCourseStatus_shouldReturnBadResponse() {
+        String[] params = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.COURSE_STATUS, "Invalid status",
+        };
+
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withInstructorEntityTypeAndActiveCourses_shouldReturnCorrectCourses() {
+        String[] params = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
+        };
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+
+        CoursesData courses = getValidCourses(params);
+        assertEquals(3, courses.getCourses().size());
+        Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
+        Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
+        Course expectedCourse3 = typicalBundle.courses.get("typicalCourse4");
+        verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
+        verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
+        verifySameCourseData(courses.getCourses().get(2), expectedCourse3);
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withInstructorEntityTypeAndSoftDeletedCourses_shouldReturnCorrectCourses() {
+        String[] params = {
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.SOFT_DELETED,
+        };
+
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+
+        CoursesData courses = getValidCourses(params);
+        assertEquals(2, courses.getCourses().size());
+        Course expectedCourse1 = typicalBundle.courses.get("typicalCourse3");
+        Course expectedCourse2 = typicalBundle.courses.get("typicalCourse5");
+        verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
+        verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testGetCoursesAction_withStudentEntityType_shouldReturnCorrectCourses() {
+        String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT };
+        Student student = typicalBundle.students.get("student1InCourse1");
+        loginAsStudent(student.getGoogleId());
+
+        CoursesData courses = getValidCourses(params);
+        courses.getCourses().sort((c1, c2) -> c1.getCourse().getCourseId().compareTo(c2.getCourse().getCourseId()));
+        assertEquals(2, courses.getCourses().size());
+        Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
+        Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
+
+        verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
+        verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
+    }
+
+    private void verifySameCourseData(CourseViewData actualCourse, Course expectedCourse) {
+        CourseData actualCourseData = actualCourse.getCourse();
+        assertEquals(actualCourseData.getCourseId(), expectedCourse.getId());
+        assertEquals(actualCourseData.getCourseName(), expectedCourse.getName());
+        assertEquals(actualCourseData.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
+        if (expectedCourse.getDeletedAt() != null) {
+            assertEquals(actualCourseData.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+        }
+        assertEquals(actualCourseData.getTimeZone(), expectedCourse.getTimeZone());
+    }
+
+    private CoursesData getValidCourses(String... params) {
+        GetCoursesAction getCoursesAction = getAction(params);
+        JsonResult result = getJsonResult(getCoursesAction);
+        return (CoursesData) result.getOutput();
+    }
+
+    @Test(groups = GroupNames.INTEGRATION)
+    @Override
+    protected void testAccessControl() throws Exception {
+        String[] studentParams = new String[] { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT, };
+        String[] instructorParams = new String[] { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR, };
+
+        ______TS("Without login or registration, cannot access");
+        verifyInaccessibleWithoutLogin(studentParams);
+        verifyInaccessibleWithoutLogin(instructorParams);
+
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        Student student = typicalBundle.students.get("student1InCourse1");
+
+        ______TS("With login, can access");
+        loginAsInstructor(instructor.getGoogleId());
+        verifyCanAccess(instructorParams);
+
+        loginAsStudent(student.getGoogleId());
+        verifyCanAccess(studentParams);
+    }
+
+}

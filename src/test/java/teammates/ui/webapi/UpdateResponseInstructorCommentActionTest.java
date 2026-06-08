@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.COOWNER;
+import static teammates.common.util.Const.InstructorPermissionRoleNames.CUSTOM;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
@@ -23,12 +24,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.storage.entity.ResponseRecipient;
-import teammates.storage.entity.Section;
-import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.ResponseInstructorCommentData;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
@@ -40,9 +36,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
     private Course typicalCourse;
     private Instructor typicalInstructor;
-    private Student typicalStudent;
     private FeedbackSession typicalFeedbackSession;
-    private FeedbackQuestion typicalFeedbackQuestion;
     private FeedbackResponse typicalFeedbackResponse;
 
     @Override
@@ -59,12 +53,11 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
     void setUpMethod() {
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
-        typicalStudent = getTypicalStudent();
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackSession.setStartTime(Instant.now().minusSeconds(100));
         typicalFeedbackSession.setEndTime(Instant.now());
         typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
-        typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
+        FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
     }
 
@@ -90,7 +83,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.updateResponseInstructorComment(any(UUID.class), any(ResponseInstructorCommentUpdateRequest.class),
-                any(ResponseGiver.class))).thenReturn(updatedComment);
+                any(Instructor.class))).thenReturn(updatedComment);
 
         UpdateResponseInstructorCommentAction action = getAction(updateRequest, params);
         JsonResult r = getJsonResult(action);
@@ -119,7 +112,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.updateResponseInstructorComment(any(UUID.class), any(ResponseInstructorCommentUpdateRequest.class),
-                any(ResponseGiver.class))).thenReturn(updatedComment);
+                any(Instructor.class))).thenReturn(updatedComment);
 
         UpdateResponseInstructorCommentAction action = getAction(updateRequest, params);
         JsonResult r = getJsonResult(action);
@@ -148,7 +141,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.updateResponseInstructorComment(any(UUID.class), any(ResponseInstructorCommentUpdateRequest.class),
-                any(ResponseGiver.class))).thenReturn(updatedComment);
+                any(Instructor.class))).thenReturn(updatedComment);
 
         UpdateResponseInstructorCommentAction action = getAction(updateRequest, params);
         JsonResult r = getJsonResult(action);
@@ -190,7 +183,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), differentInstructor.getGoogleId()))
                 .thenReturn(differentInstructor);
         when(mockLogic.updateResponseInstructorComment(any(UUID.class), any(ResponseInstructorCommentUpdateRequest.class),
-                any(ResponseGiver.class))).thenReturn(updatedComment);
+                any(Instructor.class))).thenReturn(updatedComment);
 
         UpdateResponseInstructorCommentAction action = getAction(updateRequest, params);
         JsonResult r = getJsonResult(action);
@@ -219,7 +212,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
         when(mockLogic.updateResponseInstructorComment(any(UUID.class), any(ResponseInstructorCommentUpdateRequest.class),
-                any(ResponseGiver.class))).thenReturn(updatedComment);
+                any(Instructor.class))).thenReturn(updatedComment);
 
         UpdateResponseInstructorCommentAction action = getAction(updateRequest, params);
         JsonResult r = getJsonResult(action);
@@ -254,7 +247,8 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
         Instructor instructorWithPrivileges = getTypicalInstructor();
         instructorWithPrivileges.setEmail("helper@teammates.tmt");
-        instructorWithPrivileges.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+        instructorWithPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithPrivileges.setPrivileges(new InstructorPrivileges(COOWNER));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),
@@ -274,7 +268,8 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
 
         Instructor instructorWithoutPrivileges = getTypicalInstructor();
         instructorWithoutPrivileges.setEmail("helper@teammates.tmt");
-        instructorWithoutPrivileges.setPrivileges(new InstructorPrivileges(INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+        instructorWithoutPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructorWithoutPrivileges.setPrivileges(new InstructorPrivileges(CUSTOM));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),
@@ -301,7 +296,7 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
                 .thenReturn(typicalInstructor);
 
         loginAsAdmin();
-        verifyCanMasquerade(typicalInstructor.getGoogleId(), params);
+        verifyCanMasquerade(typicalInstructor.getAccountId(), params);
     }
 
     @Test
@@ -313,88 +308,13 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
         verifyEntityNotFoundAcl(params);
     }
 
-    @Test
-    void testAccessControl_instructorWithCorrectPrivilege_canAccessCrossSectionComment() {
-        ResponseInstructorComment typicalComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-
-        Instructor instructorWithPrivilege = getTypicalInstructor();
-        instructorWithPrivilege.setEmail("instructorwithprivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section A",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        privileges.updatePrivilege("Section B",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        instructorWithPrivilege.setPrivileges(privileges);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),
-        };
-
-        when(mockLogic.getResponseInstructorComment(typicalComment.getId())).thenReturn(typicalComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithPrivilege.getGoogleId()))
-                .thenReturn(instructorWithPrivilege);
-
-        loginAsInstructor(instructorWithPrivilege.getGoogleId());
-
-        verifyCanAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorWithoutGiverSectionPrivilege_cannotAccessCrossSectionComment() {
-        ResponseInstructorComment typicalComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-
-        Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setEmail("instructorwithprivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section B",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        instructorWithoutPrivilege.setPrivileges(privileges);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),
-        };
-
-        when(mockLogic.getResponseInstructorComment(typicalComment.getId())).thenReturn(typicalComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutPrivilege);
-
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
-    @Test
-    void testAccessControl_instructorWithoutRecipientSectionPrivilege_cannotAccessCrossSectionComment() {
-        ResponseInstructorComment typicalComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
-
-        Instructor instructorWithoutPrivilege = getTypicalInstructor();
-        instructorWithoutPrivilege.setEmail("instructorwithprivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section A",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        instructorWithoutPrivilege.setPrivileges(privileges);
-
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalComment.getId().toString(),
-        };
-
-        when(mockLogic.getResponseInstructorComment(typicalComment.getId())).thenReturn(typicalComment);
-        when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), instructorWithoutPrivilege.getGoogleId()))
-                .thenReturn(instructorWithoutPrivilege);
-
-        loginAsInstructor(instructorWithoutPrivilege.getGoogleId());
-
-        verifyCannotAccess(params);
-    }
-
     private ResponseInstructorComment getTypicalCommentFromInstructor() {
-        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
+                typicalInstructor,
                 "typical comment",
                 Arrays.asList(ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.INSTRUCTORS),
-                giver);
+                typicalInstructor);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         responseInstructorComment.setCreatedAt(Instant.EPOCH);
@@ -403,41 +323,14 @@ public class UpdateResponseInstructorCommentActionTest extends BaseActionTest<Up
     }
 
     private ResponseInstructorComment getUpdatedCommentFromInstructor() {
-        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
+                typicalInstructor,
                 "updated comment",
                 Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
-                giver);
+                typicalInstructor);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
-        responseInstructorComment.setCreatedAt(Instant.EPOCH);
-        responseInstructorComment.setUpdatedAt(Instant.EPOCH);
-        return responseInstructorComment;
-    }
-
-    private ResponseInstructorComment getTypicalCommentFromTeam(Team team) {
-        Section sectionA = new Section("Section A");
-        typicalCourse.addSection(sectionA);
-        Section sectionB = new Section("Section B");
-        typicalCourse.addSection(sectionB);
-        Team giverTeam = new Team("Section A");
-        giverTeam.setSection(sectionA);
-        Team recipientTeam = new Team("Section B");
-        recipientTeam.setSection(sectionB);
-        typicalFeedbackResponse = FeedbackResponse.makeResponse(
-                new ResponseGiver(giverTeam), new ResponseRecipient(recipientTeam), getTypicalFeedbackResponseDetails());
-        typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
-        ResponseGiver giver = new ResponseGiver(team);
-        ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                giver,
-                "typical comment",
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                giver);
-        typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
-        responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
         responseInstructorComment.setCreatedAt(Instant.EPOCH);
         responseInstructorComment.setUpdatedAt(Instant.EPOCH);
         return responseInstructorComment;

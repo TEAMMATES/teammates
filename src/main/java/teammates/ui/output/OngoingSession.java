@@ -14,6 +14,7 @@ import teammates.storage.entity.FeedbackSession;
  * A single ongoing session.
  */
 public class OngoingSession {
+    private static final String DELETED_INSTRUCTOR_DISPLAY_NAME = "Deleted Instructor";
 
     private final UUID feedbackSessionId;
     private final String sessionStatus;
@@ -24,22 +25,23 @@ public class OngoingSession {
     private final String courseId;
     private final String feedbackSessionName;
 
-    public OngoingSession(FeedbackSession fs, String googleId) {
+    public OngoingSession(FeedbackSession fs, UUID accountId) {
         this.feedbackSessionId = fs.getId();
         this.sessionStatus = getSessionStatusForShow(fs);
-        String instructorHomePageLink;
-        if (googleId == null) {
-            instructorHomePageLink = null;
+        String instructorHomePageLinkNullable;
+        if (accountId == null) {
+            instructorHomePageLinkNullable = null;
         } else {
-            instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUser(googleId)
+            instructorHomePageLinkNullable = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
+                    .withMasqueradeAccount(accountId)
                     .toString();
         }
-        this.instructorHomePageLink = instructorHomePageLink;
+        this.instructorHomePageLink = instructorHomePageLinkNullable;
         Course course = fs.getCourse();
         this.startTime = fs.getStartTime().toEpochMilli();
         this.endTime = fs.getEndTime().toEpochMilli();
-        this.creatorEmail = fs.getCreatorEmail();
+        String creatorEmailNullable = fs.getCreatorEmail();
+        this.creatorEmail = creatorEmailNullable == null ? DELETED_INSTRUCTOR_DISPLAY_NAME : creatorEmailNullable;
         this.courseId = course.getId();
         this.feedbackSessionName = fs.getName();
     }

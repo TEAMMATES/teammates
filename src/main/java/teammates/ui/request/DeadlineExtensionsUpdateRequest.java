@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
+
 /**
  * The update request for deadline extensions of a feedback session.
  */

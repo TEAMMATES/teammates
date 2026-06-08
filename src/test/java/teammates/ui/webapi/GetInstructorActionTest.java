@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Account;
@@ -149,7 +150,9 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
     @Test
     void testExecute_fullDetailWithAccount_success() {
-        Account account = new Account("google-id", "name", "email@tm.tmt");
+        Account account = new Account(
+                "google-id", Provider.TEAMMATES_DEV, "validInstructorSubject", "validTenantId",
+                    "name", "email@tm.tmt");
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         instructor.setAccount(account);
         when(mockLogic.getInstructorByGoogleId(course.getId(), "user-id")).thenReturn(instructor);
@@ -163,20 +166,6 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         InstructorData expected = new InstructorData(instructor);
         expected.setGoogleId("google-id");
         assertEquals(JsonUtils.toJson(expected), JsonUtils.toJson(actionOutput));
-    }
-
-    @Test
-    void testExecute_fullDetailUnregistered_success() {
-        logoutUser();
-        Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
-        when(mockLogic.getInstructorByRegistrationKey(instructor.getRegKey())).thenReturn(instructor);
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.REGKEY, instructor.getRegKey(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-
-        verifyEntityNotFound(params);
     }
 
     @Test

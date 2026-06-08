@@ -218,8 +218,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForSoftDelete);
         feedbackSessionsPage.verifySoftDeletedSessionsTable(softDeletedSessions);
-        assertNotNull(getSoftDeletedSession(closedSession.getName(),
-                instructor.getGoogleId()));
+        assertNotNull(getSoftDeletedSession(closedSession.getName(), instructor.getAccountId()));
 
         ______TS("restore session");
         FeedbackSession[] sessionsForRestore = { newSession, closedSession, openSession, copiedSession2,
@@ -229,8 +228,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestore);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        assertNull(getSoftDeletedSession(closedSession.getName(),
-                instructor.getGoogleId()));
+        assertNull(getSoftDeletedSession(closedSession.getName(), instructor.getAccountId()));
 
         ______TS("permanently delete session");
         FeedbackSession[] sessionsForDelete = { copiedSession, copiedSession2, openSession, closedSession};
@@ -257,10 +255,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestoreAll);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        assertNull(getSoftDeletedSession(copiedSession.getName(),
-                instructor.getGoogleId()));
-        assertNull(getSoftDeletedSession(copiedSession2.getName(),
-                instructor.getGoogleId()));
+        assertNull(getSoftDeletedSession(copiedSession.getName(), instructor.getAccountId()));
+        assertNull(getSoftDeletedSession(copiedSession2.getName(), instructor.getAccountId()));
 
         ______TS("delete all session");
         feedbackSessionsPage.moveToRecycleBin(copiedSession);

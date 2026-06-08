@@ -20,6 +20,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionStats,
   FeedbackSessionSubmissionStatus,
+  FeedbackSessionView,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../types/api-output';
@@ -38,8 +39,8 @@ import {
 } from '../components/sessions-table/sessions-table-model';
 import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../components/sortable-table/sortable-table.component';
-import { PublishStatusNamePipe } from '../components/teammates-common/publish-status-name.pipe';
 import { ErrorMessageOutput } from '../error-message-output';
+import { publishStatusNameToString } from '../utils/publish-status-name.util';
 
 /**
  * The base page for session related page.
@@ -64,8 +65,6 @@ export abstract class InstructorSessionBasePageComponent {
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
-
-  private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
 
   sessionEditFormModel: SessionEditFormModel = {
     feedbackSessionId: '',
@@ -407,9 +406,9 @@ export abstract class InstructorSessionBasePageComponent {
             intent: Intent.FULL_DETAIL,
           })
           .pipe(
-            switchMap((feedbackSession: FeedbackSession) =>
+            switchMap((feedbackSessionView: FeedbackSessionView) =>
               this.copyFeedbackSession(
-                feedbackSession,
+                feedbackSessionView.feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
                 result.sessionToCopyCourseId,
@@ -554,7 +553,7 @@ export abstract class InstructorSessionBasePageComponent {
           rowData[colIdx].customComponent!.componentData = () => {
             return {
               ...rowData[colIdx].customComponent!.componentData,
-              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
+              value: publishStatusNameToString(FeedbackSessionPublishStatus.PUBLISHED),
             };
           };
 
@@ -610,7 +609,7 @@ export abstract class InstructorSessionBasePageComponent {
           rowData[responseColIdx].customComponent!.componentData = () => {
             return {
               ...rowData[responseColIdx].customComponent!.componentData,
-              value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
+              value: publishStatusNameToString(FeedbackSessionPublishStatus.NOT_PUBLISHED),
             };
           };
 

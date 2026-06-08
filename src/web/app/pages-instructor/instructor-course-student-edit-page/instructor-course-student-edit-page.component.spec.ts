@@ -38,7 +38,9 @@ describe('InstructorCourseStudentEditPageComponent', () => {
       name: 'Jake Peralta',
       comments: 'Cool cool cool.',
       teamName: 'Team A',
+      teamId: 'team-a',
       sectionName: 'Section A',
+      sectionId: 'section-a',
       joinState: JoinState.JOINED,
     };
     component.editForm = new UntypedFormGroup({

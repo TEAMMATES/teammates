@@ -14,6 +14,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
@@ -203,7 +204,8 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
     @Test
     void testCheckSpecificAccessControl_instructorOfSameCourseWithoutPermission_throwsUnauthorizedAccessException() {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+                Const.InstructorPermissionRoleNames.OBSERVER);
+        typicalInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         typicalInstructor.setPrivileges(instructorPrivileges);
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
@@ -246,10 +248,12 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         assertEquals(output.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
         assertEquals(output.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
         assertEquals((long) output.getGracePeriod(), session.getGracePeriod().toMinutes());
-        assertEquals((long) output.getSessionVisibleFromTimestamp(), session.getSessionVisibleFromTime().toEpochMilli());
+        assertEquals((long) output.getSessionVisibleFromTimestamp(),
+                session.getSessionVisibleFromTime().toEpochMilli());
         assertEquals(output.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
         assertEquals(output.getCustomSessionVisibleTimestamp(), output.getSessionVisibleFromTimestamp());
-        assertEquals((long) output.getResultVisibleFromTimestamp(), session.getResultsVisibleFromTime().toEpochMilli());
+        assertEquals((long) output.getResultVisibleFromTimestamp(),
+                session.getResultsVisibleFromTime().toEpochMilli());
         assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
         assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
         assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);

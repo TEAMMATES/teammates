@@ -10,6 +10,7 @@ import java.time.Instant;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -18,6 +19,7 @@ import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.request.Intent;
 
 /**
@@ -75,37 +77,38 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         GetFeedbackSessionAction a = getAction(params);
 
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(feedbackSessionId, response.getFeedbackSessionId().toString());
-        assertEquals(feedbackSession1.getName(), response.getFeedbackSessionName());
-        assertEquals(timeZone, response.getTimeZone());
-        assertEquals(feedbackSession1.getInstructions(), response.getInstructions());
+        assertEquals(feedbackSessionId, responseData.getFeedbackSessionId().toString());
+        assertEquals(feedbackSession1.getName(), responseData.getFeedbackSessionName());
+        assertEquals(timeZone, responseData.getTimeZone());
+        assertEquals(feedbackSession1.getInstructions(), responseData.getInstructions());
 
         assertEquals(feedbackSession1.getStartTime().toEpochMilli(),
-                response.getSubmissionStartTimestamp());
+                responseData.getSubmissionStartTimestamp());
         assertEquals(newEndTime.toEpochMilli(),
-                response.getSubmissionEndTimestamp());
+                responseData.getSubmissionEndTimestamp());
         assertEquals(newEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
-        assertNull(response.getGracePeriod());
+                responseData.getSubmissionEndWithExtensionTimestamp());
+        assertNull(responseData.getGracePeriod());
 
-        assertNull(response.getSessionVisibleSetting());
-        assertNull(response.getSessionVisibleFromTimestamp());
-        assertNull(response.getCustomSessionVisibleTimestamp());
+        assertNull(responseData.getSessionVisibleSetting());
+        assertNull(responseData.getSessionVisibleFromTimestamp());
+        assertNull(responseData.getCustomSessionVisibleTimestamp());
 
-        assertNull(response.getResponseVisibleSetting());
-        assertNull(response.getResultVisibleFromTimestamp());
-        assertNull(response.getCustomResponseVisibleTimestamp());
+        assertNull(responseData.getResponseVisibleSetting());
+        assertNull(responseData.getResultVisibleFromTimestamp());
+        assertNull(responseData.getCustomResponseVisibleTimestamp());
 
-        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
-        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, responseData.getSubmissionStatus());
+        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, responseData.getPublishStatus());
 
-        assertNull(response.getIsClosingSoonEmailEnabled());
-        assertNull(response.getIsPublishedEmailEnabled());
+        assertNull(responseData.getIsClosingSoonEmailEnabled());
+        assertNull(responseData.getIsPublishedEmailEnabled());
 
-        assertEquals(0, response.getCreatedAtTimestamp());
-        assertNull(response.getDeletedAtTimestamp());
+        assertEquals(0, responseData.getCreatedAtTimestamp());
+        assertNull(responseData.getDeletedAtTimestamp());
 
         logoutUser();
     }
@@ -136,12 +139,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, responseData.getSubmissionStatus());
 
         assertEquals(newEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
+                responseData.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -172,12 +176,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, responseData.getSubmissionStatus());
 
         assertEquals(newEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
+                responseData.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -209,12 +214,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, responseData.getSubmissionStatus());
 
         assertEquals(extendedEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
+                responseData.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -246,12 +252,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, responseData.getSubmissionStatus());
 
         assertEquals(extendedEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
+                responseData.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -283,12 +290,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, responseData.getSubmissionStatus());
 
         assertEquals(extendedEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
+                responseData.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -320,12 +328,13 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-        FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
+        FeedbackSessionViewData response = (FeedbackSessionViewData) r.getOutput();
+        FeedbackSessionData responseData = response.getFeedbackSession();
 
-        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, responseData.getSubmissionStatus());
 
         assertEquals(extendedEndTime.toEpochMilli(),
-                response.getSubmissionEndWithExtensionTimestamp());
+                responseData.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
     }
@@ -342,14 +351,16 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
+        String subject = "validStudentSubject";
+        String tenantId = "validTenantId";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        s.setAccount(new Account(googleId, Provider.TEAMMATES_DEV, subject, tenantId, name, email));
         return s;
     }
 
     private FeedbackSession generateSession1InCourse(Course course) {
         FeedbackSession fs = new FeedbackSession("feedbacksession-1",
-                "instructor1@gmail.com", "generic instructions",
+                null, "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
                 Duration.ofHours(10), true, true);

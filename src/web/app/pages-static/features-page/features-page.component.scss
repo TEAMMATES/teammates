@@ -3,17 +3,9 @@ img {
   max-width: 80%;
 }
 
-.inner-content {
-  margin: 0 20px;
-}
-
 @media (width <= 991px) {
   img {
     margin: 0;
     max-width: 100%;
-  }
-
-  .inner-content {
-    margin: 0;
   }
 }

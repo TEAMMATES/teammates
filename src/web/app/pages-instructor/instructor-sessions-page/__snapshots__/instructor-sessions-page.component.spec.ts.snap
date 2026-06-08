@@ -35,7 +35,6 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
@@ -1568,7 +1567,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
@@ -3101,7 +3099,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
@@ -4602,7 +4599,6 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
@@ -6152,7 +6148,6 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
@@ -7685,7 +7680,6 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
@@ -9218,7 +9212,6 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishStatusName={[Function _PublishStatusNamePipe]}
   publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"

@@ -12,8 +12,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackResponsesResponse, FeedbackResponsesService } from '../../../services/feedback-responses.service';
+import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
@@ -25,10 +24,9 @@ import { SubmissionReceiptService } from '../../../services/submission-receipt.s
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  Course,
+  CourseView,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
-  FeedbackQuestionRecipients,
   FeedbackQuestionType,
   FeedbackResponse,
   FeedbackQuestionResponses,
@@ -40,7 +38,8 @@ import {
   QuestionRecipientType,
   RegkeyValidity,
   Student,
-  FeedbackQuestions,
+  SessionSubmission,
+  SessionSubmissionQuestion,
 } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
@@ -85,7 +84,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly timezoneService = inject(TimezoneService);
-  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
   private readonly feedbackResponsesService = inject(FeedbackResponsesService);
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
   private readonly submissionReceiptService = inject(SubmissionReceiptService);
@@ -244,8 +242,8 @@ export class SessionSubmissionPageComponent implements OnInit {
       });
   }
 
-  private loadCourseInfoData$(): Observable<Course | null> {
-    let request: Observable<Course>;
+  private loadCourseInfoData$(): Observable<CourseView | null> {
+    let request: Observable<CourseView>;
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAsPerson) {
@@ -262,9 +260,9 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
 
     return request.pipe(
-      tap((resp: Course) => {
-        this.courseName = resp.courseName;
-        this.courseInstitute = resp.institute;
+      tap((resp: CourseView) => {
+        this.courseName = resp.course.courseName;
+        this.courseInstitute = resp.course.institute;
       }),
       catchError(() => of(null)),
     );
@@ -338,7 +336,8 @@ export class SessionSubmissionPageComponent implements OnInit {
         previewAs: this.previewAsPerson,
       })
       .pipe(
-        tap((feedbackSession: FeedbackSession) => {
+        tap((feedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
           this.courseId = feedbackSession.courseId;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
@@ -420,8 +419,8 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.recipientQuestionMap = new Map<string, Set<number>>();
     this.ungroupableQuestionsSorted = [];
 
-    return this.feedbackQuestionsService
-      .getFeedbackQuestions({
+    return this.feedbackSessionsService
+      .getSessionSubmissionData({
         feedbackSessionId: this.feedbackSessionId,
         intent: this.intent,
         key: this.regKey,
@@ -429,45 +428,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         previewAs: this.previewAsPerson,
       })
       .pipe(
-        tap((response: FeedbackQuestions) => {
-          response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
-            this.questionSubmissionForms.push({
-              isTabExpanded: true,
-              feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
-
-              questionNumber: feedbackQuestion.questionNumber,
-              questionBrief: feedbackQuestion.questionBrief,
-              questionDescription: feedbackQuestion.questionDescription,
-
-              giverType: feedbackQuestion.giverType,
-              recipientType: feedbackQuestion.recipientType,
-              recipientList: [],
-              recipientSubmissionForms: [],
-
-              questionType: feedbackQuestion.questionType,
-              questionDetails: feedbackQuestion.questionDetails,
-
-              numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-              customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
-                ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
-                : 0,
-
-              showGiverNameTo: feedbackQuestion.showGiverNameTo,
-              showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-              showResponsesTo: feedbackQuestion.showResponsesTo,
-
-              isTabExpandedForRecipients: new Map<string, boolean>(),
-            });
-          });
-        }),
-        switchMap(() => {
-          if (!this.questionSubmissionForms.length) {
-            return of([]);
-          }
-          return forkJoin(
-            this.questionSubmissionForms.map((model: QuestionSubmissionFormModel) => this.loadQuestionData$(model)),
-          );
-        }),
+        tap((response: SessionSubmission) => this.buildSubmissionForms(response)),
         tap(() => {
           this.ungroupableQuestionsSorted.sort((a: number, b: number) => a - b);
           this.isQuestionCountOne = this.questionSubmissionForms.length === 1;
@@ -484,55 +445,59 @@ export class SessionSubmissionPageComponent implements OnInit {
       );
   }
 
+  private buildSubmissionForms(response: SessionSubmission): void {
+    response.questions.forEach((questionData: SessionSubmissionQuestion) => {
+      const feedbackQuestion: FeedbackQuestion = questionData.question;
+      const model: QuestionSubmissionFormModel = {
+        isTabExpanded: true,
+        feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
+
+        questionNumber: feedbackQuestion.questionNumber,
+        questionBrief: feedbackQuestion.questionBrief,
+        questionDescription: feedbackQuestion.questionDescription,
+
+        giverType: feedbackQuestion.giverType,
+        recipientType: feedbackQuestion.recipientType,
+        recipientList: questionData.recipients.map((recipient: FeedbackQuestionRecipient) => ({
+          recipientIdentifier: recipient.identifier,
+          recipientName: recipient.name,
+          recipientSection: recipient.section,
+          recipientTeam: recipient.team,
+        })),
+        recipientSubmissionForms: [],
+
+        questionType: feedbackQuestion.questionType,
+        questionDetails: feedbackQuestion.questionDetails,
+
+        numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+        customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
+          ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
+          : 0,
+
+        showGiverNameTo: feedbackQuestion.showGiverNameTo,
+        showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+        showResponsesTo: feedbackQuestion.showResponsesTo,
+
+        isTabExpandedForRecipients: new Map<string, boolean>(),
+      };
+
+      this.questionSubmissionForms.push(model);
+      this.addQuestionGrouping(model);
+
+      if (this.previewAsPerson) {
+        this.buildPreviewSubmissionForms(model);
+      } else {
+        this.populateSubmissionForms(model, questionData.responses);
+      }
+    });
+  }
+
   private scrollToModeratedQuestion(): void {
     if (!this.moderatedQuestionId) {
       return;
     }
 
     setTimeout(() => this.pageScrollService.scrollToAnchor(this.moderatedQuestionId), 350);
-  }
-
-  /**
-   * Loads recipients and responses for a question.
-   */
-  private loadQuestionData$(model: QuestionSubmissionFormModel): Observable<void> {
-    return this.feedbackQuestionsService
-      .loadFeedbackQuestionRecipients({
-        questionId: model.feedbackQuestionId,
-        intent: this.intent,
-        key: this.regKey,
-        moderatedPerson: this.moderatedPerson,
-        previewAs: this.previewAsPerson,
-      })
-      .pipe(
-        tap((response: FeedbackQuestionRecipients) => {
-          model.recipientList = response.recipients.map((recipient: FeedbackQuestionRecipient) => ({
-            recipientIdentifier: recipient.identifier,
-            recipientName: recipient.name,
-            recipientSection: recipient.section,
-            recipientTeam: recipient.team,
-          }));
-          this.addQuestionGrouping(model);
-        }),
-        switchMap(() => {
-          if (this.previewAsPerson) {
-            this.buildPreviewSubmissionForms(model);
-            return of(null);
-          }
-          return this.feedbackResponsesService.getFeedbackResponse({
-            questionId: model.feedbackQuestionId,
-            intent: this.intent,
-            key: this.regKey,
-            moderatedPerson: this.moderatedPerson,
-          });
-        }),
-        tap((existingResponses: FeedbackResponsesResponse | null) => {
-          if (existingResponses) {
-            this.populateSubmissionForms(model, existingResponses);
-          }
-        }),
-        map(() => undefined),
-      );
   }
 
   private buildPreviewSubmissionForms(model: QuestionSubmissionFormModel): void {
@@ -560,6 +525,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   private addQuestionGrouping(model: QuestionSubmissionFormModel): void {
     const isGroupableQuestion =
       this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT &&
+      model.recipientType !== QuestionRecipientType.NONE &&
       model.questionType !== FeedbackQuestionType.RANK_RECIPIENTS &&
       model.questionType !== FeedbackQuestionType.CONSTSUM_RECIPIENTS &&
       model.questionType !== FeedbackQuestionType.CONTRIB;
@@ -662,15 +628,12 @@ export class SessionSubmissionPageComponent implements OnInit {
   /**
    * Loads the responses of the feedback question to {@recipientSubmissionForms} in the model.
    */
-  private populateSubmissionForms(
-    model: QuestionSubmissionFormModel,
-    existingResponses: FeedbackResponsesResponse,
-  ): void {
+  private populateSubmissionForms(model: QuestionSubmissionFormModel, existingResponses: FeedbackResponse[]): void {
     model.recipientSubmissionForms = [];
     if (this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
       // need to generate a full list of submission forms
       model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-        const matchedExistingResponse: FeedbackResponse | undefined = existingResponses.responses.find(
+        const matchedExistingResponse: FeedbackResponse | undefined = existingResponses.find(
           (response: FeedbackResponse) => response.recipientIdentifier === recipient.recipientIdentifier,
         );
         const submissionForm: FeedbackResponseRecipientSubmissionFormModel = {
@@ -692,9 +655,9 @@ export class SessionSubmissionPageComponent implements OnInit {
     if (this.getQuestionSubmissionFormModeInDefaultView(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
       // need to generate limited number of submission forms
       let numberOfRecipientSubmissionFormsNeeded: number =
-        model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.responses.length;
+        model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.length;
 
-      existingResponses.responses.forEach((response: FeedbackResponse) => {
+      existingResponses.forEach((response: FeedbackResponse) => {
         const submissionForm: FeedbackResponseRecipientSubmissionFormModel = {
           recipientIdentifier: response.recipientIdentifier,
           responseDetails: response.responseDetails,

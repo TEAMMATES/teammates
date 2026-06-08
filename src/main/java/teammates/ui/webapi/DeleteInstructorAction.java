@@ -27,13 +27,11 @@ public class DeleteInstructorAction extends Action {
         }
 
         //allow access to admins or instructor with modify permission
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(instructorToDelete.getCourseId()),
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, instructorToDelete.getCourseId(),
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
