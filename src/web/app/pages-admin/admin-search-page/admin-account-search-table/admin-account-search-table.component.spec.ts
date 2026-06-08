@@ -205,12 +205,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-    };
-
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
@@ -224,15 +219,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
@@ -299,12 +286,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-    };
-
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(
       throwError(() => ({
@@ -332,12 +314,7 @@ describe('AdminAccountSearchTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-    };
-
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     const editedAccountRequest: AccountRequest = {
       accountRequestId: 'id',

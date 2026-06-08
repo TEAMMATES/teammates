@@ -119,7 +119,7 @@ describe('SessionResultPageComponent', () => {
               intent: Intent.STUDENT_RESULT,
               pipe: () => {
                 return {
-                  subscribe: (fn: (value: any) => void) => fn(testQueryParams),
+                  subscribe: (fn: (value: unknown) => void) => fn(testQueryParams),
                 };
               },
             },

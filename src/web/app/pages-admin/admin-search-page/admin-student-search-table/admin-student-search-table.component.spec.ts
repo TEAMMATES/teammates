@@ -261,15 +261,7 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
@@ -334,15 +326,7 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    const mockModalRef = {
-      componentInstance: {},
-      result: Promise.resolve({}),
-      dismissed: {
-        subscribe: vi.fn(),
-      },
-    };
-
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       throwError(() => ({

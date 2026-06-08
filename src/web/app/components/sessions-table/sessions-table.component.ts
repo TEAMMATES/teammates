@@ -268,7 +268,7 @@ export class SessionsTableComponent implements OnInit {
     });
   }
 
-  private createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
+  createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
     const { feedbackSessionId, submissionStatus, publishStatus } = feedbackSession;
 
@@ -300,7 +300,7 @@ export class SessionsTableComponent implements OnInit {
     };
   }
 
-  private createCellWithResponseRateComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
+  createCellWithResponseRateComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
       customComponent: {
