@@ -59,13 +59,13 @@
         <thead>
           <tr>
             <th scope="col" class="text-start">User/Group</th>
-            @for (visibilityControl of VisibilityControl | enumToArray; track visibilityControl) {
+            @for (visibilityControl of visibilityControls; track visibilityControl) {
               <th scope="col" class="text-center">{{ visibilityControl | visibilityControlName }}</th>
             }
           </tr>
         </thead>
         <tbody id="custom-visibility-table">
-          @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+          @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
             @if (visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)) {
               <tr>
                 <td>
@@ -76,7 +76,7 @@
                     >{{ visibilityType | visibilityTypeName }}</span
                   >
                 </td>
-                @for (visibilityControl of VisibilityControl | enumToArray; track visibilityControl) {
+                @for (visibilityControl of visibilityControls; track visibilityControl) {
                   <td class="text-center">
                     <input
                       #visibilityCheckbox
@@ -103,7 +103,7 @@
       @if (model.recipientType === QuestionRecipientType.SELF) {
         <li>You can see your own feedback in the results page later on.</li>
       }
-      @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+      @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
         @if (
           visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
           visibilityStateMachine.hasAnyVisibilityControl(visibilityType)

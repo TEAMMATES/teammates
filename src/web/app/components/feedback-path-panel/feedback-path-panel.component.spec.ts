@@ -1,4 +1,3 @@
-import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FeedbackPathPanelComponent } from './feedback-path-panel.component';
@@ -20,7 +19,6 @@ describe('FeedbackPathPanelComponent', () => {
     component.allowedFeedbackPaths = new Map([
       [QuestionGiverType.TEAMS, [QuestionRecipientType.OWN_TEAM_MEMBERS, QuestionRecipientType.STUDENTS]],
     ]);
-    component.triggerModelChangeBatch = new EventEmitter<any>();
     emitSpy = vi.spyOn(component.triggerModelChangeBatch, 'emit');
     fixture.detectChanges();
   });

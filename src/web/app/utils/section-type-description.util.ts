@@ -1,6 +1,6 @@
 import { InstructorSessionResultSectionType } from '../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 
-export function instructorSessionResultToDescription(sectionType: InstructorSessionResultSectionType): any {
+export function instructorSessionResultToDescription(sectionType: InstructorSessionResultSectionType): string {
   switch (sectionType) {
     case InstructorSessionResultSectionType.BOTH:
       return 'Show response only if both are in the selected section';

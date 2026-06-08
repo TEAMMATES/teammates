@@ -10,7 +10,7 @@ export class VisibilityControlNamePipe implements PipeTransform {
   /**
    * Transforms {@code type} to a simple name.
    */
-  transform(type: VisibilityControl): any {
+  transform(type: VisibilityControl): string {
     switch (type) {
       case VisibilityControl.SHOW_RESPONSE:
         return 'Can see answer';
@@ -33,7 +33,7 @@ export class VisibilityTypeDescriptionPipe implements PipeTransform {
   /**
    * Transforms {@code type} to a detailed description.
    */
-  transform(type: FeedbackVisibilityType): any {
+  transform(type: FeedbackVisibilityType): string {
     switch (type) {
       case FeedbackVisibilityType.RECIPIENT:
         return 'Control what feedback recipient(s) can view';
@@ -59,7 +59,7 @@ export class VisibilityTypeNamePipe implements PipeTransform {
   /**
    * Transforms {@code type} to a simple name.
    */
-  transform(type: FeedbackVisibilityType): any {
+  transform(type: FeedbackVisibilityType): string {
     switch (type) {
       case FeedbackVisibilityType.RECIPIENT:
         return 'Recipient(s)';

@@ -31,7 +31,7 @@ function setCaptchaState(
 ): void {
   component.captchaLoaded = state.loaded;
   component.captchaError = state.error;
-  (component as any).captchaSiteKey = 'fake-key';
+  component.captchaSiteKey = 'fake-key';
 }
 
 describe('SessionLinksRecoveryPageComponent', () => {
@@ -60,6 +60,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
 
     fixture.detectChanges();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component.captchaElem = { reloadCaptcha: vi.fn() } as any;
   });
 

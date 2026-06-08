@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap } from 'rxjs/operators';
@@ -165,7 +165,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<void>;
 
   constructor() {
     super();
@@ -176,9 +176,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
-      this.isEditingMode = queryParams.editingMode === 'true';
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
+      this.isEditingMode = queryParams['editingMode'] === 'true';
 
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
@@ -243,65 +243,67 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): Promise<void> {
     // load course candidates first
-    return new Promise<void>((_resolve: any, reject: any) => {
-      this.courseService
-        .getInstructorCoursesThatAreActive()
-        .pipe(
-          finalize(() => {
-            this.sessionEditFormModel.isCopying = false;
-          }),
-        )
-        .subscribe((courses: Courses) => {
-          this.failedToCopySessions = {};
-          this.coursesOfModifiedSession = [];
-          this.modifiedSession = {};
-          const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
-          modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
-          modalRef.componentInstance.courseCandidates = courses.courses.map(
-            (courseView: CourseView) => courseView.course,
-          );
-          modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
-
-          modalRef.result
-            .then(
-              (result: CopySessionModalResult) => {
-                const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
-                  result,
-                  this.feedbackSessionId,
-                );
-                this.sessionEditFormModel.isCopying = true;
-                if (requestList.length === 1) {
-                  this.copySingleSession(
-                    requestList[0].pipe(
-                      finalize(() => {
-                        this.sessionEditFormModel.isCopying = false;
-                      }),
-                    ),
-                    this.modifiedTimestampsModal,
-                  );
-                }
-                if (requestList.length > 1) {
-                  forkJoin(requestList)
-                    .pipe(
-                      finalize(() => {
-                        this.sessionEditFormModel.isCopying = false;
-                      }),
-                    )
-                    .subscribe(() => {
-                      this.showCopyStatusMessage(this.modifiedTimestampsModal);
-                    });
-                }
-              },
-              (resp: ErrorMessageOutput) => {
-                reject(resp);
-                this.statusMessageService.showErrorToast(resp.error.message);
-              },
-            )
-            .catch(() => {
+    return new Promise<void>(
+      (_resolve: (value: void | PromiseLike<void>) => void, reject: (reason?: unknown) => void) => {
+        this.courseService
+          .getInstructorCoursesThatAreActive()
+          .pipe(
+            finalize(() => {
               this.sessionEditFormModel.isCopying = false;
-            });
-        });
-    });
+            }),
+          )
+          .subscribe((courses: Courses) => {
+            this.failedToCopySessions = {};
+            this.coursesOfModifiedSession = [];
+            this.modifiedSession = {};
+            const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
+            modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
+            modalRef.componentInstance.courseCandidates = courses.courses.map(
+              (courseView: CourseView) => courseView.course,
+            );
+            modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
+
+            modalRef.result
+              .then(
+                (result: CopySessionModalResult) => {
+                  const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
+                    result,
+                    this.feedbackSessionId,
+                  );
+                  this.sessionEditFormModel.isCopying = true;
+                  if (requestList.length === 1) {
+                    this.copySingleSession(
+                      requestList[0].pipe(
+                        finalize(() => {
+                          this.sessionEditFormModel.isCopying = false;
+                        }),
+                      ),
+                      this.modifiedTimestampsModal,
+                    );
+                  }
+                  if (requestList.length > 1) {
+                    forkJoin(requestList)
+                      .pipe(
+                        finalize(() => {
+                          this.sessionEditFormModel.isCopying = false;
+                        }),
+                      )
+                      .subscribe(() => {
+                        this.showCopyStatusMessage(this.modifiedTimestampsModal);
+                      });
+                  }
+                },
+                (resp: ErrorMessageOutput) => {
+                  reject(resp);
+                  this.statusMessageService.showErrorToast(resp.error.message);
+                },
+              )
+              .catch(() => {
+                this.sessionEditFormModel.isCopying = false;
+              });
+          });
+      },
+    );
   }
 
   /**

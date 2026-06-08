@@ -27,7 +27,7 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should get user input from Subject form', () => {
-    const input: any = fixture.nativeElement.querySelectorAll('input');
+    const input = fixture.nativeElement.querySelectorAll('input');
 
     expect(component.subject).toEqual('User-submitted Error Report');
     input[1].value = 'testInput';

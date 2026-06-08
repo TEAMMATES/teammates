@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
 
 /**
@@ -18,13 +18,13 @@ export class UnauthorizedWarningPageComponent implements OnInit {
   reason = '';
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.role = queryParams.role;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.role = queryParams['role'];
       this.reason = this.getUnauthorizedReason();
     });
   }
 
-  private getUnauthorizedReason(): string {
+  getUnauthorizedReason(): string {
     switch (this.role) {
       case 'instructor':
         return 'You are not an instructor of any course.';

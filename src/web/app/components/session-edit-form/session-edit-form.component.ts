@@ -7,7 +7,6 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
-import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
   Course,
@@ -33,6 +32,7 @@ import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.p
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 import { TimepickerComponent } from '../timepicker/timepicker.component';
+import { TemplateSession } from '../../../data/template-sessions';
 
 /**
  * Form to Add/Edit feedback sessions.
@@ -156,7 +156,7 @@ export class SessionEditFormComponent {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     if (field === 'submissionStartDate' || field === 'submissionStartTime') {
       this.adjustSessionVisibilityTime(data, field);
     }
@@ -169,10 +169,10 @@ export class SessionEditFormComponent {
   /**
    * Adjusts session visibility time to ensure it does not occur after submission opening time.
    */
-  adjustSessionVisibilityTime(value: any, field: string): void {
+  adjustSessionVisibilityTime(value: unknown, field: string): void {
     const submissionDateTime = this.combineDateAndTime(
-      field === 'submissionStartDate' ? value : this.model.submissionStartDate,
-      field === 'submissionStartTime' ? value : this.model.submissionStartTime,
+      field === 'submissionStartDate' ? (value as DateFormat) : this.model.submissionStartDate,
+      field === 'submissionStartTime' ? (value as TimeFormat) : this.model.submissionStartTime,
     );
 
     const visibilityDateTime = this.combineDateAndTime(
@@ -182,9 +182,9 @@ export class SessionEditFormComponent {
 
     if (submissionDateTime.isBefore(visibilityDateTime)) {
       if (field === 'submissionStartDate') {
-        this.model.customSessionVisibleDate = value;
+        this.model.customSessionVisibleDate = value as DateFormat;
       } else {
-        this.model.customSessionVisibleTime = value;
+        this.model.customSessionVisibleTime = value as TimeFormat;
       }
     }
   }

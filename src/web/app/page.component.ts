@@ -13,7 +13,7 @@ import {
   signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Data } from '@angular/router';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { environment } from '../environments/environment';
@@ -25,6 +25,7 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { NavItem } from './page.model';
 import { AuthService } from '../services/auth.service';
 import { finalize } from 'rxjs/operators';
 
@@ -93,7 +94,7 @@ export class PageComponent implements OnInit {
   isMaintainer = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
-  @Input() navItems: any[] = [];
+  @Input() navItems: NavItem[] = [];
 
   readonly isNetworkOnline = signal(navigator.onLine);
   readonly isCookieEnabled = signal(navigator.cookieEnabled);
@@ -107,7 +108,7 @@ export class PageComponent implements OnInit {
     const location = inject(Location);
 
     this.NotificationTargetUser = NotificationTargetUser;
-    this.router.events.subscribe((val: any) => {
+    this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
         this.toast = null; // reset toast
@@ -115,9 +116,9 @@ export class PageComponent implements OnInit {
         while (r.firstChild) {
           r = r.firstChild;
         }
-        r.data.subscribe((resp: any) => {
-          this.pageTitle = resp.pageTitle;
-          this.title.setTitle(resp.htmlTitle || DEFAULT_TITLE);
+        r.data.subscribe((resp: Data) => {
+          this.pageTitle = resp['pageTitle'];
+          this.title.setTitle(resp['htmlTitle'] || DEFAULT_TITLE);
         });
       }
     });

@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { UnauthorizedWarningPageComponent } from './unauthorized-warning-page.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
@@ -6,10 +6,10 @@ import { Subject } from 'rxjs';
 describe('UnauthorizedWarningPageComponent', () => {
   let component: UnauthorizedWarningPageComponent;
   let fixture: ComponentFixture<UnauthorizedWarningPageComponent>;
-  let queryParams$: Subject<any>;
+  let queryParams$: Subject<Params>;
 
   beforeEach(() => {
-    queryParams$ = new Subject<any>();
+    queryParams$ = new Subject<Params>();
     TestBed.configureTestingModule({
       providers: [
         {
@@ -30,12 +30,12 @@ describe('UnauthorizedWarningPageComponent', () => {
 
   it('should return correct reason for instructor role', () => {
     component.role = 'instructor';
-    expect((component as any).getUnauthorizedReason()).toBe('You are not an instructor of any course.');
+    expect(component.getUnauthorizedReason()).toBe('You are not an instructor of any course.');
   });
 
   it('should return correct reason for student role', () => {
     component.role = 'student';
-    expect((component as any).getUnauthorizedReason()).toBe('You are not enrolled as a student in any course.');
+    expect(component.getUnauthorizedReason()).toBe('You are not enrolled as a student in any course.');
   });
 
   it('should extract correct query parameters on initialization', () => {
@@ -50,10 +50,10 @@ describe('UnauthorizedWarningPageComponent', () => {
 describe('UnauthorizedWarningPageComponent snapshot', () => {
   let component: UnauthorizedWarningPageComponent;
   let fixture: ComponentFixture<UnauthorizedWarningPageComponent>;
-  let queryParams$: Subject<any>;
+  let queryParams$: Subject<Params>;
 
   beforeEach(() => {
-    queryParams$ = new Subject<any>();
+    queryParams$ = new Subject<Params>();
     TestBed.configureTestingModule({
       providers: [
         {

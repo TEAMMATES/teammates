@@ -6,7 +6,7 @@ import {
   QuestionOutput,
   QuestionRecipientType,
 } from '../api-output';
-import { NumScaleQuestionStatistics, Response } from '../question-statistics.model';
+import { NumScaleQuestionStatistics, NumScaleRecipientStatistics, Response } from '../question-statistics.model';
 import { calculateNumScaleQuestionStatistics } from '../../app/utils/question-statistics.util';
 
 /**
@@ -57,7 +57,7 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
 
     for (const team of Object.keys(statsCalculation.teamToRecipientToScores).sort()) {
       for (const recipient of Object.keys(statsCalculation.teamToRecipientToScores[team]).sort()) {
-        const stats: any = statsCalculation.teamToRecipientToScores[team][recipient];
+        const stats: NumScaleRecipientStatistics = statsCalculation.teamToRecipientToScores[team][recipient];
         const currRow: string[] = [
           team,
           recipient,
@@ -90,8 +90,9 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
     }
 
     // There should exist at least one average score exclude self
-    return Object.values(statsCalculation.teamToRecipientToScores).some((recipientStats: Record<string, any>) =>
-      Object.values(recipientStats).some((stats: any) => stats.averageExcludingSelf),
+    return Object.values(statsCalculation.teamToRecipientToScores).some(
+      (recipientStats: Record<string, NumScaleRecipientStatistics>) =>
+        Object.values(recipientStats).some((stats: NumScaleRecipientStatistics) => stats.averageExcludingSelf),
     );
   }
 

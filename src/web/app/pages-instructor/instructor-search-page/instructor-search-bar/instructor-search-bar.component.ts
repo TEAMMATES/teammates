@@ -24,7 +24,7 @@ export class InstructorSearchBarComponent {
     searchKey: '',
   };
 
-  @Output() searched: EventEmitter<any> = new EventEmitter();
+  @Output() searched: EventEmitter<void> = new EventEmitter();
 
   @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 
@@ -35,7 +35,7 @@ export class InstructorSearchBarComponent {
     this.searched.emit();
   }
 
-  triggerSearchParamsChangeEvent(field: string, data: any): void {
+  triggerSearchParamsChangeEvent(field: string, data: unknown): void {
     this.searchParamsChange.emit({ ...this.searchParams, [field]: data });
   }
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -140,8 +140,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
 
       this.loadCourseInfo();
       this.loadCurrInstructorInfo();
@@ -150,9 +150,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
       forkJoin([
         this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
         this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ]).subscribe((vals: any[]) => {
-        const students: Students = vals[0] as Students;
-        const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
+      ]).subscribe((vals) => {
+        const students: Students = vals[0];
+        const sessions: FeedbackSessions = vals[1];
 
         this.allSections = Array.from(new Set(students.students.map((value: Student) => value.sectionName)));
         this.allSessions = sessions.feedbackSessions.map(

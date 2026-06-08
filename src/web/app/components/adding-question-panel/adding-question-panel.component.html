@@ -4,7 +4,7 @@
     <div id="new-question-dropdown" ngbDropdownMenu>
       <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
       <div class="dropdown-divider"></div>
-      @for (questionType of FeedbackQuestionType | enumToArray; track questionType) {
+      @for (questionType of questionTypes; track questionType) {
         <div>
           <div class="d-flex btn-group justify-content-between" role="group">
             <button class="dropdown-item" (click)="populateAndShowNewQuestionFormHandler(questionType)">

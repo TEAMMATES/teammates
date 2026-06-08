@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { default as index } from '../../../data/index.json';
+import { default as indexData } from '../../../data/index.json';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
+
+/**
+ * Testimonial from index.json
+ */
+interface Testimonial {
+  content: string;
+  author: string;
+}
 
 /**
  * Index page.
@@ -12,29 +20,29 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [TeammatesRouterDirective],
 })
 export class IndexPageComponent implements OnInit {
-  testimonial: any;
+  testimonial: Testimonial | null = null;
   submissionsNumber = '10,000,000+';
-  private testimonials: any[] = [];
+  private testimonials: Testimonial[] = [];
   private testimonialIndex = -1;
 
   ngOnInit(): void {
-    const formatNumber: (n: number) => string = (n: number): string => {
+    const formatNumber = (n: number): string => {
       let number = String(n);
-      const expression: any = /(\d+)(\d{3})/;
+      const expression = /(\d+)(\d{3})/;
       while (expression.test(number)) {
         number = number.replace(expression, '$1,$2');
       }
       return number;
     };
 
-    const timeElapsed: number = new Date().getTime() - new Date(index.submissionsBaseDate).getTime();
+    const timeElapsed: number = new Date().getTime() - new Date(indexData.submissionsBaseDate).getTime();
     this.submissionsNumber = formatNumber(
-      index.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * index.submissionsRate,
+      indexData.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * indexData.submissionsRate,
     );
 
-    this.testimonials = index.testimonials;
+    this.testimonials = indexData.testimonials;
 
-    const cycleTestimonial: () => void = (): void => {
+    const cycleTestimonial = (): void => {
       this.testimonialIndex = (this.testimonialIndex + 1) % this.testimonials.length;
       this.testimonial = this.testimonials[this.testimonialIndex];
     };

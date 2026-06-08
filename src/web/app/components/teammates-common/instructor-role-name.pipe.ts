@@ -10,7 +10,7 @@ export class InstructorRoleNamePipe implements PipeTransform {
   /**
    * Transforms InstructorPermissionRole to a name.
    */
-  transform(role: InstructorPermissionRole): any {
+  transform(role: InstructorPermissionRole): string {
     return instructorRoleToName(role);
   }
 }

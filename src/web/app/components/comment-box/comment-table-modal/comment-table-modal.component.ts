@@ -35,7 +35,7 @@ export class CommentTableModalComponent implements OnChanges {
   modelChange: EventEmitter<CommentTableModel> = new EventEmitter();
 
   @Output()
-  saveNewCommentEvent: EventEmitter<any> = new EventEmitter();
+  saveNewCommentEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();

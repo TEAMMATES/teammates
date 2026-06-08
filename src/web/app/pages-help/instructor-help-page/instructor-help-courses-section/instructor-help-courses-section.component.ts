@@ -42,7 +42,7 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
     CoursesSectionQuestions.RESTORE_ALL,
   ];
 
-  @Output() collapseStudentEditDetails: EventEmitter<any> = new EventEmitter();
+  @Output() collapseStudentEditDetails: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {
     super();

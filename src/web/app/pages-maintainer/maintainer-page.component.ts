@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 
 import { PageComponent } from '../page.component';
 
+interface NavItem {
+  url: string;
+  display: string;
+}
+
 /**
  * Base skeleton for maintainer pages.
  */
@@ -11,7 +16,7 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class MaintainerPageComponent {
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/maintainer',
       display: 'Home',

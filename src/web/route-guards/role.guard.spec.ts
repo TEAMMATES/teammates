@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { firstValueFrom, of } from 'rxjs';
+import { Mock, vi } from 'vitest';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { AuthInfo } from '../types/api-output';
 import { RoleGuard } from './role.guard';
 
 const mockState = (url: string): RouterStateSnapshot => ({ url }) as RouterStateSnapshot;
 
 const mockRoute = (role: string | undefined, parent: ActivatedRouteSnapshot | null = null): ActivatedRouteSnapshot =>
-  ({ data: role !== undefined ? { role } : {}, parent }) as unknown as ActivatedRouteSnapshot;
+  ({ data: role === undefined ? {} : { role }, parent }) as unknown as ActivatedRouteSnapshot;
 
 const authInfoFor = (role: 'student' | 'instructor' | 'admin' | 'maintainer' | null): AuthInfo => {
   if (!role) {
@@ -32,12 +32,14 @@ const authInfoFor = (role: 'student' | 'instructor' | 'admin' | 'maintainer' | n
 
 describe('RoleGuard', () => {
   let guard: RoleGuard;
-  let spyAuthService: any;
-  let spyNavigationService: any;
+  let spyAuthService: { getAuthUser: Mock };
+  let spyNavigationService: Partial<NavigationService>;
 
   beforeEach(() => {
-    spyAuthService = createSpyFromClass(AuthService);
-    spyNavigationService = createSpyFromClass(NavigationService);
+    spyAuthService = {
+      getAuthUser: vi.fn(),
+    };
+    spyNavigationService = {};
 
     TestBed.configureTestingModule({
       providers: [
@@ -48,7 +50,7 @@ describe('RoleGuard', () => {
     });
 
     guard = TestBed.inject(RoleGuard);
-    vi.spyOn(guard as any, 'redirectToLogin').mockImplementation(() => false);
+    vi.spyOn(guard as object as { redirectToLogin(): boolean }, 'redirectToLogin').mockImplementation(() => false);
   });
 
   describe('canActivate', () => {

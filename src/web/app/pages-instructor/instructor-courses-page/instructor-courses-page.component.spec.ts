@@ -57,7 +57,7 @@ describe('InstructorCoursesPageComponent', () => {
     },
   ];
 
-  const deletedCoursesSnap: any[] = [
+  const deletedCoursesSnap: CourseModel[] = [
     {
       course: {
         courseId: 'CS1020',
@@ -68,6 +68,7 @@ describe('InstructorCoursesPageComponent', () => {
         deletionTimestamp: date4.getTime(),
       },
       canModifyCourse: true,
+      canModifyStudent: false,
       canModifyInstructor: false,
       isLoadingCourseStats: false,
     },
@@ -81,6 +82,7 @@ describe('InstructorCoursesPageComponent', () => {
         deletionTimestamp: date6.getTime(),
       },
       canModifyCourse: false,
+      canModifyStudent: false,
       canModifyInstructor: false,
       isLoadingCourseStats: false,
     },

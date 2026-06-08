@@ -56,7 +56,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     }
   }
 
-  resetStudentGoogleId(student: StudentAccountSearchResult, event: any): void {
+  resetStudentGoogleId(student: StudentAccountSearchResult, event: MouseEvent | undefined): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();

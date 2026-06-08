@@ -32,7 +32,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   formSessionLinksRecovery!: UntypedFormGroup;
   isFormSubmitting = false;
-  readonly captchaSiteKey: string = environment.captchaSiteKey;
+  captchaSiteKey: string = environment.captchaSiteKey;
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 

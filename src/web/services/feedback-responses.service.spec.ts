@@ -3,9 +3,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FeedbackResponsesService } from './feedback-responses.service';
 import { HttpRequestService } from './http-request.service';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
@@ -44,7 +44,7 @@ import {
 } from '../types/feedback-response-details';
 
 describe('FeedbackResponsesService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: FeedbackResponsesService;
 
   const questionTypeToResponseDetails: Map<FeedbackQuestionType, FeedbackResponseDetails> = new Map<
@@ -64,7 +64,7 @@ describe('FeedbackResponsesService', () => {
   ]);
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

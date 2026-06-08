@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
@@ -179,8 +179,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
       this.loadFeedbackSessionResults(this.feedbackSessionId);
     });
   }
@@ -582,7 +582,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
     modalRef.result.then(
       () => {
-        const response: Observable<any> = isPublished
+        const response = isPublished
           ? this.feedbackSessionsService.unpublishFeedbackSession(this.session.feedbackSessionId)
           : this.feedbackSessionsService.publishFeedbackSession(this.session.feedbackSessionId);
 
@@ -662,7 +662,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: string) => {
-          const blob: any = new Blob([resp], { type: 'text/csv' });
+          const blob = new Blob([resp], { type: 'text/csv' });
           this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {

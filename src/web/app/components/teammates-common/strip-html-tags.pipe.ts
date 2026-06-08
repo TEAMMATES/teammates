@@ -8,7 +8,7 @@ export class StripHtmlTagsPipe implements PipeTransform {
   /**
    * Transforms HTML to plain text.
    */
-  transform(html: string): any {
+  transform(html: string): string {
     return html
       .replace(/(<img([^>]+)>)/gi, '[Image]')
       .replace(/(<table((.|\s)*)<\/table>)/gi, '[Table]')

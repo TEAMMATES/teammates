@@ -63,7 +63,7 @@
                 [ngModel]="sectionType"
                 (ngModelChange)="handleSectionTypeChange($event)"
               >
-                @for (sectionType of InstructorSessionResultSectionType | enumToArray; track sectionType) {
+                @for (sectionType of sectionTypes; track sectionType) {
                   <option [ngValue]="sectionType">
                     {{ sectionType | sectionTypeDescription }}
                   </option>

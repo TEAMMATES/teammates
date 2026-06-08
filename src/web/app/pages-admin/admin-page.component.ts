@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PageComponent } from '../page.component';
+import { NavItem } from '../page.model';
 
 /**
  * Base skeleton for admin pages.
@@ -10,7 +11,7 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class AdminPageComponent {
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/admin',
       display: 'Home',

@@ -11,6 +11,8 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { RecycleBinFeedbackSessionRowModel } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { SessionsTableRowModel } from '../../components/sessions-table/sessions-table-model';
 import {
   Course,
   Courses,
@@ -128,11 +130,10 @@ describe('InstructorSessionsPageComponent', () => {
     deletedAtTimestamp: 1612958400, // Wednesday, February 10, 2021 20:00:00 GMT+08:00
   };
 
-  const testTutorPrivilege: any = {
-    canModifyCourse: false,
+  const testTutorPrivilege: InstructorFeedbackSessionPermissions = {
     canModifySession: false,
-    canModifyStudent: false,
     canSubmitSessionInSections: false,
+    canViewSessionInSections: false,
   };
 
   beforeEach(async () => {
@@ -218,13 +219,15 @@ describe('InstructorSessionsPageComponent', () => {
   });
 
   it('should recycle an active session', () => {
-    const sessionsTableRowModel1: any = {
+    const sessionsTableRowModel1: SessionsTableRowModel = {
       feedbackSession: testFeedbackSession1,
+      responseRate: '50%',
       instructorPrivilege: testTutorPrivilege,
       isLoadingResponseRate: false,
     };
-    const sessionsTableRowModel2: any = {
+    const sessionsTableRowModel2: SessionsTableRowModel = {
       feedbackSession: testFeedbackSession2,
+      responseRate: '50%',
       instructorPrivilege: testTutorPrivilege,
       isLoadingResponseRate: false,
     };
@@ -243,7 +246,7 @@ describe('InstructorSessionsPageComponent', () => {
   });
 
   it('should restore a session', () => {
-    const recycleBinFeedbackSessionRowModel1: any = {
+    const recycleBinFeedbackSessionRowModel1: RecycleBinFeedbackSessionRowModel = {
       feedbackSession: testFeedbackSession3,
       instructorPrivilege: testInstructorPrivilege,
     };
@@ -261,11 +264,11 @@ describe('InstructorSessionsPageComponent', () => {
   });
 
   it('should restore all sessions', () => {
-    const recycleBinFeedbackSessionRowModel1: any = {
+    const recycleBinFeedbackSessionRowModel1: RecycleBinFeedbackSessionRowModel = {
       feedbackSession: testFeedbackSession3,
       instructorPrivilege: testInstructorPrivilege,
     };
-    const recycleBinFeedbackSessionRowModel2: any = {
+    const recycleBinFeedbackSessionRowModel2: RecycleBinFeedbackSessionRowModel = {
       feedbackSession: testFeedbackSession4,
       instructorPrivilege: testInstructorPrivilege,
     };
@@ -290,11 +293,11 @@ describe('InstructorSessionsPageComponent', () => {
   });
 
   it('should permanently delete a session', async () => {
-    const recycleBinFeedbackSessionRowModel1: any = {
+    const recycleBinFeedbackSessionRowModel1: RecycleBinFeedbackSessionRowModel = {
       feedbackSession: testFeedbackSession3,
     };
-    const promise: Promise<any> = Promise.resolve();
-    const mockModalRef: any = createMockNgbModalRef(
+    const promise = Promise.resolve();
+    const mockModalRef = createMockNgbModalRef(
       {
         feedbackSessionName: 'Third Session',
         courseId: 'CS1231',
@@ -316,14 +319,14 @@ describe('InstructorSessionsPageComponent', () => {
   });
 
   it('should permanently delete all sessions', async () => {
-    const recycleBinFeedbackSessionRowModel1: any = {
+    const recycleBinFeedbackSessionRowModel1: RecycleBinFeedbackSessionRowModel = {
       feedbackSession: testFeedbackSession3,
     };
-    const recycleBinFeedbackSessionRowModel2: any = {
+    const recycleBinFeedbackSessionRowModel2: RecycleBinFeedbackSessionRowModel = {
       feedbackSession: testFeedbackSession4,
     };
-    const promise: Promise<any> = Promise.resolve();
-    const mockModalRef: any = createMockNgbModalRef(
+    const promise = Promise.resolve();
+    const mockModalRef = createMockNgbModalRef(
       {
         sessionsToDelete: [testFeedbackSession3, testFeedbackSession4],
       },
@@ -357,11 +360,11 @@ describe('InstructorSessionsPageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-session');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-add-session');
     button.click();
     fixture.detectChanges();
 
-    const div: any = fixture.debugElement.nativeElement.querySelector('#add-session-section');
+    const div = fixture.debugElement.nativeElement.querySelector('#add-session-section');
     expect(div).toBeTruthy();
     expect(button.disabled).toBeTruthy();
   });

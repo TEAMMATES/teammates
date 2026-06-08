@@ -37,10 +37,10 @@ describe('RecipientTypeNamePipe', () => {
   });
 
   it('should return "Unknown" for OWN_TEAM_MEMBERS with unknown giverType', () => {
-    expect(pipe.transform(QuestionRecipientType.OWN_TEAM_MEMBERS, 'UNKNOWN' as any)).toEqual('Unknown');
+    expect(pipe.transform(QuestionRecipientType.OWN_TEAM_MEMBERS, 'UNKNOWN' as QuestionGiverType)).toEqual('Unknown');
   });
 
   it('should return "Unknown" for unknown recipientType', () => {
-    expect(pipe.transform('UNKNOWN' as any, QuestionGiverType.STUDENTS)).toEqual('Unknown');
+    expect(pipe.transform('UNKNOWN' as QuestionRecipientType, QuestionGiverType.STUDENTS)).toEqual('Unknown');
   });
 });

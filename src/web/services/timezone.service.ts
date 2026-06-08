@@ -35,7 +35,7 @@ export class TimezoneService {
   constructor() {
     const d: Date = new Date();
     moment.tz.load(timezone);
-    this.tzVersion = (moment.tz as any).dataVersion;
+    this.tzVersion = moment.tz.dataVersion;
     moment.tz
       .names()
       .filter((tz: string) => !this.isBadZone(tz))

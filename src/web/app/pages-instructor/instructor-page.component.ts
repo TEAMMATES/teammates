@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NotificationTargetUser } from '../../types/api-output';
 import { PageComponent } from '../page.component';
+import { NavItem } from '../page.model';
 
 /**
  * Base skeleton for instructor pages.
@@ -11,7 +12,7 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class InstructorPageComponent {
-  navItems: any[] = [
+  navItems: NavItem[] = [
     {
       url: '/web/instructor',
       display: 'Home',

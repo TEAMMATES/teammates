@@ -9,7 +9,7 @@ export class InstructorRoleDescriptionPipe implements PipeTransform {
   /**
    * Transforms InstructorPermissionRole to a description.
    */
-  transform(role: InstructorPermissionRole): any {
+  transform(role: InstructorPermissionRole): string {
     switch (role) {
       case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
         return 'Co-owner: Can do everything.';

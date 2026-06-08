@@ -153,7 +153,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [];
     fixture.detectChanges();
 
-    const modalBody: HTMLElement = fixture.debugElement.nativeElement.querySelector('#copy-instructor-modal');
+    const modalBody = fixture.debugElement.nativeElement.querySelector('#copy-instructor-modal');
 
     expect(modalBody.textContent).toContain('There are no other courses available to copy instructors from.');
     expect(fixture.debugElement.nativeElement.querySelector('#sort-course-id')).toBeNull();
@@ -218,7 +218,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     fixture.detectChanges();
 
     const instructors: Instructor[] = component.getSelectedInstructors();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
 
     expect(component.isAnyInstructorCandidatesSelected).toBeFalsy();
     expect(instructors.length).toBe(0);
@@ -235,7 +235,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     fixture.detectChanges();
 
     const instructors: Instructor[] = [testInstructor1, testInstructor3, testInstructor4];
-    const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const buttonConfirmCopy = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
     vi.spyOn(component.copyClickedEvent, 'emit');
 
     expect(component.isAnyInstructorCandidatesSelected).toBeTruthy();
@@ -252,9 +252,9 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2];
     fixture.detectChanges();
 
-    const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
-    const buttonCancelCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-copy-instructor');
-    const buttonCloseModal: any = fixture.debugElement.nativeElement.querySelector('#btn-close-modal');
+    const buttonConfirmCopy = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
+    const buttonCancelCopy = fixture.debugElement.nativeElement.querySelector('#btn-cancel-copy-instructor');
+    const buttonCloseModal = fixture.debugElement.nativeElement.querySelector('#btn-close-modal');
 
     buttonConfirmCopy.click();
     fixture.detectChanges();
@@ -268,7 +268,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
+    const button = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
     button.click();
     expect(component.courses[0].courseId).toEqual('CS2103T');
     expect(component.courses[1].courseId).toEqual('FAN0001');
@@ -279,7 +279,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
+    const button = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
     button.click();
     expect(component.courses[0].courseId).toEqual('FAN0002');
     expect(component.courses[1].courseId).toEqual('FAN0001');
@@ -290,7 +290,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     component.courses = [testCourseTab2, testCourseTab3, testCourseTab1];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-creation-date');
+    const button = fixture.debugElement.nativeElement.querySelector('#sort-course-creation-date');
     button.click();
     expect(component.courses[0].courseId).toEqual('FAN0002');
     expect(component.courses[1].courseId).toEqual('CS2103T');

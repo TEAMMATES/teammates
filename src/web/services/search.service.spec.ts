@@ -3,6 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { HttpRequestService } from './http-request.service';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import {
   AccountRequestSearchResult,
   InstructorAccountSearchResult,
@@ -10,7 +11,6 @@ import {
   StudentAccountSearchResult,
 } from './search.service';
 import { TimezoneService } from './timezone.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
@@ -29,7 +29,7 @@ import {
 } from '../types/api-output';
 
 describe('SearchService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: SearchService;
   let timezoneService: TimezoneService;
 
@@ -212,7 +212,7 @@ describe('SearchService', () => {
   };
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

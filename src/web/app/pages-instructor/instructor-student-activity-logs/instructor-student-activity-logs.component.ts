@@ -1,7 +1,7 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -142,8 +142,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      const courseId = queryParams.courseid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      const courseId = queryParams['courseid'];
       this.loadControlPanel();
       this.loadData(courseId);
     });
@@ -361,7 +361,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           const studentKey = this.getStudentKey(feedbackSessionId, student.userId);
 
           const entries: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(studentKey);
-          const rows: any[] = [];
+          const rows: { value: string; style?: string }[][] = [];
           if (entries) {
             entries.forEach((entry: FeedbackSessionLog) => {
               const timestamp: string = this.timezoneService.formatToString(
@@ -443,7 +443,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.formModel = {
       ...this.formModel,
       [field]: data,

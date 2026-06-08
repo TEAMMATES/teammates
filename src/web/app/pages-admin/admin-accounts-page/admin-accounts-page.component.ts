@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -39,8 +39,8 @@ export class AdminAccountsPageComponent implements OnInit {
   isLoadingAccountInfo = false;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.loadAccountInfo(queryParams.accountid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.loadAccountInfo(queryParams['accountid']);
     });
   }
 

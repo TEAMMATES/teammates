@@ -158,7 +158,7 @@ describe('StudentCourseDetailsPageComponent', () => {
     component.teammateProfiles = teammateProfiles;
     fixture.detectChanges();
 
-    const sortButton: any = fixture.debugElement.nativeElement.querySelector('#sort-name');
+    const sortButton = fixture.debugElement.nativeElement.querySelector('#sort-name');
     sortButton.click();
 
     expect(component.teammateProfiles.length).toEqual(3);

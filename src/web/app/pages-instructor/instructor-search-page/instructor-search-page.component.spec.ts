@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 import { HttpRequestService } from '../../../services/http-request.service';
-import createSpyFromClass from '../../../test-helpers/create-spy-from-class';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../../../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
@@ -15,7 +15,7 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
   let fixture: ComponentFixture<InstructorSearchPageComponent>;
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let coursesWithStudents: SearchStudentsListRowTable[];
 
   const mockStudents: Students = {
@@ -76,7 +76,7 @@ describe('InstructorSearchPageComponent', () => {
   };
 
   beforeEach(async () => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

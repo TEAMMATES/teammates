@@ -113,7 +113,7 @@ describe('RejectWithReasonModal', () => {
         expect(args).toEqual('Please provide a title for the rejection email.');
       });
 
-    const rejectButton: any = fixture.debugElement.query(By.css('#btn-confirm-reject-request'));
+    const rejectButton = fixture.debugElement.query(By.css('#btn-confirm-reject-request'));
     rejectButton.nativeElement.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -129,7 +129,7 @@ describe('RejectWithReasonModal', () => {
         expect(args).toEqual('Please provide an email body for the rejection email.');
       });
 
-    const rejectButton: any = fixture.debugElement.query(By.css('#btn-confirm-reject-request'));
+    const rejectButton = fixture.debugElement.query(By.css('#btn-confirm-reject-request'));
     rejectButton.nativeElement.click();
     expect(spyStatusMessageService).toHaveBeenCalled();
   });

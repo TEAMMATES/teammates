@@ -144,7 +144,7 @@
       <label class="col-sm-2 control-label text-center text-md-end"> Access Level: </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
         @if (instructor.isEditing) {
-          @for (role of InstructorPermissionRole | enumToArray; track role) {
+          @for (role of instructorRoles; track role) {
             <div class="row">
               <label>
                 <input

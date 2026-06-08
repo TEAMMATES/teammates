@@ -467,16 +467,16 @@ export function calculateNumScaleQuestionStatistics(
 
   for (const team of Object.keys(stats.teamToRecipientToScores)) {
     for (const recipient of Object.keys(stats.teamToRecipientToScores[team])) {
-      const recipientStats: any = stats.teamToRecipientToScores[team][recipient];
-      const answersAsArray: number[] = recipientStats.responses.map((resp: any) => resp.answer);
+      const recipientStats = stats.teamToRecipientToScores[team][recipient];
+      const answersAsArray: number[] = recipientStats.responses.map((resp) => resp.answer);
       recipientStats.max = Math.max(...answersAsArray);
       recipientStats.min = Math.min(...answersAsArray);
       const average: number = answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length;
       recipientStats.average = +average.toFixed(2); // Show integers without dp, truncate fractions to 2dp
 
       const answersExcludingSelfAsArray: number[] = recipientStats.responses
-        .filter((resp: any) => !resp.isSelf)
-        .map((resp: any) => resp.answer);
+        .filter((resp: { answer: number; isSelf: boolean }) => !resp.isSelf)
+        .map((resp: { answer: number; isSelf: boolean }) => resp.answer);
       if (answersExcludingSelfAsArray.length) {
         const averageExcludingSelf: number =
           answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0) / answersExcludingSelfAsArray.length;

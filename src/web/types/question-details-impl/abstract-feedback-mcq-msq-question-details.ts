@@ -1,4 +1,4 @@
-import { McqMsqQuestionStatistics } from '../question-statistics.model';
+import { McqMsqQuestionStatistics, McqMsqPerRecipientStatistics } from '../question-statistics.model';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
 /**
@@ -57,7 +57,7 @@ export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeed
     Object.keys(statsCalculation.perRecipientResponses)
       .sort()
       .forEach((recipient: string) => {
-        const recipientResponses: any = statsCalculation.perRecipientResponses[recipient];
+        const recipientResponses: McqMsqPerRecipientStatistics = statsCalculation.perRecipientResponses[recipient];
         statsRows.push([
           recipientResponses.recipientTeam,
           recipientResponses.recipient,

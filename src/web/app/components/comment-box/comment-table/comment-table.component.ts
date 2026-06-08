@@ -45,7 +45,7 @@ export class CommentTableComponent {
   modelChange: EventEmitter<CommentTableModel> = new EventEmitter();
 
   @Output()
-  saveNewCommentEvent: EventEmitter<any> = new EventEmitter();
+  saveNewCommentEvent: EventEmitter<void> = new EventEmitter();
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
@@ -94,7 +94,7 @@ export class CommentTableComponent {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.modelChange.emit({ ...this.model, [field]: data });
   }
 
