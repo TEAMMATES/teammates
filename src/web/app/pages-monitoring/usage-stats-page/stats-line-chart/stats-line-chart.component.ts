@@ -64,8 +64,8 @@ export class StatsLineChartComponent implements OnChanges {
     this.yScale = d3
       .scaleLinear()
       .domain([
-        (d3.max(this.data, (d: DataPoint) => d.value) || 0) + 1,
-        (d3.min(this.data, (d: DataPoint) => d.value) || 0) - 1,
+        (d3.max(this.data, (d: DataPoint) => d.value) ?? 0) + 1,
+        (d3.min(this.data, (d: DataPoint) => d.value) ?? 0) - 1,
       ])
       .range([0, this.height - 2 * this.margin]);
 

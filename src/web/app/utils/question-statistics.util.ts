@@ -90,9 +90,9 @@ export function calculateConstsumRecipientsQuestionStatistics(
     recipientType === QuestionRecipientType.TEAMS || recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF;
 
   for (const response of responses) {
-    const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail || response.recipient;
+    const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail ?? response.recipient;
 
-    stats.pointsPerOption[identifier] = stats.pointsPerOption[identifier] || [];
+    stats.pointsPerOption[identifier] = stats.pointsPerOption[identifier] ?? [];
     stats.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
 
     if (response.giver === response.recipient) {
@@ -211,7 +211,7 @@ export function calculateMcqQuestionStatistics(
   for (const response of responses) {
     const isOther: boolean = response.responseDetails.isOther;
     const key: string = isOther ? 'Other' : response.responseDetails.answer;
-    stats.answerFrequency[key] = (stats.answerFrequency[key] || 0) + 1;
+    stats.answerFrequency[key] = (stats.answerFrequency[key] ?? 0) + 1;
   }
 
   if (question.hasAssignedWeights) {
@@ -254,8 +254,8 @@ export function calculateMcqQuestionStatistics(
     const recipientEmails: Record<string, string> = {};
     const recipientToTeam: Record<string, string> = {};
     for (const response of responses) {
-      perRecipientResponse[response.recipient] = perRecipientResponse[response.recipient] || {};
-      recipientEmails[response.recipient] = recipientEmails[response.recipient] || response.recipientEmail || '';
+      perRecipientResponse[response.recipient] = perRecipientResponse[response.recipient] ?? {};
+      recipientEmails[response.recipient] = recipientEmails[response.recipient] ?? response.recipientEmail ?? '';
       for (const choice of question.mcqChoices) {
         perRecipientResponse[response.recipient][choice] = 0;
       }
@@ -372,9 +372,9 @@ export function calculateMsqQuestionStatistics(
     if (!responseEmail) {
       continue;
     }
-    perRecipientResponse[responseEmail] = perRecipientResponse[responseEmail] || {};
-    recipientEmails[responseEmail] = recipientEmails[responseEmail] || responseEmail || '';
-    recipientNames[responseEmail] = recipientNames[responseEmail] || response.recipient || '';
+    perRecipientResponse[responseEmail] = perRecipientResponse[responseEmail] ?? {};
+    recipientEmails[responseEmail] = recipientEmails[responseEmail] ?? responseEmail ?? '';
+    recipientNames[responseEmail] = recipientNames[responseEmail] ?? response.recipient ?? '';
     for (const choice of question.msqChoices) {
       perRecipientResponse[responseEmail][choice] = 0;
     }
@@ -425,7 +425,7 @@ function updateResponseCountPerOptionForMsqResponse(
   responseCountPerOption: Record<string, number>,
 ): void {
   if (responseDetails.isOther) {
-    responseCountPerOption['Other'] = (responseCountPerOption['Other'] || 0) + 1;
+    responseCountPerOption['Other'] = (responseCountPerOption['Other'] ?? 0) + 1;
   }
 
   for (const answer of responseDetails.answers) {
@@ -437,7 +437,7 @@ function updateResponseCountPerOptionForMsqResponse(
       // ignore other answer if any
       continue;
     }
-    responseCountPerOption[answer] = (responseCountPerOption[answer] || 0) + 1;
+    responseCountPerOption[answer] = (responseCountPerOption[answer] ?? 0) + 1;
   }
 }
 
@@ -453,16 +453,16 @@ export function calculateNumScaleQuestionStatistics(
     const { giver }: { giver: string } = response;
     const { recipient }: { recipient: string } = response;
     const { recipientTeam }: { recipientTeam: string } = response;
-    stats.teamToRecipientToScores[recipientTeam] = stats.teamToRecipientToScores[recipientTeam] || {};
+    stats.teamToRecipientToScores[recipientTeam] = stats.teamToRecipientToScores[recipientTeam] ?? {};
     stats.teamToRecipientToScores[recipientTeam][recipient] = stats.teamToRecipientToScores[recipientTeam][
       recipient
-    ] || { responses: [] };
+    ] ?? { responses: [] };
     stats.teamToRecipientToScores[recipientTeam][recipient].responses.push({
       answer: response.responseDetails.answer,
       isSelf: giver === recipient,
     });
 
-    stats.recipientEmails[recipient] = stats.recipientEmails[recipient] || response.recipientEmail || '';
+    stats.recipientEmails[recipient] = stats.recipientEmails[recipient] ?? response.recipientEmail ?? '';
   }
 
   for (const team of Object.keys(stats.teamToRecipientToScores)) {
@@ -597,15 +597,15 @@ export function calculateRankRecipientsQuestionStatistics(
   const teamMembersPerTeam: Record<string, string[]> = {};
 
   for (const response of responses) {
-    const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail || response.recipient;
+    const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail ?? response.recipient;
 
-    stats.ranksReceivedPerOption[identifier] = stats.ranksReceivedPerOption[identifier] || [];
+    stats.ranksReceivedPerOption[identifier] = stats.ranksReceivedPerOption[identifier] ?? [];
     stats.ranksReceivedPerOption[identifier].push(response.responseDetails.answer);
 
     if (response.recipient === response.giver) {
       stats.selfRankPerOption[identifier] = response.responseDetails.answer;
     } else {
-      ranksReceivedPerOptionExcludeSelf[identifier] = ranksReceivedPerOptionExcludeSelf[identifier] || [];
+      ranksReceivedPerOptionExcludeSelf[identifier] = ranksReceivedPerOptionExcludeSelf[identifier] ?? [];
       ranksReceivedPerOptionExcludeSelf[identifier].push(response.responseDetails.answer);
     }
 
@@ -617,7 +617,7 @@ export function calculateRankRecipientsQuestionStatistics(
     }
 
     if (isRecipientOwnTeamMember) {
-      teamMembersPerTeam[response.recipientTeam] = teamMembersPerTeam[response.recipientTeam] || [];
+      teamMembersPerTeam[response.recipientTeam] = teamMembersPerTeam[response.recipientTeam] ?? [];
       if (!teamMembersPerTeam[response.recipientTeam].includes(identifier)) {
         teamMembersPerTeam[response.recipientTeam].push(identifier);
       }
@@ -690,7 +690,7 @@ function calculateRankPerOptionInTeam(
     .map((team: string) => teamMembersPerTeam[team])
     .map((teamMembers: string[]) =>
       teamMembers.reduce((ranksReceivedPerOptionInTeam: Record<string, number[]>, teamMember: string) => {
-        ranksReceivedPerOptionInTeam[teamMember] = ranksReceivedPerOption[teamMember] || [];
+        ranksReceivedPerOptionInTeam[teamMember] = ranksReceivedPerOption[teamMember] ?? [];
         return ranksReceivedPerOptionInTeam;
       }, {}),
     )
@@ -759,9 +759,9 @@ export function calculateRubricQuestionStatistics(
 
   // calculate per recipient stats
   for (const response of responses) {
-    stats.perRecipientStatsMap[response.recipientEmail || response.recipient] = stats.perRecipientStatsMap[
-      response.recipientEmail || response.recipient
-    ] || {
+    stats.perRecipientStatsMap[response.recipientEmail ?? response.recipient] = stats.perRecipientStatsMap[
+      response.recipientEmail ?? response.recipient
+    ] ?? {
       recipientName: response.recipient,
       recipientEmail: response.recipientEmail,
       recipientTeam: response.recipientTeam,
@@ -779,11 +779,11 @@ export function calculateRubricQuestionStatistics(
       if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN) {
         continue;
       }
-      stats.perRecipientStatsMap[response.recipientEmail || response.recipient].answers[i][subAnswer] += 1;
+      stats.perRecipientStatsMap[response.recipientEmail ?? response.recipient].answers[i][subAnswer] += 1;
       if (stats.weights[i][subAnswer] !== null) {
-        stats.perRecipientStatsMap[response.recipientEmail || response.recipient].subQuestionTotalChosenWeight[i] +=
+        stats.perRecipientStatsMap[response.recipientEmail ?? response.recipient].subQuestionTotalChosenWeight[i] +=
           +stats.weights[i][subAnswer].toFixed(5);
-        stats.perRecipientStatsMap[response.recipientEmail || response.recipient].areSubQuestionChosenWeightsAllNull[
+        stats.perRecipientStatsMap[response.recipientEmail ?? response.recipient].areSubQuestionChosenWeightsAllNull[
           i
         ] = false;
       }
@@ -879,7 +879,7 @@ function sumValidValuesByColumn(matrix: number[][]): number[] {
   for (let c = 0; c < matrix[0].length; c += 1) {
     let sum = 0;
     for (const row of matrix) {
-      sum += row[c] === null ? 0 : row[c];
+      sum += row[c] ?? 0;
     }
     sums[c] = sum;
   }

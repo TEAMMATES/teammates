@@ -185,7 +185,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   getAlignment(column: ColumnData): { 'text-align': ColumnData['alignment'] } {
     return {
-      'text-align': `${column?.alignment || 'start'}`,
+      'text-align': `${column?.alignment ?? 'start'}`,
     };
   }
 }

@@ -119,7 +119,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       student.teamName,
       student.name,
       student.email,
-      student.comments || '',
+      student.comments ?? '',
     ]);
   }
 

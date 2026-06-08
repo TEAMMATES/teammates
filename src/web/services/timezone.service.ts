@@ -100,7 +100,7 @@ export class TimezoneService {
    * Resolves the local date time to a UNIX timestamp.
    */
   resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone?: string, resolveMidnightTo0000 = false): number {
-    const inst: moment.Moment = this.getMomentInstance(null, timeZone || this.guessTimezone());
+    const inst: moment.Moment = this.getMomentInstance(null, timeZone ?? this.guessTimezone());
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11
     inst.set('date', date.day);

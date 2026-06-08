@@ -13,7 +13,7 @@ export class MasqueradeModeService {
   getMasqueradeAccountId(): string {
     const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
     const accountIdParam: string | null = urlParams.get('masqueradeaccountid');
-    return accountIdParam || '';
+    return accountIdParam ?? '';
   }
 
   /**

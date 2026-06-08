@@ -117,7 +117,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   scrollTo(target: string, timeout?: number): void {
-    setTimeout(() => this.pageScrollService.scrollToAnchor(target), timeout || 500);
+    setTimeout(() => this.pageScrollService.scrollToAnchor(target), timeout ?? 500);
   }
 
   /**
