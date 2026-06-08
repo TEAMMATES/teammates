@@ -1,7 +1,16 @@
 package teammates.common.util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -12,22 +21,38 @@ public class AppUrl {
 
     private final String baseUrl;
     private final String relativeUrl;
-    private String query;
+    private final String initialQuery;
+    private final List<Entry<String, String>> additionalParams;
 
     public AppUrl(String urlString) {
-        // parse and validate the urlString with the built-in URL object
-        URL url = null;
+        URI uri;
         try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            assert false : "MalformedURLException for [" + urlString + "]: " + e.getMessage();
+            uri = new URI(urlString);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid app URL: " + urlString, e);
         }
 
-        this.baseUrl = url.getProtocol() + "://" + url.getAuthority();
-        this.relativeUrl = StringHelper.convertToEmptyStringIfNull(url.getPath());
-        String query = url.getQuery();
-        this.query = query == null ? "" : "?" + query;
-        assert urlString.startsWith("http"); // must either be http or https
+        if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {
+            throw new IllegalArgumentException("AppUrl must use http or https: " + urlString);
+        }
+
+        if (uri.getRawAuthority() == null) {
+            throw new IllegalArgumentException("AppUrl must include an authority: " + urlString);
+        }
+
+        this.baseUrl = uri.getScheme() + "://" + uri.getRawAuthority();
+        this.relativeUrl = Objects.requireNonNullElse(uri.getRawPath(), "");
+        String rawQuery = uri.getRawQuery();
+        this.initialQuery = rawQuery == null ? "" : "?" + rawQuery;
+        this.additionalParams = Collections.emptyList();
+    }
+
+    private AppUrl(String baseUrl, String relativeUrl, String initialQuery,
+                   List<Map.Entry<String, String>> additionalParams) {
+        this.baseUrl = baseUrl;
+        this.relativeUrl = relativeUrl;
+        this.initialQuery = initialQuery;
+        this.additionalParams = Collections.unmodifiableList(additionalParams);
     }
 
     /**
@@ -35,9 +60,9 @@ public class AppUrl {
      * authority (host name + port number if specified) but not the path.<br>
      * Example:
      * <ul>
-     * <li><code>new Url("http://localhost:8080/index.html").getBaseUrl()</code>
+     * <li><code>new AppUrl("http://localhost:8080/index.html").getBaseUrl()</code>
      * returns <code>http://localhost:8080</code></li>
-     * <li><code>new Url("https://teammatesv4.appspot.com/index.html").getBaseUrl()</code>
+     * <li><code>new AppUrl("https://teammatesv4.appspot.com/index.html").getBaseUrl()</code>
      * returns <code>https://teammatesv4.appspot.com</code></li>
      * </ul>
      */
@@ -46,32 +71,13 @@ public class AppUrl {
     }
 
     public AppUrl withParam(String paramName, String paramValue) {
-        query = addParamToUrl(query, paramName, paramValue);
-        return this;
-    }
-
-    /**
-     * Returns the URL with the specified key-value pair parameter added.
-     * The parameter will also be sanitized according to URL specification.
-     * Unchanged if either the key or value is null, or the key already exists<br>
-     * Example:
-     * <ul>
-     * <li><code>addParam("index.html","action","add")</code> returns
-     * <code>index.html?action=add</code></li>
-     * <li><code>addParam("index.html?action=add","courseid","cs1101")</code>
-     * returns <code>index.html?action=add&courseid=cs1101</code></li>
-     * <li><code>addParam("index.html","message",null)</code> returns
-     * <code>index.html</code></li>
-     * </ul>
-     */
-    static String addParamToUrl(String url, String key, String value) {
-        if (key == null || key.isEmpty() || value == null || value.isEmpty()
-                || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
-            // return the url if any of the key or the value is null or empty
-            // or if the key is already included in the url
-            return url;
+        if (paramName == null || paramName.isEmpty() || paramValue == null || paramValue.isEmpty()) {
+            return this;
         }
-        return url + (url.contains("?") ? "&" : "?") + key + "=" + SanitizationHelper.sanitizeForUri(value);
+
+        List<Entry<String, String>> newParams = new ArrayList<>(additionalParams);
+        newParams.add(new AbstractMap.SimpleEntry<>(paramName, paramValue));
+        return new AppUrl(baseUrl, relativeUrl, initialQuery, newParams);
     }
 
     public AppUrl withAccountId(UUID accountId) {
@@ -112,7 +118,22 @@ public class AppUrl {
 
     @Override
     public String toString() {
-        return relativeUrl + query;
+        StringBuilder sb = new StringBuilder(relativeUrl);
+        sb.append(initialQuery);
+
+        for (int i = 0; i < additionalParams.size(); i++) {
+            Entry<String, String> entry = additionalParams.get(i);
+            if (i == 0 && initialQuery.isEmpty()) {
+                sb.append("?");
+            } else {
+                sb.append("&");
+            }
+            sb.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));
+            sb.append("=");
+            sb.append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
+        }
+
+        return sb.toString();
     }
 
     /**
