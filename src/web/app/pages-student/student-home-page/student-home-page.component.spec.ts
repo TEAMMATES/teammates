@@ -7,7 +7,9 @@ import { StudentHomePageComponent } from './student-home-page.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
+  Course,
   Courses,
+  FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
@@ -17,11 +19,29 @@ import {
 } from '../../../types/api-output';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
-const studentCourseA: any = {
+interface StudentSession {
+  session: FeedbackSession;
+  isOpened: boolean;
+  isWaitingToOpen: boolean;
+  isPublished: boolean;
+  isSubmitted: boolean;
+}
+
+interface StudentCourse {
+  course: Course;
+  feedbackSessions: StudentSession[];
+  isFeedbackSessionsLoading: boolean;
+  hasFeedbackSessionsLoadingFailed: boolean;
+  isTabExpanded: boolean;
+  hasPopulated: boolean;
+}
+
+const studentCourseA: StudentCourse = {
   course: {
     courseId: 'CS1231',
     courseName: 'Discrete Structures',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 1549095330000,
     deletionTimestamp: 0,
   },
@@ -79,11 +99,12 @@ const studentCourseA: any = {
   hasPopulated: true,
 };
 
-const studentCourseB: any = {
+const studentCourseB: StudentCourse = {
   course: {
     courseId: 'LSM1306',
     courseName: 'Forensic Science',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
   },
@@ -141,11 +162,12 @@ const studentCourseB: any = {
   hasPopulated: true,
 };
 
-const studentCourseC: any = {
+const studentCourseC: StudentCourse = {
   course: {
     courseId: 'MA1521',
     courseName: 'Calculus for Computing',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
   },
@@ -469,11 +491,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should disable view response button when session is not published', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000,
         deletionTimestamp: 0,
       },
@@ -518,11 +541,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should disable start submission button when session is waiting to open', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -567,11 +591,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should activate start submission button when session is open and response is not submitted', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -615,11 +640,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should activate edit submission button when session is open and response is submitted', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -663,11 +689,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should activate view submission button when session is not open', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -711,26 +738,36 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should navigate to student course page to view the corresponding team', () => {
-    const studentCourse1: any = {
+    const studentCourse1: StudentCourse = {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems I',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false
     };
 
-    const studentCourse2: any = {
+    const studentCourse2: StudentCourse = {
       course: {
         courseId: 'CS3282',
         courseName: 'Thematic Systems II',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false
     };
 
     component.courses = [studentCourse1, studentCourse2];
@@ -748,11 +785,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should navigate to student session result page to view responses', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -827,11 +865,12 @@ describe('StudentHomePageComponent', () => {
   // start/edit/view submission button share the same router link and query params
   // here we only have to test one of them
   it('should navigate to student session submission page for viewing', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -941,15 +980,20 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback sessions', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false
     };
     component.courses = [studentCourse];
     component.isCoursesLoading = false;
@@ -958,26 +1002,36 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback session over 2 courses', () => {
-    const studentCourse1: any = {
+    const studentCourse1: StudentCourse = {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems I',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false
     };
 
-    const studentCourse2: any = {
+    const studentCourse2: StudentCourse = {
       course: {
         courseId: 'CS3282',
         courseName: 'Thematic Systems II',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false
     };
 
     component.courses = [studentCourse1, studentCourse2];
@@ -987,11 +1041,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with feedback sessions', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS2103',
         courseName: 'Software Engineering',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -1043,6 +1098,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: false,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false
     };
 
     component.courses = [studentCourse];
