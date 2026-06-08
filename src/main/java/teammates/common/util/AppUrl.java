@@ -90,12 +90,12 @@ public class AppUrl {
         return withParam(Const.ParamsNames.COURSE_ID, courseId);
     }
 
-    public AppUrl withFeedbackSessionId(String feedbackSessionId) {
-        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId);
+    public AppUrl withFeedbackSessionId(UUID feedbackSessionId) {
+        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId.toString());
     }
 
-    public AppUrl withUserId(String userId) {
-        return withParam(Const.ParamsNames.USER_ID, userId);
+    public AppUrl withUserId(UUID userId) {
+        return withParam(Const.ParamsNames.USER_ID, userId.toString());
     }
 
     public AppUrl withEntityType(String entityType) {
