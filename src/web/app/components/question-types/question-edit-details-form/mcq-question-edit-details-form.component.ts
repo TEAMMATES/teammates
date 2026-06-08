@@ -58,8 +58,8 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
     const fieldsToUpdate: Record<string, unknown> = {};
-    fieldsToUpdate.mcqChoices = newOptions;
-    fieldsToUpdate.mcqWeights = newWeights;
+    fieldsToUpdate['mcqChoices'] = newOptions;
+    fieldsToUpdate['mcqWeights'] = newWeights;
     this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
@@ -70,11 +70,11 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     const fieldsToUpdate: Record<string, unknown> = {};
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.push('');
-    fieldsToUpdate.mcqChoices = newOptions;
+    fieldsToUpdate['mcqChoices'] = newOptions;
     if (this.model.hasAssignedWeights) {
       const newWeights: number[] = this.model.mcqWeights.slice();
       newWeights.push(0);
-      fieldsToUpdate.mcqWeights = newWeights;
+      fieldsToUpdate['mcqWeights'] = newWeights;
     }
     this.triggerModelChangeBatch(fieldsToUpdate);
   }
@@ -86,11 +86,11 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     const fieldsToUpdate: Record<string, unknown> = {};
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.splice(event, 1);
-    fieldsToUpdate.mcqChoices = newOptions;
+    fieldsToUpdate['mcqChoices'] = newOptions;
     if (this.model.hasAssignedWeights) {
       const newWeights: number[] = this.model.mcqWeights.slice();
       newWeights.splice(event, 1);
-      fieldsToUpdate.mcqWeights = newWeights;
+      fieldsToUpdate['mcqWeights'] = newWeights;
     }
     this.triggerModelChangeBatch(fieldsToUpdate);
   }

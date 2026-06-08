@@ -52,10 +52,10 @@ export class RankOptionsQuestionEditAnswerFormComponent extends QuestionEditAnsw
     let newAnswers: number[] = this.responseDetails.answers.slice();
     if (newAnswers.length !== this.questionDetails.options.length) {
       // initialize answers array on the fly
-      newAnswers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
+      newAnswers = new Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
     }
 
-    newAnswers[index] = event;
+    newAnswers[index] = event as number;
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
