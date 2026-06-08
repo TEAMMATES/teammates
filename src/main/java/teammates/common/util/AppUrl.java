@@ -74,6 +74,10 @@ public class AppUrl {
         return url + (url.contains("?") ? "&" : "?") + key + "=" + SanitizationHelper.sanitizeForUri(value);
     }
 
+    public AppUrl withAccountId(UUID accountId) {
+        return withParam(Const.ParamsNames.ACCOUNT_ID, accountId.toString());
+    }
+
     public AppUrl withMasqueradeAccount(UUID accountId) {
         return withParam(Const.ParamsNames.MASQUERADE_ACCOUNT_ID, accountId.toString());
     }

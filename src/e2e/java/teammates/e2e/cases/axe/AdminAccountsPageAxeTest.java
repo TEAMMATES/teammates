@@ -1,5 +1,7 @@
 package teammates.e2e.cases.axe;
 
+import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import com.deque.html.axecore.results.Results;
@@ -21,9 +23,9 @@ public class AdminAccountsPageAxeTest extends BaseAxeTestCase {
     @Test
     @Override
     public void testAll() {
-        String accountId = testData.accounts.get("AAccounts.instr2").getId().toString();
+        UUID accountId = testData.accounts.get("AAccounts.instr2").getId();
         AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.ACCOUNT_ID, accountId);
+                .withAccountId(accountId);
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
         Results results = getAxeBuilder().analyze(accountsPage.getBrowser().getDriver());

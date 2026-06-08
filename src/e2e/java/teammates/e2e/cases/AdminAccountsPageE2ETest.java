@@ -2,6 +2,8 @@ package teammates.e2e.cases;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -25,9 +27,9 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         ______TS("verify loaded data");
-        String accountId = testData.accounts.get("AAccounts.instr2").getId().toString();
+        UUID accountId = testData.accounts.get("AAccounts.instr2").getId();
         AppUrl accountsPageUrl = createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withParam(Const.ParamsNames.ACCOUNT_ID, accountId);
+                .withAccountId(accountId);
         AdminAccountsPage accountsPage = loginAdminToPage(accountsPageUrl, AdminAccountsPage.class);
 
         AccountData account = getAccount(accountId);
