@@ -5,9 +5,16 @@ import { AuthInfo } from '../types/api-output';
 import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
 
+export enum UserRole {
+  STUDENT = 'student',
+  INSTRUCTOR = 'instructor',
+  ADMIN = 'admin',
+  MAINTAINER = 'maintainer',
+}
+
 /**
  * Guards routes based on user roles.
- * Redirects to login page if user is not authenticated or does not have the required role.
+ * If no expected role is specified in the route data, it only checks for authentication.
  */
 @Injectable({
   providedIn: 'root',
@@ -18,12 +25,17 @@ export class RoleGuard implements CanActivate, CanActivateChild {
   private router = inject(Router);
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const expectedRole: string = route.data['role'];
+    const expectedRole: UserRole = route.data['role'];
 
     return this.authService.getAuthUser(state.url).pipe(
       map((authInfo: AuthInfo) => {
         if (!authInfo.user) {
           return this.redirectToLogin(authInfo, this.backendUrl);
+        }
+
+        // Authenticated user without role requirement.
+        if (!expectedRole) {
+          return true;
         }
 
         const isRoleMatch = this.matchRole(authInfo, expectedRole);
@@ -43,14 +55,14 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     return this.canActivate(route ?? childRoute, state);
   }
 
-  private matchRole(authInfo: AuthInfo, expectedRole: string): boolean {
+  private matchRole(authInfo: AuthInfo, expectedRole: UserRole): boolean {
     const user = authInfo.user;
 
     return (
-      (expectedRole === 'instructor' && !!user?.isInstructor) ||
-      (expectedRole === 'student' && !!user?.isStudent) ||
-      (expectedRole === 'admin' && !!user?.isAdmin) ||
-      (expectedRole === 'maintainer' && !!user?.isMaintainer)
+      (expectedRole === UserRole.INSTRUCTOR && !!user?.isInstructor) ||
+      (expectedRole === UserRole.STUDENT && !!user?.isStudent) ||
+      (expectedRole === UserRole.ADMIN && !!user?.isAdmin) ||
+      (expectedRole === UserRole.MAINTAINER && !!user?.isMaintainer)
     );
   }
 
@@ -59,7 +71,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     return false;
   }
 
-  private redirectToUnauthorized(expectedRole: string) {
+  private redirectToUnauthorized(expectedRole: UserRole) {
     return this.router.parseUrl(`/web/unauthorized?role=${expectedRole}`);
   }
 }

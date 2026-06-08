@@ -99,6 +99,14 @@ describe('RoleGuard', () => {
 
       expect(result.toString()).toContain('/web/unauthorized?role=admin');
     });
+
+    it('should return true when route has no role requirement', async () => {
+      spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('student')));
+
+      const result = await firstValueFrom(guard.canActivate(mockRoute(undefined), mockState('/web/unauthorized')));
+
+      expect(result).toBe(true);
+    });
   });
 
   describe('canActivateChild', () => {
@@ -133,6 +141,16 @@ describe('RoleGuard', () => {
       const result = await firstValueFrom(guard.canActivateChild(childRoute, mockState('/web/admin/home')));
 
       expect(result.toString()).toContain('/web/unauthorized?role=admin');
+    });
+
+    it('should return true when no ancestor has a role requirement', async () => {
+      spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('student')));
+      const parentRoute = mockRoute(undefined);
+      const childRoute = mockRoute(undefined, parentRoute);
+
+      const result = await firstValueFrom(guard.canActivateChild(childRoute, mockState('/web/somepage')));
+
+      expect(result).toBe(true);
     });
   });
 });

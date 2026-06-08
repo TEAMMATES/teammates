@@ -3,11 +3,9 @@ import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { MaintainerPageComponent } from './pages-maintainer/maintainer-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
-// import { PageShellComponent } from './page-shell.component';
 import { Intent } from '../types/api-request';
 import { StudentPageComponent } from './pages-student/student-page.component';
-import { RoleGuard } from '../route-guards/role.guard';
-import { AuthGuard } from '../route-guards/auth.guard';
+import { RoleGuard, UserRole } from '../route-guards/role.guard';
 import { PageComponent } from './page.component';
 
 const routes: Routes = [
@@ -28,9 +26,8 @@ const routes: Routes = [
             loadComponent: () => import('./user-join-page.component').then((m) => m.UserJoinPageComponent),
           },
         ],
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
-        runGuardsAndResolvers: 'always',
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
       },
       {
         path: 'sessions',
@@ -66,9 +63,8 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         canActivateChild: [RoleGuard],
         data: {
-          role: 'student',
+          role: UserRole.STUDENT,
         },
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'instructor',
@@ -77,9 +73,8 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         canActivateChild: [RoleGuard],
         data: {
-          role: 'instructor',
+          role: UserRole.INSTRUCTOR,
         },
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'admin',
@@ -88,9 +83,8 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         canActivateChild: [RoleGuard],
         data: {
-          role: 'admin',
+          role: UserRole.ADMIN,
         },
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'maintainer',
@@ -99,9 +93,8 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         canActivateChild: [RoleGuard],
         data: {
-          role: 'maintainer',
+          role: UserRole.MAINTAINER,
         },
-        runGuardsAndResolvers: 'always',
       },
       {
         path: 'unauthorized',
@@ -115,9 +108,8 @@ const routes: Routes = [
               ),
           },
         ],
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
-        runGuardsAndResolvers: 'always',
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
       },
       {
         path: '**',
