@@ -17,7 +17,6 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
-import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -26,7 +25,6 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
-  AuthInfo,
   Course,
   CourseView,
   Courses,
@@ -67,6 +65,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
+import { AuthService } from '../../../services/auth.service';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
@@ -196,14 +195,24 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the information of the current logged-in instructor.
    */
   loadCurrInstructorInfo(): void {
-    this.authService.getAuthUser().subscribe({
-      next: (res: AuthInfo) => {
-        this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.hasInstructorsLoadingFailed = false;
+    this.isInstructorsLoading = true;
+    this.authService
+      .getAuthUser()
+      .pipe(
+        finalize(() => {
+          this.isInstructorsLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (authInfo) => {
+          this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**

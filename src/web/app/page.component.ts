@@ -6,6 +6,7 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
   forwardRef,
   inject,
@@ -17,13 +18,15 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/n
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
-import { NotificationTargetUser } from '../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { AuthService } from '../services/auth.service';
+import { finalize } from 'rxjs/operators';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -71,26 +74,25 @@ export class ClickOutsideDirective {
     RouterOutlet,
   ],
 })
-export class PageComponent {
+export class PageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly title = inject(Title);
   private readonly ngbModal = inject(NgbModal);
   private readonly statusMessageService = inject(StatusMessageService);
+  private readonly authService = inject(AuthService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
 
-  @Input() isFetchingAuthDetails = false;
-  @Input() user = '';
-  @Input() isStudent = false;
-  @Input() isInstructor = false;
-  @Input() isAdmin = false;
-  @Input() isMaintainer = false;
-  @Input() isValidUser = false;
+  isFetchingAuthDetails = false;
+  user = '';
+  isStudent = false;
+  isInstructor = false;
+  isAdmin = false;
+  isMaintainer = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
-  @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
 
   readonly isNetworkOnline = signal(navigator.onLine);
@@ -138,6 +140,40 @@ export class PageComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
+    this.authService
+      .getAuthUser(this.router.url)
+      .pipe(
+        finalize(() => {
+          this.isFetchingAuthDetails = false;
+        }),
+      )
+      .subscribe({
+        next: (authInfo: AuthInfo) => {
+          const user = authInfo.user;
+          if (user) {
+            this.user = user.id;
+            if (authInfo.masquerade) {
+              this.user += ' (M)';
+            }
+            this.isStudent = user.isStudent;
+            this.isInstructor = user.isInstructor;
+            this.isAdmin = user.isAdmin;
+            this.isMaintainer = user.isMaintainer;
+          } else {
+            this.isStudent = false;
+            this.isInstructor = false;
+            this.isAdmin = false;
+            this.isMaintainer = false;
+          }
+        },
+        error: () => {
+          // Do nothing, the user will be treated as not logged in.
+        },
+      });
+  }
+
   /**
    * Method to toggle the isCollapsed property when an item on the navbar is clicked,
    * when the user is using a mobile device.
@@ -166,6 +202,7 @@ export class PageComponent {
   }
 
   logout(): void {
+    this.authService.clearAuthCache();
     globalThis.location.href = this.logoutUrl;
   }
 }

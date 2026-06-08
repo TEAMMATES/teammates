@@ -318,6 +318,7 @@ describe('InstructorCourseEditPageComponent', () => {
       canModifyStudent: true,
       canModifyInstructor: true,
     };
+    component.isInstructorsLoading = false;
     component.instructorDetailPanels = [
       {
         originalInstructor: { ...testInstructor1 },

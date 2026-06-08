@@ -93,6 +93,7 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse({ key: this.key }).subscribe({
       next: () => {
+        this.authService.clearAuthCache();
         this.navigationService.navigateByURL(`/web/${this.entityType}`);
       },
       error: (resp: ErrorMessageOutput) => {
@@ -124,6 +125,7 @@ export class UserJoinPageComponent implements OnInit {
       )
       .subscribe({
         next: () => {
+          this.authService.clearAuthCache();
           this.navigationService.navigateByURL('/web/instructor');
         },
         error: (resp: ErrorMessageOutput) => {

@@ -1,0 +1,135 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when admin role is set 1`] = `
+<tm-unauthorized-warning-page
+  reason={[Function String]}
+  role={[Function String]}
+  route={[Function Object]}
+>
+  <div
+    class="text-center"
+  >
+    <div
+      class="alert alert-light mx-auto"
+    >
+      <div
+        class="d-flex align-items-start"
+      >
+        <img
+          alt=""
+          src="assets/images/angry.png"
+        />
+        <div
+          class="align-left"
+        >
+          <h5>
+            You are not authorized to view this page.
+          </h5>
+          <p
+            class="mb-0"
+          >
+            <b>
+              Reason:
+            </b>
+             You need to be an admin to access this page.
+          </p>
+        </div>
+      </div>
+      <hr />
+      <a
+        class="text-center"
+        href="/web/front"
+        tmrouterlink="/web/front"
+      >
+        Return to main page.
+      </a>
+    </div>
+  </div>
+</tm-unauthorized-warning-page>
+`;
+
+exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when student role is set 1`] = `
+<tm-unauthorized-warning-page
+  reason={[Function String]}
+  role={[Function String]}
+  route={[Function Object]}
+>
+  <div
+    class="text-center"
+  >
+    <div
+      class="alert alert-light mx-auto"
+    >
+      <div
+        class="d-flex align-items-start"
+      >
+        <img
+          alt=""
+          src="assets/images/angry.png"
+        />
+        <div
+          class="align-left"
+        >
+          <h5>
+            You are not authorized to view this page.
+          </h5>
+          <p
+            class="mb-0"
+          >
+            <b>
+              Reason:
+            </b>
+             You are not enrolled as a student in any course.
+          </p>
+        </div>
+      </div>
+      <hr />
+      <div
+        class="align-left"
+      >
+        <p
+          class="text-center"
+        >
+           To access student pages on TEAMMATES, you need to wait until an instructor adds you to a course. 
+          <br />
+           As a confirmation, TEAMMATES will send you instructions on how to access that particular course. 
+        </p>
+        <hr />
+        <p
+          class="align-left"
+        >
+           If you 'joined' a course in TEAMMATES using a Google account before, but cannot log in anymore, these are the possible reasons: 
+        </p>
+        <ol
+          class="align-left"
+        >
+          <li>
+             You used a different Google account to access TEAMMATES in the past. In that case, you need to use the same Google account to access TEAMMATES again. Log out and re-log in using the other Google account. If you don't remember which Google account you used previously, email us from the same email account to which you receive TEAMMATES emails. 
+          </li>
+          <li>
+             You changed the primary email from a non-Gmail address to a Gmail address recently. In that case, 
+            <a
+              href="/web/front/contact"
+              tmrouterlink="/web/front/contact"
+            >
+               email us 
+            </a>
+             so that we can reconfigure your account to use the new Gmail address. 
+          </li>
+          <li>
+             You joined this course just a few seconds ago and your data may be still in the process of propagating through our servers. In that case, please try this same page in a few minutes. 
+          </li>
+        </ol>
+      </div>
+      <hr />
+      <a
+        class="text-center"
+        href="/web/front"
+        tmrouterlink="/web/front"
+      >
+        Return to main page.
+      </a>
+    </div>
+  </div>
+</tm-unauthorized-warning-page>
+`;
