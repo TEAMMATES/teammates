@@ -19,8 +19,6 @@ export class AuthService {
 
   private authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
 
-  readonly authInfo$ = this.authInfo.asReadonly();
-
   /**
    * Gets the user authentication information.
    * Returns the cached value if the user is already authenticated, otherwise fetches from the server.

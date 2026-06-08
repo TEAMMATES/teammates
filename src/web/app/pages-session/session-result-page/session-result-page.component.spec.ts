@@ -5,6 +5,7 @@ import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
@@ -227,7 +228,7 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should fetch auth info on init', () => {
-    vi.spyOn(authService, 'authInfo$').mockReturnValue(testInfo);
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
 
     component.ngOnInit();
 
@@ -292,13 +293,21 @@ describe('SessionResultPageComponent', () => {
       isUsed: false,
       isValid: true,
     };
-    vi.spyOn(authService, 'authInfo$').mockReturnValue(testInfo);
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith(
+      '/web/front',
+      `You are trying to access TEAMMATES using the Google account user-id, which
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`,
+    );
   });
 
   it('should deny access for invalid reg key', () => {
@@ -318,9 +327,12 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate away when error occurs', () => {
-    vi.spyOn(authService, 'authInfo$').mockReturnValue(testInfo);
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
+      throwError(() => ({
+        error: { message: 'This is error' },
+      })),
+    );
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
-    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(throwError(() => ({})));
 
     fixture.detectChanges();
     component.ngOnInit();

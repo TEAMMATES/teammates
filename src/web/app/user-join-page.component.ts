@@ -5,12 +5,13 @@ import { finalize } from 'rxjs/operators';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from './error-message-output';
+import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
 import { TimezoneService } from '../services/timezone.service';
-import { JoinStatus } from '../types/api-output';
+import { AuthInfo, JoinStatus } from '../types/api-output';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
 /**
@@ -38,6 +39,8 @@ export class UserJoinPageComponent implements OnInit {
   key = '';
   userId = '';
 
+  private backendUrl: string = environment.backendUrl;
+
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.entityType = queryParams.entitytype;
@@ -49,30 +52,37 @@ export class UserJoinPageComponent implements OnInit {
         this.entityType = 'instructor';
       }
 
-      const authInfo = this.authService.authInfo$();
-      this.userId = authInfo.user?.id ?? '';
+      const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
+        if (!auth.user) {
+          this.isLoading = false;
+          window.location.href = `${this.backendUrl}${auth.loginUrl}`;
+          return;
+        }
+        this.userId = auth.user.id;
 
-      this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
-        next: (resp: JoinStatus) => {
-          this.hasJoined = resp.hasJoined;
-          if (this.hasJoined) {
-            // The regkey has been used; simply redirect the user to their home page,
-            // regardless of whether the regkey matches or not.
-            this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
-          } else {
-            this.isLoading = false;
-          }
-        },
-        error: (resp: ErrorMessageOutput) => {
-          if (resp.status === 404) {
-            this.validUrl = false;
-            this.isLoading = false;
-            return;
-          }
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        },
+        this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
+          next: (resp: JoinStatus) => {
+            this.hasJoined = resp.hasJoined;
+            if (this.hasJoined) {
+              // The regkey has been used; simply redirect the user to their home page,
+              // regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
+            } else {
+              this.isLoading = false;
+            }
+          },
+          error: (resp: ErrorMessageOutput) => {
+            if (resp.status === 404) {
+              this.validUrl = false;
+              this.isLoading = false;
+              return;
+            }
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
+            modalRef.componentInstance.errorMessage = resp.error.message;
+          },
+        });
       });
     });
   }
@@ -83,7 +93,6 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse({ key: this.key }).subscribe({
       next: () => {
-        // Clear auth cache to ensure user's auth info is re-fetched.
         this.authService.clearAuthCache();
         this.navigationService.navigateByURL(`/web/${this.entityType}`);
       },
@@ -116,7 +125,6 @@ export class UserJoinPageComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          // Clear auth cache to ensure user's auth info is re-fetched.
           this.authService.clearAuthCache();
           this.navigationService.navigateByURL('/web/instructor');
         },

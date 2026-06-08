@@ -5,6 +5,7 @@ import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -652,7 +653,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should fetch auth info on init', () => {
-    vi.spyOn(authService, 'authInfo$').mockReturnValue(testInfo);
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     component.ngOnInit();
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
@@ -684,13 +685,21 @@ describe('SessionSubmissionPageComponent', () => {
       isUsed: false,
       isValid: true,
     };
-    vi.spyOn(authService, 'authInfo$').mockReturnValue(testInfo);
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
+    expect(navSpy).toHaveBeenLastCalledWith(
+      '/web/front',
+      `You are trying to access TEAMMATES using the Google account user-id, which
+                        is not linked to this TEAMMATES account. If you used a different Google account to
+                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
+                        cannot remember which Google account you used before, please email us at
+                        ${environment.supportEmail} for help.`,
+    );
   });
 
   it('should deny unallowed access with invalid reg key', () => {

@@ -195,8 +195,24 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the information of the current logged-in instructor.
    */
   loadCurrInstructorInfo(): void {
-    const authInfo = this.authService.authInfo$();
-    this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
+    this.hasInstructorsLoadingFailed = false;
+    this.isInstructorsLoading = true;
+    this.authService
+      .getAuthUser()
+      .pipe(
+        finalize(() => {
+          this.isInstructorsLoading = false;
+        }),
+      )
+    .subscribe({
+      next: (authInfo) => {
+        this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.hasInstructorsLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      }
+    });
   }
 
   /**
