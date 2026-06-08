@@ -14,6 +14,7 @@ import {
   FeedbackRankOptionsQuestionDetails,
   FeedbackRubricQuestionDetails,
   FeedbackVisibilityType,
+  MessageOutput,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
@@ -655,7 +656,7 @@ export class FeedbackQuestionsService {
   /**
    * Deletes a feedback question
    */
-  deleteFeedbackQuestion(feedbackQuestionId: string): Observable<any> {
+  deleteFeedbackQuestion(feedbackQuestionId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
     return this.httpRequestService.delete(ResourceEndpoints.QUESTION, paramMap);

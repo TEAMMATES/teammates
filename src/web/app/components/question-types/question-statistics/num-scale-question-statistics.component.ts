@@ -5,7 +5,7 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { NumScaleQuestionStatistics, Response } from '../../../../types/question-statistics.model';
+import { NumScaleQuestionStatistics, NumScaleRecipientStatistics, Response } from '../../../../types/question-statistics.model';
 import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
 import { calculateNumScaleQuestionStatistics } from '../../../utils/question-statistics.util';
 
@@ -48,7 +48,7 @@ export class NumScaleQuestionStatisticsComponent implements OnChanges {
     this.rowsData = [];
     for (const team of Object.keys(stats.teamToRecipientToScores)) {
       for (const recipient of Object.keys(stats.teamToRecipientToScores[team])) {
-        const rowStats: any = stats.teamToRecipientToScores[team][recipient];
+        const rowStats: NumScaleRecipientStatistics = stats.teamToRecipientToScores[team][recipient];
         const recipientEmail: string = stats.recipientEmails[recipient];
         this.rowsData.push([
           { value: team },

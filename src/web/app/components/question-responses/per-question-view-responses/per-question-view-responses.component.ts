@@ -180,7 +180,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   /**
    * Opens the comments table modal.
    */
-  showCommentTableModel(selectedResponse: ResponseOutput, modal: any): void {
+  showCommentTableModel(selectedResponse: ResponseOutput, modal: unknown): void {
     // open as ng-template rather than concrete class due to the
     // lack of ability to bind @Input to the modal
     // https://github.com/ng-bootstrap/ng-bootstrap/issues/2645

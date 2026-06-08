@@ -475,8 +475,8 @@ export function calculateNumScaleQuestionStatistics(
       recipientStats.average = +average.toFixed(2); // Show integers without dp, truncate fractions to 2dp
 
       const answersExcludingSelfAsArray: number[] = recipientStats.responses
-        .filter((resp: any) => !resp.isSelf)
-        .map((resp: any) => resp.answer);
+        .filter((resp: { answer: number; isSelf: boolean }) => !resp.isSelf)
+        .map((resp: { answer: number; isSelf: boolean }) => resp.answer);
       if (answersExcludingSelfAsArray.length) {
         const averageExcludingSelf: number =
           answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0) / answersExcludingSelfAsArray.length;

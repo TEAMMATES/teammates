@@ -243,7 +243,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): Promise<void> {
     // load course candidates first
-    return new Promise<void>((_resolve: any, reject: any) => {
+    return new Promise<void>((_resolve: (value: void | PromiseLike<void>) => void, reject: (reason?: unknown) => void) => {
       this.courseService
         .getInstructorCoursesThatAreActive()
         .pipe(

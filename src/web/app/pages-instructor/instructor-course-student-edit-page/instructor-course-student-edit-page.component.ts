@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
@@ -180,7 +180,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Handles logic related to showing the appropriate modal boxes
    * upon submission of the form. Submits the form otherwise.
    */
-  onSubmit(resendPastLinksModal: any): void {
+  onSubmit(resendPastLinksModal: TemplateRef<unknown>): void {
     if (!this.isEnabled) {
       return;
     }
@@ -210,7 +210,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Shows the `resendPastSessionLinks` modal if email field has changed.
    * Submits the form  otherwise.
    */
-  deleteExistingResponses(resendPastLinksModal: any): void {
+  deleteExistingResponses(resendPastLinksModal: TemplateRef<unknown>): void {
     if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {

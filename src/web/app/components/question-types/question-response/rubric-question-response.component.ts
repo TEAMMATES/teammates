@@ -19,7 +19,7 @@ export class RubricQuestionResponseComponent implements OnInit {
   @Input() questionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
   @Input() isStudentPage = false;
 
-  answers: any[] = [];
+  answers: { index: number; answer: string }[] = [];
 
   ngOnInit(): void {
     for (const chosenIndex of this.responseDetails.answer) {

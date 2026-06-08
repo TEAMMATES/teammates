@@ -1,7 +1,7 @@
 import { inject, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
@@ -376,9 +376,9 @@ export abstract class InstructorSessionBasePageComponent {
           copyToCourseId,
           result.sessionToCopyCourseId,
         ).pipe(
-          catchError((err: any) => {
+          catchError((err: ErrorMessageOutput) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
-            return of(err);
+            return EMPTY;
           }),
         ),
       );
@@ -414,9 +414,9 @@ export abstract class InstructorSessionBasePageComponent {
                 result.sessionToCopyCourseId,
               ),
             ),
-            catchError((err: any) => {
+            catchError((err: ErrorMessageOutput) => {
               this.failedToCopySessions[copyToCourseId] = err.error.message;
-              return of(err);
+              return EMPTY;
             }),
           ),
       );

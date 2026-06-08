@@ -35,7 +35,7 @@ export class InstructorSearchBarComponent {
     this.searched.emit();
   }
 
-  triggerSearchParamsChangeEvent(field: string, data: any): void {
+  triggerSearchParamsChangeEvent(field: string, data: unknown): void {
     this.searchParamsChange.emit({ ...this.searchParams, [field]: data });
   }
 

@@ -361,7 +361,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           const studentKey = this.getStudentKey(feedbackSessionId, student.userId);
 
           const entries: FeedbackSessionLog[] | undefined = this.studentLogsMap.get(studentKey);
-          const rows: any[] = [];
+          const rows: { value: string; style?: string }[][] = [];
           if (entries) {
             entries.forEach((entry: FeedbackSessionLog) => {
               const timestamp: string = this.timezoneService.formatToString(

@@ -1,7 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Data, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -162,9 +162,9 @@ export class SessionSubmissionPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.data
       .pipe(
-        tap((data: any) => {
-          this.intent = data.intent;
-          this.entityType = data.intent === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : this.entityType;
+        tap((data: Data) => {
+          this.intent = data['intent'] as Intent;
+          this.entityType = (data['intent'] as Intent) === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : this.entityType;
         }),
         switchMap(() => this.route.queryParams),
       )
@@ -983,11 +983,11 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.saveFeedbackResponses(recipientQSForms);
   }
 
-  private addQuestionForRecipient(recipientId: string, questionId: any): void {
+  private addQuestionForRecipient(recipientId: string, questionId: number): void {
     if (this.recipientQuestionMap.has(recipientId)) {
       this.recipientQuestionMap.get(recipientId)!.add(questionId);
     } else {
-      const feedbackQuestionIds: Set<any> = new Set<any>();
+      const feedbackQuestionIds: Set<number> = new Set<number>();
       feedbackQuestionIds.add(questionId);
       this.recipientQuestionMap.set(recipientId, feedbackQuestionIds);
     }

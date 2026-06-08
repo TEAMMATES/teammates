@@ -48,7 +48,7 @@ export class RankOptionsQuestionEditAnswerFormComponent extends QuestionEditAnsw
   /**
    * Assigns a Rank to the option specified by index.
    */
-  triggerResponse(index: number, event: any): void {
+  triggerResponse(index: number, event: unknown): void {
     let newAnswers: number[] = this.responseDetails.answers.slice();
     if (newAnswers.length !== this.questionDetails.options.length) {
       // initialize answers array on the fly

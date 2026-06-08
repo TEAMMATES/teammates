@@ -545,10 +545,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     return studentsData.map((student: Student) =>
       headers.map((header: string) => {
         if (header === 'team') {
-          return (student as any).teamName;
+          return student.teamName;
         }
         if (header === 'section') {
-          return (student as any).sectionName;
+          return student.sectionName;
         }
         return (student as any)[header];
       }),

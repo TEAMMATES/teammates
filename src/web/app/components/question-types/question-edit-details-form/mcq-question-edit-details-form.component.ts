@@ -57,7 +57,7 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     const newOptions: string[] = this.model.mcqChoices.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
-    const fieldsToUpdate: any = {};
+    const fieldsToUpdate: Record<string, unknown> = {};
     fieldsToUpdate.mcqChoices = newOptions;
     fieldsToUpdate.mcqWeights = newWeights;
     this.triggerModelChangeBatch(fieldsToUpdate);
@@ -67,7 +67,7 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Increases number of Mcq options.
    */
   increaseNumberOfOptions(): void {
-    const fieldsToUpdate: any = {};
+    const fieldsToUpdate: Record<string, unknown> = {};
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.push('');
     fieldsToUpdate.mcqChoices = newOptions;
@@ -83,7 +83,7 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
-    const fieldsToUpdate: any = {};
+    const fieldsToUpdate: Record<string, unknown> = {};
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.splice(event, 1);
     fieldsToUpdate.mcqChoices = newOptions;

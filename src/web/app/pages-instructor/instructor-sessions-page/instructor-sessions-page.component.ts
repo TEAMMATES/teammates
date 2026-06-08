@@ -20,6 +20,7 @@ import {
   FeedbackSessions,
   ResponseVisibleSetting,
   SessionVisibleSetting,
+  MessageOutput,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -730,7 +731,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result
       .then(() => {
-        const deleteRequests: Observable<any>[] = [];
+        const deleteRequests: Observable<MessageOutput>[] = [];
 
         this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
           deleteRequests.push(

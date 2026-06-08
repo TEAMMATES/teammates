@@ -118,8 +118,8 @@ export class SessionResultPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.data
       .pipe(
-        tap((data: any) => {
-          this.intent = data.intent;
+        tap((data: Record<string, unknown>) => {
+          this.intent = data['intent'] as Intent;
         }),
         switchMap(() => this.route.queryParams),
       )
