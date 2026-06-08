@@ -599,6 +599,7 @@ exports[`StudentHomePageComponent > should snap with feedback sessions 1`] = `
             </a>
             <tm-panel-chevron>
               <button
+                aria-expanded="false"
                 aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
@@ -882,6 +883,7 @@ exports[`StudentHomePageComponent > should snap with no feedback session over 2 
             </a>
             <tm-panel-chevron>
               <button
+                aria-expanded="false"
                 aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
@@ -932,6 +934,7 @@ exports[`StudentHomePageComponent > should snap with no feedback session over 2 
             </a>
             <tm-panel-chevron>
               <button
+                aria-expanded="false"
                 aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"
@@ -1015,6 +1018,7 @@ exports[`StudentHomePageComponent > should snap with no feedback sessions 1`] = 
             </a>
             <tm-panel-chevron>
               <button
+                aria-expanded="false"
                 aria-label="Expand panel"
                 class="chevron btn-course btn btn-primary btn-sm"
                 type="button"

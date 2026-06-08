@@ -47,6 +47,7 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackConstantSumOptionsQuestionDetails = {
         questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+        questionText: 'How do you distribute points?',
         constSumOptions: ['optionA', 'optionB', 'optionC'],
         pointsPerOption: true,
         forceUnevenDistribution: false,
@@ -256,7 +257,7 @@ describe('Question Statistics Utility Functions', () => {
 
       const stats: ConstsumRecipientsQuestionStatistics = calculateConstsumRecipientsQuestionStatistics(
         responses,
-        QuestionRecipientType.NONE,
+        QuestionRecipientType.STUDENTS,
       );
 
       const expectedPointsPerOption: Record<string, number[]> = {
@@ -299,10 +300,14 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackMcqQuestionDetails = {
         questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: true,
         mcqWeights: [1, 2, 3],
+        mcqOtherWeight: 0,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
       };
       const responses = mcqQuestionResponses.responsesNoOther;
       const stats = calculateMcqQuestionStatistics(question, responses);
@@ -337,11 +342,14 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly when other is enabled', () => {
       const question: FeedbackMcqQuestionDetails = {
         questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: true,
         hasAssignedWeights: true,
         mcqWeights: [1, 2, 3],
         mcqOtherWeight: 4,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
       };
       const responses = mcqQuestionResponses.responsesWithOther;
       const stats = calculateMcqQuestionStatistics(question, responses);
@@ -380,9 +388,14 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly when there are no assigned weights', () => {
       const question: FeedbackMcqQuestionDetails = {
         questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: false,
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
       };
       const responses = mcqQuestionResponses.responsesNoOther;
       const stats = calculateMcqQuestionStatistics(question, responses);
@@ -407,9 +420,14 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly when other is enabled and no assigned weights', () => {
       const question: FeedbackMcqQuestionDetails = {
         questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: true,
         hasAssignedWeights: false,
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
       };
       const responses = mcqQuestionResponses.responsesWithOther;
       const stats = calculateMcqQuestionStatistics(question, responses);
@@ -438,10 +456,15 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackMsqQuestionDetails = {
         questionType: FeedbackQuestionType.MSQ,
+        questionText: 'Which options do you prefer?',
         msqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: true,
         msqWeights: [1, 2, 3],
+        msqOtherWeight: 0,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+        maxSelectableChoices: 3,
+        minSelectableChoices: 1,
       };
       const responses = msqQuestionResponses.responsesNoOther;
       const stats = calculateMsqQuestionStatistics(question, responses);
@@ -476,9 +499,15 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly when there are no weights', () => {
       const question: FeedbackMsqQuestionDetails = {
         questionType: FeedbackQuestionType.MSQ,
+        questionText: 'Which options do you prefer?',
         msqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: false,
+        msqWeights: [],
+        msqOtherWeight: 0,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+        maxSelectableChoices: 3,
+        minSelectableChoices: 1,
       };
       const responses = msqQuestionResponses.responsesNoOther;
       const stats = calculateMsqQuestionStatistics(question, responses);
@@ -543,7 +572,11 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackRankOptionsQuestionDetails = {
         questionType: FeedbackQuestionType.RANK_OPTIONS,
+        questionText: 'Rank these options',
         options: ['optionA', 'optionB', 'optionC', 'optionD'],
+        minOptionsToBeRanked: 1,
+        maxOptionsToBeRanked: 4,
+        areDuplicatesAllowed: false,
       };
       const responses = rankOptionQuestionResponses.responses;
       const stats = calculateRankOptionsQuestionStatistics(question, responses);
@@ -569,7 +602,11 @@ describe('Question Statistics Utility Functions', () => {
     it('should calculate statistics correctly if there are equal ranks', () => {
       const question: FeedbackRankOptionsQuestionDetails = {
         questionType: FeedbackQuestionType.RANK_OPTIONS,
+        questionText: 'Rank these options',
         options: ['optionA', 'optionB', 'optionC', 'optionD'],
+        minOptionsToBeRanked: 1,
+        maxOptionsToBeRanked: 4,
+        areDuplicatesAllowed: false,
       };
       const responses: Response<FeedbackRankOptionsResponseDetails>[] = rankOptionQuestionResponses.responsesSameRank;
 
