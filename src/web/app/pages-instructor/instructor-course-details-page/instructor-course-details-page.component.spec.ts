@@ -96,7 +96,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       displayedToStudentsAs: 'Hodor',
       isDisplayedToStudents: true,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -128,7 +128,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       displayedToStudentsAs: 'Bran',
       isDisplayedToStudents: false,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -158,7 +158,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 1,
       numOfStudents: 1,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -193,7 +193,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 10,
       numOfStudents: 350,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -219,7 +219,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 1,
       numOfStudents: 1,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };

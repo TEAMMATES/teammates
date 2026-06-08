@@ -45,7 +45,11 @@ export const templateQuestions: TemplateQuestion[] = [
       numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
       customNumberOfEntitiesToGiveFeedbackTo: 1,
 
-      showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+      showResponsesTo: [
+        FeedbackVisibilityType.INSTRUCTORS,
+        FeedbackVisibilityType.RECIPIENT,
+        FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+      ],
       showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
       showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
     },
@@ -71,9 +75,21 @@ export const templateQuestions: TemplateQuestion[] = [
       numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
       customNumberOfEntitiesToGiveFeedbackTo: 1,
 
-      showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-      showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-      showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
+      showResponsesTo: [
+        FeedbackVisibilityType.RECIPIENT,
+        FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+        FeedbackVisibilityType.INSTRUCTORS,
+      ],
+      showGiverNameTo: [
+        FeedbackVisibilityType.RECIPIENT,
+        FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+        FeedbackVisibilityType.INSTRUCTORS,
+      ],
+      showRecipientNameTo: [
+        FeedbackVisibilityType.RECIPIENT,
+        FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+        FeedbackVisibilityType.INSTRUCTORS,
+      ],
     },
   },
   {
@@ -109,7 +125,8 @@ export const templateQuestions: TemplateQuestion[] = [
     question: {
       feedbackQuestionId: '',
       questionNumber: 4,
-      questionBrief: 'How are the team dynamics thus far? (response is confidential and will only be to the instructor).',
+      questionBrief:
+        'How are the team dynamics thus far? (response is confidential and will only be to the instructor).',
       questionDescription: '',
 
       questionType: FeedbackQuestionType.TEXT,

@@ -261,6 +261,7 @@ describe('SessionsTableComponent', () => {
   it('should create response rate component data and emit on click', () => {
     vi.spyOn(component.loadResponseRateEvent, 'emit');
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = (component as any).createCellWithResponseRateComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
 
@@ -281,6 +282,7 @@ describe('SessionsTableComponent', () => {
     component.rowsData = [[]];
     component.columnsData = [];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = (component as any).createCellWithGroupButtonsComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
 

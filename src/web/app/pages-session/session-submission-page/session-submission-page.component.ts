@@ -164,7 +164,8 @@ export class SessionSubmissionPageComponent implements OnInit {
       .pipe(
         tap((data: Data) => {
           this.intent = data['intent'] as Intent;
-          this.entityType = (data['intent'] as Intent) === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : this.entityType;
+          this.entityType =
+            (data['intent'] as Intent) === Intent.INSTRUCTOR_SUBMISSION ? 'instructor' : this.entityType;
         }),
         switchMap(() => this.route.queryParams),
       )

@@ -96,7 +96,7 @@ export class MsqQuestionEditAnswerFormComponent
     // we shall update both the other field content and the answer list
     fieldsToUpdate['otherFieldContent'] = $event;
     fieldsToUpdate['answers'] = this.responseDetails.answers.slice();
-    (fieldsToUpdate['answers'] as string[])[((fieldsToUpdate['answers'] as string[]).length) - 1] = $event;
+    (fieldsToUpdate['answers'] as string[])[(fieldsToUpdate['answers'] as string[]).length - 1] = $event;
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 

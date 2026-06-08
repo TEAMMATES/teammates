@@ -1047,7 +1047,9 @@ describe('SessionSubmissionPageComponent', () => {
     const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
     const testResponseDetails2 = structuredClone(testConstsumRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);
-    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = structuredClone(testConstsumQuestionSubmissionForm);
+    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = structuredClone(
+      testConstsumQuestionSubmissionForm,
+    );
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;

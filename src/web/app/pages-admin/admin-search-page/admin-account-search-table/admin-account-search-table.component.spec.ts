@@ -328,7 +328,9 @@ describe('AdminAccountSearchTableComponent', () => {
       accountRequestComment: 'new comment',
     };
 
-    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef(modalResult, Promise.resolve(modalResult)));
+    const modalSpy = vi
+      .spyOn(ngbModal, 'open')
+      .mockReturnValue(createMockNgbModalRef(modalResult, Promise.resolve(modalResult)));
 
     const editedAccountRequest: AccountRequest = {
       accountRequestId: 'id',

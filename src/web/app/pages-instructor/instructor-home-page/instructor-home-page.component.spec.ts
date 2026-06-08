@@ -277,7 +277,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -295,7 +295,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: true,
       isTabExpanded: true,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -313,7 +313,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: false,
       isTabExpanded: true,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -331,7 +331,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: true,
       isTabExpanded: false,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -355,7 +355,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -395,7 +395,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -413,7 +413,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
-      hasLoadingFailed: false
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = false;
     component.courseTabModels = [courseTabModels];

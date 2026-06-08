@@ -5,7 +5,11 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { NumScaleQuestionStatistics, NumScaleRecipientStatistics, Response } from '../../../../types/question-statistics.model';
+import {
+  NumScaleQuestionStatistics,
+  NumScaleRecipientStatistics,
+  Response,
+} from '../../../../types/question-statistics.model';
 import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
 import { calculateNumScaleQuestionStatistics } from '../../../utils/question-statistics.util';
 

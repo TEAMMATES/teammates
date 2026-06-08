@@ -28,7 +28,8 @@ export const templateSessions: TemplateSession[] = [
       {
         feedbackQuestionId: '',
         questionNumber: 1,
-        questionBrief: 'How much work did each team member contribute? (response will be shown anonymously to each team member). ',
+        questionBrief:
+          'How much work did each team member contribute? (response will be shown anonymously to each team member). ',
         questionDescription:
           'If a team member did an equal share of the work, give 100 points. If a team member did about 10% more than an equal share of the work, give 110 points, and so on.',
         questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
@@ -44,7 +45,11 @@ export const templateSessions: TemplateSession[] = [
         recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
         customNumberOfEntitiesToGiveFeedbackTo: 1,
-        showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+        showResponsesTo: [
+          FeedbackVisibilityType.INSTRUCTORS,
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+        ],
         showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
       },
@@ -63,9 +68,21 @@ export const templateSessions: TemplateSession[] = [
         recipientType: QuestionRecipientType.SELF,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
         customNumberOfEntitiesToGiveFeedbackTo: 1,
-        showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-        showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-        showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
+        showResponsesTo: [
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+          FeedbackVisibilityType.INSTRUCTORS,
+        ],
+        showGiverNameTo: [
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+          FeedbackVisibilityType.INSTRUCTORS,
+        ],
+        showRecipientNameTo: [
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+          FeedbackVisibilityType.INSTRUCTORS,
+        ],
       },
       {
         feedbackQuestionId: '',
@@ -90,7 +107,8 @@ export const templateSessions: TemplateSession[] = [
       {
         feedbackQuestionId: '',
         questionNumber: 4,
-        questionBrief: 'How are the team dynamics thus far? (response is confidential and will only be to the instructor).',
+        questionBrief:
+          'How are the team dynamics thus far? (response is confidential and will only be to the instructor).',
         questionDescription: '',
         questionType: FeedbackQuestionType.TEXT,
         questionDetails: {
@@ -148,7 +166,11 @@ export const templateSessions: TemplateSession[] = [
         recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
         customNumberOfEntitiesToGiveFeedbackTo: 1,
-        showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+        showResponsesTo: [
+          FeedbackVisibilityType.INSTRUCTORS,
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+        ],
         showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
         showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
       },
@@ -167,9 +189,21 @@ export const templateSessions: TemplateSession[] = [
         recipientType: QuestionRecipientType.SELF,
         numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
         customNumberOfEntitiesToGiveFeedbackTo: 1,
-        showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-        showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-        showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
+        showResponsesTo: [
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+          FeedbackVisibilityType.INSTRUCTORS,
+        ],
+        showGiverNameTo: [
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+          FeedbackVisibilityType.INSTRUCTORS,
+        ],
+        showRecipientNameTo: [
+          FeedbackVisibilityType.RECIPIENT,
+          FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+          FeedbackVisibilityType.INSTRUCTORS,
+        ],
       },
       {
         feedbackQuestionId: '',
@@ -194,7 +228,8 @@ export const templateSessions: TemplateSession[] = [
       {
         feedbackQuestionId: '',
         questionNumber: 4,
-        questionBrief: 'How are the team dynamics thus far? (response is confidential and will only be to the instructor).',
+        questionBrief:
+          'How are the team dynamics thus far? (response is confidential and will only be to the instructor).',
         questionDescription: '',
         questionType: FeedbackQuestionType.TEXT,
         questionDetails: {

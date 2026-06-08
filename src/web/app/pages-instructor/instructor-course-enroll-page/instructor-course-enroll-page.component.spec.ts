@@ -57,11 +57,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
       ],
     ]);
 
-    const panels = component.populateEnrollResultPanelList(
-      [existingStudent],
-      [enrolledStudent],
-      enrollRequests,
-    );
+    const panels = component.populateEnrollResultPanelList([existingStudent], [enrolledStudent], enrollRequests);
 
     expect(panels[EnrollStatus.MODIFIED].studentList).toEqual([enrolledStudent]);
     expect(panels[EnrollStatus.ERROR].studentList).toEqual([]);

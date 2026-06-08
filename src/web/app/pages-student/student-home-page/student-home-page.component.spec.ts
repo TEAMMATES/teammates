@@ -751,7 +751,7 @@ describe('StudentHomePageComponent', () => {
       isFeedbackSessionsLoading: false,
       hasFeedbackSessionsLoadingFailed: false,
       isTabExpanded: false,
-      hasPopulated: false
+      hasPopulated: false,
     };
 
     const studentCourse2: StudentCourse = {
@@ -767,7 +767,7 @@ describe('StudentHomePageComponent', () => {
       isFeedbackSessionsLoading: false,
       hasFeedbackSessionsLoadingFailed: false,
       isTabExpanded: false,
-      hasPopulated: false
+      hasPopulated: false,
     };
 
     component.courses = [studentCourse1, studentCourse2];
@@ -993,7 +993,7 @@ describe('StudentHomePageComponent', () => {
       isFeedbackSessionsLoading: false,
       hasFeedbackSessionsLoadingFailed: false,
       isTabExpanded: false,
-      hasPopulated: false
+      hasPopulated: false,
     };
     component.courses = [studentCourse];
     component.isCoursesLoading = false;
@@ -1015,7 +1015,7 @@ describe('StudentHomePageComponent', () => {
       isFeedbackSessionsLoading: false,
       hasFeedbackSessionsLoadingFailed: false,
       isTabExpanded: false,
-      hasPopulated: false
+      hasPopulated: false,
     };
 
     const studentCourse2: StudentCourse = {
@@ -1031,7 +1031,7 @@ describe('StudentHomePageComponent', () => {
       isFeedbackSessionsLoading: false,
       hasFeedbackSessionsLoadingFailed: false,
       isTabExpanded: false,
-      hasPopulated: false
+      hasPopulated: false,
     };
 
     component.courses = [studentCourse1, studentCourse2];
@@ -1101,7 +1101,7 @@ describe('StudentHomePageComponent', () => {
       isFeedbackSessionsLoading: false,
       hasFeedbackSessionsLoadingFailed: false,
       isTabExpanded: false,
-      hasPopulated: false
+      hasPopulated: false,
     };
 
     component.courses = [studentCourse];

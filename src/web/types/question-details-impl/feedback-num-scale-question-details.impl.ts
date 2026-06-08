@@ -90,8 +90,9 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
     }
 
     // There should exist at least one average score exclude self
-    return Object.values(statsCalculation.teamToRecipientToScores).some((recipientStats: Record<string, NumScaleRecipientStatistics>) =>
-      Object.values(recipientStats).some((stats: NumScaleRecipientStatistics) => stats.averageExcludingSelf),
+    return Object.values(statsCalculation.teamToRecipientToScores).some(
+      (recipientStats: Record<string, NumScaleRecipientStatistics>) =>
+        Object.values(recipientStats).some((stats: NumScaleRecipientStatistics) => stats.averageExcludingSelf),
     );
   }
 

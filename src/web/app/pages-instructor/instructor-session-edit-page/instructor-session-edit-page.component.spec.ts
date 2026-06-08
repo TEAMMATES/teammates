@@ -654,11 +654,13 @@ describe('InstructorSessionEditPageComponent', () => {
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef({}, promise));
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy = vi.spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion').mockReturnValue(of({ message: 'Success' }));
+    const feedbackQuestionSpy = vi
+      .spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
+      .mockReturnValue(of({ message: 'Success' }));
 
     component.deleteExistingQuestionHandler(0);
     await promise;
-    await new Promise(resolve => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(feedbackQuestionSpy).toHaveBeenLastCalledWith(testQuestionEditFormModel1.feedbackQuestionId);
     expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toBeUndefined();
