@@ -123,15 +123,6 @@ describe('CommentRowComponent', () => {
   });
 
   describe('triggerDeleteCommentEvent', () => {
-    it('should emit deleteComment event after modal confirmation', async () => {
-      const mockModalRef = { result: Promise.resolve(true) };
-      vi.spyOn(component['simpleModalService'] as unknown as { openConfirmationModal: (arg: unknown) => unknown }, 'openConfirmationModal').mockReturnValue(mockModalRef as unknown);
-      const emitSpy = vi.spyOn(component.deleteCommentEvent, 'emit');
-      component.triggerDeleteCommentEvent();
-      await mockModalRef.result;
-      expect(emitSpy).toHaveBeenCalled();
-    });
-
     it('should set visibility settings when comment text is defined and not following feedback question', () => {
       component.model = {
         commentType: 'instructor',

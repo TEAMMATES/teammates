@@ -14,14 +14,14 @@ export class TeammatesRouterDirective extends RouterLink {
 
   @Input()
   set tmRouterLink(commands: unknown[] | string | null | undefined) {
-    this.routerLink = commands as any;
+    this.routerLink = commands;
   }
 
   @Input()
   // @ts-expect-error query params is redefined in this class
   set queryParams(params: Record<string, unknown>) {
     this.queryParamsInternal = params;
-    super.queryParams = this.queryParams as any;
+    super.queryParams = this.queryParams;
   }
 
   override get queryParams(): Record<string, unknown> {

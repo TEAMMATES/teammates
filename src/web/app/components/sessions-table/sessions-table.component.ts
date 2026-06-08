@@ -189,7 +189,7 @@ export class SessionsTableComponent implements OnInit {
       rowData.style = config.style;
     }
 
-    return [rowData as SortableTableCellData];
+    return [rowData];
   }
 
   setColumnData(): void {
