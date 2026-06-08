@@ -33,8 +33,8 @@ export class AccountRequestTableComponent {
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
 
-  isRejectingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
-  isApprovingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
+  isRejectingAccountRequest: boolean[] = new Array(this.accountRequests.length).fill(false);
+  isApprovingAccountRequest: boolean[] = new Array(this.accountRequests.length).fill(false);
 
   editAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
@@ -71,18 +71,18 @@ export class AccountRequestTableComponent {
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
-    this.isApprovingAccount[index] = true;
+    this.isApprovingAccountRequest[index] = true;
     this.accountService.approveAccountRequest(accountRequest.id).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
           `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`,
         );
-        this.isApprovingAccount[index] = false;
+        this.isApprovingAccountRequest[index] = false;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isApprovingAccount[index] = false;
+        this.isApprovingAccountRequest[index] = false;
       },
     });
   }
@@ -130,28 +130,28 @@ export class AccountRequestTableComponent {
   }
 
   rejectAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
-    this.isRejectingAccount[index] = true;
+    this.isRejectingAccountRequest[index] = true;
     this.accountService.rejectAccountRequest(accountRequest.id).subscribe({
       next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
-        this.isRejectingAccount[index] = false;
+        this.isRejectingAccountRequest[index] = false;
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isRejectingAccount[index] = false;
+        this.isRejectingAccountRequest[index] = false;
       },
     });
   }
 
   rejectAccountRequestWithReason(accountRequest: AccountRequestTableRowModel, index: number): void {
-    this.isRejectingAccount[index] = true;
+    this.isRejectingAccountRequest[index] = true;
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
 
     modalRef.dismissed.subscribe(() => {
-      this.isRejectingAccount[index] = false;
+      this.isRejectingAccountRequest[index] = false;
     });
 
     modalRef.result.then(
@@ -164,11 +164,11 @@ export class AccountRequestTableComponent {
               this.statusMessageService.showSuccessToast(
                 `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`,
               );
-              this.isRejectingAccount[index] = false;
+              this.isRejectingAccountRequest[index] = false;
             },
             error: (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(resp.error.message);
-              this.isRejectingAccount[index] = false;
+              this.isRejectingAccountRequest[index] = false;
             },
           });
       },

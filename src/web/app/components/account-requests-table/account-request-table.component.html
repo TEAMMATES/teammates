@@ -77,11 +77,11 @@
                       !accountRequest.status ||
                       accountRequest.status === 'APPROVED' ||
                       accountRequest.status === 'REGISTERED' ||
-                      isApprovingAccount[i]
+                      isApprovingAccountRequest[i]
                     "
                     (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"
                   >
-                    @if (isApprovingAccount[i]) {
+                    @if (isApprovingAccountRequest[i]) {
                       <tm-ajax-loading></tm-ajax-loading>
                     }
                     Approve
@@ -96,11 +96,11 @@
                         accountRequest.status === 'REGISTERED' ||
                         accountRequest.status === 'APPROVED' ||
                         accountRequest.status === 'REJECTED' ||
-                        isRejectingAccount[i]
+                        isRejectingAccountRequest[i]
                       "
                       ngbDropdownToggle
                     >
-                      @if (isRejectingAccount[i]) {
+                      @if (isRejectingAccountRequest[i]) {
                         <tm-ajax-loading></tm-ajax-loading>
                       }
                       Reject
