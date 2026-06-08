@@ -443,7 +443,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.formModel = {
       ...this.formModel,
       [field]: data,

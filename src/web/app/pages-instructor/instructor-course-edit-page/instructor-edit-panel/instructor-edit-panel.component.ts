@@ -137,7 +137,7 @@ export class InstructorEditPanelComponent {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.instructorChange.emit({
       ...this.instructor,
       [field]: data,

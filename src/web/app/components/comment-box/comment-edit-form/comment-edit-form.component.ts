@@ -116,14 +116,14 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.modelChange.emit({ ...this.model, [field]: data });
   }
 
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChangeBatch(obj: { [key: string]: any }): void {
+  triggerModelChangeBatch(obj: Partial<CommentEditFormModel>): void {
     this.modelChange.emit({
       ...this.model,
       ...obj,

@@ -156,7 +156,7 @@ export class SessionEditFormComponent {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     if (field === 'submissionStartDate' || field === 'submissionStartTime') {
       this.adjustSessionVisibilityTime(data, field);
     }
