@@ -1,5 +1,31 @@
 // PR checks for TEAMMATES contribution guidelines; used by .github/workflows/pr.yml.
-module.exports = async ({ github, context }) => {
+
+const getOrphanLockfiles = (changedPaths) => {
+  const dirOf = (filePath) => {
+    const idx = filePath.lastIndexOf('/');
+    return idx === -1 ? '' : filePath.slice(0, idx);
+  };
+  const baseOf = (filePath) => {
+    const idx = filePath.lastIndexOf('/');
+    return idx === -1 ? filePath : filePath.slice(idx + 1);
+  };
+  const changedLockDirs = new Set();
+  const changedManifestDirs = new Set();
+  for (const filePath of changedPaths) {
+    const base = baseOf(filePath);
+    if (base === 'package-lock.json') {
+      changedLockDirs.add(dirOf(filePath));
+    } else if (base === 'package.json') {
+      changedManifestDirs.add(dirOf(filePath));
+    }
+  }
+  return [...changedLockDirs]
+    .filter((dir) => !changedManifestDirs.has(dir))
+    .sort()
+    .map((dir) => (dir === '' ? 'package-lock.json' : `${dir}/package-lock.json`));
+};
+
+const checkPr = async ({ github, context }) => {
   const pr = await github.rest.pulls.get({
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -9,10 +35,32 @@ module.exports = async ({ github, context }) => {
   const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d+/.test(pr.data.body);
   const descriptionRegex = /(?:[Ff]ix(?:es|ed)?|[Cc]lose(?:s|d)?|[Rr]esolve(?:s|d)?|[Pp]art [Oo]f) #(\d+)/;
   const extractIssueNumber = (description) => {
-    const match = description.match(descriptionRegex);
+    const match = description?.match(descriptionRegex);
     return match ? parseInt(match[1], 10) : null;
   };
   const issueNumber = extractIssueNumber(pr.data.body);
+
+  const changedPaths = new Set();
+  let page = 1;
+  while (true) {
+    const { data: files } = await github.rest.pulls.listFiles({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      pull_number: context.issue.number,
+      per_page: 100,
+      page,
+    });
+    for (const file of files) {
+      changedPaths.add(file.filename);
+    }
+    if (files.length < 100) {
+      break;
+    }
+    page += 1;
+  }
+  const orphanLockfiles = getOrphanLockfiles(changedPaths);
+  const isLockfileChangeValid = orphanLockfiles.length === 0;
+
   let isIssueOpen = false;
   if (issueNumber) {
     const issue = await github.rest.issues.get({
@@ -21,7 +69,7 @@ module.exports = async ({ github, context }) => {
       issue_number: issueNumber,
     });
     isIssueOpen = issue.data.state === 'open';
-    if (isTitleValid && isDescriptionValid && isIssueOpen) {
+    if (isTitleValid && isDescriptionValid && isIssueOpen && isLockfileChangeValid) {
       return;
     }
   }
@@ -37,6 +85,10 @@ module.exports = async ({ github, context }) => {
   if (!isIssueOpen && issueNumber) {
     body += `- The issue referenced in the description (#${issueNumber}) is not open.\n`;
   }
+  if (!isLockfileChangeValid) {
+    const offending = orphanLockfiles.map((path) => `\`${path}\``).join(', ');
+    body += `- ${offending} changed without a corresponding \`package.json\` change in the same directory. Lockfile updates should accompany dependency changes in \`package.json\`. If this PR intentionally only refreshes the lockfile, please call that out explicitly in the description.\n`;
+  }
   body += '\nPlease address the above before we proceed to review your PR.';
   await github.rest.issues.createComment({
     issue_number: context.issue.number,
@@ -45,3 +97,6 @@ module.exports = async ({ github, context }) => {
     body,
   });
 };
+
+module.exports = checkPr;
+module.exports.getOrphanLockfiles = getOrphanLockfiles;
