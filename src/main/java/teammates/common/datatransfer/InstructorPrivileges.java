@@ -8,11 +8,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.util.Const;
-
-import jakarta.annotation.Nullable;
 
 /**
  * Stores the permissions of an instructor using UUIDs as keys for section and session level.
