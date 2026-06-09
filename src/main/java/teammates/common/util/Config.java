@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Deployment-specific configuration loaded from classpath resources {@code build.properties} (required) and
@@ -76,6 +78,9 @@ public final class Config {
 
     /** The value {@code app.hmac.key}. */
     public static final String HMAC_KEY;
+
+    /** Value of {@code app.login.methods}. */
+    public static final String LOGIN_METHODS;
 
     /** Value of {@code app.oidc.google.client.id}. */
     public static final String OIDC_GOOGLE_CLIENT_ID;
@@ -205,6 +210,7 @@ public final class Config {
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
         HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
+        LOGIN_METHODS = getProperty(properties, devProperties, "app.login.methods");
         OIDC_GOOGLE_CLIENT_ID = getProperty(properties, devProperties, "app.oidc.google.client.id");
         OIDC_GOOGLE_CLIENT_SECRET = getProperty(properties, devProperties, "app.oidc.google.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
@@ -367,6 +373,26 @@ public final class Config {
 
     public static boolean isDevServerLoginEnabled() {
         return IS_DEV_SERVER && ENABLE_DEVSERVER_LOGIN;
+    }
+
+    /**
+     * Returns the set of login methods allowed for users to log in from {@code app.login.methods}.
+     */
+    public static Set<String> getLoginMethods() {
+        if (LOGIN_METHODS == null || LOGIN_METHODS.isBlank()) {
+            return Set.of();
+        }
+
+        Set<String> methods = Arrays.stream(LOGIN_METHODS.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toSet());
+
+        if (isDevServerLoginEnabled()) {
+            methods.add("devserver");
+        }
+
+        return methods;
     }
 
     /**
