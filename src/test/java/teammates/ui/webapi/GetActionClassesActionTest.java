@@ -126,7 +126,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 DeleteDataBundleAction.class,
                 GetDeadlineExtensionsAction.class,
                 GetSessionSubmissionDataAction.class,
-                GetLoginMethodsAction.class
+                GetConfigAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

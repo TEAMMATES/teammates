@@ -19,4 +19,16 @@ public enum LoginMethod {
     public String getMethod() {
         return method;
     }
+
+    /**
+     * Converts a string to a LoginMethod enum value. The comparison is case-insensitive.
+     */
+    public static LoginMethod fromString(String method) {
+        for (LoginMethod loginMethod : values()) {
+            if (loginMethod.method.equalsIgnoreCase(method)) {
+                return loginMethod;
+            }
+        }
+        throw new IllegalArgumentException("Unsupported login method: " + method);
+    }
 }

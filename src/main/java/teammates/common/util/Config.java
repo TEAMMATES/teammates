@@ -5,10 +5,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import teammates.ui.output.LoginMethod;
 
 /**
  * Deployment-specific configuration loaded from classpath resources {@code build.properties} (required) and
@@ -80,7 +82,7 @@ public final class Config {
     public static final String HMAC_KEY;
 
     /** Value of {@code app.login.methods}. */
-    public static final Set<String> LOGIN_METHODS;
+    public static final Set<LoginMethod> LOGIN_METHODS;
 
     /** Value of {@code app.oidc.google.client.id}. */
     public static final String OIDC_GOOGLE_CLIENT_ID;
@@ -147,9 +149,6 @@ public final class Config {
 
     /** Value of {@code app.maintenance}. */
     public static final boolean MAINTENANCE;
-
-    /** Value of {@code app.enable.devserver.login} (default {@code false} if unset). */
-    public static final boolean ENABLE_DEVSERVER_LOGIN;
 
     /** Value of {@code app.taskqueue.active} (default {@code true} if unset). */
     public static final boolean TASKQUEUE_ACTIVE;
@@ -238,8 +237,6 @@ public final class Config {
         MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
 
-        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
-                getProperty(properties, devProperties, "app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.taskqueue.active", "true"));
         EMAIL_ALLOW_SENDING_TO_TEST_DOMAIN = Boolean.parseBoolean(
@@ -344,10 +341,15 @@ public final class Config {
         throw new IllegalStateException("Invalid environment: " + value + ". Must be development or production.");
     }
 
-    private static Set<String> getLoginMethods(String[] loginMethods) {
-        Set<String> methods = new HashSet<>(Arrays.asList(loginMethods));
-        if (isDevServerLoginEnabled()) {
-            methods.add("devserver");
+    private static Set<LoginMethod> getLoginMethods(String[] loginMethods) {
+        EnumSet<LoginMethod> methods = EnumSet.noneOf(LoginMethod.class);
+        for (String method : loginMethods) {
+            methods.add(LoginMethod.fromString(method));
+        }
+
+        // Ensure DEV_SERVER login method is only enabled in development.
+        if (!IS_DEV_SERVER) {
+            methods.remove(LoginMethod.DEV_SERVER);
         }
 
         return Collections.unmodifiableSet(methods);
@@ -381,15 +383,13 @@ public final class Config {
     }
 
     public static boolean isDevServerLoginEnabled() {
-        return IS_DEV_SERVER && ENABLE_DEVSERVER_LOGIN;
+        return IS_DEV_SERVER && LOGIN_METHODS.contains(LoginMethod.DEV_SERVER);
     }
 
     /**
      * Returns the set of login methods allowed for users to log in from {@code app.login.methods}.
-     * Dev server login method is added to the set if {@code app.enable.devserver.login} is true
-     * and the environment is development.
      */
-    public static Set<String> getSupportedLoginMethods() {
+    public static Set<LoginMethod> getSupportedLoginMethods() {
         return LOGIN_METHODS;
     }
 

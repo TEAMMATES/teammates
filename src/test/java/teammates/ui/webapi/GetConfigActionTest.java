@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mockStatic;
 
@@ -12,17 +11,17 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.ui.output.ConfigData;
 import teammates.ui.output.LoginMethod;
-import teammates.ui.output.LoginMethodsData;
 
 /**
- * SUT: {@link GetLoginMethodsAction}.
+ * SUT: {@link GetConfigAction}.
  */
-public class GetLoginMethodsActionTest extends BaseActionTest<GetLoginMethodsAction> {
+public class GetConfigActionTest extends BaseActionTest<GetConfigAction> {
 
     @Override
     String getActionUri() {
-        return Const.ResourceURIs.LOGIN_METHODS;
+        return Const.ResourceURIs.CONFIG;
     }
 
     @Override
@@ -33,26 +32,17 @@ public class GetLoginMethodsActionTest extends BaseActionTest<GetLoginMethodsAct
     @Test
     void testExecute_withSupportedLoginMethods_shouldReturnCorrectMethods() {
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class)) {
-            mockConfig.when(() -> Config.getSupportedLoginMethods()).thenReturn(Set.of("google", "devserver"));
+            mockConfig.when(() -> Config.getSupportedLoginMethods())
+                    .thenReturn(Set.of(LoginMethod.GOOGLE, LoginMethod.DEV_SERVER));
 
-            GetLoginMethodsAction action = getAction();
+            GetConfigAction action = getAction();
             JsonResult result = action.execute();
-            LoginMethodsData data = (LoginMethodsData) result.getOutput();
+            ConfigData data = (ConfigData) result.getOutput();
 
             Set<LoginMethod> loginMethods = data.getLoginMethods();
             assertEquals(2, loginMethods.size());
             assertTrue(loginMethods.contains(LoginMethod.GOOGLE));
             assertTrue(loginMethods.contains(LoginMethod.DEV_SERVER));
-        }
-    }
-
-    @Test
-    void testExecute_withUnsupportedLoginMethod_shouldThrowError() {
-        try (MockedStatic<Config> mockConfig = mockStatic(Config.class)) {
-            mockConfig.when(() -> Config.getSupportedLoginMethods()).thenReturn(Set.of("unsupported_method"));
-
-            GetLoginMethodsAction action = getAction();
-            assertThrows(IllegalArgumentException.class, action::execute);
         }
     }
 }

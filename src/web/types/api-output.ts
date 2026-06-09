@@ -43,6 +43,10 @@ export interface Builder {
   queryLogsParams: QueryLogsParams;
 }
 
+export interface Config extends ApiOutput {
+  loginMethods: LoginMethod[];
+}
+
 export interface ContributionStatistics {
   results: { [index: string]: ContributionStatisticsEntry };
 }
@@ -451,10 +455,6 @@ export interface JoinStatus extends ApiOutput {
 export interface LogDetails {
   event: LogEvent;
   message?: string;
-}
-
-export interface LoginMethods extends ApiOutput {
-  loginMethods: LoginMethod[];
 }
 
 export interface MessageOutput extends ApiOutput {
