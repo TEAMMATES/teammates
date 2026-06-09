@@ -6,6 +6,8 @@ import teammates.common.datatransfer.RequestContext;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -101,6 +103,58 @@ final class GateKeeper {
             throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to instructor ["
                     + instructor.getEmail() + "]");
         }
+    }
+
+    /**
+     * Verifies that the user has student privileges in the course of the specified feedback session.
+     */
+    void verifyStudentInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyStudentInCourse(requestContext, feedbackSession.getCourseId());
+    }
+
+    /**
+     * Verifies that the user has instructor privileges in the course of the specified feedback session.
+     */
+    void verifyInstructorInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
+    }
+
+    /**
+     * Verifies that the user has instructor privileges in the course of the specified feedback question.
+     */
+    void verifyInstructorInFeedbackQuestion(RequestContext requestContext, UUID feedbackQuestionId)
+            throws UnauthorizedAccessException {
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        verifyNotNull(feedbackQuestion, "feedback question");
+        verifyInstructorInCourse(requestContext, feedbackQuestion.getCourseId());
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames for the course
+     * of the specified feedback session.
+     */
+    void verifyInstructorHasPrivilegeInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(), privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames for the course
+     * of the specified feedback question.
+     */
+    void verifyInstructorHasPrivilegeInFeedbackQuestion(RequestContext requestContext, UUID feedbackQuestionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        verifyNotNull(feedbackQuestion, "feedback question");
+        verifyInstructorHasPrivilege(requestContext, feedbackQuestion.getCourseId(), privilegeNames);
     }
 
     /**

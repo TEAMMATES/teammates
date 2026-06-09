@@ -6,7 +6,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackSession;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -26,15 +25,7 @@ public class UpdateFeedbackQuestionAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("Unknown question id");
-        }
-
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(
-                feedbackQuestion.getFeedbackSession().getName(), feedbackQuestion.getCourseId());
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackQuestion(requestContext, feedbackQuestionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

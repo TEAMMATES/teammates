@@ -117,12 +117,6 @@ public class GetHasResponsesAction extends Action {
 
     private void checkInstructorAccessControlUsingQuestion() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("Feedback Question not found");
-        }
-
-        String courseId = feedbackQuestion.getCourseId();
-        gateKeeper.verifyInstructorInCourse(requestContext, courseId);
+        gateKeeper.verifyInstructorInFeedbackQuestion(requestContext, feedbackQuestionId);
     }
 }

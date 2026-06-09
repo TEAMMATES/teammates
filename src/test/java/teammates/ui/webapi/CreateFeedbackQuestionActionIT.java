@@ -126,7 +126,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFoundAcl(submissionParams);
+        verifyCannotAccess(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");
 

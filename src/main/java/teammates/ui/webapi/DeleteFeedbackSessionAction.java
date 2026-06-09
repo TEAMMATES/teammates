@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackSession;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -20,11 +19,7 @@ public class DeleteFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new UnauthorizedAccessException("The feedback session does not exist.");
-        }
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackSession(requestContext, feedbackSessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
