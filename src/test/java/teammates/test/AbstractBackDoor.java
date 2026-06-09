@@ -439,8 +439,8 @@ public abstract class AbstractBackDoor {
         FeedbackResponsesData responsesData = JsonUtils.fromJson(response.responseBody, FeedbackResponsesData.class);
         return responsesData.getResponses()
                 .stream()
-            .filter(r -> r.getGiverIdentifier().equals(giver.getIdentifier())
-                && r.getRecipientIdentifier().equals(recipient.getIdentifier()))
+            .filter(r -> r.getGiverIdentifier().equals(giver.getKey())
+                && r.getRecipientIdentifier().equals(recipient.getKey()))
                 .findFirst()
                 .orElse(null);
     }

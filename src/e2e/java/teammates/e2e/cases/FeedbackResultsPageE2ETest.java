@@ -23,6 +23,7 @@ import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
+import teammates.test.ResponseEntityHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
@@ -270,20 +271,20 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .toList();
 
         List<FeedbackResponse> selfEvaluationResponses = questionResponses.stream()
-                .filter(fr -> currentStudent.getEmail().equals(fr.getGiver().getIdentifier())
-                        && currentStudent.getEmail().equals(fr.getRecipient().getIdentifier()))
+                .filter(fr -> currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                 .toList();
 
         List<FeedbackResponse> responsesByOthers = questionResponses.stream()
-                .filter(fr -> !currentStudent.getEmail().equals(fr.getGiver().getIdentifier())
-                        && visibleResponseGivers.contains(fr.getGiver().getIdentifier()))
+                .filter(fr -> !currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && visibleResponseGivers.contains(ResponseEntityHelper.getIdentifier(fr.getGiver())))
                 .toList();
 
         List<FeedbackResponse> responsesToSelf = new ArrayList<>();
         if (visibleResponseGivers.contains("RECEIVER")) {
             responsesToSelf = questionResponses.stream()
-                    .filter(fr -> !currentStudent.getEmail().equals(fr.getGiver().getIdentifier())
-                            && currentStudent.getEmail().equals(fr.getRecipient().getIdentifier()))
+                    .filter(fr -> !currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                            && currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                     .toList();
         }
 
@@ -305,20 +306,20 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .toList();
 
         List<FeedbackResponse> selfEvaluationResponses = questionResponses.stream()
-                .filter(fr -> currentInstructor.getEmail().equals(fr.getGiver().getIdentifier())
-                        && currentInstructor.getEmail().equals(fr.getRecipient().getIdentifier()))
+                .filter(fr -> currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                 .toList();
 
         List<FeedbackResponse> responsesByOthers = questionResponses.stream()
-                .filter(fr -> !currentInstructor.getEmail().equals(fr.getGiver().getIdentifier())
-                        && visibleResponseGivers.contains(fr.getGiver().getIdentifier()))
+                .filter(fr -> !currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && visibleResponseGivers.contains(ResponseEntityHelper.getIdentifier(fr.getGiver())))
                 .toList();
 
         List<FeedbackResponse> responsesToSelf = new ArrayList<>();
         if (visibleResponseGivers.contains("RECEIVER") || visibleResponseGivers.contains("INSTRUCTORS")) {
             responsesToSelf = questionResponses.stream()
-                    .filter(fr -> !currentInstructor.getEmail().equals(fr.getGiver().getIdentifier())
-                            && currentInstructor.getEmail().equals(fr.getRecipient().getIdentifier()))
+                    .filter(fr -> !currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                            && currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                     .toList();
         }
 
@@ -421,7 +422,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentStudent, giver.getIdentifier());
+        return getIdentifier(currentStudent, ResponseEntityHelper.getIdentifier(giver));
     }
 
     private String getIdentifier(Student currentStudent, ResponseRecipient recipient) {
@@ -429,7 +430,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentStudent, recipient.getIdentifier());
+        return getIdentifier(currentStudent, ResponseEntityHelper.getIdentifier(recipient));
     }
 
     private String getIdentifier(Student currentStudent, String user) {
@@ -474,7 +475,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentInstructor, giver.getIdentifier());
+        return getIdentifier(currentInstructor, ResponseEntityHelper.getIdentifier(giver));
     }
 
     private String getIdentifier(Instructor currentInstructor, ResponseRecipient recipient) {
@@ -482,7 +483,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentInstructor, recipient.getIdentifier());
+        return getIdentifier(currentInstructor, ResponseEntityHelper.getIdentifier(recipient));
     }
 
     private String getStudentName(String studentEmail) {
