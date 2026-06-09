@@ -1003,8 +1003,8 @@ public final class FeedbackResponsesLogic {
         boolean isVisibleToInstructor = false;
         if (user instanceof Instructor instructor) {
             UUID giverSectionId = giver.getSectionId();
-            isGiverSectionRestrictedForInstructor = giverSectionId == null
-                    || !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+            isGiverSectionRestrictedForInstructor = giverSectionId != null
+                    && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
                         instructor,
                         giverSectionId,
                         relatedQuestion.getFeedbackSession().getId(),
@@ -1012,8 +1012,8 @@ public final class FeedbackResponsesLogic {
                     );
 
             UUID recipientSectionId = recipient.getSectionId();
-            isRecipientSectionRestrictedForInstructor = recipientSectionId == null
-                    || !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+            isRecipientSectionRestrictedForInstructor = recipientSectionId != null
+                    && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
                             instructor,
                             recipientSectionId,
                             relatedQuestion.getFeedbackSession().getId(),
