@@ -157,8 +157,8 @@ export class VisibilityPanelComponent {
   }
 
   getCheckboxAriaLabel(visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): string {
-    const group: string = this.visibilityTypeAriaLabels.get(visibilityType) || '';
-    const groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) || '';
+    const group: string = this.visibilityTypeAriaLabels.get(visibilityType) ?? '';
+    const groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) ?? '';
     return `${group} can see ${groupVisibility}`;
   }
 

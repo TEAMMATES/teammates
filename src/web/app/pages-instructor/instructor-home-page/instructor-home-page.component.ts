@@ -140,7 +140,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   initializeCourseTabModule(courseView: CourseView): void {
     const model: CourseTabModel = {
       course: courseView.course,
-      instructorPrivilege: courseView.instructorPermissions || {
+      instructorPrivilege: courseView.instructorPermissions ?? {
         canModifyCourse: false,
         canModifyStudent: false,
         canModifyInstructor: false,
@@ -352,7 +352,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               feedbackSession,
               responseRate: '',
               isLoadingResponseRate: false,
-              instructorPrivilege: feedbackSessionView.instructorPermissions || {
+              instructorPrivilege: feedbackSessionView.instructorPermissions ?? {
                 canModifySession: false,
                 canSubmitSessionInSections: false,
                 canViewSessionInSections: false,

@@ -335,9 +335,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
         secondRecipient: FeedbackResponseRecipientSubmissionFormModel,
       ) => {
-        const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+        const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) ?? Number.MAX_SAFE_INTEGER;
         const secondRecipientIndex: number =
-          indexes.get(secondRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+          indexes.get(secondRecipient.recipientIdentifier) ?? Number.MAX_SAFE_INTEGER;
 
         return firstRecipientIndex - secondRecipientIndex;
       },

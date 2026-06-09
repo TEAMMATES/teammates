@@ -171,14 +171,14 @@ export class SessionSubmissionPageComponent implements OnInit {
       )
       .subscribe((queryParams: Params) => {
         this.feedbackSessionId = queryParams['fsid'];
-        this.regKey = queryParams['key'] ? queryParams['key'] : '';
-        this.moderatedPerson = queryParams['moderatedperson'] ? queryParams['moderatedperson'] : '';
-        this.previewAsPerson = queryParams['previewas'] ? queryParams['previewas'] : '';
+        this.regKey = queryParams['key'] ?? '';
+        this.moderatedPerson = queryParams['moderatedperson'] ?? '';
+        this.previewAsPerson = queryParams['previewas'] ?? '';
         if (queryParams['entitytype'] === 'instructor') {
           this.entityType = 'instructor';
           this.intent = Intent.INSTRUCTOR_SUBMISSION;
         }
-        this.moderatedQuestionId = queryParams['moderatedquestionId'] ? queryParams['moderatedquestionId'] : '';
+        this.moderatedQuestionId = queryParams['moderatedquestionId'] ?? '';
 
         if (this.previewAsPerson) {
           // disable submission in the preview mode

@@ -932,9 +932,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       recipientType: newQuestionModel.recipientType,
 
       numberOfEntitiesToGiveFeedbackToSetting: newQuestionModel.numberOfEntitiesToGiveFeedbackToSetting,
-      customNumberOfEntitiesToGiveFeedbackTo: newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo
-        ? newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo
-        : 1,
+      customNumberOfEntitiesToGiveFeedbackTo: newQuestionModel.customNumberOfEntitiesToGiveFeedbackTo ?? 1,
 
       showResponsesTo: newQuestionModel.showResponsesTo,
       showGiverNameTo: newQuestionModel.showGiverNameTo,
