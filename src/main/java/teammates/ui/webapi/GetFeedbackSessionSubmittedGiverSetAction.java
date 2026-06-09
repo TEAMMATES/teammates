@@ -5,7 +5,6 @@ import java.util.UUID;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackSession;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
@@ -24,12 +23,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-
-        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorInFeedbackSession(requestContext, feedbackSessionId);
     }
 
     @Override

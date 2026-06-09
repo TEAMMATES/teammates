@@ -25,12 +25,7 @@ public class GetSessionResponseStatsAction extends Action {
         }
 
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-
-        gateKeeper.verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
+        gateKeeper.verifyInstructorInFeedbackSession(requestContext, feedbackSessionId);
     }
 
     @Override
