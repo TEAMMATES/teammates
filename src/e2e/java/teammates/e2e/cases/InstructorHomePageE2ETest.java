@@ -158,12 +158,18 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        // Sending reminders navigates to a dedicated page and back, reloading the home page in its
+        // default order, so re-apply the sort to keep the course/session indices valid.
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage.sortCoursesByName();
 
         ______TS("send reminder email to all student non-submitters");
         homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
 
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
+        homePage.sortCoursesByName();
 
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);

@@ -202,12 +202,6 @@
                   (resendResultsLinkToStudentsEvent)="
                     resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])
                   "
-                  (sendRemindersToAllNonSubmittersEvent)="
-                    sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], true)
-                  "
-                  (sendRemindersToSelectedNonSubmittersEvent)="
-                    sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], false)
-                  "
                 ></tm-sessions-table>
               </tm-loading-retry>
             </div>

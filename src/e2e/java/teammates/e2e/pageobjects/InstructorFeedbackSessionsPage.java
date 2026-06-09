@@ -232,7 +232,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-selected-" + rowId)));
         selectStudentToEmail(student.getEmail());
-        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        clickSendRemindersButton();
     }
 
     public void sendReminderEmailToNonSubmitters(FeedbackSession session) {
@@ -240,7 +240,13 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
         click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-all-" + rowId)));
-        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        clickSendRemindersButton();
+    }
+
+    private void clickSendRemindersButton() {
+        WebElement sendRemindersButton = waitForElementPresence(By.id("send-reminders-btn"));
+        waitForElementToBeClickable(sendRemindersButton);
+        click(sendRemindersButton);
     }
 
     public void resendResultsLink(FeedbackSession session, Student student) {

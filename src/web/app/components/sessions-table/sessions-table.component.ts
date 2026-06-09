@@ -107,12 +107,6 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   downloadSessionResultsEvent: EventEmitter<Index> = new EventEmitter();
 
-  @Output()
-  sendRemindersToAllNonSubmittersEvent: EventEmitter<Index> = new EventEmitter();
-
-  @Output()
-  sendRemindersToSelectedNonSubmittersEvent: EventEmitter<Index> = new EventEmitter();
-
   constructor() {
     this.SortBy = SortBy;
     this.SortOrder = SortOrder;
@@ -289,11 +283,9 @@ export class SessionsTableComponent implements OnInit {
             downloadSessionResults: () => this.downloadSessionResults(idx),
             moveSessionToRecycleBin: () => this.moveSessionToRecycleBin(idx),
             remindResultsLinkToStudent: () => this.remindResultsLinkToStudent(idx),
-            sendRemindersToAllNonSubmitters: () => this.sendRemindersToAllNonSubmitters(idx),
             onSubmitSessionAsInstructor: () => this.submitSessionAsInstructorEvent.emit(idx),
             publishSession: () => this.publishSession(idx, this.rowsData[idx], this.columnsData),
             unpublishSession: () => this.unpublishSession(idx, this.rowsData[idx], this.columnsData),
-            sendRemindersToSelectedNonSubmitters: () => this.sendRemindersToSelectedNonSubmitters(idx),
           };
         },
       },
@@ -447,20 +439,6 @@ export class SessionsTableComponent implements OnInit {
    */
   remindResultsLinkToStudent(rowIndex: number): void {
     this.resendResultsLinkToStudentsEvent.emit(rowIndex);
-  }
-
-  /**
-   * Sends e-mails to remind all students and instructors who have not submitted their feedback.
-   */
-  sendRemindersToAllNonSubmitters(rowIndex: number): void {
-    this.sendRemindersToAllNonSubmittersEvent.emit(rowIndex);
-  }
-
-  /**
-   * Sends e-mails to remind selected students and instructors who have not submitted their feedback.
-   */
-  sendRemindersToSelectedNonSubmitters(rowIndex: number): void {
-    this.sendRemindersToSelectedNonSubmittersEvent.emit(rowIndex);
   }
 
   /**

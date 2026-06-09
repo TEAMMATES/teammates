@@ -188,22 +188,6 @@ describe('SessionsTableComponent', () => {
     expect(component.rowClicked).toBe(1);
   });
 
-  it('should emit reminder event for all non-submitters', () => {
-    vi.spyOn(component.sendRemindersToAllNonSubmittersEvent, 'emit');
-
-    component.sendRemindersToAllNonSubmitters(0);
-
-    expect(component.sendRemindersToAllNonSubmittersEvent.emit).toHaveBeenCalledWith(0);
-  });
-
-  it('should emit reminder event for selected non-submitters', () => {
-    vi.spyOn(component.sendRemindersToSelectedNonSubmittersEvent, 'emit');
-
-    component.sendRemindersToSelectedNonSubmitters(1);
-
-    expect(component.sendRemindersToSelectedNonSubmittersEvent.emit).toHaveBeenCalledWith(1);
-  });
-
   it('should emit download session results event', () => {
     vi.spyOn(component.downloadSessionResultsEvent, 'emit');
 

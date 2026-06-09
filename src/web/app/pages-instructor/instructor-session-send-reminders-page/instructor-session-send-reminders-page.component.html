@@ -1,0 +1,127 @@
+<tm-loading-retry
+  [shouldShowRetry]="hasLoadingFailed"
+  [message]="'Failed to load course and feedback session'"
+  (retryEvent)="loadFeedbackSessionAndRespondents()"
+>
+  <div *tmIsLoading="isLoading">
+    <div class="card bg-light top-padded text-center text-sm-start">
+      <div class="card-body">
+        <div class="row text-center">
+          <div class="col-md-2 text-md-end font-bold">Course ID</div>
+          <div id="course-id" class="col-md-3 text-md-start">
+            {{ courseId }}
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-2 text-md-end font-bold">Time Zone</div>
+          <div id="time-zone" class="col-md-3 text-md-start">
+            {{ feedbackSessionTimeZone }}
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-2 text-md-end font-bold">Course Name</div>
+          <div id="course-name" class="col-md-10 text-md-start">
+            {{ courseName }}
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-2 text-md-end font-bold">Session Name</div>
+          <div id="session-name" class="col-md-10 text-md-start">
+            {{ feedbackSessionName }}
+          </div>
+        </div>
+        <div class="row text-center">
+          <div class="col-md-2 text-md-end font-bold">Deadline</div>
+          <div id="deadline" class="col-md-10 text-md-start">
+            {{ feedbackSessionEndingTimestamp | formatDateDetail: feedbackSessionTimeZone }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <p>
+      Select the student(s) or instructor(s) you want to remind, then click <b>Send Reminders</b> at the bottom of the
+      page.
+    </p>
+
+    @if (hasRespondents) {
+      @if (studentListInfoTableRowModels.length > 0) {
+        <div class="form-check">
+          <input
+            id="remindAllStu"
+            class="form-check-input"
+            type="checkbox"
+            [ngModel]="isAllStudentsSelected"
+            (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)"
+          />
+          <label for="remindAllStu" class="form-check-label">Select all students</label>
+        </div>
+        <div class="form-check">
+          <input
+            id="remindNotSubmittedStu"
+            class="form-check-input"
+            type="checkbox"
+            [ngModel]="isAllYetToSubmitStudentsSelected"
+            (ngModelChange)="changeSelectionStatusForAllYetSubmittedStudentsHandler($event)"
+          />
+          <label for="remindNotSubmittedStu" class="form-check-label">Select all students not yet submitted</label>
+        </div>
+      }
+      @if (instructorListInfoTableRowModels.length > 0) {
+        <div class="form-check">
+          <input
+            id="remindAllIns"
+            class="form-check-input"
+            type="checkbox"
+            [ngModel]="isAllInstructorsSelected"
+            (ngModelChange)="changeSelectionStatusForAllInstructorsHandler($event)"
+          />
+          <label for="remindAllIns" class="form-check-label">Select all instructors</label>
+        </div>
+        <div class="form-check">
+          <input
+            id="remindNotSubmittedIns"
+            class="form-check-input"
+            type="checkbox"
+            [ngModel]="isAllYetToSubmitInstructorsSelected"
+            (ngModelChange)="changeSelectionStatusForAllYetSubmittedInstructorsHandler($event)"
+          />
+          <label for="remindNotSubmittedIns" class="form-check-label">Select all instructors not yet submitted</label>
+        </div>
+      }
+      <div class="table-responsive">
+        <tm-respondent-list-info-table
+          [(studentListInfoTableRowModels)]="studentListInfoTableRowModels"
+          [shouldDisplayHasSubmittedSessionColumn]="true"
+          [(instructorListInfoTableRowModels)]="instructorListInfoTableRowModels"
+        ></tm-respondent-list-info-table>
+      </div>
+    } @else {
+      <h4 class="p-2 bg-info">There are no participants to remind.</h4>
+    }
+  </div>
+</tm-loading-retry>
+
+<br />
+
+<div class="align-row-right">
+  <span class="form-check align-self-center">
+    <input
+      id="sendCopyToIns"
+      class="form-check-input"
+      type="checkbox"
+      [ngModel]="isSendingCopyToInstructor"
+      (ngModelChange)="changeSelectionStatusForSendingCopyToInstructorHandler($event)"
+    />
+    <label for="sendCopyToIns" class="form-check-label">Send me a copy</label>
+  </span>
+  <button type="button" id="cancel-btn" class="btn btn-light" (click)="cancel()">Cancel</button>
+  <button
+    type="button"
+    id="send-reminders-btn"
+    class="btn btn-primary"
+    (click)="sendReminders()"
+    [disabled]="!hasSelectedRespondents || isSendingReminders"
+  >
+    Send Reminders
+  </button>
+</div>

@@ -39,8 +39,6 @@ export class GroupButtonsComponent {
   @Input() publishSession: () => void = () => {};
   @Input() remindResultsLinkToStudent: () => void = () => {};
   @Input() downloadSessionResults: () => void = () => {};
-  @Input() sendRemindersToAllNonSubmitters: () => void = () => {};
-  @Input() sendRemindersToSelectedNonSubmitters: () => void = () => {};
   @Input() setRowClicked: () => void = () => {};
   @Input() onSubmitSessionAsInstructor: () => void = () => {};
 

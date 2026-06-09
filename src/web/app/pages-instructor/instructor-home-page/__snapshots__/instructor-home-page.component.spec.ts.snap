@@ -866,16 +866,20 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
                                     class="dropdown-menu"
                                     ngbdropdownmenu=""
                                   >
-                                    <button
+                                    <a
                                       class="btn btn-remind-all-0 clickable dropdown-item"
+                                      href="/web/instructor/sessions/send-reminders?fsid=first-session-id&preselectnonsubmitters=true"
+                                      tmrouterlink="/web/instructor/sessions/send-reminders"
                                     >
                                        Remind all non-submitters 
-                                    </button>
-                                    <button
+                                    </a>
+                                    <a
                                       class="btn btn-remind-selected-0 clickable dropdown-item"
+                                      href="/web/instructor/sessions/send-reminders?fsid=first-session-id&preselectnonsubmitters=false"
+                                      tmrouterlink="/web/instructor/sessions/send-reminders"
                                     >
                                        Select non-submitters to remind 
-                                    </button>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -1430,16 +1434,20 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                                     class="dropdown-menu"
                                     ngbdropdownmenu=""
                                   >
-                                    <button
+                                    <a
                                       class="btn btn-remind-all-0 clickable dropdown-item"
+                                      href="/web/instructor/sessions/send-reminders?fsid=second-session-id&preselectnonsubmitters=true"
+                                      tmrouterlink="/web/instructor/sessions/send-reminders"
                                     >
                                        Remind all non-submitters 
-                                    </button>
-                                    <button
+                                    </a>
+                                    <a
                                       class="btn btn-remind-selected-0 clickable dropdown-item"
+                                      href="/web/instructor/sessions/send-reminders?fsid=second-session-id&preselectnonsubmitters=false"
+                                      tmrouterlink="/web/instructor/sessions/send-reminders"
                                     >
                                        Select non-submitters to remind 
-                                    </button>
+                                    </a>
                                   </div>
                                 </div>
                               </div>
@@ -1615,16 +1623,20 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
                                     class="dropdown-menu"
                                     ngbdropdownmenu=""
                                   >
-                                    <button
+                                    <a
                                       class="btn btn-remind-all-1 clickable dropdown-item"
+                                      href="/web/instructor/sessions/send-reminders?fsid=first-session-id&preselectnonsubmitters=true"
+                                      tmrouterlink="/web/instructor/sessions/send-reminders"
                                     >
                                        Remind all non-submitters 
-                                    </button>
-                                    <button
+                                    </a>
+                                    <a
                                       class="btn btn-remind-selected-1 clickable dropdown-item"
+                                      href="/web/instructor/sessions/send-reminders?fsid=first-session-id&preselectnonsubmitters=false"
+                                      tmrouterlink="/web/instructor/sessions/send-reminders"
                                     >
                                        Select non-submitters to remind 
-                                    </button>
+                                    </a>
                                   </div>
                                 </div>
                               </div>

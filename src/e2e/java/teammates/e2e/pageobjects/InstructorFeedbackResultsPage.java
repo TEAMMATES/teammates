@@ -136,7 +136,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     public void remindAllNonResponders() {
         click(remindAllButton);
-        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
+        WebElement sendRemindersButton = waitForElementPresence(By.id("send-reminders-btn"));
+        waitForElementToBeClickable(sendRemindersButton);
+        click(sendRemindersButton);
     }
 
     public void includeGroupingByTeam(boolean isIncluded) {
