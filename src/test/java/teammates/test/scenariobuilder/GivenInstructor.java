@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorPrivilegesBundle;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -92,12 +91,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
      */
     public GivenInstructor custom(InstructorPrivileges privileges) {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        InstructorPrivilegesBundle bundle = new InstructorPrivilegesBundle();
-        bundle.setInstructorId(entity.getId());
-        bundle.setCourseLevel(privileges.getCourseLevelPrivileges());
-        bundle.setSectionLevel(privileges.getSectionLevelPrivileges());
-        bundle.setSessionLevel(privileges.getSessionLevelPrivileges());
-        given.dataBundle.instructorPrivileges.put(entity.getId().toString(), bundle);
+        privileges.setInstructorId(entity.getId());
+        given.dataBundle.instructorPrivileges.put(entity.getId().toString(), privileges);
         return this;
     }
 

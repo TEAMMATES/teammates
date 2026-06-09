@@ -158,10 +158,8 @@ public final class UsersLogic {
         boolean isCustomRole = Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName());
         if (isCustomRole && instructorRequest.getPrivileges() != null) {
             instructorPermissionsLogic.saveInstructorPrivileges(instructor, instructorRequest.getPrivileges());
-        } else {
-            instructorPermissionsLogic.saveInstructorPrivileges(instructor,
-                    new InstructorPrivileges(instructorRequest.getRoleName()));
         }
+
         instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 

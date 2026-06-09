@@ -2,8 +2,8 @@ package teammates.ui.constants;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import teammates.common.datatransfer.DefaultInstructorPrivileges;
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 
@@ -31,7 +31,7 @@ public enum DefaultInstructorPermissions {
     }
 
     private static InstructorPermissionSet getPrivileges(String roleName) {
-        return new InstructorPrivileges(roleName).getCourseLevelPrivileges();
+        return DefaultInstructorPrivileges.getDefaultPrivileges(roleName);
     }
 
 }

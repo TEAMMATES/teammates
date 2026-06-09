@@ -128,17 +128,18 @@ public final class InstructorPermissionsLogic {
         Objects.requireNonNull(instructor, "Instructor cannot be null");
 
         InstructorPermissionRole role = instructor.getRole();
+        UUID instructorId = instructor.getId();
         switch (role) {
         case INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            return new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
+            return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.COOWNER);
         case INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            return new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER);
+            return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.MANAGER);
         case INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            return new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
+            return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.OBSERVER);
         case INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            return new InstructorPrivileges(Const.InstructorPermissionRoleNames.TUTOR);
+            return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.TUTOR);
         case INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
-            return readCustomPrivileges(instructor.getId());
+            return readCustomPrivileges(instructorId);
         default:
             throw new IllegalStateException("Unexpected instructor role: " + role);
         }
@@ -189,7 +190,7 @@ public final class InstructorPermissionsLogic {
      * into a single {@link InstructorPrivileges} object.
      */
     private InstructorPrivileges readCustomPrivileges(UUID instructorId) {
-        InstructorPrivileges privileges = new InstructorPrivileges();
+        InstructorPrivileges privileges = new InstructorPrivileges(instructorId);
 
         InstructorCoursePrivilege coursePrivilege = instructorPermissionsDb.getCoursePrivilege(instructorId);
         if (coursePrivilege != null) {

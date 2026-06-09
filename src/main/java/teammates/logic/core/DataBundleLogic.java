@@ -10,8 +10,9 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.InstructorPrivilegesBundle;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Account;
@@ -281,38 +282,97 @@ public final class DataBundleLogic {
 
         // Re-point the placeholder ids in the combined instructor privileges section to the
         // newly generated entity ids so they can be resolved against the bundle at persist time.
-        for (InstructorPrivilegesBundle privileges : dataBundle.instructorPrivileges.values()) {
-            User instructor = usersMap.get(privileges.getInstructorId());
+        Map<String, InstructorPrivileges> remappedPrivileges = new HashMap<>();
+        for (Entry<String, InstructorPrivileges> entry : dataBundle.instructorPrivileges.entrySet()) {
+            InstructorPrivileges oldPrivileges = entry.getValue();
+            User instructor = usersMap.get(oldPrivileges.getInstructorId());
             assert instructor != null
-                    : "InstructorPrivilegesBundle contains instructorId that does not match any instructor in the bundle";
-            privileges.setInstructorId(instructor.getId());
+                    : "InstructorPrivileges contains instructorId that does not match any instructor in the bundle";
 
-            Map<UUID, InstructorPermissionSet> remappedSectionLevel = new HashMap<>();
-            privileges.getSectionLevel().forEach((sectionId, permissions) -> {
+            // Create new InstructorPrivileges object with the actual instructor ID
+            InstructorPrivileges newPrivileges = new InstructorPrivileges(instructor.getId());
+
+            // Copy course level privileges
+            InstructorPermissionSet courseLevel = oldPrivileges.getCourseLevelPrivileges();
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE,
+                    courseLevel.isCanModifyCourse());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR,
+                    courseLevel.isCanModifyInstructor());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION,
+                    courseLevel.isCanModifySession());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_STUDENT,
+                    courseLevel.isCanModifyStudent());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+                    courseLevel.isCanViewStudentInSections());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
+                    courseLevel.isCanViewSessionInSections());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
+                    courseLevel.isCanSubmitSessionInSections());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                    courseLevel.isCanModifySessionCommentsInSections());
+
+            // Copy and remap section level privileges
+            oldPrivileges.getSectionLevelPrivileges().forEach((sectionId, permissions) -> {
                 Section section = sectionsMap.get(sectionId);
                 if (section != null) {
-                    remappedSectionLevel.put(section.getId(), permissions);
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+                            permissions.isCanViewStudentInSections());
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
+                            permissions.isCanViewSessionInSections());
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
+                            permissions.isCanSubmitSessionInSections());
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                            permissions.isCanModifySessionCommentsInSections());
                 }
             });
-            privileges.setSectionLevel(remappedSectionLevel);
 
-            Map<UUID, Map<UUID, InstructorPermissionSet>> remappedSessionLevel = new HashMap<>();
-            privileges.getSessionLevel().forEach((sectionId, sessionPermissions) -> {
+            // Copy and remap session level privileges
+            oldPrivileges.getSessionLevelPrivileges().forEach((sectionId, sessionPermissions) -> {
                 Section section = sectionsMap.get(sectionId);
                 if (section == null) {
                     return;
                 }
-                Map<UUID, InstructorPermissionSet> remappedSessions = new HashMap<>();
                 sessionPermissions.forEach((sessionId, permissions) -> {
                     FeedbackSession session = sessionsMap.get(sessionId);
                     if (session != null) {
-                        remappedSessions.put(session.getId(), permissions);
+                        newPrivileges.updatePrivilege(
+                                section.getId(),
+                                session.getId(),
+                                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
+                                permissions.isCanViewSessionInSections());
+                        newPrivileges.updatePrivilege(
+                                section.getId(),
+                                session.getId(),
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
+                                permissions.isCanSubmitSessionInSections());
+                        newPrivileges.updatePrivilege(
+                                section.getId(),
+                                session.getId(),
+                                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                                permissions.isCanModifySessionCommentsInSections());
                     }
                 });
-                remappedSessionLevel.put(section.getId(), remappedSessions);
             });
-            privileges.setSessionLevel(remappedSessionLevel);
+
+            remappedPrivileges.put(entry.getKey(), newPrivileges);
         }
+        dataBundle.instructorPrivileges = remappedPrivileges;
 
         return dataBundle;
     }
@@ -402,14 +462,14 @@ public final class DataBundleLogic {
         dataBundle.feedbackSessions.values().forEach(fs -> sessionsById.put(fs.getId(), fs));
 
         List<BaseEntity> entities = new ArrayList<>();
-        for (InstructorPrivilegesBundle privileges : dataBundle.instructorPrivileges.values()) {
+        for (InstructorPrivileges privileges : dataBundle.instructorPrivileges.values()) {
             Instructor instructor = instructorsById.get(privileges.getInstructorId());
             if (instructor == null) {
                 continue;
             }
-            entities.add(new InstructorCoursePrivilege(instructor, privileges.getCourseLevel()));
+            entities.add(new InstructorCoursePrivilege(instructor, privileges.getCourseLevelPrivileges()));
 
-            for (Entry<UUID, InstructorPermissionSet> entry : privileges.getSectionLevel().entrySet()) {
+            for (Entry<UUID, InstructorPermissionSet> entry : privileges.getSectionLevelPrivileges().entrySet()) {
                 Section section = sectionsById.get(entry.getKey());
                 if (section != null) {
                     entities.add(new InstructorSectionPrivilege(instructor, section, entry.getValue()));
@@ -417,7 +477,7 @@ public final class DataBundleLogic {
             }
 
             for (Entry<UUID, Map<UUID, InstructorPermissionSet>> sectionEntry
-                    : privileges.getSessionLevel().entrySet()) {
+                    : privileges.getSessionLevelPrivileges().entrySet()) {
                 Section section = sectionsById.get(sectionEntry.getKey());
                 if (section == null) {
                     continue;

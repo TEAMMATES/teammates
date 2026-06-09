@@ -164,7 +164,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                                                         Instructor instructor, boolean value) {
         String courseId = session.getCourseId();
 
-        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges(instructor.getId());
         runtimePrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
 
         inTransaction(() -> {
