@@ -572,7 +572,7 @@ task unitTests(type: Test) {
     classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
-    options.excludeGroups "integration", "db-test", "logic-test"
+    options.excludeGroups "integration", "action-test", "db-test", "logic-test"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"
@@ -593,7 +593,7 @@ task integrationTests(type: Test) {
     classpath = testing.suites.test.sources.runtimeClasspath
     useTestNG()
     options.suites "src/test/resources/testng-component.xml"
-    options.includeGroups "integration", "db-test", "logic-test"
+    options.includeGroups "integration", "action-test", "db-test", "logic-test"
     options.useDefaultListeners = true
     ignoreFailures = false
     maxHeapSize = "1g"

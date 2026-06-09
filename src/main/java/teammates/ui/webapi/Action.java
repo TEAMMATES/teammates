@@ -293,6 +293,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
+    public abstract JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

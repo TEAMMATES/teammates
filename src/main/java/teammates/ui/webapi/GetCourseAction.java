@@ -60,9 +60,8 @@ public class GetCourseAction extends Action {
                         logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT),
                         logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)));
             }
-        } else if (Const.EntityType.STUDENT.equals(entityType)) {
-            output.getCourse().hideInformationForStudent();
         }
+
         return new JsonResult(output);
     }
 }
