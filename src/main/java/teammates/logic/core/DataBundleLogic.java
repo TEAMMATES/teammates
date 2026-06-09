@@ -283,7 +283,8 @@ public final class DataBundleLogic {
         // newly generated entity ids so they can be resolved against the bundle at persist time.
         for (InstructorPrivilegesBundle privileges : dataBundle.instructorPrivileges.values()) {
             User instructor = usersMap.get(privileges.getInstructorId());
-            assert instructor != null : "InstructorPrivilegesBundle contains instructorId that does not match any instructor in the bundle";
+            assert instructor != null
+                    : "InstructorPrivilegesBundle contains instructorId that does not match any instructor in the bundle";
             privileges.setInstructorId(instructor.getId());
 
             Map<UUID, InstructorPermissionSet> remappedSectionLevel = new HashMap<>();
