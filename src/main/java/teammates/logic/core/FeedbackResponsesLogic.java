@@ -296,8 +296,8 @@ public final class FeedbackResponsesLogic {
 
         Set<ResponseRecipient> recipientsOfTheQuestion = fqLogic.getRecipientsOfQuestion(
                 feedbackQuestion, responseGiver);
-        Map<String, ResponseRecipient> recipientsByIdentifier = recipientsOfTheQuestion.stream()
-                .collect(Collectors.toMap(ResponseRecipient::getIdentifier, recipient -> recipient));
+        Map<String, ResponseRecipient> recipientsByKey = recipientsOfTheQuestion.stream()
+                .collect(Collectors.toMap(ResponseRecipient::getKey, recipient -> recipient));
 
         Map<UUID, FeedbackResponse> existingResponsesById = new HashMap<>();
         existingResponses.forEach(response -> existingResponsesById.put(response.getId(), response));
@@ -307,7 +307,7 @@ public final class FeedbackResponsesLogic {
                 .toList();
 
         for (String recipient : recipients) {
-            if (recipient == null || !recipientsByIdentifier.containsKey(recipient)) {
+            if (recipient == null || !recipientsByKey.containsKey(recipient)) {
                 throw new InvalidOperationException(
                         "The recipient " + recipient + " is not a valid recipient of the question");
             }
@@ -318,7 +318,7 @@ public final class FeedbackResponsesLogic {
 
         for (FeedbackResponseRequest responseRequest : submitResponses) {
             String recipient = responseRequest.getRecipient();
-            ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
+            ResponseRecipient responseRecipient = recipientsByKey.get(recipient);
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
             UUID responseId = responseRequest.getResponseId();
 

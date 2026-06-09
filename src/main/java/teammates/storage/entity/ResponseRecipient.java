@@ -189,6 +189,22 @@ public class ResponseRecipient {
     }
 
     /**
+     * Gets the recipient key: a stable identifier composed of the recipient type and UUID
+     * (team ID for teams, user ID for users, or none for no specific recipient).
+     */
+    public String getKey() {
+        switch (recipientType) {
+        case TEAM:
+            return recipientType + ":" + recipientTeamId;
+        case STUDENT, INSTRUCTOR:
+            return recipientType + ":" + recipientUserId;
+        case NO_SPECIFIC_RECIPIENT:
+        default:
+            return recipientType + ":" + null;
+        }
+    }
+
+    /**
      * Gets the recipient display name: team name for team recipients, user name for user recipients.
      */
     public String getDisplayName() {

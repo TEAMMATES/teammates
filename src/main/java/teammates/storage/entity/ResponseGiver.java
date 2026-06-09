@@ -159,6 +159,20 @@ public class ResponseGiver {
     }
 
     /**
+     * Gets the giver key: a stable identifier composed of the giver type and UUID
+     * (team ID for teams, user ID for users).
+     */
+    public String getKey() {
+        if (isGiverTeam()) {
+            return "TEAM:" + getGiverTeamId();
+        }
+        if (isGiverInstructor()) {
+            return "INSTRUCTOR:" + getGiverUserId();
+        }
+        return "STUDENT:" + getGiverUserId();
+    }
+
+    /**
      * Gets the giver display name: team name for team givers, user name for user givers.
      */
     public String getDisplayName() {
