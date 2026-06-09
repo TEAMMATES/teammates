@@ -281,7 +281,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .toList();
 
         List<FeedbackResponse> responsesToSelf = new ArrayList<>();
-        if (visibleResponseGivers.contains("RECEIVER")) {
+        if (visibleResponseGivers.contains("RECEIPIENT")) {
             responsesToSelf = questionResponses.stream()
                     .filter(fr -> !currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
                             && currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))

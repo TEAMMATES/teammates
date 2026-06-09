@@ -1128,7 +1128,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         if (giver != QuestionGiverType.STUDENTS) {
             possibleTypes.remove(FeedbackVisibilityType.GIVER_TEAM_MEMBERS);
         }
-        if (receiver != QuestionRecipientType.STUDENTS_EXCLUDING_SELF) {
+        if (receiver != QuestionRecipientType.STUDENTS) {
             possibleTypes.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         }
         if (receiver == QuestionRecipientType.NONE
