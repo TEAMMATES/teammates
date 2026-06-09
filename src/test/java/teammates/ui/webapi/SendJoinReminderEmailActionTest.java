@@ -126,7 +126,7 @@ public class SendJoinReminderEmailActionTest
         canModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(canModifyStudentPrivileges);
+        instructor.setPrivileges(toLegacyForTest(canModifyStudentPrivileges));
 
         when(mockLogic.getUser(student.getId())).thenReturn(student);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
@@ -144,7 +144,7 @@ public class SendJoinReminderEmailActionTest
         cannotModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(cannotModifyStudentPrivileges);
+        instructor.setPrivileges(toLegacyForTest(cannotModifyStudentPrivileges));
 
         when(mockLogic.getUser(student.getId())).thenReturn(student);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
@@ -162,7 +162,7 @@ public class SendJoinReminderEmailActionTest
         canModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(canModifyStudentPrivileges);
+        instructor.setPrivileges(toLegacyForTest(canModifyStudentPrivileges));
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
@@ -180,7 +180,7 @@ public class SendJoinReminderEmailActionTest
         cannotModifyStudentPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(cannotModifyStudentPrivileges);
+        instructor.setPrivileges(toLegacyForTest(cannotModifyStudentPrivileges));
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
@@ -198,7 +198,7 @@ public class SendJoinReminderEmailActionTest
         canModifyInstructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(canModifyInstructorPrivileges);
+        instructor.setPrivileges(toLegacyForTest(canModifyInstructorPrivileges));
 
         when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
@@ -216,7 +216,7 @@ public class SendJoinReminderEmailActionTest
         cannotModifyInstructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(cannotModifyInstructorPrivileges);
+        instructor.setPrivileges(toLegacyForTest(cannotModifyInstructorPrivileges));
 
         when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);

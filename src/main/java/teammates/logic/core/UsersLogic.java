@@ -155,12 +155,13 @@ public final class UsersLogic {
         instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
         instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
         instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
-        InstructorPrivileges newPrivileges = instructorRequest.getPrivileges() == null
-                || !Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName())
-                        ? new InstructorPrivileges(instructorRequest.getRoleName())
-                        : instructorRequest.getPrivileges();
-        newPrivileges.validatePrivileges();
-        instructor.setPrivileges(newPrivileges);
+        boolean isCustomRole = Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName());
+        if (isCustomRole && instructorRequest.getPrivileges() != null) {
+            instructorPermissionsLogic.saveInstructorPrivileges(instructor, instructorRequest.getPrivileges());
+        } else {
+            instructorPermissionsLogic.saveInstructorPrivileges(instructor,
+                    new InstructorPrivileges(instructorRequest.getRoleName()));
+        }
         instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
@@ -680,7 +681,9 @@ public final class UsersLogic {
                 || instrWithModifyInstructorPrivilege.getGoogleId()
                 .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+            InstructorPrivileges privileges = instructorPermissionsLogic.getInstructorPrivileges(instructorToEdit);
+            privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+            instructorPermissionsLogic.saveInstructorPrivileges(instructorToEdit, privileges);
         }
     }
 

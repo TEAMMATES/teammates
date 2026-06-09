@@ -18,9 +18,9 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
@@ -122,7 +122,7 @@ public class UpdateDeadlineExtensionsActionTest
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {

@@ -14,7 +14,7 @@ export interface InstructorOverallPermission {
  * Instructor section-specific permission of a course.
  */
 export interface InstructorSectionLevelPermission {
-  sectionNames: string[];
+  sections: { id: string; name: string }[];
   privilege: InstructorPermissionSet;
 
   sessionLevel: InstructorSessionLevelPermission[];
@@ -24,6 +24,7 @@ export interface InstructorSectionLevelPermission {
  * Instructor session-specific permission of a course.
  */
 export interface InstructorSessionLevelPermission {
+  sessionId: string;
   sessionName: string;
   privilege: InstructorPermissionSet;
 }
@@ -57,17 +58,17 @@ export class CustomPrivilegeSettingPanelComponent {
   permissionChange: EventEmitter<InstructorOverallPermission> = new EventEmitter();
 
   @Input()
-  allSections: string[] = [];
+  allSections: { id: string; name: string }[] = [];
 
   @Input()
-  allSessions: string[] = [];
+  allSessions: { id: string; name: string }[] = [];
 
   /**
-   * Checks whether there is a section level permission for a give section.
+   * Checks whether there is a section level permission for a given section.
    */
-  hasSectionLevelPermission(sectionName: string): boolean {
+  hasSectionLevelPermission(sectionId: string): boolean {
     return this.permission.sectionLevel.some((sectionLevel: InstructorSectionLevelPermission) =>
-      sectionLevel.sectionNames.includes(sectionName),
+      sectionLevel.sections.some((s) => s.id === sectionId),
     );
   }
 
@@ -78,7 +79,7 @@ export class CustomPrivilegeSettingPanelComponent {
     return (
       this.permission.sectionLevel.length >= this.allSections.length ||
       this.permission.sectionLevel
-        .map((section: InstructorSectionLevelPermission) => section.sectionNames.length)
+        .map((section: InstructorSectionLevelPermission) => section.sections.length)
         .reduce((prev: number, curr: number) => prev + curr, 0) >= this.allSections.length
     );
   }
@@ -126,7 +127,7 @@ export class CustomPrivilegeSettingPanelComponent {
   addSectionLevelPermission(): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
     permission.sectionLevel.push({
-      sectionNames: [],
+      sections: [],
       privilege: {
         canModifyCourse: false,
         canModifySession: false,
@@ -149,8 +150,9 @@ export class CustomPrivilegeSettingPanelComponent {
    */
   addSessionLevelPermission(index: number): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
-    permission.sectionLevel[index].sessionLevel = this.allSessions.map((name: string) => ({
-      sessionName: name,
+    permission.sectionLevel[index].sessionLevel = this.allSessions.map((session: { id: string; name: string }) => ({
+      sessionId: session.id,
+      sessionName: session.name,
       privilege: {
         canModifyCourse: false,
         canModifySession: false,
@@ -169,15 +171,20 @@ export class CustomPrivilegeSettingPanelComponent {
   /**
    * Edits section to section level permission at index.
    */
-  editSectionToSectionLevelPermission(index: number, sectionName: string, isAdding: boolean): void {
+  editSectionToSectionLevelPermission(index: number, sectionId: string, isAdding: boolean): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
-    const sectionNames: Set<string> = new Set(permission.sectionLevel[index].sectionNames);
-    if (isAdding) {
-      sectionNames.add(sectionName);
-    } else {
-      sectionNames.delete(sectionName);
+    const section = this.allSections.find((s) => s.id === sectionId);
+    if (!section) {
+      return;
     }
-    permission.sectionLevel[index].sectionNames = Array.from(sectionNames);
+    const sections = permission.sectionLevel[index].sections;
+    if (isAdding) {
+      if (!sections.some((s) => s.id === sectionId)) {
+        sections.push(section);
+      }
+    } else {
+      permission.sectionLevel[index].sections = sections.filter((s) => s.id !== sectionId);
+    }
 
     this.permissionChange.emit(permission);
   }

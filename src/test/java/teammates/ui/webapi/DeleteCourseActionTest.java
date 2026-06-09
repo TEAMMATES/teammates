@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.entity.Course;
@@ -89,7 +90,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         Course course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivilegesLegacy());
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
@@ -109,7 +110,8 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_COURSE, true);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, instructorPrivileges);
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+                toLegacyForTest(instructorPrivileges));
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);

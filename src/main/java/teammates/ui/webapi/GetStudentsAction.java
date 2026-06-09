@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
@@ -66,11 +67,11 @@ public class GetStudentsAction extends Action {
             // request to get students by instructor with section privilege
             List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
             List<Student> studentsToReturn = new LinkedList<>();
-            Set<String> sectionsWithViewPrivileges =
+            Set<UUID> sectionsWithViewPrivileges =
                     logic.getSectionsWithInstructorPermission(instructor, privilegeName).keySet();
 
             studentsForCourse.forEach(student -> {
-                if (sectionsWithViewPrivileges.contains(student.getSectionName())) {
+                if (sectionsWithViewPrivileges.contains(student.getSectionId())) {
                     studentsToReturn.add(student);
                 }
             });

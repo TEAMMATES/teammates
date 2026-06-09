@@ -115,10 +115,10 @@ export class InstructorEditPanelComponent {
   currInstructorCoursePrivilege?: InstructorCoursePermissions;
 
   @Input()
-  allSections: string[] = [];
+  allSections: { id: string; name: string }[] = [];
 
   @Input()
-  allSessions: string[] = [];
+  allSessions: { id: string; name: string }[] = [];
 
   @Input()
   isSavingNewInstructor = false;

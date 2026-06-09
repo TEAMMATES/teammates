@@ -15,10 +15,10 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -127,7 +127,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         return new Instructor(courseInstructorIsIn, "instructor-1",
                 "instructor-1@tm.tmt", false,
                 "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.MANAGER));
     }
 
     private Student generateStudent1InCourse(Course courseStudentIsIn) {

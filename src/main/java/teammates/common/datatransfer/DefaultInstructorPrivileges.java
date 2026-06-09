@@ -5,11 +5,11 @@ package teammates.common.datatransfer;
  */
 public final class DefaultInstructorPrivileges {
 
-    static final InstructorPermissionSet PRIVILEGES_MANAGER = new InstructorPermissionSet();
-    static final InstructorPermissionSet PRIVILEGES_OBSERVER = new InstructorPermissionSet();
-    static final InstructorPermissionSet PRIVILEGES_TUTOR = new InstructorPermissionSet();
-    static final InstructorPermissionSet PRIVILEGES_ALL = new InstructorPermissionSet();
-    static final InstructorPermissionSet PRIVILEGES_NONE = new InstructorPermissionSet();
+    public static final InstructorPermissionSet PRIVILEGES_MANAGER = new InstructorPermissionSet();
+    public static final InstructorPermissionSet PRIVILEGES_OBSERVER = new InstructorPermissionSet();
+    public static final InstructorPermissionSet PRIVILEGES_TUTOR = new InstructorPermissionSet();
+    public static final InstructorPermissionSet PRIVILEGES_ALL = new InstructorPermissionSet();
+    public static final InstructorPermissionSet PRIVILEGES_NONE = new InstructorPermissionSet();
 
     static {
         PRIVILEGES_MANAGER.setCanModifyCourse(false);

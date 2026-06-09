@@ -20,13 +20,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -418,7 +419,7 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
     void testAccessControl_instructorWithoutSubmitSessionInSectionsPrivilege_cannotAccess() {
         Instructor instructorWithoutAccess = getTypicalInstructor();
         instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(OBSERVER));
+        instructorWithoutAccess.setPrivileges(InstructorPermissionsLogic.inst().legacyPrivilegesForRole(OBSERVER));
 
         String[] params = new String[] { Const.ParamsNames.FEEDBACK_RESPONSE_ID,
                 typicalFeedbackResponse.getId().toString(),
@@ -438,11 +439,9 @@ public class CreateResponseInstructorCommentActionTest extends BaseActionTest<Cr
     void testAccessControl_instructorWithOnlyEitherPrivilege_cannotAccessCrossSectionComment() {
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("Section B",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        // Custom instructor with no privileges — real GateKeeper path falls back to course-level (false)
         instructorWithoutPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructorWithoutPrivilege.setPrivileges(privileges);
+        instructorWithoutPrivilege.setPrivileges(new InstructorPrivilegesLegacy());
 
         String[] params = new String[] { Const.ParamsNames.FEEDBACK_RESPONSE_ID,
                 typicalFeedbackResponse.getId().toString(),

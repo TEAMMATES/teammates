@@ -14,6 +14,8 @@ import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
@@ -146,34 +148,61 @@ public class Logic {
     /**
      * Checks if the given instructor has the specified section-level permissions.
      */
-    public boolean hasInstructorPermissionsForSection(Instructor instructor, String sectionName,
+    public boolean hasInstructorPermissionsForSection(Instructor instructor, UUID sectionId,
             String... permissionNames) {
-        return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionName, permissionNames);
+        return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionId, permissionNames);
     }
 
     /**
      * Checks if the given instructor has the specified session-in-section-level permissions.
      */
-    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, String sectionName,
-            String feedbackSessionName, String... permissionNames) {
+    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, UUID sectionId,
+            UUID feedbackSessionId, String... permissionNames) {
         return instructorPermissionsLogic.hasPermissionsForSessionInSection(
-                instructor, sectionName, feedbackSessionName, permissionNames);
+                instructor, sectionId, feedbackSessionId, permissionNames);
     }
 
     /**
      * Checks if the given instructor has the specified session-in-section-level permissions in any section.
      */
     public boolean hasInstructorPermissionsForSectionInAnySection(Instructor instructor,
-            String sessionName, String... permissionNames) {
-        return instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionName, permissionNames);
+            UUID sessionId, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionId, permissionNames);
     }
 
     /**
      * Returns a map of sections with the specified permission for the given instructor.
      */
-    public Map<String, InstructorPermissionSet> getSectionsWithInstructorPermission(
+    public Map<UUID, InstructorPermissionSet> getSectionsWithInstructorPermission(
             Instructor instructor, String permissionName) {
         return instructorPermissionsLogic.getSectionsWithPermission(instructor, permissionName);
+    }
+
+    /**
+     * Returns the InstructorPrivileges for the given instructor.
+     *
+     * <p>
+     * For instructors with predefined roles, the privileges are determined by their
+     * role.
+     * For instructors with the custom role, the privileges are determined by their
+     * stored privileges.
+     */
+    public InstructorPrivileges getInstructorPrivileges(Instructor instructor) {
+        return instructorPermissionsLogic.getInstructorPrivileges(instructor);
+    }
+
+    /**
+     * Converts the given runtime {@link InstructorPrivileges} (UUID-keyed) to legacy name-keyed format.
+     */
+    public InstructorPrivilegesLegacy convertToLegacy(InstructorPrivileges newPrivileges) {
+        return instructorPermissionsLogic.convertToLegacy(newPrivileges);
+    }
+
+    /**
+     * Creates a {@link InstructorPrivilegesLegacy} for a predefined instructor role.
+     */
+    public InstructorPrivilegesLegacy legacyPrivilegesForRole(String roleName) {
+        return instructorPermissionsLogic.legacyPrivilegesForRole(roleName);
     }
 
     /**

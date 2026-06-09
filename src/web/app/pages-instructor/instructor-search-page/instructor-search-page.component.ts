@@ -133,9 +133,9 @@ export class InstructorSearchPageComponent {
         if (!privilege) {
           continue;
         }
-        const sectionName: string = studentModel.student.sectionName;
+        const sectionId: string = studentModel.student.sectionId;
         const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
-        const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionName] || courseLevel;
+        const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionId] || courseLevel;
 
         studentModel.isAllowedToViewStudentInSection = sectionLevel.canViewStudentInSections;
         studentModel.isAllowedToModifyStudent = sectionLevel.canModifyStudent;

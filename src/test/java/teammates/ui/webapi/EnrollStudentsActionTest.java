@@ -12,7 +12,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -54,7 +56,12 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     public void testExecute_withNewStudent_shouldBeAdded() throws Exception {
         Instructor instructor = getTypicalInstructor();
         // Ensure instructor has the required permissions
-        instructor.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
+        // Update the CAN_MODIFY_STUDENT flag while preserving other privileges
+        InstructorPermissionSet courseLevelPerms = instructor.getPrivileges().getCourseLevelPrivileges();
+        courseLevelPerms.setCanModifyStudent(true);
+        instructor.setPrivileges(new InstructorPrivilegesLegacy(courseLevelPerms,
+                instructor.getPrivileges().getSectionLevelPrivileges(),
+                instructor.getPrivileges().getSessionLevelPrivileges()));
         loginAsInstructor(instructor.getGoogleId());
 
         StudentEnrollRequest studentToEnroll = new StudentEnrollRequest("name", "email.com", "team", "section", "");
@@ -103,7 +110,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     @Test
     public void testSpecificAccessControl_instructorWithInvalidPermission_cannotAccess() {
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivilegesLegacy());
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         loginAsInstructor(instructor.getGoogleId());
@@ -119,7 +126,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
         Instructor instructor = new Instructor(course, "name", "instructoremail@tm.tmt",
-                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, instructorPrivileges);
+                false, "", InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+                toLegacyForTest(instructorPrivileges));
         loginAsInstructor(instructor.getGoogleId());
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);

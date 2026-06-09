@@ -12,8 +12,11 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
@@ -28,6 +31,7 @@ import org.mockito.invocation.InvocationOnMock;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -40,6 +44,7 @@ import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.logic.core.AuthLogic;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -145,9 +150,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
             List<String> permissionNames = getStringArguments(invocation, 1);
-            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            InstructorPrivilegesLegacy privileges = getEffectiveLegacyPrivileges(instructor);
             for (String permissionName : permissionNames) {
-                if (!privileges.isAllowedForPrivilege(permissionName)) {
+                if (!legacyIsAllowedForPrivilege(privileges, permissionName)) {
                     return false;
                 }
             }
@@ -156,62 +161,140 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
-            String sectionName = invocation.getArgument(1);
+            UUID sectionId = invocation.getArgument(1);
             List<String> permissionNames = getStringArguments(invocation, 2);
-            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            InstructorPrivilegesLegacy privileges = getEffectiveLegacyPrivileges(instructor);
             for (String permissionName : permissionNames) {
-                if (!privileges.isAllowedForPrivilege(sectionName, permissionName)) {
+                if (!legacyIsAllowedForPrivilege(privileges, sectionId.toString(), permissionName)) {
                     return false;
                 }
             }
             return true;
-        }).when(mockLogic).hasInstructorPermissionsForSection(any(Instructor.class), anyString(), any());
+        }).when(mockLogic).hasInstructorPermissionsForSection(any(Instructor.class), any(UUID.class), any());
 
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
-            String sectionName = invocation.getArgument(1);
-            String feedbackSessionName = invocation.getArgument(2);
+            UUID sectionId = invocation.getArgument(1);
+            UUID sessionId = invocation.getArgument(2);
             List<String> permissionNames = getStringArguments(invocation, 3);
-            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            InstructorPrivilegesLegacy privileges = getEffectiveLegacyPrivileges(instructor);
             for (String permissionName : permissionNames) {
-                if (!privileges.isAllowedForPrivilege(sectionName, feedbackSessionName, permissionName)) {
+                if (!legacyIsAllowedForPrivilege(
+                        privileges, sectionId.toString(), sessionId.toString(), permissionName)) {
                     return false;
                 }
             }
             return true;
         }).when(mockLogic).hasInstructorPermissionsForSessionInSection(
-                any(Instructor.class), anyString(), anyString(), any());
+                any(Instructor.class), any(UUID.class), any(UUID.class), any());
 
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
-            String sessionName = invocation.getArgument(1);
+            UUID sessionId = invocation.getArgument(1);
             List<String> permissionNames = getStringArguments(invocation, 2);
-            InstructorPrivileges privileges = getEffectivePrivileges(instructor);
+            InstructorPrivilegesLegacy privileges = getEffectiveLegacyPrivileges(instructor);
             for (String permissionName : permissionNames) {
-                if (privileges.isAllowedForPrivilegeAnySection(sessionName, permissionName)) {
+                if (legacyIsAllowedForPrivilegeAnySection(privileges, sessionId.toString(), permissionName)) {
                     return true;
                 }
             }
             return false;
         }).when(mockLogic).hasInstructorPermissionsForSectionInAnySection(
-                any(Instructor.class), anyString(), any());
+                any(Instructor.class), any(UUID.class), any());
 
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
             String permissionName = invocation.getArgument(1);
-            return getEffectivePrivileges(instructor).getSectionsWithPrivilege(permissionName);
+            Map<UUID, teammates.common.datatransfer.InstructorPermissionSet> result = new LinkedHashMap<>();
+            getEffectiveLegacyPrivileges(instructor).getSectionLevelPrivileges().forEach((key, value) -> {
+                if (legacyIsAllowedForPrivilege(getEffectiveLegacyPrivileges(instructor), key, permissionName)) {
+                    try {
+                        result.put(UUID.fromString(key), value);
+                    } catch (IllegalArgumentException e) {
+                        // key is not a UUID string - skip it
+                    }
+                }
+            });
+            return result;
         }).when(mockLogic).getSectionsWithInstructorPermission(any(Instructor.class), anyString());
     }
 
-    private InstructorPrivileges getEffectivePrivileges(Instructor instructor) {
+    /**
+     * Returns the stored {@link InstructorPrivilegesLegacy} for custom-role instructors,
+     * or a role-preset legacy object for predefined roles.
+     */
+    private InstructorPrivilegesLegacy getEffectiveLegacyPrivileges(Instructor instructor) {
         InstructorPermissionRole role = instructor.getRole();
-        if (role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+        if (role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM || role == null) {
             return instructor.getPrivileges();
         }
-        if (role == null) {
-            return instructor.getPrivileges();
+        return InstructorPermissionsLogic.inst().legacyPrivilegesForRole(role.getRoleName());
+    }
+
+    // ---------------------------------------------------------------------------
+    // Legacy privilege lookup helpers (inlined from the former InstructorPrivilegesLegacy methods)
+    // ---------------------------------------------------------------------------
+
+    private boolean legacyIsAllowedForPrivilege(InstructorPrivilegesLegacy privileges, String privilegeName) {
+        return privileges.getCourseLevelPrivileges().get(privilegeName);
+    }
+
+    private boolean legacyIsAllowedForPrivilege(
+            InstructorPrivilegesLegacy privileges, String sectionKey, String privilegeName) {
+        Map<String, teammates.common.datatransfer.InstructorPermissionSet> sectionLevel =
+                privileges.getSectionLevelPrivileges();
+        if (!sectionLevel.containsKey(sectionKey)) {
+            return legacyIsAllowedForPrivilege(privileges, privilegeName);
         }
-        return new InstructorPrivileges(role.getRoleName());
+        return sectionLevel.get(sectionKey).get(privilegeName);
+    }
+
+    private boolean legacyIsAllowedForPrivilege(
+            InstructorPrivilegesLegacy privileges, String sectionKey, String sessionKey, String privilegeName) {
+        Map<String, Map<String, teammates.common.datatransfer.InstructorPermissionSet>> sessionLevel =
+                privileges.getSessionLevelPrivileges();
+        if (!sessionLevel.containsKey(sectionKey) || !sessionLevel.get(sectionKey).containsKey(sessionKey)) {
+            return legacyIsAllowedForPrivilege(privileges, sectionKey, privilegeName);
+        }
+        return sessionLevel.get(sectionKey).get(sessionKey).get(privilegeName);
+    }
+
+    private boolean legacyIsAllowedForPrivilegeAnySection(
+            InstructorPrivilegesLegacy privileges, String sessionKey, String privilegeName) {
+        Map<String, teammates.common.datatransfer.InstructorPermissionSet> sectionLevel =
+                privileges.getSectionLevelPrivileges();
+        Map<String, Map<String, teammates.common.datatransfer.InstructorPermissionSet>> sessionLevel =
+                privileges.getSessionLevelPrivileges();
+        Set<String> sections = new LinkedHashSet<>(sessionLevel.keySet());
+        sections.addAll(sectionLevel.keySet());
+        for (String sectionKey : sections) {
+            if (legacyIsAllowedForPrivilege(privileges, sectionKey, sessionKey, privilegeName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Converts an {@link InstructorPrivileges} (UUID-keyed) to a {@link InstructorPrivilegesLegacy}
+     * for use in tests, treating each UUID key directly as its string representation.
+     * No DB lookups are performed — this is for unit test setup only.
+     */
+    protected static InstructorPrivilegesLegacy toLegacyForTest(InstructorPrivileges privileges) {
+        teammates.common.datatransfer.InstructorPermissionSet courseLevel =
+                privileges.getCourseLevelPrivileges();
+        Map<String, teammates.common.datatransfer.InstructorPermissionSet> sectionLevel =
+                new LinkedHashMap<>();
+        privileges.getSectionLevelPrivileges().forEach(
+                (uuid, perms) -> sectionLevel.put(uuid.toString(), perms));
+        Map<String, Map<String, teammates.common.datatransfer.InstructorPermissionSet>> sessionLevel =
+                new LinkedHashMap<>();
+        privileges.getSessionLevelPrivileges().forEach((sectionUuid, sessionMap) -> {
+            Map<String, teammates.common.datatransfer.InstructorPermissionSet> sessions = new LinkedHashMap<>();
+            sessionMap.forEach((sessionUuid, perms) -> sessions.put(sessionUuid.toString(), perms));
+            sessionLevel.put(sectionUuid.toString(), sessions);
+        });
+        return new InstructorPrivilegesLegacy(courseLevel, sectionLevel, sessionLevel);
     }
 
     private List<String> getStringArguments(InvocationOnMock invocation, int startIndex) {
@@ -968,7 +1051,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Course thisCourse, String privilege, boolean canAccess, String... params) {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(privilege, canAccess);
-
         verifySameCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
     }
 
@@ -981,7 +1063,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         instructor.setCourse(thisCourse);
         instructor.setPrivileges(
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.COOWNER));
         stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
@@ -990,7 +1072,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyCanAccess(params);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(instructorPrivileges);
+        instructor.setPrivileges(toLegacyForTest(instructorPrivileges));
 
         if (canAccess) {
             verifyCanAccess(params);
@@ -1005,7 +1087,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Course thisCourse, String privilege, boolean canAccess, String... params) {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(privilege, canAccess);
-
         verifyDifferentCourseAccessibility(thisCourse, instructorPrivileges, canAccess, params);
     }
 
@@ -1016,7 +1097,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
         instructor.setCourse(thisCourse);
         instructor.setPrivileges(
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.COOWNER));
         stubInstructorFromGoogleId(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
 
@@ -1025,7 +1106,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
         verifyCanAccess(params);
 
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(instructorPrivileges);
+        instructor.setPrivileges(toLegacyForTest(instructorPrivileges));
 
         if (canAccess) {
             verifyCanAccess(params);

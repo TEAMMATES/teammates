@@ -13,10 +13,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -59,7 +59,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor updatedInstructor = new Instructor(typicalCourse, updatedInstructorName, updatedInstructorEmail,
                 false, null, getEnum(updatedInstructorRole),
-                new InstructorPrivileges(updatedInstructorRole));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(updatedInstructorRole));
 
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
@@ -134,7 +134,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         String updatedInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor updatedInstructor = new Instructor(typicalCourse, updatedInstructorName, updatedInstructorEmail,
                 false, null, getEnum(updatedInstructorRole),
-                new InstructorPrivileges(updatedInstructorRole));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(updatedInstructorRole));
 
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 updatedInstructorName,
@@ -250,7 +250,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         instructorWithoutCorrectPrivilege.setGoogleId("no privilege");
         instructorWithoutCorrectPrivilege.setEmail("helper@teammates.tmt");
         instructorWithoutCorrectPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructorWithoutCorrectPrivilege.setPrivileges(new InstructorPrivileges(CUSTOM));
+        instructorWithoutCorrectPrivilege.setPrivileges(InstructorPermissionsLogic.inst().legacyPrivilegesForRole(CUSTOM));
 
         InstructorUpdateRequest requestBody = new InstructorUpdateRequest(typicalInstructorToUpdate.getId(),
                 typicalInstructorToUpdate.getName(), typicalInstructorToUpdate.getEmail(),

@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
@@ -28,6 +28,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelperExtension;
 import teammates.logic.core.DataBundleLogic;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -121,8 +122,8 @@ public class BaseTestCase {
 
     protected Instructor getTypicalInstructor() {
         Course course = getTypicalCourse();
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
+        InstructorPrivilegesLegacy instructorPrivileges =
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.COOWNER);
 
