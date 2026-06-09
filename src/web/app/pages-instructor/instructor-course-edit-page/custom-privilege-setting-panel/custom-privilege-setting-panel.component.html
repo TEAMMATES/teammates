@@ -112,9 +112,12 @@
                   <label>
                     <input
                       type="checkbox"
-                      [ngModel]="sectionLevel.sections.map(s => s.id).includes(section.id)"
+                      [ngModel]="sectionLevel.sections.map((s) => s.id).includes(section.id)"
                       (ngModelChange)="editSectionToSectionLevelPermission(i, section.id, $event)"
-                      [disabled]="!sectionLevel.sections.map(s => s.id).includes(section.id) && hasSectionLevelPermission(section.id)"
+                      [disabled]="
+                        !sectionLevel.sections.map((s) => s.id).includes(section.id) &&
+                        hasSectionLevelPermission(section.id)
+                      "
                     />
                     {{ section.name === 'None' ? 'Students not in a section' : section.name }}
                   </label>
