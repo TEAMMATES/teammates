@@ -19,7 +19,6 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -736,7 +735,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (instructor == null) {
             instructor = inTransaction(() -> {
                 Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivilegesLegacy());
+                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
                 Instructor createdInstructor = logic.createInstructor(toCreate);
 
                 String googleId = email;
