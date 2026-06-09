@@ -146,19 +146,6 @@ public class ResponseGiver {
     }
 
     /**
-     * Gets the giver identifier: team name for team givers, user email for user givers.
-     */
-    public String getIdentifier() {
-        if (giverTeam != null) {
-            return giverTeam.getName();
-        }
-        if (giverUser != null) {
-            return giverUser.getEmail();
-        }
-        return Const.UNKNOWN_USER;
-    }
-
-    /**
      * Gets the giver key: a stable identifier composed of the giver type and UUID
      * (team ID for teams, user ID for users).
      */

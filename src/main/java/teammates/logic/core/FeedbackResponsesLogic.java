@@ -595,11 +595,11 @@ public final class FeedbackResponsesLogic {
             }
         }
 
-        Set<String> studentsEmailInTeam = new HashSet<>();
+        Set<UUID> teamMemberUserIds = new HashSet<>();
         if (user instanceof Student student) {
             for (Student studentInTeam
                     : roster.getTeamToMembers().getOrDefault(student.getTeamName(), Collections.emptyList())) {
-                studentsEmailInTeam.add(studentInTeam.getEmail());
+                teamMemberUserIds.add(studentInTeam.getId());
             }
         }
 
@@ -622,7 +622,7 @@ public final class FeedbackResponsesLogic {
             }
             // check visibility of response
             boolean isVisibleResponse = isResponseVisibleForUser(
-                    user, studentsEmailInTeam,
+                    user, teamMemberUserIds,
                     response.getGiver(), response.getRecipient(),
                     correspondingQuestion);
             if (!isVisibleResponse) {
@@ -989,7 +989,7 @@ public final class FeedbackResponsesLogic {
 
     private boolean isResponseVisibleForUser(
             User user,
-            Set<String> studentsEmailInTeam,
+            Set<UUID> teamMemberUserIds,
             ResponseGiver giver,
             ResponseRecipient recipient,
             FeedbackQuestion relatedQuestion
@@ -1033,21 +1033,21 @@ public final class FeedbackResponsesLogic {
         boolean isVisibleToReceiverTeamMembers = false;
         if (user instanceof Student student) {
             isVisibleToStudents = relatedQuestion.isResponseVisibleTo(ViewerType.STUDENTS);
-            isVisibleToTeamRecipient = studentsEmailInTeam != null
+            isVisibleToTeamRecipient = teamMemberUserIds != null
                     && (relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
                         || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION
                         || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_EXCLUDING_SELF)
                     && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER)
                     && Objects.equals(recipient.getRecipientTeam(), student.getTeam());
-            isVisibleToTeamGiver = studentsEmailInTeam != null
+            isVisibleToTeamGiver = teamMemberUserIds != null
                     && relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
                     && Objects.equals(giver.getGiverTeam(), student.getTeam());
-            isVisibleToOwnTeamMembers = studentsEmailInTeam != null
+            isVisibleToOwnTeamMembers = teamMemberUserIds != null
                     && relatedQuestion.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
-                    && studentsEmailInTeam.contains(giver.getIdentifier());
-            isVisibleToReceiverTeamMembers = studentsEmailInTeam != null
+                    && teamMemberUserIds.contains(giver.getGiverUserId());
+            isVisibleToReceiverTeamMembers = teamMemberUserIds != null
                     && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)
-                    && studentsEmailInTeam.contains(recipient.getIdentifier());
+                    && teamMemberUserIds.contains(recipient.getRecipientUserId());
         }
 
         return isVisibleToInstructor || isVisibleToRecipient || isVisibleToGiver

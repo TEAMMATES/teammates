@@ -220,8 +220,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponse> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponse response : teamResponseList) {
-                int giverIndx = memberEmailList.indexOf(response.getGiver().getIdentifier());
-                int recipientIndx = memberEmailList.indexOf(response.getRecipient().getIdentifier());
+                int giverIndx = memberEmailList.indexOf(response.getGiver().getGiverUser().getEmail());
+                int recipientIndx = memberEmailList.indexOf(response.getRecipient().getRecipientUser().getEmail());
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
@@ -239,7 +239,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             teamResponses.put(teamName, new ArrayList<>());
         }
         for (FeedbackResponse response : responses) {
-            String team = bundle.getRoster().getInfoForIdentifier(response.getGiver().getIdentifier()).getTeamName();
+            String team = bundle.getRoster()
+                    .getInfoForIdentifier(response.getGiver().getGiverUser().getEmail()).getTeamName();
             if (teamResponses.containsKey(team)) {
                 teamResponses.get(team).add(response);
             }
@@ -264,7 +265,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Set<String> teamNames = new HashSet<>();
         for (FeedbackResponse response : responses) {
             String teamNameOfResponseGiver = bundle.getRoster()
-                    .getInfoForIdentifier(response.getGiver().getIdentifier())
+                    .getInfoForIdentifier(response.getGiver().getGiverUser().getEmail())
                     .getTeamName();
             teamNames.add(teamNameOfResponseGiver);
         }

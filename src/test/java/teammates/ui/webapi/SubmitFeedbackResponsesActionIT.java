@@ -30,6 +30,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.test.GroupNames;
+import teammates.test.ResponseEntityHelper;
 import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.request.FeedbackResponsesRequest;
@@ -321,16 +322,16 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 .toList());
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses = responses.stream()
-                    .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))
-                    .filter(response -> response.getRecipient().getIdentifier().equals(recipientEmail))
+                    .filter(response -> ResponseEntityHelper.getIdentifier(response.getGiver()).equals(giverEmail))
+                    .filter(response -> ResponseEntityHelper.getIdentifier(response.getRecipient()).equals(recipientEmail))
                     .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();
 
                 assertEquals(frFeedbackQuestion, feedbackQuestion);
-                assertEquals(feedbackResponse.getGiver().getIdentifier(), giverEmail);
-                assertEquals(feedbackResponse.getRecipient().getIdentifier(), recipientEmail);
+                assertEquals(ResponseEntityHelper.getIdentifier(feedbackResponse.getGiver()), giverEmail);
+                assertEquals(ResponseEntityHelper.getIdentifier(feedbackResponse.getRecipient()), recipientEmail);
 
                 assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
                 assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());

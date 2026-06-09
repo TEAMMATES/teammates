@@ -248,7 +248,7 @@ public class SessionResultsData implements ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.getId(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-            recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getRecipientUser().getEmail();
         }
 
         // process comments
@@ -322,7 +322,7 @@ public class SessionResultsData implements ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.id(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-            recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getRecipientUser().getEmail();
         }
 
         FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails(Const.MISSING_RESPONSE_TEXT);
