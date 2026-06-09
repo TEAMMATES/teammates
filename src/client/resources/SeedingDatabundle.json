@@ -1000,9 +1000,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3InSession1InCourse1": {
@@ -1037,9 +1037,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn2InSession2InCourse1": {
@@ -1062,9 +1062,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn3InSession2InCourse1": {
@@ -1143,9 +1143,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000703"
     },
     "qn1InSession4InCourse1": {
@@ -1237,9 +1237,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "qn3InSession1InCourse2": {
@@ -1290,9 +1290,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn2InSession2InCourse2": {
@@ -1334,9 +1334,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn1InSession3InCourse2": {
@@ -1410,9 +1410,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn2InSession1InCourse3": {
@@ -1429,9 +1429,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn3InSession1InCourse3": {
@@ -1481,9 +1481,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "qn2InSession2InCourse3": {
@@ -1540,9 +1540,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000710"
     },
     "qn2InSession3InCourse3": {
