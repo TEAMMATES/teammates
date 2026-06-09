@@ -620,7 +620,7 @@ public final class FeedbackQuestionsLogic {
 
             return instructorRecipients;
         case TEAMS, TEAMS_EXCLUDING_SELF, TEAMS_IN_SAME_SECTION:
-            Collection<Team> teams = courseRoster.getTeamIdToTeam().values();
+            Collection<Team> teams = courseRoster.getTeams();
 
             Team giverTeamToExclude = null;
             if (generateOptionsFor != QuestionRecipientType.TEAMS) {
@@ -671,16 +671,14 @@ public final class FeedbackQuestionsLogic {
 
             return Set.of();
         case OWN_TEAM_MEMBERS:
-            String teamName = responseGiver.getTeamName();
-            List<Student> teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+            List<Student> teamMembers = courseRoster.getTeamMembers(responseGiver.getTeamId());
 
             return teamMembers.stream()
                     .filter(student -> !Objects.equals(student, responseGiver.getGiverUser()))
                     .map(ResponseRecipient::new)
                     .collect(Collectors.toSet());
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            teamName = responseGiver.getTeamName();
-            teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+            teamMembers = courseRoster.getTeamMembers(responseGiver.getTeamId());
 
             return teamMembers.stream()
                     .map(ResponseRecipient::new)
@@ -817,7 +815,7 @@ public final class FeedbackQuestionsLogic {
                     .toList();
             break;
         case TEAMS:
-            possibleGivers = courseRoster.getTeamIdToTeam().values()
+            possibleGivers = courseRoster.getTeams()
                     .stream()
                     .map(ResponseGiver::new)
                     .toList();

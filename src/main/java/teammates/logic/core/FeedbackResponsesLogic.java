@@ -191,7 +191,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> responses = new ArrayList<>();
         List<Student> studentsInTeam = courseRoster == null
                 ? usersLogic.getStudentsForTeam(team.getName(), courseId)
-                : courseRoster.getTeamToMembers().get(team.getName());
+                : courseRoster.getTeamMembers(team.getId());
 
         for (Student student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
@@ -476,13 +476,10 @@ public final class FeedbackResponsesLogic {
             }
             break;
         case TEAMS:
-            Map<String, List<Student>> teams = roster.getTeamToMembers();
-            for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
-                String teamName = entry.getKey();
-                ResponseGiver teamResponseGiver = new ResponseGiver(roster.getTeamNameToTeam().get(teamName));
+            for (Team team : roster.getTeams()) {
+                ResponseGiver teamResponseGiver = new ResponseGiver(team);
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, teamResponseGiver, roster).size();
-                Team team = roster.getTeamNameToTeam().get(teamName);
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
                                 question.getId(), question.getCourseId(), team, roster);
@@ -597,8 +594,7 @@ public final class FeedbackResponsesLogic {
 
         Set<UUID> teamMemberUserIds = new HashSet<>();
         if (user instanceof Student student) {
-            for (Student studentInTeam
-                    : roster.getTeamToMembers().getOrDefault(student.getTeamName(), Collections.emptyList())) {
+            for (Student studentInTeam : roster.getTeamMembers(student.getTeamId())) {
                 teamMemberUserIds.add(studentInTeam.getId());
             }
         }
@@ -1202,7 +1198,7 @@ public final class FeedbackResponsesLogic {
         }
 
         if (question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)) {
-            for (Student studentInTeam : courseRoster.getTeamToMembers().get(student.getTeamName())) {
+            for (Student studentInTeam : courseRoster.getTeamMembers(student.getTeamId())) {
                 if (Objects.equals(studentInTeam, student)) {
                     continue;
                 }

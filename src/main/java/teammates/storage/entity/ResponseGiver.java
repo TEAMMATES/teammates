@@ -114,6 +114,20 @@ public class ResponseGiver {
     }
 
     /**
+     * Gets the team ID of the giver: the team's own ID for team givers, the student's team ID for
+     * student givers, or {@code null} for instructor givers.
+     */
+    public UUID getTeamId() {
+        if (isGiverTeam()) {
+            return getGiverTeamId();
+        }
+        if (giverUser instanceof Student student) {
+            return student.getTeamId();
+        }
+        return null;
+    }
+
+    /**
      * Gets the section ID of the giver.
      */
     public UUID getSectionId() {

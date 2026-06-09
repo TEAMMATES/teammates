@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -80,18 +81,27 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
         boolean isStudent = studentEmail != null;
 
+        // Build team-name based views from the roster's student list (the contribution computation
+        // and its output are keyed by email/team name).
+        Map<String, List<Student>> teamNameToMembers = new LinkedHashMap<>();
+        Map<String, String> emailToTeamName = new HashMap<>();
+        for (Student student : bundle.getRoster().getStudents()) {
+            teamNameToMembers.computeIfAbsent(student.getTeamName(), key -> new ArrayList<>()).add(student);
+            emailToTeamName.put(student.getEmail().toLowerCase(Locale.ROOT), student.getTeamName());
+        }
+
         List<String> teamNames;
         if (isStudent) {
-            teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
+            teamNames = getTeamsWithAtLeastOneResponse(responses);
         } else {
-            teamNames = new ArrayList<>(bundle.getRoster().getTeamToMembers().keySet());
+            teamNames = new ArrayList<>(teamNameToMembers.keySet());
         }
 
         // Each team's member (email) list
-        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(bundle, teamNames);
+        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(teamNameToMembers, teamNames);
 
         // Each team's responses
-        Map<String, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, bundle, teamNames);
+        Map<String, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, teamNames);
 
         // Get each team's submission array. -> int[teamSize][teamSize]
         // Where int[0][1] refers points from student 0 to student 1
@@ -103,7 +113,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         ContributionStatistics output = new ContributionStatistics();
 
         if (isStudent) {
-            String currentUserTeam = bundle.getRoster().getInfoForIdentifier(studentEmail).getTeamName();
+            String currentUserTeam = emailToTeamName.get(studentEmail.toLowerCase(Locale.ROOT));
             TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
             if (currentUserTeamResults != null) {
                 List<String> teamEmails = teamMembersEmail.get(currentUserTeam);
@@ -152,7 +162,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             for (Map.Entry<String, int[]> entry : studentResults.entrySet()) {
                 int[] summary = entry.getValue();
                 String email = entry.getKey();
-                String team = bundle.getRoster().getStudentForEmail(email).getTeamName();
+                String team = emailToTeamName.get(email.toLowerCase(Locale.ROOT));
                 List<String> teamEmails = teamMembersEmail.get(team);
                 TeamEvalResult teamResult = teamResults.get(team);
                 int studentIndex = teamEmails.indexOf(email);
@@ -233,14 +243,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private Map<String, List<FeedbackResponse>> getTeamResponses(
-            List<FeedbackResponse> responses, SessionResultsBundle bundle, List<String> teamNames) {
+            List<FeedbackResponse> responses, List<String> teamNames) {
         Map<String, List<FeedbackResponse>> teamResponses = new LinkedHashMap<>();
         for (String teamName : teamNames) {
             teamResponses.put(teamName, new ArrayList<>());
         }
         for (FeedbackResponse response : responses) {
-            String team = bundle.getRoster()
-                    .getInfoForIdentifier(response.getGiver().getGiverUser().getEmail()).getTeamName();
+            String team = response.getGiver().getTeamName();
             if (teamResponses.containsKey(team)) {
                 teamResponses.get(team).add(response);
             }
@@ -249,10 +258,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private Map<String, List<String>> getTeamMembersEmail(
-            SessionResultsBundle bundle, List<String> teamNames) {
+            Map<String, List<Student>> teamNameToMembers, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
-            List<String> memberEmails = bundle.getRoster().getTeamToMembers().get(teamName)
+            List<String> memberEmails = teamNameToMembers.getOrDefault(teamName, List.of())
                     .stream().map(Student::getEmail)
                     .collect(Collectors.toList());
             teamMembersEmail.put(teamName, memberEmails);
@@ -260,14 +269,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return teamMembersEmail;
     }
 
-    private List<String> getTeamsWithAtLeastOneResponse(
-            List<FeedbackResponse> responses, SessionResultsBundle bundle) {
+    private List<String> getTeamsWithAtLeastOneResponse(List<FeedbackResponse> responses) {
         Set<String> teamNames = new HashSet<>();
         for (FeedbackResponse response : responses) {
-            String teamNameOfResponseGiver = bundle.getRoster()
-                    .getInfoForIdentifier(response.getGiver().getGiverUser().getEmail())
-                    .getTeamName();
-            teamNames.add(teamNameOfResponseGiver);
+            teamNames.add(response.getGiver().getTeamName());
         }
         return new ArrayList<>(teamNames);
     }
