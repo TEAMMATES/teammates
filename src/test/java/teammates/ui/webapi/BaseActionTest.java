@@ -79,7 +79,7 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             action.checkAccessControl();
             JsonResult result = action.execute();
             if (result.getStatusCode() < 200 || result.getStatusCode() >= 300) {
-                throw new RuntimeException("Action execution failed with status code: " + result.getStatusCode());
+                throw new AssertionError("Action execution failed with status code: " + result.getStatusCode());
             }
             return (R) result.getOutput();
         });
