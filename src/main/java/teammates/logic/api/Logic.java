@@ -13,6 +13,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
@@ -71,6 +72,7 @@ import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
+import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
@@ -887,11 +889,23 @@ public class Logic {
     }
 
     /**
-     * Creates an instructor.
+     * Creates an instructor with the given attributes.
+     *
+     * @param account optional account to associate with the instructor at creation time
      */
-    public Instructor createInstructor(Instructor instructor)
+    public Instructor createInstructor(Course course, String name, String email,
+            boolean isDisplayedToStudents, String displayedName, InstructorPermissionRole role,
+            @Nullable Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return usersLogic.createInstructor(instructor);
+        return usersLogic.createInstructor(course, name, email, isDisplayedToStudents, displayedName, role, account);
+    }
+
+    /**
+     * Creates an instructor from a create request, handling sanitization and custom privileges.
+     */
+    public Instructor createInstructor(String courseId, InstructorCreateRequest request)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createInstructor(courseId, request);
     }
 
     /**

@@ -91,18 +91,10 @@ public final class CoursesLogic {
         Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
                 timeZone, courseCreateRequest.getInstitute());
 
-        // Create the initial instructor for the course.
-        Instructor instructor = new Instructor(
-                course,
-                courseCreator.getName(),
-                courseCreator.getEmail(),
-                false,
-                courseCreator.getName(),
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        instructor.setAccount(courseCreator);
-
         try {
-            usersLogic.createInstructor(instructor);
+            usersLogic.createInstructor(course, courseCreator.getName(), courseCreator.getEmail(),
+                    false, courseCreator.getName(), InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                    courseCreator);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             assert false : "Unexpected exception while trying to create instructor for a new course "
                                   + System.lineSeparator() + course.toString();

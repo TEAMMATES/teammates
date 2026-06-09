@@ -3,13 +3,10 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
@@ -43,28 +40,13 @@ public class CreateInstructorAction extends Action {
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
 
         try {
-            Course course = logic.getCourse(courseId);
+            Instructor createdInstructor = logic.createInstructor(courseId, instructorRequest);
 
-            Instructor instructorToAdd = createInstructorWithBasicAttributes(course,
-                    SanitizationHelper.sanitizeName(instructorRequest.getName()),
-                    SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
-                    instructorRequest.getIsDisplayedToStudent(),
-                    SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
-
-            Instructor createdInstructor = logic.createInstructor(instructorToAdd);
-
-            // Store custom privileges only after the instructor has been persisted (and has an id).
-            InstructorPrivileges requestPrivileges = instructorRequest.getPrivileges();
-            if (requestPrivileges != null
-                    && Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName())) {
-                logic.saveInstructorPrivileges(createdInstructor, requestPrivileges);
-            }
-
-            // Generate and queue invitation email to priority queue (user-triggered)
             Instructor inviter = getInstructorFromRequest(courseId);
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter does not exist.");
             }
+            Course course = logic.getCourse(courseId);
             EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
@@ -77,39 +59,6 @@ public class CreateInstructorAction extends Action {
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-    }
-
-    /**
-     * Creates a new instructor with basic information.
-     * This consists of everything apart from custom privileges.
-     *
-     * @param course                The course the instructor is being added to.
-     * @param instructorName        Name of the instructor.
-     * @param instructorEmail       Email of the instructor.
-     * @param instructorRole        Role of the instructor.
-     * @param isDisplayedToStudents Whether the instructor should be visible to
-     *                              students.
-     * @param displayedName         Name to be visible to students.
-     *                              Should not be {@code null} even if
-     *                              {@code isDisplayedToStudents} is false.
-     * @return An instructor with basic info, excluding custom privileges
-     */
-    private Instructor createInstructorWithBasicAttributes(Course course, String instructorName,
-            String instructorEmail, String instructorRole,
-            boolean isDisplayedToStudents, String displayedName) {
-
-        String instrName = SanitizationHelper.sanitizeName(instructorName);
-        String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
-        String instrRole = SanitizationHelper.sanitizeName(instructorRole);
-
-        String instrDisplayedName = displayedName;
-        if (displayedName == null || displayedName.isEmpty()) {
-            instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
-        }
-
-        InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
-
-        return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role);
     }
 
 }
