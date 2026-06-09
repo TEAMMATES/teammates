@@ -16,7 +16,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -110,6 +109,15 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyInstructorDetails(Instructor instructor) {
+        verifyInstructorDetails(instructor, null, null, null);
+    }
+
+    /**
+     * Verifies the displayed instructor details, including custom privileges when provided.
+     */
+    public void verifyInstructorDetails(Instructor instructor, InstructorPermissionSet courseLevelPrivileges,
+            Map<String, InstructorPermissionSet> sectionLevelPrivileges,
+            Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges) {
         waitForElementPresence(By.tagName("tm-instructor-edit-panel"));
         int instrNum = getIntrNum(instructor.getEmail());
         if (instructor.getGoogleId() != null) {
@@ -125,17 +133,18 @@ public class InstructorCourseEditPage extends AppPage {
         }
         assertEquals(instructor.getRole().getRoleName(), getInstructorRole(instrNum));
         if (Const.InstructorPermissionRoleNames.CUSTOM.equals(instructor.getRole().getRoleName())
-                && getEditInstructorButton(instrNum).isEnabled()) {
-            verifyCustomPrivileges(instrNum, instructor.getPrivileges());
+                && getEditInstructorButton(instrNum).isEnabled() && courseLevelPrivileges != null) {
+            verifyCustomPrivileges(instrNum, courseLevelPrivileges, sectionLevelPrivileges, sessionLevelPrivileges);
         }
     }
 
-    public void verifyCustomPrivileges(int instrNum, InstructorPrivilegesLegacy privileges) {
+    /**
+     * Verifies the custom privileges shown in the edit panel against the given name-keyed privileges.
+     */
+    public void verifyCustomPrivileges(int instrNum, InstructorPermissionSet courseLevelPrivileges,
+            Map<String, InstructorPermissionSet> sectionLevelPrivileges,
+            Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges) {
         clickEditInstructorButton(instrNum);
-
-        InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();
-        Map<String, InstructorPermissionSet> sectionLevelPrivileges = privileges.getSectionLevelPrivileges();
-        Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges = privileges.getSessionLevelPrivileges();
 
         verifyCourseLevelPrivileges(instrNum, courseLevelPrivileges);
         verifySectionLevelPrivileges(instrNum, sectionLevelPrivileges);
