@@ -29,7 +29,7 @@ public class MarkNotificationAsReadAction extends Action {
     }
 
     @Override
-    public ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         MarkNotificationAsReadRequest readNotificationCreateRequest =
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
