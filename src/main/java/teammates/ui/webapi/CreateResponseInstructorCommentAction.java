@@ -49,9 +49,9 @@ public class CreateResponseInstructorCommentAction extends Action {
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         } else {
             gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionId,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         }
-        
+
         if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for instructor comment");
         }

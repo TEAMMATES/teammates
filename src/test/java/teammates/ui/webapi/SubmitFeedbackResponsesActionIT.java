@@ -164,13 +164,14 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                                                         Instructor instructor, boolean value) {
         String courseId = session.getCourseId();
 
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
+        runtimePrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
 
         inTransaction(() -> {
             Instructor updatedInstructor = logic.getInstructor(instructor.getId());
             updatedInstructor.getCourse().setId(courseId);
-            updatedInstructor.setPrivileges(instructorPrivileges);
+            teammates.logic.core.InstructorPermissionsLogic.inst()
+                    .saveInstructorPrivileges(updatedInstructor, runtimePrivileges);
             updatedInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
 
             logic.updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);

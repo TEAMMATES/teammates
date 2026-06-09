@@ -95,6 +95,9 @@ public class InstructorPermissionSet {
         return copy;
     }
 
+    /**
+     * Returns the value of the specified privilege. Returns false if the privilege name is invalid.
+     */
     public boolean get(String privilegeName) {
         switch (privilegeName) {
         case Const.InstructorPermissions.CAN_MODIFY_COURSE:

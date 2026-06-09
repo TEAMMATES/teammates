@@ -19,6 +19,7 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -257,13 +258,16 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
     void grantInstructorWithSectionPrivilege(
             Instructor instructor, String privilege, String[] sections) {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-
-        for (String section : sections) {
-            instructorPrivileges.updatePrivilege(section, privilege, true);
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
+        for (String sectionName : sections) {
+            Section section =
+                    CoursesLogic.inst().getSectionByName(instructor.getCourseId(), sectionName);
+            if (section != null) {
+                runtimePrivileges.updatePrivilege(section.getId(), privilege, true);
+            }
         }
-
-        instructor.setPrivileges(instructorPrivileges);
+        teammates.logic.core.InstructorPermissionsLogic.inst()
+                .saveInstructorPrivileges(instructor, runtimePrivileges);
         assert instructor.isValid();
     }
 
@@ -433,12 +437,17 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-
-        instructorPrivileges.updatePrivilege(privilege, true);
-        instructor.setPrivileges(instructorPrivileges);
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
+        runtimePrivileges.updatePrivilege(privilege, true);
+        teammates.logic.core.InstructorPermissionsLogic.inst()
+                .saveInstructorPrivileges(instructor, runtimePrivileges);
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        inTransaction(() -> logic.getInstructor(instructor.getId()).setPrivileges(instructorPrivileges));
+        inTransaction(() -> {
+            Instructor dbInstructor = logic.getInstructor(instructor.getId());
+            teammates.logic.core.InstructorPermissionsLogic.inst()
+                    .saveInstructorPrivileges(dbInstructor, runtimePrivileges);
+            dbInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        });
 
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, submissionParams);
@@ -727,7 +736,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (instructor == null) {
             instructor = inTransaction(() -> {
                 Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
+                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivilegesLegacy());
                 Instructor createdInstructor = logic.createInstructor(toCreate);
 
                 String googleId = email;

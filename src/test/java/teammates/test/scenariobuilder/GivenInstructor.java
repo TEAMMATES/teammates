@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -57,7 +59,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
     public GivenInstructor coOwner() {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+                InstructorPermissionsLogic.inst()
+                        .legacyPrivilegesForRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
         return this;
     }
 
@@ -67,7 +70,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
     public GivenInstructor manager() {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
         entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER.getRoleName()));
+                InstructorPermissionsLogic.inst()
+                        .legacyPrivilegesForRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER.getRoleName()));
         return this;
     }
 
@@ -77,7 +81,9 @@ public class GivenInstructor extends GivenBase<Instructor> {
     public GivenInstructor observer() {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER.getRoleName()));
+                InstructorPermissionsLogic.inst()
+                        .legacyPrivilegesForRole(InstructorPermissionRole
+                                .INSTRUCTOR_PERMISSION_ROLE_OBSERVER.getRoleName()));
         return this;
     }
 
@@ -87,7 +93,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
     public GivenInstructor tutor() {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
         entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR.getRoleName()));
+                InstructorPermissionsLogic.inst()
+                        .legacyPrivilegesForRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR.getRoleName()));
         return this;
     }
 
@@ -96,7 +103,9 @@ public class GivenInstructor extends GivenBase<Instructor> {
      */
     public GivenInstructor custom(InstructorPrivileges privileges) {
         entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        entity.setPrivileges(privileges);
+        entity.setPrivileges(
+                InstructorPermissionsLogic.inst().convertToLegacy(privileges)
+        );
         return this;
     }
 
@@ -132,7 +141,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
         boolean isDisplayedToStudents = true;
         String displayName = name;
         InstructorPermissionRole role = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(role.getRoleName());
+        InstructorPrivilegesLegacy privileges = InstructorPermissionsLogic.inst()
+                .legacyPrivilegesForRole(role.getRoleName());
         Instructor i = new Instructor(name, email, isDisplayedToStudents, displayName, role, privileges);
         i.setId(instructorId);
         return i;

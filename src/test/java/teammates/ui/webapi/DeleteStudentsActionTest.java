@@ -103,7 +103,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructor.setPrivileges(instructorPrivileges);
+        instructor.setPrivileges(toLegacyForTest(instructorPrivileges));
 
         loginAsInstructor(instructorId);
 

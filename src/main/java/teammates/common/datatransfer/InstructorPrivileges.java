@@ -203,6 +203,9 @@ public final class InstructorPrivileges {
         });
     }
 
+    /**
+     * Adds a section entry with default privileges if it does not exist.
+     */
     public void addSectionWithDefaultPrivileges(UUID sectionId) {
         this.sectionLevel.putIfAbsent(sectionId, getOverallPrivilegesForSections());
     }

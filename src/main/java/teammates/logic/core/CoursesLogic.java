@@ -48,7 +48,8 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, InstructorPermissionsLogic instructorPermissionsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic,
+            InstructorPermissionsLogic instructorPermissionsLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;

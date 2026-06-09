@@ -12,11 +12,11 @@ import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -60,7 +60,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor newInstructor = new Instructor(typicalCourse, newInstructorName, newInstructorEmail,
                 false, null, getEnum(newInstructorRole),
-                new InstructorPrivileges(newInstructorRole));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(newInstructorRole));
 
         InstructorCreateRequest requestBody = new InstructorCreateRequest(newInstructorName, newInstructorEmail,
                 newInstructorRole, null, false, null);
@@ -155,7 +155,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
         Instructor newInstructor = new Instructor(typicalCourse, newInstructorName, newInstructorEmail,
                 false, null, getEnum(newInstructorRole),
-                new InstructorPrivileges(newInstructorRole));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(newInstructorRole));
 
         InstructorCreateRequest requestBody = new InstructorCreateRequest(newInstructorName, newInstructorEmail,
                 newInstructorRole, null, false, null);

@@ -54,7 +54,7 @@ public class UpdateResponseInstructorCommentAction extends Action {
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             return;
         }
-        
+
         gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(),
                 recipientSectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }

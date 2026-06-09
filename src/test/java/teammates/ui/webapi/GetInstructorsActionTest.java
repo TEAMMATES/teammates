@@ -17,7 +17,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -58,16 +60,15 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
         InstructorPermissionRole customRole = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.CUSTOM);
-        InstructorPrivileges customInstructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
+        InstructorPrivilegesLegacy customInstructorPrivileges =
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.CUSTOM);
         stubInstructorWithoutPermission = new Instructor(stubCourse, "instructor-1-name", "valid1@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, customInstructorPrivileges);
-        InstructorPrivileges modifyInstructorPrivilegeOnly =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
+        InstructorPrivileges modifyInstructorPrivilegeOnly = new InstructorPrivileges();
         modifyInstructorPrivilegeOnly.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         stubInstructorWithOnlyModifyInstructorPrivilege = new Instructor(stubCourse, "instructor-2-name",
                 "valid2@teammates.tmt", false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
-                customRole, modifyInstructorPrivilegeOnly);
+                customRole, toLegacyForTest(modifyInstructorPrivilegeOnly));
 
         stubInstructorWithPermission.setAccount(stubAccount1);
         stubInstructorWithoutPermission.setAccount(stubAccount2);

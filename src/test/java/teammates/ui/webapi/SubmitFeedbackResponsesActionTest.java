@@ -695,11 +695,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         stubFeedbackSession.setStartTime(Instant.now().minus(Duration.ofDays(1)));
         stubFeedbackSession.setEndTime(Instant.now().plus(Duration.ofDays(1)));
 
-        InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.CUSTOM);
+        InstructorPrivileges privileges = new InstructorPrivileges();
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false);
         stubInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        stubInstructor.setPrivileges(privileges);
+        stubInstructor.setPrivileges(toLegacyForTest(privileges));
 
         spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 

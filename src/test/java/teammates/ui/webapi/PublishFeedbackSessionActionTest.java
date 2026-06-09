@@ -14,12 +14,13 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -181,7 +182,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     @Test
     void testCheckSpecificAccessControl_instructorOfSameCourseWithoutPermission_throwsUnauthorizedAccessException() {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges(
+        InstructorPrivilegesLegacy instructorPrivileges = InstructorPermissionsLogic.inst().legacyPrivilegesForRole(
                 Const.InstructorPermissionRoleNames.OBSERVER);
         typicalInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         typicalInstructor.setPrivileges(instructorPrivileges);
