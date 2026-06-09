@@ -1,0 +1,177 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260609-instructor-privileges-tables-1">
+        <createTable tableName="instructor_privileges">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="instructor_privilegesPK"/>
+            </column>
+            <column name="instructor_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_course" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_instructor" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_session" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_student" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_view_student_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_view_session_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_submit_session_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_session_comments_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITH TIME ZONE"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="instructor_id"
+            constraintName="uc_instructor_privileges_instructor_id"
+            tableName="instructor_privileges"/>
+
+        <addForeignKeyConstraint baseColumnNames="instructor_id"
+            baseTableName="instructor_privileges"
+            constraintName="FK_instructor_privileges_instructor_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="instructors"
+            validate="true"/>
+
+        <createTable tableName="instructor_section_privileges">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="instructor_section_privilegesPK"/>
+            </column>
+            <column name="instructor_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="section_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_view_student_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_view_session_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_submit_session_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_session_comments_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITH TIME ZONE"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="instructor_id, section_id"
+            constraintName="uc_instructor_section_privileges"
+            tableName="instructor_section_privileges"/>
+
+        <addForeignKeyConstraint baseColumnNames="instructor_id"
+            baseTableName="instructor_section_privileges"
+            constraintName="FK_instructor_section_privileges_instructor_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="instructors"
+            validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="section_id"
+            baseTableName="instructor_section_privileges"
+            constraintName="FK_instructor_section_privileges_section_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="sections"
+            validate="true"/>
+
+        <createTable tableName="instructor_session_privileges">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="instructor_session_privilegesPK"/>
+            </column>
+            <column name="instructor_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="section_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="session_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_view_session_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_submit_session_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="can_modify_session_comments_in_sections" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITH TIME ZONE"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="instructor_id, section_id, session_id"
+            constraintName="uc_instructor_session_privileges"
+            tableName="instructor_session_privileges"/>
+
+        <addForeignKeyConstraint baseColumnNames="instructor_id"
+            baseTableName="instructor_session_privileges"
+            constraintName="FK_instructor_session_privileges_instructor_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="instructors"
+            validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="section_id"
+            baseTableName="instructor_session_privileges"
+            constraintName="FK_instructor_session_privileges_section_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="sections"
+            validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="session_id"
+            baseTableName="instructor_session_privileges"
+            constraintName="FK_instructor_session_privileges_session_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="feedback_sessions"
+            validate="true"/>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260609-instructor-privileges-tables-2">
+        <dropColumn columnName="privileges" tableName="instructors"/>
+
+        <rollback>
+            <addColumn tableName="instructors">
+                <column name="privileges" type="TEXT">
+                    <constraints nullable="false"/>
+                </column>
+            </addColumn>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

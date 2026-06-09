@@ -25,6 +25,9 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.InstructorCoursePrivilege;
+import teammates.storage.entity.InstructorSectionPrivilege;
+import teammates.storage.entity.InstructorSessionPrivilege;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -95,7 +98,10 @@ public final class HibernateUtil {
             FeedbackRubricResponse.class,
             FeedbackTextResponse.class,
             ResponseInstructorComment.class,
-            FeedbackSessionLog.class);
+            FeedbackSessionLog.class,
+            InstructorCoursePrivilege.class,
+            InstructorSectionPrivilege.class,
+            InstructorSessionPrivilege.class);
 
     private static SessionFactory sessionFactory;
 

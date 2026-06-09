@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -50,10 +49,16 @@ public class CreateInstructorAction extends Action {
                     SanitizationHelper.sanitizeName(instructorRequest.getName()),
                     SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
                     instructorRequest.getIsDisplayedToStudent(),
-                    SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()),
-                    instructorRequest.getPrivileges());
+                    SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
 
             Instructor createdInstructor = logic.createInstructor(instructorToAdd);
+
+            // Store custom privileges only after the instructor has been persisted (and has an id).
+            InstructorPrivileges requestPrivileges = instructorRequest.getPrivileges();
+            if (requestPrivileges != null
+                    && Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName())) {
+                logic.saveInstructorPrivileges(createdInstructor, requestPrivileges);
+            }
 
             // Generate and queue invitation email to priority queue (user-triggered)
             Instructor inviter = getInstructorFromRequest(courseId);
@@ -91,7 +96,7 @@ public class CreateInstructorAction extends Action {
      */
     private Instructor createInstructorWithBasicAttributes(Course course, String instructorName,
             String instructorEmail, String instructorRole,
-            boolean isDisplayedToStudents, String displayedName, InstructorPrivileges requestPrivileges) {
+            boolean isDisplayedToStudents, String displayedName) {
 
         String instrName = SanitizationHelper.sanitizeName(instructorName);
         String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
@@ -102,18 +107,9 @@ public class CreateInstructorAction extends Action {
             instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
-        // Only assign privileges if the role is custom, otherwise assign default privileges for the role
         InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
-        InstructorPrivilegesLegacy legacyPrivileges;
-        if (requestPrivileges != null && Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRole)) {
-            requestPrivileges.validatePrivileges();
-            legacyPrivileges = logic.convertToLegacy(requestPrivileges);
-        } else {
-            legacyPrivileges = logic.legacyPrivilegesForRole(instrRole);
-        }
 
-        return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,
-                legacyPrivileges);
+        return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role);
     }
 
 }

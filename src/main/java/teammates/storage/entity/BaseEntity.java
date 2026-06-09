@@ -11,7 +11,6 @@ import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -155,22 +154,6 @@ public abstract class BaseEntity {
         @Override
         public List<ViewerType> convertToEntityAttribute(String dbData) {
             return JsonUtils.fromJson(dbData, new TypeReference<>(){});
-        }
-    }
-
-    /**
-     * Converter for InstructorPrivileges.
-     */
-    @Converter
-    public static class InstructorPrivilegesConverter implements AttributeConverter<InstructorPrivilegesLegacy, String> {
-        @Override
-        public String convertToDatabaseColumn(InstructorPrivilegesLegacy entity) {
-            return JsonUtils.toJson(entity);
-        }
-
-        @Override
-        public InstructorPrivilegesLegacy convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, InstructorPrivilegesLegacy.class);
         }
     }
 }

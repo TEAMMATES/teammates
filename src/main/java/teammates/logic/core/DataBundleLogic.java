@@ -1,11 +1,16 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivilegesBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
@@ -19,6 +24,9 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.InstructorCoursePrivilege;
+import teammates.storage.entity.InstructorSectionPrivilege;
+import teammates.storage.entity.InstructorSessionPrivilege;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
@@ -271,6 +279,40 @@ public final class DataBundleLogic {
             }
         }
 
+        // Re-point the placeholder ids in the combined instructor privileges section to the
+        // newly generated entity ids so they can be resolved against the bundle at persist time.
+        for (InstructorPrivilegesBundle privileges : dataBundle.instructorPrivileges.values()) {
+            User instructor = usersMap.get(privileges.getInstructorId());
+            assert instructor != null : "InstructorPrivilegesBundle contains instructorId that does not match any instructor in the bundle";
+            privileges.setInstructorId(instructor.getId());
+
+            Map<UUID, InstructorPermissionSet> remappedSectionLevel = new HashMap<>();
+            privileges.getSectionLevel().forEach((sectionId, permissions) -> {
+                Section section = sectionsMap.get(sectionId);
+                if (section != null) {
+                    remappedSectionLevel.put(section.getId(), permissions);
+                }
+            });
+            privileges.setSectionLevel(remappedSectionLevel);
+
+            Map<UUID, Map<UUID, InstructorPermissionSet>> remappedSessionLevel = new HashMap<>();
+            privileges.getSessionLevel().forEach((sectionId, sessionPermissions) -> {
+                Section section = sectionsMap.get(sectionId);
+                if (section == null) {
+                    return;
+                }
+                Map<UUID, InstructorPermissionSet> remappedSessions = new HashMap<>();
+                sessionPermissions.forEach((sessionId, permissions) -> {
+                    FeedbackSession session = sessionsMap.get(sessionId);
+                    if (session != null) {
+                        remappedSessions.put(session.getId(), permissions);
+                    }
+                });
+                remappedSessionLevel.put(section.getId(), remappedSessions);
+            });
+            privileges.setSessionLevel(remappedSessionLevel);
+        }
+
         return dataBundle;
     }
 
@@ -310,6 +352,7 @@ public final class DataBundleLogic {
         persistEntities(instructors);
         persistEntities(students);
         persistEntities(sessions);
+        persistEntities(expandInstructorPrivileges(dataBundle));
         persistEntities(questions);
         persistEntities(responses);
         persistEntities(responseComments);
@@ -343,6 +386,51 @@ public final class DataBundleLogic {
         dataBundle.accountRequests.values().forEach(accountRequest ->
                 accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
         );
+    }
+
+    /**
+     * Expands the combined instructor privileges section of the bundle into the corresponding
+     * course/section/session privilege entities, resolving references against the bundle's entities.
+     */
+    private List<BaseEntity> expandInstructorPrivileges(DataBundle dataBundle) {
+        Map<UUID, Instructor> instructorsById = new HashMap<>();
+        dataBundle.instructors.values().forEach(i -> instructorsById.put(i.getId(), i));
+        Map<UUID, Section> sectionsById = new HashMap<>();
+        dataBundle.sections.values().forEach(s -> sectionsById.put(s.getId(), s));
+        Map<UUID, FeedbackSession> sessionsById = new HashMap<>();
+        dataBundle.feedbackSessions.values().forEach(fs -> sessionsById.put(fs.getId(), fs));
+
+        List<BaseEntity> entities = new ArrayList<>();
+        for (InstructorPrivilegesBundle privileges : dataBundle.instructorPrivileges.values()) {
+            Instructor instructor = instructorsById.get(privileges.getInstructorId());
+            if (instructor == null) {
+                continue;
+            }
+            entities.add(new InstructorCoursePrivilege(instructor, privileges.getCourseLevel()));
+
+            for (Entry<UUID, InstructorPermissionSet> entry : privileges.getSectionLevel().entrySet()) {
+                Section section = sectionsById.get(entry.getKey());
+                if (section != null) {
+                    entities.add(new InstructorSectionPrivilege(instructor, section, entry.getValue()));
+                }
+            }
+
+            for (Entry<UUID, Map<UUID, InstructorPermissionSet>> sectionEntry
+                    : privileges.getSessionLevel().entrySet()) {
+                Section section = sectionsById.get(sectionEntry.getKey());
+                if (section == null) {
+                    continue;
+                }
+                for (Entry<UUID, InstructorPermissionSet> sessionEntry : sectionEntry.getValue().entrySet()) {
+                    FeedbackSession session = sessionsById.get(sessionEntry.getKey());
+                    if (session != null) {
+                        entities.add(new InstructorSessionPrivilege(
+                                instructor, section, session, sessionEntry.getValue()));
+                    }
+                }
+            }
+        }
+        return entities;
     }
 
     private void persistEntities(Collection<? extends BaseEntity> entities) throws InvalidParametersException {

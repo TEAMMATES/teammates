@@ -339,7 +339,6 @@ public final class UsersDb {
         List<String> courseIdsWithViewStudentPrivilege = null;
         if (instructors != null) {
             courseIdsWithViewStudentPrivilege = instructors.stream()
-                    .filter(i -> i.getPrivileges().getCourseLevelPrivileges().isCanViewStudentInSections())
                     .map(Instructor::getCourseId)
                     .collect(Collectors.toList());
 

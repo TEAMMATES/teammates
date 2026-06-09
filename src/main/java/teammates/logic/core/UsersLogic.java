@@ -493,11 +493,14 @@ public final class UsersLogic {
 
     /**
      * Searches for students.
-     *
-     * @param instructors the constraint that restricts the search result
      */
     public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        return usersDb.searchStudents(queryString, instructors);
+        List<Instructor> instructorsWithViewStudentPrivilege = instructors == null ? null
+                : instructors.stream()
+                        .filter(i -> instructorPermissionsLogic.hasPermissions(
+                                i, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                        .toList();
+        return usersDb.searchStudents(queryString, instructorsWithViewStudentPrivilege);
     }
 
     /**

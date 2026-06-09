@@ -11,11 +11,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
@@ -38,7 +36,6 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
     private UsersLogic usersLogic;
-    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -48,11 +45,9 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic,
-            InstructorPermissionsLogic instructorPermissionsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
-        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -96,17 +91,14 @@ public final class CoursesLogic {
         Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
                 timeZone, courseCreateRequest.getInstitute());
 
-        // Create the initial instructor for the course
-        InstructorPrivilegesLegacy privileges = instructorPermissionsLogic.legacyPrivilegesForRole(
-                Const.InstructorPermissionRoleNames.COOWNER);
+        // Create the initial instructor for the course.
         Instructor instructor = new Instructor(
                 course,
                 courseCreator.getName(),
                 courseCreator.getEmail(),
                 false,
                 courseCreator.getName(),
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                privileges);
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         instructor.setAccount(courseCreator);
 
         try {
