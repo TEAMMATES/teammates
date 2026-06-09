@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -80,7 +81,7 @@ public final class Config {
     public static final String HMAC_KEY;
 
     /** Value of {@code app.login.methods}. */
-    public static final String LOGIN_METHODS;
+    public static final Set<String> LOGIN_METHODS;
 
     /** Value of {@code app.oidc.google.client.id}. */
     public static final String OIDC_GOOGLE_CLIENT_ID;
@@ -210,7 +211,7 @@ public final class Config {
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
         ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
         HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
-        LOGIN_METHODS = getProperty(properties, devProperties, "app.login.methods");
+        LOGIN_METHODS = getLoginMethods(getProperty(properties, devProperties, "app.login.methods").split(","));
         OIDC_GOOGLE_CLIENT_ID = getProperty(properties, devProperties, "app.oidc.google.client.id");
         OIDC_GOOGLE_CLIENT_SECRET = getProperty(properties, devProperties, "app.oidc.google.client.secret");
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
@@ -344,6 +345,15 @@ public final class Config {
         throw new IllegalStateException("Invalid environment: " + value + ". Must be development or production.");
     }
 
+    private static Set<String> getLoginMethods(String[] loginMethods) {
+        Set<String> methods = new HashSet<>(Arrays.asList(loginMethods));
+        if (isDevServerLoginEnabled()) {
+            methods.add("devserver");
+        }
+
+        return Collections.unmodifiableSet(methods);
+    }
+
     /**
      * Returns the GAE instance ID.
      */
@@ -377,22 +387,11 @@ public final class Config {
 
     /**
      * Returns the set of login methods allowed for users to log in from {@code app.login.methods}.
+     * Dev server login method is added to the set if {@code app.enable.devserver.login} is true
+     * and the environment is development.
      */
-    public static Set<String> getLoginMethods() {
-        if (LOGIN_METHODS == null || LOGIN_METHODS.isBlank()) {
-            return Set.of();
-        }
-
-        Set<String> methods = Arrays.stream(LOGIN_METHODS.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toSet());
-
-        if (isDevServerLoginEnabled()) {
-            methods.add("devserver");
-        }
-
-        return methods;
+    public static Set<String> getSupportedLoginMethods() {
+        return LOGIN_METHODS;
     }
 
     /**

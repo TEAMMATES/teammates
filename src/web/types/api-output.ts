@@ -453,6 +453,10 @@ export interface LogDetails {
   message?: string;
 }
 
+export interface LoginMethods extends ApiOutput {
+  loginMethods: LoginMethod[];
+}
+
 export interface MessageOutput extends ApiOutput {
   message: string;
 }
@@ -788,6 +792,11 @@ export enum LogEvent {
   EMAIL_SENT = "EMAIL_SENT",
   FEEDBACK_SESSION_AUDIT = "FEEDBACK_SESSION_AUDIT",
   DEFAULT_LOG = "DEFAULT_LOG",
+}
+
+export enum LoginMethod {
+  GOOGLE = "google",
+  DEV_SERVER = "devserver",
 }
 
 export enum LogSeverity {
