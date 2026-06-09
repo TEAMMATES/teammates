@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.util.Const;
@@ -44,28 +46,34 @@ public final class InstructorPrivileges {
     private static final Set<String> SESSION_LEVEL_ONLY_PRIVILEGES =
             new LinkedHashSet<>(Arrays.asList(SESSION_LEVEL_ONLY_LIST));
 
+    @Nullable
+    private UUID instructorId;
     private final InstructorPermissionSet courseLevel;
     private final Map<UUID, InstructorPermissionSet> sectionLevel;
     private final Map<UUID, Map<UUID, InstructorPermissionSet>> sessionLevel;
 
     @JsonCreator
     private InstructorPrivileges(
+            UUID instructorId,
             InstructorPermissionSet courseLevel,
             Map<UUID, InstructorPermissionSet> sectionLevel,
             Map<UUID, Map<UUID, InstructorPermissionSet>> sessionLevel) {
+        this.instructorId = instructorId;
         this.courseLevel = courseLevel;
         this.sectionLevel = sectionLevel;
         this.sessionLevel = sessionLevel;
     }
 
-    public InstructorPrivileges() {
+    public InstructorPrivileges(UUID instructorId) {
+        Objects.requireNonNull(instructorId, "Instructor ID cannot be null");
+        this.instructorId = instructorId;
         this.courseLevel = new InstructorPermissionSet();
         this.sectionLevel = new LinkedHashMap<>();
         this.sessionLevel = new LinkedHashMap<>();
     }
 
-    public InstructorPrivileges(String instrRole) {
-        this();
+    public InstructorPrivileges(UUID instructorId, String instrRole) {
+        this(instructorId);
         switch (instrRole) {
         case Const.InstructorPermissionRoleNames.COOWNER:
             setDefaultPrivilegesForCoowner();
@@ -355,6 +363,14 @@ public final class InstructorPrivileges {
         return copy;
     }
 
+    public UUID getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(UUID instructorId) {
+        this.instructorId = instructorId;
+    }
+
     @Override
     public boolean equals(Object another) {
         if (!(another instanceof InstructorPrivileges)) {
@@ -365,7 +381,8 @@ public final class InstructorPrivileges {
         }
 
         InstructorPrivileges rhs = (InstructorPrivileges) another;
-        return this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges())
+        return Objects.equals(this.instructorId, rhs.instructorId)
+                && this.getCourseLevelPrivileges().equals(rhs.getCourseLevelPrivileges())
                 && this.getSectionLevelPrivileges().equals(rhs.getSectionLevelPrivileges())
                 && this.getSessionLevelPrivileges().equals(rhs.getSessionLevelPrivileges());
     }
@@ -373,6 +390,7 @@ public final class InstructorPrivileges {
     @Override
     public int hashCode() {
         return Objects.hash(
+            this.instructorId,
             this.getCourseLevelPrivileges(),
             this.getSectionLevelPrivileges(),
             this.getSessionLevelPrivileges()

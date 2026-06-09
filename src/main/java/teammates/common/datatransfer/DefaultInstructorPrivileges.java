@@ -1,15 +1,19 @@
 package teammates.common.datatransfer;
 
+import java.util.UUID;
+
+import teammates.common.util.Const;
+
 /**
  * Default privilege presets for instructor roles.
  */
 public final class DefaultInstructorPrivileges {
 
-    public static final InstructorPermissionSet PRIVILEGES_MANAGER = new InstructorPermissionSet();
-    public static final InstructorPermissionSet PRIVILEGES_OBSERVER = new InstructorPermissionSet();
-    public static final InstructorPermissionSet PRIVILEGES_TUTOR = new InstructorPermissionSet();
-    public static final InstructorPermissionSet PRIVILEGES_ALL = new InstructorPermissionSet();
-    public static final InstructorPermissionSet PRIVILEGES_NONE = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_MANAGER = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_OBSERVER = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_TUTOR = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_ALL = new InstructorPermissionSet();
+    static final InstructorPermissionSet PRIVILEGES_NONE = new InstructorPermissionSet();
 
     static {
         PRIVILEGES_MANAGER.setCanModifyCourse(false);
@@ -60,6 +64,27 @@ public final class DefaultInstructorPrivileges {
 
     private DefaultInstructorPrivileges() {
         // Utility class.
+    }
+
+    /**
+     * Returns default privileges for coowner role.
+     */
+    public static InstructorPrivileges buildDefaultPrivileges(UUID instructorId, String instrRole) {
+        return new InstructorPrivileges(instructorId, instrRole);
+    }
+
+    /**
+     * Returns default privileges for the given role.
+     */
+    public static InstructorPermissionSet getDefaultPrivileges(String instrRole) {
+        return switch (instrRole) {
+        case Const.InstructorPermissionRoleNames.COOWNER -> PRIVILEGES_ALL;
+        case Const.InstructorPermissionRoleNames.MANAGER -> PRIVILEGES_MANAGER;
+        case Const.InstructorPermissionRoleNames.OBSERVER -> PRIVILEGES_OBSERVER;
+        case Const.InstructorPermissionRoleNames.TUTOR -> PRIVILEGES_TUTOR;
+        case Const.InstructorPermissionRoleNames.CUSTOM -> PRIVILEGES_NONE;
+        default -> throw new IllegalArgumentException("Invalid instructor role: " + instrRole);
+        };
     }
 
 }

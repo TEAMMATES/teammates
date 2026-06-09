@@ -63,8 +63,8 @@ public class UsersLogicTest extends BaseTestCase {
             InstructorPermissionRole role = instr.getRole();
             InstructorPrivileges privileges = role == null
                     || role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
-                            ? new InstructorPrivileges()
-                            : new InstructorPrivileges(role.getRoleName());
+                            ? new InstructorPrivileges(instr.getId())
+                            : new InstructorPrivileges(instr.getId(), role.getRoleName());
             return privileges.isAllowedForPrivilege(permissionName);
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
         usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
@@ -203,7 +203,7 @@ public class UsersLogicTest extends BaseTestCase {
     @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
         instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        InstructorPrivileges privileges = new InstructorPrivileges();
+        InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         when(instructorPermissionsLogic.getInstructorPrivileges(instructor)).thenReturn(privileges);
 

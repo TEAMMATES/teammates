@@ -114,7 +114,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         inTransaction(() -> usersLogic.createInstructor(instructor));
 
         ______TS("does not grant modify instructor privilege when the instructor does not already have it");
-        InstructorPrivileges privileges = new InstructorPrivileges();
+        InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         inTransaction(() -> InstructorPermissionsLogic.inst().saveInstructorPrivileges(instructor, privileges));
 

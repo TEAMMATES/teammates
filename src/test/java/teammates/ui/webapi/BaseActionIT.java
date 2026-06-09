@@ -421,7 +421,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
-        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges(instructor.getId());
         runtimePrivileges.updatePrivilege(privilege, true);
 
         inTransaction(() -> {

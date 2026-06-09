@@ -435,6 +435,7 @@ export interface InstructorPrivilege extends ApiOutput {
 }
 
 export interface InstructorPrivileges {
+  instructorId?: string;
   courseLevel: InstructorPermissionSet;
   sectionLevel: { [index: string]: InstructorPermissionSet };
   sessionLevel: { [index: string]: { [index: string]: InstructorPermissionSet } };
