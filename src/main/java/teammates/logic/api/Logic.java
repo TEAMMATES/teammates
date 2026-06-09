@@ -15,7 +15,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
@@ -192,17 +191,10 @@ public class Logic {
     }
 
     /**
-     * Converts the given runtime {@link InstructorPrivileges} (UUID-keyed) to legacy name-keyed format.
+     * Saves the instructor privileges for the given instructor.
      */
-    public InstructorPrivilegesLegacy convertToLegacy(InstructorPrivileges newPrivileges) {
-        return instructorPermissionsLogic.convertToLegacy(newPrivileges);
-    }
-
-    /**
-     * Creates a {@link InstructorPrivilegesLegacy} for a predefined instructor role.
-     */
-    public InstructorPrivilegesLegacy legacyPrivilegesForRole(String roleName) {
-        return instructorPermissionsLogic.legacyPrivilegesForRole(roleName);
+    public void saveInstructorPrivileges(Instructor instructor, InstructorPrivileges privileges) {
+        instructorPermissionsLogic.saveInstructorPrivileges(instructor, privileges);
     }
 
     /**

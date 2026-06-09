@@ -324,18 +324,18 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets the list of instructors with co-owner privileges in a course.
+     * Gets the list of instructors with co-owner role in a course.
      */
     public List<Instructor> getCoOwnersForCourse(String courseId) {
         List<Instructor> instructors = getInstructorsForCourse(courseId);
-        List<Instructor> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        List<Instructor> coOwners = new ArrayList<>();
         for (Instructor instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
+            if (!instructor.hasCoownerRole()) {
                 continue;
             }
-            instructorsWithCoOwnerPrivileges.add(instructor);
+            coOwners.add(instructor);
         }
-        return instructorsWithCoOwnerPrivileges;
+        return coOwners;
     }
 
     /**
@@ -493,11 +493,14 @@ public final class UsersLogic {
 
     /**
      * Searches for students.
-     *
-     * @param instructors the constraint that restricts the search result
      */
     public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        return usersDb.searchStudents(queryString, instructors);
+        List<Instructor> instructorsWithViewStudentPrivilege = instructors == null ? null
+                : instructors.stream()
+                        .filter(i -> instructorPermissionsLogic.hasPermissions(
+                                i, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                        .toList();
+        return usersDb.searchStudents(queryString, instructorsWithViewStudentPrivilege);
     }
 
     /**

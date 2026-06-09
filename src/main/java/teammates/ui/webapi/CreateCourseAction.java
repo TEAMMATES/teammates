@@ -31,7 +31,7 @@ public class CreateCourseAction extends Action {
         String institute = courseCreateRequest.getInstitute().trim();
         List<Instructor> existingInstructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
         boolean canCreateCourse = existingInstructors.stream()
-                .filter(Instructor::hasCoownerPrivileges)
+                .filter(Instructor::hasCoownerRole)
                 .map(instructor -> logic.getCourse(instructor.getCourseId()))
                 .filter(Objects::nonNull)
                 .anyMatch(course -> institute.equals(course.getInstitute()));

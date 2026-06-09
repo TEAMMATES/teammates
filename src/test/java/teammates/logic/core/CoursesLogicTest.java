@@ -51,7 +51,7 @@ public class CoursesLogicTest extends BaseTestCase {
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
         usersLogic = mock(UsersLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, usersLogic, InstructorPermissionsLogic.inst());
+        coursesLogic.initLogicDependencies(coursesDb, usersLogic);
     }
 
     @Test
@@ -164,7 +164,7 @@ public class CoursesLogicTest extends BaseTestCase {
         verify(usersLogic, times(1)).createInstructor(argThat(instructor ->
                 instructor.getCourse().equals(createdCourse)
                         && instructor.getGoogleId().equals(instructorGoogleId)
-                        && instructor.hasCoownerPrivileges()));
+                        && instructor.hasCoownerRole()));
     }
 
     @Test

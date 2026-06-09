@@ -33,6 +33,7 @@ public class DataBundle {
     public Map<String, Team> teams = new LinkedHashMap<>();
     public Map<String, DeadlineExtension> deadlineExtensions = new LinkedHashMap<>();
     public Map<String, Instructor> instructors = new LinkedHashMap<>();
+    public Map<String, InstructorPrivilegesBundle> instructorPrivileges = new LinkedHashMap<>();
     public Map<String, Student> students = new LinkedHashMap<>();
     public Map<String, FeedbackSession> feedbackSessions = new LinkedHashMap<>();
     public Map<String, FeedbackQuestion> feedbackQuestions = new LinkedHashMap<>();

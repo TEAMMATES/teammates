@@ -170,11 +170,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         inTransaction(() -> {
             Instructor updatedInstructor = logic.getInstructor(instructor.getId());
             updatedInstructor.getCourse().setId(courseId);
-            teammates.logic.core.InstructorPermissionsLogic.inst()
-                    .saveInstructorPrivileges(updatedInstructor, runtimePrivileges);
             updatedInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-
-            logic.updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);
+            logic.saveInstructorPrivileges(updatedInstructor, runtimePrivileges);
         });
     }
 

@@ -19,7 +19,6 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -256,21 +255,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         mockUserProvision.logoutUser();
     }
 
-    void grantInstructorWithSectionPrivilege(
-            Instructor instructor, String privilege, String[] sections) {
-        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
-        for (String sectionName : sections) {
-            Section section =
-                    CoursesLogic.inst().getSectionByName(instructor.getCourseId(), sectionName);
-            if (section != null) {
-                runtimePrivileges.updatePrivilege(section.getId(), privilege, true);
-            }
-        }
-        teammates.logic.core.InstructorPermissionsLogic.inst()
-                .saveInstructorPrivileges(instructor, runtimePrivileges);
-        assert instructor.isValid();
-    }
-
     // The next few methods are for testing access control
 
     // 'High-level' access-control tests: here it tests access control of an action
@@ -439,13 +423,10 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         ______TS("only instructor with correct course privilege should pass");
         InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
         runtimePrivileges.updatePrivilege(privilege, true);
-        teammates.logic.core.InstructorPermissionsLogic.inst()
-                .saveInstructorPrivileges(instructor, runtimePrivileges);
-        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+
         inTransaction(() -> {
             Instructor dbInstructor = logic.getInstructor(instructor.getId());
-            teammates.logic.core.InstructorPermissionsLogic.inst()
-                    .saveInstructorPrivileges(dbInstructor, runtimePrivileges);
+            logic.saveInstructorPrivileges(dbInstructor, runtimePrivileges);
             dbInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         });
 
@@ -736,7 +717,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (instructor == null) {
             instructor = inTransaction(() -> {
                 Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivilegesLegacy());
+                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
                 Instructor createdInstructor = logic.createInstructor(toCreate);
 
                 String googleId = email;

@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
-import teammates.common.datatransfer.DefaultInstructorPrivileges;
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -35,30 +32,24 @@ public class Instructor extends User {
     @Enumerated(EnumType.STRING)
     private InstructorPermissionRole role;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    @Convert(converter = InstructorPrivilegesConverter.class)
-    private InstructorPrivilegesLegacy privileges;
-
     protected Instructor() {
         // required by Hibernate
     }
 
     public Instructor(String name, String email, boolean isDisplayedToStudents,
-            String displayName, InstructorPermissionRole role, InstructorPrivilegesLegacy privileges) {
+            String displayName, InstructorPermissionRole role) {
         super(name, email);
         this.setDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayName(displayName);
         this.setRole(role);
-        this.setPrivileges(privileges);
     }
 
     public Instructor(Course course, String name, String email, boolean isDisplayedToStudents,
-            String displayName, InstructorPermissionRole role, InstructorPrivilegesLegacy privileges) {
+            String displayName, InstructorPermissionRole role) {
         super(course, name, email);
         this.setDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayName(displayName);
         this.setRole(role);
-        this.setPrivileges(privileges);
     }
 
     @Override
@@ -90,18 +81,10 @@ public class Instructor extends User {
         this.role = role;
     }
 
-    public InstructorPrivilegesLegacy getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(InstructorPrivilegesLegacy instructorPrivileges) {
-        this.privileges = instructorPrivileges;
-    }
-
     @Override
     public String toString() {
         return "Instructor [id=" + super.getId() + ", isDisplayedToStudents=" + isDisplayedToStudents
-                + ", displayName=" + displayName + ", role=" + role + ", instructorPrivileges=" + privileges
+                + ", displayName=" + displayName + ", role=" + role
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
@@ -144,14 +127,10 @@ public class Instructor extends User {
     }
 
     /**
-     * Returns true if the instructor has co-owner role or custom role with all privileges.
-     *
-     * <p>
-     * This is used to determine if there is a valid instructor in the course who can perform all actions.
+     * Returns true if the instructor has co-owner role.
      */
-    public boolean hasCoownerPrivileges() {
-        return this.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-                || this.privileges.getCourseLevelPrivileges().equals(DefaultInstructorPrivileges.PRIVILEGES_ALL);
+    public boolean hasCoownerRole() {
+        return this.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
     }
 
 }

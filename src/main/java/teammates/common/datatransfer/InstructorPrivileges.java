@@ -14,7 +14,9 @@ import teammates.common.util.Const;
 
 /**
  * Stores the permissions of an instructor using UUIDs as keys for section and session level.
- * This is the runtime format. The storage format is {@link InstructorPrivilegesLegacy}.
+ *
+ * <p>This is the runtime format used throughout the application. The persisted form is split
+ * across the instructor privilege tables and reassembled by {@code InstructorPermissionsLogic}.
  */
 public final class InstructorPrivileges {
 

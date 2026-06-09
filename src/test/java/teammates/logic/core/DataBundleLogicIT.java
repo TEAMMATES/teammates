@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
@@ -136,10 +135,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Instructor actualInstructor1 = dataBundle.instructors.get("instructor1OfTypicalCourse");
         InstructorPermissionRole coOwner = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivilegesLegacy coOwnerPrivileges = InstructorPermissionsLogic.inst()
-                .legacyPrivilegesForRole(coOwner.getRoleName());
         Instructor expectedInstructor1 = new Instructor(actualTypicalCourse, "Instructor 1", "instr1@teammates.tmt",
-                true, "Instructor", coOwner, coOwnerPrivileges);
+                true, "Instructor", coOwner);
         expectedInstructor1.setId(actualInstructor1.getId());
         expectedInstructor1.setRegKey(actualInstructor1.getRegKey());
         expectedInstructor1.setAccount(expectedInstructorAccount);
@@ -147,10 +144,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Instructor actualInstructor2 = dataBundle.instructors.get("instructor2OfTypicalCourse");
         InstructorPermissionRole tutor = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR;
-        InstructorPrivilegesLegacy tutorPrivileges = InstructorPermissionsLogic.inst()
-                .legacyPrivilegesForRole(tutor.getRoleName());
         Instructor expectedInstructor2 = new Instructor(actualTypicalCourse, "Instructor 2", "instr2@teammates.tmt",
-                true, "Instructor", tutor, tutorPrivileges);
+                true, "Instructor", tutor);
         expectedInstructor2.setId(actualInstructor2.getId());
         expectedInstructor2.setRegKey(actualInstructor2.getRegKey());
         assertEquals(expectedInstructor2, actualInstructor2);
