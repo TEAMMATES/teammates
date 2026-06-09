@@ -25,6 +25,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Contains specific structure and processing logic for contribution feedback questions.
@@ -230,8 +231,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponse> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponse response : teamResponseList) {
-                int giverIndx = memberEmailList.indexOf(response.getGiver().getGiverUser().getEmail());
-                int recipientIndx = memberEmailList.indexOf(response.getRecipient().getRecipientUser().getEmail());
+                User giverUser = response.getGiver().getGiverUser();
+                User recipientUser = response.getRecipient().getRecipientUser();
+                if (giverUser == null || recipientUser == null) {
+                    continue;
+                }
+                int giverIndx = memberEmailList.indexOf(giverUser.getEmail());
+                int recipientIndx = memberEmailList.indexOf(recipientUser.getEmail());
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
