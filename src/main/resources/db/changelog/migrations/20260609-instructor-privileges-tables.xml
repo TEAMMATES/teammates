@@ -6,9 +6,9 @@
                         http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet author="samuelfangjw" id="20260609-instructor-privileges-tables-1">
-        <createTable tableName="instructor_privileges">
+        <createTable tableName="instructor_course_privileges">
             <column name="id" type="UUID">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="instructor_privilegesPK"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="instructor_course_privilegesPK"/>
             </column>
             <column name="instructor_id" type="UUID">
                 <constraints nullable="false"/>
@@ -41,12 +41,12 @@
         </createTable>
 
         <addUniqueConstraint columnNames="instructor_id"
-            constraintName="uc_instructor_privileges_instructor_id"
-            tableName="instructor_privileges"/>
+            constraintName="uc_instructor_course_privileges_instructor_id"
+            tableName="instructor_course_privileges"/>
 
         <addForeignKeyConstraint baseColumnNames="instructor_id"
-            baseTableName="instructor_privileges"
-            constraintName="FK_instructor_privileges_instructor_id"
+            baseTableName="instructor_course_privileges"
+            constraintName="FK_instructor_course_privileges_instructor_id"
             deferrable="false"
             initiallyDeferred="false"
             onDelete="CASCADE"

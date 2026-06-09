@@ -24,7 +24,7 @@ import teammates.common.datatransfer.InstructorPermissionSet;
  * privileges are derived from the role and no row is stored.
  */
 @Entity
-@Table(name = "InstructorPrivileges", uniqueConstraints = {
+@Table(name = "InstructorCoursePrivileges", uniqueConstraints = {
         @UniqueConstraint(name = "Unique instructorId", columnNames = { "instructorId" })
 })
 public class InstructorCoursePrivilege extends BaseEntity {
