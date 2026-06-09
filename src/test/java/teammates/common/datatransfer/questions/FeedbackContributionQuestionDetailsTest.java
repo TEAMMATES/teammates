@@ -18,7 +18,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.test.BaseTestCase;
@@ -282,10 +282,10 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 QuestionGiverType.STUDENTS,
                 QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
                 Const.MAX_POSSIBLE_RECIPIENTS,
-                Arrays.asList(ViewerType.RECEIVER,
-                        ViewerType.RECEIVER_TEAM_MEMBERS,
-                        ViewerType.OWN_TEAM_MEMBERS,
-                        ViewerType.INSTRUCTORS),
+                Arrays.asList(FeedbackVisibilityType.RECIPIENT,
+                        FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                        FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+                        FeedbackVisibilityType.INSTRUCTORS),
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new FeedbackContributionQuestionDetails());
@@ -317,47 +317,47 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         ______TS("failure: invalid restrictions on visibility options");
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         feedbackQuestion.setRecipientType(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
-                ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and invalid restrictions on visibility options");
         feedbackQuestion.setGiverType(QuestionGiverType.SESSION_CREATOR);
         feedbackQuestion.setRecipientType(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
-        feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
-        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
-                ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF and invalid restrictions on "
                 + "visibility options");
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
-        feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
-        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
-                ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF"
                 + " and invalid restrictions on visibility options");
         feedbackQuestion.setGiverType(QuestionGiverType.SESSION_CREATOR);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
-        feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
+        feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
         assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
-        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
-                ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
     }

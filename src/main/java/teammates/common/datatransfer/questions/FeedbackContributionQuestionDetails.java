@@ -17,7 +17,7 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -361,18 +361,18 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
 
         // restrictions on visibility options
-        if (!(feedbackQuestion.getShowResponsesTo().contains(ViewerType.RECEIVER)
-                == feedbackQuestion.getShowResponsesTo().contains(ViewerType.RECEIVER_TEAM_MEMBERS)
-                && feedbackQuestion.getShowResponsesTo().contains(ViewerType.RECEIVER_TEAM_MEMBERS)
-                == feedbackQuestion.getShowResponsesTo().contains(ViewerType.OWN_TEAM_MEMBERS))) {
+        if (!(feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT)
+                == feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS)
+                && feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS)
+                == feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS))) {
             log.severe("Unexpected showResponsesTo for contribution question: "
                        + feedbackQuestion.getShowResponsesTo() + " (forced to :"
                        + "Shown anonymously to recipient and team members, visible to instructors"
                        + ")");
-            feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER,
-                                                                       ViewerType.RECEIVER_TEAM_MEMBERS,
-                                                                       ViewerType.OWN_TEAM_MEMBERS,
-                                                                       ViewerType.INSTRUCTORS));
+            feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
+                                                               FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                                                               FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+                                                               FeedbackVisibilityType.INSTRUCTORS));
             errorMsg = CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
         }
 

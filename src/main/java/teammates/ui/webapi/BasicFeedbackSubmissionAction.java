@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.UUID;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
@@ -22,11 +22,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
         boolean isGiverVisibleToInstructor =
-                feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor =
-                feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS);
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 

@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
@@ -21,6 +20,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetail
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -188,7 +188,7 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
     /**
      * Sets who can see responses to the feedback question.
      */
-    public GivenFeedbackQuestion showResponsesTo(ViewerType... viewerTypes) {
+    public GivenFeedbackQuestion showResponsesTo(FeedbackVisibilityType... viewerTypes) {
         entity.setShowResponsesTo(viewerTypesList(viewerTypes));
         return this;
     }
@@ -196,7 +196,7 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
     /**
      * Sets who can see giver names for responses to the feedback question.
      */
-    public GivenFeedbackQuestion showGiverNameTo(ViewerType... viewerTypes) {
+    public GivenFeedbackQuestion showGiverNameTo(FeedbackVisibilityType... viewerTypes) {
         entity.setShowGiverNameTo(viewerTypesList(viewerTypes));
         return this;
     }
@@ -204,7 +204,7 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
     /**
      * Sets who can see recipient names for responses to the feedback question.
      */
-    public GivenFeedbackQuestion showRecipientNameTo(ViewerType... viewerTypes) {
+    public GivenFeedbackQuestion showRecipientNameTo(FeedbackVisibilityType... viewerTypes) {
         entity.setShowRecipientNameTo(viewerTypesList(viewerTypes));
         return this;
     }
@@ -232,12 +232,12 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
                 .orElse(0) + 1;
     }
 
-    private static List<ViewerType> viewerTypesList(ViewerType... viewerTypes) {
+    private static List<FeedbackVisibilityType> viewerTypesList(FeedbackVisibilityType... viewerTypes) {
         return new ArrayList<>(Arrays.asList(viewerTypes));
     }
 
-    private static List<ViewerType> defaultViewerTypes() {
-        return viewerTypesList(ViewerType.GIVER, ViewerType.RECEIVER, ViewerType.INSTRUCTORS);
+    private static List<FeedbackVisibilityType> defaultFeedbackVisibilityTypes() {
+        return viewerTypesList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS);
     }
 
     private FeedbackQuestionDetails getDefaultQuestionDetails(FeedbackQuestionType questionType, UUID feedbackQuestionId) {
@@ -288,8 +288,8 @@ public final class GivenFeedbackQuestion extends GivenBase<FeedbackQuestion> {
     private FeedbackQuestion defaultFeedbackQuestion(UUID feedbackQuestionId) {
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
                 null, "description:" + feedbackQuestionId, QuestionGiverType.SESSION_CREATOR,
-                QuestionRecipientType.SELF, Const.MAX_POSSIBLE_RECIPIENTS, defaultViewerTypes(),
-                defaultViewerTypes(), defaultViewerTypes(),
+                QuestionRecipientType.SELF, Const.MAX_POSSIBLE_RECIPIENTS, defaultFeedbackVisibilityTypes(),
+                defaultFeedbackVisibilityTypes(), defaultFeedbackVisibilityTypes(),
                 getDefaultQuestionDetails(FeedbackQuestionType.TEXT, feedbackQuestionId));
         feedbackQuestion.setId(feedbackQuestionId);
         return feedbackQuestion;

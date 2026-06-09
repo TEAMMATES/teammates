@@ -1,0 +1,100 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Renames ViewerType enum values stored as JSON arrays in feedback_questions and
+        response_instructor_comments to match FeedbackVisibilityType / CommentVisibilityType names:
+          RECEIVER              -> RECIPIENT
+          OWN_TEAM_MEMBERS      -> GIVER_TEAM_MEMBERS
+          RECEIVER_TEAM_MEMBERS -> RECIPIENT_TEAM_MEMBERS
+        STUDENTS, INSTRUCTORS, and GIVER are unchanged.
+    -->
+
+    <changeSet author="samuelfangjw" id="20260610-rename-viewer-type-1">
+        <sql>
+            UPDATE feedback_questions
+            SET show_responses_to = (
+                SELECT jsonb_agg(
+                    CASE v::text
+                        WHEN '"RECEIVER"'               THEN '"RECIPIENT"'::jsonb
+                        WHEN '"OWN_TEAM_MEMBERS"'       THEN '"GIVER_TEAM_MEMBERS"'::jsonb
+                        WHEN '"RECEIVER_TEAM_MEMBERS"'  THEN '"RECIPIENT_TEAM_MEMBERS"'::jsonb
+                        ELSE v
+                    END
+                )::text
+                FROM jsonb_array_elements(show_responses_to::jsonb) v
+            )
+            WHERE show_responses_to IS NOT NULL
+              AND show_responses_to != '[]';
+        </sql>
+        <sql>
+            UPDATE feedback_questions
+            SET show_giver_name_to = (
+                SELECT jsonb_agg(
+                    CASE v::text
+                        WHEN '"RECEIVER"'               THEN '"RECIPIENT"'::jsonb
+                        WHEN '"OWN_TEAM_MEMBERS"'       THEN '"GIVER_TEAM_MEMBERS"'::jsonb
+                        WHEN '"RECEIVER_TEAM_MEMBERS"'  THEN '"RECIPIENT_TEAM_MEMBERS"'::jsonb
+                        ELSE v
+                    END
+                )::text
+                FROM jsonb_array_elements(show_giver_name_to::jsonb) v
+            )
+            WHERE show_giver_name_to IS NOT NULL
+              AND show_giver_name_to != '[]';
+        </sql>
+        <sql>
+            UPDATE feedback_questions
+            SET show_recipient_name_to = (
+                SELECT jsonb_agg(
+                    CASE v::text
+                        WHEN '"RECEIVER"'               THEN '"RECIPIENT"'::jsonb
+                        WHEN '"OWN_TEAM_MEMBERS"'       THEN '"GIVER_TEAM_MEMBERS"'::jsonb
+                        WHEN '"RECEIVER_TEAM_MEMBERS"'  THEN '"RECIPIENT_TEAM_MEMBERS"'::jsonb
+                        ELSE v
+                    END
+                )::text
+                FROM jsonb_array_elements(show_recipient_name_to::jsonb) v
+            )
+            WHERE show_recipient_name_to IS NOT NULL
+              AND show_recipient_name_to != '[]';
+        </sql>
+        <sql>
+            UPDATE response_instructor_comments
+            SET show_comment_to = (
+                SELECT jsonb_agg(
+                    CASE v::text
+                        WHEN '"RECEIVER"'               THEN '"RECIPIENT"'::jsonb
+                        WHEN '"OWN_TEAM_MEMBERS"'       THEN '"GIVER_TEAM_MEMBERS"'::jsonb
+                        WHEN '"RECEIVER_TEAM_MEMBERS"'  THEN '"RECIPIENT_TEAM_MEMBERS"'::jsonb
+                        ELSE v
+                    END
+                )::text
+                FROM jsonb_array_elements(show_comment_to::jsonb) v
+            )
+            WHERE show_comment_to IS NOT NULL
+              AND show_comment_to != '[]';
+        </sql>
+        <sql>
+            UPDATE response_instructor_comments
+            SET show_giver_name_to = (
+                SELECT jsonb_agg(
+                    CASE v::text
+                        WHEN '"RECEIVER"'               THEN '"RECIPIENT"'::jsonb
+                        WHEN '"OWN_TEAM_MEMBERS"'       THEN '"GIVER_TEAM_MEMBERS"'::jsonb
+                        WHEN '"RECEIVER_TEAM_MEMBERS"'  THEN '"RECIPIENT_TEAM_MEMBERS"'::jsonb
+                        ELSE v
+                    END
+                )::text
+                FROM jsonb_array_elements(show_giver_name_to::jsonb) v
+            )
+            WHERE show_giver_name_to IS NOT NULL
+              AND show_giver_name_to != '[]';
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

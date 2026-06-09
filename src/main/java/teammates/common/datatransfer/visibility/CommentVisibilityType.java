@@ -1,4 +1,4 @@
-package teammates.ui.output;
+package teammates.common.datatransfer.visibility;
 
 /**
  * The comment visibility type.

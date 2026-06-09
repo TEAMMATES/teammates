@@ -24,7 +24,7 @@ import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1427,7 +1427,7 @@ public class Logic {
      * @throws InvalidParametersException   if the comment is invalid
      */
     public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
-            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         return responseInstructorCommentsLogic.createResponseInstructorComment(
                 feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);

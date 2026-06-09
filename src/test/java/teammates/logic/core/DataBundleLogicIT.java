@@ -19,11 +19,11 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -190,8 +190,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion expectedQuestion1 = FeedbackQuestion.makeQuestion(1,
                 "This is a text question.", QuestionGiverType.STUDENTS, QuestionRecipientType.SELF,
-                1, List.of(ViewerType.INSTRUCTORS), List.of(ViewerType.INSTRUCTORS),
-                List.of(ViewerType.INSTRUCTORS), questionDetails1);
+                1, List.of(FeedbackVisibilityType.INSTRUCTORS), List.of(FeedbackVisibilityType.INSTRUCTORS),
+                List.of(FeedbackVisibilityType.INSTRUCTORS), questionDetails1);
         expectedSession1.addFeedbackQuestion(expectedQuestion1);
         expectedQuestion1.setId(actualQuestion1.getId());
         assertEquals(expectedQuestion1, actualQuestion1);

@@ -12,15 +12,14 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.GroupNames;
-import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
@@ -42,8 +41,8 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testCreateFeedbackQuestion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
-        List<ViewerType> showTos = new ArrayList<>();
-        showTos.add(ViewerType.INSTRUCTORS);
+        List<FeedbackVisibilityType> showTos = new ArrayList<>();
+        showTos.add(FeedbackVisibilityType.INSTRUCTORS);
         FeedbackQuestion newQuestion = FeedbackQuestion.makeQuestion(6, "This is a new text question",
                 QuestionGiverType.STUDENTS, QuestionRecipientType.OWN_TEAM_MEMBERS, -100,
                 showTos, showTos, showTos, newQuestionDetails);
@@ -110,9 +109,9 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
             QuestionGiverType giverType,
             QuestionRecipientType recipientType,
             Integer customNumberOfEntitiesToGiveFeedbackTo,
-            List<ViewerType> showResponsesTo,
-            List<ViewerType> showGiverNameTo,
-            List<ViewerType> showRecipientNameTo
+            List<FeedbackVisibilityType> showResponsesTo,
+            List<FeedbackVisibilityType> showGiverNameTo,
+            List<FeedbackVisibilityType> showRecipientNameTo
     ) {
         FeedbackQuestionUpdateRequest updateRequest = new FeedbackQuestionUpdateRequest();
 
@@ -123,32 +122,11 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         updateRequest.setGiverType(giverType);
         updateRequest.setRecipientType(recipientType);
         updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(customNumberOfEntitiesToGiveFeedbackTo);
-        updateRequest.setShowResponsesTo(convertToFeedbackVisibilityType(showResponsesTo));
-        updateRequest.setShowGiverNameTo(convertToFeedbackVisibilityType(showGiverNameTo));
-        updateRequest.setShowRecipientNameTo(convertToFeedbackVisibilityType(showRecipientNameTo));
+        updateRequest.setShowResponsesTo(showResponsesTo);
+        updateRequest.setShowGiverNameTo(showGiverNameTo);
+        updateRequest.setShowRecipientNameTo(showRecipientNameTo);
 
         return updateRequest;
     }
 
-    private List<FeedbackVisibilityType> convertToFeedbackVisibilityType(
-            List<ViewerType> viewerTypes) {
-        return viewerTypes.stream().map(viewerType -> {
-            switch (viewerType) {
-            case STUDENTS:
-                return FeedbackVisibilityType.STUDENTS;
-            case INSTRUCTORS:
-                return FeedbackVisibilityType.INSTRUCTORS;
-            case RECEIVER:
-                return FeedbackVisibilityType.RECIPIENT;
-            case OWN_TEAM_MEMBERS:
-                return FeedbackVisibilityType.GIVER_TEAM_MEMBERS;
-            case RECEIVER_TEAM_MEMBERS:
-                return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
-            default:
-                assert false : "Unknown viewerType" + viewerType;
-                break;
-            }
-            return null;
-        }).toList();
-    }
 }

@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
@@ -171,11 +171,11 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 QuestionGiverType.STUDENTS,
                 QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
                 Const.MAX_POSSIBLE_RECIPIENTS,
-                Arrays.asList(ViewerType.INSTRUCTORS,
-                        ViewerType.OWN_TEAM_MEMBERS, ViewerType.RECEIVER),
-                Arrays.asList(ViewerType.INSTRUCTORS),
-                Arrays.asList(ViewerType.INSTRUCTORS,
-                        ViewerType.RECEIVER), detail);
+                Arrays.asList(FeedbackVisibilityType.INSTRUCTORS,
+                        FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.RECIPIENT),
+                Arrays.asList(FeedbackVisibilityType.INSTRUCTORS),
+                Arrays.asList(FeedbackVisibilityType.INSTRUCTORS,
+                        FeedbackVisibilityType.RECIPIENT), detail);
 
         feedbackSession.addFeedbackQuestion(fq);
         return fq;
