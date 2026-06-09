@@ -164,7 +164,7 @@ public class CoursesLogicTest extends BaseTestCase {
         verify(usersLogic, times(1)).createInstructor(argThat(instructor ->
                 instructor.getCourse().equals(createdCourse)
                         && instructor.getGoogleId().equals(instructorGoogleId)
-                        && instructor.hasCoownerPrivileges()));
+                        && instructor.hasCoownerRole()));
     }
 
     @Test

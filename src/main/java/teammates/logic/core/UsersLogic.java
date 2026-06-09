@@ -324,18 +324,18 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets the list of instructors with co-owner privileges in a course.
+     * Gets the list of instructors with co-owner role in a course.
      */
     public List<Instructor> getCoOwnersForCourse(String courseId) {
         List<Instructor> instructors = getInstructorsForCourse(courseId);
-        List<Instructor> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        List<Instructor> coOwners = new ArrayList<>();
         for (Instructor instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
+            if (!instructor.hasCoownerRole()) {
                 continue;
             }
-            instructorsWithCoOwnerPrivileges.add(instructor);
+            coOwners.add(instructor);
         }
-        return instructorsWithCoOwnerPrivileges;
+        return coOwners;
     }
 
     /**
