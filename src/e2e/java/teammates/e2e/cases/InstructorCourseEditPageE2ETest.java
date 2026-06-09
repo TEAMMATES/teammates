@@ -2,11 +2,15 @@ package teammates.e2e.cases;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
@@ -113,12 +117,27 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("edit instructor");
         instructors[0].setName("Edited Name");
         instructors[0].setEmail("icedit.edited@gmail.tmt");
-        instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
-        instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-        instructors[0].getPrivileges().updatePrivilege("Section 2",
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, true);
-        instructors[0].getPrivileges().updatePrivilege("Section 1", "First feedback session",
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
+        // Rebuild privileges: update course level, then add section and session entries
+        InstructorPermissionSet courseLevel = instructors[0].getPrivileges().getCourseLevelPrivileges();
+        courseLevel.setCanModifySession(true);
+        courseLevel.setCanModifyStudent(false);
+
+        Map<String, InstructorPermissionSet> sectionLevel =
+                new LinkedHashMap<>(instructors[0].getPrivileges().getSectionLevelPrivileges());
+        InstructorPermissionSet section2Perms = new InstructorPermissionSet();
+        section2Perms.setCanViewSessionInSections(true);
+        sectionLevel.put("Section 2", section2Perms);
+
+        Map<String, Map<String, InstructorPermissionSet>> sessionLevel =
+                new LinkedHashMap<>(instructors[0].getPrivileges().getSessionLevelPrivileges());
+        Map<String, InstructorPermissionSet> section1Sessions =
+                new LinkedHashMap<>(sessionLevel.getOrDefault("Section 1", new LinkedHashMap<>()));
+        InstructorPermissionSet firstSessionPerms = new InstructorPermissionSet();
+        firstSessionPerms.setCanSubmitSessionInSections(true);
+        section1Sessions.put("First feedback session", firstSessionPerms);
+        sessionLevel.put("Section 1", section1Sessions);
+
+        instructors[0].setPrivileges(new InstructorPrivilegesLegacy(courseLevel, sectionLevel, sessionLevel));
 
         editPage.editInstructor(2, instructors[0]);
         editPage.waitForPageToLoad();

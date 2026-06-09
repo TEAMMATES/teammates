@@ -10,13 +10,16 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
@@ -41,6 +44,8 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     private List<Student> stubStudentListAll;
     private List<Student> stubStudentListSectionTwo;
     private InstructorPrivileges sectionPrivilegesOnly;
+    private String stubSectionOneId;
+    private String stubSectionTwoId;
 
     @Override
     protected String getActionUri() {
@@ -61,46 +66,10 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         // Instructor with co-owner privileges (course and section privileges)
         stubInstructorWithAllPrivileges = getTypicalInstructor();
 
-        // Instructor without any privileges
-        InstructorPrivileges customInstructorPrivileges1 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
-        stubInstructorWithoutPrivileges = getTypicalInstructor();
-        stubInstructorWithoutPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        stubInstructorWithoutPrivileges.setPrivileges(customInstructorPrivileges1);
-
-        // Instructor with only privilege to view students in sections they are in
-        sectionPrivilegesOnly =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
-        sectionPrivilegesOnly.updatePrivilege("section-1", Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
-        stubInstructorWithOnlyViewSectionPrivileges = getTypicalInstructor();
-        stubInstructorWithOnlyViewSectionPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        stubInstructorWithOnlyViewSectionPrivileges.setPrivileges(sectionPrivilegesOnly);
-
-        // Instructor with privilege to view students in sections other than the one the student is in
-        InstructorPrivileges customInstructorPrivileges2 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
-        customInstructorPrivileges2.updatePrivilege("random-1",
-                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
-        stubInstructorWithOnlyViewPrivilegesForDifferentSection = getTypicalInstructor();
-        stubInstructorWithOnlyViewPrivilegesForDifferentSection.setRole(
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        stubInstructorWithOnlyViewPrivilegesForDifferentSection.setPrivileges(customInstructorPrivileges2);
-
-        stubInstructorWithOnlyViewSectionPrivileges.setAccount(getTypicalAccount());
-        stubInstructorWithoutPrivileges.setAccount(getTypicalAccount());
-        stubInstructorWithAllPrivileges.setAccount(getTypicalAccount());
-
-        // Instructor with privilege to view students in sections at course level
-        InstructorPrivileges customInstructorPrivileges3 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
-        customInstructorPrivileges3.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
-        stubInstructorWithCourseLevelPrivilege = getTypicalInstructor();
-        stubInstructorWithCourseLevelPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        stubInstructorWithCourseLevelPrivilege.setPrivileges(customInstructorPrivileges3);
-
-        // Section one
+        // Create sections first so we can use their UUIDs as privilege keys
         Section stubSection = new Section("section-1");
         stubCourse.addSection(stubSection);
+        stubSectionOneId = stubSection.getId().toString();
         stubTeamOne = new Team("team-1");
         stubSection.addTeam(stubTeamOne);
         Team stubTeamTwo = new Team("team-2");
@@ -111,9 +80,46 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         //Section two
         Section stubSectionTwo = new Section("section-2");
         stubCourse.addSection(stubSectionTwo);
+        stubSectionTwoId = stubSectionTwo.getId().toString();
         Team stubTeamThree = new Team("team-3");
         stubSectionTwo.addTeam(stubTeamThree);
         stubStudentListSectionTwo = new ArrayList<>();
+
+        // Instructor without any privileges
+        InstructorPrivilegesLegacy customInstructorPrivileges1 =
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.CUSTOM);
+        stubInstructorWithoutPrivileges = getTypicalInstructor();
+        stubInstructorWithoutPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        stubInstructorWithoutPrivileges.setPrivileges(customInstructorPrivileges1);
+
+        // Instructor with only privilege to view students in section one (UUID key)
+        sectionPrivilegesOnly = new InstructorPrivileges();
+        sectionPrivilegesOnly.updatePrivilege(UUID.fromString(stubSectionOneId),
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
+        stubInstructorWithOnlyViewSectionPrivileges = getTypicalInstructor();
+        stubInstructorWithOnlyViewSectionPrivileges.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        stubInstructorWithOnlyViewSectionPrivileges.setPrivileges(toLegacyForTest(sectionPrivilegesOnly));
+
+        // Instructor with privilege in a non-existent section (UUID that no student belongs to)
+        InstructorPrivileges customInstructorPrivileges2 = new InstructorPrivileges();
+        customInstructorPrivileges2.updatePrivilege(UUID.randomUUID(),
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
+        stubInstructorWithOnlyViewPrivilegesForDifferentSection = getTypicalInstructor();
+        stubInstructorWithOnlyViewPrivilegesForDifferentSection.setRole(
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        stubInstructorWithOnlyViewPrivilegesForDifferentSection.setPrivileges(
+                toLegacyForTest(customInstructorPrivileges2));
+
+        stubInstructorWithOnlyViewSectionPrivileges.setAccount(getTypicalAccount());
+        stubInstructorWithoutPrivileges.setAccount(getTypicalAccount());
+        stubInstructorWithAllPrivileges.setAccount(getTypicalAccount());
+
+        // Instructor with privilege to view students in sections at course level
+        InstructorPrivileges customInstructorPrivileges3 = new InstructorPrivileges();
+        customInstructorPrivileges3.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
+        stubInstructorWithCourseLevelPrivilege = getTypicalInstructor();
+        stubInstructorWithCourseLevelPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        stubInstructorWithCourseLevelPrivilege.setPrivileges(toLegacyForTest(customInstructorPrivileges3));
 
         stubStudentListAll = new ArrayList<>();
 
@@ -195,8 +201,11 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         // Section two students are not in the StudentsData
         verifyStudentsData(stubStudentListSectionOne, actualStudentsData1, Type.INSTRUCTOR);
 
-        sectionPrivilegesOnly.updatePrivilege("section-1", Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
-        sectionPrivilegesOnly.updatePrivilege("section-2", Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
+        sectionPrivilegesOnly.updatePrivilege(UUID.fromString(stubSectionOneId),
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
+        sectionPrivilegesOnly.updatePrivilege(UUID.fromString(stubSectionTwoId),
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, true);
+        stubInstructorWithOnlyViewSectionPrivileges.setPrivileges(toLegacyForTest(sectionPrivilegesOnly));
         GetStudentsAction action2 = getAction(params);
         JsonResult jsonResult2 = getJsonResult(action2);
         StudentsData actualStudentsData2 = (StudentsData) jsonResult2.getOutput();

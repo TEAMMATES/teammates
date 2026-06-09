@@ -9,10 +9,10 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -112,12 +112,14 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         instructor.setAccount(account);
 
         ______TS("success: preserves modify instructor privilege if last instructor in course with privilege");
-        InstructorPrivileges privileges = instructor.getPrivileges();
-        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-        instructor.setPrivileges(privileges);
+        InstructorPermissionSet courseLevelPerms = instructor.getPrivileges().getCourseLevelPrivileges();
+        courseLevelPerms.setCanModifyInstructor(false);
+        instructor.setPrivileges(new InstructorPrivilegesLegacy(courseLevelPerms,
+                instructor.getPrivileges().getSectionLevelPrivileges(),
+                instructor.getPrivileges().getSessionLevelPrivileges()));
         inTransaction(() -> usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor));
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
+        assertFalse(instructor.getPrivileges().getCourseLevelPrivileges().get(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 }

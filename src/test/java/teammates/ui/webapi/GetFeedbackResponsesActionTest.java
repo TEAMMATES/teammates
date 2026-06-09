@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -12,16 +13,17 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -467,8 +469,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     void testSpecificAccessControl_instructorWithNoPrivileges_cannotAccess() {
-        InstructorPrivileges customInstructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
+        InstructorPrivilegesLegacy customInstructorPrivileges =
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.CUSTOM);
         InstructorPermissionRole customRole = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.CUSTOM);
         Instructor stubInstructorWithoutPrivileges = new Instructor(stubCourse, "instructor-1-name", "valid1@teammates.tmt",
@@ -602,8 +604,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
         UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("Instructor does not have privilege [canmodifysessioncommentinsection] on section [test-section]",
-                uae1.getMessage());
+        // Section is now identified by UUID; only check the privilege name in the message
+        assertTrue(uae1.getMessage().contains("canmodifysessioncommentinsection"));
 
         FeedbackQuestion questionThatCannotBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
@@ -821,13 +823,15 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         verifyCanAccess(params);
     }
 
-    private @NotNull Instructor getInstructorWithLimitedPrivileges(String privilege) {
+    private Instructor getInstructorWithLimitedPrivileges(String privilege) {
         InstructorPermissionRole customRole = InstructorPermissionRole
                 .getEnum(Const.InstructorPermissionRoleNames.CUSTOM);
-        InstructorPrivileges submitSessionPrivilegesOnly =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
-        submitSessionPrivilegesOnly.updatePrivilege(stubFeedbackSession.getName(), privilege, true);
+        // Use course-level privilege so the real InstructorPermissionsLogic.convertLegacyToNew
+        // has no section entries to look up in the DB, while the mock stubs still work via courseLevel.
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges();
+        runtimePrivileges.updatePrivilege(privilege, true);
         return new Instructor(stubCourse, "instructor-2-name", "valid2@teammates.tmt",
-                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole, submitSessionPrivilegesOnly);
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, customRole,
+                toLegacyForTest(runtimePrivileges));
     }
 }

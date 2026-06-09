@@ -124,7 +124,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(requestContext);
             gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, feedbackSession.getCourseId(),
-                    student.getSectionName(),
+                    student.getSectionId(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             checkAccessControlForPreview(feedbackSession);
@@ -184,7 +184,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
     private void verifyInstructorCanSubmitToSession(FeedbackSession feedbackSession, Instructor instructor)
             throws UnauthorizedAccessException {
-        if (logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getName(),
+        if (logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getId(),
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
             return;
         }

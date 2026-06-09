@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -236,7 +236,7 @@ public class UsersDbTest extends BaseDbTestcase {
                 true,
                 "Instructor Display Name",
                 role,
-                new InstructorPrivileges(role.getRoleName()));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(role.getRoleName()));
         instructor.setId(instructorId);
         instructor.setCourse(course);
         return instructor;

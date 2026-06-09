@@ -62,9 +62,7 @@ export class AboutPageComponent implements OnInit {
 
   private setUrl<T extends { username?: string; url?: string; avatarUrl?: string }>(dev: T): T {
     if (dev.username) {
-      if (!dev.url) {
-        dev.url = `https://github.com/${dev.username}`;
-      }
+      dev.url ??= `https://github.com/${dev.username}`;
       dev.avatarUrl = `https://github.com/${dev.username}.png`;
     }
     return dev;
@@ -72,7 +70,7 @@ export class AboutPageComponent implements OnInit {
 
   private setDisplayedName(dev: Contributor): Contributor {
     if (dev.name || dev.username) {
-      dev.displayedName = dev.name || `@${dev.username}`;
+      dev.displayedName = dev.name ?? `@${dev.username}`;
     }
     return dev;
   }

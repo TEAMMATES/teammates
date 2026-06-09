@@ -1002,19 +1002,21 @@ public final class FeedbackResponsesLogic {
         boolean isRecipientSectionRestrictedForInstructor = false;
         boolean isVisibleToInstructor = false;
         if (user instanceof Instructor instructor) {
-            isGiverSectionRestrictedForInstructor = !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+            UUID giverSectionId = giver.getSectionId();
+            isGiverSectionRestrictedForInstructor = giverSectionId != null
+                    && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
                         instructor,
-                        Const.DEFAULT_SECTION,
-                        relatedQuestion.getFeedbackSessionName(),
+                        giverSectionId,
+                        relatedQuestion.getFeedbackSession().getId(),
                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
-                );
+                    );
 
-            isRecipientSectionRestrictedForInstructor =
-                    relatedQuestion.getRecipientType() != QuestionRecipientType.NONE
+            UUID recipientSectionId = recipient.getSectionId();
+            isRecipientSectionRestrictedForInstructor = recipientSectionId != null
                     && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
                             instructor,
-                            Const.DEFAULT_SECTION,
-                            relatedQuestion.getFeedbackSessionName(),
+                            recipientSectionId,
+                            relatedQuestion.getFeedbackSession().getId(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
                     );
 

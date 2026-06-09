@@ -26,7 +26,7 @@ export class LinkService {
    */
   generateCourseJoinLink(entity: Student | Instructor, entityType: string): string {
     const frontendUrl: string = window.location.origin;
-    const key: string = entity.key || '';
+    const key: string = entity.key ?? '';
     const params: {
       [key: string]: string;
     } = {
@@ -106,7 +106,7 @@ export class LinkService {
    */
   generateSubmitUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
-    const key: string = entity.key || '';
+    const key: string = entity.key ?? '';
     const params: {
       [key: string]: string;
     } = {
@@ -128,7 +128,7 @@ export class LinkService {
    */
   generateResultUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
-    const key: string = entity.key || '';
+    const key: string = entity.key ?? '';
     const params: {
       [key: string]: string;
     } = {

@@ -6,13 +6,15 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.util.Const;
 
 /**
- * Stores the permissions of an instructor.
+ * Stores the permissions of an instructor using UUIDs as keys for section and session level.
+ * This is the runtime format. The storage format is {@link InstructorPrivilegesLegacy}.
  */
 public final class InstructorPrivileges {
 
@@ -41,14 +43,14 @@ public final class InstructorPrivileges {
             new LinkedHashSet<>(Arrays.asList(SESSION_LEVEL_ONLY_LIST));
 
     private final InstructorPermissionSet courseLevel;
-    private final Map<String, InstructorPermissionSet> sectionLevel;
-    private final Map<String, Map<String, InstructorPermissionSet>> sessionLevel;
+    private final Map<UUID, InstructorPermissionSet> sectionLevel;
+    private final Map<UUID, Map<UUID, InstructorPermissionSet>> sessionLevel;
 
     @JsonCreator
     private InstructorPrivileges(
             InstructorPermissionSet courseLevel,
-            Map<String, InstructorPermissionSet> sectionLevel,
-            Map<String, Map<String, InstructorPermissionSet>> sessionLevel) {
+            Map<UUID, InstructorPermissionSet> sectionLevel,
+            Map<UUID, Map<UUID, InstructorPermissionSet>> sessionLevel) {
         this.courseLevel = courseLevel;
         this.sectionLevel = sectionLevel;
         this.sessionLevel = sessionLevel;
@@ -156,17 +158,17 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Sets privilege for the privilege specified by privilegeName for sectionName.
+     * Sets privilege for the privilege specified by privilegeName for sectionId.
      */
-    public void updatePrivilege(String sectionName, String privilegeName, boolean isAllowed) {
-        updatePrivilegeInSectionLevel(sectionName, privilegeName, isAllowed);
+    public void updatePrivilege(UUID sectionId, String privilegeName, boolean isAllowed) {
+        updatePrivilegeInSectionLevel(sectionId, privilegeName, isAllowed);
     }
 
     /**
-     * Sets privilege for the privilege specified by privilegeName for sessionName in sectionName.
+     * Sets privilege for the privilege specified by privilegeName for sessionId in sectionId.
      */
-    public void updatePrivilege(String sectionName, String sessionName, String privilegeName, boolean isAllowed) {
-        updatePrivilegeInSessionLevel(sectionName, sessionName, privilegeName, isAllowed);
+    public void updatePrivilege(UUID sectionId, UUID sessionId, String privilegeName, boolean isAllowed) {
+        updatePrivilegeInSessionLevel(sectionId, sessionId, privilegeName, isAllowed);
     }
 
     private void updatePrivilegeInCourseLevel(String privilegeName, boolean isAllowed) {
@@ -176,33 +178,36 @@ public final class InstructorPrivileges {
         this.courseLevel.put(privilegeName, isAllowed);
     }
 
-    private void updatePrivilegeInSectionLevel(String sectionName, String privilegeName, boolean isAllowed) {
+    private void updatePrivilegeInSectionLevel(UUID sectionId, String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValidForSectionLevel(privilegeName)) {
             return;
         }
-        addSectionWithDefaultPrivileges(sectionName);
-        this.sectionLevel.get(sectionName).put(privilegeName, isAllowed);
+        addSectionWithDefaultPrivileges(sectionId);
+        this.sectionLevel.get(sectionId).put(privilegeName, isAllowed);
     }
 
-    private void updatePrivilegeInSessionLevel(String sectionName, String sessionName,
+    private void updatePrivilegeInSessionLevel(UUID sectionId, UUID sessionId,
                                                String privilegeName, boolean isAllowed) {
         if (!isPrivilegeNameValidForSessionLevel(privilegeName)) {
             return;
         }
-        verifyExistenceOfsectionName(sectionName);
-        this.sessionLevel.get(sectionName).computeIfAbsent(sessionName, key -> new InstructorPermissionSet())
-                                          .put(privilegeName, isAllowed);
+        verifyExistenceOfSectionId(sectionId);
+        this.sessionLevel.get(sectionId).computeIfAbsent(sessionId, key -> new InstructorPermissionSet())
+                                        .put(privilegeName, isAllowed);
     }
 
-    private void verifyExistenceOfsectionName(String sectionName) {
-        this.sessionLevel.computeIfAbsent(sectionName, key -> {
-            addSectionWithDefaultPrivileges(sectionName);
+    private void verifyExistenceOfSectionId(UUID sectionId) {
+        this.sessionLevel.computeIfAbsent(sectionId, key -> {
+            addSectionWithDefaultPrivileges(sectionId);
             return new LinkedHashMap<>();
         });
     }
 
-    void addSectionWithDefaultPrivileges(String sectionName) {
-        this.sectionLevel.putIfAbsent(sectionName, getOverallPrivilegesForSections());
+    /**
+     * Adds a section entry with default privileges if it does not exist.
+     */
+    public void addSectionWithDefaultPrivileges(UUID sectionId) {
+        this.sectionLevel.putIfAbsent(sectionId, getOverallPrivilegesForSections());
     }
 
     /**
@@ -213,24 +218,24 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Returns true if it is allowed for the privilege specified by privilegeName in sectionName.
+     * Returns true if it is allowed for the privilege specified by privilegeName in sectionId.
      */
-    public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
-        return isAllowedInSectionLevel(sectionName, privilegeName);
+    public boolean isAllowedForPrivilege(UUID sectionId, String privilegeName) {
+        return isAllowedInSectionLevel(sectionId, privilegeName);
     }
 
     /**
-     * Returns true if it is allowed for the privilege specified by privilegeName for sessionName in sectionName.
+     * Returns true if it is allowed for the privilege specified by privilegeName for sessionId in sectionId.
      */
-    public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
-        return isAllowedInSessionLevel(sectionName, sessionName, privilegeName);
+    public boolean isAllowedForPrivilege(UUID sectionId, UUID sessionId, String privilegeName) {
+        return isAllowedInSessionLevel(sectionId, sessionId, privilegeName);
     }
 
     /**
      * Returns true if privilege for session is present for any section.
      */
-    public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
-        return isAllowedInSessionLevelAnySection(sessionName, privilegeName);
+    public boolean isAllowedForPrivilegeAnySection(UUID sessionId, String privilegeName) {
+        return isAllowedInSessionLevelAnySection(sessionId, privilegeName);
     }
 
     /**
@@ -247,37 +252,37 @@ public final class InstructorPrivileges {
         return this.courseLevel.get(privilegeName);
     }
 
-    private boolean isAllowedInSectionLevel(String sectionName, String privilegeName) {
+    private boolean isAllowedInSectionLevel(UUID sectionId, String privilegeName) {
 
         assert isPrivilegeNameValid(privilegeName);
 
-        if (!this.sectionLevel.containsKey(sectionName)) {
+        if (!this.sectionLevel.containsKey(sectionId)) {
             return isAllowedInCourseLevel(privilegeName);
         }
 
-        return this.sectionLevel.get(sectionName).get(privilegeName);
+        return this.sectionLevel.get(sectionId).get(privilegeName);
     }
 
-    private boolean isAllowedInSessionLevel(String sectionName, String sessionName, String privilegeName) {
+    private boolean isAllowedInSessionLevel(UUID sectionId, UUID sessionId, String privilegeName) {
 
         assert isPrivilegeNameValid(privilegeName);
 
-        if (!this.sessionLevel.containsKey(sectionName)
-                || !this.sessionLevel.get(sectionName).containsKey(sessionName)) {
-            return isAllowedInSectionLevel(sectionName, privilegeName);
+        if (!this.sessionLevel.containsKey(sectionId)
+                || !this.sessionLevel.get(sectionId).containsKey(sessionId)) {
+            return isAllowedInSectionLevel(sectionId, privilegeName);
         }
 
-        return this.sessionLevel.get(sectionName).get(sessionName).get(privilegeName);
+        return this.sessionLevel.get(sectionId).get(sessionId).get(privilegeName);
     }
 
-    private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
+    private boolean isAllowedInSessionLevelAnySection(UUID sessionId, String privilegeName) {
 
         assert isPrivilegeNameValid(privilegeName);
 
-        Set<String> sections = new LinkedHashSet<>(this.sessionLevel.keySet());
+        Set<UUID> sections = new LinkedHashSet<>(this.sessionLevel.keySet());
         sections.addAll(this.sectionLevel.keySet());
-        for (String sectionName : sections) {
-            if (isAllowedInSessionLevel(sectionName, sessionName, privilegeName)) {
+        for (UUID sectionId : sections) {
+            if (isAllowedInSessionLevel(sectionId, sessionId, privilegeName)) {
                 return true;
             }
         }
@@ -299,7 +304,7 @@ public final class InstructorPrivileges {
                 sectionMap.setCanViewSessionInSections(true);
             }
         }
-        for (Map<String, InstructorPermissionSet> section : this.sessionLevel.values()) {
+        for (Map<UUID, InstructorPermissionSet> section : this.sessionLevel.values()) {
             for (InstructorPermissionSet sessionMap : section.values()) {
                 if (sessionMap.isCanModifySessionCommentsInSections()) {
                     sessionMap.setCanViewSessionInSections(true);
@@ -313,21 +318,21 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Returns the section level privileges of the instructor.
+     * Returns the section level privileges of the instructor, keyed by section UUID.
      */
-    public Map<String, InstructorPermissionSet> getSectionLevelPrivileges() {
-        Map<String, InstructorPermissionSet> copy = new LinkedHashMap<>();
+    public Map<UUID, InstructorPermissionSet> getSectionLevelPrivileges() {
+        Map<UUID, InstructorPermissionSet> copy = new LinkedHashMap<>();
         sectionLevel.forEach((key, value) -> copy.put(key, value.getCopy()));
         return copy;
     }
 
     /**
-     * Returns the session level privileges of the instructor.
+     * Returns the session level privileges of the instructor, keyed by section UUID then session UUID.
      */
-    public Map<String, Map<String, InstructorPermissionSet>> getSessionLevelPrivileges() {
-        Map<String, Map<String, InstructorPermissionSet>> copy = new LinkedHashMap<>();
+    public Map<UUID, Map<UUID, InstructorPermissionSet>> getSessionLevelPrivileges() {
+        Map<UUID, Map<UUID, InstructorPermissionSet>> copy = new LinkedHashMap<>();
         sessionLevel.forEach((sessionLevelKey, sessionLevelValue) -> {
-            Map<String, InstructorPermissionSet> sectionCopy = new LinkedHashMap<>();
+            Map<UUID, InstructorPermissionSet> sectionCopy = new LinkedHashMap<>();
             sessionLevelValue.forEach((key, value) -> sectionCopy.put(key, value.getCopy()));
 
             copy.put(sessionLevelKey, sectionCopy);
@@ -336,10 +341,10 @@ public final class InstructorPrivileges {
     }
 
     /**
-     * Returns the list of sections the instructor has the specified privilege name.
+     * Returns the list of sections the instructor has the specified privilege name, keyed by section UUID.
      */
-    public Map<String, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
-        Map<String, InstructorPermissionSet> copy = new LinkedHashMap<>();
+    public Map<UUID, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
+        Map<UUID, InstructorPermissionSet> copy = new LinkedHashMap<>();
         sectionLevel.forEach((key, value) -> {
             if (isAllowedInSectionLevel(key, privilegeName)) {
                 copy.put(key, value.getCopy());

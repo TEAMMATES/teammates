@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.RequestContext;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
@@ -128,26 +130,26 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies the instructor for the specified course has the privileges specified by privilegeNames for sectionName.
+     * Verifies the instructor for the specified course has the privileges specified by privilegeNames for sectionId.
      */
-    void verifyInstructorHasPrivilegeForSection(RequestContext requestContext, String courseId, String sectionName,
+    void verifyInstructorHasPrivilegeForSection(RequestContext requestContext, String courseId, UUID sectionId,
             String... privilegeNames) throws UnauthorizedAccessException {
         Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
-        verifyInstructorHasPrivilegeForSection(instructor, sectionName, privilegeNames);
+        verifyInstructorHasPrivilegeForSection(instructor, sectionId, privilegeNames);
     }
 
     /**
-     * Verifies the instructor has the privileges specified by privilegeNames for sectionName.
+     * Verifies the instructor has the privileges specified by privilegeNames for sectionId.
      */
-    void verifyInstructorHasPrivilegeForSection(Instructor instructor, String sectionName, String... privilegeNames)
+    void verifyInstructorHasPrivilegeForSection(Instructor instructor, UUID sectionId, String... privilegeNames)
             throws UnauthorizedAccessException {
-        verifyNotNull(sectionName, "section name");
+        verifyNotNull(sectionId, "section ID");
 
         for (String privilegeName : privilegeNames) {
             if (instructor == null
-                    || !logic.hasInstructorPermissionsForSection(instructor, sectionName, privilegeName)) {
+                    || !logic.hasInstructorPermissionsForSection(instructor, sectionId, privilegeName)) {
                 throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName
-                                                      + "] on section [" + sectionName + "]");
+                                                      + "] on section [" + sectionId + "]");
             }
         }
     }

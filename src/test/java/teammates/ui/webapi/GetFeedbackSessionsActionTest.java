@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
@@ -303,7 +303,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private Instructor generateInstructor1InCourse(Course course) {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER));
+                InstructorPermissionsLogic.inst().legacyPrivilegesForRole(Const.InstructorPermissionRoleNames.COOWNER));
         String subject = "validInstructorSubject";
         String tenantId = "validTenantId";
         instructor.setAccount(new Account(

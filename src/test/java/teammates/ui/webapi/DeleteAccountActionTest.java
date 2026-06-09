@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.Provider;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
@@ -53,7 +53,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         Account stubAccount = new Account(googleId, Provider.TEAMMATES_DEV, "validInstructorSubject",
                 "validTenantId", "name", "instructoremail@tm.tmt");
         Instructor instructor = new Instructor(stubCourse, "name", "instructoremail@tm.tmt",
-                false, "", null, new InstructorPrivileges());
+                false, "", null, new InstructorPrivilegesLegacy());
         instructor.setAccount(stubAccount);
         when(mockLogic.getAccount(accountId)).thenReturn(stubAccount);
         String[] params = {

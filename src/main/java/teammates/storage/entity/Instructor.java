@@ -10,8 +10,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
+import teammates.common.datatransfer.DefaultInstructorPrivileges;
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -36,14 +37,14 @@ public class Instructor extends User {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     @Convert(converter = InstructorPrivilegesConverter.class)
-    private InstructorPrivileges privileges;
+    private InstructorPrivilegesLegacy privileges;
 
     protected Instructor() {
         // required by Hibernate
     }
 
     public Instructor(String name, String email, boolean isDisplayedToStudents,
-            String displayName, InstructorPermissionRole role, InstructorPrivileges privileges) {
+            String displayName, InstructorPermissionRole role, InstructorPrivilegesLegacy privileges) {
         super(name, email);
         this.setDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayName(displayName);
@@ -52,7 +53,7 @@ public class Instructor extends User {
     }
 
     public Instructor(Course course, String name, String email, boolean isDisplayedToStudents,
-            String displayName, InstructorPermissionRole role, InstructorPrivileges privileges) {
+            String displayName, InstructorPermissionRole role, InstructorPrivilegesLegacy privileges) {
         super(course, name, email);
         this.setDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayName(displayName);
@@ -89,11 +90,11 @@ public class Instructor extends User {
         this.role = role;
     }
 
-    public InstructorPrivileges getPrivileges() {
+    public InstructorPrivilegesLegacy getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(InstructorPrivileges instructorPrivileges) {
+    public void setPrivileges(InstructorPrivilegesLegacy instructorPrivileges) {
         this.privileges = instructorPrivileges;
     }
 
@@ -150,7 +151,7 @@ public class Instructor extends User {
      */
     public boolean hasCoownerPrivileges() {
         return this.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER
-                || this.privileges.hasAllPrivileges();
+                || this.privileges.getCourseLevelPrivileges().equals(DefaultInstructorPrivileges.PRIVILEGES_ALL);
     }
 
 }

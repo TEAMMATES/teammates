@@ -123,8 +123,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   resetCourseFormEvent: EventEmitter<void> = new EventEmitter();
 
   // for fine-grain permission setting
-  allSections: string[] = [];
-  allSessions: string[] = [];
+  allSections: { id: string; name: string }[] = [];
+  allSessions: { id: string; name: string }[] = [];
 
   isCourseLoading = false;
   hasCourseLoadingFailed = false;
@@ -154,10 +154,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const students: Students = vals[0];
         const sessions: FeedbackSessions = vals[1];
 
-        this.allSections = Array.from(new Set(students.students.map((value: Student) => value.sectionName)));
-        this.allSessions = sessions.feedbackSessions.map(
-          (sessionView: FeedbackSessionView) => sessionView.feedbackSession.feedbackSessionName,
-        );
+        this.allSections = Array.from(
+          new Map(students.students.map((s: Student) => [s.sectionId, s.sectionName])).entries(),
+        ).map(([id, name]) => ({ id, name }));
+        this.allSessions = sessions.feedbackSessions.map((sv: FeedbackSessionView) => ({
+          id: sv.feedbackSession.feedbackSessionId,
+          name: sv.feedbackSession.feedbackSessionName,
+        }));
 
         this.loadCourseInstructors();
       });
@@ -608,17 +611,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
       .subscribe((resp: InstructorPrivilege) => {
         permission.privilege = resp.privileges.courseLevel;
 
-        this.allSections.forEach((sectionName: string) => {
+        this.allSections.forEach((section: { id: string; name: string }) => {
           const sectionLevelPermission: InstructorSectionLevelPermission = {
-            sectionNames: [sectionName],
-            privilege: resp.privileges.sectionLevel[sectionName] || permission.privilege,
+            sections: [section],
+            privilege: resp.privileges.sectionLevel[section.id] || permission.privilege,
             sessionLevel: [],
           };
 
-          this.allSessions.forEach((sessionName: string) => {
+          this.allSessions.forEach((session: { id: string; name: string }) => {
             const sessionLevelPermission: InstructorSessionLevelPermission = {
-              sessionName,
-              privilege: resp.privileges.sessionLevel[sectionName]?.[sessionName] || sectionLevelPermission.privilege,
+              sessionId: session.id,
+              sessionName: session.name,
+              privilege: resp.privileges.sessionLevel[section.id]?.[session.id] || sectionLevelPermission.privilege,
             };
             sectionLevelPermission.sessionLevel.push(sessionLevelPermission);
           });
@@ -697,12 +701,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       sessionLevel: {},
     };
     permission.sectionLevel.forEach((sectionLevel: InstructorSectionLevelPermission) => {
-      sectionLevel.sectionNames.forEach((sectionName: string) => {
-        privileges.sectionLevel[sectionName] = sectionLevel.privilege;
-        privileges.sessionLevel[sectionName] = {};
+      sectionLevel.sections.forEach((section: { id: string; name: string }) => {
+        privileges.sectionLevel[section.id] = sectionLevel.privilege;
+        privileges.sessionLevel[section.id] = {};
 
         sectionLevel.sessionLevel.forEach((sessionLevel: InstructorSessionLevelPermission) => {
-          privileges.sessionLevel[sectionName][sessionLevel.sessionName] = sessionLevel.privilege;
+          privileges.sessionLevel[section.id][sessionLevel.sessionId] = sessionLevel.privilege;
         });
       });
     });

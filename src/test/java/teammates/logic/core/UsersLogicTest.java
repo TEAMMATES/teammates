@@ -21,11 +21,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -59,11 +59,11 @@ public class UsersLogicTest extends BaseTestCase {
         doAnswer(invocation -> {
             Instructor instructor = invocation.getArgument(0);
             String permissionName = invocation.getArgument(1);
-            InstructorPrivileges effectivePrivileges = instructor.getRole()
+            InstructorPrivilegesLegacy effectiveLegacy = instructor.getRole()
                     == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
                             ? instructor.getPrivileges()
-                            : new InstructorPrivileges(instructor.getRole().getRoleName());
-            return effectivePrivileges.isAllowedForPrivilege(permissionName);
+                            : InstructorPermissionsLogic.inst().legacyPrivilegesForRole(instructor.getRole().getRoleName());
+            return effectiveLegacy.getCourseLevelPrivileges().get(permissionName);
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
         usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
 
@@ -200,12 +200,14 @@ public class UsersLogicTest extends BaseTestCase {
 
     @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
-        InstructorPrivileges privileges = instructor.getPrivileges();
-        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-        instructor.setPrivileges(privileges);
+        InstructorPermissionSet courseLevelPerms = instructor.getPrivileges().getCourseLevelPrivileges();
+        courseLevelPerms.setCanModifyInstructor(false);
+        instructor.setPrivileges(new InstructorPrivilegesLegacy(courseLevelPerms,
+                instructor.getPrivileges().getSectionLevelPrivileges(),
+                instructor.getPrivileges().getSessionLevelPrivileges()));
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor);
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
+        assertFalse(instructor.getPrivileges().getCourseLevelPrivileges().get(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 

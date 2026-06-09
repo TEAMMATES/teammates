@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -129,7 +130,7 @@ public class InstructorCourseEditPage extends AppPage {
         }
     }
 
-    public void verifyCustomPrivileges(int instrNum, InstructorPrivileges privileges) {
+    public void verifyCustomPrivileges(int instrNum, InstructorPrivilegesLegacy privileges) {
         clickEditInstructorButton(instrNum);
 
         InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();

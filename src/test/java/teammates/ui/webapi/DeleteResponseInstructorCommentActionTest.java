@@ -14,9 +14,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -104,7 +105,7 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
         Instructor instructorWithoutAccess = getTypicalInstructor();
         instructorWithoutAccess.setEmail("helper@teammates.tmt");
         instructorWithoutAccess.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructorWithoutAccess.setPrivileges(new InstructorPrivileges(CUSTOM));
+        instructorWithoutAccess.setPrivileges(InstructorPermissionsLogic.inst().legacyPrivilegesForRole(CUSTOM));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),
@@ -233,11 +234,9 @@ public class DeleteResponseInstructorCommentActionTest extends BaseActionTest<De
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithoutPrivilege@teammates.tmt");
 
-        InstructorPrivileges privileges = new InstructorPrivileges();
-        privileges.updatePrivilege("test-section1",
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        // Custom instructor with no privileges — real GateKeeper path falls back to course-level (false)
         instructorWithoutPrivilege.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        instructorWithoutPrivilege.setPrivileges(privileges);
+        instructorWithoutPrivilege.setPrivileges(new InstructorPrivilegesLegacy());
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalResponseInstructorComment.getId().toString(),

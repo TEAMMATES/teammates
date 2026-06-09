@@ -357,7 +357,7 @@ export class SearchService {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
     accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
-    accountRequestResult.comments = comments || '';
+    accountRequestResult.comments = comments ?? '';
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
     accountRequestResult = {
