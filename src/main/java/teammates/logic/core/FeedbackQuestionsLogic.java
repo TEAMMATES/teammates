@@ -596,7 +596,7 @@ public final class FeedbackQuestionsLogic {
                 boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
-                                instructor, student.getSectionName(), question.getFeedbackSession().getName(),
+                                instructor, student.getSectionId(), question.getFeedbackSession().getId(),
                                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
                 if (shouldExcludeStudentForInstructor || shouldExcludeStudent) {
                     continue;
@@ -653,7 +653,7 @@ public final class FeedbackQuestionsLogic {
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
-                                instructor, team.getSection().getName(), question.getFeedbackSession().getName(),
+                                instructor, team.getSection().getId(), question.getFeedbackSession().getId(),
                                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
 
                 if (shouldExcludeTeamForInstructor || shouldExcludeTeam) {

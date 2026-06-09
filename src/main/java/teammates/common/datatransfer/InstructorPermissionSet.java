@@ -95,7 +95,7 @@ public class InstructorPermissionSet {
         return copy;
     }
 
-    boolean get(String privilegeName) {
+    public boolean get(String privilegeName) {
         switch (privilegeName) {
         case Const.InstructorPermissions.CAN_MODIFY_COURSE:
             return canModifyCourse;

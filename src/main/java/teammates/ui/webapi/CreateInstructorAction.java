@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -102,15 +103,17 @@ public class CreateInstructorAction extends Action {
         }
 
         // Only assign privileges if the role is custom, otherwise assign default privileges for the role
-        InstructorPrivileges privileges = requestPrivileges == null
-                || !Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRole)
-                        ? new InstructorPrivileges(instrRole)
-                        : requestPrivileges;
-        privileges.validatePrivileges();
         InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
+        InstructorPrivilegesLegacy legacyPrivileges;
+        if (requestPrivileges != null && Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRole)) {
+            requestPrivileges.validatePrivileges();
+            legacyPrivileges = logic.convertToLegacy(requestPrivileges);
+        } else {
+            legacyPrivileges = logic.legacyPrivilegesForRole(instrRole);
+        }
 
         return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,
-                privileges);
+                legacyPrivileges);
     }
 
 }

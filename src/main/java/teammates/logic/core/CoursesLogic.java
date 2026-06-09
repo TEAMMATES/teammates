@@ -7,10 +7,11 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.InstructorPrivilegesLegacy;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,8 +37,8 @@ public final class CoursesLogic {
     private static final CoursesLogic instance = new CoursesLogic();
 
     private CoursesDb coursesDb;
-
     private UsersLogic usersLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -47,9 +48,10 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, InstructorPermissionsLogic instructorPermissionsLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -94,7 +96,7 @@ public final class CoursesLogic {
                 timeZone, courseCreateRequest.getInstitute());
 
         // Create the initial instructor for the course
-        InstructorPrivileges privileges = new InstructorPrivileges(
+        InstructorPrivilegesLegacy privileges = instructorPermissionsLogic.legacyPrivilegesForRole(
                 Const.InstructorPermissionRoleNames.COOWNER);
         Instructor instructor = new Instructor(
                 course,
@@ -228,6 +230,20 @@ public final class CoursesLogic {
         validateCourse(course);
 
         return course;
+    }
+
+    /**
+     * Returns the section with the given name in the given course, or null if not found.
+     */
+    public Section getSectionByName(String courseId, String sectionName) {
+        return coursesDb.getSectionByName(courseId, sectionName);
+    }
+
+    /**
+     * Returns the section with the given UUID, or null if not found.
+     */
+    public Section getSectionById(UUID sectionId) {
+        return coursesDb.getSectionById(sectionId);
     }
 
     /**

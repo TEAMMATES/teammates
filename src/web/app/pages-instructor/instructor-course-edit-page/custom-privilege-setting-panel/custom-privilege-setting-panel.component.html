@@ -107,16 +107,16 @@
           </div>
           <div class="col-6 col-sm-9">
             <div id="custom-sections" class="row">
-              @for (section of this.allSections; track section) {
+              @for (section of this.allSections; track section.id) {
                 <div class="col">
                   <label>
                     <input
                       type="checkbox"
-                      [ngModel]="sectionLevel.sectionNames.includes(section)"
-                      (ngModelChange)="editSectionToSectionLevelPermission(i, section, $event)"
-                      [disabled]="!sectionLevel.sectionNames.includes(section) && hasSectionLevelPermission(section)"
+                      [ngModel]="sectionLevel.sections.map(s => s.id).includes(section.id)"
+                      (ngModelChange)="editSectionToSectionLevelPermission(i, section.id, $event)"
+                      [disabled]="!sectionLevel.sections.map(s => s.id).includes(section.id) && hasSectionLevelPermission(section.id)"
                     />
-                    {{ section === 'None' ? 'Students not in a section' : section }}
+                    {{ section.name === 'None' ? 'Students not in a section' : section.name }}
                   </label>
                 </div>
               }

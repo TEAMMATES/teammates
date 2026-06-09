@@ -55,7 +55,8 @@ public class GetInstructorPrivilegeAction extends Action {
             instructor = getInstructor(userId);
         }
 
-        InstructorPrivilegeData response = new InstructorPrivilegeData(instructor.getPrivileges());
+        InstructorPrivilegeData response =
+                new InstructorPrivilegeData(logic.getInstructorPrivileges(instructor));
 
         return new JsonResult(response);
     }

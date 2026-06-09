@@ -121,11 +121,11 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
                 logic.hasInstructorPermissions(instructorSubmission, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructorSubmission,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getName(),
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getId(),
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         boolean canViewSessionInSections = logic.hasInstructorPermissions(instructorSubmission,
                 Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getName(),
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getId(),
                 Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
         return new InstructorFeedbackSessionPermissionsData(
                 canModifySession,

@@ -10,7 +10,6 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.exception.EntityNotFoundException;
@@ -43,14 +42,16 @@ public class CreateResponseInstructorCommentAction extends Action {
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
         FeedbackSession session = feedbackQuestion.getFeedbackSession();
 
-        ResponseGiver giver = feedbackResponse.getGiver();
-        String giverSectionName = giver.getSectionName();
         ResponseRecipient recipient = feedbackResponse.getRecipient();
-        String recipientSectionName = recipient.getSectionName();
-        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), giverSectionName,
+        UUID recipientSectionId = recipient.getSectionId();
+        if (recipientSectionId == null) {
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, session.getCourseId(),
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+        } else {
+            gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionId,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionName,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+        }
+        
         if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for instructor comment");
         }
