@@ -27,11 +27,7 @@ public class PublishFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackSession(requestContext, feedbackSessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

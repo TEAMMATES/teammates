@@ -136,6 +136,28 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies the instructor has the privileges specified by privilegeNames for the course
+     * of the specified feedback session.
+     */
+    void verifyInstructorHasPrivilegeInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(), privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames for the course
+     * of the specified feedback question.
+     */
+    void verifyInstructorHasPrivilegeInFeedbackQuestion(RequestContext requestContext, UUID feedbackQuestionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        verifyNotNull(feedbackQuestion, "feedback question");
+        verifyInstructorHasPrivilege(requestContext, feedbackQuestion.getCourseId(), privilegeNames);
+    }
+
+    /**
      * Verifies the instructor for the specified course has the privileges specified by privilegeNames.
      */
     void verifyInstructorHasPrivilege(RequestContext requestContext, String courseId, String... privilegeNames)
