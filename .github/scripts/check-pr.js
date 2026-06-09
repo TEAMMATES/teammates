@@ -86,8 +86,7 @@ const checkPr = async ({ github, context }) => {
     body += `- The issue referenced in the description (#${issueNumber}) is not open.\n`;
   }
   if (!isLockfileChangeValid) {
-    const offending = orphanLockfiles.map((path) => `\`${path}\``).join(', ');
-    body += `- ${offending} changed without a corresponding \`package.json\` change in the same directory. Lockfile updates should accompany dependency changes in \`package.json\`. If this PR intentionally only refreshes the lockfile, please call that out explicitly in the description.\n`;
+    body += `- This PR contains changes to \`package-lock.json\` without corresponding \`package.json\` changes. Please revert the \`package-lock.json\` changes.\n`;
   }
   body += '\nPlease address the above before we proceed to review your PR.';
   await github.rest.issues.createComment({
