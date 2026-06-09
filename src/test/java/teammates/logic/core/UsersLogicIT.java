@@ -60,18 +60,17 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testResetAccount_instructor() {
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(course);
-        instructor.setAccount(account);
-
-        String googleId = instructor.getGoogleId();
+        String googleId = account.getGoogleId();
 
         ______TS("failure: reset instructor that does not exist");
         assertThrowsInTransaction(EntityDoesNotExistException.class,
-                () -> usersLogic.resetAccount(instructor.getId()));
+                () -> usersLogic.resetAccount(UUID.randomUUID()));
 
         ______TS("success: reset instructor that exists");
-        inTransaction(() -> usersLogic.createInstructor(instructor));
+        Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
+                course, "instructor-name", "valid@teammates.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, account));
         User resetUser = inTransaction(() -> usersLogic.resetAccount(instructor.getId()));
         instructor.setAccount(null);
 
@@ -107,11 +106,10 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(course);
-        instructor.setAccount(account);
-        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        inTransaction(() -> usersLogic.createInstructor(instructor));
+        Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
+                course, "instructor-name", "valid@teammates.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
+                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, account));
 
         ______TS("does not grant modify instructor privilege when the instructor does not already have it");
         InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
