@@ -18,14 +18,17 @@ public class LoginMethodsData implements ApiOutput {
         return loginMethods;
     }
 
+    /**
+     * Converts a login method string to the corresponding LoginMethod enum value.
+     */
     public LoginMethod convertToLoginMethodEnum(String method) {
         switch (method.toLowerCase()) {
-            case "google":
-                return LoginMethod.GOOGLE;
-            case "devserver":
-                return LoginMethod.DEV_SERVER;
-            default:
-                throw new IllegalArgumentException("Unsupported login method: " + method);
+        case "google":
+            return LoginMethod.GOOGLE;
+        case "devserver":
+            return LoginMethod.DEV_SERVER;
+        default:
+            throw new IllegalArgumentException("Unsupported login method: " + method);
         }
     }
 
