@@ -141,20 +141,6 @@
       "email": "instructor1@course1.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "idOfTypicalCourse1",
       "displayName": "Instructor",
@@ -165,20 +151,6 @@
       "email": "instructor2@course1.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "idOfTypicalCourse1",
       "displayName": "Manager",
@@ -189,20 +161,6 @@
       "email": "helper@course1.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
       "isDisplayedToStudents": false,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": false,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": false,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canModifyInstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "idOfTypicalCourse1",
       "displayName": "Helper",
@@ -213,20 +171,6 @@
       "email": "instructornotyetjoinedcourse1@email.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000504",
       "courseId": "idOfTypicalCourse1",
       "displayName": "Instructor"
@@ -236,20 +180,6 @@
       "email": "instructor1@course2.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000505",
       "courseId": "idOfTypicalCourse2",
       "displayName": "Instructor",
@@ -260,20 +190,6 @@
       "email": "instructor3@course1.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000506",
       "courseId": "idOfTypicalCourse1",
       "displayName": "Instructor",
@@ -284,20 +200,6 @@
       "email": "instructor1@noemailssent.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000507",
       "courseId": "idOfTestingNoEmailsSentCourse",
       "displayName": "Instructor",
@@ -308,24 +210,27 @@
       "email": "instructor1@sanitization.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000508",
       "courseId": "idOfTestingSanitizationCourse",
       "displayName": "inst'\"/><script>alert('hi!');</script>",
       "accountId": "00000000-0000-4000-8000-000000000007"
+    }
+  },
+  "instructorPrivileges": {
+    "helperOfCourse1": {
+      "instructorId": "00000000-0000-4000-8000-000000000503",
+      "courseLevel": {
+        "canViewStudentInSections": false,
+        "canSubmitSessionInSections": false,
+        "canModifySessionCommentsInSections": false,
+        "canModifyCourse": false,
+        "canViewSessionInSections": false,
+        "canModifySession": false,
+        "canModifyStudent": false,
+        "canModifyInstructor": false
+      },
+      "sectionLevel": {},
+      "sessionLevel": {}
     }
   },
   "sections": {

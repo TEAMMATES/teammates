@@ -63,20 +63,6 @@
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
@@ -87,20 +73,6 @@
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }

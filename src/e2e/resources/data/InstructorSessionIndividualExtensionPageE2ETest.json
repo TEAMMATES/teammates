@@ -93,20 +93,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ISesIe.instructor2": {
@@ -117,20 +103,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canModifyInstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000002"
     }
   },

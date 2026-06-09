@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.InstructorPrivilegesLegacy;
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
@@ -110,16 +110,18 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor instructor = getTypicalInstructor();
         instructor.setCourse(course);
         instructor.setAccount(account);
+        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        inTransaction(() -> usersLogic.createInstructor(instructor));
 
-        ______TS("success: preserves modify instructor privilege if last instructor in course with privilege");
-        InstructorPermissionSet courseLevelPerms = instructor.getPrivileges().getCourseLevelPrivileges();
-        courseLevelPerms.setCanModifyInstructor(false);
-        instructor.setPrivileges(new InstructorPrivilegesLegacy(courseLevelPerms,
-                instructor.getPrivileges().getSectionLevelPrivileges(),
-                instructor.getPrivileges().getSessionLevelPrivileges()));
+        ______TS("does not grant modify instructor privilege when the instructor does not already have it");
+        InstructorPrivileges privileges = new InstructorPrivileges();
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        inTransaction(() -> InstructorPermissionsLogic.inst().saveInstructorPrivileges(instructor, privileges));
+
         inTransaction(() -> usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor));
 
-        assertFalse(instructor.getPrivileges().getCourseLevelPrivileges().get(
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        InstructorPrivileges result = inTransaction(() ->
+                InstructorPermissionsLogic.inst().getInstructorPrivileges(instructor));
+        assertFalse(result.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 }

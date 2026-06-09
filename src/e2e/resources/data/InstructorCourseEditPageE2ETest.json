@@ -136,20 +136,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.manager.CS2104": {
@@ -160,20 +146,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "ICEdit.observer.CS2104": {
@@ -184,20 +156,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canModifyInstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "ICEdit.tutor.CS2104": {
@@ -208,20 +166,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
       "isDisplayedToStudents": false,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canModifyInstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "ICEdit.helper.CS2104": {
@@ -232,20 +176,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": false,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": false,
-          "canModifySession": false,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "ICEdit.coowner.CS2103T": {
@@ -256,20 +186,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.observer.CS2103T": {
@@ -280,20 +196,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
       "isDisplayedToStudents": false,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canModifyInstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "ICEdit.helper.CS2103T": {
@@ -304,20 +206,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": false,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": false,
-          "canModifySession": false,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000006"
     },
     "ICEdit.coowner.CS2105": {
@@ -328,20 +216,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.manager.CS2105": {
@@ -352,20 +226,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000007"
     },
     "ICEdit.coowner.CS2106": {
@@ -376,20 +236,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.tutor.CS2106": {
@@ -400,20 +246,6 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": false,
-          "canModifyCourse": false,
-          "canViewSessionInSections": true,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canModifyInstructor": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000008"
     },
     "ICEdit.coowner.CS2107": {
@@ -424,21 +256,39 @@
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  "instructorPrivileges": {
+    "ICEdit.helper.CS2104": {
+      "instructorId": "00000000-0000-4000-8000-000000000505",
+      "courseLevel": {
+        "canViewStudentInSections": false,
+        "canSubmitSessionInSections": false,
+        "canModifySessionCommentsInSections": false,
+        "canModifyCourse": false,
+        "canViewSessionInSections": false,
+        "canModifySession": false,
+        "canModifyStudent": true,
+        "canModifyInstructor": true
+      },
+      "sectionLevel": {},
+      "sessionLevel": {}
+    },
+    "ICEdit.helper.CS2103T": {
+      "instructorId": "00000000-0000-4000-8000-000000000508",
+      "courseLevel": {
+        "canViewStudentInSections": false,
+        "canSubmitSessionInSections": false,
+        "canModifySessionCommentsInSections": false,
+        "canModifyCourse": false,
+        "canViewSessionInSections": false,
+        "canModifySession": false,
+        "canModifyStudent": true,
+        "canModifyInstructor": true
+      },
+      "sectionLevel": {},
+      "sessionLevel": {}
     }
   },
   "students": {
