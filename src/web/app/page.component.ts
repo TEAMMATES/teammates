@@ -118,7 +118,7 @@ export class PageComponent implements OnInit {
         }
         r.data.subscribe((resp: Data) => {
           this.pageTitle = resp['pageTitle'];
-          this.title.setTitle(resp['htmlTitle'] || DEFAULT_TITLE);
+          this.title.setTitle(resp['htmlTitle'] ?? DEFAULT_TITLE);
         });
       }
     });

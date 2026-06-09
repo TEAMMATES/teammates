@@ -125,8 +125,8 @@ export class SessionResultPageComponent implements OnInit {
       )
       .subscribe((queryParams: Params) => {
         this.feedbackSessionId = queryParams['fsid'];
-        this.regKey = queryParams['key'] || '';
-        this.previewAsPerson = queryParams['previewas'] ? queryParams['previewas'] : '';
+        this.regKey = queryParams['key'] ?? '';
+        this.previewAsPerson = queryParams['previewas'] ?? '';
         if (queryParams['entitytype'] === 'instructor') {
           this.entityType = 'instructor';
           this.intent = Intent.INSTRUCTOR_RESULT;

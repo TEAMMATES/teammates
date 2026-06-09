@@ -414,7 +414,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-              instructorPrivilege: sessionView.instructorPermissions || {
+              instructorPrivilege: sessionView.instructorPermissions ?? {
                 canModifySession: false,
                 canSubmitSessionInSections: false,
                 canViewSessionInSections: false,
@@ -619,7 +619,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             const session: FeedbackSession = sessionView.feedbackSession;
             this.recycleBinFeedbackSessionRowModels.push({
               feedbackSession: session,
-              instructorPrivilege: sessionView.instructorPermissions || {
+              instructorPrivilege: sessionView.instructorPermissions ?? {
                 canModifySession: false,
                 canSubmitSessionInSections: false,
                 canViewSessionInSections: false,

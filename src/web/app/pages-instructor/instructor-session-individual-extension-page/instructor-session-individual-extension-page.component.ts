@@ -644,8 +644,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strB = b.email;
           break;
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
-          strA = a.role || '';
-          strB = b.role || '';
+          strA = a.role ?? '';
+          strB = b.role ?? '';
           break;
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();
