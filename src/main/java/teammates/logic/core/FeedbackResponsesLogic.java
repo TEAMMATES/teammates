@@ -852,7 +852,7 @@ public final class FeedbackResponsesLogic {
                     UUID recipientSectionId = recipient.getSectionId();
                     if (isNoSpecificSection && giverSectionId != null && recipientSectionId != null) {
                         // if isNoSpecificSection is true, either giver or recipient needs
-                        // to be in the default section (i.e. no section)
+                        // to not have a section
                         continue;
                     }
 
@@ -1068,7 +1068,7 @@ public final class FeedbackResponsesLogic {
      * @param feedbackSession the session
      * @param courseId the course ID of the session
      * @param sectionId if null, will retrieve all responses in the session
-     * @param isNoSpecificSection true if the section is the default section
+     * @param isNoSpecificSection true if filtering for no specific section
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
@@ -1086,7 +1086,7 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackQuestionId the question UUID
      * @param sectionId if null, will retrieve all responses for the question
-     * @param isNoSpecificSection true if the section is the default section
+     * @param isNoSpecificSection true if filtering for no specific section
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(

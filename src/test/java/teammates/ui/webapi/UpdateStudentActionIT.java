@@ -250,38 +250,6 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         verifyNoTasksAdded();
     }
 
-    @Test(groups = GroupNames.INTEGRATION)
-    public void testExecute_renameEmptySectionNameToDefault_success() {
-        Student student4 = typicalBundle.students.get("student4InCourse1");
-
-        Team originalTeam = student4.getTeam();
-
-        StudentUpdateRequest emptySectionUpdateRequest = new StudentUpdateRequest(student4.getName(), student4.getEmail(),
-                student4.getTeamName(), "Section Name", student4.getComments(), true);
-
-        String[] emptySectionSubmissionParams = new String[] {
-                Const.ParamsNames.USER_ID, student4.getId().toString(),
-        };
-
-        UpdateStudentAction updateEmptySectionAction = getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
-        JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
-
-        MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
-        assertEquals("Student has been updated and email sent", emptySectionMsgOutput.getMessage());
-
-        inTransaction(() -> {
-            Student actualStudent = logic.getStudentForEmail(student4.getCourseId(), student4.getEmail());
-            assertEquals(student4.getCourse().getId(), actualStudent.getCourse().getId());
-            assertEquals(student4.getName(), actualStudent.getName());
-            assertEquals(student4.getEmail(), actualStudent.getEmail());
-            assertEquals(student4.getTeamName(), actualStudent.getTeamName());
-            assertEquals("Section Name", actualStudent.getSectionName());
-            assertEquals(student4.getComments(), actualStudent.getComments());
-        });
-
-        resetStudent(student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
-    }
-
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {

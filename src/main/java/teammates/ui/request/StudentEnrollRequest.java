@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.util.Const;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
@@ -32,7 +31,7 @@ public class StudentEnrollRequest extends BasicRequest {
         validateTrue(name != null && !name.isEmpty(), "Student name cannot be empty");
         validateTrue(email != null && !email.isEmpty(), "Student email cannot be empty");
         validateTrue(team != null && !team.isEmpty(), "Team cannot be empty");
-        validateTrue(section != null, "Section cannot be null");
+        validateTrue(section != null && !section.isEmpty(), "Section cannot be empty");
         validateTrue(comments != null, "Comments cannot be null");
     }
 

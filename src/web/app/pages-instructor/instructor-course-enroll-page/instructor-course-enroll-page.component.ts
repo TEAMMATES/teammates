@@ -155,8 +155,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         const section = normalizeCell(row[0]) || 'Default Section';
         const team = normalizeCell(row[1]) || 'Default Team';
         studentEnrollRequests.set(index, {
-          section: section,
-          team: team,
+          section,
+          team,
           name: normalizeCell(row[2]),
           email: normalizeCell(row[3]),
           comments: normalizeCell(row[4]),
