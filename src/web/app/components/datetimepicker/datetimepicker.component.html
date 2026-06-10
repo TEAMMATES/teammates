@@ -1,0 +1,23 @@
+<div class="row align-items-center">
+  <div class="col-md-7 col-xs-center">
+    <tm-datepicker
+      [isDisabled]="isDisabled"
+      [date]="date"
+      [minDate]="minDate!"
+      [maxDate]="maxDate!"
+      (dateChangeCallback)="onDateChange($event)"
+    ></tm-datepicker>
+  </div>
+  <div class="col-md-5">
+    <tm-timepicker
+      [isDisabled]="isDisabled"
+      [time]="time"
+      [date]="date"
+      [minDate]="minDateTime"
+      [maxDate]="maxDateTime"
+      [minTime]="minTime"
+      [maxTime]="maxTime"
+      (timeChange)="onTimeChange($event)"
+    ></tm-timepicker>
+  </div>
+</div>

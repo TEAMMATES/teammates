@@ -25,15 +25,12 @@ import {
 } from '../../../types/datetime-const';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
-import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
-import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../datetimepicker/datetimepicker.component';
 import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
-import { TimepickerComponent } from '../timepicker/timepicker.component';
-
 /**
  * Form to Add/Edit feedback sessions.
  */
@@ -49,8 +46,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     NgbTooltip,
     NgClass,
     RichTextEditorComponent,
-    DatepickerComponent,
-    TimepickerComponent,
+    DatetimepickerComponent,
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
     NgbCollapse,
