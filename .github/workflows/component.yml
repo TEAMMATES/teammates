@@ -19,11 +19,7 @@ concurrency:
 
 jobs:
   lint:
-    strategy:
-      fail-fast: false #ensure both tests run even if one fails
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -41,17 +37,17 @@ jobs:
         with:
           path: |
             ./.eslintcache
-          key: ${{ runner.os }}-eslint-${{ hashFiles('package-lock.json', 'eslint.config.*') }}
+          key: eslint-${{ hashFiles('package-lock.json', 'eslint.config.*') }}
           restore-keys: |
-            ${{ runner.os }}-eslint-
+            eslint-
       - name: Cache stylelint
         uses: actions/cache@v5
         with:
           path: |
             ./.stylelintcache
-          key: ${{ runner.os }}-stylelint-${{ hashFiles('package-lock.json', 'stylelint.config.*') }}
+          key: stylelint-${{ hashFiles('package-lock.json', 'stylelint.config.*') }}
           restore-keys: |
-            ${{ runner.os }}-stylelint-
+            stylelint-
       - name: Run Backend Linting
         run: ./gradlew lint --continue
       - name: Install Frontend Dependencies
