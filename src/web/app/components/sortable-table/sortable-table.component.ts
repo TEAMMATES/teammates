@@ -66,8 +66,6 @@ export interface SortableTableCellData {
 
 interface SortableTableRowData {
   cells: SortableTableCellData[];
-  id?: string;
-  rowClass?: string;
 }
 
 /**
@@ -116,12 +114,6 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   @Input()
   sortOrder: SortOrder = SortOrder.ASC;
-
-  @Input()
-  rowIdGetter?: (row: SortableTableCellData[], idx: number) => string | undefined;
-
-  @Input()
-  rowClassGetter?: (row: SortableTableCellData[], idx: number) => string | undefined;
 
   @Output()
   sortEvent: EventEmitter<SortableEvent> = new EventEmitter();
@@ -181,7 +173,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
       this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
     }
     if (emitSortEvent) {
-      this.tableRows.sort((row1: any[], row2: any[]) => {
+      this.tableRows.sort((row1: SortableTableCellData[], row2: SortableTableCellData[]) => {
         return this.tableComparatorService.compare(
           sortBy,
           this.sortOrder,
@@ -219,10 +211,8 @@ export class SortableTableComponent implements OnInit, OnChanges {
   }
 
   private updateDisplayRows(): void {
-    this.displayRows = this.tableRows.map((row: SortableTableCellData[], idx: number) => ({
+    this.displayRows = this.tableRows.map((row: SortableTableCellData[]) => ({
       cells: row,
-      id: this.rowIdGetter ? this.rowIdGetter(row, idx) : undefined,
-      rowClass: this.rowClassGetter ? this.rowClassGetter(row, idx) : undefined,
     }));
   }
 }

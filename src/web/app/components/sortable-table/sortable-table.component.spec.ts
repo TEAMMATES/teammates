@@ -35,21 +35,6 @@ describe('SortableTableComponent', () => {
     expect(table.getAttribute('id')).toBe('test-table-id');
   });
 
-  it('should apply row id and row class when row getters are provided', () => {
-    component.columns = [{ header: 'Name' }];
-    component.rows = [[{ value: 'Alice' }], [{ value: 'Bob' }]];
-    component.rowIdGetter = (_: SortableTableCellData[], idx: number): string => `row-${idx}`;
-    component.rowClassGetter = (_: SortableTableCellData[], idx: number): string | undefined =>
-      idx === 1 ? 'highlighted-row' : undefined;
-    fixture.detectChanges();
-
-    const rows: NodeListOf<HTMLTableRowElement> = fixture.nativeElement.querySelectorAll('tbody tr');
-    expect(rows[0].getAttribute('id')).toBe('row-0');
-    expect(rows[1].getAttribute('id')).toBe('row-1');
-    expect(rows[0].classList.contains('highlighted-row')).toBe(false);
-    expect(rows[1].classList.contains('highlighted-row')).toBe(true);
-  });
-
   it('should sort rows on input changes using the active sort settings', () => {
     component.columns = [{ header: 'Name', sortBy: SortBy.COURSE_ID }];
     component.initialSortBy = SortBy.COURSE_ID;

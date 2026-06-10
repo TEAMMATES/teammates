@@ -148,7 +148,6 @@ export class AdminNotificationsPageComponent implements OnInit {
       .subscribe({
         next: (notifications: Notifications) => {
           this.notificationsTableRowModels = notifications.notifications.map((notification: Notification) => ({
-            isHighlighted: false,
             notification,
           }));
           this.sortNotificationsTableRowModelsHandler({
@@ -273,7 +272,6 @@ export class AdminNotificationsPageComponent implements OnInit {
         next: (notification: Notification) => {
           this.notificationsTableRowModels = [
             {
-              isHighlighted: true,
               notification,
             },
             ...this.notificationsTableRowModels,
@@ -328,8 +326,6 @@ export class AdminNotificationsPageComponent implements OnInit {
             (rowModel: NotificationsTableRowModel) => {
               if (rowModel.notification.notificationId === notification.notificationId) {
                 return {
-                  ...rowModel,
-                  isHighlighted: true,
                   notification,
                 };
               }
@@ -370,13 +366,9 @@ export class AdminNotificationsPageComponent implements OnInit {
   sortNotificationsTableRowModelsHandler(event: SortableEvent): void {
     this.notificationsTableRowModelsSortBy = event.sortBy;
     this.notificationsTableRowModelsSortOrder = event.sortOrder;
-    // before sorting, remove highlights from all rows
-    this.notificationsTableRowModels = this.notificationsTableRowModels
-      .map((notificationsTableRowModel: NotificationsTableRowModel) => ({
-        ...notificationsTableRowModel,
-        isHighlighted: false,
-      }))
-      .sort(this.getNotificationsTableRowModelsComparator());
+    this.notificationsTableRowModels = [...this.notificationsTableRowModels].sort(
+      this.getNotificationsTableRowModelsComparator(),
+    );
   }
 
   /**

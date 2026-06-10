@@ -8,7 +8,6 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SortableEvent } from '../../../components/sortable-table/sortable-table.component';
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
-  isHighlighted: true,
   notification: {
     notificationId: 'notification1',
     startTimestamp: new Date('2017-09-15T09:30+00:00').getTime(),
@@ -22,7 +21,6 @@ const notificationTableRowModel1: NotificationsTableRowModel = {
 };
 
 const notificationTableRowModel2: NotificationsTableRowModel = {
-  isHighlighted: false,
   notification: {
     notificationId: 'notification2',
     startTimestamp: new Date('2018-12-15T09:30+00:00').getTime(),

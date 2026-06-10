@@ -55,12 +55,10 @@ const testNotificationTwo: Notification = {
 };
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
-  isHighlighted: true,
   notification: testNotificationOne,
 };
 
 const notificationTableRowModel2: NotificationsTableRowModel = {
-  isHighlighted: false,
   notification: testNotificationTwo,
 };
 
@@ -250,7 +248,6 @@ describe('AdminNotificationsPageComponent', () => {
     expect(spy).toHaveBeenCalledWith('Notification updated successfully.');
     expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
     expect(component.notificationsTableRowModels[0].notification).toEqual(updatedNotification);
-    expect(component.notificationsTableRowModels[0].isHighlighted).toBeTruthy();
   });
 
   it('should display warning when attempts to edit another notification when form is open', async () => {
@@ -324,9 +321,6 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
     expect(component.notificationsTableRowModelsSortOrder).toEqual(SortOrder.DESC);
     expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
-    expect(
-      component.notificationsTableRowModels.every((rowModel: NotificationsTableRowModel) => !rowModel.isHighlighted),
-    ).toBeTruthy();
 
     const expected: NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1].sort(
       component.getNotificationsTableRowModelsComparator(),

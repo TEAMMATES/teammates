@@ -23,7 +23,6 @@ import {
 })
 export class NotificationsTableComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
-  private rowDataToModelMap = new WeakMap<SortableTableCellData[], NotificationsTableRowModel>();
 
   @Input()
   guessTimezone = 'UTC';
@@ -51,8 +50,6 @@ export class NotificationsTableComponent implements OnChanges {
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
-  rowIdGetter = (rowData: SortableTableCellData[]): string | undefined => this.getRowId(rowData);
-  rowClassGetter = (rowData: SortableTableCellData[]): string | undefined => this.getRowClass(rowData);
   sortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   constructor() {
@@ -96,14 +93,6 @@ export class NotificationsTableComponent implements OnChanges {
     this.loadNotificationEditFormEvent.emit(notification);
   }
 
-  private getRowId(rowData: SortableTableCellData[]): string | undefined {
-    return this.rowDataToModelMap.get(rowData)?.notification.notificationId;
-  }
-
-  private getRowClass(rowData: SortableTableCellData[]): string | undefined {
-    return this.rowDataToModelMap.get(rowData)?.isHighlighted ? 'table-success' : undefined;
-  }
-
   private setColumnsData(): void {
     this.columnsData = [
       { header: 'Title', sortBy: SortBy.NOTIFICATION_TITLE },
@@ -117,10 +106,9 @@ export class NotificationsTableComponent implements OnChanges {
   }
 
   private setRowsData(): void {
-    this.rowDataToModelMap = new WeakMap<SortableTableCellData[], NotificationsTableRowModel>();
     this.rowsData = this.notificationsTableRowModels.map((notificationsTableRowModel: NotificationsTableRowModel) => {
       const notification: Notification = notificationsTableRowModel.notification;
-      const rowData: SortableTableCellData[] = [
+      return [
         { value: notification.title },
         {
           value: notification.startTimestamp,
@@ -173,8 +161,6 @@ export class NotificationsTableComponent implements OnChanges {
           },
         },
       ];
-      this.rowDataToModelMap.set(rowData, notificationsTableRowModel);
-      return rowData;
     });
   }
 }

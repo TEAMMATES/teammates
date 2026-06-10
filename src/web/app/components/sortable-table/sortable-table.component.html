@@ -42,7 +42,7 @@
   </thead>
   <tbody>
     @for (row of displayRows; track row.cells; let idx = $index) {
-      <tr [attr.id]="row.id || null" [ngClass]="row.rowClass">
+      <tr>
         @for (item of row.cells; track item) {
           <td [style]="getStyle(item)">
             @if (item.customComponent) {
