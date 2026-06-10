@@ -37,7 +37,7 @@ import tools.jackson.core.JacksonException;
 /**
  * Login handler for Google login.
  */
-public class GoogleHandler implements LoginMethodHandler {
+public class GoogleLoginHandler implements LoginMethodHandler {
 
     private static final Logger log = Logger.getLogger();
 
