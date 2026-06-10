@@ -50,12 +50,10 @@ describe('SortableTableComponent', () => {
     expect(rows[1].classList.contains('highlighted-row')).toBe(true);
   });
 
-  it('should preserve input row order on input changes when local sorting is disabled', () => {
+  it('should sort rows on input changes using the active sort settings', () => {
     component.columns = [{ header: 'Name', sortBy: SortBy.COURSE_ID }];
     component.initialSortBy = SortBy.COURSE_ID;
     component.sortOrder = SortOrder.ASC;
-    component.emitSortEventOnInit = false;
-    component.emitSortEventOnInputChange = false;
     component.rows = [[{ value: 'b' }], [{ value: 'a' }]];
     fixture.detectChanges();
 
@@ -64,7 +62,7 @@ describe('SortableTableComponent', () => {
     component.ngOnChanges();
 
     expect(component.tableRows).toBe(updatedRows);
-    expect(component.tableRows.map((row: SortableTableCellData[]) => row[0].value)).toEqual(['c', 'a', 'b']);
+    expect(component.tableRows.map((row: SortableTableCellData[]) => row[0].value)).toEqual(['a', 'b', 'c']);
   });
 
   it('should bind outputs for dynamic custom components', () => {

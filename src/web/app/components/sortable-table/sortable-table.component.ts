@@ -118,12 +118,6 @@ export class SortableTableComponent implements OnInit, OnChanges {
   sortOrder: SortOrder = SortOrder.ASC;
 
   @Input()
-  emitSortEventOnInit = true;
-
-  @Input()
-  emitSortEventOnInputChange = true;
-
-  @Input()
   rowIdGetter?: (row: SortableTableCellData[], idx: number) => string | undefined;
 
   @Input()
@@ -150,7 +144,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     this.tableRows = this.rows;
-    this.sortRows(this.emitSortEventOnInputChange);
+    this.sortRows();
     this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
   }
 
@@ -211,7 +205,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     }
 
     this.columnToSortBy = this.columns[indexOfColumnToSort].header;
-    this.sortRows(this.emitSortEventOnInit);
+    this.sortRows();
   }
 
   getStyle(cellData: SortableTableCellData): string | undefined {

@@ -41,7 +41,7 @@ export class NotificationsTableComponent implements OnChanges {
   headerColorScheme = NotificationsTableHeaderColorScheme.BLUE;
 
   @Output()
-  sortNotificationsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
+  sortNotificationsTableRowModelsEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   @Output()
   deleteNotificationEvent: EventEmitter<string> = new EventEmitter();
@@ -67,15 +67,14 @@ export class NotificationsTableComponent implements OnChanges {
     this.setRowsData();
   }
 
-  /**
-   * Sorts the list of notification rows.
-   */
-  sortNotificationsTableRowModels(by: SortBy): void {
-    this.sortNotificationsTableRowModelsEvent.emit(by);
-  }
-
   sortNotificationsTableRowsEventHandler(event: SortableEvent): void {
-    this.sortNotificationsTableRowModels(event.sortBy);
+    if (
+      event.sortBy === this.notificationsTableRowModelsSortBy &&
+      event.sortOrder === this.notificationsTableRowModelsSortOrder
+    ) {
+      return;
+    }
+    this.sortNotificationsTableRowModelsEvent.emit(event);
   }
 
   /**

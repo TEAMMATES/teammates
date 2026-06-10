@@ -22,6 +22,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { NotificationEditFormComponent } from './notification-edit-form/notification-edit-form.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 
 @Component({
   selector: 'tm-admin-notifications-page',
@@ -150,10 +151,10 @@ export class AdminNotificationsPageComponent implements OnInit {
             isHighlighted: false,
             notification,
           }));
-          // sort the list using create time, and allocate the index in ascending order
-          // note: order is set to be descending here as it will be reversed later
-          this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
-          this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
+          this.sortNotificationsTableRowModelsHandler({
+            sortBy: SortBy.NOTIFICATION_CREATE_TIME,
+            sortOrder: SortOrder.DESC,
+          });
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasNotificationLoadingFailed = true;
@@ -366,15 +367,9 @@ export class AdminNotificationsPageComponent implements OnInit {
   /**
    * Handles sorting event from the table sub-component.
    */
-  sortNotificationsTableRowModelsHandler(sortBy: SortBy): void {
-    if (this.notificationsTableRowModelsSortBy === sortBy) {
-      // if sorting the same column, reverse the order
-      this.notificationsTableRowModelsSortOrder =
-        this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
-    } else {
-      // if different column, change the sortBy value and but sort order will not be changed
-      this.notificationsTableRowModelsSortBy = sortBy;
-    }
+  sortNotificationsTableRowModelsHandler(event: SortableEvent): void {
+    this.notificationsTableRowModelsSortBy = event.sortBy;
+    this.notificationsTableRowModelsSortOrder = event.sortOrder;
     // before sorting, remove highlights from all rows
     this.notificationsTableRowModels = this.notificationsTableRowModels
       .map((notificationsTableRowModel: NotificationsTableRowModel) => ({

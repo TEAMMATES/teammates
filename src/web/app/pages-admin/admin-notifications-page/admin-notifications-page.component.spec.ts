@@ -11,7 +11,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
-import { SortBy } from '../../../types/sort-properties';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 const testNotificationEditModel: NotificationEditFormModel = {
@@ -315,8 +316,13 @@ describe('AdminNotificationsPageComponent', () => {
     component.notificationsTableRowModels = [notificationTableRowModel1, notificationTableRowModel2];
     const previousRowModels = component.notificationsTableRowModels;
     component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
-    component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
+    const sortEvent: SortableEvent = {
+      sortBy: SortBy.NOTIFICATION_START_TIME,
+      sortOrder: SortOrder.DESC,
+    };
+    component.sortNotificationsTableRowModelsHandler(sortEvent);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
+    expect(component.notificationsTableRowModelsSortOrder).toEqual(SortOrder.DESC);
     expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
     expect(
       component.notificationsTableRowModels.every((rowModel: NotificationsTableRowModel) => !rowModel.isHighlighted),
