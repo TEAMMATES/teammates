@@ -71,6 +71,7 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
@@ -599,13 +600,14 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback session.
+     * Creates a feedback session from a create request, validating timing and copying questions if requested.
      *
      * @return returns the created feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    public FeedbackSession createFeedbackSession(String courseId, Instructor instructor,
+            FeedbackSessionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.createFeedbackSession(courseId, instructor, createRequest);
     }
 
     /**
