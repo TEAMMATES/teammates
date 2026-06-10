@@ -91,15 +91,6 @@ export interface Email extends ApiOutput {
   content: string;
 }
 
-export interface EmailSentLogDetails extends LogDetails {
-  emailRecipient?: string;
-  emailSubject?: string;
-  emailContent?: string;
-  emailType: EmailType;
-  emailStatus: number;
-  emailStatusMessage: string;
-}
-
 export interface EnrollErrorResults {
   studentEmail: string;
   errorMessage: string;
@@ -108,14 +99,6 @@ export interface EnrollErrorResults {
 export interface EnrollStudents extends ApiOutput {
   studentsData: Students;
   unsuccessfulEnrolls: EnrollErrorResults[];
-}
-
-export interface ExceptionLogDetails extends LogDetails {
-  exceptionClass: string;
-  exceptionClasses: string[];
-  exceptionStackTraces: string[][];
-  exceptionMessages?: string[];
-  loggerSourceLocation: SourceLocation;
 }
 
 export interface FeedbackConstantSumOptionsQuestionDetails extends FeedbackQuestionDetails {
@@ -354,11 +337,6 @@ export interface HasResponses extends ApiOutput {
   hasResponsesBySession?: { [index: string]: boolean };
 }
 
-export interface InstanceLogDetails extends LogDetails {
-  instanceId: string;
-  instanceEvent: string;
-}
-
 export interface Instructor extends ApiOutput {
   userId: string;
   courseId: string;
@@ -419,11 +397,6 @@ export interface JoinLink extends ApiOutput {
 
 export interface JoinStatus extends ApiOutput {
   hasJoined: boolean;
-}
-
-export interface LogDetails {
-  event: LogEvent;
-  message?: string;
 }
 
 export interface MessageOutput extends ApiOutput {
@@ -497,27 +470,6 @@ export interface RegkeyValidity extends ApiOutput {
   isAllowedAccess: boolean;
 }
 
-export interface RequestLogDetails extends LogDetails {
-  responseStatus: number;
-  responseTime: number;
-  requestMethod: string;
-  requestUrl: string;
-  userAgent: string;
-  instanceId: string;
-  webVersion: string;
-  referrer: string;
-  requestParams?: { [index: string]: any };
-  requestHeaders?: { [index: string]: any };
-  requestBody?: string;
-  actionClass?: string;
-  userInfo?: RequestLogUser;
-}
-
-export interface RequestLogUser {
-  email: string;
-  googleId: string;
-}
-
 export interface ResponseInstructorComment extends ApiOutput {
   responseInstructorCommentId: string;
   commentGiverName: string;
@@ -564,12 +516,6 @@ export interface SessionSubmissionQuestion extends ApiOutput {
   question: FeedbackQuestion;
   recipients: FeedbackQuestionRecipient[];
   responses: FeedbackResponse[];
-}
-
-export interface SourceLocation {
-  file: string;
-  line: number;
-  function: string;
 }
 
 export interface Student extends ApiOutput {
@@ -648,33 +594,6 @@ export enum CommentVisibilityType {
   INSTRUCTORS = "INSTRUCTORS",
 }
 
-export enum EmailType {
-  DEADLINE_EXTENSION_GRANTED = "DEADLINE_EXTENSION_GRANTED",
-  DEADLINE_EXTENSION_UPDATED = "DEADLINE_EXTENSION_UPDATED",
-  DEADLINE_EXTENSION_REVOKED = "DEADLINE_EXTENSION_REVOKED",
-  FEEDBACK_OPENING_SOON = "FEEDBACK_OPENING_SOON",
-  FEEDBACK_OPENED = "FEEDBACK_OPENED",
-  FEEDBACK_SESSION_REMINDER = "FEEDBACK_SESSION_REMINDER",
-  FEEDBACK_CLOSING_SOON = "FEEDBACK_CLOSING_SOON",
-  FEEDBACK_CLOSED = "FEEDBACK_CLOSED",
-  FEEDBACK_PUBLISHED = "FEEDBACK_PUBLISHED",
-  FEEDBACK_UNPUBLISHED = "FEEDBACK_UNPUBLISHED",
-  STUDENT_EMAIL_CHANGED = "STUDENT_EMAIL_CHANGED",
-  STUDENT_COURSE_LINKS_REGENERATED = "STUDENT_COURSE_LINKS_REGENERATED",
-  INSTRUCTOR_COURSE_LINKS_REGENERATED = "INSTRUCTOR_COURSE_LINKS_REGENERATED",
-  NEW_INSTRUCTOR_ACCOUNT = "NEW_INSTRUCTOR_ACCOUNT",
-  STUDENT_COURSE_JOIN = "STUDENT_COURSE_JOIN",
-  STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET",
-  NEW_ACCOUNT_REQUEST_ADMIN_ALERT = "NEW_ACCOUNT_REQUEST_ADMIN_ALERT",
-  NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT = "NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT",
-  ACCOUNT_REQUEST_REJECTION = "ACCOUNT_REQUEST_REJECTION",
-  INSTRUCTOR_COURSE_JOIN = "INSTRUCTOR_COURSE_JOIN",
-  INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET",
-  USER_COURSE_REGISTER = "USER_COURSE_REGISTER",
-  SESSION_LINKS_RECOVERY = "SESSION_LINKS_RECOVERY",
-  LOGIN = "LOGIN",
-}
-
 export enum FeedbackConstantSumDistributePointsType {
   DISTRIBUTE_ALL_UNEVENLY = "All options",
   DISTRIBUTE_SOME_UNEVENLY = "At least some options",
@@ -734,25 +653,9 @@ export enum JoinState {
   NOT_JOINED = "NOT_JOINED",
 }
 
-export enum LogEvent {
-  REQUEST_LOG = "REQUEST_LOG",
-  EXCEPTION_LOG = "EXCEPTION_LOG",
-  INSTANCE_LOG = "INSTANCE_LOG",
-  EMAIL_SENT = "EMAIL_SENT",
-}
-
 export enum LoginMethod {
   GOOGLE = "google",
   DEV_SERVER = "devserver",
-}
-
-export enum LogSeverity {
-  DEFAULT = "DEFAULT",
-  DEBUG = "DEBUG",
-  INFO = "INFO",
-  WARNING = "WARNING",
-  ERROR = "ERROR",
-  CRITICAL = "CRITICAL",
 }
 
 export enum NotificationStyle {
@@ -797,13 +700,6 @@ export enum QuestionRecipientType {
   OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
   OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
   NONE = "NONE",
-}
-
-export enum ResponseRecipientType {
-  STUDENT = "STUDENT",
-  INSTRUCTOR = "INSTRUCTOR",
-  TEAM = "TEAM",
-  NO_SPECIFIC_RECIPIENT = "NO_SPECIFIC_RECIPIENT",
 }
 
 export enum ResponseVisibleSetting {
