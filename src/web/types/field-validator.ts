@@ -60,8 +60,3 @@ export const COUNTRY_REGEX = '^[^|%]*$';
  * Max length for institution name in account request. (to be combined with country)
  */
 export const INSTITUTION_NAME_MAX_LENGTH = 86;
-
-/**
- * Max length for country in account request. (to be combined with institution name)
- */
-export const COUNTRY_NAME_MAX_LENGTH = 40;
