@@ -50,16 +50,15 @@ describe('RoleGuard', () => {
     });
 
     guard = TestBed.inject(RoleGuard);
-    vi.spyOn(guard as object as { redirectToLogin(): boolean }, 'redirectToLogin').mockImplementation(() => false);
   });
 
   describe('canActivate', () => {
-    it('should return false when user is not authenticated', async () => {
+    it('should redirect to login when user is not authenticated', async () => {
       spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor(null)));
 
       const result = await firstValueFrom(guard.canActivate(mockRoute('admin'), mockState('/web/admin')));
 
-      expect(result).toBe(false);
+      expect(result.toString()).toContain('/web/login?redirect=');
     });
 
     it('should return true for a student accessing a student route', async () => {
@@ -94,7 +93,7 @@ describe('RoleGuard', () => {
       expect(result).toBe(true);
     });
 
-    it('should return false and redirect to unauthorized warning page when user has wrong role', async () => {
+    it('should redirect to unauthorized warning page when user has wrong role', async () => {
       spyAuthService.getAuthUser.mockReturnValue(of(authInfoFor('student')));
 
       const result = await firstValueFrom(guard.canActivate(mockRoute('admin'), mockState('/web/admin')));
