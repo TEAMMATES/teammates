@@ -287,10 +287,10 @@ public final class Logger {
         }
         prefix.append(' ');
 
-        if (RequestTracer.getTraceId() == null) {
+        if (RequestTracer.getRequestId() == null) {
             return prefix.toString() + message;
         }
-        return prefix.toString() + "[" + RequestTracer.getTraceId() + "] " + message;
+        return prefix.toString() + "[" + RequestTracer.getRequestId() + "] " + message;
     }
 
     private String formatLogMessageForCloudLogging(String message, LogSeverity severity) {
@@ -309,8 +309,8 @@ public final class Logger {
             payload.put("sourceLocation", sourceLocation);
         }
 
-        if (RequestTracer.getTraceId() != null) {
-            payload.put("traceId", RequestTracer.getTraceId());
+        if (RequestTracer.getRequestId() != null) {
+            payload.put("requestId", RequestTracer.getRequestId());
         }
 
         return payload;
