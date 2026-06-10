@@ -18,17 +18,15 @@
       [attr.aria-invalid]="name.invalid"
     />
     @if (name.errors?.['required']) {
-      <div role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
-        Please enter your name.
-      </div>
+      <div role="alert" aria-describedby="name-label" class="invalid-feedback">Please enter your name.</div>
     }
     @if (name.errors?.['maxlength']) {
-      <div role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="name-label" class="invalid-feedback">
         Name must be shorter than {{ STUDENT_NAME_MAX_LENGTH }} characters. (Current: {{ name.value?.length }})
       </div>
     }
     @if (name.errors?.['pattern']) {
-      <div role="alert" aria-describedby="name-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="name-label" class="invalid-feedback">
         Name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or percent
         sign (%).
       </div>
@@ -48,18 +46,18 @@
       [attr.aria-invalid]="institution.invalid"
     />
     @if (institution.errors?.['required']) {
-      <div role="alert" aria-describedby="institution-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="institution-label" class="invalid-feedback">
         Please enter your institution name.
       </div>
     }
     @if (institution.errors?.['maxlength']) {
-      <div role="alert" aria-describedby="institution-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="institution-label" class="invalid-feedback">
         Institution name must be shorter than {{ INSTITUTION_NAME_MAX_LENGTH }} characters. (Current:
         {{ institution.value?.length }})
       </div>
     }
     @if (institution.errors?.['pattern']) {
-      <div role="alert" aria-describedby="institution-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="institution-label" class="invalid-feedback">
         Institution name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or
         percent sign (%).
       </div>
@@ -67,32 +65,17 @@
   </div>
   <br />
   <div class="form-group {{ checkIsFieldRequired(country) ? 'required' : '' }}">
-    <label for="country" id="country-label" class="qn"> Country </label>
-    <p class="help-block">Which country is your university/institution based in?</p>
-    <input
-      class="form-control {{ getFieldValidationClasses(country) }}"
-      type="text"
-      id="country"
-      autocomplete="country-name"
+    <label for="country" id="country-label" class="qn"> Country or Region </label>
+    <p class="help-block">Which country or region is your university/institution based in?</p>
+    <tm-searchable-combobox
+      inputId="country"
+      placeholder="Search for a country or region..."
+      [options]="countryOptions"
       [formControl]="country"
-      [required]="checkIsFieldRequired(country)"
-      [attr.aria-invalid]="country.invalid"
     />
-    @if (country.errors?.['required']) {
-      <div role="alert" aria-describedby="country-label" tabindex="0" class="invalid-feedback">
-        Please enter your institution's country.
-      </div>
-    }
-    @if (country.errors?.['maxlength']) {
-      <div role="alert" aria-describedby="country-label" tabindex="0" class="invalid-feedback">
-        Country name must be shorter than {{ COUNTRY_NAME_MAX_LENGTH }} characters. (Current:
-        {{ country.value?.length }})
-      </div>
-    }
-    @if (country.errors?.['pattern']) {
-      <div role="alert" aria-describedby="country-label" tabindex="0" class="invalid-feedback">
-        Country name must start with an alphanumeric character (a-z, 0-9) and cannot contain any vertical bar (|) or
-        percent sign (%).
+    @if (hasSubmitAttempt && country.errors?.['required']) {
+      <div role="alert" aria-describedby="country-label" class="invalid-feedback d-block">
+        Please select your institution's country or region.
       </div>
     }
   </div>
@@ -114,17 +97,15 @@
       [attr.aria-invalid]="email.invalid"
     />
     @if (email.errors?.['required']) {
-      <div role="alert" aria-describedby="email-label" tabindex="0" class="invalid-feedback">
-        Please enter your email address.
-      </div>
+      <div role="alert" aria-describedby="email-label" class="invalid-feedback">Please enter your email address.</div>
     }
     @if (email.errors?.['maxlength']) {
-      <div role="alert" aria-describedby="email-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="email-label" class="invalid-feedback">
         Email address must be shorter than {{ EMAIL_MAX_LENGTH }} characters. (Current: {{ email.value?.length }})
       </div>
     }
     @if (email.errors?.['pattern']) {
-      <div role="alert" aria-describedby="email-label" tabindex="0" class="invalid-feedback">
+      <div role="alert" aria-describedby="email-label" class="invalid-feedback">
         Please enter a valid email address.
       </div>
     }
@@ -154,7 +135,7 @@
       >
       </ngx-recaptcha2>
       @if (!isCaptchaSuccessful && hasSubmitAttempt) {
-        <div role="alert" tabindex="0" class="invalid-feedback">Please complete the CAPTCHA verification.</div>
+        <div role="alert" class="invalid-feedback">Please complete the CAPTCHA verification.</div>
       }
       <br />
     </div>
