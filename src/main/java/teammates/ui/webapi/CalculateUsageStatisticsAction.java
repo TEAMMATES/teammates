@@ -21,9 +21,8 @@ public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
 
         UsageStatistics entitiesStats = logic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
 
-        int numEmailsSent = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.EMAIL_SENT, "");
-        int numSubmissions = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.FEEDBACK_SESSION_AUDIT,
-                "jsonPayload.accessType=\"submission\"");
+        int numEmailsSent = 0;
+        int numSubmissions = 0;
 
         UsageStatistics overallUsageStats = new UsageStatistics(
                 startTime, COLLECTION_TIME_PERIOD,

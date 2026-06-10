@@ -28,7 +28,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
@@ -68,7 +67,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
@@ -115,7 +113,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
-            action.setLogsProcessor(mockLogsProcessor);
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
