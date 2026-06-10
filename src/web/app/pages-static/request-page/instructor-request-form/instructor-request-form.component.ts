@@ -26,7 +26,14 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, TeammatesRouterDirective, SearchableComboboxComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgxCaptchaModule,
+    NgbAlert,
+    TeammatesRouterDirective,
+    SearchableComboboxComponent,
+  ],
 })
 export class InstructorRequestFormComponent {
   private readonly accountService = inject(AccountService);

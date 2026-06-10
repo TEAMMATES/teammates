@@ -18,9 +18,7 @@
       [attr.aria-invalid]="name.invalid"
     />
     @if (name.errors?.['required']) {
-      <div role="alert" aria-describedby="name-label" class="invalid-feedback">
-        Please enter your name.
-      </div>
+      <div role="alert" aria-describedby="name-label" class="invalid-feedback">Please enter your name.</div>
     }
     @if (name.errors?.['maxlength']) {
       <div role="alert" aria-describedby="name-label" class="invalid-feedback">
@@ -99,9 +97,7 @@
       [attr.aria-invalid]="email.invalid"
     />
     @if (email.errors?.['required']) {
-      <div role="alert" aria-describedby="email-label" class="invalid-feedback">
-        Please enter your email address.
-      </div>
+      <div role="alert" aria-describedby="email-label" class="invalid-feedback">Please enter your email address.</div>
     }
     @if (email.errors?.['maxlength']) {
       <div role="alert" aria-describedby="email-label" class="invalid-feedback">
