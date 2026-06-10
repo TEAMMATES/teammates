@@ -1,12 +1,23 @@
-.searchable-combobox-clear {
+.searchable-combobox-input {
+  padding-right: 3.5rem;
+}
+
+.searchable-combobox-toggle {
   position: absolute;
   top: 50%;
-  right: 2rem;
-  z-index: 1;
-  width: 0.6rem;
-  height: 0.6rem;
-  background-size: 0.6rem;
+  right: 0.25rem;
   transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--bs-body-color);
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.65;
+  }
 }
 
 .searchable-combobox[data-expanded='false'] .searchable-combobox-popup,
@@ -33,6 +44,6 @@
 
 .searchable-combobox-option:hover,
 .searchable-combobox-option[data-active='true'] {
-  background-color: #0d6efd;
-  color: #fff;
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
 }

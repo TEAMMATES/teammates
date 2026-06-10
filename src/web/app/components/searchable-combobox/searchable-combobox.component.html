@@ -9,7 +9,7 @@
   <input
     #comboboxInput
     ngComboboxInput
-    class="form-control form-select w-100 searchable-combobox-input"
+    class="form-control w-100 searchable-combobox-input"
     type="text"
     autocomplete="off"
     [id]="inputId"
@@ -18,16 +18,30 @@
     (click)="onInputClick(combobox)"
     [placeholder]="placeholder"
     [disabled]="disabled"
-    [attr.aria-label]="ariaLabel"
+    [attr.aria-label]="ariaLabel || null"
   />
 
   @if (clearable && hasSelectedDisplayValue && !disabled) {
     <button
-      class="btn-close searchable-combobox-clear"
+      class="searchable-combobox-toggle"
       type="button"
+      tabindex="-1"
       aria-label="Clear selection"
       (click)="clearSelection($event)"
-    ></button>
+    >
+      <span class="fa fa-times"></span>
+    </button>
+  } @else {
+    <button
+      class="searchable-combobox-toggle"
+      type="button"
+      tabindex="-1"
+      aria-hidden="true"
+      [disabled]="disabled"
+      (click)="onInputClick(combobox)"
+    >
+      <span class="fa fa-chevron-down"></span>
+    </button>
   }
 
   <ng-template ngComboboxPopupContainer>

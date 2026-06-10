@@ -161,4 +161,36 @@ describe('SearchableComboboxComponent', () => {
     const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
     expect(input.disabled).toBeTruthy();
   });
+
+  it('isSelected: should use compareWith for custom equality', () => {
+    component.compareWith = (a, b) => a?.toLowerCase() === b?.toLowerCase();
+    component.writeValue('STUDENT-1');
+
+    expect(component.isSelected({ value: 'student-1', label: studentAlice.name })).toBe(true);
+    expect(component.isSelected({ value: 'student-2', label: studentBob.name })).toBe(false);
+  });
+
+  it('onComboboxFocusOut: should not restore label when focus moves to a child element', () => {
+    component.writeValue(studentAlice.id);
+    component.onInputValueChange('partial text');
+
+    const comboboxElement: HTMLElement = fixture.nativeElement.querySelector('.searchable-combobox');
+    const inputElement: HTMLElement = fixture.nativeElement.querySelector('input');
+
+    component.onComboboxFocusOut({
+      relatedTarget: inputElement,
+      currentTarget: comboboxElement,
+    } as unknown as FocusEvent);
+
+    expect(component.inputValue()).toBe('partial text');
+  });
+
+  it('focus: should focus the input element', () => {
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('input');
+    const focusSpy = vi.spyOn(input, 'focus');
+
+    component.focus();
+
+    expect(focusSpy).toHaveBeenCalled();
+  });
 });

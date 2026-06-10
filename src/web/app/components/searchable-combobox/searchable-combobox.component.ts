@@ -164,7 +164,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
       return;
     }
 
-    const value: TValue | null = values.length > 0 ? values[0] : null;
+    const value: TValue = values[0];
     const selectedOption: ComboboxOption<TValue, TData> | undefined = this.findOption(value);
 
     this.isShowingAllOptions.set(false);
