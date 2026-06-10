@@ -89,7 +89,6 @@ The Logic API is represented by the following classes:
 - `EmailGenerator`: Generates emails to be sent.
 - `EmailSender`: Sends emails using the provider configured in the build configuration.
 - `TaskQueuer`: Queues tasks for deferred execution.
-- `LogsProcessor`: Handles advanced logging beyond the standard logger.
 - `RecaptchaVerifier`: Verifies reCAPTCHA tokens.
 
 Many classes in this layer use environment-based implementations — connecting to real production services in staging/production and local alternatives in development.
