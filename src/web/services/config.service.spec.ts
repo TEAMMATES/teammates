@@ -20,7 +20,7 @@ describe('ConfigService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute getConfig', () => {
+  it('should execute GET on config endpoint', () => {
     spyHttpRequestService.get.mockReturnValue({});
     service.getConfig();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.CONFIG);
