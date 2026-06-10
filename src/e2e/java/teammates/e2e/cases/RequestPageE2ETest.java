@@ -21,7 +21,7 @@ public class RequestPageE2ETest extends BaseE2ETestCase {
     protected void testAll() {
         String name = "arf-test-name";
         String institution = "arf-test-institution";
-        String country = "arf-test-country";
+        String country = "Singapore";
         String email = "test-email@gmail.tmt";
         String comments = "arf-test-comments";
 
