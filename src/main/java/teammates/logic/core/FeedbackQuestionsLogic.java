@@ -118,11 +118,7 @@ public final class FeedbackQuestionsLogic {
         }
 
         validateFeedbackQuestion(feedbackQuestion);
-        FeedbackQuestion createdQuestion = fqDb.persistFeedbackQuestion(feedbackQuestion);
-        List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackSession);
-        questionsBefore.remove(createdQuestion);
-        adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
-        return createdQuestion;
+        return fqDb.persistFeedbackQuestion(feedbackQuestion);
     }
 
     /**
