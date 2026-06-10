@@ -24,7 +24,7 @@
       "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Instructor1 of Course1",
       "email": "asess.instructor1@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"

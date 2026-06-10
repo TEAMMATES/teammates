@@ -87,7 +87,7 @@
       "courseId": "tm.e2e.ICs.CS1101",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -97,7 +97,7 @@
       "courseId": "tm.e2e.ICs.CS1231",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -107,7 +107,7 @@
       "courseId": "tm.e2e.ICs.CS2104",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -117,7 +117,7 @@
       "courseId": "tm.e2e.ICs.CS2105",
       "name": "Teammates Demo Inst",
       "email": "ics.instructor@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -127,11 +127,11 @@
     "ICs.instructor.CS1101": {
       "instructorId": "00000000-0000-4000-8000-000000000301",
       "courseLevel": {
-        "canViewStudentInSections": true,
-        "canSubmitSessionInSections": true,
-        "canModifySessionCommentsInSections": true,
+        "canViewStudent": true,
+        "canSubmitSession": true,
+        "canModifySessionComments": true,
         "canModifyCourse": false,
-        "canViewSessionInSections": true,
+        "canViewSession": true,
         "canModifySession": true,
         "canModifyStudent": false,
         "canModifyInstructor": true
@@ -142,11 +142,11 @@
     "ICs.instructor.CS1231": {
       "instructorId": "00000000-0000-4000-8000-000000000302",
       "courseLevel": {
-        "canViewStudentInSections": true,
-        "canSubmitSessionInSections": true,
-        "canModifySessionCommentsInSections": true,
+        "canViewStudent": true,
+        "canSubmitSession": true,
+        "canModifySessionComments": true,
         "canModifyCourse": true,
-        "canViewSessionInSections": true,
+        "canViewSession": true,
         "canModifySession": true,
         "canModifyStudent": true,
         "canModifyInstructor": true

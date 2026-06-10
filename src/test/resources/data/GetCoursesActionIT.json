@@ -106,7 +106,7 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -116,7 +116,7 @@
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -126,7 +126,7 @@
       "courseId": "idOfTypicalCourse3",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -136,7 +136,7 @@
       "courseId": "idOfTypicalCourse4",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -146,7 +146,7 @@
       "courseId": "idOfTypicalCourse5",
       "name": "Instructor 1",
       "email": "instr1@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"

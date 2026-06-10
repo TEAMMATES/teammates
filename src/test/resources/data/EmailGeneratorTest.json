@@ -139,7 +139,7 @@
     "instructor1OfCourse1": {
       "name": "Instructor1 Course1",
       "email": "instructor1@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "idOfTypicalCourse1",
@@ -149,7 +149,7 @@
     "instructor2OfCourse1": {
       "name": "Instructor2 Course1",
       "email": "instructor2@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
+      "role": "MANAGER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "idOfTypicalCourse1",
@@ -159,7 +159,7 @@
     "helperOfCourse1": {
       "name": "Helper Course1",
       "email": "helper@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "isDisplayedToStudents": false,
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "idOfTypicalCourse1",
@@ -169,7 +169,7 @@
     "instructorNotYetJoinCourse1": {
       "name": "Instructor Not Yet Joined Course 1",
       "email": "instructornotyetjoinedcourse1@email.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000504",
       "courseId": "idOfTypicalCourse1",
@@ -178,7 +178,7 @@
     "instructor1OfCourse2": {
       "name": "Instructor1 Course2",
       "email": "instructor1@course2.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000505",
       "courseId": "idOfTypicalCourse2",
@@ -188,7 +188,7 @@
     "instructor3OfCourse1": {
       "name": "Instructor3 Course1",
       "email": "instructor3@course1.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000506",
       "courseId": "idOfTypicalCourse1",
@@ -198,7 +198,7 @@
     "instructor1OfTestingNoEmailsSentCourse": {
       "name": "Instructor1 No Emails Sent Course",
       "email": "instructor1@noemailssent.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000507",
       "courseId": "idOfTestingNoEmailsSentCourse",
@@ -208,7 +208,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "name": "Instructor<script> alert('hi!'); </script>",
       "email": "instructor1@sanitization.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000508",
       "courseId": "idOfTestingSanitizationCourse",
@@ -220,11 +220,11 @@
     "helperOfCourse1": {
       "instructorId": "00000000-0000-4000-8000-000000000503",
       "courseLevel": {
-        "canViewStudentInSections": false,
-        "canSubmitSessionInSections": false,
-        "canModifySessionCommentsInSections": false,
+        "canViewStudent": false,
+        "canSubmitSession": false,
+        "canModifySessionComments": false,
         "canModifyCourse": false,
-        "canViewSessionInSections": false,
+        "canViewSession": false,
         "canModifySession": false,
         "canModifyStudent": false,
         "canModifyInstructor": false

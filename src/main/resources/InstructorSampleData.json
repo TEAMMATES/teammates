@@ -50,7 +50,7 @@
       "courseId": "demo.course",
       "name": "Demo_Instructor",
       "email": "teammates.demo.instructor@demo.course",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor"
     }
