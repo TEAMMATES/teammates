@@ -12,6 +12,7 @@ import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.ui.loginmethodhandlers.AuthState;
 import teammates.ui.output.LoginMethod;
 
 /**
