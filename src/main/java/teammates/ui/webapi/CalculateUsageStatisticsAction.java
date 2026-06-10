@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.UsageStatistics;
 

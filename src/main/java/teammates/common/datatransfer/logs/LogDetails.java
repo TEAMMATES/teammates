@@ -12,16 +12,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.EXISTING_PROPERTY,
         property = "event",
-        visible = true,
-        defaultImpl = DefaultLogDetails.class
+        visible = true
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = RequestLogDetails.class, name = "REQUEST_LOG"),
         @JsonSubTypes.Type(value = ExceptionLogDetails.class, name = "EXCEPTION_LOG"),
         @JsonSubTypes.Type(value = InstanceLogDetails.class, name = "INSTANCE_LOG"),
-        @JsonSubTypes.Type(value = EmailSentLogDetails.class, name = "EMAIL_SENT"),
-        @JsonSubTypes.Type(value = FeedbackSessionAuditLogDetails.class, name = "FEEDBACK_SESSION_AUDIT"),
-        @JsonSubTypes.Type(value = DefaultLogDetails.class, name = "DEFAULT_LOG")
+        @JsonSubTypes.Type(value = EmailSentLogDetails.class, name = "EMAIL_SENT")
 })
 public abstract class LogDetails {
 
