@@ -170,7 +170,7 @@ public class CoursesLogicTest extends BaseTestCase {
                 eq("course-creator@email.tmt"),
                 eq(false),
                 eq("Course Creator"),
-                eq(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
+                eq(InstructorPermissionRole.COOWNER),
                 argThat(account -> account.getGoogleId().equals(instructorGoogleId)));
     }
 

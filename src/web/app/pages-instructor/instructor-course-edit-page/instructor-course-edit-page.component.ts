@@ -327,7 +327,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudents: true,
       displayedToStudentsAs: 'Instructor',
       name: '',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       joinState: JoinState.NOT_JOINED,
 
       permission: {
@@ -336,10 +336,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
           canModifySession: defaultPrivileges,
           canModifyStudent: defaultPrivileges,
           canModifyInstructor: defaultPrivileges,
-          canViewStudentInSections: defaultPrivileges,
-          canModifySessionCommentsInSections: defaultPrivileges,
-          canViewSessionInSections: defaultPrivileges,
-          canSubmitSessionInSections: defaultPrivileges,
+          canViewStudent: defaultPrivileges,
+          canModifySessionComments: defaultPrivileges,
+          canViewSession: defaultPrivileges,
+          canSubmitSession: defaultPrivileges,
         },
         sectionLevel: [],
       },
@@ -381,19 +381,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
     );
     let privilege: InstructorPermissionSet;
     switch (role) {
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+      case InstructorPermissionRole.COOWNER:
         privilege = DEFAULT_PRIVILEGE_COOWNER();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+      case InstructorPermissionRole.MANAGER:
         privilege = DEFAULT_PRIVILEGE_MANAGER();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+      case InstructorPermissionRole.OBSERVER:
         privilege = DEFAULT_PRIVILEGE_OBSERVER();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+      case InstructorPermissionRole.TUTOR:
         privilege = DEFAULT_PRIVILEGE_TUTOR();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+      case InstructorPermissionRole.CUSTOM:
       default:
         privilege = DEFAULT_INSTRUCTOR_PRIVILEGE();
     }
@@ -428,7 +428,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       displayName: panelDetail.editPanel.displayedToStudentsAs,
       isDisplayedToStudent: panelDetail.editPanel.isDisplayedToStudents,
       privileges:
-        panelDetail.editPanel.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+        panelDetail.editPanel.role === InstructorPermissionRole.CUSTOM
           ? this.toInstructorPrivileges(panelDetail.editPanel.permission)
           : undefined,
     };
@@ -548,7 +548,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       displayName: this.newInstructorPanel.displayedToStudentsAs,
       isDisplayedToStudent: this.newInstructorPanel.isDisplayedToStudents,
       privileges:
-        this.newInstructorPanel.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+        this.newInstructorPanel.role === InstructorPermissionRole.CUSTOM
           ? this.toInstructorPrivileges(this.newInstructorPanel.permission)
           : undefined,
     };
@@ -599,7 +599,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const instructor: Instructor = panel.originalInstructor;
     const permission: InstructorOverallPermission = panel.editPanel.permission;
 
-    if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+    if (instructor.role !== InstructorPermissionRole.CUSTOM) {
       this.isInstructorsLoading = false;
       return;
     }
@@ -633,26 +633,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
           (sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
             if (
-              sectionLevelPermission.privilege.canViewStudentInSections !==
-              permission.privilege.canViewStudentInSections
+              sectionLevelPermission.privilege.canViewStudent !==
+              permission.privilege.canViewStudent
             ) {
               return true;
             }
             if (
-              sectionLevelPermission.privilege.canModifySessionCommentsInSections !==
-              permission.privilege.canModifySessionCommentsInSections
+              sectionLevelPermission.privilege.canModifySessionComments !==
+              permission.privilege.canModifySessionComments
             ) {
               return true;
             }
             if (
-              sectionLevelPermission.privilege.canViewSessionInSections !==
-              permission.privilege.canViewSessionInSections
+              sectionLevelPermission.privilege.canViewSession !==
+              permission.privilege.canViewSession
             ) {
               return true;
             }
             if (
-              sectionLevelPermission.privilege.canSubmitSessionInSections !==
-              permission.privilege.canSubmitSessionInSections
+              sectionLevelPermission.privilege.canSubmitSession !==
+              permission.privilege.canSubmitSession
             ) {
               return true;
             }
@@ -660,12 +660,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
             return sectionLevelPermission.sessionLevel.some(
               (sessionLevelPermission: InstructorSessionLevelPermission) => {
                 return (
-                  sectionLevelPermission.privilege.canModifySessionCommentsInSections !==
-                    sessionLevelPermission.privilege.canModifySessionCommentsInSections ||
-                  sectionLevelPermission.privilege.canViewSessionInSections !==
-                    sessionLevelPermission.privilege.canViewSessionInSections ||
-                  sectionLevelPermission.privilege.canSubmitSessionInSections !==
-                    sessionLevelPermission.privilege.canSubmitSessionInSections
+                  sectionLevelPermission.privilege.canModifySessionComments !==
+                    sessionLevelPermission.privilege.canModifySessionComments ||
+                  sectionLevelPermission.privilege.canViewSession !==
+                    sessionLevelPermission.privilege.canViewSession ||
+                  sectionLevelPermission.privilege.canSubmitSession !==
+                    sessionLevelPermission.privilege.canSubmitSession
                 );
               },
             );
@@ -676,10 +676,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
           if (
             sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
               return (
-                sectionLevel.privilege.canModifySessionCommentsInSections ===
-                  sessionLevel.privilege.canModifySessionCommentsInSections &&
-                sectionLevel.privilege.canViewSessionInSections === sessionLevel.privilege.canViewSessionInSections &&
-                sectionLevel.privilege.canSubmitSessionInSections === sessionLevel.privilege.canSubmitSessionInSections
+                sectionLevel.privilege.canModifySessionComments ===
+                  sessionLevel.privilege.canModifySessionComments &&
+                sectionLevel.privilege.canViewSession === sessionLevel.privilege.canViewSession &&
+                sectionLevel.privilege.canSubmitSession === sessionLevel.privilege.canSubmitSession
               );
             })
           ) {

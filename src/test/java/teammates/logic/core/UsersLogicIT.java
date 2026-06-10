@@ -70,7 +70,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
                 course, "instructor-name", "valid@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, account));
+                InstructorPermissionRole.COOWNER, account));
         User resetUser = inTransaction(() -> usersLogic.resetAccount(instructor.getId()));
         instructor.setAccount(null);
 
@@ -109,7 +109,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
                 course, "instructor-name", "valid@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, account));
+                InstructorPermissionRole.CUSTOM, account));
 
         ______TS("does not grant modify instructor privilege when the instructor does not already have it");
         InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());

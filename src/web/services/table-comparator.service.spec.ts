@@ -30,43 +30,43 @@ describe('SortableService', () => {
   it('should compare roles correctly', () => {
     expect(
       service.compareRoles(
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+        InstructorPermissionRole.COOWNER,
+        InstructorPermissionRole.CUSTOM,
         SortOrder.ASC,
       ),
     ).toEqual(1);
     expect(
       service.compareRoles(
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+        InstructorPermissionRole.CUSTOM,
+        InstructorPermissionRole.COOWNER,
         SortOrder.DESC,
       ),
     ).toEqual(1);
     expect(
       service.compareRoles(
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+        InstructorPermissionRole.OBSERVER,
+        InstructorPermissionRole.TUTOR,
         SortOrder.DESC,
       ),
     ).toEqual(-1);
     expect(
       service.compareRoles(
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
+        InstructorPermissionRole.TUTOR,
+        InstructorPermissionRole.OBSERVER,
         SortOrder.ASC,
       ),
     ).toEqual(-1);
     expect(
       service.compareRoles(
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+        InstructorPermissionRole.COOWNER,
+        InstructorPermissionRole.COOWNER,
         SortOrder.ASC,
       ),
     ).toEqual(0);
     expect(
       service.compareRoles(
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+        InstructorPermissionRole.COOWNER,
+        InstructorPermissionRole.COOWNER,
         SortOrder.DESC,
       ),
     ).toEqual(-0);

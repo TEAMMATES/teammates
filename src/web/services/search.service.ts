@@ -168,7 +168,7 @@ export class SearchService {
 
     let masqueradeAccountId = '';
     for (const instructor of instructors.instructors) {
-      if (instructor.accountId && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
+      if (instructor.accountId && instructor.role === InstructorPermissionRole.COOWNER) {
         masqueradeAccountId = instructor.accountId;
         break;
       }

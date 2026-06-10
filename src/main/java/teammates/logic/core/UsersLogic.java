@@ -542,7 +542,7 @@ public final class UsersLogic {
         List<Instructor> instructorsWithViewStudentPrivilege = instructors == null ? null
                 : instructors.stream()
                         .filter(i -> instructorPermissionsLogic.hasPermissions(
-                                i, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                                i, Const.InstructorPermissions.CAN_VIEW_STUDENT))
                         .toList();
         return usersDb.searchStudents(queryString, instructorsWithViewStudentPrivilege);
     }

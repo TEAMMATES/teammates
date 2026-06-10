@@ -427,7 +427,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         inTransaction(() -> {
             Instructor dbInstructor = logic.getInstructor(instructor.getId());
             logic.saveInstructorPrivileges(dbInstructor, runtimePrivileges);
-            dbInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+            dbInstructor.setRole(InstructorPermissionRole.CUSTOM);
         });
 
         verifyCanAccess(submissionParams);
@@ -721,7 +721,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 String tenantId = "tenant-id";
                 Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
                 return logic.createInstructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, account);
+                        InstructorPermissionRole.CUSTOM, account);
             });
         }
         return instructor;

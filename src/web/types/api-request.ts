@@ -189,10 +189,10 @@ export interface InstructorPermissionSet {
   canModifyInstructor: boolean;
   canModifySession: boolean;
   canModifyStudent: boolean;
-  canViewStudentInSections: boolean;
-  canViewSessionInSections: boolean;
-  canSubmitSessionInSections: boolean;
-  canModifySessionCommentsInSections: boolean;
+  canViewStudent: boolean;
+  canViewSession: boolean;
+  canSubmitSession: boolean;
+  canModifySessionComments: boolean;
 }
 
 export interface InstructorPrivileges {
@@ -338,11 +338,11 @@ export enum FeedbackVisibilityType {
 }
 
 export enum InstructorPermissionRole {
-  INSTRUCTOR_PERMISSION_ROLE_COOWNER = "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
-  INSTRUCTOR_PERMISSION_ROLE_MANAGER = "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
-  INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
-  INSTRUCTOR_PERMISSION_ROLE_TUTOR = "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
-  INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+  COOWNER = "COOWNER",
+  MANAGER = "MANAGER",
+  OBSERVER = "OBSERVER",
+  TUTOR = "TUTOR",
+  CUSTOM = "CUSTOM",
 }
 
 export enum Intent {

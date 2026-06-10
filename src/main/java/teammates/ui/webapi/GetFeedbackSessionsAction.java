@@ -132,15 +132,15 @@ public class GetFeedbackSessionsAction extends Action {
         UUID sessionId = session.getFeedbackSession().getFeedbackSessionId();
         boolean canModifySession = logic.hasInstructorPermissions(instructor,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
+        boolean canSubmitSession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
                 || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionId,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        boolean canViewSessionInSections = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_VIEW_SESSION)
                 || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionId,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
         return new InstructorFeedbackSessionPermissionsData(canModifySession,
-                canSubmitSessionInSections, canViewSessionInSections);
+                canSubmitSession, canViewSession);
     }
 }

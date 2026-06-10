@@ -33,7 +33,7 @@ const instructorDetails: Instructor[] = [
     email: '1@1.com',
     name: '1',
     joinState: JoinState.JOINED,
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
   },
 ];
 

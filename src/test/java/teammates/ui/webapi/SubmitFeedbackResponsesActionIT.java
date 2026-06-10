@@ -166,12 +166,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         String courseId = session.getCourseId();
 
         InstructorPrivileges runtimePrivileges = new InstructorPrivileges(instructor.getId());
-        runtimePrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
+        runtimePrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION, value);
 
         inTransaction(() -> {
             Instructor updatedInstructor = logic.getInstructor(instructor.getId());
             updatedInstructor.getCourse().setId(courseId);
-            updatedInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+            updatedInstructor.setRole(InstructorPermissionRole.CUSTOM);
             logic.saveInstructorPrivileges(updatedInstructor, runtimePrivileges);
         });
     }

@@ -46,10 +46,10 @@ public class CreateResponseInstructorCommentAction extends Action {
         UUID recipientSectionId = recipient.getSectionId();
         if (recipientSectionId == null) {
             gateKeeper.verifyInstructorHasPrivilege(requestContext, session.getCourseId(),
-                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION);
         } else {
             gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionId,
-                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION);
         }
 
         if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {

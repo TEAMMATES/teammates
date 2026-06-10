@@ -93,7 +93,7 @@ public final class CoursesLogic {
 
         try {
             usersLogic.createInstructor(course, courseCreator.getName(), courseCreator.getEmail(),
-                    false, courseCreator.getName(), InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+                    false, courseCreator.getName(), InstructorPermissionRole.COOWNER,
                     courseCreator);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             assert false : "Unexpected exception while trying to create instructor for a new course "

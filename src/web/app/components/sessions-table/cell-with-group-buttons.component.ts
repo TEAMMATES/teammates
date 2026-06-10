@@ -29,8 +29,8 @@ export class GroupButtonsComponent {
 
   @Input() instructorPrivileges: InstructorFeedbackSessionPermissions = {
     canModifySession: false,
-    canSubmitSessionInSections: false,
-    canViewSessionInSections: false,
+    canSubmitSession: false,
+    canViewSession: false,
   };
 
   @Input() copySession: () => void = () => {};

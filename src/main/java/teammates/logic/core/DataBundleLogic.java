@@ -307,17 +307,17 @@ public final class DataBundleLogic {
                     Const.InstructorPermissions.CAN_MODIFY_STUDENT,
                     courseLevel.isCanModifyStudent());
             newPrivileges.updatePrivilege(
-                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                    courseLevel.isCanViewStudentInSections());
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                    courseLevel.isCanViewStudent());
             newPrivileges.updatePrivilege(
-                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                    courseLevel.isCanViewSessionInSections());
+                    Const.InstructorPermissions.CAN_VIEW_SESSION,
+                    courseLevel.isCanViewSession());
             newPrivileges.updatePrivilege(
-                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                    courseLevel.isCanSubmitSessionInSections());
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                    courseLevel.isCanSubmitSession());
             newPrivileges.updatePrivilege(
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                    courseLevel.isCanModifySessionCommentsInSections());
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                    courseLevel.isCanModifySessionComments());
 
             // Copy and remap section level privileges
             oldPrivileges.getSectionLevelPrivileges().forEach((sectionId, permissions) -> {
@@ -325,20 +325,20 @@ public final class DataBundleLogic {
                 if (section != null) {
                     newPrivileges.updatePrivilege(
                             section.getId(),
-                            Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                            permissions.isCanViewStudentInSections());
+                            Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                            permissions.isCanViewStudent());
                     newPrivileges.updatePrivilege(
                             section.getId(),
-                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                            permissions.isCanViewSessionInSections());
+                            Const.InstructorPermissions.CAN_VIEW_SESSION,
+                            permissions.isCanViewSession());
                     newPrivileges.updatePrivilege(
                             section.getId(),
-                            Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                            permissions.isCanSubmitSessionInSections());
+                            Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                            permissions.isCanSubmitSession());
                     newPrivileges.updatePrivilege(
                             section.getId(),
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                            permissions.isCanModifySessionCommentsInSections());
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                            permissions.isCanModifySessionComments());
                 }
             });
 
@@ -354,18 +354,18 @@ public final class DataBundleLogic {
                         newPrivileges.updatePrivilege(
                                 section.getId(),
                                 session.getId(),
-                                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                                permissions.isCanViewSessionInSections());
+                                Const.InstructorPermissions.CAN_VIEW_SESSION,
+                                permissions.isCanViewSession());
                         newPrivileges.updatePrivilege(
                                 section.getId(),
                                 session.getId(),
-                                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                                permissions.isCanSubmitSessionInSections());
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                                permissions.isCanSubmitSession());
                         newPrivileges.updatePrivilege(
                                 section.getId(),
                                 session.getId(),
-                                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                                permissions.isCanModifySessionCommentsInSections());
+                                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                                permissions.isCanModifySessionComments());
                     }
                 });
             });
