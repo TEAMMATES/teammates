@@ -39,10 +39,6 @@ export interface AuthInfo extends ApiOutput {
   masquerade: boolean;
 }
 
-export interface Builder {
-  queryLogsParams: QueryLogsParams;
-}
-
 export interface Config extends ApiOutput {
   loginMethods: LoginMethod[];
 }
@@ -87,9 +83,6 @@ export interface CourseView extends ApiOutput {
 
 export interface DeadlineExtensions extends ApiOutput {
   userDeadlines: { [index: string]: number };
-}
-
-export interface DefaultLogDetails extends LogDetails {
 }
 
 export interface Email extends ApiOutput {
@@ -315,15 +308,6 @@ export interface FeedbackSession extends ApiOutput {
   createdAtTimestamp: number;
 }
 
-export interface FeedbackSessionAuditLogDetails extends LogDetails {
-  courseId?: string;
-  feedbackSessionId?: string;
-  feedbackSessionName?: string;
-  studentId?: string;
-  studentEmail?: string;
-  accessType: string;
-}
-
 export interface FeedbackSessionLog {
   feedbackSessionLogId: string;
   user: User;
@@ -363,22 +347,6 @@ export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
 export interface FeedbackTextResponseDetails extends FeedbackResponseDetails {
   answer: string;
-}
-
-export interface GeneralLogEntry {
-  severity: LogSeverity;
-  trace: string;
-  insertId: string;
-  resourceIdentifier: { [index: string]: string };
-  sourceLocation: SourceLocation;
-  timestamp: number;
-  message?: string;
-  details?: LogDetails;
-}
-
-export interface GeneralLogs extends ApiOutput {
-  logEntries: GeneralLogEntry[];
-  hasNextPage: boolean;
 }
 
 export interface HasResponses extends ApiOutput {
@@ -495,25 +463,6 @@ export interface OngoingSessions extends ApiOutput {
   totalAwaitingSessions: number;
   totalInstitutes: number;
   sessions: { [index: string]: OngoingSession[] };
-}
-
-export interface QueryLogsParams {
-  severity: LogSeverity;
-  minSeverity: LogSeverity;
-  startTime: number;
-  endTime: number;
-  traceId: string;
-  actionClass: string;
-  userInfoParams: RequestLogUser;
-  logEvent: string;
-  sourceLocation: SourceLocation;
-  exceptionClass: string;
-  latency: string;
-  status: string;
-  version: string;
-  extraFilters: string;
-  order: string;
-  pageSize: number;
 }
 
 export interface QuestionOutput {
@@ -722,7 +671,6 @@ export enum EmailType {
   INSTRUCTOR_COURSE_JOIN = "INSTRUCTOR_COURSE_JOIN",
   INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET",
   USER_COURSE_REGISTER = "USER_COURSE_REGISTER",
-  SEVERE_LOGS_COMPILATION = "SEVERE_LOGS_COMPILATION",
   SESSION_LINKS_RECOVERY = "SESSION_LINKS_RECOVERY",
   LOGIN = "LOGIN",
 }
@@ -791,8 +739,6 @@ export enum LogEvent {
   EXCEPTION_LOG = "EXCEPTION_LOG",
   INSTANCE_LOG = "INSTANCE_LOG",
   EMAIL_SENT = "EMAIL_SENT",
-  FEEDBACK_SESSION_AUDIT = "FEEDBACK_SESSION_AUDIT",
-  DEFAULT_LOG = "DEFAULT_LOG",
 }
 
 export enum LoginMethod {
