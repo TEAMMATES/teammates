@@ -73,7 +73,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   private generateTerms(): void {
     this.questionHtml.forEach((question: InstructorHelpPanelComponent) => {
       const id: string = question.id;
-      const text: string = (question.elementRef.nativeElement.textContent || '').toLowerCase();
+      const text: string = (question.elementRef.nativeElement.textContent ?? '').toLowerCase();
 
       // filter small words away
       let keywords: string[] = text.split(' ').filter((word: string) => word.length > 3);
@@ -97,7 +97,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   private filterFaq(searchTerm: string): void {
     this.showQuestion = [];
-    const searchTermSplit: string[] = (searchTerm.match(/[^\s"]+|"([^"]*)"/gi) || [])
+    const searchTermSplit: string[] = (searchTerm.match(/[^\s"]+|"([^"]*)"/gi) ?? [])
       .map((term: string) => term.replace(/"/g, ''))
       .filter((term: string) => term.length > 3);
     for (const questionDetail of this.questionDetails) {

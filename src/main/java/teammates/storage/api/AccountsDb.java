@@ -1,11 +1,6 @@
 package teammates.storage.api;
 
-import java.util.List;
 import java.util.UUID;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
@@ -39,19 +34,6 @@ public final class AccountsDb {
      */
     public Account getAccountByGoogleId(String googleId) {
         return HibernateUtil.getBySimpleNaturalId(Account.class, googleId);
-    }
-
-    /**
-     * Gets accounts based on email.
-     */
-    public List<Account> getAccountsByEmail(String email) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Account> cr = cb.createQuery(Account.class);
-        Root<Account> accountRoot = cr.from(Account.class);
-
-        cr.select(accountRoot).where(cb.equal(accountRoot.get("email"), email));
-
-        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

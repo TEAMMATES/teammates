@@ -13,9 +13,8 @@ describe('DatepickerFormatter', () => {
   });
 
   it('should return an empty string if date is null', () => {
-    // Any is used as the type for date here as it is the only way to pass in null to NgbDateStruct
-    const date: any = null;
-    const formattedDate: string = formatter.format(date);
+    const date = null;
+    const formattedDate: string = formatter.format(date as unknown as NgbDateStruct);
     expect(formattedDate).toEqual('');
   });
 

@@ -11,6 +11,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseView,
   FeedbackSession,
   FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
@@ -47,23 +48,18 @@ describe('InstructorStudentActivityLogsComponent', () => {
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
-    privileges: {
-      canModifyCourse: true,
-      canModifySession: true,
-      canModifyStudent: true,
-      canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
-    },
+  };
+  const testCourseView1: CourseView = {
+    course: testCourse1,
   };
   const emptyStudent: Student = {
     courseId: '',
     email: '',
     name: '',
     sectionName: '',
+    sectionId: '',
     teamName: '',
+    teamId: '',
     userId: '',
     institute: '',
     courseName: '',
@@ -74,7 +70,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
     courseId: 'CS9999',
     name: 'Doe John',
     teamName: 'team 1',
+    teamId: 'team-1',
     sectionName: 'section 1',
+    sectionId: 'section-1',
     institute: 'Test Institute',
     courseName: 'CS9999',
   };
@@ -134,9 +132,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
     logService = TestBed.inject(LogService);
     timezoneService = TestBed.inject(TimezoneService);
 
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView1));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
-      of({ feedbackSessions: [testFeedbackSession] }),
+      of({ feedbackSessions: [{ feedbackSession: testFeedbackSession }] }),
     );
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({

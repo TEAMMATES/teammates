@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, of, tap } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
 import { ResourceEndpoints } from '../types/api-const';
@@ -17,16 +17,33 @@ export class AuthService {
 
   private frontendUrl: string = environment.frontendUrl;
 
+  private authInfo = signal<AuthInfo>({ loginUrl: '/', masquerade: false });
+
   /**
    * Gets the user authentication information.
+   * Returns the cached value if the user is already authenticated, otherwise fetches from the server.
    */
   getAuthUser(nextUrl?: string): Observable<AuthInfo> {
+    const cached = this.authInfo();
+    if (cached?.user) {
+      return of(cached);
+    }
+
     const params: Record<string, string> = { frontendUrl: this.frontendUrl };
     if (nextUrl) {
       params['nextUrl'] = nextUrl;
     }
 
-    return this.httpRequestService.get(ResourceEndpoints.AUTH, params);
+    return this.httpRequestService
+      .get<AuthInfo>(ResourceEndpoints.AUTH, params)
+      .pipe(tap((authInfo: AuthInfo) => this.authInfo.set(authInfo)));
+  }
+
+  /**
+   * Clears the cached authentication information.
+   */
+  clearAuthCache(): void {
+    this.authInfo.set({ loginUrl: '/', masquerade: false });
   }
 
   /**

@@ -10,15 +10,14 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.ResponseInstructorCommentData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
 /**
@@ -40,19 +39,19 @@ public class CreateResponseInstructorCommentAction extends Action {
             throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
-        String courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
         FeedbackSession session = feedbackQuestion.getFeedbackSession();
 
-        Instructor instructor = getInstructorFromRequest(courseId);
-        ResponseGiver giver = feedbackResponse.getGiver();
-        String giverSectionName = giver.getSectionName();
         ResponseRecipient recipient = feedbackResponse.getRecipient();
-        String recipientSectionName = recipient.getSectionName();
-        gateKeeper.verifyAccessible(instructor, session, giverSectionName,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, recipientSectionName,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+        UUID recipientSectionId = recipient.getSectionId();
+        if (recipientSectionId == null) {
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, session.getCourseId(),
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        } else {
+            gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(), recipientSectionId,
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        }
+
         if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for instructor comment");
         }
@@ -72,11 +71,9 @@ public class CreateResponseInstructorCommentAction extends Action {
 
         String courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
         Instructor instructor = getInstructorFromRequest(courseId);
-        ResponseGiver giverRg = new ResponseGiver(instructor);
-
         try {
             ResponseInstructorComment createdComment = logic.createResponseInstructorComment(
-                    feedbackResponseId, giverRg, comment.getCommentText(),
+                    feedbackResponseId, instructor, comment.getCommentText(),
                     comment.getShowCommentTo(), comment.getShowGiverNameTo());
             HibernateUtil.flushSession();
             return new JsonResult(new ResponseInstructorCommentData(createdComment));

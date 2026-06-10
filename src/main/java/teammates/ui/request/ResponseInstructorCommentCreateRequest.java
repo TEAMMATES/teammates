@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.ui.output.CommentVisibilityType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 
 /**
  * The create request of a feedback response comment.

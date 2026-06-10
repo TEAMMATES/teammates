@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { Course, Instructor, Instructors, JoinState, Student, Students } from '../../../types/api-output';
+import { Course, CourseView, Instructor, Instructors, JoinState, Student, Students } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -42,7 +42,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     name: '',
     comments: '',
     joinState: JoinState.NOT_JOINED,
+    teamId: '',
     teamName: '',
+    sectionId: '',
     sectionName: '',
     institute: '',
     courseName: '',
@@ -75,11 +77,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Fetches relevant data to be displayed on page.
    */
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.loadStudent(queryParams.courseid);
-      this.loadCourse(queryParams.courseid);
-      this.loadInstructors(queryParams.courseid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
+      this.loadStudent(queryParams['courseid']);
+      this.loadCourse(queryParams['courseid']);
+      this.loadInstructors(queryParams['courseid']);
     });
   }
 
@@ -98,8 +100,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (course: Course) => {
-          this.course = course;
+        next: (courseView: CourseView) => {
+          this.course = courseView.course;
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;

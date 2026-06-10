@@ -45,23 +45,9 @@
       "id": "00000000-0000-4000-8000-000000000501",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "courseId": "tm.e2e.FMcqQn.CS2104",
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
@@ -72,21 +58,7 @@
       "email": "tmms.test@gmail.tmt",
       "isDisplayedToStudents": true,
       "name": "Teammates Test",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": true,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyStudent": true,
-          "canSubmitSessionInSections": true,
-          "canViewSessionInSections": true,
-          "canViewStudentInSections": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },

@@ -1,32 +1,21 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
-
-import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
-import teammates.common.util.HibernateUtil;
-import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
-import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a feedback session.
  */
 public class CreateFeedbackSessionAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -37,10 +26,8 @@ public class CreateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-        Course course = logic.getCourse(courseId);
-
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
@@ -48,89 +35,18 @@ public class CreateFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         FeedbackSessionCreateRequest createRequest =
                     getAndValidateRequestBody(FeedbackSessionCreateRequest.class);
-        String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
-
-        Course course = logic.getCourse(courseId);
-        if (course == null) {
-            throw new InvalidHttpParameterException("Failed to find course with the given course id.");
-        }
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = getInstructorFromRequest(courseId);
         if (instructor == null) {
-            throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
+            throw new EntityNotFoundException("Failed to find instructor with the given courseId and googleId.");
         }
-
-        String timeZone = course.getTimeZone();
-
-        // TODO: Refactor to reuse the validation logic in FeedbackSessionsLogic.
-        // and to move business logic to logic layer.
-        // See UpdateFeedbackSessionAction and updateFeedbackSession for reference.
-        Instant startTime = createRequest.getSubmissionStartTime();
-        String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
-        if (!startTimeError.isEmpty()) {
-            throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
-        }
-        Instant endTime = createRequest.getSubmissionEndTime();
-        String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
-        if (!endTimeError.isEmpty()) {
-            throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
-        }
-        Instant sessionVisibleTime = createRequest.getSessionVisibleFromTime();
-        String visibilityStartAndSessionStartTimeError =
-                FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
-        if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
-            throw new InvalidHttpRequestBodyException("Invalid session visible time: "
-                    + visibilityStartAndSessionStartTimeError);
-        }
-        Instant resultsVisibleTime = createRequest.getResultsVisibleFromTime();
-
-        FeedbackSession feedbackSession = new FeedbackSession(
-                feedbackSessionName,
-                instructor,
-                createRequest.getInstructions(),
-                startTime,
-                endTime,
-                sessionVisibleTime,
-                resultsVisibleTime,
-                createRequest.getGracePeriod(),
-                createRequest.isClosingSoonEmailEnabled(),
-                createRequest.isPublishedEmailEnabled()
-        );
-        course.addFeedbackSession(feedbackSession);
 
         try {
-            feedbackSession = logic.createFeedbackSession(feedbackSession);
-            HibernateUtil.flushSession();
-        } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException("A session named " + feedbackSessionName
-                    + " exists already in the course " + course.getName()
-                    + " (Course ID: " + courseId + ")", e);
+            FeedbackSession feedbackSession = logic.createFeedbackSession(courseId, instructor, createRequest);
+            return new JsonResult(new FeedbackSessionData(feedbackSession));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         }
-
-        if (createRequest.getToCopyCourseId() != null) {
-            createCopiedFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
-                    feedbackSessionName, createRequest.getToCopySessionName());
-        }
-        FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
-        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
-        output.setPrivileges(privilege);
-
-        return new JsonResult(output);
-    }
-
-    private void createCopiedFeedbackQuestions(String oldCourseId, String newCourseId,
-            String newFeedbackSessionName, String oldFeedbackSessionName) {
-        FeedbackSession oldFeedbackSession = logic.getFeedbackSession(oldFeedbackSessionName, oldCourseId);
-        FeedbackSession newFeedbackSession = logic.getFeedbackSession(newFeedbackSessionName, newCourseId);
-        logic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
-            FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
-            newFeedbackSession.addFeedbackQuestion(feedbackQuestion);
-            try {
-                logic.createFeedbackQuestion(feedbackQuestion);
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                log.severe("Error when copying feedback question: " + e.getMessage());
-            }
-        });
     }
 }

@@ -10,10 +10,10 @@ import jakarta.persistence.Entity;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -33,8 +33,8 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
     public FeedbackRankRecipientsQuestion(
             Integer questionNumber,
             String description, QuestionGiverType giverType, QuestionRecipientType recipientType,
-            Integer numOfEntitiesToGiveFeedbackTo, List<ViewerType> showResponsesTo,
-            List<ViewerType> showGiverNameTo, List<ViewerType> showRecipientNameTo,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackVisibilityType> showResponsesTo,
+            List<FeedbackVisibilityType> showGiverNameTo, List<FeedbackVisibilityType> showRecipientNameTo,
             FeedbackQuestionDetails feedbackQuestionDetails
     ) {
         super(questionNumber, description, giverType, recipientType,

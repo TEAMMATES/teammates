@@ -121,7 +121,7 @@ To run component tests:
 <tab header="Mac / Linux">
 
 ```sh
-./gradlew componentTests
+./gradlew test
 npm run test
 ```
 
@@ -129,7 +129,7 @@ npm run test
 <tab header="Windows">
 
 ```sh
-gradlew.bat componentTests
+gradlew.bat test
 npm run test
 ```
 

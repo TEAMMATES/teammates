@@ -27,10 +27,10 @@ export class MsqFieldComponent {
   index = 0;
 
   @Output()
-  elementDeleted: EventEmitter<any> = new EventEmitter();
+  elementDeleted: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  msqText: EventEmitter<any> = new EventEmitter();
+  msqText: EventEmitter<string> = new EventEmitter();
 
   /**
    * Deletes a Msq option.

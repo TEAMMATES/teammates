@@ -5,8 +5,8 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.output.NotificationData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Action: Gets a notification by ID.

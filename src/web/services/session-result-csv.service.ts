@@ -45,6 +45,7 @@ export class SessionResultCsvService {
     isShownStats: boolean,
     sectionName?: string,
     sectionDetail?: InstructorSessionResultSectionType,
+    sectionId?: string,
   ): string {
     const csvRows: string[][] = [];
 
@@ -66,10 +67,10 @@ export class SessionResultCsvService {
     for (const question of result.questions) {
       const currQuestion: QuestionOutput = structuredClone(question);
       currQuestion.allResponses = currQuestion.allResponses.filter((response: ResponseOutput) => {
-        if (sectionName && sectionDetail) {
+        if (sectionId && sectionDetail) {
           return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
             response,
-            sectionName,
+            sectionId,
             sectionDetail,
           );
         }

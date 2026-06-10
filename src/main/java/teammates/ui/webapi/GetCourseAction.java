@@ -1,12 +1,13 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
+import teammates.ui.output.InstructorCoursePermissionsData;
 
 /**
  * Get a course for an instructor or student.
@@ -20,21 +21,20 @@ public class GetCourseAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-        Course course = logic.getCourse(courseId);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            gateKeeper.verifyAccessible(getInstructorFromRequest(courseId), course);
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
             return;
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            gateKeeper.verifyAccessible(getStudentFromRequest(courseId), course);
+            gateKeeper.verifyStudentInCourse(requestContext, courseId);
             return;
         }
 
@@ -50,17 +50,18 @@ public class GetCourseAction extends Action {
             throw new EntityNotFoundException("No course with id: " + courseId);
         }
 
-        CourseData output = new CourseData(course);
+        CourseViewData output = new CourseViewData(new CourseData(course));
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             Instructor instructor = getInstructorFromRequest(courseId);
             if (instructor != null) {
-                InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
-                output.setPrivileges(privilege);
+                output.setInstructorPermissions(new InstructorCoursePermissionsData(
+                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE),
+                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT),
+                        logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)));
             }
-        } else if (Const.EntityType.STUDENT.equals(entityType)) {
-            output.hideInformationForStudent();
         }
+
         return new JsonResult(output);
     }
 }

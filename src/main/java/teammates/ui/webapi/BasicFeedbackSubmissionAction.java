@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.UUID;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
@@ -22,11 +22,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
         boolean isGiverVisibleToInstructor =
-                feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor =
-                feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS);
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
@@ -122,15 +122,17 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
-                    student.getSectionName(),
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            gateKeeper.verifyLoggedInUserPrivileges(requestContext);
+            gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, feedbackSession.getCourseId(),
+                    student.getSectionId(),
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             checkAccessControlForPreview(feedbackSession);
         } else {
-            gateKeeper.verifyAccessible(student, feedbackSession);
+            gateKeeper.verifyStudentInCourse(requestContext, feedbackSession.getCourseId());
+            if (!feedbackSession.isVisible()) {
+                throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+            }
         }
     }
 
@@ -146,7 +148,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(student, feedbackSession);
+            gateKeeper.verifyStudentInCourse(requestContext, feedbackSession.getCourseId());
+            if (!feedbackSession.isVisible()) {
+                throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+            }
         } else {
             checkAccessControlForPreview(feedbackSession);
         }
@@ -165,18 +170,27 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            gateKeeper.verifyLoggedInUserPrivileges(requestContext);
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            gateKeeper.verifyLoggedInUserPrivileges(requestContext);
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
-            gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
+            verifyInstructorCanSubmitToSession(feedbackSession, instructor);
         }
+    }
+
+    private void verifyInstructorCanSubmitToSession(FeedbackSession feedbackSession, Instructor instructor)
+            throws UnauthorizedAccessException {
+        if (logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getId(),
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)) {
+            return;
+        }
+
+        gateKeeper.verifyInstructorHasPrivilege(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
     }
 
     /**
@@ -191,8 +205,8 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(instructor, feedbackSession,
-                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+                    Const.InstructorPermissions.CAN_VIEW_SESSION);
         } else {
             checkAccessControlForPreview(feedbackSession);
         }
@@ -200,9 +214,8 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
     private void checkAccessControlForPreview(FeedbackSession feedbackSession)
             throws UnauthorizedAccessException {
-        gateKeeper.verifyLoggedInUserPrivileges(authContext);
-        gateKeeper.verifyAccessible(
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
+        gateKeeper.verifyLoggedInUserPrivileges(requestContext);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

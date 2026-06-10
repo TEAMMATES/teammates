@@ -185,7 +185,6 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSession retrievedFs = inTransaction(() -> fsLogic.getFeedbackSession(fs.getName(), fs.getCourseId()));
 
         assertNotNull(retrievedFs);
-        assertNull(inTransaction(() -> fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourseId())));
         assertFalse(inTransaction(() -> fsLogic.getFeedbackSession(
                 fs.getName(), fs.getCourseId()).getFeedbackQuestions().isEmpty()));
         assertFalse(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());

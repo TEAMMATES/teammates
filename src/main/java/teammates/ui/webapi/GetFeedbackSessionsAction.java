@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
 import teammates.ui.output.FeedbackSessionsData;
+import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 
 /**
  * Get a list of feedback sessions.
@@ -30,7 +30,7 @@ public class GetFeedbackSessionsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -44,13 +44,11 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
             if (courseId != null) {
-                Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId()), course);
+                gateKeeper.verifyStudentInCourse(requestContext, courseId);
             }
         } else {
             if (courseId != null) {
-                Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()), course);
+                gateKeeper.verifyInstructorInCourse(requestContext, courseId);
             }
         }
     }
@@ -66,7 +64,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = logic.getStudentsByGoogleId(getCurrentUserGoogleId());
+                List<Student> students = logic.getStudentsByAccountId(requestContext.getAccount().getId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourseId();
                     List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
@@ -77,7 +75,7 @@ public class GetFeedbackSessionsAction extends Action {
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
+                instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
 
                 if (isInRecycleBin) {
                     feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
@@ -88,14 +86,14 @@ public class GetFeedbackSessionsAction extends Action {
         } else {
             feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
             if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+                Student student = getStudentFromRequest(courseId);
                 assert student != null;
                 for (FeedbackSession session : feedbackSessions) {
                     sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
                 }
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 instructors = Collections.singletonList(
-                        logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()));
+                        getInstructorFromRequest(courseId));
             }
         }
 
@@ -110,24 +108,39 @@ public class GetFeedbackSessionsAction extends Action {
             }
             responseData = new FeedbackSessionsData(sessionToDeadline);
             responseData.getFeedbackSessions().forEach(session -> {
-                Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-                if (instructor == null) {
-                    return;
-                }
-
-                InstructorPermissionSet privilege =
-                        constructInstructorPrivileges(instructor, session.getFeedbackSessionName());
-                session.setPrivileges(privilege);
+                var permissionsData = getPermissionsData(courseIdToInstructor, session);
+                session.setInstructorPermissions(permissionsData);
             });
         } else if (Const.EntityType.STUDENT.equals(entityType)) {
             // hide sessions not visible to student
             sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
             responseData = new FeedbackSessionsData(sessionToDeadline);
-            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformation);
+            responseData.getFeedbackSessions().forEach(session -> session.getFeedbackSession().hideInformation());
         } else {
             responseData = new FeedbackSessionsData(feedbackSessions);
         }
 
         return new JsonResult(responseData);
+    }
+
+    private InstructorFeedbackSessionPermissionsData getPermissionsData(Map<String, Instructor> courseIdToInstructor,
+            FeedbackSessionViewData session) {
+        Instructor instructor = courseIdToInstructor.get(session.getFeedbackSession().getCourseId());
+        if (instructor == null) {
+            return new InstructorFeedbackSessionPermissionsData(false, false, false);
+        }
+        UUID sessionId = session.getFeedbackSession().getFeedbackSessionId();
+        boolean canModifySession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canSubmitSession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionId,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_VIEW_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionId,
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
+        return new InstructorFeedbackSessionPermissionsData(canModifySession,
+                canSubmitSession, canViewSession);
     }
 }

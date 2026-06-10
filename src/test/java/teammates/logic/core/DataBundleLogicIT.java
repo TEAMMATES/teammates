@@ -14,17 +14,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
@@ -135,20 +134,18 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify instructors deserialized correctly");
 
         Instructor actualInstructor1 = dataBundle.instructors.get("instructor1OfTypicalCourse");
-        InstructorPermissionRole coOwner = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges coOwnerPrivileges = new InstructorPrivileges(coOwner.getRoleName());
+        InstructorPermissionRole coOwner = InstructorPermissionRole.COOWNER;
         Instructor expectedInstructor1 = new Instructor(actualTypicalCourse, "Instructor 1", "instr1@teammates.tmt",
-                true, "Instructor", coOwner, coOwnerPrivileges);
+                true, "Instructor", coOwner);
         expectedInstructor1.setId(actualInstructor1.getId());
         expectedInstructor1.setRegKey(actualInstructor1.getRegKey());
         expectedInstructor1.setAccount(expectedInstructorAccount);
         assertEquals(expectedInstructor1, actualInstructor1);
 
         Instructor actualInstructor2 = dataBundle.instructors.get("instructor2OfTypicalCourse");
-        InstructorPermissionRole tutor = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR;
-        InstructorPrivileges tutorPrivileges = new InstructorPrivileges(tutor.getRoleName());
+        InstructorPermissionRole tutor = InstructorPermissionRole.TUTOR;
         Instructor expectedInstructor2 = new Instructor(actualTypicalCourse, "Instructor 2", "instr2@teammates.tmt",
-                true, "Instructor", tutor, tutorPrivileges);
+                true, "Instructor", tutor);
         expectedInstructor2.setId(actualInstructor2.getId());
         expectedInstructor2.setRegKey(actualInstructor2.getRegKey());
         assertEquals(expectedInstructor2, actualInstructor2);
@@ -193,8 +190,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion expectedQuestion1 = FeedbackQuestion.makeQuestion(1,
                 "This is a text question.", QuestionGiverType.STUDENTS, QuestionRecipientType.SELF,
-                1, List.of(ViewerType.INSTRUCTORS), List.of(ViewerType.INSTRUCTORS),
-                List.of(ViewerType.INSTRUCTORS), questionDetails1);
+                1, List.of(FeedbackVisibilityType.INSTRUCTORS), List.of(FeedbackVisibilityType.INSTRUCTORS),
+                List.of(FeedbackVisibilityType.INSTRUCTORS), questionDetails1);
         expectedSession1.addFeedbackQuestion(expectedQuestion1);
         expectedQuestion1.setId(actualQuestion1.getId());
         assertEquals(expectedQuestion1, actualQuestion1);
@@ -210,10 +207,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("verify feedback response comments deserialized correctly");
         ResponseInstructorComment actualComment1 = dataBundle.responseInstructorComments.get("comment1ToResponse1ForQ1");
-        ResponseGiver commentGiver = new ResponseGiver(actualInstructor1);
-        ResponseInstructorComment expectedComment1 = new ResponseInstructorComment(commentGiver,
+        ResponseInstructorComment expectedComment1 = new ResponseInstructorComment(actualInstructor1,
                 "Instructor 1 comment to student 1 self feedback",
-                new ArrayList<>(), new ArrayList<>(), commentGiver);
+                new ArrayList<>(), new ArrayList<>(), actualInstructor1);
         expectedResponse1.addResponseInstructorComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
         assertEquals(expectedComment1, actualComment1);

@@ -67,23 +67,23 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates the other option checkbox when clicked.
    */
   updateIsOtherOption(): void {
-    const fieldsToUpdate: any = {};
-    fieldsToUpdate.isOther = !this.responseDetails.isOther;
-    fieldsToUpdate.answers = this.responseDetails.answers;
+    const fieldsToUpdate: Record<string, unknown> = {};
+    fieldsToUpdate['isOther'] = !this.responseDetails.isOther;
+    fieldsToUpdate['answers'] = this.responseDetails.answers;
     if (this.isNoneOfTheAboveEnabled) {
-      fieldsToUpdate.answers = [];
+      fieldsToUpdate['answers'] = [];
     }
-    if (fieldsToUpdate.isOther) {
+    if (fieldsToUpdate['isOther']) {
       // create a placeholder for other answer
-      fieldsToUpdate.answers.push('');
+      (fieldsToUpdate['answers'] as string[]).push('');
       setTimeout(() => {
         // focus on the text box after the isOther field is updated to enable the text box
         this.inputTextBoxOther!.nativeElement.focus();
       }, 0);
     } else {
       // remove other answer (last element) from the answer list
-      fieldsToUpdate.answers.splice(-1, 1);
-      fieldsToUpdate.otherFieldContent = '';
+      (fieldsToUpdate['answers'] as string[]).splice(-1, 1);
+      fieldsToUpdate['otherFieldContent'] = '';
     }
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
@@ -92,11 +92,11 @@ export class MsqQuestionEditAnswerFormComponent
    * Updates other answer field.
    */
   updateOtherAnswerField($event: string): void {
-    const fieldsToUpdate: any = {};
+    const fieldsToUpdate: Record<string, unknown> = {};
     // we shall update both the other field content and the answer list
-    fieldsToUpdate.otherFieldContent = $event;
-    fieldsToUpdate.answers = this.responseDetails.answers.slice();
-    fieldsToUpdate.answers[fieldsToUpdate.answers.length - 1] = $event;
+    fieldsToUpdate['otherFieldContent'] = $event;
+    fieldsToUpdate['answers'] = this.responseDetails.answers.slice();
+    (fieldsToUpdate['answers'] as string[])[(fieldsToUpdate['answers'] as string[]).length - 1] = $event;
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 

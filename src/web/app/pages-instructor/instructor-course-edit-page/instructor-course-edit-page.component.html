@@ -53,6 +53,18 @@
 @if (!isAddingNewInstructor) {
   <div class="card-body text-center">
     <button
+      id="btn-copy-instructor"
+      class="btn btn-info mx-2 my-1"
+      type="button"
+      (click)="copyInstructors()"
+      [disabled]="!this.currInstructorCoursePrivilege?.canModifyInstructor || isCopyingInstructor"
+    >
+      @if (isCopyingInstructor) {
+        <tm-ajax-loading></tm-ajax-loading>
+      }
+      Copy Instructors from Other Courses
+    </button>
+    <button
       id="btn-add-instructor"
       class="btn btn-success mx-2 my-1"
       type="button"
@@ -60,18 +72,6 @@
       [disabled]="isCopyingInstructor"
     >
       Add New Instructor
-    </button>
-    <button
-      id="btn-copy-instructor"
-      class="btn btn-info mx-2 my-1"
-      type="button"
-      (click)="copyInstructors()"
-      [disabled]="!this.currInstructorCoursePrivilege.canModifyInstructor || isCopyingInstructor"
-    >
-      @if (isCopyingInstructor) {
-        <tm-ajax-loading></tm-ajax-loading>
-      }
-      Copy Instructors from Other Courses
     </button>
   </div>
 }

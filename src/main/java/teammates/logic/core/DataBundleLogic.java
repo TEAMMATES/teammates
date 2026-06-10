@@ -1,12 +1,18 @@
 package teammates.logic.core;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.Account;
@@ -19,6 +25,9 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.InstructorCoursePrivilege;
+import teammates.storage.entity.InstructorSectionPrivilege;
+import teammates.storage.entity.InstructorSessionPrivilege;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
@@ -254,28 +263,116 @@ public final class DataBundleLogic {
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
             fr.addResponseInstructorComment(responseComment);
 
-            ResponseGiver giver = responseComment.getGiver();
-            if (giver != null) {
-                if (giver.getGiverTeamId() != null) {
-                    Team team = teamsMap.get(giver.getGiverTeamId());
-                    responseComment.setGiver(new ResponseGiver(team));
-                } else if (giver.getGiverUserId() != null) {
-                    User user = usersMap.get(giver.getGiverUserId());
-                    responseComment.setGiver(new ResponseGiver(user));
+            if (responseComment.getGiverId() != null) {
+                User userGiver = usersMap.get(responseComment.getGiverId());
+                if (!(userGiver instanceof Instructor)) {
+                    throw new IllegalArgumentException("ResponseInstructorComment giver must be an instructor");
                 }
+                responseComment.setGiver((Instructor) userGiver);
             }
 
-            ResponseGiver lastEditedBy = responseComment.getLastEditedBy();
-            if (lastEditedBy.getGiverTeamId() != null) {
-                Team team = teamsMap.get(lastEditedBy.getGiverTeamId());
-                responseComment.setLastEditedBy(new ResponseGiver(team));
-            } else if (lastEditedBy.getGiverUserId() != null) {
-                User user = usersMap.get(lastEditedBy.getGiverUserId());
-                responseComment.setLastEditedBy(new ResponseGiver(user));
-            } else {
-                responseComment.setLastEditedBy(responseComment.getGiver());
+            if (responseComment.getLastEditedById() != null) {
+                User userLastEditedBy = usersMap.get(responseComment.getLastEditedById());
+                if (!(userLastEditedBy instanceof Instructor)) {
+                    throw new IllegalArgumentException("ResponseInstructorComment last editor must be an instructor");
+                }
+                responseComment.setLastEditedBy((Instructor) userLastEditedBy);
             }
         }
+
+        // Re-point the placeholder ids in the combined instructor privileges section to the
+        // newly generated entity ids so they can be resolved against the bundle at persist time.
+        Map<String, InstructorPrivileges> remappedPrivileges = new HashMap<>();
+        for (Entry<String, InstructorPrivileges> entry : dataBundle.instructorPrivileges.entrySet()) {
+            InstructorPrivileges oldPrivileges = entry.getValue();
+            User instructor = usersMap.get(oldPrivileges.getInstructorId());
+            assert instructor != null
+                    : "InstructorPrivileges contains instructorId that does not match any instructor in the bundle";
+
+            // Create new InstructorPrivileges object with the actual instructor ID
+            InstructorPrivileges newPrivileges = new InstructorPrivileges(instructor.getId());
+
+            // Copy course level privileges
+            InstructorPermissionSet courseLevel = oldPrivileges.getCourseLevelPrivileges();
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_COURSE,
+                    courseLevel.isCanModifyCourse());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR,
+                    courseLevel.isCanModifyInstructor());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION,
+                    courseLevel.isCanModifySession());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_STUDENT,
+                    courseLevel.isCanModifyStudent());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                    courseLevel.isCanViewStudent());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_VIEW_SESSION,
+                    courseLevel.isCanViewSession());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                    courseLevel.isCanSubmitSession());
+            newPrivileges.updatePrivilege(
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                    courseLevel.isCanModifySessionComments());
+
+            // Copy and remap section level privileges
+            oldPrivileges.getSectionLevelPrivileges().forEach((sectionId, permissions) -> {
+                Section section = sectionsMap.get(sectionId);
+                if (section != null) {
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                            permissions.isCanViewStudent());
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_VIEW_SESSION,
+                            permissions.isCanViewSession());
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                            permissions.isCanSubmitSession());
+                    newPrivileges.updatePrivilege(
+                            section.getId(),
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                            permissions.isCanModifySessionComments());
+                }
+            });
+
+            // Copy and remap session level privileges
+            oldPrivileges.getSessionLevelPrivileges().forEach((sectionId, sessionPermissions) -> {
+                Section section = sectionsMap.get(sectionId);
+                if (section == null) {
+                    return;
+                }
+                sessionPermissions.forEach((sessionId, permissions) -> {
+                    FeedbackSession session = sessionsMap.get(sessionId);
+                    if (session != null) {
+                        newPrivileges.updatePrivilege(
+                                section.getId(),
+                                session.getId(),
+                                Const.InstructorPermissions.CAN_VIEW_SESSION,
+                                permissions.isCanViewSession());
+                        newPrivileges.updatePrivilege(
+                                section.getId(),
+                                session.getId(),
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                                permissions.isCanSubmitSession());
+                        newPrivileges.updatePrivilege(
+                                section.getId(),
+                                session.getId(),
+                                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                                permissions.isCanModifySessionComments());
+                    }
+                });
+            });
+
+            remappedPrivileges.put(entry.getKey(), newPrivileges);
+        }
+        dataBundle.instructorPrivileges = remappedPrivileges;
 
         return dataBundle;
     }
@@ -316,6 +413,7 @@ public final class DataBundleLogic {
         persistEntities(instructors);
         persistEntities(students);
         persistEntities(sessions);
+        persistEntities(expandInstructorPrivileges(dataBundle));
         persistEntities(questions);
         persistEntities(responses);
         persistEntities(responseComments);
@@ -349,6 +447,51 @@ public final class DataBundleLogic {
         dataBundle.accountRequests.values().forEach(accountRequest ->
                 accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
         );
+    }
+
+    /**
+     * Expands the combined instructor privileges section of the bundle into the corresponding
+     * course/section/session privilege entities, resolving references against the bundle's entities.
+     */
+    private List<BaseEntity> expandInstructorPrivileges(DataBundle dataBundle) {
+        Map<UUID, Instructor> instructorsById = new HashMap<>();
+        dataBundle.instructors.values().forEach(i -> instructorsById.put(i.getId(), i));
+        Map<UUID, Section> sectionsById = new HashMap<>();
+        dataBundle.sections.values().forEach(s -> sectionsById.put(s.getId(), s));
+        Map<UUID, FeedbackSession> sessionsById = new HashMap<>();
+        dataBundle.feedbackSessions.values().forEach(fs -> sessionsById.put(fs.getId(), fs));
+
+        List<BaseEntity> entities = new ArrayList<>();
+        for (InstructorPrivileges privileges : dataBundle.instructorPrivileges.values()) {
+            Instructor instructor = instructorsById.get(privileges.getInstructorId());
+            if (instructor == null) {
+                continue;
+            }
+            entities.add(new InstructorCoursePrivilege(instructor, privileges.getCourseLevelPrivileges()));
+
+            for (Entry<UUID, InstructorPermissionSet> entry : privileges.getSectionLevelPrivileges().entrySet()) {
+                Section section = sectionsById.get(entry.getKey());
+                if (section != null) {
+                    entities.add(new InstructorSectionPrivilege(instructor, section, entry.getValue()));
+                }
+            }
+
+            for (Entry<UUID, Map<UUID, InstructorPermissionSet>> sectionEntry
+                    : privileges.getSessionLevelPrivileges().entrySet()) {
+                Section section = sectionsById.get(sectionEntry.getKey());
+                if (section == null) {
+                    continue;
+                }
+                for (Entry<UUID, InstructorPermissionSet> sessionEntry : sectionEntry.getValue().entrySet()) {
+                    FeedbackSession session = sessionsById.get(sessionEntry.getKey());
+                    if (session != null) {
+                        entities.add(new InstructorSessionPrivilege(
+                                instructor, section, session, sessionEntry.getValue()));
+                    }
+                }
+            }
+        }
+        return entities;
     }
 
     private void persistEntities(Collection<? extends BaseEntity> entities) throws InvalidParametersException {

@@ -79,10 +79,9 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Increases number of Msq options.
    */
   increaseNumberOfMsqOptions(): void {
-    const fieldsToUpdate: any = {};
     const newOptions: string[] = this.model.msqChoices.slice();
     newOptions.push('');
-    fieldsToUpdate.msqChoices = newOptions;
+    const fieldsToUpdate: Partial<FeedbackMsqQuestionDetails> = { msqChoices: newOptions };
     if (this.model.hasAssignedWeights) {
       const newWeights: number[] = this.model.msqWeights.slice();
       newWeights.push(0);
@@ -95,10 +94,9 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Deletes a Msq option.
    */
   onMsqOptionDeleted(event: number): void {
-    const fieldsToUpdate: any = {};
     const newOptions: string[] = this.model.msqChoices.slice();
     newOptions.splice(event, 1);
-    fieldsToUpdate.msqChoices = newOptions;
+    const fieldsToUpdate: Partial<FeedbackMsqQuestionDetails> = { msqChoices: newOptions };
     if (this.model.hasAssignedWeights) {
       const newWeights: number[] = this.model.msqWeights.slice();
       newWeights.splice(event, 1);
@@ -117,15 +115,15 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
   /**
    * Displays maxSelectableOption value.
    */
-  get displayValueForMaxSelectableOption(): any {
-    return this.isMaxSelectableChoicesEnabled ? this.model.maxSelectableChoices : '';
+  get displayValueForMaxSelectableOption(): string {
+    return this.isMaxSelectableChoicesEnabled ? String(this.model.maxSelectableChoices) : '';
   }
 
   /**
    * Displays minSelectableOption value.
    */
-  get displayValueForMinSelectableOption(): any {
-    return this.isMinSelectableChoicesEnabled ? this.model.minSelectableChoices : '';
+  get displayValueForMinSelectableOption(): string {
+    return this.isMinSelectableChoicesEnabled ? String(this.model.minSelectableChoices) : '';
   }
 
   /**
@@ -141,7 +139,7 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Triggers the setting of choosing other option.
    */
   triggerOtherEnabled(checked: boolean): void {
-    const fieldsToUpdate: any = {
+    const fieldsToUpdate: Partial<FeedbackMsqQuestionDetails> = {
       otherEnabled: checked,
       msqOtherWeight: 0,
     };

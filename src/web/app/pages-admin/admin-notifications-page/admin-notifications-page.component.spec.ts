@@ -112,7 +112,7 @@ describe('AdminNotificationsPageComponent', () => {
     component.loadNotifications();
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
+    const btn = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
     expect(btn.disabled).toBeFalsy();
     expect(btn.textContent).toEqual(' Add New Notification');
     btn.click();
@@ -134,7 +134,7 @@ describe('AdminNotificationsPageComponent', () => {
     component.loadNotificationEditForm(component.notificationsTableRowModels[0].notification);
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
+    const btn = fixture.debugElement.nativeElement.querySelector('#btn-add-notification');
     expect(btn.disabled).toBeTruthy();
     expect(btn.textContent.trim()).toEqual('Edit Existing Notification');
   });

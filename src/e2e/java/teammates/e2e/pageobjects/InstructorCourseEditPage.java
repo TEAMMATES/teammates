@@ -85,14 +85,14 @@ public class InstructorCourseEditPage extends AppPage {
         map.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, permissionSet.isCanModifyInstructor());
         map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, permissionSet.isCanModifySession());
         map.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, permissionSet.isCanModifyStudent());
-        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                permissionSet.isCanViewStudentInSections());
-        map.put(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                permissionSet.isCanViewSessionInSections());
-        map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                permissionSet.isCanSubmitSessionInSections());
-        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                permissionSet.isCanModifySessionCommentsInSections());
+        map.put(Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                permissionSet.isCanViewStudent());
+        map.put(Const.InstructorPermissions.CAN_VIEW_SESSION,
+                permissionSet.isCanViewSession());
+        map.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                permissionSet.isCanSubmitSession());
+        map.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                permissionSet.isCanModifySessionComments());
         return map;
     }
 
@@ -109,6 +109,15 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyInstructorDetails(Instructor instructor) {
+        verifyInstructorDetails(instructor, null, null, null);
+    }
+
+    /**
+     * Verifies the displayed instructor details, including custom privileges when provided.
+     */
+    public void verifyInstructorDetails(Instructor instructor, InstructorPermissionSet courseLevelPrivileges,
+            Map<String, InstructorPermissionSet> sectionLevelPrivileges,
+            Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges) {
         waitForElementPresence(By.tagName("tm-instructor-edit-panel"));
         int instrNum = getIntrNum(instructor.getEmail());
         if (instructor.getGoogleId() != null) {
@@ -123,18 +132,19 @@ public class InstructorCourseEditPage extends AppPage {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
         assertEquals(instructor.getRole().getRoleName(), getInstructorRole(instrNum));
-        if (Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(instructor.getRole().getRoleName())
-                && getEditInstructorButton(instrNum).isEnabled()) {
-            verifyCustomPrivileges(instrNum, instructor.getPrivileges());
+        if (Const.InstructorPermissionRoleNames.CUSTOM.equals(instructor.getRole().getRoleName())
+                && getEditInstructorButton(instrNum).isEnabled() && courseLevelPrivileges != null) {
+            verifyCustomPrivileges(instrNum, courseLevelPrivileges, sectionLevelPrivileges, sessionLevelPrivileges);
         }
     }
 
-    public void verifyCustomPrivileges(int instrNum, InstructorPrivileges privileges) {
+    /**
+     * Verifies the custom privileges shown in the edit panel against the given name-keyed privileges.
+     */
+    public void verifyCustomPrivileges(int instrNum, InstructorPermissionSet courseLevelPrivileges,
+            Map<String, InstructorPermissionSet> sectionLevelPrivileges,
+            Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges) {
         clickEditInstructorButton(instrNum);
-
-        InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();
-        Map<String, InstructorPermissionSet> sectionLevelPrivileges = privileges.getSectionLevelPrivileges();
-        Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges = privileges.getSessionLevelPrivileges();
 
         verifyCourseLevelPrivileges(instrNum, courseLevelPrivileges);
         verifySectionLevelPrivileges(instrNum, sectionLevelPrivileges);
@@ -323,7 +333,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void toggleCustomCourseLevelPrivilege(int instrNum, String privilege) {
-        if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
+        if (!Const.InstructorPermissionRoleNames.CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
 
@@ -335,7 +345,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
                                                   String privilege) {
-        if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
+        if (!Const.InstructorPermissionRoleNames.CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
 
@@ -350,7 +360,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
                                                   String privilege) {
-        if (!Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(getInstructorRole(instrNum))) {
+        if (!Const.InstructorPermissionRoleNames.CUSTOM.equals(getInstructorRole(instrNum))) {
             return;
         }
 
@@ -588,15 +598,15 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getRoleIndex(String role) {
         switch (role) {
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+        case Const.InstructorPermissionRoleNames.COOWNER:
             return INSTRUCTOR_TYPE_COOWNER;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+        case Const.InstructorPermissionRoleNames.MANAGER:
             return INSTRUCTOR_TYPE_MANAGER;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+        case Const.InstructorPermissionRoleNames.OBSERVER:
             return INSTRUCTOR_TYPE_OBSERVER;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+        case Const.InstructorPermissionRoleNames.TUTOR:
             return INSTRUCTOR_TYPE_TUTOR;
-        case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+        case Const.InstructorPermissionRoleNames.CUSTOM:
             return INSTRUCTOR_TYPE_CUSTOM;
         default:
             return -1;
@@ -613,13 +623,13 @@ public class InstructorCourseEditPage extends AppPage {
             return COURSE_MODIFY_SESSIONS;
         case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             return COURSE_MODIFY_STUDENTS;
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
             return COURSE_VIEW_STUDENTS;
-        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
             return COURSE_GIVE_RESPONSES_IN_SESSION;
-        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return COURSE_VIEW_RESPONSES_IN_SESSION;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
             return COURSE_MODIFY_RESPONSES_IN_SESSION;
         default:
             return -1;
@@ -628,13 +638,13 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getSectionLevelPrivilegeIndex(String privilege) {
         switch (privilege) {
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
             return SECTION_VIEW_STUDENTS;
-        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
             return SECTION_GIVE_RESPONSES_IN_SESSION;
-        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return SECTION_VIEW_RESPONSES_IN_SESSION;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
             return SECTION_MODIFY_RESPONSES_IN_SESSION;
         default:
             return -1;
@@ -643,11 +653,11 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getSessionLevelPrivilegeIndex(String privilege) {
         switch (privilege) {
-        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
             return SESSION_GIVE_RESPONSES;
-        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_SESSION:
             return SESSION_VIEW_RESPONSES;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
             return SESSION_MODIFY_RESPONSES;
         default:
             return -1;

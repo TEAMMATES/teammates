@@ -163,7 +163,7 @@ export class AdminHomePageComponent implements OnInit {
         registeredAtText: request.registeredAt
           ? this.dateFormatService.formatDateDetailed(request.registeredAt, timezone)
           : '',
-        comments: request.comments || '',
+        comments: request.comments ?? '',
         registrationLink: '',
         showLinks: false,
       };

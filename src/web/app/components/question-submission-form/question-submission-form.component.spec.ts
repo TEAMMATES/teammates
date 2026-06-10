@@ -13,7 +13,6 @@ import {
 } from './question-submission-form-model';
 import { QuestionSubmissionFormComponent } from './question-submission-form.component';
 import { createBuilder } from '../../../test-helpers/generic-builder';
-import { mapReplacer, mapReviver } from '../../../test-helpers/json-helpers';
 import testEventEmission from '../../../test-helpers/test-event-emitter';
 import {
   FeedbackConstantSumOptionsQuestionDetails,
@@ -266,10 +265,7 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)', () => {
-    const model: QuestionSubmissionFormModel = JSON.parse(
-      JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer),
-      mapReviver,
-    );
+    const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
     component.formModel = model;
     component.ngDoCheck();
 
@@ -277,10 +273,7 @@ describe('QuestionSubmissionFormComponent', () => {
   });
 
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)', () => {
-    const model: QuestionSubmissionFormModel = JSON.parse(
-      JSON.stringify(testNumscaleQuestionSubmissionForm, mapReplacer),
-      mapReviver,
-    );
+    const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
 
     // Change recipient list to unsorted
     model.recipientList = [

@@ -8,11 +8,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a new course for an instructor.
@@ -29,9 +29,9 @@ public class CreateCourseAction extends Action {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
         String institute = courseCreateRequest.getInstitute().trim();
-        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
+        List<Instructor> existingInstructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
         boolean canCreateCourse = existingInstructors.stream()
-                .filter(Instructor::hasCoownerPrivileges)
+                .filter(Instructor::hasCoownerRole)
                 .map(instructor -> logic.getCourse(instructor.getCourseId()))
                 .filter(Objects::nonNull)
                 .anyMatch(course -> institute.equals(course.getInstitute()));

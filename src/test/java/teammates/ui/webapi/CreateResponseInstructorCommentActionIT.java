@@ -8,12 +8,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.GroupNames;
-import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
 /**
@@ -59,7 +59,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
                 .filter(frc -> "Instructor result comment".equals(frc.getCommentText()))
                 .findFirst()
                 .orElseThrow());
-        assertEquals(instructor, comment.getGiver().getGiverUser());
+        assertEquals(instructor, comment.getGiver());
     }
 
     @Test(groups = GroupNames.INTEGRATION)

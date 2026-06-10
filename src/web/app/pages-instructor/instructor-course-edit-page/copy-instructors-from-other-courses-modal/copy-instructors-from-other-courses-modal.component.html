@@ -159,10 +159,7 @@
                             @for (instructorCandidate of course.instructorCandidates; track instructorCandidate) {
                               <tr>
                                 <td>
-                                  @if (
-                                    instructorCandidate.instructor.role ===
-                                    InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
-                                  ) {
+                                  @if (instructorCandidate.instructor.role === InstructorPermissionRole.CUSTOM) {
                                     <div
                                       class="ngb-tooltip-class"
                                       ngbTooltip="This instructor has a customised access level and cannot be copied."
@@ -170,10 +167,7 @@
                                       <input disabled type="checkbox" class="form-check-input no-shadow" />
                                     </div>
                                   }
-                                  @if (
-                                    instructorCandidate.instructor.role !==
-                                    InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
-                                  ) {
+                                  @if (instructorCandidate.instructor.role !== InstructorPermissionRole.CUSTOM) {
                                     <div>
                                       <input
                                         id="enabled-checkbox"

@@ -4,18 +4,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -80,23 +79,9 @@ public class FeedbackQuestionData implements ApiOutput {
                     feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
         }
 
-        // the visibility types are mixed in feedback participant type
-        // therefore, we convert them to visibility types
-        this.showResponsesTo = convertToFeedbackVisibilityType(feedbackQuestion.getShowResponsesTo());
-        this.showGiverNameTo = convertToFeedbackVisibilityType(feedbackQuestion.getShowGiverNameTo());
-        this.showRecipientNameTo =
-                convertToFeedbackVisibilityType(feedbackQuestion.getShowRecipientNameTo());
-
-        // specially handling for contribution questions
-        // TODO: remove the hack
-        if (this.questionType == FeedbackQuestionType.CONTRIB
-                && this.giverType == QuestionGiverType.STUDENTS
-                && this.recipientType == QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF
-                && this.showResponsesTo.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)) {
-            // remove the redundant visibility type as GIVER_TEAM_MEMBERS is just RECIPIENT_TEAM_MEMBERS
-            // contribution question keep the redundancy for legacy reason
-            this.showResponsesTo.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
-        }
+        this.showResponsesTo = feedbackQuestion.getShowResponsesTo();
+        this.showGiverNameTo = feedbackQuestion.getShowGiverNameTo();
+        this.showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
     }
 
     public FeedbackQuestionData(FeedbackQuestion feedbackQuestion, Optional<List<String>> dynamicallyGeneratedOptions) {
@@ -108,33 +93,6 @@ public class FeedbackQuestionData implements ApiOutput {
                 feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
             }
         }
-    }
-
-    /**
-     * Converts a list of feedback participant type to a list of visibility type.
-     */
-    private List<FeedbackVisibilityType> convertToFeedbackVisibilityType(
-            List<ViewerType> viewerTypes) {
-        // TODO: The conversion is missing STUDENTS_IN_SAME_SECTION.
-        // To investigate if this is required.
-        return viewerTypes.stream().map(viewerType -> {
-            switch (viewerType) {
-            case STUDENTS:
-                return FeedbackVisibilityType.STUDENTS;
-            case INSTRUCTORS:
-                return FeedbackVisibilityType.INSTRUCTORS;
-            case RECEIVER:
-                return FeedbackVisibilityType.RECIPIENT;
-            case OWN_TEAM_MEMBERS:
-                return FeedbackVisibilityType.GIVER_TEAM_MEMBERS;
-            case RECEIVER_TEAM_MEMBERS:
-                return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
-            default:
-                assert false : "Unknown viewerType " + viewerType;
-                break;
-            }
-            return null;
-        }).collect(Collectors.toList());
     }
 
     public UUID getFeedbackQuestionId() {

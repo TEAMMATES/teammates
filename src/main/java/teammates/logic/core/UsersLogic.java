@@ -17,6 +17,8 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import jakarta.annotation.Nullable;
+
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -30,6 +32,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.UsersDb;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
@@ -38,6 +41,7 @@ import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -65,6 +69,7 @@ public final class UsersLogic {
     private CoursesLogic coursesLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private UsersLogic() {
         // prevent initialization
@@ -75,10 +80,12 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
-                               FeedbackResponsesLogic feedbackResponsesLogic) {
+                               FeedbackResponsesLogic feedbackResponsesLogic,
+                               InstructorPermissionsLogic instructorPermissionsLogic) {
         this.usersDb = usersDb;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
     }
 
     /**
@@ -107,15 +114,22 @@ public final class UsersLogic {
     }
 
     /**
-     * Create an instructor.
+     * Creates an instructor with the given attributes.
      *
+     * @param account optional account to associate with the instructor at creation time
      * @return the created instructor
      * @throws InvalidParametersException   if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the
-     *                                      database.
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
-    public Instructor createInstructor(Instructor instructor)
+    public Instructor createInstructor(Course course, String name, String email,
+            boolean isDisplayedToStudents, String displayedName, InstructorPermissionRole role,
+            @Nullable Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        Instructor instructor = new Instructor(course, name, email, isDisplayedToStudents, displayedName, role);
+        if (account != null) {
+            instructor.setAccount(account);
+        }
+
         validateUser(instructor);
 
         if (getInstructorForEmail(instructor.getCourseId(), instructor.getEmail()) != null) {
@@ -126,6 +140,41 @@ public final class UsersLogic {
     }
 
     /**
+     * Creates an instructor from a create request.
+     * Handles sanitization, entity construction, and custom privilege storage.
+     *
+     * @return the created instructor
+     * @throws InvalidParametersException   if the instructor is not valid
+     * @throws EntityAlreadyExistsException if the instructor already exists
+     */
+    public Instructor createInstructor(String courseId, InstructorCreateRequest request)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        Course course = coursesLogic.getCourse(courseId);
+
+        String instrName = SanitizationHelper.sanitizeName(request.getName());
+        String instrEmail = SanitizationHelper.sanitizeEmail(request.getEmail());
+        InstructorPermissionRole role = InstructorPermissionRole.getEnum(request.getRoleName());
+
+        String instrDisplayedName = request.getDisplayName();
+        if (instrDisplayedName == null || instrDisplayedName.isEmpty()) {
+            instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
+        } else {
+            instrDisplayedName = SanitizationHelper.sanitizeName(instrDisplayedName);
+        }
+
+        Instructor createdInstructor = createInstructor(
+                course, instrName, instrEmail, request.getIsDisplayedToStudent(), instrDisplayedName, role, null);
+
+        InstructorPrivileges requestPrivileges = request.getPrivileges();
+        if (requestPrivileges != null
+                && Const.InstructorPermissionRoleNames.CUSTOM.equals(request.getRoleName())) {
+            instructorPermissionsLogic.saveInstructorPrivileges(createdInstructor, requestPrivileges);
+        }
+
+        return createdInstructor;
+    }
+
+    /**
      * Updates an instructor.
      *
      * @return updated instructor
@@ -133,22 +182,16 @@ public final class UsersLogic {
      * @throws InstructorUpdateException if the update violates instructor validity
      * @throws EntityDoesNotExistException if the instructor does not exist in the database
      */
-    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest) throws
+    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        Instructor instructor;
-        String instructorId = instructorRequest.getId();
-        if (instructorId == null) {
-            instructor = getInstructorForEmail(courseId, instructorRequest.getEmail());
-        } else {
-            instructor = getInstructorByGoogleId(courseId, instructorId);
-        }
+        Instructor instructor = getInstructor(instructorRequest.getId());
 
         if (instructor == null) {
             throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
         }
 
         verifyAtLeastOneInstructorIsDisplayed(
-                courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
+                instructor.getCourseId(), instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
 
         String newDisplayName = instructorRequest.getDisplayName();
         if (newDisplayName == null || newDisplayName.isEmpty()) {
@@ -158,7 +201,11 @@ public final class UsersLogic {
         instructor.setName(SanitizationHelper.sanitizeName(instructorRequest.getName()));
         instructor.setEmail(SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()));
         instructor.setRole(InstructorPermissionRole.getEnum(instructorRequest.getRoleName()));
-        instructor.setPrivileges(new InstructorPrivileges(instructorRequest.getRoleName()));
+        boolean isCustomRole = Const.InstructorPermissionRoleNames.CUSTOM.equals(instructorRequest.getRoleName());
+        if (isCustomRole && instructorRequest.getPrivileges() != null) {
+            instructorPermissionsLogic.saveInstructorPrivileges(instructor, instructorRequest.getPrivileges());
+        }
+
         instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
@@ -223,37 +270,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates the privileges of an instructor by user id.
-     *
-     * @return the updated instructor
-     * @throws EntityDoesNotExistException if the instructor does not exist in the database
-     */
-    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
-            throws EntityDoesNotExistException {
-        Instructor instructorToUpdate = getInstructor(userId);
-        if (instructorToUpdate == null) {
-            throw new EntityDoesNotExistException("Instructor does not exist.");
-        }
-
-        newPrivileges.validatePrivileges();
-        instructorToUpdate.setPrivileges(newPrivileges);
-        updateToEnsureValidityOfInstructorsForTheCourse(instructorToUpdate.getCourseId(), instructorToUpdate);
-
-        return instructorToUpdate;
-    }
-
-    /**
      * Gets the instructor with the specified email.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
         return usersDb.getInstructorForEmail(courseId, userEmail);
-    }
-
-    /**
-     * Gets instructors matching any of the specified emails.
-     */
-    public List<Instructor> getInstructorsForEmails(String courseId, List<String> userEmails) {
-        return usersDb.getInstructorsForEmails(courseId, userEmails);
     }
 
     /**
@@ -333,7 +353,8 @@ public final class UsersLogic {
         for (Instructor instr : instructors) {
             hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
                     && !instr.equals(instructorToDelete)
-                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                    && instructorPermissionsLogic.hasPermissions(instr,
+                            Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
 
             hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
                     || instr.isDisplayedToStudents()
@@ -347,18 +368,18 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets the list of instructors with co-owner privileges in a course.
+     * Gets the list of instructors with co-owner role in a course.
      */
     public List<Instructor> getCoOwnersForCourse(String courseId) {
         List<Instructor> instructors = getInstructorsForCourse(courseId);
-        List<Instructor> instructorsWithCoOwnerPrivileges = new ArrayList<>();
+        List<Instructor> coOwners = new ArrayList<>();
         for (Instructor instructor : instructors) {
-            if (!instructor.hasCoownerPrivileges()) {
+            if (!instructor.hasCoownerRole()) {
                 continue;
             }
-            instructorsWithCoOwnerPrivileges.add(instructor);
+            coOwners.add(instructor);
         }
-        return instructorsWithCoOwnerPrivileges;
+        return coOwners;
     }
 
     /**
@@ -392,16 +413,6 @@ public final class UsersLogic {
     public List<Instructor> getInstructorsForGoogleId(String googleId) {
         assert googleId != null;
         return usersDb.getInstructorsForGoogleId(googleId);
-    }
-
-    /**
-     * Gets a non-soft-deleted instructor with the specified email and institute.
-     */
-    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
-        assert email != null;
-        assert institute != null;
-
-        return usersDb.getInstructorByEmailAndInstitute(email, institute);
     }
 
     /**
@@ -526,11 +537,14 @@ public final class UsersLogic {
 
     /**
      * Searches for students.
-     *
-     * @param instructors the constraint that restricts the search result
      */
     public List<Student> searchStudents(String queryString, List<Instructor> instructors) {
-        return usersDb.searchStudents(queryString, instructors);
+        List<Instructor> instructorsWithViewStudentPrivilege = instructors == null ? null
+                : instructors.stream()
+                        .filter(i -> instructorPermissionsLogic.hasPermissions(
+                                i, Const.InstructorPermissions.CAN_VIEW_STUDENT))
+                        .toList();
+        return usersDb.searchStudents(queryString, instructorsWithViewStudentPrivilege);
     }
 
     /**
@@ -571,6 +585,44 @@ public final class UsersLogic {
         }
 
         return null;
+    }
+
+    /**
+     * Gets a student by associated {@code accountId} and {@code courseId}.
+     */
+    public Student getStudentByAccountId(UUID accountId, String courseId) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getStudentByAccountId(accountId, courseId);
+    }
+
+    /**
+     * Gets all students by associated {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getStudentsByAccountId(accountId);
+    }
+
+    /**
+     * Gets an instructor by associated {@code accountId} and {@code courseId}.
+     */
+    public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getInstructorByAccountId(accountId, courseId);
+    }
+
+    /**
+     * Gets all instructors by associated {@code accountId}.
+     */
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        Objects.requireNonNull(accountId);
+
+        return usersDb.getInstructorsByAccountId(accountId);
     }
 
     /**
@@ -655,16 +707,17 @@ public final class UsersLogic {
      * If there are none, the instructor currently being edited will be granted the privilege
      * of modifying instructors automatically.
      *
-     * @param courseId         Id of the course.
      * @param instructorToEdit Instructor that will be edited.
      *                         This may be modified within the method.
      */
-    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
+    public void updateToEnsureValidityOfInstructorsForTheCourse(Instructor instructorToEdit) {
+        String courseId = instructorToEdit.getCourseId();
         List<Instructor> instructors = getInstructorsForCourse(courseId);
         int numOfInstrCanModifyInstructor = 0;
         Instructor instrWithModifyInstructorPrivilege = null;
         for (Instructor instructor : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+            if (instructorPermissionsLogic.hasPermissions(instructor,
+                    Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 numOfInstrCanModifyInstructor++;
                 instrWithModifyInstructorPrivilege = instructor;
             }
@@ -675,7 +728,9 @@ public final class UsersLogic {
                 || instrWithModifyInstructorPrivilege.getGoogleId()
                 .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+            InstructorPrivileges privileges = instructorPermissionsLogic.getInstructorPrivileges(instructorToEdit);
+            privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+            instructorPermissionsLogic.saveInstructorPrivileges(instructorToEdit, privileges);
         }
     }
 

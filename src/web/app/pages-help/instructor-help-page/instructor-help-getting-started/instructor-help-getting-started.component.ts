@@ -48,8 +48,8 @@ export class InstructorHelpGettingStartedComponent {
     while (r.firstChild) {
       r = r.firstChild;
     }
-    r.data.subscribe((resp: any) => {
-      this.instructorHelpPath = resp.instructorHelpPath;
+    r.data.subscribe((resp) => {
+      this.instructorHelpPath = resp['instructorHelpPath'];
     });
   }
 

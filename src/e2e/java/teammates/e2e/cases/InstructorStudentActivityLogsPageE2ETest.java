@@ -69,7 +69,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify logs output");
         logout();
         AppUrl studentSubmissionPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withFeedbackSessionId(feedbackSession.getId().toString());
+                .withFeedbackSessionId(feedbackSession.getId());
         FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
                 FeedbackSubmitPage.class, student.getGoogleId());
 

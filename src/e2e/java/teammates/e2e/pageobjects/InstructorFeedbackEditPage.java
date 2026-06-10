@@ -18,7 +18,6 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
@@ -31,6 +30,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetail
 import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -354,87 +354,87 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
-        List<ViewerType> showResponsesTo = feedbackQuestion.getShowResponsesTo();
-        List<ViewerType> showGiverNameTo = feedbackQuestion.getShowGiverNameTo();
-        List<ViewerType> showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
+        List<FeedbackVisibilityType> showResponsesTo = feedbackQuestion.getShowResponsesTo();
+        List<FeedbackVisibilityType> showGiverNameTo = feedbackQuestion.getShowGiverNameTo();
+        List<FeedbackVisibilityType> showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
 
         switch (visibility) {
         case "Shown anonymously to recipient and giver's team members, visible to instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertTrue(showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.RECIPIENT));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS));
             assertEquals(showResponsesTo.size(), 3);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
             assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Visible to instructors only":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.INSTRUCTORS));
             assertEquals(showResponsesTo.size(), 1);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
             assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
             assertEquals(showRecipientNameTo.size(), 1);
             break;
 
         case "Shown anonymously to recipient and instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showResponsesTo.size(), 2);
 
             assertEquals(showGiverNameTo.size(), 0);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Shown anonymously to recipient, visible to instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showResponsesTo.size(), 2);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
             assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Shown anonymously to recipient and giver/recipient's team members, visible to instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertTrue(showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER_TEAM_MEMBERS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.RECIPIENT));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS));
             assertEquals(showResponsesTo.size(), 4);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
             assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Visible to recipient and instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showResponsesTo.size(), 2);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showGiverNameTo.contains(ViewerType.RECEIVER));
+            assertTrue(showGiverNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showGiverNameTo.size(), 2);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackVisibilityType.RECIPIENT));
             assertEquals(showRecipientNameTo.size(), 2);
             break;
 
@@ -459,27 +459,27 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void assertVisibilityBoxesSelected(WebElement table, QuestionGiverType giver,
-                                               QuestionRecipientType receiver, List<ViewerType> participants,
+                                               QuestionRecipientType receiver, List<FeedbackVisibilityType> participants,
                                                int colNum) {
-        List<ViewerType> possibleTypes = new ArrayList<>(Arrays.asList(ViewerType.RECEIVER,
-                ViewerType.OWN_TEAM_MEMBERS, ViewerType.RECEIVER_TEAM_MEMBERS,
-                ViewerType.STUDENTS, ViewerType.INSTRUCTORS));
+        List<FeedbackVisibilityType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
+                FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS));
         if (giver != QuestionGiverType.STUDENTS) {
-            possibleTypes.remove(ViewerType.OWN_TEAM_MEMBERS);
+            possibleTypes.remove(FeedbackVisibilityType.GIVER_TEAM_MEMBERS);
         }
         if (receiver != QuestionRecipientType.STUDENTS) {
-            possibleTypes.remove(ViewerType.RECEIVER_TEAM_MEMBERS);
+            possibleTypes.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         }
         if (receiver == QuestionRecipientType.NONE
                 || receiver == QuestionRecipientType.SELF
                 || receiver == QuestionRecipientType.OWN_TEAM) {
-            possibleTypes.remove(ViewerType.RECEIVER);
-            possibleTypes.remove(ViewerType.RECEIVER_TEAM_MEMBERS);
+            possibleTypes.remove(FeedbackVisibilityType.RECIPIENT);
+            possibleTypes.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         }
 
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
-        for (ViewerType participant : participants) {
+        for (FeedbackVisibilityType participant : participants) {
             assertTrue(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index)
                     .isSelected());
         }
@@ -1120,27 +1120,27 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void selectVisibilityBoxes(WebElement table, QuestionGiverType giver,
-                                       QuestionRecipientType receiver, List<ViewerType> participants,
+                                       QuestionRecipientType receiver, List<FeedbackVisibilityType> participants,
                                        int colNum) {
-        List<ViewerType> possibleTypes = new ArrayList<>(Arrays.asList(ViewerType.RECEIVER,
-                ViewerType.OWN_TEAM_MEMBERS, ViewerType.RECEIVER_TEAM_MEMBERS,
-                ViewerType.STUDENTS, ViewerType.INSTRUCTORS));
+        List<FeedbackVisibilityType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
+                FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+                FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS));
         if (giver != QuestionGiverType.STUDENTS) {
-            possibleTypes.remove(ViewerType.OWN_TEAM_MEMBERS);
+            possibleTypes.remove(FeedbackVisibilityType.GIVER_TEAM_MEMBERS);
         }
-        if (receiver != QuestionRecipientType.STUDENTS_EXCLUDING_SELF) {
-            possibleTypes.remove(ViewerType.RECEIVER_TEAM_MEMBERS);
+        if (receiver != QuestionRecipientType.STUDENTS) {
+            possibleTypes.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         }
         if (receiver == QuestionRecipientType.NONE
                 || receiver == QuestionRecipientType.SELF
                 || receiver == QuestionRecipientType.OWN_TEAM) {
-            possibleTypes.remove(ViewerType.RECEIVER);
-            possibleTypes.remove(ViewerType.RECEIVER_TEAM_MEMBERS);
+            possibleTypes.remove(FeedbackVisibilityType.RECIPIENT);
+            possibleTypes.remove(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         }
 
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
-        for (ViewerType participant : participants) {
+        for (FeedbackVisibilityType participant : participants) {
             markOptionAsSelected(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
     }

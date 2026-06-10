@@ -9,6 +9,7 @@ import java.util.Arrays;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link StudentsEnrollRequest}.

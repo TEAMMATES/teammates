@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
@@ -15,9 +15,10 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
-  Course,
+  CourseView,
   DeadlineExtensions,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
@@ -117,10 +118,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
-      this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
-      this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
+      this.isAllYetToSubmitInstructorsSelected = queryParams['preselectnonsubmitters'] === 'true';
+      this.isAllYetToSubmitStudentsSelected = queryParams['preselectnonsubmitters'] === 'true';
       this.loadFeedbackSessionAndIndividuals();
     });
   }
@@ -142,7 +143,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         intent: Intent.FULL_DETAIL,
       })
       .pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
+        switchMap((feedbackSessionView: FeedbackSessionView) => {
+          const feedbackSession = feedbackSessionView.feedbackSession;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.courseId = feedbackSession.courseId;
           this.setFeedbackSessionDetails(feedbackSession);
@@ -159,8 +161,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         }),
       )
       .subscribe({
-        next: ([course, deadlineExtensions]: [Course, DeadlineExtensions]) => {
-          this.courseName = course.courseName;
+        next: ([courseView, deadlineExtensions]: [CourseView, DeadlineExtensions]) => {
+          this.courseName = courseView.course.courseName;
           this.userDeadlines = deadlineExtensions.userDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
@@ -642,8 +644,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
           strB = b.email;
           break;
         case SortBy.INSTRUCTOR_PERMISSION_ROLE:
-          strA = a.role || '';
-          strB = b.role || '';
+          strA = a.role ?? '';
+          strB = b.role ?? '';
           break;
         case SortBy.SESSION_END_DATE:
           strA = a.extensionDeadline.toString();

@@ -28,11 +28,11 @@ export enum ApiStringConst {
 }
 
 export enum DefaultInstructorPermissions {
-  COOWNER = "{\"canModifyCourse\":true,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewStudentInSections\":true,\"canViewSessionInSections\":true,\"canSubmitSessionInSections\":true,\"canModifySessionCommentsInSections\":true}",
-  MANAGER = "{\"canModifyCourse\":false,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewStudentInSections\":true,\"canViewSessionInSections\":true,\"canSubmitSessionInSections\":true,\"canModifySessionCommentsInSections\":true}",
-  OBSERVER = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewStudentInSections\":true,\"canViewSessionInSections\":true,\"canSubmitSessionInSections\":false,\"canModifySessionCommentsInSections\":false}",
-  TUTOR = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewStudentInSections\":true,\"canViewSessionInSections\":true,\"canSubmitSessionInSections\":true,\"canModifySessionCommentsInSections\":false}",
-  CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewStudentInSections\":false,\"canViewSessionInSections\":false,\"canSubmitSessionInSections\":false,\"canModifySessionCommentsInSections\":false}",
+  COOWNER = "{\"canModifyCourse\":true,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":true}",
+  MANAGER = "{\"canModifyCourse\":false,\"canModifyInstructor\":true,\"canModifySession\":true,\"canModifyStudent\":true,\"canViewStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":true}",
+  OBSERVER = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewStudent\":true,\"canViewSession\":true,\"canSubmitSession\":false,\"canModifySessionComments\":false}",
+  TUTOR = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewStudent\":true,\"canViewSession\":true,\"canSubmitSession\":true,\"canModifySessionComments\":false}",
+  CUSTOM = "{\"canModifyCourse\":false,\"canModifyInstructor\":false,\"canModifySession\":false,\"canModifyStudent\":false,\"canViewStudent\":false,\"canViewSession\":false,\"canSubmitSession\":false,\"canModifySessionComments\":false}",
 }
 
 export enum QuestionTypeStructures {
@@ -74,6 +74,7 @@ export enum ResourceEndpoints {
   BIN_COURSE = "/webapi/bin/course",
   COURSE_SECTIONS = "/webapi/course/sections",
   COURSES = "/webapi/courses",
+  DEMO_COURSE = "/webapi/demo/course",
   INSTRUCTORS = "/webapi/instructors",
   INSTRUCTOR = "/webapi/instructor",
   INSTRUCTOR_PRIVILEGE = "/webapi/instructor/privilege",

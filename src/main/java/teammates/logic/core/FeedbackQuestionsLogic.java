@@ -18,11 +18,11 @@ import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle.QuestionSubmissionBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -39,6 +39,7 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
@@ -59,6 +60,7 @@ public final class FeedbackQuestionsLogic {
     private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
     private FeedbackSessionsLogic feedbackSessionsLogic;
+    private InstructorPermissionsLogic instructorPermissionsLogic;
 
     private FeedbackQuestionsLogic() {
         // prevent initialization
@@ -69,12 +71,54 @@ public final class FeedbackQuestionsLogic {
     }
 
     void initLogicDependencies(FeedbackQuestionsDb fqDb, CoursesLogic coursesLogic, FeedbackResponsesLogic frLogic,
-                               UsersLogic usersLogic, FeedbackSessionsLogic feedbackSessionsLogic) {
+                               UsersLogic usersLogic, FeedbackSessionsLogic feedbackSessionsLogic,
+                               InstructorPermissionsLogic instructorPermissionsLogic) {
         this.fqDb = fqDb;
         this.coursesLogic = coursesLogic;
         this.frLogic = frLogic;
         this.usersLogic = usersLogic;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
+        this.instructorPermissionsLogic = instructorPermissionsLogic;
+    }
+
+    /**
+     * Creates a feedback question from a create request.
+     *
+     * @return the created feedback question
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException if the question is invalid
+     */
+    public FeedbackQuestion createFeedbackQuestion(UUID feedbackSessionId, FeedbackQuestionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
+        FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
+                createRequest.getQuestionNumber(),
+                createRequest.getQuestionDescription(),
+                createRequest.getGiverType(),
+                createRequest.getRecipientType(),
+                createRequest.getNumberOfEntitiesToGiveFeedbackTo(),
+                createRequest.getShowResponsesTo(),
+                createRequest.getShowGiverNameTo(),
+                createRequest.getShowRecipientNameTo(),
+                createRequest.getQuestionDetails()
+        );
+        feedbackSession.addFeedbackQuestion(feedbackQuestion);
+
+        String err = feedbackQuestion.getQuestionDetailsCopy().validateGiverRecipientVisibility(feedbackQuestion);
+        if (!err.isEmpty()) {
+            throw new InvalidParametersException(err);
+        }
+        List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetailsCopy().validateQuestionDetails();
+        if (!questionDetailsErrors.isEmpty()) {
+            throw new InvalidParametersException(questionDetailsErrors.toString());
+        }
+
+        validateFeedbackQuestion(feedbackQuestion);
+        return fqDb.persistFeedbackQuestion(feedbackQuestion);
     }
 
     /**
@@ -251,9 +295,9 @@ public final class FeedbackQuestionsLogic {
     }
 
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
-        return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
-                && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
-                && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+        return feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                && feedbackQuestion.getShowGiverNameTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                && feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
     }
 
     private void normalizeQuestionNumbers(List<QuestionSubmissionBundle> questionSubmissionBundles) {
@@ -592,9 +636,9 @@ public final class FeedbackQuestionsLogic {
                 // based on instructor permissions
                 boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
-                        && !instructor.isAllowedForPrivilege(
-                        student.getSectionName(), question.getFeedbackSession().getName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                        && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                                instructor, student.getSectionId(), question.getFeedbackSession().getId(),
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
                 if (shouldExcludeStudentForInstructor || shouldExcludeStudent) {
                     continue;
                 }
@@ -617,7 +661,7 @@ public final class FeedbackQuestionsLogic {
 
             return instructorRecipients;
         case TEAMS, TEAMS_EXCLUDING_SELF, TEAMS_IN_SAME_SECTION:
-            Collection<Team> teams = courseRoster.getTeamIdToTeam().values();
+            Collection<Team> teams = courseRoster.getTeams();
 
             Team giverTeamToExclude = null;
             if (generateOptionsFor != QuestionRecipientType.TEAMS) {
@@ -649,9 +693,9 @@ public final class FeedbackQuestionsLogic {
                 // based on instructor permissions
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
-                        && !instructor.isAllowedForPrivilege(
-                        team.getSection().getName(), question.getFeedbackSession().getName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                        && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                                instructor, team.getSection().getId(), question.getFeedbackSession().getId(),
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
 
                 if (shouldExcludeTeamForInstructor || shouldExcludeTeam) {
                     continue;
@@ -668,16 +712,14 @@ public final class FeedbackQuestionsLogic {
 
             return Set.of();
         case OWN_TEAM_MEMBERS:
-            String teamName = responseGiver.getTeamName();
-            List<Student> teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+            List<Student> teamMembers = courseRoster.getTeamMembers(responseGiver.getTeamId());
 
             return teamMembers.stream()
                     .filter(student -> !Objects.equals(student, responseGiver.getGiverUser()))
                     .map(ResponseRecipient::new)
                     .collect(Collectors.toSet());
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            teamName = responseGiver.getTeamName();
-            teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+            teamMembers = courseRoster.getTeamMembers(responseGiver.getTeamId());
 
             return teamMembers.stream()
                     .map(ResponseRecipient::new)
@@ -814,7 +856,7 @@ public final class FeedbackQuestionsLogic {
                     .toList();
             break;
         case TEAMS:
-            possibleGivers = courseRoster.getTeamIdToTeam().values()
+            possibleGivers = courseRoster.getTeams()
                     .stream()
                     .map(ResponseGiver::new)
                     .toList();

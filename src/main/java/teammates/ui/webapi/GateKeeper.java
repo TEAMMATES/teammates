@@ -1,13 +1,14 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.AuthContext;
-import teammates.common.util.Const;
-import teammates.storage.entity.Account;
-import teammates.storage.entity.Course;
+import java.util.UUID;
+
+import teammates.common.datatransfer.RequestContext;
+import teammates.logic.api.Logic;
+import teammates.logic.core.AuthLogic;
+import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
-import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -17,6 +18,11 @@ import teammates.ui.exception.UnauthorizedAccessException;
 final class GateKeeper {
 
     private static final GateKeeper instance = new GateKeeper();
+
+    // TODO: refactor to remove direct dependency on logic classes and instead call the logic facade.
+    private final UsersLogic usersLogic = UsersLogic.inst();
+    private final AuthLogic authLogic = AuthLogic.inst();
+    private final Logic logic = Logic.inst();
 
     private GateKeeper() {
         // prevent initialization
@@ -29,16 +35,19 @@ final class GateKeeper {
     /**
      * Verifies the user is logged in.
      */
-    void verifyLoggedInUserPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext.account() != null) {
+    void verifyLoggedInUserPrivileges(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.getAccount() != null) {
             return;
         }
 
         throw new UnauthorizedAccessException("User is not logged in");
     }
 
-    void verifyAdminPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+    /**
+     * Verifies that the user has admin privileges.
+     */
+    void verifyAdminPrivileges(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -46,10 +55,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified account has student privileges in any course.
+     * Verifies that the user has student privileges in any course.
      */
-    void verifyStudentInAnyCourse(Account account) throws UnauthorizedAccessException {
-        if (account != null && account.getStudents() != null && !account.getStudents().isEmpty()) {
+    void verifyStudentInAnyCourse(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.getAccount() != null
+                && !usersLogic.getStudentsByAccountId(requestContext.getAccount().getId()).isEmpty()) {
             return;
         }
 
@@ -57,10 +67,11 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified account has instructor privileges in any course.
+     * Verifies that the user has instructor privileges in any course.
      */
-    void verifyInstructorInAnyCourse(Account account) throws UnauthorizedAccessException {
-        if (account != null && account.getInstructors() != null && !account.getInstructors().isEmpty()) {
+    void verifyInstructorInAnyCourse(RequestContext requestContext) throws UnauthorizedAccessException {
+        if (requestContext.getAccount() != null
+                && !usersLogic.getInstructorsByAccountId(requestContext.getAccount().getId()).isEmpty()) {
             return;
         }
 
@@ -68,176 +79,134 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the specified student can access the specified course.
+     * Verifies that the user has student privileges in the specified course.
      */
-    void verifyAccessible(Student student, Course course) throws UnauthorizedAccessException {
+    void verifyStudentInCourse(RequestContext requestContext, String courseId) throws UnauthorizedAccessException {
+        Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
         verifyNotNull(student, "student");
-        verifyNotNull(course, "course");
 
-        if (!course.equals(student.getCourse())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
+        if (!student.getCourseId().equals(courseId)) {
+            throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to student ["
                     + student.getEmail() + "]");
         }
     }
 
     /**
-     * Verifies that the specified student can access the specified feedback session.
+     * Verifies that the user has instructor privileges in the specified course.
      */
-    void verifyAccessible(Student student, FeedbackSession feedbackSession)
+    void verifyInstructorInCourse(RequestContext requestContext, String courseId)
             throws UnauthorizedAccessException {
-        verifyNotNull(student, "student");
-        verifyNotNull(student.getCourse(), "student's course");
-        verifyNotNull(feedbackSession, "feedback session");
-        verifyNotNull(feedbackSession.getCourse(), "feedback session's course");
-
-        if (!student.getCourse().equals(feedbackSession.getCourse())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to student [" + student.getEmail() + "]");
-        }
-
-        if (!feedbackSession.isVisible()) {
-            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
-        }
-    }
-
-    /**
-     * Verifies that the specified instructor can access the specified course.
-     */
-    void verifyAccessible(Instructor instructor, Course course)
-            throws UnauthorizedAccessException {
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
         verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.getCourse(), "instructor's course");
-        verifyNotNull(course, "course");
 
-        if (!course.equals(instructor.getCourse())) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
+        if (!instructor.getCourseId().equals(courseId)) {
+            throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to instructor ["
                     + instructor.getEmail() + "]");
         }
     }
 
     /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName.
+     * Verifies that the user has student privileges in the course of the specified feedback session.
      */
-    void verifyAccessible(Instructor instructor, Course course, String privilegeName)
+    void verifyStudentInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId)
             throws UnauthorizedAccessException {
-        verifyAccessible(instructor, course);
-
-        boolean instructorIsAllowedCoursePrivilege = instructor.isAllowedForPrivilege(privilegeName);
-        boolean instructorIsAllowedSectionPrivilege = !instructor.getSectionsWithPrivilege(privilegeName).isEmpty();
-        if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.getEmail() + "] for privilege [" + privilegeName + "]");
-        }
-    }
-
-    /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName for sectionName.
-     */
-    void verifyAccessible(Instructor instructor, Course course, String sectionName, String privilegeName)
-            throws UnauthorizedAccessException {
-        verifyAccessible(instructor, course);
-
-        verifyNotNull(sectionName, "section name");
-
-        if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to instructor ["
-                                                  + instructor.getEmail() + "] for privilege [" + privilegeName
-                                                  + "] on section [" + sectionName + "]");
-        }
-    }
-
-    /**
-     * Verifies that the specified instructor can access the specified feedback session.
-     */
-    void verifyAccessible(Instructor instructor, FeedbackSession feedbackSession)
-            throws UnauthorizedAccessException {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.getCourse(), "instructor's course");
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         verifyNotNull(feedbackSession, "feedback session");
-        verifyNotNull(feedbackSession.getCourse(), "feedback session's course");
+        verifyStudentInCourse(requestContext, feedbackSession.getCourseId());
+    }
 
-        if (!instructor.getCourse().equals(feedbackSession.getCourse())) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail() + "]");
+    /**
+     * Verifies that the user has instructor privileges in the course of the specified feedback session.
+     */
+    void verifyInstructorInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyInstructorInCourse(requestContext, feedbackSession.getCourseId());
+    }
+
+    /**
+     * Verifies that the user has instructor privileges in the course of the specified feedback question.
+     */
+    void verifyInstructorInFeedbackQuestion(RequestContext requestContext, UUID feedbackQuestionId)
+            throws UnauthorizedAccessException {
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        verifyNotNull(feedbackQuestion, "feedback question");
+        verifyInstructorInCourse(requestContext, feedbackQuestion.getCourseId());
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames for the course
+     * of the specified feedback session.
+     */
+    void verifyInstructorHasPrivilegeInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(), privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames for the course
+     * of the specified feedback question.
+     */
+    void verifyInstructorHasPrivilegeInFeedbackQuestion(RequestContext requestContext, UUID feedbackQuestionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        verifyNotNull(feedbackQuestion, "feedback question");
+        verifyInstructorHasPrivilege(requestContext, feedbackQuestion.getCourseId(), privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor for the specified course has the privileges specified by privilegeNames.
+     */
+    void verifyInstructorHasPrivilege(RequestContext requestContext, String courseId, String... privilegeNames)
+            throws UnauthorizedAccessException {
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        verifyInstructorHasPrivilege(instructor, privilegeNames);
+    }
+
+    /**
+     * Verifies the instructor has the privileges specified by privilegeNames.
+     */
+    void verifyInstructorHasPrivilege(Instructor instructor, String... privilegeNames)
+            throws UnauthorizedAccessException {
+        for (String privilegeName : privilegeNames) {
+            boolean instructorIsAllowedCoursePrivilege =
+                    instructor != null && logic.hasInstructorPermissions(instructor, privilegeName);
+            boolean instructorIsAllowedSectionPrivilege =
+                    instructor != null
+                            && !logic.getSectionsWithInstructorPermission(instructor, privilegeName).isEmpty();
+            if (!instructorIsAllowedCoursePrivilege && !instructorIsAllowedSectionPrivilege) {
+                throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName + "]");
+            }
         }
     }
 
     /**
-     * Verifies the instructor and course are not null, the instructor belongs to
-     * the course and the instructor has the privilege specified by
-     * privilegeName for feedbackSession.
+     * Verifies the instructor for the specified course has the privileges specified by privilegeNames for sectionId.
      */
-    void verifyAccessible(Instructor instructor, FeedbackSession feedbacksession, String privilegeName)
-            throws UnauthorizedAccessException {
-        verifyAccessible(instructor, feedbacksession);
-
-        if (!instructor.isAllowedForPrivilege(privilegeName)
-                && !instructor.isAllowedForPrivilegeAnySection(feedbacksession.getName(), privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail()
-                                                  + "] for privilege [" + privilegeName + "]");
-        }
+    void verifyInstructorHasPrivilegeForSection(RequestContext requestContext, String courseId, UUID sectionId,
+            String... privilegeNames) throws UnauthorizedAccessException {
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        verifyInstructorHasPrivilegeForSection(instructor, sectionId, privilegeNames);
     }
 
     /**
-     * Verifies that the specified instructor has specified privilege for a section in the specified feedback session.
+     * Verifies the instructor has the privileges specified by privilegeNames for sectionId.
      */
-    void verifyAccessible(Instructor instructor, FeedbackSession feedbackSession, String sectionName, String privilegeName)
+    void verifyInstructorHasPrivilegeForSection(Instructor instructor, UUID sectionId, String... privilegeNames)
             throws UnauthorizedAccessException {
-        verifyAccessible(instructor, feedbackSession);
+        verifyNotNull(sectionId, "section ID");
 
-        if (!instructor.isAllowedForPrivilege(sectionName, feedbackSession.getName(), privilegeName)) {
-            throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getName()
-                                                  + "] is not accessible to instructor [" + instructor.getEmail()
-                                                  + "] for privilege [" + privilegeName + "] on section ["
-                                                  + sectionName + "]");
+        for (String privilegeName : privilegeNames) {
+            if (instructor == null
+                    || !logic.hasInstructorPermissionsForSection(instructor, sectionId, privilegeName)) {
+                throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName
+                                                      + "] on section [" + sectionId + "]");
+            }
         }
     }
-
-    /**
-     * Verifies that an instructor has submission privilege for a feedback session.
-     */
-    void verifySessionSubmissionPrivilegeForInstructor(FeedbackSession session, Instructor instructor)
-            throws UnauthorizedAccessException {
-        verifyNotNull(session, "feedback session");
-        verifyNotNull(instructor, "instructor");
-
-        boolean shouldEnableSubmit =
-                instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-
-        if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getName(),
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
-            shouldEnableSubmit = true;
-        }
-
-        if (!shouldEnableSubmit) {
-            throw new UnauthorizedAccessException("You don't have submission privilege");
-        }
-    }
-
-    /**
-     * Verifies that comment is created by feedback participant.
-     *
-     * @param frc comment to be accessed
-     * @param participant the response giver who is trying to access the comment
-     */
-    void verifyOwnership(ResponseInstructorComment frc, ResponseGiver participant)
-            throws UnauthorizedAccessException {
-        verifyNotNull(frc, "feedback response comment");
-        verifyNotNull(frc.getGiver(), "feedback response comment giver");
-        verifyNotNull(participant, "comment giver");
-
-        if (!frc.getGiver().equals(participant)) {
-            throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
-                    + participant);
-        }
-    }
-
-    // These methods ensures that the nominal user specified can perform the specified action on a given entity.
 
     private void verifyNotNull(Object object, String typeName)
             throws UnauthorizedAccessException {

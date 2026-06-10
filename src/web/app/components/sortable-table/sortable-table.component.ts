@@ -54,12 +54,12 @@ export type SortableEvent = {
  * 3. value
  */
 export interface SortableTableCellData {
-  value?: any; // Optional value used for sorting with sortBy provided in ColumnData
+  value?: unknown; // Optional value used for sorting with sortBy provided in ColumnData
   displayValue?: string; // Raw string to be display in the cell
   style?: string; // Optional value used to set style of data
   customComponent?: {
-    component: Type<any>;
-    componentData: (idx: number) => Record<string, any>; // @Input values for component
+    component: Type<unknown>;
+    componentData: (idx: number) => Record<string, unknown>; // @Input values for component
     componentOutputs?: (idx: number) => OutputsType; // @Output handlers for component
   };
 }
@@ -214,7 +214,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   getAlignment(column: ColumnData): { 'text-align': ColumnData['alignment'] } {
     return {
-      'text-align': `${column?.alignment || 'start'}`,
+      'text-align': `${column?.alignment ?? 'start'}`,
     };
   }
 

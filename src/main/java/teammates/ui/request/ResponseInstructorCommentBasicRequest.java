@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
-import teammates.ui.output.CommentVisibilityType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The basic request of modifying a feedback response comment.
@@ -36,38 +36,11 @@ class ResponseInstructorCommentBasicRequest extends BasicRequest {
         return commentText;
     }
 
-    public List<ViewerType> getShowCommentTo() {
-        return convertToViewerType(showCommentTo);
+    public List<CommentVisibilityType> getShowCommentTo() {
+        return showCommentTo;
     }
 
-    public List<ViewerType> getShowGiverNameTo() {
-        return convertToViewerType(showGiverNameTo);
-    }
-
-    /**
-     * Converts a list of comment visibility type to a list of feedback participant type.
-     */
-    private List<ViewerType> convertToViewerType(
-            List<CommentVisibilityType> commentVisibilityTypes) {
-        return commentVisibilityTypes.stream().map(commentVisibilityType -> {
-            switch (commentVisibilityType) {
-            case GIVER:
-                return ViewerType.GIVER;
-            case RECIPIENT:
-                return ViewerType.RECEIVER;
-            case GIVER_TEAM_MEMBERS:
-                return ViewerType.OWN_TEAM_MEMBERS;
-            case RECIPIENT_TEAM_MEMBERS:
-                return ViewerType.RECEIVER_TEAM_MEMBERS;
-            case STUDENTS:
-                return ViewerType.STUDENTS;
-            case INSTRUCTORS:
-                return ViewerType.INSTRUCTORS;
-            default:
-                assert false : "Unknown commentVisibilityType " + commentVisibilityType;
-                break;
-            }
-            return null;
-        }).toList();
+    public List<CommentVisibilityType> getShowGiverNameTo() {
+        return showGiverNameTo;
     }
 }

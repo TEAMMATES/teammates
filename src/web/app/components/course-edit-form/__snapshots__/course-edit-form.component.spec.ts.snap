@@ -19,8 +19,8 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode and is display o
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Mock]}
-  timezoneService={[Function Mock]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -240,8 +240,8 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode with default fie
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Mock]}
-  timezoneService={[Function Mock]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -465,8 +465,8 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode and is display 
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Mock]}
-  timezoneService={[Function Mock]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -681,8 +681,8 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode with default fi
   ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function Mock]}
-  timezoneService={[Function Mock]}
+  statusMessageService={[Function Object]}
+  timezoneService={[Function Object]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div

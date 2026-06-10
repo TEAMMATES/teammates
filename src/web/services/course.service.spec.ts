@@ -3,16 +3,16 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
 import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 describe('CourseService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: CourseService;
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
@@ -160,5 +160,25 @@ describe('CourseService', () => {
     };
     service.getCourseSections(paramMap['courseid']);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
+  });
+
+  it('should execute POST on demo course endpoint with timezone string', () => {
+    const testKey = 'testKey';
+    const testTimezone = 'UTC';
+    const paramMap: Record<string, string> = {
+      key: testKey,
+      timezone: testTimezone,
+    };
+    service.createDemoCourse(testKey, testTimezone);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.DEMO_COURSE, paramMap);
+  });
+
+  it('should execute POST on demo course endpoint with empty timezone string', () => {
+    const testKey = 'testKey';
+    const paramMap: Record<string, string> = {
+      key: testKey,
+    };
+    service.createDemoCourse(testKey, '');
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.DEMO_COURSE, paramMap);
   });
 });

@@ -205,7 +205,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     fixture.detectChanges();
 
     const questions: FeedbackQuestion[] = component.getSelectedQuestions();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
 
     expect(component.hasAnyQuestionsToCopySelected).toBeFalsy();
     expect(questions.length).toBe(0);
@@ -228,7 +228,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
       expect(questions[2].feedbackQuestionId).toBe(testFeedbackQuestion3.feedbackQuestionId);
     });
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-question');
 
     expect(component.hasAnyQuestionsToCopySelected).toBeTruthy();
     expect(button.disabled).toBeFalsy();

@@ -36,7 +36,7 @@ describe('McqQuestionEditDetailsFormComponent', () => {
   });
 
   it('should be false by default when checkbox to show options as a drop-down is unchecked', () => {
-    const dropDownCheckBoxNe: any = fixture.debugElement.nativeElement.querySelector('#make-question-dropdown');
+    const dropDownCheckBoxNe = fixture.debugElement.nativeElement.querySelector('#make-question-dropdown');
 
     expect(component.model.questionDropdownEnabled).toBeFalsy();
     expect(dropDownCheckBoxNe.checked).toBeFalsy();

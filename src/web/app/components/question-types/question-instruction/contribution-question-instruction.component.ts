@@ -22,7 +22,7 @@ export class ContributionQuestionInstructionComponent {
   @Input()
   numOfRecipients = 0;
 
-  openHelpModal(modal: TemplateRef<any>): void {
+  openHelpModal(modal: TemplateRef<void>): void {
     const modalHeader = 'More info about the <code>Equal Share</code> scale';
     this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, modal);
   }

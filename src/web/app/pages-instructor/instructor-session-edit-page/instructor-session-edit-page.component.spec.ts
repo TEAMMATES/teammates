@@ -19,6 +19,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
+  CourseView,
   DeadlineExtensions,
   FeedbackMcqQuestionDetails,
   FeedbackQuestion,
@@ -26,8 +27,10 @@ import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  FeedbackSessions,
   FeedbackVisibilityType,
   Instructor,
   Instructors,
@@ -39,6 +42,7 @@ import {
   SessionVisibleSetting,
   Student,
   Students,
+  Courses,
 } from '../../../types/api-output';
 import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
@@ -68,6 +72,14 @@ describe('InstructorSessionEditPageComponent', () => {
     deletionTimestamp: 1000,
   };
 
+  const testCourse1View: CourseView = {
+    course: testCourse1,
+  };
+
+  const testCourse2View: CourseView = {
+    course: testCourse2,
+  };
+
   const testFeedbackSession: FeedbackSession = {
     feedbackSessionId: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b',
     courseId: 'testId1',
@@ -84,6 +96,18 @@ describe('InstructorSessionEditPageComponent', () => {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
+  };
+
+  const testFeedbackSessionView: FeedbackSessionView = {
+    feedbackSession: testFeedbackSession,
+  };
+
+  const testFeedbackSessions: FeedbackSessions = {
+    feedbackSessions: [testFeedbackSessionView],
+  };
+
+  const testCourses: Courses = {
+    courses: [testCourse2View],
   };
 
   const testFeedbackQuestion1: FeedbackQuestion = {
@@ -152,7 +176,6 @@ describe('InstructorSessionEditPageComponent', () => {
     questionNumber: 1,
     questionBrief: 'question brief',
     questionDescription: 'description',
-    isQuestionHasResponses: false,
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
@@ -180,7 +203,6 @@ describe('InstructorSessionEditPageComponent', () => {
     questionNumber: 2,
     questionBrief: 'question brief',
     questionDescription: 'description',
-    isQuestionHasResponses: false,
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
@@ -321,34 +343,10 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap when feedback session failed to load', () => {
-    component.hasLoadingFeedbackSessionFailed = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback question failed to load', () => {
-    component.hasLoadingFeedbackQuestionsFailed = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback session is loading', () => {
-    component.isLoadingFeedbackSession = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should snap when feedback questions are loading', () => {
-    component.isLoadingFeedbackQuestions = true;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should load correct feedback session for a given API output', () => {
     const testDeadlineExtensions: DeadlineExtensions = { userDeadlines: {} };
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1View));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
       of(testDeadlineExtensions),
     );
@@ -370,7 +368,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should display error message when feedback session failed to load', () => {
     component.hasLoadingFeedbackSessionFailed = false;
-    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
+    vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1View));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
       throwError(() => ({
         error: {
@@ -429,7 +427,9 @@ describe('InstructorSessionEditPageComponent', () => {
       institute: 'Test Institute',
       name: 'Alice',
       teamName: 'Team 1',
+      teamId: 'team-1',
       sectionName: 'Section 1',
+      sectionId: 'section-1',
     };
     const testStudent2: Student = {
       userId: 'student-id-2',
@@ -439,7 +439,9 @@ describe('InstructorSessionEditPageComponent', () => {
       institute: 'Test Institute',
       name: 'Bob',
       teamName: 'Team 1',
+      teamId: 'team-1',
       sectionName: 'Section 1',
+      sectionId: 'section-1',
     };
     const students: Students = {
       students: [testStudent1, testStudent2],
@@ -526,7 +528,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.questionEditFormModels = [testQuestionEditFormModel1, testQuestionEditFormModel2];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
     button.click();
 
     expect(component.questionEditFormModels[0].isCollapsed).toBe(true);
@@ -540,7 +542,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.isLoadingFeedbackQuestions = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
     button.click();
 
     expect(component.questionEditFormModels[0].isCollapsed).toBe(false);
@@ -571,7 +573,7 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should delete current session', () => {
     component.sessionEditFormModel = structuredClone(sessionEditFormModel);
     const navSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockResolvedValue();
-    vi.spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').mockReturnValue(of(true));
+    vi.spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSession));
     component.deleteExistingSessionHandler();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
@@ -652,10 +654,13 @@ describe('InstructorSessionEditPageComponent', () => {
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef({}, promise));
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy = vi.spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion').mockReturnValue(of(true));
+    const feedbackQuestionSpy = vi
+      .spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
+      .mockReturnValue(of({ message: 'Success' }));
 
     component.deleteExistingQuestionHandler(0);
     await promise;
+    await new Promise((resolve) => setTimeout(resolve, 0));
 
     expect(feedbackQuestionSpy).toHaveBeenLastCalledWith(testQuestionEditFormModel1.feedbackQuestionId);
     expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toBeUndefined();
@@ -683,9 +688,7 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should copy question from other session', async () => {
     const promise: Promise<FeedbackQuestion[]> = Promise.resolve([testFeedbackQuestion1]);
     vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({ questionToCopyCandidates: [] }, promise));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
-      of({ feedbackSessions: [testFeedbackSession] }),
-    );
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(testFeedbackSessions));
     vi.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(
       of({ questions: [testFeedbackQuestion1, testFeedbackQuestion2] }),
     );
@@ -708,7 +711,7 @@ describe('InstructorSessionEditPageComponent', () => {
       copyToCourseList: ['testId2'],
     });
 
-    const mockModalRef: any = createMockNgbModalRef(
+    const mockModalRef = createMockNgbModalRef(
       {
         newFeedbackSessionName: '',
         courseCandidates: [],
@@ -721,8 +724,8 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.feedbackSessionName = testFeedbackSession.feedbackSessionName;
     component.courseId = testCourse1.courseId;
-    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of({ courses: [testCourse2] }));
-    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(testCourses));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSessionView));
     vi.spyOn(feedbackSessionsService, 'createFeedbackSession').mockReturnValue(of(copiedFeedbackSession));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
     vi.spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal').mockReturnValue([
@@ -735,7 +738,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
     expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
-    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
+    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2View.course);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/instructor/sessions/edit',

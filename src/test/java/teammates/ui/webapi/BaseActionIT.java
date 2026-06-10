@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 
@@ -27,7 +28,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
@@ -43,10 +43,10 @@ import teammates.test.MockHttpServletRequest;
 import teammates.ui.exception.ActionMappingException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Base class for all action tests.
@@ -67,7 +67,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
@@ -114,7 +113,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
-            action.setLogsProcessor(mockLogsProcessor);
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -150,13 +148,13 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     protected abstract void testAccessControl() throws Exception;
 
     /**
-     * Returns The {@code params} array with the {@code userId}
+     * Returns The {@code params} array with the {@code accountId}
      * (together with the parameter name) inserted at the beginning.
      */
-    protected String[] addUserToParams(String userId, String[] params) {
+    protected String[] addMasqueradeAccountToParams(UUID accountId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER);
-        list.add(userId);
+        list.add(Const.ParamsNames.MASQUERADE_ACCOUNT_ID);
+        list.add(accountId == null ? "" : accountId.toString());
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
     }
@@ -252,18 +250,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void logoutUser() {
         mockUserProvision.logoutUser();
-    }
-
-    void grantInstructorWithSectionPrivilege(
-            Instructor instructor, String privilege, String[] sections) {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-
-        for (String section : sections) {
-            instructorPrivileges.updatePrivilege(section, privilege, true);
-        }
-
-        instructor.setPrivileges(instructorPrivileges);
-        assert instructor.isValid();
     }
 
     // The next few methods are for testing access control
@@ -390,7 +376,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         loginAsAdmin();
 
         // not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
     }
 
     void verifyAccessibleForAdminToMasqueradeAsInstructor(Course course, String[] submissionParams) {
@@ -399,7 +385,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 "accessibleforadmintomasqueradeasinstructor@teammates.tmt");
         loginAsAdmin();
         // not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
     }
 
     void verifyInaccessibleWithoutModifySessionPrivilege(Course course, String[] submissionParams) {
@@ -432,11 +418,14 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges(instructor.getId());
+        runtimePrivileges.updatePrivilege(privilege, true);
 
-        instructorPrivileges.updatePrivilege(privilege, true);
-        instructor.setPrivileges(instructorPrivileges);
-        inTransaction(() -> logic.getInstructor(instructor.getId()).setPrivileges(instructorPrivileges));
+        inTransaction(() -> {
+            Instructor dbInstructor = logic.getInstructor(instructor.getId());
+            logic.saveInstructorPrivileges(dbInstructor, runtimePrivileges);
+            dbInstructor.setRole(InstructorPermissionRole.CUSTOM);
+        });
 
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, submissionParams);
@@ -457,8 +446,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         loginAsInstructor(instructorSameCourse.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
-        verifyCannotMasquerade(instructorOtherCourse.getAccount().getGoogleId(), submissionParams);
+        verifyCannotMasquerade(studentSameCourse.getAccountId(), submissionParams);
+        verifyCannotMasquerade(instructorOtherCourse.getAccountId(), submissionParams);
 
     }
 
@@ -477,8 +466,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         loginAsInstructor(instructorOtherCourse.getAccount().getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(studentSameCourse.getAccount().getGoogleId(), submissionParams);
-        verifyCannotMasquerade(instructorSameCourse.getAccount().getGoogleId(), submissionParams);
+        verifyCannotMasquerade(studentSameCourse.getAccountId(), submissionParams);
+        verifyCannotMasquerade(instructorSameCourse.getAccountId(), submissionParams);
     }
 
     void verifyAccessibleForStudentsOfTheSameCourse(Course course, String[] submissionParams) {
@@ -542,21 +531,21 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     /**
      * Verifies that the {@link Action} matching the {@code params} is
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCanMasquerade(String userId, String... params) {
-        verifyCanAccess(addUserToParams(userId, params));
+    protected void verifyCanMasquerade(UUID accountId, String... params) {
+        verifyCanAccess(addMasqueradeAccountToParams(accountId, params));
     }
 
     /**
      * Verifies that the {@link Action} matching the {@code params} is not
      * accessible to the logged in user masquerading as another user with
-     * {@code userId}.
+     * {@code accountId}.
      */
-    protected void verifyCannotMasquerade(String userId, String... params) {
+    protected void verifyCannotMasquerade(UUID accountId, String... params) {
         Action action;
         try {
-            action = getAction(addUserToParams(userId, params));
+            action = getAction(addMasqueradeAccountToParams(accountId, params));
         } catch (RuntimeException e) {
             assertTrue(e.getCause() instanceof UnauthorizedAccessException);
             return;
@@ -724,16 +713,12 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructor = inTransaction(() -> logic.getInstructorForEmail(course.getId(), email));
         if (instructor == null) {
             instructor = inTransaction(() -> {
-                Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
-                Instructor createdInstructor = logic.createInstructor(toCreate);
-
                 String googleId = email;
                 String subject = email;
                 String tenantId = "tenant-id";
                 Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
-                createdInstructor.setAccount(account);
-                return createdInstructor;
+                return logic.createInstructor(course, "instructor-name", email, true, "display-name",
+                        InstructorPermissionRole.CUSTOM, account);
             });
         }
         return instructor;

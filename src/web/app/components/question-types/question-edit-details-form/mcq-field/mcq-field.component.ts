@@ -30,10 +30,10 @@ export class McqFieldComponent {
   isQuestionDropdownEnabled = false;
 
   @Output()
-  elementDeleted: EventEmitter<any> = new EventEmitter();
+  elementDeleted: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  mcqText: EventEmitter<any> = new EventEmitter();
+  mcqText: EventEmitter<string> = new EventEmitter();
 
   /**
    * Deletes a Mcq option.

@@ -14,7 +14,7 @@ abstract class AdminOnlyAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!authContext.isAdmin()) {
+        if (!requestContext.isAdmin()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }

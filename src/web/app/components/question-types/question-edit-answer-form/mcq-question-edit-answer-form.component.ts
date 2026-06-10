@@ -62,16 +62,16 @@ export class McqQuestionEditAnswerFormComponent
    */
   updateIsOtherOption(): void {
     this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
-    const fieldsToUpdate: any = {};
-    fieldsToUpdate.isOther = !this.responseDetails.isOther;
-    if (fieldsToUpdate.isOther) {
-      fieldsToUpdate.answer = '';
+    const fieldsToUpdate: Record<string, unknown> = {};
+    fieldsToUpdate['isOther'] = !this.responseDetails.isOther;
+    if (fieldsToUpdate['isOther']) {
+      fieldsToUpdate['answer'] = '';
       setTimeout(() => {
         // focus on the text box after the isOther field is updated to enable the text box
         this.inputTextBoxOther!.nativeElement.focus();
       }, 0);
     } else {
-      fieldsToUpdate.otherFieldContent = '';
+      fieldsToUpdate['otherFieldContent'] = '';
     }
 
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);

@@ -2,11 +2,9 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
@@ -25,14 +23,7 @@ public class RestoreFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("The feedback session does not exist.");
-        }
-
-        gateKeeper.verifyAccessible(
-                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
-                feedbackSession,
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackSession(requestContext, feedbackSessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -47,12 +38,6 @@ public class RestoreFeedbackSessionAction extends Action {
             throw new EntityNotFoundException(e);
         }
 
-        FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
-
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
-        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSession.getName());
-        output.setPrivileges(privilege);
-
-        return new JsonResult(output);
+        return new JsonResult(new FeedbackSessionData(feedbackSession));
     }
 }

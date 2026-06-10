@@ -53,23 +53,9 @@
       "courseId": "tm.e2e.ISActLogs.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
@@ -126,9 +112,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 2,
-      "showResponsesTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
+      "showResponsesTo": ["STUDENTS", "INSTRUCTORS", "GIVER_TEAM_MEMBERS", "RECIPIENT"],
+      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS", "GIVER_TEAM_MEMBERS", "RECIPIENT"],
+      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS", "GIVER_TEAM_MEMBERS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     }
   }

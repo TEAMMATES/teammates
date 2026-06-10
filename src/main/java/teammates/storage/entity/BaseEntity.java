@@ -11,11 +11,11 @@ import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.JsonUtils;
 
 import tools.jackson.core.type.TypeReference;
@@ -141,36 +141,38 @@ public abstract class BaseEntity {
     }
 
     /**
-     * Attribute converter between a list of ViewerTypes and JSON.
+     * Attribute converter between a list of FeedbackVisibilityTypes and JSON.
      */
     @Converter
-    public static class ViewerTypeListConverter
-            implements AttributeConverter<List<ViewerType>, String> {
+    public static class FeedbackVisibilityTypeListConverter
+            implements AttributeConverter<List<FeedbackVisibilityType>, String> {
 
         @Override
-        public String convertToDatabaseColumn(List<ViewerType> attribute) {
+        public String convertToDatabaseColumn(List<FeedbackVisibilityType> attribute) {
             return JsonUtils.toJson(attribute);
         }
 
         @Override
-        public List<ViewerType> convertToEntityAttribute(String dbData) {
+        public List<FeedbackVisibilityType> convertToEntityAttribute(String dbData) {
             return JsonUtils.fromJson(dbData, new TypeReference<>(){});
         }
     }
 
     /**
-     * Converter for InstructorPrivileges.
+     * Attribute converter between a list of CommentVisibilityTypes and JSON.
      */
     @Converter
-    public static class InstructorPrivilegesConverter implements AttributeConverter<InstructorPrivileges, String> {
+    public static class CommentVisibilityTypeListConverter
+            implements AttributeConverter<List<CommentVisibilityType>, String> {
+
         @Override
-        public String convertToDatabaseColumn(InstructorPrivileges entity) {
-            return JsonUtils.toJson(entity);
+        public String convertToDatabaseColumn(List<CommentVisibilityType> attribute) {
+            return JsonUtils.toJson(attribute);
         }
 
         @Override
-        public InstructorPrivileges convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, InstructorPrivileges.class);
+        public List<CommentVisibilityType> convertToEntityAttribute(String dbData) {
+            return JsonUtils.fromJson(dbData, new TypeReference<>(){});
         }
     }
 }

@@ -40,7 +40,6 @@ public final class ActionFactory {
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
         map(ResourceURIs.AUTH_REGKEY, GET, GetRegkeyValidityAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
-        map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
@@ -56,13 +55,13 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
+        map(ResourceURIs.DEMO_COURSE, POST, CreateDemoCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionsAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, DELETE, DeleteInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
-        map(ResourceURIs.INSTRUCTOR_PRIVILEGE, PUT, UpdateInstructorPrivilegeAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateResponseInstructorCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateResponseInstructorCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteResponseInstructorCommentAction.class);
@@ -70,6 +69,7 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE_SESSION_RESULTS, GET, GetCourseSessionResultsAction.class);
         map(ResourceURIs.USER_SESSION_RESULTS, GET, GetUserSessionResultsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
+        map(ResourceURIs.CONFIG, GET, GetConfigAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
@@ -138,7 +138,6 @@ public final class ActionFactory {
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
 
-        map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS, GET, FeedbackSessionOpenedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS, GET, FeedbackSessionClosingSoonRemindersAction.class);

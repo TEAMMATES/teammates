@@ -5,12 +5,12 @@ import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { default as templateSessions } from '../data/template-sessions.json';
+import { TemplateSession, templateSessions } from '../data/template-sessions';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   DeadlineExtensions,
-  FeedbackQuestion,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionStats,
@@ -31,14 +31,7 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
-
-/**
- * A template session.
- */
-export interface TemplateSession {
-  name: string;
-  questions: FeedbackQuestion[];
-}
+import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * Handles sessions related logic provision.
@@ -55,7 +48,7 @@ export class FeedbackSessionsService {
    * Gets template sessions.
    */
   getTemplateSessions(): TemplateSession[] {
-    return templateSessions as any;
+    return templateSessions;
   }
 
   /**
@@ -67,7 +60,7 @@ export class FeedbackSessionsService {
     key?: string;
     moderatedPerson?: string;
     previewAs?: string;
-  }): Observable<FeedbackSession> {
+  }): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
       fsid: queryParams.feedbackSessionId,
@@ -362,27 +355,39 @@ export class FeedbackSessionsService {
 
   /**
    * Download session results.
+   *
+   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   downloadSessionResults(
     feedbackSessionId: string,
     indicateMissingResponses: boolean,
     showStatistics: boolean,
     questionId?: string,
-    groupBySection?: string,
-    sectionDetail?: InstructorSessionResultSectionType,
+    sectionOptions?: {
+      groupBySectionId?: string;
+      sectionDetail?: InstructorSessionResultSectionType;
+      sectionNameForCsv?: string;
+    },
   ): Observable<string> {
+    const isNoSpecificSection = sectionOptions?.groupBySectionId
+      ? sectionOptions.groupBySectionId === NO_SPECIFIC_SECTION_ID
+      : undefined;
+    const groupBySectionId =
+      sectionOptions?.groupBySectionId === NO_SPECIFIC_SECTION_ID ? undefined : sectionOptions?.groupBySectionId;
     return this.getCourseSessionResults({
       feedbackSessionId,
       questionId,
-      groupBySection,
+      groupBySection: groupBySectionId,
+      isNoSpecificSection: isNoSpecificSection,
     }).pipe(
       map((results: SessionResults) =>
         this.sessionResultCsvService.getCsvForSessionResult(
           results,
           indicateMissingResponses,
           showStatistics,
-          groupBySection,
-          sectionDetail,
+          sectionOptions?.sectionNameForCsv,
+          sectionOptions?.sectionDetail,
+          sectionOptions?.groupBySectionId,
         ),
       ),
     );
@@ -390,11 +395,14 @@ export class FeedbackSessionsService {
 
   /**
    * Retrieves course-wide results for a feedback session.
+   *
+   * <p>When provided, {@code groupBySection} should be a section ID (UUID), not section name.
    */
   getCourseSessionResults(queryParams: {
     feedbackSessionId: string;
     questionId?: string;
     groupBySection?: string;
+    isNoSpecificSection?: boolean;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
@@ -406,6 +414,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.groupBySection) {
       paramMap['frgroupbysection'] = queryParams.groupBySection;
+    }
+
+    if (queryParams.isNoSpecificSection !== undefined) {
+      paramMap['isnospecificsection'] = queryParams.isNoSpecificSection.toString();
     }
 
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
@@ -439,7 +451,7 @@ export class FeedbackSessionsService {
   /**
    * Soft delete a session by moving it to the recycle bin.
    */
-  moveSessionToRecycleBin(feedbackSessionId: string): Observable<any> {
+  moveSessionToRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };

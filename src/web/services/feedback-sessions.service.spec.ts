@@ -3,8 +3,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { SessionsTableRowModel } from '../app/components/sessions-table/sessions-table-model';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackSession,
@@ -17,7 +17,7 @@ import { Intent } from '../types/api-request';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../types/default-instructor-privilege';
 
 describe('FeedbackSessionsService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: FeedbackSessionsService;
   let model: SessionsTableRowModel;
 
@@ -40,7 +40,7 @@ describe('FeedbackSessionsService', () => {
   };
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
@@ -112,6 +112,19 @@ describe('FeedbackSessionsService', () => {
 
     service.getCourseSessionResults({
       feedbackSessionId: paramMap['fsid'],
+    });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
+  });
+
+  it('should call get with section ID when grouping course feedback session results by section', () => {
+    const paramMap: Record<string, string> = {
+      fsid: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
+      frgroupbysection: '1b5d916f-f81d-4bc9-a6bf-6f9f6f81f102',
+    };
+
+    service.getCourseSessionResults({
+      feedbackSessionId: paramMap['fsid'],
+      groupBySection: paramMap['frgroupbysection'],
     });
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);
   });

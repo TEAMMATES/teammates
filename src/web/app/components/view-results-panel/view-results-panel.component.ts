@@ -14,7 +14,6 @@ import { InstructorSessionResultSectionType } from '../../pages-instructor/instr
 import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { SectionTypeDescriptionPipe } from '../../pages-instructor/instructor-session-result-page/section-type-description.pipe';
-import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 
 /**
  * Displaying the view results panel.
@@ -23,12 +22,14 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
   selector: 'tm-view-results-panel',
   templateUrl: './view-results-panel.component.html',
   styleUrls: ['./view-results-panel.component.scss'],
-  imports: [NgbTooltip, FormsModule, KeyValuePipe, SectionTypeDescriptionPipe, EnumToArrayPipe],
+  imports: [NgbTooltip, FormsModule, KeyValuePipe, SectionTypeDescriptionPipe],
 })
 export class ViewResultsPanelComponent {
   // enum
   InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
   InstructorSessionResultViewType!: typeof InstructorSessionResultViewType;
+
+  readonly sectionTypes = Object.values(InstructorSessionResultSectionType);
 
   viewTooltipText = 'View results in different formats';
 

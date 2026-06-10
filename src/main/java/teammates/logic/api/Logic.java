@@ -10,8 +10,11 @@ import java.util.UUID;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
+import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -21,7 +24,7 @@ import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -32,6 +35,7 @@ import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AuthLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
@@ -39,6 +43,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
@@ -64,10 +69,13 @@ import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.CourseCreateRequest;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
@@ -81,6 +89,7 @@ import teammates.ui.request.StudentUpdateRequest;
 public class Logic {
     private static final Logic instance = new Logic();
 
+    final AuthLogic authLogic = AuthLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -94,6 +103,7 @@ public class Logic {
     final UsersLogic usersLogic = UsersLogic.inst();
     final NotificationsLogic notificationsLogic = NotificationsLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    final InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
     Logic() {
         // prevent initialization
@@ -101,6 +111,94 @@ public class Logic {
 
     public static Logic inst() {
         return instance;
+    }
+
+    /**
+     * Returns the student associated with the given authentication context and
+     * course ID.
+     *
+     * <p>
+     * If the authentication type is REG_KEY, it returns the unregistered student
+     * from the authentication context.
+     * Otherwise, it retrieves the student from the database linked to the account
+     * and course ID.
+     */
+    public Student getStudentFromAuthContext(AuthContext authContext, String courseId) {
+        return authLogic.getStudentFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Returns the instructor associated with the given authentication context and
+     * course ID.
+     *
+     * <p>
+     * If the authentication type is REG_KEY, it returns the unregistered instructor
+     * from the authentication context. Otherwise, it retrieves the instructor from
+     * the database linked to the account
+     * and course ID.
+     */
+    public Instructor getInstructorFromAuthContext(AuthContext authContext, String courseId) {
+        return authLogic.getInstructorFromAuthContext(authContext, courseId);
+    }
+
+    /**
+     * Checks if the given instructor has the specified permissions.
+     */
+    public boolean hasInstructorPermissions(Instructor instructor, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissions(instructor, permissionNames);
+    }
+
+    /**
+     * Checks if the given instructor has the specified section-level permissions.
+     */
+    public boolean hasInstructorPermissionsForSection(Instructor instructor, UUID sectionId,
+            String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionId, permissionNames);
+    }
+
+    /**
+     * Checks if the given instructor has the specified session-in-section-level permissions.
+     */
+    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, UUID sectionId,
+            UUID feedbackSessionId, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSessionInSection(
+                instructor, sectionId, feedbackSessionId, permissionNames);
+    }
+
+    /**
+     * Checks if the given instructor has the specified session-in-section-level permissions in any section.
+     */
+    public boolean hasInstructorPermissionsForSectionInAnySection(Instructor instructor,
+            UUID sessionId, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionId, permissionNames);
+    }
+
+    /**
+     * Returns a map of sections with the specified permission for the given instructor.
+     */
+    public Map<UUID, InstructorPermissionSet> getSectionsWithInstructorPermission(
+            Instructor instructor, String permissionName) {
+        return instructorPermissionsLogic.getSectionsWithPermission(instructor, permissionName);
+    }
+
+    /**
+     * Returns the InstructorPrivileges for the given instructor.
+     *
+     * <p>
+     * For instructors with predefined roles, the privileges are determined by their
+     * role.
+     * For instructors with the custom role, the privileges are determined by their
+     * stored privileges.
+     */
+    public InstructorPrivileges getInstructorPrivileges(Instructor instructor) {
+        return instructorPermissionsLogic.getInstructorPrivileges(instructor);
+    }
+
+    /**
+     * Saves the instructor privileges for the given instructor.
+     */
+    public void saveInstructorPrivileges(Instructor instructor, InstructorPrivileges privileges) {
+        instructorPermissionsLogic.saveInstructorPrivileges(instructor, privileges);
     }
 
     /**
@@ -169,13 +267,6 @@ public class Logic {
     }
 
     /**
-     * Get a list of approved account requests associated with email and institute provided.
-     */
-    public List<AccountRequest> getApprovedAccountRequestsForEmailAndInstitute(String email, String institute) {
-        return accountRequestLogic.getApprovedAccountRequestsForEmailAndInstitute(email, institute);
-    }
-
-    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {
@@ -187,13 +278,6 @@ public class Logic {
      */
     public Account getAccountForGoogleId(String googleId) {
         return accountsLogic.getAccountForGoogleId(googleId);
-    }
-
-    /**
-     * Get a list of accounts associated with email provided.
-     */
-    public List<Account> getAccountsForEmail(String email) {
-        return accountsLogic.getAccountsForEmail(email);
     }
 
     /**
@@ -237,6 +321,13 @@ public class Logic {
      */
     public List<Student> getStudentsByGoogleId(String googleId) {
         return usersLogic.getStudentsByGoogleId(googleId);
+    }
+
+    /**
+     * Gets all students by associated {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        return usersLogic.getStudentsByAccountId(accountId);
     }
 
     /**
@@ -349,13 +440,6 @@ public class Logic {
     }
 
     /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        return coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
-    }
-
-    /**
      * Gets the deadline extensions for a feedback session.
      */
     public Set<DeadlineExtension> getDeadlineExtensions(UUID feedbackSessionId) throws EntityDoesNotExistException {
@@ -461,19 +545,6 @@ public class Logic {
     }
 
     /**
-     * Gets a feedback session from the recycle bin.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-    }
-
-    /**
      * Returns a {@code List} of feedback sessions in the Recycle Bin for the
      * instructors.
      * <br>
@@ -530,13 +601,14 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback session.
+     * Creates a feedback session from a create request, validating timing and copying questions if requested.
      *
      * @return returns the created feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    public FeedbackSession createFeedbackSession(String courseId, Instructor instructor,
+            FeedbackSessionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.createFeedbackSession(courseId, instructor, createRequest);
     }
 
     /**
@@ -547,19 +619,13 @@ public class Logic {
     }
 
     /**
-     * Creates a new feedback question.
+     * Creates a feedback question from a create request, validating giver/recipient visibility and question details.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return the created question
-     * @throws InvalidParametersException   if the question is invalid
-     * @throws EntityAlreadyExistsException if the question already exists
+     * @return the created feedback question
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+    public FeedbackQuestion createFeedbackQuestion(UUID feedbackSessionId, FeedbackQuestionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackSessionId, createRequest);
     }
 
     /**
@@ -771,17 +837,6 @@ public class Logic {
     }
 
     /**
-     * Updates the privileges of an instructor by user id.
-     *
-     * @return the updated instructor
-     * @throws EntityDoesNotExistException if the instructor does not exist in the database
-     */
-    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
-            throws EntityDoesNotExistException {
-        return usersLogic.updateInstructorPrivileges(userId, newPrivileges);
-    }
-
-    /**
      * Gets instructor associated with {@code courseId} and {@code email}.
      */
     public Instructor getInstructorForEmail(String courseId, String email) {
@@ -817,10 +872,10 @@ public class Logic {
     }
 
     /**
-     * Gets a non-soft-deleted instructor with the specified email and institute.
+     * Gets all instructors by associated {@code accountId}.
      */
-    public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
-        return usersLogic.getInstructorForEmailAndInstitute(email, institute);
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        return usersLogic.getInstructorsByAccountId(accountId);
     }
 
     /**
@@ -831,11 +886,23 @@ public class Logic {
     }
 
     /**
-     * Creates an instructor.
+     * Creates an instructor with the given attributes.
+     *
+     * @param account optional account to associate with the instructor at creation time
      */
-    public Instructor createInstructor(Instructor instructor)
+    public Instructor createInstructor(Course course, String name, String email,
+            boolean isDisplayedToStudents, String displayedName, InstructorPermissionRole role,
+            @Nullable Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return usersLogic.createInstructor(instructor);
+        return usersLogic.createInstructor(course, name, email, isDisplayedToStudents, displayedName, role, account);
+    }
+
+    /**
+     * Creates an instructor from a create request, handling sanitization and custom privileges.
+     */
+    public Instructor createInstructor(String courseId, InstructorCreateRequest request)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createInstructor(courseId, request);
     }
 
     /**
@@ -867,9 +934,9 @@ public class Logic {
      * @throws EntityDoesNotExistException if the instructor does not exist in the
      *                                     database
      */
-    public Instructor updateInstructorCascade(String courseId, InstructorCreateRequest instructorRequest)
+    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest)
             throws InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        return usersLogic.updateInstructorCascade(courseId, instructorRequest);
+        return usersLogic.updateInstructorCascade(instructorRequest);
     }
 
     /**
@@ -980,7 +1047,7 @@ public class Logic {
      * If it does not exist, create and return it.
      */
     public Section getDefaultSectionOrCreate(String courseId) {
-        return usersLogic.getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
+        return usersLogic.getSectionOrCreate(courseId, Const.NO_SPECIFIC_SECTION);
     }
 
     /**
@@ -1101,11 +1168,10 @@ public class Logic {
      * * Preconditions: <br>
      * * All parameters are non-null.
      *
-     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(String,
-     *      Instructor)
+     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(Instructor)
      */
-    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, Instructor instructorToEdit) {
-        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+    public void updateToEnsureValidityOfInstructorsForTheCourse(Instructor instructorToEdit) {
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructorToEdit);
     }
 
     /**
@@ -1160,14 +1226,14 @@ public class Logic {
      * @param feedbackSession the feedback session
      * @param instructor the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
-     * @param sectionName if not null, will only return partial bundle for the section
+     * @param sectionId if not null, will only return partial bundle for the section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable String sectionName) {
+            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructor, questionId, sectionName);
+                feedbackSession, instructor, questionId, sectionId, isNoSpecificSection);
     }
 
     /**
@@ -1332,7 +1398,7 @@ public class Logic {
      * @throws EntityDoesNotExistException if the comment does not exist
      */
     public ResponseInstructorComment updateResponseInstructorComment(UUID frcId,
-            ResponseInstructorCommentUpdateRequest updateRequest, ResponseGiver updater)
+            ResponseInstructorCommentUpdateRequest updateRequest, Instructor updater)
             throws EntityDoesNotExistException {
         return responseInstructorCommentsLogic.updateResponseInstructorComment(frcId, updateRequest, updater);
     }
@@ -1357,8 +1423,8 @@ public class Logic {
      * @throws EntityDoesNotExistException if the feedback response does not exist
      * @throws InvalidParametersException   if the comment is invalid
      */
-    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, ResponseGiver giver,
-            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+    public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
+            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         return responseInstructorCommentsLogic.createResponseInstructorComment(
                 feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);

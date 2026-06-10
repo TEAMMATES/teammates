@@ -18,10 +18,10 @@ export class ConstsumOptionsFieldComponent {
   text = '';
 
   @Output()
-  elementDeleted: EventEmitter<any> = new EventEmitter();
+  elementDeleted: EventEmitter<void> = new EventEmitter();
 
   @Output()
-  textChange: EventEmitter<any> = new EventEmitter();
+  textChange: EventEmitter<string> = new EventEmitter();
 
   /**
    * When user enters an option text, emit the change to parent component.

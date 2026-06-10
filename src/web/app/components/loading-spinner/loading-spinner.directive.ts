@@ -6,7 +6,7 @@ import { LoadingSpinnerComponent } from './loading-spinner.component';
  */
 @Directive({ selector: '[tmIsLoading]' })
 export class LoadingSpinnerDirective {
-  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private templateRef = inject<TemplateRef<void>>(TemplateRef);
   private viewContainer = inject(ViewContainerRef);
 
   loadingComponent: ComponentRef<LoadingSpinnerComponent>;

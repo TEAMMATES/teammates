@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
+import { CourseModel, InstructorCoursesPageComponent } from './instructor-courses-page.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
@@ -26,7 +26,7 @@ describe('InstructorCoursesPageComponent', () => {
   const date5: Date = new Date('2002-12-05T08:15:30');
   const date6: Date = new Date('2003-12-05T08:15:30');
 
-  const activeCoursesSnap: any[] = [
+  const activeCoursesSnap: CourseModel[] = [
     {
       course: {
         courseId: 'CS3281',
@@ -38,6 +38,8 @@ describe('InstructorCoursesPageComponent', () => {
       },
       canModifyCourse: true,
       canModifyStudent: true,
+      canModifyInstructor: false,
+      isLoadingCourseStats: false,
     },
     {
       course: {
@@ -50,10 +52,12 @@ describe('InstructorCoursesPageComponent', () => {
       },
       canModifyCourse: false,
       canModifyStudent: false,
+      canModifyInstructor: false,
+      isLoadingCourseStats: false,
     },
   ];
 
-  const deletedCoursesSnap: any[] = [
+  const deletedCoursesSnap: CourseModel[] = [
     {
       course: {
         courseId: 'CS1020',
@@ -64,6 +68,9 @@ describe('InstructorCoursesPageComponent', () => {
         deletionTimestamp: date4.getTime(),
       },
       canModifyCourse: true,
+      canModifyStudent: false,
+      canModifyInstructor: false,
+      isLoadingCourseStats: false,
     },
     {
       course: {
@@ -75,6 +82,9 @@ describe('InstructorCoursesPageComponent', () => {
         deletionTimestamp: date6.getTime(),
       },
       canModifyCourse: false,
+      canModifyStudent: false,
+      canModifyInstructor: false,
+      isLoadingCourseStats: false,
     },
   ];
 
@@ -129,31 +139,35 @@ describe('InstructorCoursesPageComponent', () => {
     timeZone: 'UTC',
   };
 
-  const courseModelCS1231: any = {
+  const courseModelCS1231: CourseModel = {
     course: courseCS1231,
     canModifyCourse: true,
     canModifyStudent: true,
+    canModifyInstructor: false,
     isLoadingCourseStats: false,
   };
 
-  const courseModelCS3281: any = {
+  const courseModelCS3281: CourseModel = {
     course: courseCS3281,
     canModifyCourse: true,
     canModifyStudent: true,
+    canModifyInstructor: false,
     isLoadingCourseStats: false,
   };
 
-  const courseModelCS3282: any = {
+  const courseModelCS3282: CourseModel = {
     course: courseCS3282,
     canModifyCourse: true,
     canModifyStudent: false,
+    canModifyInstructor: false,
     isLoadingCourseStats: false,
   };
 
-  const courseModelST4234: any = {
+  const courseModelST4234: CourseModel = {
     course: courseST4234,
     canModifyCourse: false,
     canModifyStudent: true,
+    canModifyInstructor: false,
     isLoadingCourseStats: false,
   };
 
@@ -169,7 +183,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Alice Betsy",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'benny.c.tmms@gmail.tmt',
@@ -181,7 +197,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Benny Charles",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'charlie.d.tmms@gmail.tmt',
@@ -193,7 +211,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Charlie Davis",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
+        teamId: 'team-2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
       {
         email: 'danny.e.tmms@gmail.tmt',
@@ -205,7 +225,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Danny Engrid",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'emma.f.tmms@gmail.tmt',
@@ -217,7 +239,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Emma Farrell",
         joinState: JoinState.JOINED,
         teamName: 'Team 1',
+        teamId: 'team-1',
         sectionName: 'Tutorial Group 1',
+        sectionId: 'tutorial-group-1',
       },
       {
         email: 'francis.g.tmms@gmail.tmt',
@@ -229,7 +253,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Francis Gabriel",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
+        teamId: 'team-2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
       {
         email: 'gene.h.tmms@gmail.tmt',
@@ -241,7 +267,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Gene Hudson",
         joinState: JoinState.JOINED,
         teamName: 'Team 2',
+        teamId: 'team-2',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
       {
         email: 'hugh.i.tmms@gmail.tmt',
@@ -253,7 +281,9 @@ describe('InstructorCoursesPageComponent', () => {
         comments: "This student's name is Hugh Ivanov",
         joinState: JoinState.NOT_JOINED,
         teamName: 'Team 3',
+        teamId: 'team-3',
         sectionName: 'Tutorial Group 2',
+        sectionId: 'tutorial-group-2',
       },
     ],
   };
@@ -281,11 +311,11 @@ describe('InstructorCoursesPageComponent', () => {
       .spyOn(courseService, 'getAllCoursesAsInstructor')
       .mockImplementation((courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
-          return of({ courses: [courseCS1231, courseCS3281, courseCS3282] });
+          return of({ courses: [{ course: courseCS1231 }, { course: courseCS3281 }, { course: courseCS3282 }] });
         }
 
         // softDeleted
-        return of({ courses: [courseST4234] });
+        return of({ courses: [{ course: courseST4234 }] });
       });
 
     component.loadInstructorCourses();
@@ -328,7 +358,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.softDeletedCourses = [courseModelCS1231];
     expect(component.softDeletedCourses.length).toEqual(1);
 
-    const courseSpy = vi.spyOn(courseService, 'restoreCourse').mockReturnValue(of(courseModelCS1231));
+    const courseSpy = vi.spyOn(courseService, 'restoreCourse').mockReturnValue(of({ message: 'Message' }));
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     component.onRestore('CS1231');
@@ -372,11 +402,11 @@ describe('InstructorCoursesPageComponent', () => {
     component.isLoadingCourses = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
     button.click();
     fixture.detectChanges();
 
-    const div: any = fixture.debugElement.nativeElement.querySelector('#add-course-section');
+    const div = fixture.debugElement.nativeElement.querySelector('#add-course-section');
     expect(div).toBeTruthy();
     expect(button.disabled).toBeTruthy();
   });
@@ -386,7 +416,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.isLoadingCourses = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-enroll-disabled-0');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-enroll-disabled-0');
     expect(button.textContent).toEqual('Enroll');
     expect(button.className).toContain('disabled');
   });
@@ -396,7 +426,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.isLoadingCourses = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-soft-delete-disabled-0');
+    const button = fixture.debugElement.nativeElement.querySelector('#btn-soft-delete-disabled-0');
     expect(button.textContent).toEqual(' Delete ');
     expect(button.className).toContain('disabled');
   });
@@ -407,11 +437,11 @@ describe('InstructorCoursesPageComponent', () => {
     component.isRecycleBinExpanded = true;
     fixture.detectChanges();
 
-    const restoreButton: any = fixture.debugElement.nativeElement.querySelector('#btn-restore-disabled-0');
+    const restoreButton = fixture.debugElement.nativeElement.querySelector('#btn-restore-disabled-0');
     expect(restoreButton.textContent).toEqual('Restore');
     expect(restoreButton.className).toContain('disabled');
 
-    const disableButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-disabled-0');
+    const disableButton = fixture.debugElement.nativeElement.querySelector('#btn-delete-disabled-0');
     expect(disableButton.textContent).toEqual(' Delete Permanently ');
     expect(disableButton.className).toContain('disabled');
   });
@@ -421,7 +451,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.isLoadingCourses = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
+    const button = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
     button.click();
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
     expect(component.activeCourses[1].course.courseId).toEqual('CS3281');
@@ -434,7 +464,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.isLoadingCourses = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
+    const button = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
     button.click();
     expect(component.activeCourses[0].course.courseName).toEqual('Bayesian Statistics');
     expect(component.activeCourses[1].course.courseName).toEqual('Discrete Structures');
@@ -447,7 +477,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.isLoadingCourses = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-creation-date');
+    const button = fixture.debugElement.nativeElement.querySelector('#sort-creation-date');
     button.click();
     expect(component.activeCourses[0].course.courseId).toEqual('ST4234');
     expect(component.activeCourses[1].course.courseId).toEqual('CS1231');

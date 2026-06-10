@@ -1,7 +1,9 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.testng.annotations.BeforeMethod;
@@ -10,13 +12,13 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.test.GroupNames;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
-import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.request.InstructorUpdateRequest;
 
 /**
  * SUT: {@link UpdateInstructorAction}.
@@ -43,48 +45,48 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructorToEdit = typicalBundle.instructors.get("instructor2OfCourse1");
-        String instructorId = instructorToEdit.getGoogleId();
-        String courseId = instructorToEdit.getCourseId();
         String instructorDisplayName = instructorToEdit.getDisplayName();
 
-        loginAsInstructor(instructorId);
+        loginAsInstructor(instructorToEdit.getGoogleId());
 
         ______TS("Typical case: edit instructor successfully");
 
-        final String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-        };
+        final String[] submissionParams = new String[0];
 
         String newInstructorName = "newName";
         String newInstructorEmail = "newemail@email.com";
-        String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String newInstructorRole = Const.InstructorPermissionRoleNames.COOWNER;
 
-        InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+        InstructorUpdateRequest reqBody = new InstructorUpdateRequest(instructorToEdit.getId(), newInstructorName,
                 newInstructorEmail, newInstructorRole,
-                instructorDisplayName, false);
+                instructorDisplayName, false, null);
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        Instructor editedInstructor = inTransaction(() -> logic.getInstructorByGoogleId(courseId, instructorId));
+        Instructor editedInstructor = inTransaction(() -> logic.getInstructor(instructorToEdit.getId()));
         assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertFalse(editedInstructor.isDisplayedToStudents());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(logic.hasInstructorPermissions(editedInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
         String invalidEmail = "wrongemail.com";
-        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
-                invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                instructorDisplayName, true);
+        reqBody = new InstructorUpdateRequest(instructorToEdit.getId(), instructorToEdit.getName(),
+                invalidEmail, Const.InstructorPermissionRoleNames.COOWNER,
+                instructorDisplayName, true, null);
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
@@ -94,16 +96,16 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         ______TS("Failure case: after editing instructor, no instructors are displayed");
 
-        instructorToEdit = typicalBundle.instructors.get("instructor1OfCourse3");
+        final Instructor instructorWithNoVisiblePeers = typicalBundle.instructors.get("instructor1OfCourse3");
 
-        loginAsInstructor(instructorToEdit.getGoogleId());
+        loginAsInstructor(instructorWithNoVisiblePeers.getGoogleId());
 
-        reqBody = new InstructorCreateRequest(instructorToEdit.getGoogleId(), instructorToEdit.getName(),
-                instructorToEdit.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                null, false);
+        reqBody = new InstructorUpdateRequest(instructorWithNoVisiblePeers.getId(),
+                instructorWithNoVisiblePeers.getName(), instructorWithNoVisiblePeers.getEmail(),
+                Const.InstructorPermissionRoleNames.COOWNER,
+                null, false, null);
 
-        InvalidOperationException ioe = verifyInvalidOperation(reqBody,
-                Const.ParamsNames.COURSE_ID, instructorToEdit.getCourseId());
+        InvalidOperationException ioe = verifyInvalidOperation(reqBody);
 
         assertEquals("At least one instructor must be displayed to students", ioe.getMessage());
 
@@ -116,16 +118,16 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         newInstructorName = "newName2";
         newInstructorEmail = "newemail2@email.com";
 
-        reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                instructorDisplayName, true);
+        reqBody = new InstructorUpdateRequest(instructorToEdit.getId(), newInstructorName,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
+                instructorDisplayName, true, null);
 
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
 
         response = (InstructorData) actionOutput.getOutput();
 
-        editedInstructor = inTransaction(() -> logic.getInstructorByGoogleId(courseId, instructorId));
+        editedInstructor = inTransaction(() -> logic.getInstructor(instructorToEdit.getId()));
         assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.getName());
@@ -137,19 +139,19 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         ______TS("Unsuccessful case: test null course id parameter");
 
         String[] emptySubmissionParams = new String[0];
-        InstructorCreateRequest newReqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                instructorDisplayName, true);
+        InstructorUpdateRequest newReqBody = new InstructorUpdateRequest(null, newInstructorName,
+                newInstructorEmail, Const.InstructorPermissionRoleNames.COOWNER,
+                instructorDisplayName, true, null);
 
-        verifyHttpParameterFailure(newReqBody, emptySubmissionParams);
+        verifyHttpRequestBodyFailure(newReqBody, emptySubmissionParams);
 
         verifyNoTasksAdded();
 
         ______TS("Unsuccessful case: test null instructor name parameter");
 
-        InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
-                newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                instructorDisplayName, true);
+        InstructorUpdateRequest nullNameReq = new InstructorUpdateRequest(
+                null, null, newInstructorEmail,
+                Const.InstructorPermissionRoleNames.COOWNER, instructorDisplayName, true, null);
 
         verifyHttpRequestBodyFailure(nullNameReq, submissionParams);
 
@@ -157,9 +159,9 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         ______TS("Unsuccessful case: test null instructor email parameter");
 
-        InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
-                null, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                instructorDisplayName, true);
+        InstructorUpdateRequest nullEmailReq = new InstructorUpdateRequest(
+                null, newInstructorName, null,
+                Const.InstructorPermissionRoleNames.COOWNER, instructorDisplayName, true, null);
 
         verifyHttpRequestBodyFailure(nullEmailReq, submissionParams);
 
@@ -169,19 +171,30 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
-        Course course = typicalBundle.courses.get("course1");
         Instructor instructor = typicalBundle.instructors.get("instructor2OfCourse1");
 
         ______TS("only instructors of the same course can access");
 
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-        };
+        InstructorUpdateRequest reqBody = new InstructorUpdateRequest(instructor.getId(),
+                instructor.getName(), instructor.getEmail(), Const.InstructorPermissionRoleNames.COOWNER,
+                instructor.getDisplayName(), true, null);
 
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(course,
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
-        ______TS("instructors of other courses cannot access");
+        Instructor privilegedInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(privilegedInstructor.getGoogleId());
+        final UpdateInstructorAction sameCourseAction = getAction(reqBody);
+        inTransaction(() -> {
+            assertDoesNotThrow(sameCourseAction::checkAccessControl);
+            return null;
+        });
 
-        verifyInaccessibleForInstructorsOfOtherCourses(course, submissionParams);
+        ______TS("instructors without correct privilege cannot access");
+
+        Instructor noPrivilegeInstructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        loginAsInstructor(noPrivilegeInstructor.getGoogleId());
+        final UpdateInstructorAction noPrivilegeAction = getAction(reqBody);
+        inTransaction(() -> {
+            assertThrows(UnauthorizedAccessException.class, noPrivilegeAction::checkAccessControl);
+            return null;
+        });
     }
 }

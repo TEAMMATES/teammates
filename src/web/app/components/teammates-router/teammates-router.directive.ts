@@ -10,24 +10,24 @@ import { MasqueradeModeService } from '../../../services/masquerade-mode.service
 @Directive({ selector: 'a[tmRouterLink]' })
 export class TeammatesRouterDirective extends RouterLink {
   // TODO: Do not extend RouterLink
-  private queryParamsInternal: { [k: string]: any } = {};
+  private queryParamsInternal: Record<string, unknown> = {};
 
   @Input()
-  set tmRouterLink(commands: any[] | string | null | undefined) {
+  set tmRouterLink(commands: unknown[] | string | null | undefined) {
     this.routerLink = commands;
   }
 
   @Input()
   // @ts-expect-error query params is redefined in this class
-  set queryParams(params: { [k: string]: any }) {
+  set queryParams(params: Record<string, unknown>) {
     this.queryParamsInternal = params;
     super.queryParams = this.queryParams;
   }
 
-  override get queryParams(): { [k: string]: any } {
-    const userParam: string = this.masqueradeModeService.getMasqueradeUser();
-    if (userParam !== '') {
-      return { ...this.queryParamsInternal, user: userParam };
+  override get queryParams(): Record<string, unknown> {
+    const accountIdParam: string = this.masqueradeModeService.getMasqueradeAccountId();
+    if (accountIdParam !== '') {
+      return { ...this.queryParamsInternal, masqueradeaccountid: accountIdParam };
     }
     return this.queryParamsInternal;
   }

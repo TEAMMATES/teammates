@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.Course;
@@ -51,7 +51,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         UsersLogic usersLogic = mock(UsersLogic.class);
         FeedbackQuestionsLogic fqLogic = mock(FeedbackQuestionsLogic.class);
         ResponseInstructorCommentsLogic frcLogic = mock(ResponseInstructorCommentsLogic.class);
-        frLogic.initLogicDependencies(frDb, usersLogic, fqLogic, frcLogic);
+        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        frLogic.initLogicDependencies(frDb, usersLogic, fqLogic, frcLogic, instructorPermissionsLogic);
         when(fqLogic.getDynamicallyGeneratedOptions(any(FeedbackQuestion.class), any()))
                 .thenReturn(Optional.empty());
     }
@@ -218,12 +219,12 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(ViewerType.STUDENTS));
+        question.setShowResponsesTo(List.of(FeedbackVisibilityType.STUDENTS));
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question);
 
         assertTrue(result);
-        assertTrue(question.isResponseVisibleTo(ViewerType.STUDENTS));
+        assertTrue(question.isResponseVisibleTo(FeedbackVisibilityType.STUDENTS));
     }
 
     @Test
@@ -231,14 +232,14 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
+        question.setShowResponsesTo(List.of(FeedbackVisibilityType.INSTRUCTORS));
         question.setRecipientType(QuestionRecipientType.INSTRUCTORS);
         question.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question);
 
         assertFalse(result);
-        assertFalse(question.isResponseVisibleTo(ViewerType.STUDENTS));
+        assertFalse(question.isResponseVisibleTo(FeedbackVisibilityType.STUDENTS));
     }
 
     @Test
@@ -246,7 +247,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
+        question.setShowResponsesTo(List.of(FeedbackVisibilityType.INSTRUCTORS));
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question);
 
@@ -258,7 +259,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(ViewerType.STUDENTS));
+        question.setShowResponsesTo(List.of(FeedbackVisibilityType.STUDENTS));
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question);
 

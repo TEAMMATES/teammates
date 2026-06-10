@@ -61,9 +61,9 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         };
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
-                "00000000-0000-4000-8000-000000000006", "newInstructorName",
-                "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                "instructorDisplayName", false);
+                "newInstructorName",
+                "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.COOWNER,
+                "instructorDisplayName", false, null);
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
 
         JsonResult response = getJsonResult(action);
@@ -77,10 +77,14 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         assertEquals(createdInstructor.getName(), instructorData.getName());
         assertEquals(createdInstructor.getEmail(), instructorData.getEmail());
         assertFalse(createdInstructor.isDisplayedToStudents());
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -94,9 +98,9 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         };
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
-                instructor1OfCourse1.getCourseId(), "instructor3ofCourse1",
-                instructor1OfCourse1.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-                "instructor3ofCourse1", false);
+                "instructor3ofCourse1",
+                instructor1OfCourse1.getEmail(), Const.InstructorPermissionRoleNames.TUTOR,
+                "instructor3ofCourse1", false, null);
 
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
         assertThrowsInTransaction(InvalidOperationException.class, action::execute);

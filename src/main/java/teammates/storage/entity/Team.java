@@ -144,7 +144,7 @@ public class Team extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Team [id=" + id + ", users=" + users + ", name=" + name
+        return "Team [id=" + id + ", sectionId=" + sectionId + ", name=" + name
                 + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 

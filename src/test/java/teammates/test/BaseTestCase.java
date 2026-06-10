@@ -14,16 +14,15 @@ import org.testng.annotations.BeforeClass;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelperExtension;
@@ -121,13 +120,11 @@ public class BaseTestCase {
 
     protected Instructor getTypicalInstructor() {
         Course course = getTypicalCourse();
-        InstructorPrivileges instructorPrivileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorPermissionRole role = InstructorPermissionRole
-                .getEnum(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+                .getEnum(Const.InstructorPermissionRoleNames.COOWNER);
 
         return new Instructor(course, "instructor-name", "valid@teammates.tmt",
-                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role, instructorPrivileges);
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role);
     }
 
     protected Course getTypicalCourse() {
@@ -161,10 +158,10 @@ public class BaseTestCase {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
-        ResponseGiver commentGiver = new ResponseGiver(getTypicalStudent());
+        Instructor commentGiver = getTypicalInstructor();
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(commentGiver,
-                "typical-comment", List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
-                List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);
+                "typical-comment", List.of(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
+                List.of(CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS), commentGiver);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         responseInstructorComment.setCreatedAt(Instant.now());

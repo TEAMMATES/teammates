@@ -6,7 +6,6 @@ import { StringHelper } from '../../../../services/string-helper';
 import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
-import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import type { CommentEditFormModel } from '../comment.model';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
 import {
@@ -26,7 +25,6 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
     NgbCollapse,
     NgbTooltip,
     RichTextEditorComponent,
-    EnumToArrayPipe,
     CommentVisibilityControlNamePipe,
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
@@ -39,6 +37,9 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   CommentVisibilityType!: typeof CommentVisibilityType;
   CommentVisibilityControl!: typeof CommentVisibilityControl;
   CommentRowMode!: typeof CommentRowMode;
+
+  readonly commentVisibilityTypes = Object.values(CommentVisibilityType);
+  readonly commentVisibilityControls = Object.values(CommentVisibilityControl);
 
   @Input()
   mode: CommentRowMode = CommentRowMode.ADD;
@@ -116,14 +117,14 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.modelChange.emit({ ...this.model, [field]: data });
   }
 
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChangeBatch(obj: { [key: string]: any }): void {
+  triggerModelChangeBatch(obj: Partial<CommentEditFormModel>): void {
     this.modelChange.emit({
       ...this.model,
       ...obj,

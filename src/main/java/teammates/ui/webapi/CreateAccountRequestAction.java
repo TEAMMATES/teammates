@@ -4,10 +4,10 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new account request.
@@ -19,7 +19,7 @@ public class CreateAccountRequestAction extends PublicAction {
             throws InvalidHttpRequestBodyException, InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-        if (!authContext.isAdmin()) {
+        if (!requestContext.isAdmin()) {
             String userCaptchaResponse = createRequest.getCaptchaResponse();
             if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
                 throw new InvalidHttpRequestBodyException("Something went wrong with "
@@ -45,7 +45,7 @@ public class CreateAccountRequestAction extends PublicAction {
 
         assert accountRequest != null;
 
-        if (!authContext.isAdmin()) {
+        if (!requestContext.isAdmin()) {
             EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
             EmailWrapper userAcknowledgementEmail = emailGenerator
                     .generateNewAccountRequestAcknowledgementEmail(accountRequest);
