@@ -194,7 +194,7 @@ export class StudentListComponent implements OnInit {
           enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
           instructorPrivileges: {
             canModifyStudent: studentModel.isAllowedToModifyStudent,
-            canViewStudentInSections: studentModel.isAllowedToViewStudentInSection,
+            canViewStudent: studentModel.isAllowedToViewStudentInSection,
           },
           isActionButtonsEnabled: this.isActionButtonsEnabled,
           removeStudentFromCourse: () => this.openDeleteModal(studentModel),

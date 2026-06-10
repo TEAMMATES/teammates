@@ -43,7 +43,7 @@
       "courseId": "tm.e2e.AAccounts.CS2104",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -53,7 +53,7 @@
       "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -63,7 +63,7 @@
       "courseId": "tm.e2e.AAccounts.CS1101",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": false,
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -73,7 +73,7 @@
       "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr3",
       "email": "aaccounts.instr3@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000002"

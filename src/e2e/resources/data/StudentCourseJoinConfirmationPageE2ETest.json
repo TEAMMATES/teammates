@@ -61,7 +61,7 @@
     "SCJoinConf.instr.CS2104": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.SCJoinConf.CS2104",
       "name": "Teammates Test",
@@ -71,7 +71,7 @@
     "SCJoinConf.instr.CS1101": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "courseId": "tm.e2e.SCJoinConf.CS1101",
       "name": "Teammates Test",
       "email": "scjoinconf.instr@gmail.tmt",

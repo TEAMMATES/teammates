@@ -134,7 +134,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify instructors deserialized correctly");
 
         Instructor actualInstructor1 = dataBundle.instructors.get("instructor1OfTypicalCourse");
-        InstructorPermissionRole coOwner = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPermissionRole coOwner = InstructorPermissionRole.COOWNER;
         Instructor expectedInstructor1 = new Instructor(actualTypicalCourse, "Instructor 1", "instr1@teammates.tmt",
                 true, "Instructor", coOwner);
         expectedInstructor1.setId(actualInstructor1.getId());
@@ -143,7 +143,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(expectedInstructor1, actualInstructor1);
 
         Instructor actualInstructor2 = dataBundle.instructors.get("instructor2OfTypicalCourse");
-        InstructorPermissionRole tutor = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR;
+        InstructorPermissionRole tutor = InstructorPermissionRole.TUTOR;
         Instructor expectedInstructor2 = new Instructor(actualTypicalCourse, "Instructor 2", "instr2@teammates.tmt",
                 true, "Instructor", tutor);
         expectedInstructor2.setId(actualInstructor2.getId());

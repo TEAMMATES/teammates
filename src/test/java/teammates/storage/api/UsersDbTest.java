@@ -228,7 +228,7 @@ public class UsersDbTest extends BaseDbTestcase {
 
     private static Instructor buildDefaultInstructor(Course course, UUID instructorId) {
         assertNotNull(course);
-        InstructorPermissionRole role = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPermissionRole role = InstructorPermissionRole.COOWNER;
         Instructor instructor = new Instructor(
                 "Instructor Name",
                 "instructor@example.com",

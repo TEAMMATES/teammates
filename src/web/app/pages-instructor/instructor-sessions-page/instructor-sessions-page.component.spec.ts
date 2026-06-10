@@ -34,8 +34,8 @@ describe('InstructorSessionsPageComponent', () => {
   let ngbModal: NgbModal;
   const testInstructorPrivilege: InstructorFeedbackSessionPermissions = {
     canModifySession: true,
-    canSubmitSessionInSections: true,
-    canViewSessionInSections: true,
+    canSubmitSession: true,
+    canViewSession: true,
   };
 
   const testCourse1: Course = {
@@ -132,8 +132,8 @@ describe('InstructorSessionsPageComponent', () => {
 
   const testTutorPrivilege: InstructorFeedbackSessionPermissions = {
     canModifySession: false,
-    canSubmitSessionInSections: false,
-    canViewSessionInSections: false,
+    canSubmitSession: false,
+    canViewSession: false,
   };
 
   beforeEach(async () => {

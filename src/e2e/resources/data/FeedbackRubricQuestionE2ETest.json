@@ -53,7 +53,7 @@
     "instructor": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FRubricQn.CS2104",
       "name": "Teammates Test",
@@ -64,7 +64,7 @@
     "instructor2": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.FRubricQn.CS1101",
       "name": "Teammates Test",

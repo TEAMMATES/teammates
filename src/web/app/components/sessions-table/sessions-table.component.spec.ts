@@ -77,10 +77,10 @@ describe('SessionsTableComponent', () => {
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,
-    canViewStudentInSections: true,
-    canModifySessionCommentsInSections: true,
-    canViewSessionInSections: true,
-    canSubmitSessionInSections: true,
+    canViewStudent: true,
+    canModifySessionComments: true,
+    canViewSession: true,
+    canSubmitSession: true,
   };
 
   const instructorCannotEverything: InstructorPermissionSet = {
@@ -88,10 +88,10 @@ describe('SessionsTableComponent', () => {
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,
-    canViewStudentInSections: false,
-    canModifySessionCommentsInSections: false,
-    canViewSessionInSections: false,
-    canSubmitSessionInSections: false,
+    canViewStudent: false,
+    canModifySessionComments: false,
+    canViewSession: false,
+    canSubmitSession: false,
   };
 
   const sessionTable1: SessionsTableRowModel = {

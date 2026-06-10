@@ -130,15 +130,15 @@ public final class InstructorPermissionsLogic {
         InstructorPermissionRole role = instructor.getRole();
         UUID instructorId = instructor.getId();
         switch (role) {
-        case INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+        case COOWNER:
             return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.COOWNER);
-        case INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+        case MANAGER:
             return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.MANAGER);
-        case INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+        case OBSERVER:
             return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.OBSERVER);
-        case INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+        case TUTOR:
             return new InstructorPrivileges(instructorId, Const.InstructorPermissionRoleNames.TUTOR);
-        case INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+        case CUSTOM:
             return readCustomPrivileges(instructorId);
         default:
             throw new IllegalStateException("Unexpected instructor role: " + role);
@@ -160,7 +160,7 @@ public final class InstructorPermissionsLogic {
 
         instructorPermissionsDb.deleteAllForInstructor(instructor.getId());
 
-        if (instructor.getRole() != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+        if (instructor.getRole() != InstructorPermissionRole.CUSTOM) {
             return;
         }
 
@@ -216,34 +216,34 @@ public final class InstructorPermissionsLogic {
         dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, src.isCanModifyInstructor());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, src.isCanModifySession());
         dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, src.isCanModifyStudent());
-        dest.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                src.isCanViewStudentInSections());
-        dest.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                src.isCanViewSessionInSections());
-        dest.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                src.isCanSubmitSessionInSections());
-        dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                src.isCanModifySessionCommentsInSections());
+        dest.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                src.isCanViewStudent());
+        dest.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION,
+                src.isCanViewSession());
+        dest.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                src.isCanSubmitSession());
+        dest.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                src.isCanModifySessionComments());
     }
 
     private void applyToSectionLevel(InstructorPrivileges dest, UUID sectionId, InstructorPermissionSet src) {
-        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
-                src.isCanViewStudentInSections());
-        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                src.isCanViewSessionInSections());
-        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                src.isCanSubmitSessionInSections());
-        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                src.isCanModifySessionCommentsInSections());
+        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT,
+                src.isCanViewStudent());
+        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION,
+                src.isCanViewSession());
+        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                src.isCanSubmitSession());
+        dest.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                src.isCanModifySessionComments());
     }
 
     private void applyToSessionLevel(InstructorPrivileges dest, UUID sectionId, UUID sessionId,
             InstructorPermissionSet src) {
-        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-                src.isCanViewSessionInSections());
-        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-                src.isCanSubmitSessionInSections());
-        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
-                src.isCanModifySessionCommentsInSections());
+        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_VIEW_SESSION,
+                src.isCanViewSession());
+        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+                src.isCanSubmitSession());
+        dest.updatePrivilege(sectionId, sessionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
+                src.isCanModifySessionComments());
     }
 }

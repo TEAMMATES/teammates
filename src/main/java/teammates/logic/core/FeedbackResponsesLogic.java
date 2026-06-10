@@ -1005,7 +1005,7 @@ public final class FeedbackResponsesLogic {
                         instructor,
                         giverSectionId,
                         relatedQuestion.getFeedbackSession().getId(),
-                        Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
+                        Const.InstructorPermissions.CAN_VIEW_SESSION
                     );
 
             UUID recipientSectionId = recipient.getSectionId();
@@ -1014,7 +1014,7 @@ public final class FeedbackResponsesLogic {
                             instructor,
                             recipientSectionId,
                             relatedQuestion.getFeedbackSession().getId(),
-                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
+                            Const.InstructorPermissions.CAN_VIEW_SESSION
                     );
 
             isVisibleToInstructor =

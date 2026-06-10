@@ -12,7 +12,7 @@ import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequ
 const defaultRequestBody: InstructorCreateRequest = {
   name: 'John Doe',
   email: 'johndoe@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   displayName: 'John Doe',
   isDisplayedToStudent: true,
 };
@@ -21,7 +21,7 @@ const defaultUpdateRequestBody: InstructorUpdateRequest = {
   id: '00000000-0000-4000-8000-000000000001',
   name: 'John Doe',
   email: 'johndoe@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   displayName: 'John Doe',
   isDisplayedToStudent: true,
 };
@@ -38,7 +38,7 @@ const defaultInstructors: Instructors = {
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
       name: '',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       joinState: JoinState.JOINED,
     },
     {
@@ -51,7 +51,7 @@ const defaultInstructors: Instructors = {
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
       name: '',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       joinState: JoinState.JOINED,
     },
   ],

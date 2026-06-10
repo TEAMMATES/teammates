@@ -13,10 +13,10 @@ public class InstructorPermissionSet {
     private boolean canModifyInstructor;
     private boolean canModifySession;
     private boolean canModifyStudent;
-    private boolean canViewStudentInSections;
-    private boolean canViewSessionInSections;
-    private boolean canSubmitSessionInSections;
-    private boolean canModifySessionCommentsInSections;
+    private boolean canViewStudent;
+    private boolean canViewSession;
+    private boolean canSubmitSession;
+    private boolean canModifySessionComments;
 
     public boolean isCanModifyCourse() {
         return canModifyCourse;
@@ -50,36 +50,36 @@ public class InstructorPermissionSet {
         this.canModifyStudent = canModifyStudent;
     }
 
-    public boolean isCanViewStudentInSections() {
-        return canViewStudentInSections;
+    public boolean isCanViewStudent() {
+        return canViewStudent;
     }
 
-    public void setCanViewStudentInSections(boolean canViewStudentInSections) {
-        this.canViewStudentInSections = canViewStudentInSections;
+    public void setCanViewStudent(boolean canViewStudent) {
+        this.canViewStudent = canViewStudent;
     }
 
-    public boolean isCanViewSessionInSections() {
-        return canViewSessionInSections;
+    public boolean isCanViewSession() {
+        return canViewSession;
     }
 
-    public void setCanViewSessionInSections(boolean canViewSessionInSections) {
-        this.canViewSessionInSections = canViewSessionInSections;
+    public void setCanViewSession(boolean canViewSession) {
+        this.canViewSession = canViewSession;
     }
 
-    public boolean isCanSubmitSessionInSections() {
-        return canSubmitSessionInSections;
+    public boolean isCanSubmitSession() {
+        return canSubmitSession;
     }
 
-    public void setCanSubmitSessionInSections(boolean canSubmitSessionInSections) {
-        this.canSubmitSessionInSections = canSubmitSessionInSections;
+    public void setCanSubmitSession(boolean canSubmitSession) {
+        this.canSubmitSession = canSubmitSession;
     }
 
-    public boolean isCanModifySessionCommentsInSections() {
-        return canModifySessionCommentsInSections;
+    public boolean isCanModifySessionComments() {
+        return canModifySessionComments;
     }
 
-    public void setCanModifySessionCommentsInSections(boolean canModifySessionCommentsInSections) {
-        this.canModifySessionCommentsInSections = canModifySessionCommentsInSections;
+    public void setCanModifySessionComments(boolean canModifySessionComments) {
+        this.canModifySessionComments = canModifySessionComments;
     }
 
     InstructorPermissionSet getCopy() {
@@ -88,10 +88,10 @@ public class InstructorPermissionSet {
         copy.setCanModifyInstructor(canModifyInstructor);
         copy.setCanModifySession(canModifySession);
         copy.setCanModifyStudent(canModifyStudent);
-        copy.setCanViewStudentInSections(canViewStudentInSections);
-        copy.setCanViewSessionInSections(canViewSessionInSections);
-        copy.setCanSubmitSessionInSections(canSubmitSessionInSections);
-        copy.setCanModifySessionCommentsInSections(canModifySessionCommentsInSections);
+        copy.setCanViewStudent(canViewStudent);
+        copy.setCanViewSession(canViewSession);
+        copy.setCanSubmitSession(canSubmitSession);
+        copy.setCanModifySessionComments(canModifySessionComments);
         return copy;
     }
 
@@ -108,14 +108,14 @@ public class InstructorPermissionSet {
             return canModifySession;
         case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             return canModifyStudent;
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
-            return canViewStudentInSections;
-        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
-            return canViewSessionInSections;
-        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
-            return canSubmitSessionInSections;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-            return canModifySessionCommentsInSections;
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
+            return canViewStudent;
+        case Const.InstructorPermissions.CAN_VIEW_SESSION:
+            return canViewSession;
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
+            return canSubmitSession;
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
+            return canModifySessionComments;
         default:
             return false;
         }
@@ -135,17 +135,17 @@ public class InstructorPermissionSet {
         case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             canModifyStudent = value;
             break;
-        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
-            canViewStudentInSections = value;
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT:
+            canViewStudent = value;
             break;
-        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
-            canViewSessionInSections = value;
+        case Const.InstructorPermissions.CAN_VIEW_SESSION:
+            canViewSession = value;
             break;
-        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
-            canSubmitSessionInSections = value;
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION:
+            canSubmitSession = value;
             break;
-        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
-            canModifySessionCommentsInSections = value;
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT:
+            canModifySessionComments = value;
             break;
         default:
             break;
@@ -166,10 +166,10 @@ public class InstructorPermissionSet {
                 && canModifyInstructor == rhs.isCanModifyInstructor()
                 && canModifySession == rhs.isCanModifySession()
                 && canModifyStudent == rhs.isCanModifyStudent()
-                && canViewStudentInSections == rhs.isCanViewStudentInSections()
-                && canViewSessionInSections == rhs.isCanViewSessionInSections()
-                && canSubmitSessionInSections == rhs.isCanSubmitSessionInSections()
-                && canModifySessionCommentsInSections == rhs.isCanModifySessionCommentsInSections();
+                && canViewStudent == rhs.isCanViewStudent()
+                && canViewSession == rhs.isCanViewSession()
+                && canSubmitSession == rhs.isCanSubmitSession()
+                && canModifySessionComments == rhs.isCanModifySessionComments();
     }
 
     @Override
@@ -179,10 +179,10 @@ public class InstructorPermissionSet {
             canModifyInstructor,
             canModifySession,
             canModifyStudent,
-            canViewStudentInSections,
-            canViewSessionInSections,
-            canSubmitSessionInSections,
-            canModifySessionCommentsInSections
+            canViewStudent,
+            canViewSession,
+            canSubmitSession,
+            canModifySessionComments
         );
     }
 

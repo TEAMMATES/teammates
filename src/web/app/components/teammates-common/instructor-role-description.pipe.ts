@@ -11,18 +11,18 @@ export class InstructorRoleDescriptionPipe implements PipeTransform {
    */
   transform(role: InstructorPermissionRole): string {
     switch (role) {
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+      case InstructorPermissionRole.COOWNER:
         return 'Co-owner: Can do everything.';
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+      case InstructorPermissionRole.MANAGER:
         return 'Manager: Can do everything except for deleting/restoring the course.';
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+      case InstructorPermissionRole.OBSERVER:
         return (
           'Observer: Can only view information(students, submissions, comments etc.). ' +
           'Cannot edit/delete/submit anything.'
         );
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+      case InstructorPermissionRole.TUTOR:
         return 'Tutor: Can view student details, give/view comments, submit/view responses for sessions.';
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+      case InstructorPermissionRole.CUSTOM:
       default:
         return 'Custom: No access by default. Any access needs to be granted explicitly.';
     }

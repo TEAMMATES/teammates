@@ -44,7 +44,7 @@ const testInstructor: Instructor = {
   googleId: 'Hock',
   name: 'Hock',
   email: 'hock@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   displayedToStudentsAs: 'Hock',
   isDisplayedToStudents: false,
 };
@@ -92,7 +92,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       googleId: 'Hodor',
       name: 'Hodor',
       email: 'hodor@gmail.com',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       displayedToStudentsAs: 'Hodor',
       isDisplayedToStudents: true,
     };
@@ -124,7 +124,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       googleId: 'Bran',
       name: 'Bran',
       email: 'bran@gmail.com',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       displayedToStudentsAs: 'Bran',
       isDisplayedToStudents: false,
     };

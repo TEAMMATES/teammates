@@ -95,7 +95,7 @@
     "FRes.instr": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FRes.CS2104",
       "name": "Teammates Test",
@@ -105,7 +105,7 @@
     "FRes.instr2": {
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.FRes.CS2104",
       "name": "Teammates Test 2",

@@ -416,8 +416,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: sessionView.instructorPermissions ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             };
             this.sessionsTableRowModels.push(model);
@@ -484,8 +484,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             isLoadingResponseRate: false,
             instructorPrivilege: model.instructorPrivilege ?? {
               canModifySession: false,
-              canSubmitSessionInSections: false,
-              canViewSessionInSections: false,
+              canSubmitSession: false,
+              canViewSession: false,
             },
           };
           this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
@@ -621,8 +621,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               instructorPrivilege: sessionView.instructorPermissions ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             });
           });
@@ -647,8 +647,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       restorePrivileges.push(
         model.instructorPrivilege ?? {
           canModifySession: false,
-          canSubmitSessionInSections: false,
-          canViewSessionInSections: false,
+          canSubmitSession: false,
+          canViewSession: false,
         },
       );
       restoreRequests.push(
@@ -672,8 +672,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: restorePrivileges[index] ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             };
             this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];

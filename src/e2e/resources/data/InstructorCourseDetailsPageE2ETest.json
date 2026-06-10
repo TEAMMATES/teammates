@@ -47,7 +47,7 @@
       "courseId": "tm.e2e.ICDet.CS2104",
       "name": "ICDet Instructor 1",
       "email": "icdet.instr@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "ICDet Instructor 1",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -57,7 +57,7 @@
       "courseId": "tm.e2e.ICDet.CS2104",
       "name": "ICDet Instructor 2",
       "email": "icdet.instr2@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "ICDet Instructor 2",
       "accountId": "00000000-0000-4000-8000-000000000002"

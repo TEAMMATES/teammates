@@ -597,7 +597,7 @@ public final class FeedbackQuestionsLogic {
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
                                 instructor, student.getSectionId(), question.getFeedbackSession().getId(),
-                                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
                 if (shouldExcludeStudentForInstructor || shouldExcludeStudent) {
                     continue;
                 }
@@ -654,7 +654,7 @@ public final class FeedbackQuestionsLogic {
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructorPermissionsLogic.hasPermissionsForSessionInSection(
                                 instructor, team.getSection().getId(), question.getFeedbackSession().getId(),
-                                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
 
                 if (shouldExcludeTeamForInstructor || shouldExcludeTeam) {
                     continue;

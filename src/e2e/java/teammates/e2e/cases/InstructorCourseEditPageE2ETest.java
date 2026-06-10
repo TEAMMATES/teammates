@@ -128,12 +128,12 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         helperCourseLevel.setCanModifyStudent(false);
 
         InstructorPermissionSet section2Perms = new InstructorPermissionSet();
-        section2Perms.setCanViewSessionInSections(true);
+        section2Perms.setCanViewSession(true);
         helperSectionLevel.put("Section 2", section2Perms);
 
         Map<String, InstructorPermissionSet> section1Sessions = new LinkedHashMap<>();
         InstructorPermissionSet firstSessionPerms = new InstructorPermissionSet();
-        firstSessionPerms.setCanSubmitSessionInSections(true);
+        firstSessionPerms.setCanSubmitSession(true);
         section1Sessions.put("First feedback session", firstSessionPerms);
         helperSessionLevel.put("Section 1", section1Sessions);
 
@@ -142,9 +142,9 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         editPage.toggleCustomSectionLevelPrivilege(2, 1, "Section 2",
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
         editPage.toggleCustomSessionLevelPrivilege(2, 2, "Section 1", "First feedback session",
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
         editPage.verifyStatusMessage("The instructor " + instructors[0].getName() + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0], helperCourseLevel, helperSectionLevel, helperSessionLevel);
 

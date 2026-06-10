@@ -133,7 +133,7 @@
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Co-owner",
       "email": "icedit.coowner.cs2104@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -143,7 +143,7 @@
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Manager",
       "email": "icedit.manager.cs2104@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
+      "role": "MANAGER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000003"
@@ -153,7 +153,7 @@
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Observer",
       "email": "icedit.observer.cs2104@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
+      "role": "OBSERVER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000002"
@@ -163,7 +163,7 @@
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Tutor",
       "email": "icedit.tutor.cs2104@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": false,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000004"
@@ -173,7 +173,7 @@
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Helper",
       "email": "icedit.helper.cs2104@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000005"
@@ -183,7 +183,7 @@
       "courseId": "tm.e2e.ICEdit.CS2103T",
       "name": "CS2103T Co-owner",
       "email": "icedit.coowner.cs2103t@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -193,7 +193,7 @@
       "courseId": "tm.e2e.ICEdit.CS2103T",
       "name": "CS2103T Observer",
       "email": "icedit.observer.cs2103t@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
+      "role": "OBSERVER",
       "isDisplayedToStudents": false,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000002"
@@ -203,7 +203,7 @@
       "courseId": "tm.e2e.ICEdit.CS2103T",
       "name": "CS2103T Helper",
       "email": "icedit.helper.cs2103t@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000006"
@@ -213,7 +213,7 @@
       "courseId": "tm.e2e.ICEdit.CS2105",
       "name": "CS2105 Co-owner",
       "email": "icedit.coowner.cs2105@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -223,7 +223,7 @@
       "courseId": "tm.e2e.ICEdit.CS2105",
       "name": "CS2105 Manager",
       "email": "icedit.manager.cs2105@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
+      "role": "MANAGER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000007"
@@ -233,7 +233,7 @@
       "courseId": "tm.e2e.ICEdit.CS2106",
       "name": "CS2106 Co-owner",
       "email": "icedit.coowner.cs2106@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -243,7 +243,7 @@
       "courseId": "tm.e2e.ICEdit.CS2106",
       "name": "Teammates Test",
       "email": "icedit.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000008"
@@ -253,7 +253,7 @@
       "courseId": "tm.e2e.ICEdit.CS2107",
       "name": "CS2107 Co-owner",
       "email": "icedit.coowner.cs2107@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -263,11 +263,11 @@
     "ICEdit.helper.CS2104": {
       "instructorId": "00000000-0000-4000-8000-000000000505",
       "courseLevel": {
-        "canViewStudentInSections": false,
-        "canSubmitSessionInSections": false,
-        "canModifySessionCommentsInSections": false,
+        "canViewStudent": false,
+        "canSubmitSession": false,
+        "canModifySessionComments": false,
         "canModifyCourse": false,
-        "canViewSessionInSections": false,
+        "canViewSession": false,
         "canModifySession": false,
         "canModifyStudent": true,
         "canModifyInstructor": true
@@ -278,11 +278,11 @@
     "ICEdit.helper.CS2103T": {
       "instructorId": "00000000-0000-4000-8000-000000000508",
       "courseLevel": {
-        "canViewStudentInSections": false,
-        "canSubmitSessionInSections": false,
-        "canModifySessionCommentsInSections": false,
+        "canViewStudent": false,
+        "canSubmitSession": false,
+        "canModifySessionComments": false,
         "canModifyCourse": false,
-        "canViewSessionInSections": false,
+        "canViewSession": false,
         "canModifySession": false,
         "canModifyStudent": true,
         "canModifyInstructor": true

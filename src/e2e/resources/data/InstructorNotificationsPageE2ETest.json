@@ -22,7 +22,7 @@
       "id": "00000000-0000-4000-8000-000000100001",
       "name": "Teammates Instr1",
       "email": "inotifs.instr@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "courseId": "tm.e2e.INotifs.course1",

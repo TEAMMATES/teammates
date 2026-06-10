@@ -218,7 +218,7 @@
     "instructor1OfCourse1": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor1 Course1",
@@ -229,7 +229,7 @@
     "instructor2OfCourse1": {
       "isDisplayedToStudents": true,
       "displayName": "Manager",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
+      "role": "MANAGER",
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor2 Course1",
@@ -240,7 +240,7 @@
     "helperOfCourse1": {
       "isDisplayedToStudents": false,
       "displayName": "Helper",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "idOfTypicalCourse1",
       "name": "Helper Course1",
@@ -251,7 +251,7 @@
     "instructorNotYetJoinCourse1": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000504",
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor Not Yet Joined Course 1",
@@ -261,7 +261,7 @@
     "instructor1OfCourse2": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000505",
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor1 Course2",
@@ -272,7 +272,7 @@
     "instructor2OfCourse2": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000506",
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor2 Course2",
@@ -283,7 +283,7 @@
     "instructor1OfCourse3": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000507",
       "courseId": "idOfTypicalCourse3",
       "name": "Instructor1 Course3",
@@ -294,7 +294,7 @@
     "instructor2OfCourse3": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "id": "00000000-0000-4000-8000-000000000508",
       "courseId": "idOfTypicalCourse3",
       "name": "Instructor2 Course3",
@@ -305,7 +305,7 @@
     "instructor1OfCourse4": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "id": "00000000-0000-4000-8000-000000000509",
       "courseId": "idOfTypicalCourse4",
       "name": "Instructor1 Course4",
@@ -316,7 +316,7 @@
     "instructor3OfCourse1": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000510",
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor3 Course1",
@@ -327,7 +327,7 @@
     "instructor3OfCourse2": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000511",
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor3 Course2",
@@ -338,7 +338,7 @@
     "instructor4": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000512",
       "courseId": "idOfCourseNoEvals",
       "name": "Instructor4 name",
@@ -349,7 +349,7 @@
     "instructor5": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000513",
       "courseId": "idOfUnregisteredCourse",
       "name": "Instructor 5 of CourseNoRegister",
@@ -360,7 +360,7 @@
     "instructorWithOnlyOneSampleCourse": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000514",
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor With Only One Sample Course",
@@ -371,7 +371,7 @@
     "instructorOfArchivedCourse": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000515",
       "courseId": "idOfArchivedCourse",
       "name": "InstructorOfArchiveCourse name",
@@ -382,7 +382,7 @@
     "instructorNotDisplayedToStudent1": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000516",
       "courseId": "idOfTestingInstructorsDisplayedCourse",
       "name": "name1",
@@ -392,7 +392,7 @@
     "instructorNotDisplayedToStudent2": {
       "isDisplayedToStudents": false,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000517",
       "courseId": "idOfTestingInstructorsDisplayedCourse",
       "name": "name2",
@@ -402,7 +402,7 @@
     "instructorNotYetJoinCourse": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000518",
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor Not Yet Joined Course",
@@ -412,7 +412,7 @@
     "instructor1OfTestingSanitizationCourse": {
       "isDisplayedToStudents": true,
       "displayName": "inst'\"/><script>alert('hi!');</script>",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000519",
       "courseId": "idOfTestingSanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
@@ -429,10 +429,10 @@
         "canModifyInstructor": false,
         "canModifySession": false,
         "canModifyStudent": false,
-        "canViewStudentInSections": false,
-        "canViewSessionInSections": false,
-        "canSubmitSessionInSections": false,
-        "canModifySessionCommentsInSections": false
+        "canViewStudent": false,
+        "canViewSession": false,
+        "canSubmitSession": false,
+        "canModifySessionComments": false
       },
       "sectionLevel": {},
       "sessionLevel": {}
@@ -444,10 +444,10 @@
         "canModifyInstructor": true,
         "canModifySession": false,
         "canModifyStudent": true,
-        "canViewStudentInSections": true,
-        "canViewSessionInSections": true,
-        "canSubmitSessionInSections": true,
-        "canModifySessionCommentsInSections": true
+        "canViewStudent": true,
+        "canViewSession": true,
+        "canSubmitSession": true,
+        "canModifySessionComments": true
       },
       "sectionLevel": {},
       "sessionLevel": {}
@@ -459,10 +459,10 @@
         "canModifyInstructor": true,
         "canModifySession": false,
         "canModifyStudent": true,
-        "canViewStudentInSections": true,
-        "canViewSessionInSections": true,
-        "canSubmitSessionInSections": true,
-        "canModifySessionCommentsInSections": true
+        "canViewStudent": true,
+        "canViewSession": true,
+        "canSubmitSession": true,
+        "canModifySessionComments": true
       },
       "sectionLevel": {},
       "sessionLevel": {}

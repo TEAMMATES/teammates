@@ -62,7 +62,7 @@ public class UsersLogicTest extends BaseTestCase {
             String permissionName = invocation.getArgument(1);
             InstructorPermissionRole role = instr.getRole();
             InstructorPrivileges privileges = role == null
-                    || role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+                    || role == InstructorPermissionRole.CUSTOM
                             ? new InstructorPrivileges(instr.getId())
                             : new InstructorPrivileges(instr.getId(), role.getRoleName());
             return privileges.isAllowedForPrivilege(permissionName);
@@ -202,7 +202,7 @@ public class UsersLogicTest extends BaseTestCase {
 
     @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
-        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        instructor.setRole(InstructorPermissionRole.CUSTOM);
         InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         when(instructorPermissionsLogic.getInstructorPrivileges(instructor)).thenReturn(privileges);
