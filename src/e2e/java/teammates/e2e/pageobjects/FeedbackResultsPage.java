@@ -17,7 +17,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
@@ -30,6 +29,7 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.entity.Course;
@@ -214,10 +214,10 @@ public class FeedbackResultsPage extends AppPage {
         for (String recipient : recipients) {
             List<ExpectedFeedbackResponse> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
-                            && (question.isResponseVisibleTo(ViewerType.RECEIVER)
-                                    || question.isResponseVisibleTo(ViewerType.STUDENTS)
-                                    || question.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
-                                    || question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)))
+                            && (question.isResponseVisibleTo(FeedbackVisibilityType.RECIPIENT)
+                                    || question.isResponseVisibleTo(FeedbackVisibilityType.STUDENTS)
+                                    || question.isResponseVisibleTo(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)
+                                    || question.isResponseVisibleTo(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS)))
                     .toList();
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);

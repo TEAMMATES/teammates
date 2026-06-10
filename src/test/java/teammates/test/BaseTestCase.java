@@ -19,10 +19,10 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelperExtension;
@@ -160,8 +160,8 @@ public class BaseTestCase {
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
         Instructor commentGiver = getTypicalInstructor();
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(commentGiver,
-                "typical-comment", List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
-                List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);
+                "typical-comment", List.of(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
+                List.of(CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS), commentGiver);
         typicalFeedbackResponse.addResponseInstructorComment(responseInstructorComment);
         responseInstructorComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         responseInstructorComment.setCreatedAt(Instant.now());

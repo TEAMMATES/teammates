@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -143,9 +143,9 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
     private boolean canInstructorSee(UUID questionId) {
         return inTransaction(() -> {
             FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(questionId);
-            return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
-                    && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
-                    && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+            return feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                    && feedbackQuestion.getShowGiverNameTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                    && feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         });
     }
 }

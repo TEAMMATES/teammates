@@ -232,9 +232,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER", "OWN_TEAM_MEMBERS"],
-      "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT", "GIVER_TEAM_MEMBERS"],
+      "showGiverNameTo": ["INSTRUCTORS", "GIVER_TEAM_MEMBERS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn2InSession1": {
@@ -248,9 +248,9 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER", "OWN_TEAM_MEMBERS"],
-      "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT", "GIVER_TEAM_MEMBERS"],
+      "showGiverNameTo": ["INSTRUCTORS", "GIVER_TEAM_MEMBERS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn3InSession1": {
@@ -263,9 +263,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER"],
-      "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"],
+      "showResponsesTo": ["RECIPIENT"],
+      "showGiverNameTo": ["RECIPIENT"],
+      "showRecipientNameTo": ["RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn4InSession1": {
@@ -280,9 +280,9 @@
       "giverType": "TEAMS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": ["RECEIVER"],
-      "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"],
+      "showResponsesTo": ["RECIPIENT"],
+      "showGiverNameTo": ["RECIPIENT"],
+      "showRecipientNameTo": ["RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn5InSession1": {
@@ -295,9 +295,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER"],
-      "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"],
+      "showResponsesTo": ["RECIPIENT"],
+      "showGiverNameTo": ["RECIPIENT"],
+      "showRecipientNameTo": ["RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn1InGracePeriodSession": {
@@ -312,9 +312,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn2InGracePeriodSession": {
@@ -329,9 +329,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": ["RECEIVER"],
-      "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"],
+      "showResponsesTo": ["RECIPIENT"],
+      "showGiverNameTo": ["RECIPIENT"],
+      "showRecipientNameTo": ["RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn1InClosedSession": {
@@ -344,8 +344,8 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECIPIENT", "INSTRUCTORS"],
       "showRecipientNameTo": ["INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     }

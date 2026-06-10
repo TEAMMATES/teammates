@@ -112,9 +112,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 2,
-      "showResponsesTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
+      "showResponsesTo": ["STUDENTS", "INSTRUCTORS", "GIVER_TEAM_MEMBERS", "RECIPIENT"],
+      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS", "GIVER_TEAM_MEMBERS", "RECIPIENT"],
+      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS", "GIVER_TEAM_MEMBERS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     }
   }

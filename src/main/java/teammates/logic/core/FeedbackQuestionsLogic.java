@@ -18,11 +18,11 @@ import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle.QuestionSubmissionBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -254,9 +254,9 @@ public final class FeedbackQuestionsLogic {
     }
 
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
-        return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
-                && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
-                && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+        return feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                && feedbackQuestion.getShowGiverNameTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                && feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
     }
 
     private void normalizeQuestionNumbers(List<QuestionSubmissionBundle> questionSubmissionBundles) {

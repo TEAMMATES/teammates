@@ -265,9 +265,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn2": {
@@ -285,9 +285,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showResponsesTo": ["GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3": {
@@ -303,9 +303,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "c2qn1": {
@@ -323,9 +323,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showResponsesTo": ["GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
