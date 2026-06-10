@@ -111,7 +111,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
 
   writeValue(value: TValue | null): void {
     this.selectedValue.set(value);
-    this.selectedValues.set(this.hasMatchingOption(value) ? [value as TValue] : []);
+    this.selectedValues.set(this.hasMatchingOption(value) ? [value] : []);
     this.inputValue.set(this.getSelectedLabel());
   }
 
@@ -142,16 +142,17 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
     combobox.open();
   }
 
-  clearSelection(event: MouseEvent): void {
+  clearSelection(event: MouseEvent, combobox: Combobox<TValue>): void {
     event.stopPropagation();
 
     if (this.disabled) {
       return;
     }
 
+    combobox.close();
     this.isShowingAllOptions.set(false);
     this.selectedValue.set(this.clearValue);
-    this.selectedValues.set(this.hasMatchingOption(this.clearValue) ? [this.clearValue as TValue] : []);
+    this.selectedValues.set(this.hasMatchingOption(this.clearValue) ? [this.clearValue] : []);
     this.inputValue.set(this.getSelectedLabel());
     this.onChange(this.clearValue);
     this.onTouched();
@@ -160,7 +161,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   onValuesChange(values: TValue[]): void {
     if (values.length === 0) {
       const selectedValue: TValue | null = this.selectedValue();
-      this.selectedValues.set(this.hasMatchingOption(selectedValue) ? [selectedValue as TValue] : []);
+      this.selectedValues.set(this.hasMatchingOption(selectedValue) ? [selectedValue] : []);
       return;
     }
 
@@ -206,7 +207,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
     return this.options.find((option: ComboboxOption<TValue, TData>) => this.compareWith(option.value, value));
   }
 
-  private hasMatchingOption(value: TValue | null): boolean {
+  private hasMatchingOption(value: TValue | null): value is TValue {
     return value !== null && this.findOption(value) !== undefined;
   }
 
