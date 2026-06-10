@@ -60,6 +60,7 @@ import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
 import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { ComboboxOption, SearchableComboboxComponent } from '../searchable-combobox/searchable-combobox.component';
 
 /**
  * The question submission form for a question.
@@ -103,6 +104,7 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
     RecipientTypeNamePipe,
+    SearchableComboboxComponent,
     NoRecipientsWarningComponent,
   ],
 })
@@ -529,6 +531,23 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     return recipient.recipientName;
+  }
+
+  getRecipientComboboxOptions(
+    recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel,
+  ): ComboboxOption<string, FeedbackResponseRecipient>[] {
+    return this.model.recipientList
+      .filter(
+        (recipient: FeedbackResponseRecipient) =>
+          !this.isRecipientSelected(recipient) ||
+          recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier,
+      )
+      .map((recipient: FeedbackResponseRecipient) => ({
+        value: recipient.recipientIdentifier,
+        label: this.getSelectionOptionLabel(recipient),
+        keywords: [recipient.recipientName, recipient.recipientSection ?? '', recipient.recipientTeam ?? ''],
+        data: recipient,
+      }));
   }
 
   toggleSectionTeam(event: Event): void {

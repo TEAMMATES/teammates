@@ -1,0 +1,73 @@
+<div
+  class="searchable-combobox position-relative w-100"
+  ngCombobox
+  filterMode="manual"
+  [disabled]="isDisabled()"
+  (focusout)="onComboboxFocusOut($event)"
+>
+  <input
+    ngComboboxInput
+    class="form-control w-100 searchable-combobox-input"
+    type="text"
+    autocomplete="off"
+    [id]="inputId"
+    [value]="inputValue()"
+    (valueChange)="onInputValueChange($event)"
+    (click)="onInputClick()"
+    [placeholder]="placeholder"
+    [disabled]="isDisabled()"
+    [attr.aria-label]="ariaLabel || null"
+  />
+
+  @if (clearable && hasSelectedDisplayValue() && !isDisabled()) {
+    <button
+      class="searchable-combobox-toggle"
+      type="button"
+      aria-label="Clear selection"
+      (click)="clearSelection($event)"
+    >
+      <span class="fa fa-times" aria-hidden="true"></span>
+    </button>
+  } @else {
+    <button
+      class="searchable-combobox-toggle"
+      type="button"
+      tabindex="-1"
+      aria-label="Open"
+      [disabled]="isDisabled()"
+      (click)="onInputClick()"
+    >
+      <span class="fa fa-chevron-down" aria-hidden="true"></span>
+    </button>
+  }
+
+  <ng-template ngComboboxPopupContainer>
+    <div class="searchable-combobox-popup w-100 overflow-hidden bg-white border rounded shadow">
+      <div
+        class="searchable-combobox-options bg-white py-1 fw-normal"
+        ngListbox
+        data-testid="searchable-combobox-options"
+        [values]="selectedValues()"
+        (valuesChange)="onValuesChange($event)"
+        [disabled]="isDisabled()"
+        focusMode="activedescendant"
+        selectionMode="explicit"
+      >
+        @for (option of filteredOptions(); track option.value) {
+          <div
+            class="searchable-combobox-option px-3 py-2"
+            ngOption
+            data-testid="searchable-combobox-option"
+            [value]="option.value"
+            [label]="option.label"
+            [ngClass]="{ 'searchable-combobox-option-selected': isSelected(option) }"
+          >
+            {{ option.label }}
+          </div>
+        } @empty {
+          <div class="text-secondary px-3 py-2">No matching options</div>
+        }
+      </div>
+    </div>
+  </ng-template>
+</div>
