@@ -39,7 +39,7 @@ public class RequestTraceFilter implements Filter {
         response.setHeader("Pragma", "no-cache");
 
         HttpServletRequest request = (HttpServletRequest) req;
-        
+
         // Generate random hexadecimal string of length 32
         byte[] resBuf = new byte[16];
         random.nextBytes(resBuf);
