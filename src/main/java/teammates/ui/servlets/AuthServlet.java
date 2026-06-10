@@ -11,8 +11,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpStatus;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -57,6 +55,10 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for the given HTTP servlet request.
      */
     String getRedirectUri(HttpServletRequest req) {
+        if (Config.isDevServerLoginEnabled()) {
+            // Fixed to http since localhost does not support https.
+            return "http://localhost:8080/oauth2callback";
+        }
         GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
         url.setRawPath("/oauth2callback");
         url.set("ngsw-bypass", "true");
@@ -117,32 +119,6 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     /**
-     * Extracts and validates the login method from the HTTP servlet request.
-     * @return the login method, or null if it fails the check.
-     */
-    LoginMethod getLoginMethodFromRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String method = req.getParameter("method");
-        if (method == null) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing login method");
-            return null;
-        }
-
-        LoginMethod loginMethod;
-        try {
-            loginMethod = LoginMethod.fromString(method);
-        } catch (IllegalArgumentException e) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid login method: " + method);
-            return null;
-        }
-
-        if (!Config.isSupportedLoginMethod(loginMethod)) {
-            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Valid but unsupported login method: " + method);
-            return null;
-        }
-        return loginMethod;
-    }
-
-    /**
      * Represents the state object to be persisted during the callback.
      */
     static class AuthState {
@@ -165,8 +141,8 @@ abstract class AuthServlet extends HttpServlet {
             return sessionId;
         }
 
-        public String getMethodValue() {
-            return method.getMethod();
+        public LoginMethod getMethod() {
+            return method;
         }
     }
 

@@ -40,7 +40,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        LoginMethod loginMethod = getLoginMethodFromRequest(req, resp);
+        LoginMethod loginMethod = getLoginMethodFromCallback(req, resp);
         if (loginMethod == null) {
             return;
         }
@@ -105,10 +105,23 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     private AuthResult getDevServerAuthResult(HttpServletRequest req) {
         String email = req.getParameter("email");
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
+        String state = req.getParameter("state");
+        if (email == null || state == null) {
+            log.warning("Missing email or state parameter in dev server login callback");
+            return null;
         }
+
+        String nextUrl = "/";
+        try {
+            AuthState authState = JsonUtils.fromJson(StringHelper.decrypt(state), AuthState.class);
+            if (authState.getNextUrl() != null) {
+                nextUrl = authState.getNextUrl();
+            }
+        } catch (JacksonException | InvalidParametersException e) {
+            log.warning("Failed to parse state object", e);
+            return null;
+        }
+
         return new AuthResult(Provider.TEAMMATES_DEV, email, null, email, nextUrl);
     }
 
@@ -169,6 +182,43 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
+    }
+
+    /**
+     * Extracts and validates the login method from the HTTP servlet request.
+     *
+     * @return the login method, or null if it fails the check.
+     */
+    private LoginMethod getLoginMethodFromCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String encyptedState = req.getParameter("state");
+        if (encyptedState == null) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing or invalid state parameter");
+            return null;
+        }
+
+        AuthState state;
+        try {
+            String decryptedState = StringHelper.decrypt(encyptedState);
+            state = JsonUtils.fromJson(decryptedState, AuthState.class);
+        } catch (Exception e) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Failed to parse state parameter");
+            return null;
+        }
+
+        LoginMethod loginMethod;
+        try {
+            loginMethod = state.getMethod();
+        } catch (IllegalArgumentException e) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid login method: " + state.getMethod());
+            return null;
+        }
+
+        if (!Config.isSupportedLoginMethod(loginMethod)) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST,
+                    "Valid but unsupported login method: " + state.getMethod());
+            return null;
+        }
+        return loginMethod;
     }
 
     private static final class AuthResult {

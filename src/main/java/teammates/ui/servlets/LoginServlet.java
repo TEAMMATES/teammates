@@ -45,7 +45,7 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        LoginMethod loginMethod = getLoginMethodFromRequest(req, resp);
+        LoginMethod loginMethod = getLoginMethodFromLoginRequest(req, resp);
         if (loginMethod == null) {
             return;
         }
@@ -104,6 +104,28 @@ public class LoginServlet extends AuthServlet {
             log.warning("Failed to verify account from cookie", e);
             return true;
         }
+    }
+
+    private LoginMethod getLoginMethodFromLoginRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String method = req.getParameter("method");
+        if (method == null) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing login method");
+            return null;
+        }
+
+        LoginMethod loginMethod;
+        try {
+            loginMethod = LoginMethod.fromString(method);
+        } catch (IllegalArgumentException e) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid login method: " + method);
+            return null;
+        }
+
+        if (!Config.isSupportedLoginMethod(loginMethod)) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Valid but unsupported login method: " + method);
+            return null;
+        }
+        return loginMethod;
     }
 
 }
