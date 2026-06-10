@@ -33,7 +33,8 @@ public class GetCourseSessionResultsAction extends Action {
 
         UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         UUID selectedSection = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
-        Optional<Boolean> isDefaultSection = getNullableBooleanRequestParamValue(Const.ParamsNames.IS_DEFAULT_SECTION);
+        Optional<Boolean> isNoSpecificSection =
+                getNullableBooleanRequestParamValue(Const.ParamsNames.IS_NO_SPECIFIC_SECTION);
 
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
@@ -42,7 +43,7 @@ public class GetCourseSessionResultsAction extends Action {
 
         Instructor instructor = getInstructorFromRequest(feedbackSession.getCourseId());
         SessionResultsBundle bundle = logic.getSessionResults(feedbackSession, instructor,
-                questionId, selectedSection, isDefaultSection.orElse(false));
+                questionId, selectedSection, isNoSpecificSection.orElse(false));
 
         return new JsonResult(SessionResultsData.init(bundle));
     }

@@ -54,7 +54,7 @@ public class StudentUpdateRequest extends BasicRequest {
     }
 
     public String getSection() {
-        return this.section.isEmpty() ? Const.DEFAULT_SECTION : SanitizationHelper.sanitizeName(this.section);
+        return this.section.isEmpty() ? Const.NO_SPECIFIC_SECTION : SanitizationHelper.sanitizeName(this.section);
     }
 
     public String getComments() {

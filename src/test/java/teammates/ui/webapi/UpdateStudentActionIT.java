@@ -275,7 +275,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
             assertEquals(student4.getName(), actualStudent.getName());
             assertEquals(student4.getEmail(), actualStudent.getEmail());
             assertEquals(student4.getTeamName(), actualStudent.getTeamName());
-            assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
+            assertEquals(Const.NO_SPECIFIC_SECTION, actualStudent.getSectionName());
             assertEquals(student4.getComments(), actualStudent.getComments());
         });
 

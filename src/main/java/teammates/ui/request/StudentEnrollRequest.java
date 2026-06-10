@@ -49,7 +49,7 @@ public class StudentEnrollRequest extends BasicRequest {
     }
 
     public String getSection() {
-        return this.section.isEmpty() ? Const.DEFAULT_SECTION : this.section;
+        return this.section.isEmpty() ? Const.NO_SPECIFIC_SECTION : this.section;
     }
 
     public String getComments() {

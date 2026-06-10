@@ -1,7 +1,8 @@
 import { CourseSection, FeedbackQuestion, QuestionOutput, ResponseOutput } from '../../../types/api-output';
 
-export const DEFAULT_SECTION_ID = 'None';
-export const DEFAULT_SECTION_NAME = 'No specific section';
+// NO_SPECIFIC_SECTION_ID and NO_SPECIFIC_SECTION_NAME are used to represent instructors and general recipients not associated with any section.
+export const NO_SPECIFIC_SECTION_ID = 'No Specific Section';
+export const NO_SPECIFIC_SECTION_NAME = 'Instructors / General Recipients';
 
 /**
  * Per section view tab model.

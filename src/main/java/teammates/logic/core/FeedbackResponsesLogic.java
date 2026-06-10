@@ -579,7 +579,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private SessionResultsBundle buildResultsBundle(
-            boolean isCourseWide, UUID sectionId, boolean isDefaultSection, User user,
+            boolean isCourseWide, UUID sectionId, boolean isNoSpecificSection, User user,
             CourseRoster roster, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
         List<FeedbackResponse> relatedResponses = new ArrayList<>();
@@ -683,7 +683,7 @@ public final class FeedbackResponsesLogic {
         if (isCourseWide && user instanceof Instructor instructor) {
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedQuestions,
-                    existingResponses, roster, sectionId, isDefaultSection);
+                    existingResponses, roster, sectionId, isNoSpecificSection);
         }
         RequestTracer.checkRemainingTime();
 
@@ -700,12 +700,12 @@ public final class FeedbackResponsesLogic {
      * @param instructor the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionId if not null, will only return partial bundle for the section
-     * @param isDefaultSection true if the section is the default section
+     * @param isNoSpecificSection true if the section is the default section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isDefaultSection) {
+            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
 
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
@@ -720,14 +720,16 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> allResponses;
         // load all response for instructors and passively filter them later
         if (questionId == null) {
-            allResponses = getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionId, isDefaultSection);
+            allResponses = getFeedbackResponsesForSessionInSection(
+                    feedbackSession, courseId, sectionId, isNoSpecificSection);
         } else {
-            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionId, isDefaultSection);
+            allResponses = getFeedbackResponsesForQuestionInSection(questionId, sectionId, isNoSpecificSection);
         }
 
         RequestTracer.checkRemainingTime();
 
-        return buildResultsBundle(true, sectionId, isDefaultSection, instructor, roster, allQuestions, allResponses, false);
+        return buildResultsBundle(true, sectionId, isNoSpecificSection,
+                instructor, roster, allQuestions, allResponses, false);
     }
 
     /**
@@ -810,7 +812,7 @@ public final class FeedbackResponsesLogic {
             Instructor instructor, Map<UUID, Boolean> responseGiverVisibilityTable,
             Map<UUID, Boolean> responseRecipientVisibilityTable, List<FeedbackQuestion> relatedQuestions,
             List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable UUID sectionId,
-            boolean isDefaultSection) {
+            boolean isNoSpecificSection) {
 
         // get all possible giver recipient pairs
         Map<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> questionCompleteGiverRecipientMap =
@@ -848,8 +850,8 @@ public final class FeedbackResponsesLogic {
                 for (ResponseRecipient recipient : giverRecipientEntry.getValue()) {
                     UUID giverSectionId = giver.getSectionId();
                     UUID recipientSectionId = recipient.getSectionId();
-                    if (isDefaultSection && giverSectionId != null && recipientSectionId != null) {
-                        // if isDefaultSection is true, either giver or recipient needs
+                    if (isNoSpecificSection && giverSectionId != null && recipientSectionId != null) {
+                        // if isNoSpecificSection is true, either giver or recipient needs
                         // to be in the default section (i.e. no section)
                         continue;
                     }
@@ -1066,16 +1068,16 @@ public final class FeedbackResponsesLogic {
      * @param feedbackSession the session
      * @param courseId the course ID of the session
      * @param sectionId if null, will retrieve all responses in the session
-     * @param isDefaultSection true if the section is the default section
+     * @param isNoSpecificSection true if the section is the default section
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
-            FeedbackSession feedbackSession, String courseId, @Nullable UUID sectionId, boolean isDefaultSection) {
+            FeedbackSession feedbackSession, String courseId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
         List<FeedbackResponse> responses = frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
-        if (sectionId == null && !isDefaultSection) {
+        if (sectionId == null && !isNoSpecificSection) {
             return responses;
         } else {
-            return filterResponsesBySection(responses, sectionId, isDefaultSection);
+            return filterResponsesBySection(responses, sectionId, isNoSpecificSection);
         }
     }
 
@@ -1084,21 +1086,21 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackQuestionId the question UUID
      * @param sectionId if null, will retrieve all responses for the question
-     * @param isDefaultSection true if the section is the default section
+     * @param isNoSpecificSection true if the section is the default section
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
-            UUID feedbackQuestionId, @Nullable UUID sectionId, boolean isDefaultSection) {
+            UUID feedbackQuestionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
         List<FeedbackResponse> responses = frDb.getResponsesForQuestion(feedbackQuestionId);
-        if (sectionId == null && !isDefaultSection) {
+        if (sectionId == null && !isNoSpecificSection) {
             return responses;
         } else {
-            return filterResponsesBySection(responses, sectionId, isDefaultSection);
+            return filterResponsesBySection(responses, sectionId, isNoSpecificSection);
         }
     }
 
     private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses,
-            UUID sectionId, boolean isDefaultSection) {
+            UUID sectionId, boolean isNoSpecificSection) {
         List<FeedbackResponse> filteredResponses = new ArrayList<>();
         for (FeedbackResponse response : responses) {
             ResponseGiver giver = response.getGiver();
@@ -1108,14 +1110,14 @@ public final class FeedbackResponsesLogic {
             UUID recipientSectionId = recipient.getSectionId();
 
             boolean isGiverInSection;
-            if (isDefaultSection) {
+            if (isNoSpecificSection) {
                 isGiverInSection = giverSectionId == null;
             } else {
                 isGiverInSection = giverSectionId != null && giverSectionId.equals(sectionId);
             }
 
             boolean isRecipientInSection;
-            if (isDefaultSection) {
+            if (isNoSpecificSection) {
                 isRecipientInSection = recipientSectionId == null;
             } else {
                 isRecipientInSection = recipientSectionId != null && recipientSectionId.equals(sectionId);
