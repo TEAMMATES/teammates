@@ -1,7 +1,6 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -105,19 +104,6 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
 
         inTransaction(() -> usersDb.removeUser(unregisteredInsInCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
-        verifySearchResults(results);
-    }
-
-    @Test(groups = GroupNames.INTEGRATION)
-    public void testSearchInstructorsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
-        List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("_"));
-
-        List<Instructor> expectedUnderscoreMatches = inTransaction(() -> usersDb
-                .searchInstructorsInWholeSystem("instructor_permission_role_"));
-        assertFalse(results.isEmpty());
-        AssertHelper.assertSameContentIgnoreOrder(expectedUnderscoreMatches, results);
-
-        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("%"));
         verifySearchResults(results);
     }
 

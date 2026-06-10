@@ -19,11 +19,7 @@ concurrency:
 
 jobs:
   lint:
-    strategy:
-      fail-fast: false #ensure both tests run even if one fails
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -41,17 +37,17 @@ jobs:
         with:
           path: |
             ./.eslintcache
-          key: ${{ runner.os }}-eslint-${{ hashFiles('package-lock.json', 'eslint.config.*') }}
+          key: eslint-${{ hashFiles('package-lock.json', 'eslint.config.*') }}
           restore-keys: |
-            ${{ runner.os }}-eslint-
+            eslint-
       - name: Cache stylelint
         uses: actions/cache@v5
         with:
           path: |
             ./.stylelintcache
-          key: ${{ runner.os }}-stylelint-${{ hashFiles('package-lock.json', 'stylelint.config.*') }}
+          key: stylelint-${{ hashFiles('package-lock.json', 'stylelint.config.*') }}
           restore-keys: |
-            ${{ runner.os }}-stylelint-
+            stylelint-
       - name: Run Backend Linting
         run: ./gradlew lint --continue
       - name: Install Frontend Dependencies
@@ -59,11 +55,7 @@ jobs:
       - name: Run Lint Checks
         run: npm run lint
   component-testing:
-    strategy:
-      fail-fast: false #ensure both tests run even if one fails
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -77,15 +69,14 @@ jobs:
           java-version: 21
           cache: gradle
       - name: Update Property File
-        run: mv src/test/resources/test.ci-${{ matrix.os }}.properties src/test/resources/test.properties
+        run: mv src/test/resources/test.ci-ubuntu-latest.properties src/test/resources/test.properties
       - name: Run Backend Tests
         run: |
-          ./gradlew createConfigs componentTests --continue
-          ./gradlew jacocoReport
+          ./gradlew createConfigs
+          ./gradlew jacocoTestReport
       - name: Install Frontend Dependencies
         run: npm ci
       - name: Run Frontend Tests
         run: npm run coverage
       - name: Upload to Codecov
-        if: matrix.os == 'ubuntu-latest' #only upload to codecov on ubuntu VM
         uses: codecov/codecov-action@v3

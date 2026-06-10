@@ -1,15 +1,15 @@
 import { InstructorPermissionRole } from '../../types/api-output';
 export function instructorRoleToName(role: InstructorPermissionRole): string {
   switch (role) {
-    case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+    case InstructorPermissionRole.COOWNER:
       return 'Co-owner';
-    case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+    case InstructorPermissionRole.MANAGER:
       return 'Manager';
-    case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+    case InstructorPermissionRole.OBSERVER:
       return 'Observer';
-    case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+    case InstructorPermissionRole.TUTOR:
       return 'Tutor';
-    case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+    case InstructorPermissionRole.CUSTOM:
     default:
       return 'Custom';
   }

@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -1019,32 +1018,6 @@ public final class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getName()),
                 "${sessionsRecoveryLink}", recoveryUrl);
-    }
-
-    /**
-     * Generates the logs compilation email for the given {@code logs}.
-     */
-    public EmailWrapper generateCompiledLogsEmail(List<ErrorLogEntry> logs) {
-        StringBuilder emailBody = new StringBuilder();
-        for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).getMessage(),
-                    logs.get(i).getSeverity(), logs.get(i).getTraceId()));
-        }
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setType(EmailType.SEVERE_LOGS_COMPILATION);
-        email.setSubjectFromType(Config.APP_VERSION);
-        email.setContent(emailBody.toString());
-        return email;
-    }
-
-    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel, String traceId) {
-        return Templates.populateTemplate(
-            EmailTemplates.SEVERE_ERROR_LOG_LINE,
-            "${index}", String.valueOf(index),
-            "${errorType}", logLevel,
-            "${errorMessage}", logMessage.replaceAll("\n", "\n<br>"),
-            "${traceId}", traceId);
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {

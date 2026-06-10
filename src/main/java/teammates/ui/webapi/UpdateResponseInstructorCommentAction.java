@@ -51,12 +51,12 @@ public class UpdateResponseInstructorCommentAction extends Action {
         UUID recipientSectionId = response.getRecipient().getSectionId();
         if (recipientSectionId == null) {
             gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
             return;
         }
 
         gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(),
-                recipientSectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                recipientSectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
     }
 
     @Override

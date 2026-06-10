@@ -130,7 +130,7 @@ public class Instructor extends User {
      * Returns true if the instructor has co-owner role.
      */
     public boolean hasCoownerRole() {
-        return this.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        return this.role == InstructorPermissionRole.COOWNER;
     }
 
 }

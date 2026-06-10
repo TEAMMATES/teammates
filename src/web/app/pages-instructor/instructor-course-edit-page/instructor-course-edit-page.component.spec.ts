@@ -47,7 +47,7 @@ const emptyInstructorPanel: InstructorEditPanel = {
   isDisplayedToStudents: true,
   displayedToStudentsAs: '',
   name: '',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   joinState: JoinState.NOT_JOINED,
 
   permission: {
@@ -56,10 +56,10 @@ const emptyInstructorPanel: InstructorEditPanel = {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
+      canViewStudent: true,
+      canModifySessionComments: true,
+      canViewSession: true,
+      canSubmitSession: true,
     },
     sectionLevel: [],
   },

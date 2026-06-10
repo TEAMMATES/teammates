@@ -48,16 +48,16 @@ public class InstructorSectionPrivilege extends BaseEntity {
     private UUID sectionId;
 
     @Column(nullable = false)
-    private boolean canViewStudentInSections;
+    private boolean canViewStudent;
 
     @Column(nullable = false)
-    private boolean canViewSessionInSections;
+    private boolean canViewSession;
 
     @Column(nullable = false)
-    private boolean canSubmitSessionInSections;
+    private boolean canSubmitSession;
 
     @Column(nullable = false)
-    private boolean canModifySessionCommentsInSections;
+    private boolean canModifySessionComments;
 
     protected InstructorSectionPrivilege() {
         // required by Hibernate
@@ -115,10 +115,10 @@ public class InstructorSectionPrivilege extends BaseEntity {
      */
     public InstructorPermissionSet getPrivileges() {
         InstructorPermissionSet privileges = new InstructorPermissionSet();
-        privileges.setCanViewStudentInSections(canViewStudentInSections);
-        privileges.setCanViewSessionInSections(canViewSessionInSections);
-        privileges.setCanSubmitSessionInSections(canSubmitSessionInSections);
-        privileges.setCanModifySessionCommentsInSections(canModifySessionCommentsInSections);
+        privileges.setCanViewStudent(canViewStudent);
+        privileges.setCanViewSession(canViewSession);
+        privileges.setCanSubmitSession(canSubmitSession);
+        privileges.setCanModifySessionComments(canModifySessionComments);
         return privileges;
     }
 
@@ -126,10 +126,10 @@ public class InstructorSectionPrivilege extends BaseEntity {
      * Copies the section-level permissions from the given {@link InstructorPermissionSet}.
      */
     public void setPrivileges(InstructorPermissionSet privileges) {
-        this.canViewStudentInSections = privileges.isCanViewStudentInSections();
-        this.canViewSessionInSections = privileges.isCanViewSessionInSections();
-        this.canSubmitSessionInSections = privileges.isCanSubmitSessionInSections();
-        this.canModifySessionCommentsInSections = privileges.isCanModifySessionCommentsInSections();
+        this.canViewStudent = privileges.isCanViewStudent();
+        this.canViewSession = privileges.isCanViewSession();
+        this.canSubmitSession = privileges.isCanSubmitSession();
+        this.canModifySessionComments = privileges.isCanModifySessionComments();
     }
 
     @Override

@@ -5,7 +5,7 @@ import { FeedbackResponsesService } from './feedback-responses.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
@@ -346,21 +346,21 @@ describe('FeedbackResponsesService', () => {
     expect(
       service.isFeedbackResponsesDisplayedOnSection(
         response,
-        DEFAULT_SECTION_ID,
+        NO_SPECIFIC_SECTION_ID,
         InstructorSessionResultSectionType.EITHER,
       ),
     ).toBeTruthy();
     expect(
       service.isFeedbackResponsesDisplayedOnSection(
         response,
-        DEFAULT_SECTION_ID,
+        NO_SPECIFIC_SECTION_ID,
         InstructorSessionResultSectionType.GIVER,
       ),
     ).toBeTruthy();
     expect(
       service.isFeedbackResponsesDisplayedOnSection(
         response,
-        DEFAULT_SECTION_ID,
+        NO_SPECIFIC_SECTION_ID,
         InstructorSessionResultSectionType.EVALUEE,
       ),
     ).toBeFalsy();

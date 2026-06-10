@@ -354,8 +354,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               isLoadingResponseRate: false,
               instructorPrivilege: feedbackSessionView.instructorPermissions ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             };
             model.sessionsTableRowModels.push(m);

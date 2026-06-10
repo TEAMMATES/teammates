@@ -28,7 +28,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
@@ -68,7 +67,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
@@ -115,7 +113,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
-            action.setLogsProcessor(mockLogsProcessor);
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -427,7 +424,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         inTransaction(() -> {
             Instructor dbInstructor = logic.getInstructor(instructor.getId());
             logic.saveInstructorPrivileges(dbInstructor, runtimePrivileges);
-            dbInstructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+            dbInstructor.setRole(InstructorPermissionRole.CUSTOM);
         });
 
         verifyCanAccess(submissionParams);
@@ -721,7 +718,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 String tenantId = "tenant-id";
                 Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
                 return logic.createInstructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, account);
+                        InstructorPermissionRole.CUSTOM, account);
             });
         }
         return instructor;

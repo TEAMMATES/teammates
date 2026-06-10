@@ -23,7 +23,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
@@ -39,7 +38,6 @@ import teammates.ui.request.BasicRequest;
 public abstract class BaseActionTest<T extends Action, R extends ApiOutput> extends BaseTestCaseWithDatabaseAccess {
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
     private final Class<T> actionClass;
@@ -62,7 +60,6 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
 
         action.setTaskQueuer(mockTaskQueuer);
         action.setEmailSender(mockEmailSender);
-        action.setLogsProcessor(mockLogsProcessor);
         action.setRecaptchaVerifier(mockRecaptchaVerifier);
         inTransaction(() -> action.init(request));
 

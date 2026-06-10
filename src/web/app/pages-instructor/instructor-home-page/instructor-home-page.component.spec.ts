@@ -27,11 +27,11 @@ const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyCourse: true,
   canModifySession: true,
   canModifyStudent: true,
-  canSubmitSessionInSections: true,
+  canSubmitSession: true,
   canModifyInstructor: false,
-  canViewStudentInSections: false,
-  canModifySessionCommentsInSections: false,
-  canViewSessionInSections: false,
+  canViewStudent: false,
+  canModifySessionComments: false,
+  canViewSession: false,
 };
 
 const testCourse1: Course = {
@@ -368,11 +368,11 @@ describe('InstructorHomePageComponent', () => {
       canModifyCourse: false,
       canModifySession: false,
       canModifyStudent: false,
-      canSubmitSessionInSections: false,
+      canSubmitSession: false,
       canModifyInstructor: false,
-      canViewStudentInSections: false,
-      canModifySessionCommentsInSections: false,
-      canViewSessionInSections: false,
+      canViewStudent: false,
+      canModifySessionComments: false,
+      canViewSession: false,
     };
     const sessionsTableRowModel1: SessionsTableRowModel = {
       feedbackSession: testFeedbackSession1,

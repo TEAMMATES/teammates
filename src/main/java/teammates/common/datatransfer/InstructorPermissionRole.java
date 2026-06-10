@@ -11,27 +11,27 @@ public enum InstructorPermissionRole {
     /**
      * Co-owner.
      */
-    INSTRUCTOR_PERMISSION_ROLE_COOWNER(Const.InstructorPermissionRoleNames.COOWNER),
+    COOWNER(Const.InstructorPermissionRoleNames.COOWNER),
 
     /**
      * Manager.
      */
-    INSTRUCTOR_PERMISSION_ROLE_MANAGER(Const.InstructorPermissionRoleNames.MANAGER),
+    MANAGER(Const.InstructorPermissionRoleNames.MANAGER),
 
     /**
      * Observer.
      */
-    INSTRUCTOR_PERMISSION_ROLE_OBSERVER(Const.InstructorPermissionRoleNames.OBSERVER),
+    OBSERVER(Const.InstructorPermissionRoleNames.OBSERVER),
 
     /**
      * Tutor.
      */
-    INSTRUCTOR_PERMISSION_ROLE_TUTOR(Const.InstructorPermissionRoleNames.TUTOR),
+    TUTOR(Const.InstructorPermissionRoleNames.TUTOR),
 
     /**
      * Custom.
      */
-    INSTRUCTOR_PERMISSION_ROLE_CUSTOM(Const.InstructorPermissionRoleNames.CUSTOM);
+    CUSTOM(Const.InstructorPermissionRoleNames.CUSTOM);
 
     private String roleName;
 
@@ -49,17 +49,17 @@ public enum InstructorPermissionRole {
     public static InstructorPermissionRole getEnum(String role) {
         switch (role) {
         case Const.InstructorPermissionRoleNames.COOWNER:
-            return INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+            return COOWNER;
         case Const.InstructorPermissionRoleNames.MANAGER:
-            return INSTRUCTOR_PERMISSION_ROLE_MANAGER;
+            return MANAGER;
         case Const.InstructorPermissionRoleNames.OBSERVER:
-            return INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
+            return OBSERVER;
         case Const.InstructorPermissionRoleNames.TUTOR:
-            return INSTRUCTOR_PERMISSION_ROLE_TUTOR;
+            return TUTOR;
         case Const.InstructorPermissionRoleNames.CUSTOM:
-            return INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+            return CUSTOM;
         default:
-            return INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+            return CUSTOM;
         }
     }
 }

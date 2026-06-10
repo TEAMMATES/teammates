@@ -451,7 +451,7 @@
       "courseId": "CS1101S",
       "name": "Alice",
       "email": "alice@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Prof. Khan",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -461,7 +461,7 @@
       "courseId": "CS1101S",
       "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Mr. Tanaka",
       "accountId": "00000000-0000-4000-8000-000000000002"
@@ -471,7 +471,7 @@
       "courseId": "CS2103T",
       "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Dr. Vasquez",
       "accountId": "00000000-0000-4000-8000-000000000003"
@@ -481,7 +481,7 @@
       "courseId": "CS2103T",
       "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
+      "role": "OBSERVER",
       "isDisplayedToStudents": true,
       "displayName": "Mr. Okonkwo",
       "accountId": "00000000-0000-4000-8000-000000000004"
@@ -491,7 +491,7 @@
       "courseId": "CS2040DE",
       "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Dr. Sharma",
       "accountId": "00000000-0000-4000-8000-000000000005"
@@ -501,7 +501,7 @@
       "courseId": "CS2040DE",
       "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
+      "role": "MANAGER",
       "isDisplayedToStudents": true,
       "displayName": "Prof. Eriksson",
       "accountId": "00000000-0000-4000-8000-000000000006"

@@ -268,7 +268,7 @@
       "courseId": "course-1",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -278,7 +278,7 @@
       "courseId": "course-1",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000002"
@@ -288,7 +288,7 @@
       "courseId": "unregistered-course",
       "name": "Instructor Of Unregistered Course",
       "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000004"
@@ -298,7 +298,7 @@
       "courseId": "course-2",
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Wilson Kurniawan",
       "accountId": "00000000-0000-4000-8000-000000000005"
@@ -308,7 +308,7 @@
       "courseId": "course-3",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -318,7 +318,7 @@
       "courseId": "course-1",
       "name": "Unregistered Instructor",
       "email": "unregisteredinstructor@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Unregistered Instructor"
     },
@@ -327,7 +327,7 @@
       "courseId": "course-4",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -337,7 +337,7 @@
       "courseId": "course-4",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor"
     },
@@ -346,7 +346,7 @@
       "courseId": "course-4",
       "name": "Instructor 3",
       "email": "instructor3yettojoincourse4@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor"
     }

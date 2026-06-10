@@ -15,8 +15,8 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
 import {
   SectionTabModel,
   QuestionTabModel,
-  DEFAULT_SECTION_ID,
-  DEFAULT_SECTION_NAME,
+  NO_SPECIFIC_SECTION_ID,
+  NO_SPECIFIC_SECTION_NAME,
 } from './instructor-session-tab.model';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -240,10 +240,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load section tabs
           this.courseService.getCourseSections(this.courseId).subscribe({
             next: (courseSections) => {
-              this.sectionsModel[DEFAULT_SECTION_ID] = {
+              this.sectionsModel[NO_SPECIFIC_SECTION_ID] = {
                 section: {
-                  sectionId: DEFAULT_SECTION_ID,
-                  sectionName: DEFAULT_SECTION_NAME,
+                  sectionId: NO_SPECIFIC_SECTION_ID,
+                  sectionName: NO_SPECIFIC_SECTION_NAME,
                 },
                 questions: [],
                 hasPopulated: false,
@@ -407,8 +407,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
           return this.feedbackSessionsService.getCourseSessionResults({
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
-            groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionId,
-            isDefaultSection: this.isDefaultSection(sectionId),
+            groupBySection: this.isNoSpecificSection(sectionId) ? undefined : sectionId,
+            isNoSpecificSection: this.isNoSpecificSection(sectionId),
           });
         }),
       )
@@ -466,8 +466,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionId,
-        isDefaultSection: this.isDefaultSection(sectionId),
+        groupBySection: this.isNoSpecificSection(sectionId) ? undefined : sectionId,
+        isNoSpecificSection: this.isNoSpecificSection(sectionId),
       })
       .subscribe({
         next: (resp: SessionResults) => {
@@ -501,8 +501,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
     return this.sectionsModel[sectionId]?.section.sectionName ?? sectionId;
   }
 
-  private isDefaultSection(sectionId: string): boolean {
-    return sectionId === DEFAULT_SECTION_ID;
+  private isNoSpecificSection(sectionId: string): boolean {
+    return sectionId === NO_SPECIFIC_SECTION_ID;
   }
 
   /**

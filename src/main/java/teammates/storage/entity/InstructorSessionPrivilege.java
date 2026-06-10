@@ -57,13 +57,13 @@ public class InstructorSessionPrivilege extends BaseEntity {
     private UUID sessionId;
 
     @Column(nullable = false)
-    private boolean canViewSessionInSections;
+    private boolean canViewSession;
 
     @Column(nullable = false)
-    private boolean canSubmitSessionInSections;
+    private boolean canSubmitSession;
 
     @Column(nullable = false)
-    private boolean canModifySessionCommentsInSections;
+    private boolean canModifySessionComments;
 
     protected InstructorSessionPrivilege() {
         // required by Hibernate
@@ -139,9 +139,9 @@ public class InstructorSessionPrivilege extends BaseEntity {
      */
     public InstructorPermissionSet getPrivileges() {
         InstructorPermissionSet privileges = new InstructorPermissionSet();
-        privileges.setCanViewSessionInSections(canViewSessionInSections);
-        privileges.setCanSubmitSessionInSections(canSubmitSessionInSections);
-        privileges.setCanModifySessionCommentsInSections(canModifySessionCommentsInSections);
+        privileges.setCanViewSession(canViewSession);
+        privileges.setCanSubmitSession(canSubmitSession);
+        privileges.setCanModifySessionComments(canModifySessionComments);
         return privileges;
     }
 
@@ -149,9 +149,9 @@ public class InstructorSessionPrivilege extends BaseEntity {
      * Copies the session-level permissions from the given {@link InstructorPermissionSet}.
      */
     public void setPrivileges(InstructorPermissionSet privileges) {
-        this.canViewSessionInSections = privileges.isCanViewSessionInSections();
-        this.canSubmitSessionInSections = privileges.isCanSubmitSessionInSections();
-        this.canModifySessionCommentsInSections = privileges.isCanModifySessionCommentsInSections();
+        this.canViewSession = privileges.isCanViewSession();
+        this.canSubmitSession = privileges.isCanSubmitSession();
+        this.canModifySessionComments = privileges.isCanModifySessionComments();
     }
 
     @Override

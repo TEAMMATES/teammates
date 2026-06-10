@@ -61,7 +61,7 @@
       "id": "00000000-0000-4000-8000-000000000501",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
       "courseId": "tm.e2e.FRankOptQn.CS2104",
@@ -74,7 +74,7 @@
       "email": "tmms.test@gmail.tmt",
       "isDisplayedToStudents": true,
       "name": "Teammates Test",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },

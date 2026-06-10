@@ -20,7 +20,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'abcdefg',
     name: 'Instructor Cat',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
     key: 'ujg2l5hj5l7jrfo28fyosfklh2892',
   };
@@ -35,7 +35,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     isDisplayedToStudents: false,
     displayedToStudentsAs: '',
     name: 'Instructor Dog',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+    role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
     key: '1343jbcl3iru2yct0897goji',
   };
@@ -50,7 +50,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'QWQWQWQ',
     name: 'King',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
+    role: InstructorPermissionRole.MANAGER,
     joinState: JoinState.NOT_JOINED,
     key: 'pjkjbnc523iosdk2389nfbfib2',
   };
@@ -65,7 +65,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     isDisplayedToStudents: false,
     displayedToStudentsAs: 'oldname',
     name: 'Nothing',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
+    role: InstructorPermissionRole.TUTOR,
     joinState: JoinState.JOINED,
     key: 'qdnjvbi47t928cjqnk1o8ry2o',
   };

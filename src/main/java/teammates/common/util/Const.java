@@ -25,7 +25,7 @@ public final class Const {
     public static final String UNKNOWN_USER = "Unknown User";
     public static final String UNKNOWN_TEAM = "Unknown Team";
     public static final String UNKNOWN_SECTION = "Unknown Section";
-    public static final String DEFAULT_SECTION = "None";
+    public static final String NO_SPECIFIC_SECTION = "No Specific Section";
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
@@ -100,10 +100,10 @@ public final class Const {
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
         public static final String CAN_MODIFY_SESSION = "canmodifysession";
         public static final String CAN_MODIFY_STUDENT = "canmodifystudent";
-        public static final String CAN_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
-        public static final String CAN_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
-        public static final String CAN_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
-        public static final String CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
+        public static final String CAN_VIEW_STUDENT = "canviewstudent";
+        public static final String CAN_VIEW_SESSION = "canviewsession";
+        public static final String CAN_SUBMIT_SESSION = "cansubmitsession";
+        public static final String CAN_MODIFY_SESSION_COMMENT = "canmodifysessioncomment";
     }
 
     /**
@@ -138,7 +138,7 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
-        public static final String IS_DEFAULT_SECTION = "isdefaultsection";
+        public static final String IS_NO_SPECIFIC_SECTION = "isnospecificsection";
 
         public static final String PREVIEWAS = "previewas";
 
@@ -358,7 +358,6 @@ public final class Const {
     public static class CronJobURIs {
         public static final String URI_PREFIX = "/auto";
 
-        public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
         public static final String AUTOMATED_FEEDBACK_OPENED_REMINDERS =

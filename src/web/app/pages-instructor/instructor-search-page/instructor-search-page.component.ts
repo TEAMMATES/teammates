@@ -137,7 +137,7 @@ export class InstructorSearchPageComponent {
         const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
         const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionId] || courseLevel;
 
-        studentModel.isAllowedToViewStudentInSection = sectionLevel.canViewStudentInSections;
+        studentModel.isAllowedToViewStudentInSection = sectionLevel.canViewStudent;
         studentModel.isAllowedToModifyStudent = sectionLevel.canModifyStudent;
       }
     }

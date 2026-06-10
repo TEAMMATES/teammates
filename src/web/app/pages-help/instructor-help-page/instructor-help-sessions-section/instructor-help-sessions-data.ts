@@ -180,7 +180,7 @@ export const EXAMPLE_INSTRUCTORS: Instructor[] = [
     displayedToStudentsAs: 'Instructor',
     name: 'Bob Ruth',
     key: 'instructor-key',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
     institute: 'NUS',
     courseName: 'CS3281',

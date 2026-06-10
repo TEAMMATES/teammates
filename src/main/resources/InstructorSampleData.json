@@ -10,11 +10,6 @@
     }
   },
   "sections": {
-    "sectionNone": {
-      "id": "00000000-0000-4000-8000-000000000200",
-      "name": "None",
-      "courseId": "demo.course"
-    },
     "section1": {
       "id": "00000000-0000-4000-8000-000000000201",
       "name": "Tutorial Group 1",
@@ -50,7 +45,7 @@
       "courseId": "demo.course",
       "name": "Demo_Instructor",
       "email": "teammates.demo.instructor@demo.course",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor"
     }

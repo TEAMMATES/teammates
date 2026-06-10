@@ -223,8 +223,8 @@ public final class Logger {
                     tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
 
             // Replace the source location with the Throwable's source location instead
-            SourceLocation loggerSourceLocation = (SourceLocation) payload.get("logging.googleapis.com/sourceLocation");
-            payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
+            SourceLocation loggerSourceLocation = (SourceLocation) payload.get("sourceLocation");
+            payload.put("sourceLocation", tSourceLocation);
 
             details.setLoggerSourceLocation(loggerSourceLocation);
         }
@@ -287,10 +287,10 @@ public final class Logger {
         }
         prefix.append(' ');
 
-        if (RequestTracer.getTraceId() == null) {
+        if (RequestTracer.getRequestId() == null) {
             return prefix.toString() + message;
         }
-        return prefix.toString() + "[" + RequestTracer.getTraceId() + "] " + message;
+        return prefix.toString() + "[" + RequestTracer.getRequestId() + "] " + message;
     }
 
     private String formatLogMessageForCloudLogging(String message, LogSeverity severity) {
@@ -306,12 +306,11 @@ public final class Logger {
         if (source != null) {
             SourceLocation sourceLocation = new SourceLocation(
                     source.getClassName(), (long) source.getLineNumber(), source.getMethodName());
-            payload.put("logging.googleapis.com/sourceLocation", sourceLocation);
+            payload.put("sourceLocation", sourceLocation);
         }
 
-        if (RequestTracer.getTraceId() != null) {
-            payload.put("logging.googleapis.com/trace",
-                    "projects/" + Config.APP_ID + "/traces/" + RequestTracer.getTraceId());
+        if (RequestTracer.getRequestId() != null) {
+            payload.put("requestId", RequestTracer.getRequestId());
         }
 
         return payload;

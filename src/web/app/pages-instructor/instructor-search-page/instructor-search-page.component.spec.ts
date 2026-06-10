@@ -233,10 +233,10 @@ describe('InstructorSearchPageComponent', () => {
             canModifySession: true,
             canModifyStudent: true,
             canModifyInstructor: true,
-            canViewStudentInSections: true,
-            canModifySessionCommentsInSections: true,
-            canViewSessionInSections: true,
-            canSubmitSessionInSections: true,
+            canViewStudent: true,
+            canModifySessionComments: true,
+            canViewSession: true,
+            canSubmitSession: true,
           },
           sectionLevel: {},
           sessionLevel: {},
@@ -258,10 +258,10 @@ describe('InstructorSearchPageComponent', () => {
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-      canViewStudentInSections: true,
-      canModifySessionCommentsInSections: true,
-      canViewSessionInSections: true,
-      canSubmitSessionInSections: true,
+      canViewStudent: true,
+      canModifySessionComments: true,
+      canViewSession: true,
+      canSubmitSession: true,
     };
     const mockPrivilegesArray: InstructorPrivilege[] = [
       {
@@ -275,7 +275,7 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudentInSections: false,
+            canViewStudent: false,
             canModifyStudent: true,
           },
           sectionLevel: {},
@@ -286,7 +286,7 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudentInSections: true,
+            canViewStudent: true,
             canModifyStudent: false,
           },
           sectionLevel: {},
@@ -297,7 +297,7 @@ describe('InstructorSearchPageComponent', () => {
         privileges: {
           courseLevel: {
             ...basePrivilege,
-            canViewStudentInSections: false,
+            canViewStudent: false,
             canModifyStudent: false,
           },
           sectionLevel: {},

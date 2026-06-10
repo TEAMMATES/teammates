@@ -82,7 +82,7 @@
     "instructorOfCourse1": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.ISList.course1",
       "name": "Instructor1 Course1",
@@ -92,7 +92,7 @@
     "instructorOfCourse2": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_CUSTOM",
+      "role": "CUSTOM",
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.ISList.course2",
       "name": "Instructor1 Course2",
@@ -102,7 +102,7 @@
     "instructorOfCourse3": {
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.ISList.course3",
       "name": "Instructor1 Course3",
@@ -118,10 +118,10 @@
         "canModifyInstructor": false,
         "canModifySession": false,
         "canModifyStudent": false,
-        "canViewStudentInSections": false,
-        "canViewSessionInSections": false,
-        "canSubmitSessionInSections": false,
-        "canModifySessionCommentsInSections": false
+        "canViewStudent": false,
+        "canViewSession": false,
+        "canSubmitSession": false,
+        "canModifySessionComments": false
       },
       "sectionLevel": {},
       "sessionLevel": {}

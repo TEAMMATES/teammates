@@ -225,7 +225,7 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER01"
+                    id="coowner1"
                     type="radio"
                   />
                    Co-owner: Can do everything. 
@@ -242,7 +242,7 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER01"
+                    id="manager1"
                     type="radio"
                   />
                    Manager: Can do everything except for deleting/restoring the course. 
@@ -259,7 +259,7 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER01"
+                    id="observer1"
                     type="radio"
                   />
                    Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
@@ -276,7 +276,7 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR01"
+                    id="tutor1"
                     type="radio"
                   />
                    Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
@@ -293,7 +293,7 @@ exports[`InstructorCourseEditPageComponent > should snap when editing course det
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM01"
+                    id="custom1"
                     type="radio"
                   />
                    Custom: No access by default. Any access needs to be granted explicitly. 
@@ -544,7 +544,7 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER01"
+                    id="coowner1"
                     type="radio"
                   />
                    Co-owner: Can do everything. 
@@ -561,7 +561,7 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER01"
+                    id="manager1"
                     type="radio"
                   />
                    Manager: Can do everything except for deleting/restoring the course. 
@@ -578,7 +578,7 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER01"
+                    id="observer1"
                     type="radio"
                   />
                    Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
@@ -595,7 +595,7 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR01"
+                    id="tutor1"
                     type="radio"
                   />
                    Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
@@ -612,7 +612,7 @@ exports[`InstructorCourseEditPageComponent > should snap with course details 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM01"
+                    id="custom1"
                     type="radio"
                   />
                    Custom: No access by default. Any access needs to be granted explicitly. 
@@ -863,7 +863,7 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER01"
+                    id="coowner1"
                     type="radio"
                   />
                    Co-owner: Can do everything. 
@@ -880,7 +880,7 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER01"
+                    id="manager1"
                     type="radio"
                   />
                    Manager: Can do everything except for deleting/restoring the course. 
@@ -897,7 +897,7 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER01"
+                    id="observer1"
                     type="radio"
                   />
                    Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
@@ -914,7 +914,7 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR01"
+                    id="tutor1"
                     type="radio"
                   />
                    Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
@@ -931,7 +931,7 @@ exports[`InstructorCourseEditPageComponent > should snap with default fields 1`]
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM01"
+                    id="custom1"
                     type="radio"
                   />
                    Custom: No access by default. Any access needs to be granted explicitly. 
@@ -1182,7 +1182,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER11"
+                    id="coowner2"
                     type="radio"
                   />
                    Co-owner: Can do everything. 
@@ -1199,7 +1199,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER11"
+                    id="manager2"
                     type="radio"
                   />
                    Manager: Can do everything except for deleting/restoring the course. 
@@ -1216,7 +1216,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER11"
+                    id="observer2"
                     type="radio"
                   />
                    Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
@@ -1233,7 +1233,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR11"
+                    id="tutor2"
                     type="radio"
                   />
                    Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
@@ -1250,7 +1250,7 @@ exports[`InstructorCourseEditPageComponent > should snap with some instructor de
               >
                 <label>
                   <input
-                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM11"
+                    id="custom2"
                     type="radio"
                   />
                    Custom: No access by default. Any access needs to be granted explicitly. 

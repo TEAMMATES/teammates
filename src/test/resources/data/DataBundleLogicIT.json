@@ -72,7 +72,7 @@
       "courseId": "typical-course-id",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Instructor",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -82,7 +82,7 @@
       "courseId": "typical-course-id",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Instructor"
     }

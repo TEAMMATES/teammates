@@ -34,7 +34,7 @@ public class GetStudentsAction extends Action {
         if (teamName == null) {
             // request to get all students of a course by instructor
             gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
-                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT);
         } else {
             // request to get team member by current student
             Student student = getStudentFromRequest(courseId);
@@ -52,7 +52,7 @@ public class GetStudentsAction extends Action {
         Instructor instructor = requestContext.isAdmin()
                 ? null
                 : getInstructorFromRequest(courseId);
-        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
+        String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT;
         boolean hasCoursePrivilege = instructor != null
                 && logic.hasInstructorPermissions(instructor, privilegeName);
         boolean hasSectionPrivilege = instructor != null

@@ -154,7 +154,7 @@ public class ResponseGiver {
             return student.getSectionName();
         }
         if (giverUser instanceof Instructor) {
-            return Const.DEFAULT_SECTION;
+            return Const.NO_SPECIFIC_SECTION;
         }
         return Const.UNKNOWN_SECTION;
     }

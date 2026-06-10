@@ -165,9 +165,9 @@ describe('Constants', () => {
     expect(DEFAULT_PRIVILEGE_MANAGER().canModifyStudent).toBeTruthy();
 
     expect(DEFAULT_PRIVILEGE_OBSERVER()).toBeTruthy();
-    expect(DEFAULT_PRIVILEGE_OBSERVER().canViewStudentInSections).toBeTruthy();
+    expect(DEFAULT_PRIVILEGE_OBSERVER().canViewStudent).toBeTruthy();
 
     expect(DEFAULT_PRIVILEGE_TUTOR()).toBeTruthy();
-    expect(DEFAULT_PRIVILEGE_TUTOR().canSubmitSessionInSections).toBeTruthy();
+    expect(DEFAULT_PRIVILEGE_TUTOR().canSubmitSession).toBeTruthy();
   });
 });

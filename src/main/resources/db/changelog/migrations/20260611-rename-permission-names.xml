@@ -1,0 +1,94 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Renames InstructorPermissionRole enum values stored in the instructors table:
+          INSTRUCTOR_PERMISSION_ROLE_COOWNER  -> COOWNER
+          INSTRUCTOR_PERMISSION_ROLE_MANAGER  -> MANAGER
+          INSTRUCTOR_PERMISSION_ROLE_OBSERVER -> OBSERVER
+          INSTRUCTOR_PERMISSION_ROLE_TUTOR    -> TUTOR
+          INSTRUCTOR_PERMISSION_ROLE_CUSTOM   -> CUSTOM
+    -->
+    <changeSet author="samuelfangjw" id="20260611-rename-permission-names-1">
+        <sql>
+            UPDATE instructors
+            SET role = CASE role
+                WHEN 'INSTRUCTOR_PERMISSION_ROLE_COOWNER'  THEN 'COOWNER'
+                WHEN 'INSTRUCTOR_PERMISSION_ROLE_MANAGER'  THEN 'MANAGER'
+                WHEN 'INSTRUCTOR_PERMISSION_ROLE_OBSERVER' THEN 'OBSERVER'
+                WHEN 'INSTRUCTOR_PERMISSION_ROLE_TUTOR'    THEN 'TUTOR'
+                WHEN 'INSTRUCTOR_PERMISSION_ROLE_CUSTOM'   THEN 'CUSTOM'
+                ELSE role
+            END
+            WHERE role IN (
+                'INSTRUCTOR_PERMISSION_ROLE_COOWNER',
+                'INSTRUCTOR_PERMISSION_ROLE_MANAGER',
+                'INSTRUCTOR_PERMISSION_ROLE_OBSERVER',
+                'INSTRUCTOR_PERMISSION_ROLE_TUTOR',
+                'INSTRUCTOR_PERMISSION_ROLE_CUSTOM'
+            );
+        </sql>
+    </changeSet>
+
+    <!--
+        Renames the "InSections" permission columns across the three instructor privilege tables.
+        The Java field names (and thus Hibernate-derived column names) have been shortened:
+          can_view_student_in_sections           -> can_view_student
+          can_view_session_in_sections           -> can_view_session
+          can_submit_session_in_sections         -> can_submit_session
+          can_modify_session_comments_in_sections -> can_modify_session_comments
+    -->
+    <changeSet author="samuelfangjw" id="20260611-rename-permission-names-2">
+        <renameColumn tableName="instructor_course_privileges"
+                      oldColumnName="can_view_student_in_sections"
+                      newColumnName="can_view_student"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_course_privileges"
+                      oldColumnName="can_view_session_in_sections"
+                      newColumnName="can_view_session"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_course_privileges"
+                      oldColumnName="can_submit_session_in_sections"
+                      newColumnName="can_submit_session"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_course_privileges"
+                      oldColumnName="can_modify_session_comments_in_sections"
+                      newColumnName="can_modify_session_comments"
+                      columnDataType="BOOLEAN"/>
+
+        <renameColumn tableName="instructor_section_privileges"
+                      oldColumnName="can_view_student_in_sections"
+                      newColumnName="can_view_student"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_section_privileges"
+                      oldColumnName="can_view_session_in_sections"
+                      newColumnName="can_view_session"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_section_privileges"
+                      oldColumnName="can_submit_session_in_sections"
+                      newColumnName="can_submit_session"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_section_privileges"
+                      oldColumnName="can_modify_session_comments_in_sections"
+                      newColumnName="can_modify_session_comments"
+                      columnDataType="BOOLEAN"/>
+
+        <renameColumn tableName="instructor_session_privileges"
+                      oldColumnName="can_view_session_in_sections"
+                      newColumnName="can_view_session"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_session_privileges"
+                      oldColumnName="can_submit_session_in_sections"
+                      newColumnName="can_submit_session"
+                      columnDataType="BOOLEAN"/>
+        <renameColumn tableName="instructor_session_privileges"
+                      oldColumnName="can_modify_session_comments_in_sections"
+                      newColumnName="can_modify_session_comments"
+                      columnDataType="BOOLEAN"/>
+    </changeSet>
+
+</databaseChangeLog>

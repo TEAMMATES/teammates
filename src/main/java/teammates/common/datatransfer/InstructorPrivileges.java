@@ -30,13 +30,13 @@ public final class InstructorPrivileges {
     };
 
     private static final String[] SECTION_LEVEL_ONLY_LIST = new String[] {
-            Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
+            Const.InstructorPermissions.CAN_VIEW_STUDENT,
     };
 
     private static final String[] SESSION_LEVEL_ONLY_LIST = new String[] {
-            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS,
-            Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
-            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+            Const.InstructorPermissions.CAN_VIEW_SESSION,
+            Const.InstructorPermissions.CAN_SUBMIT_SESSION,
+            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT,
     };
 
     private static final Set<String> COURSE_LEVEL_ONLY_PRIVILEGES =
@@ -143,19 +143,19 @@ public final class InstructorPrivileges {
         courseLevel.setCanModifyInstructor(defaultPrivileges.isCanModifyInstructor());
         courseLevel.setCanModifySession(defaultPrivileges.isCanModifySession());
         courseLevel.setCanModifyStudent(defaultPrivileges.isCanModifyStudent());
-        courseLevel.setCanViewStudentInSections(defaultPrivileges.isCanViewStudentInSections());
-        courseLevel.setCanViewSessionInSections(defaultPrivileges.isCanViewSessionInSections());
-        courseLevel.setCanSubmitSessionInSections(defaultPrivileges.isCanSubmitSessionInSections());
-        courseLevel.setCanModifySessionCommentsInSections(defaultPrivileges.isCanModifySessionCommentsInSections());
+        courseLevel.setCanViewStudent(defaultPrivileges.isCanViewStudent());
+        courseLevel.setCanViewSession(defaultPrivileges.isCanViewSession());
+        courseLevel.setCanSubmitSession(defaultPrivileges.isCanSubmitSession());
+        courseLevel.setCanModifySessionComments(defaultPrivileges.isCanModifySessionComments());
     }
 
     private InstructorPermissionSet getOverallPrivilegesForSections() {
         InstructorPermissionSet privileges = new InstructorPermissionSet();
 
-        privileges.setCanViewStudentInSections(courseLevel.isCanViewStudentInSections());
-        privileges.setCanViewSessionInSections(courseLevel.isCanViewSessionInSections());
-        privileges.setCanSubmitSessionInSections(courseLevel.isCanSubmitSessionInSections());
-        privileges.setCanModifySessionCommentsInSections(courseLevel.isCanModifySessionCommentsInSections());
+        privileges.setCanViewStudent(courseLevel.isCanViewStudent());
+        privileges.setCanViewSession(courseLevel.isCanViewSession());
+        privileges.setCanSubmitSession(courseLevel.isCanSubmitSession());
+        privileges.setCanModifySessionComments(courseLevel.isCanModifySessionComments());
 
         return privileges;
     }
@@ -306,18 +306,18 @@ public final class InstructorPrivileges {
      * prerequisite privileges if they have not been granted yet.
      */
     public void validatePrivileges() {
-        if (this.courseLevel.isCanModifySessionCommentsInSections()) {
-            this.courseLevel.setCanViewSessionInSections(true);
+        if (this.courseLevel.isCanModifySessionComments()) {
+            this.courseLevel.setCanViewSession(true);
         }
         for (InstructorPermissionSet sectionMap : this.sectionLevel.values()) {
-            if (sectionMap.isCanModifySessionCommentsInSections()) {
-                sectionMap.setCanViewSessionInSections(true);
+            if (sectionMap.isCanModifySessionComments()) {
+                sectionMap.setCanViewSession(true);
             }
         }
         for (Map<UUID, InstructorPermissionSet> section : this.sessionLevel.values()) {
             for (InstructorPermissionSet sessionMap : section.values()) {
-                if (sessionMap.isCanModifySessionCommentsInSections()) {
-                    sessionMap.setCanViewSessionInSections(true);
+                if (sessionMap.isCanModifySessionComments()) {
+                    sessionMap.setCanViewSession(true);
                 }
             }
         }
