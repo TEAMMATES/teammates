@@ -23,6 +23,8 @@
             <br />
             <i class="fas fa-info-circle"></i> If you want to enroll more than <strong>100</strong> students into one
             course, divide students into sections containing no more than <strong>100</strong> students.<br />
+            <i class="fas fa-info-circle"></i> If a section or team is left empty, students will be assigned to "Default
+            Section" or "Default Team", respectively.<br />
           </div>
           <div class="col-md-12">
             <tm-status-message [messages]="statusMessage"></tm-status-message>
@@ -286,24 +288,28 @@
           <span class="more-info-point-title">Columns Information</span>
           <ul>
             <li class="more-info-column-info">
-              <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
+              <samp>Section</samp> [Required]: Section name/ID
+              <ul>
+                <li class="more-info-sub-point-details">
+                  This column is required. Empty cells will be set to "Default Section".
+                </li>
+              </ul>
             </li>
             <li class="more-info-column-info">
-              <samp>Team</samp> [Compulsory]: Team name/ID
+              <samp>Team</samp> [Required]: Team name/ID
               <ul>
                 <li class="more-info-sub-point-details">
                   A team must be unique within a course. A team cannot be in 2 different sections.
                 </li>
                 <li class="more-info-sub-point-details">
-                  If you do not have teams in your course, use “N/A” as the team name for all students.
+                  This column is required. Empty cells will be set to "Default Team".
                 </li>
               </ul>
             </li>
-            <li class="more-info-column-info"><samp>Name</samp> [Compulsory]: Student name</li>
+            <li class="more-info-column-info"><samp>Name</samp> [Required]: Student name</li>
             <li class="more-info-column-info">
-              <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br />
+              <samp>Email</samp> [Required]: The email address used to contact the student.<br />
               <ul>
-                <li class="more-info-sub-point-details">This need not be a Gmail address.</li>
                 <li class="more-info-sub-point-details">
                   It should be unique for each student. If two students are given the same email, they will be
                   considered the same student.

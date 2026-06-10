@@ -211,7 +211,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     }
 
     @Test(groups = GroupNames.INTEGRATION)
-    public void testExecute_sectionFull_failure() throws Exception {
+    public void testExecute_sectionFull_failure() {
         Student studentToJoinMaxSection = typicalBundle.students.get("student1InCourse1");
 
         Course course = typicalBundle.courses.get("course1");
@@ -257,7 +257,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Team originalTeam = student4.getTeam();
 
         StudentUpdateRequest emptySectionUpdateRequest = new StudentUpdateRequest(student4.getName(), student4.getEmail(),
-                student4.getTeamName(), "", student4.getComments(), true);
+                student4.getTeamName(), "Section Name", student4.getComments(), true);
 
         String[] emptySectionSubmissionParams = new String[] {
                 Const.ParamsNames.USER_ID, student4.getId().toString(),
@@ -275,7 +275,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
             assertEquals(student4.getName(), actualStudent.getName());
             assertEquals(student4.getEmail(), actualStudent.getEmail());
             assertEquals(student4.getTeamName(), actualStudent.getTeamName());
-            assertEquals(Const.NO_SPECIFIC_SECTION, actualStudent.getSectionName());
+            assertEquals("Section Name", actualStudent.getSectionName());
             assertEquals(student4.getComments(), actualStudent.getComments());
         });
 
