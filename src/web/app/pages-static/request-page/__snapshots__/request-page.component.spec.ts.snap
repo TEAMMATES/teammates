@@ -155,9 +155,8 @@ exports[`RequestPageComponent > should render correctly after instructor declara
                 aria-describedby="name-label"
                 class="invalid-feedback"
                 role="alert"
-                tabindex="0"
               >
-                 Please enter your name. 
+                Please enter your name.
               </div>
             </div>
             <br />
@@ -188,7 +187,6 @@ exports[`RequestPageComponent > should render correctly after instructor declara
                 aria-describedby="institution-label"
                 class="invalid-feedback"
                 role="alert"
-                tabindex="0"
               >
                  Please enter your institution name. 
               </div>
@@ -202,29 +200,49 @@ exports[`RequestPageComponent > should render correctly after instructor declara
                 for="country"
                 id="country-label"
               >
-                 Country 
+                 Country or Region 
               </label>
               <p
                 class="help-block"
               >
-                Which country is your university/institution based in?
+                Which country or region is your university/institution based in?
               </p>
-              <input
-                aria-invalid="true"
-                autocomplete="country-name"
-                class="form-control ng-untouched ng-pristine ng-invalid"
-                id="country"
-                required=""
-                type="text"
-              />
-              <div
-                aria-describedby="country-label"
-                class="invalid-feedback"
-                role="alert"
-                tabindex="0"
+              <tm-searchable-combobox
+                class="ng-untouched ng-pristine ng-invalid"
+                inputid="country"
+                placeholder="Search for a country or region..."
               >
-                 Please enter your institution's country. 
-              </div>
+                <div
+                  class="searchable-combobox position-relative w-100"
+                  data-expanded="false"
+                  filtermode="manual"
+                  ngcombobox=""
+                >
+                  <input
+                    aria-autocomplete="list"
+                    aria-disabled="false"
+                    aria-expanded="false"
+                    autocomplete="off"
+                    class="form-control w-100 searchable-combobox-input"
+                    id="country"
+                    ngcomboboxinput=""
+                    placeholder="Search for a country or region..."
+                    role="combobox"
+                    type="text"
+                  />
+                  <button
+                    aria-label="Open"
+                    class="searchable-combobox-toggle"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="fa fa-chevron-down"
+                    />
+                  </button>
+                </div>
+              </tm-searchable-combobox>
             </div>
             <br />
             <div
@@ -258,9 +276,8 @@ exports[`RequestPageComponent > should render correctly after instructor declara
                 aria-describedby="email-label"
                 class="invalid-feedback"
                 role="alert"
-                tabindex="0"
               >
-                 Please enter your email address. 
+                Please enter your email address.
               </div>
             </div>
             <br />
