@@ -66,11 +66,17 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     );
   }
 
+  /**
+   * Redirects to the login page.
+   */
   private redirectToLogin(authInfo: AuthInfo, backendUrl: string) {
-    globalThis.location.href = `${backendUrl}${authInfo.loginUrl}`;
-    return false;
+    const backendLoginUrl = `${backendUrl}${authInfo.loginUrl}`;
+    return this.router.parseUrl(`/web/login?redirect=${encodeURIComponent(backendLoginUrl)}`);
   }
 
+  /**
+   * Redirects to the unauthorized page.
+   */
   private redirectToUnauthorized(expectedRole: UserRole) {
     return this.router.parseUrl(`/web/unauthorized?role=${expectedRole}`);
   }
