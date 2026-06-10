@@ -386,7 +386,7 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "RECIPIENT_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
       "showRecipientNameTo": ["RECIPIENT", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
@@ -459,7 +459,7 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "RECIPIENT_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
       "showRecipientNameTo": ["RECIPIENT", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000502"

@@ -360,17 +360,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
 
-        // restrictions on visibility options
-        if (!(feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT)
-                == feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS)
-                && feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS)
-                == feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS))) {
+        // restrictions on visibility options: RECIPIENT and GIVER_TEAM_MEMBERS must appear together
+        if (feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.RECIPIENT)
+                != feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)) {
             log.severe("Unexpected showResponsesTo for contribution question: "
                        + feedbackQuestion.getShowResponsesTo() + " (forced to :"
                        + "Shown anonymously to recipient and team members, visible to instructors"
                        + ")");
             feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
-                                                               FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
                                                                FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
                                                                FeedbackVisibilityType.INSTRUCTORS));
             errorMsg = CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;

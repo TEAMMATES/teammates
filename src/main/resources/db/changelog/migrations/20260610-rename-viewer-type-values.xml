@@ -97,4 +97,25 @@
         </sql>
     </changeSet>
 
+    <!--
+        Removes RECIPIENT_TEAM_MEMBERS from show_responses_to for contribution questions.
+        Contribution questions only support two visibility options:
+          1. Shown to RECIPIENT + GIVER_TEAM_MEMBERS + INSTRUCTORS
+          2. Visible to INSTRUCTORS only
+        RECIPIENT_TEAM_MEMBERS was previously added by a now-removed backend hack.
+    -->
+    <changeSet author="samuelfangjw" id="20260610-rename-viewer-type-2">
+        <sql>
+            UPDATE feedback_questions
+            SET show_responses_to = (
+                SELECT COALESCE(jsonb_agg(v)::text, '[]')
+                FROM jsonb_array_elements(show_responses_to::jsonb) v
+                WHERE v::text != '"RECIPIENT_TEAM_MEMBERS"'
+            )
+            WHERE dtype = 'FeedbackContributionQuestion'
+              AND show_responses_to IS NOT NULL
+              AND show_responses_to::jsonb @> '["RECIPIENT_TEAM_MEMBERS"]'::jsonb;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
