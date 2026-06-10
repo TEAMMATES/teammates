@@ -89,7 +89,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
     /**
      * Extracts and validates the login method from the HTTP servlet request.
      *
-     * @return the login method, or null if it fails the check.
+     * @return the login method, or null if it is invalid or not supported.
      */
     private LoginMethod getLoginMethodFromCallback(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String encyptedState = req.getParameter("state");

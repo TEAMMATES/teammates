@@ -75,6 +75,11 @@ public class LoginServlet extends AuthServlet {
         }
     }
 
+    /**
+     * Gets the login method from the login request.
+     *
+     * @return the login method, or null if the login method is invalid or not supported.
+     */
     private LoginMethod getLoginMethodFromLoginRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String method = req.getParameter("method");
         if (method == null) {
