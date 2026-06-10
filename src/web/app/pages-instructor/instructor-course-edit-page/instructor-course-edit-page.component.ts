@@ -632,10 +632,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
-            if (
-              sectionLevelPermission.privilege.canViewStudent !==
-              permission.privilege.canViewStudent
-            ) {
+            if (sectionLevelPermission.privilege.canViewStudent !== permission.privilege.canViewStudent) {
               return true;
             }
             if (
@@ -644,16 +641,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
             ) {
               return true;
             }
-            if (
-              sectionLevelPermission.privilege.canViewSession !==
-              permission.privilege.canViewSession
-            ) {
+            if (sectionLevelPermission.privilege.canViewSession !== permission.privilege.canViewSession) {
               return true;
             }
-            if (
-              sectionLevelPermission.privilege.canSubmitSession !==
-              permission.privilege.canSubmitSession
-            ) {
+            if (sectionLevelPermission.privilege.canSubmitSession !== permission.privilege.canSubmitSession) {
               return true;
             }
 
@@ -662,8 +653,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
                 return (
                   sectionLevelPermission.privilege.canModifySessionComments !==
                     sessionLevelPermission.privilege.canModifySessionComments ||
-                  sectionLevelPermission.privilege.canViewSession !==
-                    sessionLevelPermission.privilege.canViewSession ||
+                  sectionLevelPermission.privilege.canViewSession !== sessionLevelPermission.privilege.canViewSession ||
                   sectionLevelPermission.privilege.canSubmitSession !==
                     sessionLevelPermission.privilege.canSubmitSession
                 );
@@ -676,8 +666,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           if (
             sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
               return (
-                sectionLevel.privilege.canModifySessionComments ===
-                  sessionLevel.privilege.canModifySessionComments &&
+                sectionLevel.privilege.canModifySessionComments === sessionLevel.privilege.canModifySessionComments &&
                 sectionLevel.privilege.canViewSession === sessionLevel.privilege.canViewSession &&
                 sectionLevel.privilege.canSubmitSession === sessionLevel.privilege.canSubmitSession
               );
