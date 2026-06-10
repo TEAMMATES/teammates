@@ -10,6 +10,7 @@ import org.apache.http.HttpStatus;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
@@ -50,11 +51,15 @@ public class LoginServlet extends AuthServlet {
         }
 
         switch (loginMethod) {
+        case DEV_SERVER:
+            if (!Config.isDevServerLoginEnabled()) {
+                resp.sendError(HttpStatus.SC_FORBIDDEN);
+                return;
+            }
+            handleDevServerLogin(req, resp, nextUrl);
+            break;
         case GOOGLE:
             handleGoogleLogin(req, resp, nextUrl);
-            break;
-        case DEV_SERVER:
-            handleDevServerLogin(req, resp, nextUrl);
             break;
         default:
             // Should not reach here.

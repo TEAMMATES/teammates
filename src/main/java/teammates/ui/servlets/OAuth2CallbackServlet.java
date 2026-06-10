@@ -49,7 +49,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         switch (loginMethod) {
         case DEV_SERVER:
             if (!Config.isDevServerLoginEnabled()) {
-                logAndPrintError(req, resp, HttpStatus.SC_FORBIDDEN, "Dev server login is disabled");
+                resp.sendError(HttpStatus.SC_FORBIDDEN);
                 return;
             }
             authResult = getDevServerAuthResult(req);

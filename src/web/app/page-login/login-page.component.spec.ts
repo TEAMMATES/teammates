@@ -65,7 +65,6 @@ describe('LoginPageComponent', () => {
 });
 
 describe('LoginPageComponent snapshot', () => {
-  let component: LoginPageComponent;
   let fixture: ComponentFixture<LoginPageComponent>;
   let queryParams$: Subject<Params>;
   let configService: ConfigService;
@@ -83,14 +82,13 @@ describe('LoginPageComponent snapshot', () => {
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(LoginPageComponent);
-    component = fixture.componentInstance;
     configService = TestBed.inject(ConfigService);
   });
 
   it('should match snapshot with login methods loaded', () => {
-    vi.spyOn(configService, 'getConfig').mockReturnValue(of({ loginMethods: [LoginMethod.GOOGLE] } as Config));
-    component.ngOnInit();
+    vi.spyOn(configService, 'getConfig').mockReturnValue(of({ loginMethods: ['google'] } as Config));
     fixture.detectChanges();
+    console.log('Snapshot of LoginPageComponent with login methods loaded:' + fixture.nativeElement.innerHTML);
     expect(fixture).toMatchSnapshot();
   });
 });

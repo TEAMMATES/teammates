@@ -16,11 +16,16 @@ export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly route = inject(ActivatedRoute);
-  protected readonly LoginMethod = LoginMethod;
+
+  protected readonly LoginMethod!: typeof LoginMethod;
 
   isLoadingLoginMethods = true;
   loginMethods: Set<LoginMethod> = new Set();
   backendLoginUrl = '';
+
+  constructor() {
+    this.LoginMethod = LoginMethod;
+  }
 
   ngOnInit(): void {
     this.isLoadingLoginMethods = true;
