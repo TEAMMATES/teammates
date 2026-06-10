@@ -13,6 +13,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsersDb}.
@@ -23,12 +24,12 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchStudentsInWholeSystem_typicalCase_success() {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu2InCourse1 = typicalBundle.students.get("student2InCourse1");
@@ -96,12 +97,12 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: search for students in whole system; deleted students no longer searchable");
 
-        inTransaction(() -> usersDb.deleteUser(stu1InCourse1));
+        inTransaction(() -> usersDb.removeUser(stu1InCourse1));
         results = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(results, stu1InCourse2, stu1InCourse3, stu1InCourse4);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchStudentsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() {
         Student stu1InCourse1 = typicalBundle.students.get("student1InCourse1");
         Student stu1InCourse2 = typicalBundle.students.get("student1InCourse2");
@@ -111,16 +112,16 @@ public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
         List<Student> studentList = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(studentList, stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
-        inTransaction(() -> usersDb.deleteUser(stu1InCourse1));
+        inTransaction(() -> usersDb.removeUser(stu1InCourse1));
         studentList = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(studentList, stu1InCourse2, stu1InCourse3, stu1InCourse4);
 
-        inTransaction(() -> usersDb.deleteUser(stu1InCourse2));
+        inTransaction(() -> usersDb.removeUser(stu1InCourse2));
         studentList = inTransaction(() -> usersDb.searchStudentsInWholeSystem("student1"));
         verifySearchResults(studentList, stu1InCourse3, stu1InCourse4);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchStudentsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<Student> results = inTransaction(() -> usersDb.searchStudentsInWholeSystem("_"));
         verifySearchResults(results);

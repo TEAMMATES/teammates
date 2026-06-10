@@ -62,10 +62,10 @@ describe('RichTextEditorComponent', () => {
     component.hasCharacterLimit = true;
     component.ngOnInit();
 
-    let handler: any;
+    let handler: (() => void) | undefined;
 
     const mockEditor = {
-      on: (event: string, cb: any) => {
+      on: (event: string, cb: () => void) => {
         if (event === 'GetContent') handler = cb;
       },
       plugins: {
@@ -78,7 +78,7 @@ describe('RichTextEditorComponent', () => {
     } as unknown as Editor;
 
     component.init.setup!(mockEditor);
-    handler();
+    handler?.();
 
     await Promise.resolve();
 

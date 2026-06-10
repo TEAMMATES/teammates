@@ -1,0 +1,124 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="codex" id="20260605-frc-instructor-giver-editor-1">
+        <sql>
+            DELETE FROM response_instructor_comments ric
+            WHERE ric.giver_team_id IS NOT NULL
+                OR NOT EXISTS (
+                    SELECT 1
+                    FROM instructors i
+                    WHERE i.id = ric.giver_user_id
+                )
+        </sql>
+
+        <sql>
+            UPDATE response_instructor_comments ric
+            SET last_edited_by_user_id = NULL
+            WHERE ric.last_edited_by_user_id IS NOT NULL
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM instructors i
+                    WHERE i.id = ric.last_edited_by_user_id
+                )
+        </sql>
+
+        <dropForeignKeyConstraint baseTableName="response_instructor_comments"
+            constraintName="fk_frc_giver_user"/>
+        <dropForeignKeyConstraint baseTableName="response_instructor_comments"
+            constraintName="fk_frc_giver_team"/>
+        <dropForeignKeyConstraint baseTableName="response_instructor_comments"
+            constraintName="fk_frc_last_edited_by_user"/>
+        <dropForeignKeyConstraint baseTableName="response_instructor_comments"
+            constraintName="fk_frc_last_edited_by_team"/>
+
+        <dropColumn tableName="response_instructor_comments" columnName="giver_team_id"/>
+        <dropColumn tableName="response_instructor_comments" columnName="last_edited_by_team_id"/>
+        <renameColumn tableName="response_instructor_comments"
+            oldColumnName="giver_user_id"
+            newColumnName="giver_id"
+            columnDataType="UUID"/>
+        <renameColumn tableName="response_instructor_comments"
+            oldColumnName="last_edited_by_user_id"
+            newColumnName="last_edited_by_id"
+            columnDataType="UUID"/>
+
+        <addNotNullConstraint tableName="response_instructor_comments"
+            columnName="giver_id"
+            columnDataType="UUID"/>
+
+        <addForeignKeyConstraint baseColumnNames="giver_id"
+            baseTableName="response_instructor_comments"
+            constraintName="fk_ric_giver"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="instructors"
+            validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="last_edited_by_id"
+            baseTableName="response_instructor_comments"
+            constraintName="fk_ric_last_edited_by"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="SET NULL"
+            referencedColumnNames="id"
+            referencedTableName="instructors"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="response_instructor_comments"
+                constraintName="fk_ric_giver"/>
+            <dropForeignKeyConstraint baseTableName="response_instructor_comments"
+                constraintName="fk_ric_last_edited_by"/>
+
+            <dropNotNullConstraint tableName="response_instructor_comments"
+                columnName="giver_id"
+                columnDataType="UUID"/>
+
+            <renameColumn tableName="response_instructor_comments"
+                oldColumnName="giver_id"
+                newColumnName="giver_user_id"
+                columnDataType="UUID"/>
+            <renameColumn tableName="response_instructor_comments"
+                oldColumnName="last_edited_by_id"
+                newColumnName="last_edited_by_user_id"
+                columnDataType="UUID"/>
+            <addColumn tableName="response_instructor_comments">
+                <column name="giver_team_id" type="UUID"/>
+            </addColumn>
+            <addColumn tableName="response_instructor_comments">
+                <column name="last_edited_by_team_id" type="UUID"/>
+            </addColumn>
+
+            <addForeignKeyConstraint constraintName="fk_frc_giver_user"
+                baseTableName="response_instructor_comments"
+                baseColumnNames="giver_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+            <addForeignKeyConstraint constraintName="fk_frc_giver_team"
+                baseTableName="response_instructor_comments"
+                baseColumnNames="giver_team_id"
+                referencedTableName="teams"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+            <addForeignKeyConstraint constraintName="fk_frc_last_edited_by_user"
+                baseTableName="response_instructor_comments"
+                baseColumnNames="last_edited_by_user_id"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="SET NULL"/>
+            <addForeignKeyConstraint constraintName="fk_frc_last_edited_by_team"
+                baseTableName="response_instructor_comments"
+                baseColumnNames="last_edited_by_team_id"
+                referencedTableName="teams"
+                referencedColumnNames="id"
+                onDelete="SET NULL"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

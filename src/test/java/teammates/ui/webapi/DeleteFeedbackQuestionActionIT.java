@@ -14,6 +14,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link DeleteFeedbackQuestionAction}.
@@ -21,7 +22,7 @@ import teammates.storage.entity.ResponseInstructorComment;
 public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQuestionAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -37,7 +38,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() throws Exception {
         Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -72,7 +73,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         Course course1 = typicalBundle.courses.get("course1");
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");

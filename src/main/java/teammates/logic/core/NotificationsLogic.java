@@ -63,7 +63,7 @@ public final class NotificationsLogic {
                     String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, notification.toString()));
         }
 
-        return notificationsDb.createNotification(notification);
+        return notificationsDb.persistNotification(notification);
     }
 
     /**
@@ -116,7 +116,7 @@ public final class NotificationsLogic {
         if (notification == null) {
             return;
         }
-        notificationsDb.deleteNotification(notification);
+        notificationsDb.removeNotification(notification);
     }
 
     /**
@@ -158,7 +158,7 @@ public final class NotificationsLogic {
         account.addReadNotification(readNotification);
         notification.addReadNotification(readNotification);
 
-        return notificationsDb.createReadNotification(readNotification);
+        return notificationsDb.persistReadNotification(readNotification);
     }
 
     /**

@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { finalize } from 'rxjs/operators';
@@ -12,8 +11,10 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  CourseView,
   Courses,
   FeedbackSession,
+  FeedbackSessionView,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
@@ -67,7 +68,6 @@ interface StudentSession {
   providers: [FormatDateDetailPipe],
 })
 export class StudentHomePageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private courseService = inject(CourseService);
   private statusMessageService = inject(StatusMessageService);
   private feedbackSessionsService = inject(FeedbackSessionsService);
@@ -105,9 +105,7 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(() => {
-      this.loadStudentCourses();
-    });
+    this.loadStudentCourses();
   }
 
   /**
@@ -126,7 +124,8 @@ export class StudentHomePageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: Courses) => {
-          resp.courses.forEach((course: Course) => {
+          resp.courses.forEach((courseView: CourseView) => {
+            const course = courseView.course;
             this.courses.push({
               course,
               feedbackSessions: [],
@@ -310,7 +309,7 @@ export class StudentHomePageComponent implements OnInit {
    */
   sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
     return fss.feedbackSessions
-      .map((fs: FeedbackSession) => ({ ...fs }))
+      .map((fsView: FeedbackSessionView) => ({ ...fsView.feedbackSession }))
       .sort((a: FeedbackSession, b: FeedbackSession) => {
         if (a.createdAtTimestamp > b.createdAtTimestamp) {
           return 1;

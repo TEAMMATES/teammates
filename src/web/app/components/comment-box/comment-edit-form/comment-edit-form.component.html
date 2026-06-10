@@ -36,13 +36,13 @@
     <thead>
       <tr>
         <th scope="col" class="text-start">User/Group</th>
-        @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
+        @for (commentVisibilityControl of commentVisibilityControls; track commentVisibilityControl) {
           <th scope="col" class="text-center">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
         }
       </tr>
     </thead>
     <tbody>
-      @for (commentVisibilityType of CommentVisibilityType | enumToArray; track commentVisibilityType) {
+      @for (commentVisibilityType of commentVisibilityTypes; track commentVisibilityType) {
         @if (visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)) {
           <tr>
             <td>
@@ -53,7 +53,7 @@
                 >{{ commentVisibilityType | commentVisibilityTypeName }}</span
               >
             </td>
-            @for (commentVisibilityControl of CommentVisibilityControl | enumToArray; track commentVisibilityControl) {
+            @for (commentVisibilityControl of commentVisibilityControls; track commentVisibilityControl) {
               <td class="text-center">
                 <input
                   #visibilityCheckbox

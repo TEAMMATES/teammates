@@ -36,7 +36,7 @@ export class SimpleModalService {
   private open(
     header: string,
     type: SimpleModalType,
-    content: string | TemplateRef<any>,
+    content: string | TemplateRef<void>,
     simpleModalOptions?: SimpleModalOptions,
     ngbModalOptions?: NgbModalOptions,
   ): NgbModalRef {
@@ -63,7 +63,7 @@ export class SimpleModalService {
   openConfirmationModal(
     header: string,
     type: SimpleModalType,
-    content: string | TemplateRef<any>,
+    content: string | TemplateRef<void>,
     simpleModalOptions?: SimpleModalOptions,
     ngbModalOptions?: NgbModalOptions,
   ): NgbModalRef {
@@ -79,7 +79,7 @@ export class SimpleModalService {
   openInformationModal(
     header: string,
     type: SimpleModalType,
-    content: string | TemplateRef<any>,
+    content: string | TemplateRef<void>,
     simpleModalOptions?: SimpleModalOptions,
     ngbModalOptions?: NgbModalOptions,
   ): NgbModalRef {
@@ -94,7 +94,7 @@ export class SimpleModalService {
   openLoadingModal(
     header: string,
     type: SimpleModalType,
-    content: string | TemplateRef<any>,
+    content: string | TemplateRef<void>,
     simpleModalOptions?: SimpleModalOptions,
     ngbModalOptions?: NgbModalOptions,
   ): NgbModalRef {

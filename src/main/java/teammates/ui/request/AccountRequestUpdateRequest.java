@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The create request for an account request update request.

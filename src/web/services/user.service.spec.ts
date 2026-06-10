@@ -4,17 +4,22 @@ import { TestBed } from '@angular/core/testing';
 import { HttpRequestService } from './http-request.service';
 import { UserService } from './user.service';
 import { ResourceEndpoints } from '../types/api-const';
+import { createMockHttpRequestService, MockHttpRequestService } from '../test-helpers/mock-http-request';
 
 describe('UserService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: UserService;
 
   beforeEach(() => {
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
-      providers: [HttpRequestService, provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        { provide: HttpRequestService, useValue: spyHttpRequestService },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(UserService);
-    spyHttpRequestService = TestBed.inject(HttpRequestService);
   });
 
   it('should be created', () => {

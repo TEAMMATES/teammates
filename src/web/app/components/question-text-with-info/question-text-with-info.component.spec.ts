@@ -51,8 +51,8 @@ describe('QuestionTextWithInfoComponent', () => {
     component.questionDetails = textQuestionDetails;
     fixture.detectChanges();
 
-    const questionDetailControlLink: any = fixture.debugElement.query(By.css('a'));
-    const infoWrapper: any = fixture.debugElement.query(By.css('div'));
+    const questionDetailControlLink = fixture.debugElement.query(By.css('a'));
+    const infoWrapper = fixture.debugElement.query(By.css('div'));
 
     expect(questionDetailControlLink).toBeNull();
     expect(infoWrapper).toBeNull();
@@ -70,7 +70,7 @@ describe('QuestionTextWithInfoComponent', () => {
     component.questionDetails = mcqQuestionDetails;
     fixture.detectChanges();
 
-    const questionDetailControlLink: any = fixture.debugElement.query(By.css('button'));
+    const questionDetailControlLink = fixture.debugElement.query(By.css('button'));
 
     questionDetailControlLink.nativeElement.click();
     fixture.detectChanges();

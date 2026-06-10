@@ -11,6 +11,8 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionViewData;
+import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 import teammates.ui.request.Intent;
 
 /**
@@ -52,9 +54,9 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()),
-                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+            gateKeeper.verifyLoggedInUserPrivileges(requestContext);
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
+                    Const.InstructorPermissions.CAN_VIEW_SESSION);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -71,41 +73,63 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException("Feedback session not found");
         }
         String courseId = feedbackSession.getCourseId();
-        FeedbackSessionData response;
+        FeedbackSessionViewData response;
 
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseForSubmission(courseId, true);
             Instant studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
-            response = new FeedbackSessionData(feedbackSession, studentDeadline);
-            response.hideInformation();
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession, studentDeadline));
+            response.getFeedbackSession().hideInformation();
             break;
         case STUDENT_RESULT:
             student = getStudentOfCourseForResult(courseId);
             studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
-            response = new FeedbackSessionData(feedbackSession, studentDeadline);
-            response.hideInformation();
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession, studentDeadline));
+            response.getFeedbackSession().hideInformation();
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorSubmission = getInstructorOfCourseForSubmission(courseId, true);
-            response = new FeedbackSessionData(feedbackSession,
-                    logic.getDeadlineForUser(feedbackSession,
-                    instructorSubmission));
-            response.hideInformation();
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession,
+                    logic.getDeadlineForUser(feedbackSession, instructorSubmission)));
+            response.getFeedbackSession().hideInformation();
+            response.setInstructorPermissions(getPermissions(feedbackSession, instructorSubmission));
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructorResult = getInstructorOfCourseForResult(courseId);
-            response = new FeedbackSessionData(feedbackSession,
-                    logic.getDeadlineForUser(feedbackSession,
-                    instructorResult));
-            response.hideInformationForStudentAndInstructor();
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession,
+                    logic.getDeadlineForUser(feedbackSession, instructorResult)));
+            response.getFeedbackSession().hideInformationForStudentAndInstructor();
+            response.setInstructorPermissions(getPermissions(feedbackSession, instructorResult));
             break;
         case FULL_DETAIL:
-            response = new FeedbackSessionData(feedbackSession);
+            Instructor instructor = getInstructorFromRequest(courseId);
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession));
+            if (instructor != null) {
+                response.setInstructorPermissions(getPermissions(feedbackSession, instructor));
+            }
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
         return new JsonResult(response);
+    }
+
+    private InstructorFeedbackSessionPermissionsData getPermissions(FeedbackSession feedbackSession,
+            Instructor instructorSubmission) {
+        boolean canModifySession =
+                logic.hasInstructorPermissions(instructorSubmission, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canSubmitSession = logic.hasInstructorPermissions(instructorSubmission,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getId(),
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = logic.hasInstructorPermissions(instructorSubmission,
+                Const.InstructorPermissions.CAN_VIEW_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getId(),
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
+        return new InstructorFeedbackSessionPermissionsData(
+                canModifySession,
+                canSubmitSession,
+                canViewSession);
     }
 }

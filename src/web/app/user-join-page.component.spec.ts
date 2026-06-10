@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
-import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
@@ -161,12 +160,12 @@ describe('UserJoinPageComponent', () => {
     component.entityType = entityType;
     component.validUrl = true;
 
-    const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
+    const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({ message: 'Joined course' }));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
+    const btn = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -256,7 +255,6 @@ describe('UserJoinPageComponent creating account', () => {
   let fixture: ComponentFixture<UserJoinPageComponent>;
   let navService: NavigationService;
   let authService: AuthService;
-  let accountService: AccountService;
   let courseService: CourseService;
   let timezoneService: TimezoneService;
 
@@ -282,7 +280,6 @@ describe('UserJoinPageComponent creating account', () => {
     component = fixture.componentInstance;
     navService = TestBed.inject(NavigationService);
     authService = TestBed.inject(AuthService);
-    accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
     timezoneService = TestBed.inject(TimezoneService);
     fixture.detectChanges();
@@ -297,7 +294,7 @@ describe('UserJoinPageComponent creating account', () => {
     component.entityType = 'instructor';
     component.validUrl = true;
 
-    const accountSpy = vi.spyOn(accountService, 'createAccount').mockReturnValue(
+    const courseSpy = vi.spyOn(courseService, 'createDemoCourse').mockReturnValue(
       of({
         message: 'test message',
       }),
@@ -307,11 +304,11 @@ describe('UserJoinPageComponent creating account', () => {
 
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
+    const btn = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
-    expect(accountSpy).toHaveBeenCalledTimes(1);
-    expect(accountSpy).toHaveBeenLastCalledWith('key', 'UTC');
+    expect(courseSpy).toHaveBeenCalledTimes(1);
+    expect(courseSpy).toHaveBeenLastCalledWith('key', 'UTC');
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor');
   });
@@ -346,7 +343,7 @@ describe('UserJoinPageComponent creating account', () => {
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/home');
   });
 
-  it('should stop loading and show error message if 404 is returned when creating new account', () => {
+  it('should stop loading and show error message if 404 is returned when creating new demo course', () => {
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
         loginUrl: '/login',

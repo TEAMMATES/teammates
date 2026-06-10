@@ -2,9 +2,6 @@ import {
   ConstsumOptionsQuestionStatistics,
   ConstsumRecipientsQuestionStatistics,
   ContributionQuestionStatistics,
-  McqQuestionStatistics,
-  MsqQuestionStatistics,
-  NumScaleQuestionStatistics,
   RankOptionsQuestionStatistics,
   RankRecipientsQuestionStatistics,
   Response,
@@ -17,10 +14,7 @@ import {
   FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails,
   FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
@@ -40,22 +34,28 @@ import {
   calculateRankRecipientsQuestionStatistics,
   calculateRubricQuestionStatistics,
 } from './question-statistics.util';
-import constsumOptionQuestionResponses from '../components/question-types/question-statistics/test-data/constsumOptionQuestionResponses.json';
-import mcqQuestionResponses from '../components/question-types/question-statistics/test-data/mcqQuestionResponses.json';
-import msqQuestionResponses from '../components/question-types/question-statistics/test-data/msqQuestionResponses.json';
-import numScaleQuestionResponses from '../components/question-types/question-statistics/test-data/numScaleQuestionResponses.json';
-import rankOptionQuestionResponses from '../components/question-types/question-statistics/test-data/rankOptionQuestionResponses.json';
-import rubricQuestionResponses from '../components/question-types/question-statistics/test-data/rubricQuestionResponses.json';
+import constsumOptionQuestionResponses from '../components/question-types/question-statistics/test-data/constsum-option-question-responses';
+import mcqQuestionResponses from '../components/question-types/question-statistics/test-data/mcq-question-responses';
+import msqQuestionResponses from '../components/question-types/question-statistics/test-data/msq-question-responses';
+import numScaleQuestionResponses from '../components/question-types/question-statistics/test-data/num-scale-question-responses';
+import rankOptionQuestionResponses from '../components/question-types/question-statistics/test-data/rank-option-question-responses';
+import rubricQuestionResponses from '../components/question-types/question-statistics/test-data/rubric-question-responses';
 import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../types/feedback-response-details';
 
 describe('Question Statistics Utility Functions', () => {
   describe('calculateConstsumOptionsQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackConstantSumOptionsQuestionDetails = {
+        questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+        questionText: 'How do you distribute points?',
         constSumOptions: ['optionA', 'optionB', 'optionC'],
-      } as any;
-      const responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = JSON.parse(
-        JSON.stringify(constsumOptionQuestionResponses.responses),
+        pointsPerOption: true,
+        forceUnevenDistribution: false,
+        distributePointsFor: 'distribute points for',
+        points: 100,
+      };
+      const responses: Response<FeedbackConstantSumOptionsResponseDetails>[] = structuredClone(
+        constsumOptionQuestionResponses.responses,
       );
 
       const stats: ConstsumOptionsQuestionStatistics = calculateConstsumOptionsQuestionStatistics(question, responses);
@@ -257,7 +257,7 @@ describe('Question Statistics Utility Functions', () => {
 
       const stats: ConstsumRecipientsQuestionStatistics = calculateConstsumRecipientsQuestionStatistics(
         responses,
-        QuestionRecipientType.NONE,
+        QuestionRecipientType.STUDENTS,
       );
 
       const expectedPointsPerOption: Record<string, number[]> = {
@@ -299,15 +299,18 @@ describe('Question Statistics Utility Functions', () => {
   describe('calculateMcqQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackMcqQuestionDetails = {
+        questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: true,
         mcqWeights: [1, 2, 3],
-      } as any;
-      const responses: Response<FeedbackMcqResponseDetails>[] =
-        mcqQuestionResponses.responsesNoOther as Response<FeedbackMcqResponseDetails>[];
-
-      const stats: McqQuestionStatistics = calculateMcqQuestionStatistics(question, responses);
+        mcqOtherWeight: 0,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+      };
+      const responses = mcqQuestionResponses.responsesNoOther;
+      const stats = calculateMcqQuestionStatistics(question, responses);
 
       const expectedAnswerFrequency: Record<string, number> = {
         optionA: 2,
@@ -338,16 +341,18 @@ describe('Question Statistics Utility Functions', () => {
 
     it('should calculate statistics correctly when other is enabled', () => {
       const question: FeedbackMcqQuestionDetails = {
+        questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: true,
         hasAssignedWeights: true,
         mcqWeights: [1, 2, 3],
         mcqOtherWeight: 4,
-      } as any;
-      const responses: Response<FeedbackMcqResponseDetails>[] =
-        mcqQuestionResponses.responsesWithOther as Response<FeedbackMcqResponseDetails>[];
-
-      const stats: McqQuestionStatistics = calculateMcqQuestionStatistics(question, responses);
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+      };
+      const responses = mcqQuestionResponses.responsesWithOther;
+      const stats = calculateMcqQuestionStatistics(question, responses);
 
       const expectedAnswerFrequency: Record<string, number> = {
         optionA: 1,
@@ -382,14 +387,18 @@ describe('Question Statistics Utility Functions', () => {
 
     it('should calculate statistics correctly when there are no assigned weights', () => {
       const question: FeedbackMcqQuestionDetails = {
+        questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: false,
-      } as any;
-      const responses: Response<FeedbackMcqResponseDetails>[] =
-        mcqQuestionResponses.responsesNoOther as Response<FeedbackMcqResponseDetails>[];
-
-      const stats: McqQuestionStatistics = calculateMcqQuestionStatistics(question, responses);
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+      };
+      const responses = mcqQuestionResponses.responsesNoOther;
+      const stats = calculateMcqQuestionStatistics(question, responses);
 
       const expectedAnswerFrequency: Record<string, number> = {
         optionA: 2,
@@ -401,7 +410,7 @@ describe('Question Statistics Utility Functions', () => {
         optionB: 33.33,
         optionC: 0,
       };
-      const expectedPerRecipientResponses: Record<string, any> = {};
+      const expectedPerRecipientResponses = {};
 
       expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
       expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
@@ -410,14 +419,18 @@ describe('Question Statistics Utility Functions', () => {
 
     it('should calculate statistics correctly when other is enabled and no assigned weights', () => {
       const question: FeedbackMcqQuestionDetails = {
+        questionType: FeedbackQuestionType.MCQ,
+        questionText: 'Which option do you prefer?',
         mcqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: true,
         hasAssignedWeights: false,
-      } as any;
-      const responses: Response<FeedbackMcqResponseDetails>[] =
-        mcqQuestionResponses.responsesWithOther as Response<FeedbackMcqResponseDetails>[];
-
-      const stats: McqQuestionStatistics = calculateMcqQuestionStatistics(question, responses);
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+        questionDropdownEnabled: false,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+      };
+      const responses = mcqQuestionResponses.responsesWithOther;
+      const stats = calculateMcqQuestionStatistics(question, responses);
 
       const expectedAnswerFrequency: Record<string, number> = {
         optionA: 1,
@@ -431,7 +444,7 @@ describe('Question Statistics Utility Functions', () => {
         optionC: 0,
         Other: 33.33,
       };
-      const expectedPerRecipientResponses: Record<string, any> = {};
+      const expectedPerRecipientResponses = {};
 
       expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
       expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
@@ -442,15 +455,19 @@ describe('Question Statistics Utility Functions', () => {
   describe('calculateMsqQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackMsqQuestionDetails = {
+        questionType: FeedbackQuestionType.MSQ,
+        questionText: 'Which options do you prefer?',
         msqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: true,
         msqWeights: [1, 2, 3],
-      } as any;
-      const responses: Response<FeedbackMsqResponseDetails>[] =
-        msqQuestionResponses.responsesNoOther as Response<FeedbackMsqResponseDetails>[];
-
-      const stats: MsqQuestionStatistics = calculateMsqQuestionStatistics(question, responses);
+        msqOtherWeight: 0,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+        maxSelectableChoices: 3,
+        minSelectableChoices: 1,
+      };
+      const responses = msqQuestionResponses.responsesNoOther;
+      const stats = calculateMsqQuestionStatistics(question, responses);
 
       const expectedAnswerFrequency: Record<string, number> = {
         optionA: 2,
@@ -481,14 +498,19 @@ describe('Question Statistics Utility Functions', () => {
 
     it('should calculate statistics correctly when there are no weights', () => {
       const question: FeedbackMsqQuestionDetails = {
+        questionType: FeedbackQuestionType.MSQ,
+        questionText: 'Which options do you prefer?',
         msqChoices: ['optionA', 'optionB', 'optionC'],
         otherEnabled: false,
         hasAssignedWeights: false,
-      } as any;
-      const responses: Response<FeedbackMsqResponseDetails>[] =
-        msqQuestionResponses.responsesNoOther as Response<FeedbackMsqResponseDetails>[];
-
-      const stats: MsqQuestionStatistics = calculateMsqQuestionStatistics(question, responses);
+        msqWeights: [],
+        msqOtherWeight: 0,
+        generateOptionsFor: QuestionRecipientType.STUDENTS,
+        maxSelectableChoices: 3,
+        minSelectableChoices: 1,
+      };
+      const responses = msqQuestionResponses.responsesNoOther;
+      const stats = calculateMsqQuestionStatistics(question, responses);
 
       const expectedAnswerFrequency: Record<string, number> = {
         optionA: 2,
@@ -500,7 +522,7 @@ describe('Question Statistics Utility Functions', () => {
         optionB: 33.33,
         optionC: 0,
       };
-      const expectedPerRecipientResponses: Record<string, any> = {};
+      const expectedPerRecipientResponses = {};
 
       expect(stats.answerFrequency).toEqual(expectedAnswerFrequency);
       expect(stats.percentagePerOption).toEqual(expectedPercentagePerOption);
@@ -510,10 +532,8 @@ describe('Question Statistics Utility Functions', () => {
 
   describe('calculateNumScaleQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
-      const responses: Response<FeedbackNumericalScaleResponseDetails>[] =
-        numScaleQuestionResponses.responses as Response<FeedbackNumericalScaleResponseDetails>[];
-
-      const stats: NumScaleQuestionStatistics = calculateNumScaleQuestionStatistics(responses);
+      const responses = numScaleQuestionResponses.responses;
+      const stats = calculateNumScaleQuestionStatistics(responses);
 
       const team = 'Instructors';
       const recipient = 'Instructor';
@@ -524,10 +544,8 @@ describe('Question Statistics Utility Functions', () => {
     });
 
     it('should calculate statistics correctly if responses are zero', () => {
-      const responses: Response<FeedbackNumericalScaleResponseDetails>[] =
-        numScaleQuestionResponses.responsesAtZero as Response<FeedbackNumericalScaleResponseDetails>[];
-
-      const stats: NumScaleQuestionStatistics = calculateNumScaleQuestionStatistics(responses);
+      const responses = numScaleQuestionResponses.responsesAtZero;
+      const stats = calculateNumScaleQuestionStatistics(responses);
 
       const team = 'Instructors';
       const recipient = 'Instructor';
@@ -538,10 +556,8 @@ describe('Question Statistics Utility Functions', () => {
     });
 
     it('should calculate statistics correctly if self-response exists', () => {
-      const responses: Response<FeedbackNumericalScaleResponseDetails>[] =
-        numScaleQuestionResponses.responsesWithSelf as Response<FeedbackNumericalScaleResponseDetails>[];
-
-      const stats: NumScaleQuestionStatistics = calculateNumScaleQuestionStatistics(responses);
+      const responses = numScaleQuestionResponses.responsesWithSelf;
+      const stats = calculateNumScaleQuestionStatistics(responses);
 
       const team = 'Instructors';
       const recipient = 'Instructor';
@@ -555,12 +571,15 @@ describe('Question Statistics Utility Functions', () => {
   describe('calculateRankOptionsQuestionStatistics', () => {
     it('should calculate statistics correctly', () => {
       const question: FeedbackRankOptionsQuestionDetails = {
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+        questionText: 'Rank these options',
         options: ['optionA', 'optionB', 'optionC', 'optionD'],
-      } as any;
-      const responses: Response<FeedbackRankOptionsResponseDetails>[] =
-        rankOptionQuestionResponses.responses as Response<FeedbackRankOptionsResponseDetails>[];
-
-      const stats: RankOptionsQuestionStatistics = calculateRankOptionsQuestionStatistics(question, responses);
+        minOptionsToBeRanked: 1,
+        maxOptionsToBeRanked: 4,
+        areDuplicatesAllowed: false,
+      };
+      const responses = rankOptionQuestionResponses.responses;
+      const stats = calculateRankOptionsQuestionStatistics(question, responses);
 
       const expectedRankReceivedPerOption: Record<string, number[]> = {
         optionA: [1, 2, 4],
@@ -582,10 +601,14 @@ describe('Question Statistics Utility Functions', () => {
 
     it('should calculate statistics correctly if there are equal ranks', () => {
       const question: FeedbackRankOptionsQuestionDetails = {
+        questionType: FeedbackQuestionType.RANK_OPTIONS,
+        questionText: 'Rank these options',
         options: ['optionA', 'optionB', 'optionC', 'optionD'],
-      } as any;
-      const responses: Response<FeedbackRankOptionsResponseDetails>[] =
-        rankOptionQuestionResponses.responsesSameRank as Response<FeedbackRankOptionsResponseDetails>[];
+        minOptionsToBeRanked: 1,
+        maxOptionsToBeRanked: 4,
+        areDuplicatesAllowed: false,
+      };
+      const responses: Response<FeedbackRankOptionsResponseDetails>[] = rankOptionQuestionResponses.responsesSameRank;
 
       const stats: RankOptionsQuestionStatistics = calculateRankOptionsQuestionStatistics(question, responses);
 
@@ -814,6 +837,7 @@ describe('Question Statistics Utility Functions', () => {
   describe('calculateRubricQuestionStatistics', () => {
     it('should calculate responses correctly', () => {
       const question: FeedbackRubricQuestionDetails = {
+        questionType: FeedbackQuestionType.RUBRIC,
         rubricSubQuestions: ['Question1', 'Question2', 'Question3'],
         rubricChoices: ['Yes', 'No'],
         hasAssignedWeights: true,
@@ -822,9 +846,14 @@ describe('Question Statistics Utility Functions', () => {
           [0.1, 0.9],
           [0.4, 0.6],
         ],
-      } as any;
-      const responses: Response<FeedbackRubricResponseDetails>[] =
-        rubricQuestionResponses.responses as Response<FeedbackRubricResponseDetails>[];
+        rubricDescriptions: [
+          ['', ''],
+          ['', ''],
+          ['', ''],
+        ],
+        questionText: 'test question text',
+      };
+      const responses: Response<FeedbackRubricResponseDetails>[] = rubricQuestionResponses.responses;
 
       const stats: RubricQuestionStatistics = calculateRubricQuestionStatistics(question, responses, false);
 
@@ -852,12 +881,23 @@ describe('Question Statistics Utility Functions', () => {
 
     it('should calculate responses correctly when there are no weights', () => {
       const question: FeedbackRubricQuestionDetails = {
+        questionType: FeedbackQuestionType.RUBRIC,
         rubricSubQuestions: ['Question1', 'Question2', 'Question3'],
         rubricChoices: ['Yes', 'No'],
         hasAssignedWeights: false,
-      } as any;
-      const responses: Response<FeedbackRubricResponseDetails>[] =
-        rubricQuestionResponses.responses as Response<FeedbackRubricResponseDetails>[];
+        rubricWeightsForEachCell: [
+          [1, 1],
+          [1, 1],
+          [1, 1],
+        ],
+        rubricDescriptions: [
+          ['', ''],
+          ['', ''],
+          ['', ''],
+        ],
+        questionText: 'test question text',
+      };
+      const responses: Response<FeedbackRubricResponseDetails>[] = rubricQuestionResponses.responses;
 
       const stats: RubricQuestionStatistics = calculateRubricQuestionStatistics(question, responses, false);
 
@@ -904,7 +944,7 @@ describe('Question Statistics Utility Functions', () => {
 
       const statsWithNull: ContributionQuestionStatistics = calculateContributionQuestionStatistics(
         responses,
-        null as any,
+        '',
         false,
       );
 

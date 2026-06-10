@@ -20,6 +20,7 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
@@ -30,7 +31,7 @@ import teammates.ui.request.FeedbackQuestionUpdateRequest;
 public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQuestionAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -46,7 +47,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() throws Exception {
         Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
@@ -111,7 +112,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSession fs = typicalBundle.feedbackSessions.get("session1InCourse1");
@@ -122,7 +123,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
 
         loginAsInstructor(instructor1OfCourse1.getAccount().getGoogleId());
 
-        verifyEntityNotFoundAcl(Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000");
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000");
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

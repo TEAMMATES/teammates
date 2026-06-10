@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Instructor, InstructorPrivilege, Instructors } from '../types/api-output';
-import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../types/api-request';
+import { Instructor, InstructorPrivilege, Instructors, MessageOutput } from '../types/api-output';
+import { InstructorCreateRequest, InstructorUpdateRequest, Intent } from '../types/api-request';
 
 /**
  * Handles instructor related logic provision.
@@ -12,7 +12,7 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
   providedIn: 'root',
 })
 export class InstructorService {
-  private httpRequestService = inject(HttpRequestService);
+  private readonly httpRequestService = inject(HttpRequestService);
 
   /**
    * Get a list of instructors of a course by calling API.
@@ -68,7 +68,7 @@ export class InstructorService {
   /**
    * Updates an instructor in a course by calling API.
    */
-  updateInstructor(queryParams: { courseId: string; requestBody: InstructorCreateRequest }): Observable<Instructor> {
+  updateInstructor(queryParams: { courseId: string; requestBody: InstructorUpdateRequest }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
@@ -78,7 +78,7 @@ export class InstructorService {
   /**
    * Deletes an instructor by calling API.
    */
-  deleteInstructor(queryParams: { userId: string }): Observable<any> {
+  deleteInstructor(queryParams: { userId: string }): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       userid: queryParams.userId,
     };
@@ -103,18 +103,5 @@ export class InstructorService {
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
-  }
-
-  /**
-   * Updates the privilege of an instructor.
-   */
-  updateInstructorPrivilege(queryParams: {
-    userId: string;
-    requestBody: InstructorPrivilegeUpdateRequest;
-  }): Observable<InstructorPrivilege> {
-    const paramMap: Record<string, string> = {
-      userid: queryParams.userId,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
   }
 }

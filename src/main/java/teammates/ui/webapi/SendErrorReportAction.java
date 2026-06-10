@@ -1,8 +1,8 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Logger;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.request.ErrorReportRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Actions: sends an error report to the system admin.
@@ -14,7 +14,9 @@ public class SendErrorReportAction extends PublicAction {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         ErrorReportRequest report = getAndValidateRequestBody(ErrorReportRequest.class);
 
-        // Severe logs will trigger email to the system admin
+        // TODO: severe logs are no longer sent to the system admin.
+        // This behaviour is also no longer desirable.
+        // A new mechanism for sending user error reports should be implemented.
         log.severe(getUserErrorReportLogMessage(report));
 
         return new JsonResult("Error report successfully sent");

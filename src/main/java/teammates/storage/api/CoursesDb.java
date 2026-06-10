@@ -34,34 +34,28 @@ public final class CoursesDb {
      * Returns a course with the {@code courseID} or null if it does not exist.
      */
     public Course getCourse(String courseId) {
-        assert courseId != null;
-
         return HibernateUtil.get(Course.class, courseId);
     }
 
     /**
-     * Creates a course.
+     * Persists a course.
      */
-    public Course createCourse(Course course) {
-        assert course != null;
-
+    public Course persistCourse(Course course) {
         HibernateUtil.persist(course);
         return course;
     }
 
     /**
-     * Deletes a course.
+     * Removes a course.
      */
-    public void deleteCourse(Course course) {
+    public void removeCourse(Course course) {
         HibernateUtil.remove(course);
     }
 
     /**
-     * Creates a section.
+     * Persists a section.
      */
-    public Section createSection(Section section) {
-        assert section != null;
-
+    public Section persistSection(Section section) {
         HibernateUtil.persist(section);
         return section;
     }
@@ -70,9 +64,6 @@ public final class CoursesDb {
      * Get section by name.
      */
     public Section getSectionByName(String courseId, String sectionName) {
-        assert courseId != null;
-        assert sectionName != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Section> cr = cb.createQuery(Section.class);
         Root<Section> sectionRoot = cr.from(Section.class);
@@ -86,49 +77,17 @@ public final class CoursesDb {
     }
 
     /**
-     * Get section by {@code courseId} and {@code teamName}.
+     * Get section by UUID.
      */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        assert courseId != null;
-        assert teamName != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Section> cr = cb.createQuery(Section.class);
-        Root<Section> sectionRoot = cr.from(Section.class);
-        Join<Section, Course> courseJoin = sectionRoot.join("course");
-        Join<Section, Team> teamJoin = sectionRoot.join("teams");
-
-        cr.select(sectionRoot).where(cb.and(
-                cb.equal(courseJoin.get("id"), courseId),
-                cb.equal(teamJoin.get("name"), teamName)));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    public Section getSectionById(UUID sectionId) {
+        // TODO: add tests for this method
+        return HibernateUtil.get(Section.class, sectionId);
     }
 
     /**
-     * Get teams by {@code course}.
+     * Persists a team.
      */
-    public List<Team> getTeamsForCourse(String courseId) {
-        assert courseId != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
-        Root<Team> teamRoot = cr.from(Team.class);
-        Join<Team, Section> sectionJoin = teamRoot.join("section");
-        Join<Section, Course> courseJoin = sectionJoin.join("course");
-
-        cr.select(teamRoot).where(
-                cb.equal(courseJoin.get("id"), courseId));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
-     * Creates a team.
-     */
-    public Team createTeam(Team team) {
-        assert team != null;
-
+    public Team persistTeam(Team team) {
         HibernateUtil.persist(team);
         return team;
     }
@@ -137,9 +96,6 @@ public final class CoursesDb {
      * Gets a team by name.
      */
     public Team getTeamByName(UUID sectionId, String teamName) {
-        assert sectionId != null;
-        assert teamName != null;
-
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Team> cr = cb.createQuery(Team.class);
         Root<Team> teamRoot = cr.from(Team.class);
@@ -150,6 +106,22 @@ public final class CoursesDb {
                 cb.equal(teamRoot.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
+     * Get teams by {@code course}.
+     */
+    public List<Team> getTeamsForCourse(String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
+        Root<Team> teamRoot = cr.from(Team.class);
+        Join<Team, Section> sectionJoin = teamRoot.join("section");
+        Join<Section, Course> courseJoin = sectionJoin.join("course");
+
+        cr.select(teamRoot).where(
+                cb.equal(courseJoin.get("id"), courseId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
 }

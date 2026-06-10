@@ -41,7 +41,7 @@ export class QuestionTextWithInfoComponent {
     questionText: '',
   };
 
-  @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
+  @Output() downloadQuestionResultEvent: EventEmitter<void> = new EventEmitter();
 
   additionalInfoIsExpanded = false;
 

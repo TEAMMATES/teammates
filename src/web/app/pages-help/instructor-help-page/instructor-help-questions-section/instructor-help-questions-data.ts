@@ -45,7 +45,6 @@ import { QuestionTabModel } from '../../../pages-instructor/instructor-session-r
  */
 export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -77,7 +76,6 @@ export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
  */
 export const EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -550,7 +548,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSu
  */
 export const EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -739,7 +736,6 @@ export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTIONS: Record<string, QuestionT
  */
 export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -771,7 +767,6 @@ export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = 
  */
 export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -1010,7 +1005,6 @@ export const EXAMPLE_TEAM_CONTRIBUTION_QUESTIONS: Record<string, QuestionTabMode
  */
 export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -1221,7 +1215,6 @@ export const EXAMPLE_RUBRIC_QUESTION_QUESTIONS: Record<string, QuestionTabModel>
  */
 export const EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -1410,7 +1403,6 @@ export const EXAMPLE_RANK_RECIPIENT_QUESTIONS: Record<string, QuestionTabModel> 
  */
 export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: '',
@@ -1446,7 +1438,6 @@ export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
  */
 export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: 'How much did you think you contributed?',
@@ -1487,7 +1478,6 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
  */
 export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
-  isQuestionHasResponses: false,
 
   questionNumber: 1,
   questionBrief: 'How much did you think you contributed?',

@@ -2,18 +2,14 @@ package teammates.storage.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -36,21 +32,24 @@ public class Instructor extends User {
     @Enumerated(EnumType.STRING)
     private InstructorPermissionRole role;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    @Convert(converter = InstructorPrivilegesConverter.class)
-    private InstructorPrivileges privileges;
-
     protected Instructor() {
         // required by Hibernate
     }
 
+    public Instructor(String name, String email, boolean isDisplayedToStudents,
+            String displayName, InstructorPermissionRole role) {
+        super(name, email);
+        this.setDisplayedToStudents(isDisplayedToStudents);
+        this.setDisplayName(displayName);
+        this.setRole(role);
+    }
+
     public Instructor(Course course, String name, String email, boolean isDisplayedToStudents,
-            String displayName, InstructorPermissionRole role, InstructorPrivileges privileges) {
+            String displayName, InstructorPermissionRole role) {
         super(course, name, email);
         this.setDisplayedToStudents(isDisplayedToStudents);
         this.setDisplayName(displayName);
         this.setRole(role);
-        this.setPrivileges(privileges);
     }
 
     @Override
@@ -82,18 +81,10 @@ public class Instructor extends User {
         this.role = role;
     }
 
-    public InstructorPrivileges getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(InstructorPrivileges instructorPrivileges) {
-        this.privileges = instructorPrivileges;
-    }
-
     @Override
     public String toString() {
         return "Instructor [id=" + super.getId() + ", isDisplayedToStudents=" + isDisplayedToStudents
-                + ", displayName=" + displayName + ", role=" + role + ", instructorPrivileges=" + privileges
+                + ", displayName=" + displayName + ", role=" + role
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";
     }
 
@@ -136,44 +127,10 @@ public class Instructor extends User {
     }
 
     /**
-     * Returns true if the instructor has co-owner privilege.
+     * Returns true if the instructor has co-owner role.
      */
-    public boolean hasCoownerPrivileges() {
-        return privileges.hasCoownerPrivileges();
+    public boolean hasCoownerRole() {
+        return this.role == InstructorPermissionRole.COOWNER;
     }
 
-    /**
-     * Returns a list of sections this instructor has the specified privilege.
-     */
-    public Map<String, InstructorPermissionSet> getSectionsWithPrivilege(String privilegeName) {
-        return this.privileges.getSectionsWithPrivilege(privilegeName);
-    }
-
-    /**
-     * Returns true if the instructor has the given privilege in the course.
-     */
-    public boolean isAllowedForPrivilege(String privilegeName) {
-        return this.privileges.isAllowedForPrivilege(privilegeName);
-    }
-
-    /**
-     * Returns true if the instructor has the given privilege in the given section for the given feedback session.
-     */
-    public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
-        return privileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
-    }
-
-    /**
-     * Returns true if the instructor has the given privilege in the given section.
-     */
-    public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
-        return privileges.isAllowedForPrivilege(sectionName, privilegeName);
-    }
-
-    /**
-     * Returns true if privilege for session is present for any section.
-     */
-    public boolean isAllowedForPrivilegeAnySection(String sessionName, String privilegeName) {
-        return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
-    }
 }

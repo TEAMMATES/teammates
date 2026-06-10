@@ -1,0 +1,116 @@
+import { FeedbackQuestionType, FeedbackRubricResponseDetails } from '../../../../../types/api-output';
+import { Response } from '../../../../../types/question-statistics.model';
+
+export const rubricQuestionResponses = {
+  responses: [
+    {
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: [0, 1, 0],
+        questionType: FeedbackQuestionType.RUBRIC,
+      },
+    },
+    {
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Alice',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'alice@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: [1, 1, 0],
+        questionType: FeedbackQuestionType.RUBRIC,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Alice',
+      recipientTeam: 'Team 1',
+      recipientEmail: 'alice@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: [0, 0, 0],
+        questionType: FeedbackQuestionType.RUBRIC,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: [0, 0, 0],
+        questionType: FeedbackQuestionType.RUBRIC,
+      },
+    },
+  ] as Response<FeedbackRubricResponseDetails>[],
+  expectedStatsMap: {
+    'alice@gmail.com': {
+      answers: [
+        [1, 1],
+        [1, 1],
+        [2, 0],
+      ],
+      answersSum: [4, 2],
+      percentages: [
+        [50, 50],
+        [50, 50],
+        [100, 0],
+      ],
+      percentagesAverage: [66.67, 33.33],
+      recipientEmail: 'alice@gmail.com',
+      recipientName: 'Alice',
+      recipientTeam: 'Team 1',
+      areSubQuestionChosenWeightsAllNull: [false, false, false],
+      subQuestionTotalChosenWeight: [1, 1, 0.8],
+      subQuestionWeightAverage: [0.5, 0.5, 0.4],
+      weightsAverage: [0.23, 0.77],
+      overallWeightedSum: 2.8,
+      overallWeightAverage: 0.47,
+    },
+    'bob@gmail.com': {
+      answers: [
+        [2, 0],
+        [1, 1],
+        [2, 0],
+      ],
+      answersSum: [5, 1],
+      percentages: [
+        [100, 0],
+        [50, 50],
+        [100, 0],
+      ],
+      percentagesAverage: [83.33, 16.67],
+      recipientEmail: 'bob@gmail.com',
+      recipientName: 'Bob',
+      recipientTeam: 'Team 2',
+      areSubQuestionChosenWeightsAllNull: [false, false, false],
+      subQuestionTotalChosenWeight: [0.4, 1, 0.8],
+      subQuestionWeightAverage: [0.2, 0.5, 0.4],
+      weightsAverage: [0.23, 0.77],
+      overallWeightedSum: 2.2,
+      overallWeightAverage: 0.37,
+    },
+  },
+} satisfies {
+  responses: Response<FeedbackRubricResponseDetails>[];
+  expectedStatsMap: Record<string, unknown>;
+};
+
+export default rubricQuestionResponses;

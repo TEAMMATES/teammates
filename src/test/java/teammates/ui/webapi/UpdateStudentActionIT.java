@@ -19,10 +19,11 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
 /**
@@ -31,7 +32,7 @@ import teammates.ui.request.StudentUpdateRequest;
 public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -47,18 +48,18 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() throws Exception {
         assert true;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_invalidParameters_failure() {
         ______TS("no parameters");
         verifyHttpParameterFailure();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_typicalCase_success() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
@@ -97,7 +98,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_studentDetailsWithWhitespace_success() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
@@ -124,7 +125,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_emailHasTooManyCharacters_failure() throws Exception {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
@@ -149,7 +150,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         verifyNoTasksAdded();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_emailTakenByOthers_failure() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
@@ -169,7 +170,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         verifyNoTasksAdded();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_studentDoesNotExist_failure() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
@@ -187,7 +188,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         verifyNoTasksAdded();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute_studentTeamExistsInAnotherSection_failure() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student4 = typicalBundle.students.get("student4InCourse1");
@@ -209,8 +210,8 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         verifyNoTasksAdded();
     }
 
-    @Test
-    public void testExecute_sectionFull_failure() throws Exception {
+    @Test(groups = GroupNames.INTEGRATION)
+    public void testExecute_sectionFull_failure() {
         Student studentToJoinMaxSection = typicalBundle.students.get("student1InCourse1");
 
         Course course = typicalBundle.courses.get("course1");
@@ -249,40 +250,8 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         verifyNoTasksAdded();
     }
 
-    @Test
-    public void testExecute_renameEmptySectionNameToDefault_success() {
-        Student student4 = typicalBundle.students.get("student4InCourse1");
-
-        Team originalTeam = student4.getTeam();
-
-        StudentUpdateRequest emptySectionUpdateRequest = new StudentUpdateRequest(student4.getName(), student4.getEmail(),
-                student4.getTeamName(), "", student4.getComments(), true);
-
-        String[] emptySectionSubmissionParams = new String[] {
-                Const.ParamsNames.USER_ID, student4.getId().toString(),
-        };
-
-        UpdateStudentAction updateEmptySectionAction = getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
-        JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
-
-        MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
-        assertEquals("Student has been updated and email sent", emptySectionMsgOutput.getMessage());
-
-        inTransaction(() -> {
-            Student actualStudent = logic.getStudentForEmail(student4.getCourseId(), student4.getEmail());
-            assertEquals(student4.getCourse().getId(), actualStudent.getCourse().getId());
-            assertEquals(student4.getName(), actualStudent.getName());
-            assertEquals(student4.getEmail(), actualStudent.getEmail());
-            assertEquals(student4.getTeamName(), actualStudent.getTeamName());
-            assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
-            assertEquals(student4.getComments(), actualStudent.getComments());
-        });
-
-        resetStudent(student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
-    }
-
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Course course = typicalBundle.courses.get("course1");

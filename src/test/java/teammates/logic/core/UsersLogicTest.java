@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,11 +20,11 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -41,6 +43,8 @@ public class UsersLogicTest extends BaseTestCase {
 
     private UsersDb usersDb;
 
+    private InstructorPermissionsLogic instructorPermissionsLogic;
+
     private Instructor instructor;
 
     private Student student;
@@ -52,7 +56,18 @@ public class UsersLogicTest extends BaseTestCase {
         usersDb = mock(UsersDb.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic);
+        instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        doAnswer(invocation -> {
+            Instructor instr = invocation.getArgument(0);
+            String permissionName = invocation.getArgument(1);
+            InstructorPermissionRole role = instr.getRole();
+            InstructorPrivileges privileges = role == null
+                    || role == InstructorPermissionRole.CUSTOM
+                            ? new InstructorPrivileges(instr.getId())
+                            : new InstructorPrivileges(instr.getId(), role.getRoleName());
+            return privileges.isAllowedForPrivilege(permissionName);
+        }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
+        usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = getTypicalInstructor();
@@ -138,7 +153,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.deleteInstructorCascade(instructorToDelete.getId());
 
-        verify(usersDb, times(1)).deleteUser(instructorToDelete);
+        verify(usersDb, times(1)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -148,7 +163,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.deleteInstructorCascade(userId);
 
-        verify(usersDb, times(0)).deleteUser(instructor);
+        verify(usersDb, times(0)).removeUser(instructor);
     }
 
     @Test
@@ -165,7 +180,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+        verify(usersDb, times(0)).removeUser(instructorToDelete);
     }
 
     @Test
@@ -182,18 +197,20 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+        verify(usersDb, times(0)).removeUser(instructorToDelete);
     }
 
     @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
-        InstructorPrivileges privileges = instructor.getPrivileges();
-        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-        instructor.setPrivileges(privileges);
-        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
+        instructor.setRole(InstructorPermissionRole.CUSTOM);
+        InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        when(instructorPermissionsLogic.getInstructorPrivileges(instructor)).thenReturn(privileges);
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor);
+
+        assertFalse(instructorPermissionsLogic.getInstructorPrivileges(instructor)
+                .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
     private Instructor createRegisteredInstructor(String email, boolean isDisplayedToStudents) {

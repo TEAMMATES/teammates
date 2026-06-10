@@ -188,10 +188,12 @@ public class SessionResultsData implements ApiOutput {
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
                 .withGiverSectionName(giver.getSectionName())
+                .withGiverSectionId(giver.getSectionId())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSectionName(recipient.getSectionName())
+                .withRecipientSectionId(recipient.getSectionId())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
@@ -226,9 +228,7 @@ public class SessionResultsData implements ApiOutput {
                 userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
                 // team giver, userIdForModeration is any team member's user ID
-                String teamName = responseGiver.getTeamName();
-                List<Student> teamMembers =
-                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                List<Student> teamMembers = bundle.getRoster().getTeamMembers(responseGiver.getTeamId());
                 userIdForModeration = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getId().toString();
                 giverEmail = null;
             }
@@ -246,7 +246,7 @@ public class SessionResultsData implements ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.getId(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-            recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getRecipientUser().getEmail();
         }
 
         // process comments
@@ -263,10 +263,12 @@ public class SessionResultsData implements ApiOutput {
                 .withGiverEmail(giverEmail)
                 .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
+                .withGiverSectionId(responseGiver.getSectionId())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
+                .withRecipientSectionId(responseRecipient.getSectionId())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
                 .withParticipantComment(participantComment)
                 .withInstructorComments(instructorComments)
@@ -297,9 +299,7 @@ public class SessionResultsData implements ApiOutput {
                 userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
                 // team giver, userIdForModeration is any team member's user ID
-                String teamName = responseGiver.getTeamName();
-                List<Student> teamMembers =
-                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                List<Student> teamMembers = bundle.getRoster().getTeamMembers(responseGiver.getTeamId());
                 userIdForModeration = teamMembers.stream().findFirst()
                         .map(student -> student.getId().toString()).orElse(null);
                 giverEmail = null;
@@ -318,7 +318,7 @@ public class SessionResultsData implements ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.id(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-            recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getRecipientUser().getEmail();
         }
 
         FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails(Const.MISSING_RESPONSE_TEXT);
@@ -330,10 +330,12 @@ public class SessionResultsData implements ApiOutput {
                 .withGiverEmail(giverEmail)
                 .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
+                .withGiverSectionId(responseGiver.getSectionId())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
+                .withRecipientSectionId(responseRecipient.getSectionId())
                 .withResponseDetails(responseDetails)
                 .withParticipantComment(null)
                 .withInstructorComments(new ArrayList<>())
@@ -457,8 +459,12 @@ public class SessionResultsData implements ApiOutput {
         private String giverTeam;
         @Nullable
         private String giverEmail;
+        @Nullable
+        private UUID giverSectionId;
         private String giverSection;
         private String recipient;
+        @Nullable
+        private UUID recipientSectionId;
         private String recipientTeam;
         @Nullable
         private String recipientEmail;
@@ -511,6 +517,10 @@ public class SessionResultsData implements ApiOutput {
             return giverSection;
         }
 
+        public UUID getGiverSectionId() {
+            return giverSectionId;
+        }
+
         public String getRecipient() {
             return recipient;
         }
@@ -526,6 +536,10 @@ public class SessionResultsData implements ApiOutput {
 
         public String getRecipientSection() {
             return recipientSection;
+        }
+
+        public UUID getRecipientSectionId() {
+            return recipientSectionId;
         }
 
         public FeedbackResponseDetails getResponseDetails() {
@@ -586,6 +600,11 @@ public class SessionResultsData implements ApiOutput {
                 return this;
             }
 
+            Builder withGiverSectionId(@Nullable UUID giverSectionId) {
+                responseOutput.giverSectionId = giverSectionId;
+                return this;
+            }
+
             Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
                 return this;
@@ -603,6 +622,11 @@ public class SessionResultsData implements ApiOutput {
 
             Builder withRecipientSectionName(String recipientSection) {
                 responseOutput.recipientSection = recipientSection;
+                return this;
+            }
+
+            Builder withRecipientSectionId(@Nullable UUID recipientSectionId) {
+                responseOutput.recipientSectionId = recipientSectionId;
                 return this;
             }
 

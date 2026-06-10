@@ -101,8 +101,8 @@ describe('CommentEditFormComponent', () => {
 
     const updatedModel = {
       commentText: 'Updated Comment',
-      showCommentTo: ['Public'],
-      showGiverNameTo: ['Team'],
+      showCommentTo: [CommentVisibilityType.INSTRUCTORS],
+      showGiverNameTo: [CommentVisibilityType.GIVER_TEAM_MEMBERS],
     };
 
     const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');

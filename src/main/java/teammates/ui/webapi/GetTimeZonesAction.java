@@ -21,7 +21,7 @@ public class GetTimeZonesAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!authContext.isMaintainer() && !authContext.isAdmin()) {
+        if (!requestContext.isMaintainer() && !requestContext.isAdmin()) {
             throw new UnauthorizedAccessException("Only Maintainers or Admin are allowed to access this resource.");
         }
     }

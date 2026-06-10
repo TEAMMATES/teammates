@@ -8,11 +8,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.ui.output.CommentVisibilityType;
+import teammates.test.GroupNames;
 import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 
 /**
@@ -21,7 +22,7 @@ import teammates.ui.request.ResponseInstructorCommentCreateRequest;
 public class CreateResponseInstructorCommentActionIT extends BaseActionIT<CreateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -36,7 +37,7 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
         return POST;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         ______TS("Successful case: instructor result comment");
@@ -58,10 +59,10 @@ public class CreateResponseInstructorCommentActionIT extends BaseActionIT<Create
                 .filter(frc -> "Instructor result comment".equals(frc.getCommentText()))
                 .findFirst()
                 .orElseThrow());
-        assertEquals(instructor, comment.getGiver().getGiverUser());
+        assertEquals(instructor, comment.getGiver());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");

@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';
 import { StudentService } from '../../services/student.service';
-import { Instructor, Instructors, Student, Students } from '../../types/api-output';
+import { Instructor, Student } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { ResendResultsLinkToRespondentModalComponent } from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import {
@@ -43,9 +43,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
         }),
       )
       .subscribe({
-        next: (result: any[]) => {
-          const students: Student[] = (result[0] as Students).students;
-          const instructors: Instructor[] = (result[1] as Instructors).instructors;
+        next: (result) => {
+          const students: Student[] = result[0].students;
+          const instructors: Instructor[] = result[1].instructors;
 
           const modalRef: NgbModalRef = this.ngbModal.open(ResendResultsLinkToRespondentModalComponent);
 

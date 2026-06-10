@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
@@ -72,9 +72,9 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe({
-      next: (queryParams: any) => {
-        this.courseId = queryParams.courseid;
-        this.studentId = queryParams.userid;
+      next: (queryParams: Params) => {
+        this.courseId = queryParams['courseid'];
+        this.studentId = queryParams['userid'];
 
         this.loadStudentResults(this.courseId, this.studentId);
       },
@@ -99,7 +99,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     })
       .pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
-          return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
+          return this.getFeedbackSessionResults(feedbackSession, student.sectionId);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
@@ -143,21 +143,25 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private getFeedbackSessions(courseId: string): Observable<FeedbackSession> {
     return this.feedbackSessionsService
       .getFeedbackSessionsForInstructor(courseId)
-      .pipe(mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions));
+      .pipe(
+        mergeMap((feedbackSessions: FeedbackSessions) =>
+          feedbackSessions.feedbackSessions.map((fs) => fs.feedbackSession),
+        ),
+      );
   }
 
   /**
    * Fetches the full detail result of the given feedback session in the current course
-   * grouped by the student's section.
+   * grouped by the student's section ID.
    */
   private getFeedbackSessionResults(
     feedbackSession: FeedbackSession,
-    groupBySection: string,
+    groupBySectionId: string,
   ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: feedbackSession.feedbackSessionId,
-        groupBySection,
+        groupBySection: groupBySectionId,
       })
       .pipe(
         map((results: SessionResults) => {

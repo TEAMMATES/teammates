@@ -3,8 +3,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FeedbackResponsesService } from './feedback-responses.service';
 import { HttpRequestService } from './http-request.service';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
@@ -43,7 +44,7 @@ import {
 } from '../types/feedback-response-details';
 
 describe('FeedbackResponsesService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: FeedbackResponsesService;
 
   const questionTypeToResponseDetails: Map<FeedbackQuestionType, FeedbackResponseDetails> = new Map<
@@ -63,7 +64,7 @@ describe('FeedbackResponsesService', () => {
   ]);
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
@@ -251,69 +252,69 @@ describe('FeedbackResponsesService', () => {
 
   it('should correctly display responses or not for an "either" section type', () => {
     const response: ResponseOutput = {
-      giverSection: 'giver section',
-      recipientSection: 'recipient section',
+      giverSectionId: 'giver-section-id',
+      recipientSectionId: 'recipient-section-id',
     } as ResponseOutput;
-    let section = 'giver section';
+    let section = 'giver-section-id';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeTruthy();
 
-    section = 'recipient section';
+    section = 'recipient-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeTruthy();
 
-    section = 'wrong section';
+    section = 'wrong-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeFalsy();
   });
 
   it('should correctly display responses or not for a "giver" section type', () => {
     const response: ResponseOutput = {
-      giverSection: 'giver section',
-      recipientSection: 'recipient section',
+      giverSectionId: 'giver-section-id',
+      recipientSectionId: 'recipient-section-id',
     } as ResponseOutput;
-    let section = 'giver section';
+    let section = 'giver-section-id';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.GIVER;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeTruthy();
 
-    section = 'recipient section';
+    section = 'recipient-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeFalsy();
 
-    section = 'wrong section';
+    section = 'wrong-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeFalsy();
   });
 
   it('should correctly display responses or not for an "evaluee" section type', () => {
     const response: ResponseOutput = {
-      giverSection: 'giver section',
-      recipientSection: 'recipient section',
+      giverSectionId: 'giver-section-id',
+      recipientSectionId: 'recipient-section-id',
     } as ResponseOutput;
-    let section = 'giver section';
+    let section = 'giver-section-id';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EVALUEE;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeFalsy();
 
-    section = 'recipient section';
+    section = 'recipient-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeTruthy();
 
-    section = 'wrong section';
+    section = 'wrong-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeFalsy();
   });
 
   it('should correctly display responses or not for a "both" section type', () => {
     const response: ResponseOutput = {
-      giverSection: 'section',
-      recipientSection: 'section',
+      giverSectionId: 'section-id',
+      recipientSectionId: 'section-id',
     } as ResponseOutput;
-    let section = 'section';
+    let section = 'section-id';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.BOTH;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeTruthy();
 
-    section = 'wrong section';
+    section = 'wrong-section-id';
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeFalsy();
   });
 
   it('should display responses when no section is specified', () => {
     const response: ResponseOutput = {
-      giverSection: 'giver section',
-      recipientSection: 'recipient section',
+      giverSectionId: 'giver-section-id',
+      recipientSectionId: 'recipient-section-id',
     } as ResponseOutput;
     let section = '';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -328,12 +329,41 @@ describe('FeedbackResponsesService', () => {
 
   it('should display responses for an unknown section type', () => {
     const response: ResponseOutput = {
-      giverSection: 'giver section',
-      recipientSection: 'recipient section',
+      giverSectionId: 'giver-section-id',
+      recipientSectionId: 'recipient-section-id',
     } as ResponseOutput;
-    const section = 'giver section';
+    const section = 'giver-section-id';
     const sectionType: InstructorSessionResultSectionType = 'UNKNOWN' as InstructorSessionResultSectionType;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType)).toBeTruthy();
+  });
+
+  it('should display responses for the fake no-specific section when section IDs are absent', () => {
+    const response: ResponseOutput = {
+      giverSectionId: undefined,
+      recipientSectionId: 'recipient-section-id',
+    } as ResponseOutput;
+
+    expect(
+      service.isFeedbackResponsesDisplayedOnSection(
+        response,
+        NO_SPECIFIC_SECTION_ID,
+        InstructorSessionResultSectionType.EITHER,
+      ),
+    ).toBeTruthy();
+    expect(
+      service.isFeedbackResponsesDisplayedOnSection(
+        response,
+        NO_SPECIFIC_SECTION_ID,
+        InstructorSessionResultSectionType.GIVER,
+      ),
+    ).toBeTruthy();
+    expect(
+      service.isFeedbackResponsesDisplayedOnSection(
+        response,
+        NO_SPECIFIC_SECTION_ID,
+        InstructorSessionResultSectionType.EVALUEE,
+      ),
+    ).toBeFalsy();
   });
 
   it('should call get when retrieving a feedback response', () => {

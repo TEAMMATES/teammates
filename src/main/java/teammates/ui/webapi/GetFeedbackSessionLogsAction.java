@@ -13,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
-import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -45,10 +44,10 @@ public class GetFeedbackSessionLogsAction extends Action {
             }
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+        gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override

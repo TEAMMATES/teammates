@@ -2,6 +2,7 @@ package teammates.ui.request;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The basic request for a notification.

@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,9 +32,9 @@ public class GetAuthInfoAction extends PublicAction {
             nextUrl = "";
         }
 
-        UserInfo userInfo = userProvision.getUserInfo(authContext);
+        UserInfo userInfo = userProvision.getUserInfo(requestContext.getAuthContext());
         AuthInfo output = new AuthInfo(
-                createLoginUrl(frontendUrl, nextUrl), userInfo, authContext.authType() == AuthType.MASQUERADE);
+                createLoginUrl(frontendUrl, nextUrl), userInfo, requestContext.getAuthType() == AuthType.MASQUERADE);
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);
@@ -56,7 +58,7 @@ public class GetAuthInfoAction extends PublicAction {
      * Returns a LoginURL based on the frontendURL and nextURL.
      */
     public static String createLoginUrl(String frontendUrl, String nextUrl) {
-        return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
+        String redirectUrl = frontendUrl + nextUrl;
+        return Const.WebPageURIs.LOGIN + "?nextUrl=" + URLEncoder.encode(redirectUrl, StandardCharsets.UTF_8);
     }
-
 }

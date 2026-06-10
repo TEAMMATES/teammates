@@ -43,9 +43,7 @@ public class GetHasResponsesAction extends Action {
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()),
-                    logic.getCourse(courseId));
+            gateKeeper.verifyInstructorInCourse(requestContext, courseId);
 
             return;
         }
@@ -61,9 +59,7 @@ public class GetHasResponsesAction extends Action {
                 continue;
             }
 
-            gateKeeper.verifyAccessible(
-                    logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId()),
-                    feedbackSession);
+            gateKeeper.verifyStudentInCourse(requestContext, courseId);
         }
     }
 
@@ -82,7 +78,7 @@ public class GetHasResponsesAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
+        Student student = getStudentFromRequest(courseId);
 
         Map<String, Boolean> sessionsHasResponses = new HashMap<>();
         for (FeedbackSession feedbackSession : feedbackSessions) {
@@ -121,15 +117,6 @@ public class GetHasResponsesAction extends Action {
 
     private void checkInstructorAccessControlUsingQuestion() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
-        if (feedbackQuestion == null) {
-            throw new EntityNotFoundException("Feedback Question not found");
-        }
-
-        String courseId = feedbackQuestion.getCourseId();
-        FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
-        gateKeeper.verifyAccessible(
-                logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()),
-                feedbackSession);
+        gateKeeper.verifyInstructorInFeedbackQuestion(requestContext, feedbackQuestionId);
     }
 }

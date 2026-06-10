@@ -3,12 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap/toast';
 import { ToastComponent } from './toast.component';
+import { Toast } from './toast';
 
-class MockTemplateRef extends TemplateRef<any> {
-  override elementRef: ElementRef<any> = new ElementRef<any>(null);
-  override createEmbeddedView(context: any, injector?: Injector): EmbeddedViewRef<any> {
+class MockTemplateRef extends TemplateRef<void> {
+  override elementRef: ElementRef = new ElementRef(null);
+  override createEmbeddedView(_context: void, injector?: Injector): EmbeddedViewRef<void> {
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
-    throw new Error(`Method not implemented with context ${context} & injector ${injector}.`);
+    throw new Error(`Method not implemented with injector ${injector}.`);
   }
 }
 
@@ -31,13 +32,15 @@ describe('ToastComponent', () => {
   });
 
   it('should set autohide', () => {
-    component.toast = { message: 'Test message', autohide: false, classes: '' };
+    const toast: Toast = { message: 'Test message', autohide: false, classes: '' };
+    component.toast = toast;
     component.setAutohide(true);
     expect(component.toast.autohide).toBe(true);
   });
 
   it('should remove toast', () => {
-    component.toast = { message: 'Test message', autohide: false, classes: '' };
+    const toast: Toast = { message: 'Test message', autohide: false, classes: '' };
+    component.toast = toast;
     vi.spyOn(component.toastChange, 'emit');
     component.removeToast();
     expect(component.toast).toBe(null);
@@ -45,12 +48,14 @@ describe('ToastComponent', () => {
   });
 
   it('should return false if message is not a TemplateRef', () => {
-    component.toast = { message: 'Test message', autohide: false, classes: '' };
+    const toast: Toast = { message: 'Test message', autohide: false, classes: '' };
+    component.toast = toast;
     expect(component.isTemplate()).toBe(false);
   });
 
   it('should return true if message is a TemplateRef', () => {
-    component.toast = { message: new MockTemplateRef(), autohide: false, classes: '' };
+    const toast: Toast = { message: new MockTemplateRef(), autohide: false, classes: '' };
+    component.toast = toast;
     expect(component.isTemplate()).toBe(true);
   });
 });

@@ -34,7 +34,9 @@ describe('InstructorCourseEnrollPageComponent', () => {
       email: 'test@gmail.com',
       name: 'Existing Student',
       sectionName: 'Section A',
+      sectionId: 'section-a',
       teamName: 'Team A',
+      teamId: 'team-a',
       comments: 'old comment',
       joinState: JoinState.JOINED,
     };
@@ -55,11 +57,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
       ],
     ]);
 
-    const panels = (component as any).populateEnrollResultPanelList(
-      [existingStudent],
-      [enrolledStudent],
-      enrollRequests,
-    );
+    const panels = component.populateEnrollResultPanelList([existingStudent], [enrolledStudent], enrollRequests);
 
     expect(panels[EnrollStatus.MODIFIED].studentList).toEqual([enrolledStudent]);
     expect(panels[EnrollStatus.ERROR].studentList).toEqual([]);
@@ -90,7 +88,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
       ],
     ]);
 
-    (component as any).checkEmailNotRepeated(enrollRequests);
+    component.checkEmailNotRepeated(enrollRequests);
 
     expect(component.invalidRowsIndex).toEqual(new Set([0, 1]));
   });

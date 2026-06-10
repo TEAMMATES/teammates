@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -28,6 +29,8 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.test.GroupNames;
+import teammates.test.ResponseEntityHelper;
 import teammates.ui.output.FeedbackQuestionResponsesData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.request.FeedbackResponsesRequest;
@@ -40,7 +43,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private DataBundle typicalBundle;
     private FeedbackQuestion currentQuestionForSubmission;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -162,15 +165,14 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                                                         Instructor instructor, boolean value) {
         String courseId = session.getCourseId();
 
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-        instructorPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, value);
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges(instructor.getId());
+        runtimePrivileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION, value);
 
         inTransaction(() -> {
             Instructor updatedInstructor = logic.getInstructor(instructor.getId());
             updatedInstructor.getCourse().setId(courseId);
-            updatedInstructor.setPrivileges(instructorPrivileges);
-
-            logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
+            updatedInstructor.setRole(InstructorPermissionRole.CUSTOM);
+            logic.saveInstructorPrivileges(updatedInstructor, runtimePrivileges);
         });
     }
 
@@ -182,35 +184,53 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         return students.stream().map(Student::getTeamName).distinct().toList();
     }
 
-    private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
-            List<Student> recipients) {
-        List<String> emails = extractStudentEmails(recipients);
-        return buildRequestBody(emails);
-    }
-
-    private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsTeam(
-            List<Student> recipients) {
-        List<String> teams = extractStudentTeams(recipients);
-        return buildRequestBody(teams);
-    }
-
     private List<String> extractInstructorEmails(
             List<Instructor> students) {
         return students.stream().map(User::getEmail).toList();
     }
 
-    private FeedbackResponsesRequest buildRequestBodyWithInstructorRecipients(List<Instructor> recipients) {
-        List<String> emails = extractInstructorEmails(recipients);
-        return buildRequestBody(emails);
+    // The recipient key format must stay consistent with ResponseRecipient#getKey() / ResponseGiver#getKey().
+    private List<Recipient> studentEmailRecipients(List<Student> students) {
+        return students.stream()
+                .map(s -> new Recipient("STUDENT:" + s.getId(), s.getEmail()))
+                .toList();
     }
 
-    private FeedbackResponsesRequest buildRequestBody(List<String> values) {
+    private List<Recipient> studentTeamRecipients(List<Student> students) {
+        return students.stream()
+                .map(s -> new Recipient("TEAM:" + s.getTeamId(), s.getTeamName()))
+                .distinct()
+                .toList();
+    }
+
+    private List<Recipient> instructorRecipientsList(List<Instructor> instructors) {
+        return instructors.stream()
+                .map(i -> new Recipient("INSTRUCTOR:" + i.getId(), i.getEmail()))
+                .toList();
+    }
+
+    private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
+            List<Student> recipients) {
+        return buildRequestBody(studentEmailRecipients(recipients));
+    }
+
+    private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsTeam(
+            List<Student> recipients) {
+        return buildRequestBody(studentTeamRecipients(recipients));
+    }
+
+    private FeedbackResponsesRequest buildRequestBodyWithInstructorRecipients(List<Instructor> recipients) {
+        return buildRequestBody(instructorRecipientsList(recipients));
+    }
+
+    private FeedbackResponsesRequest buildRequestBody(List<Recipient> recipients) {
         List<FeedbackResponsesRequest.FeedbackResponseRequest> responses = new ArrayList<>();
 
-        for (String value : values) {
-            FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails("Response for " + value);
+        for (Recipient recipient : recipients) {
+            FeedbackTextResponseDetails responseDetails =
+                    new FeedbackTextResponseDetails("Response for " + recipient.label());
             FeedbackResponsesRequest.FeedbackResponseRequest response =
-                    new FeedbackResponsesRequest.FeedbackResponseRequest(value, responseDetails);
+                    new FeedbackResponsesRequest.FeedbackResponseRequest(recipient.key(), responseDetails);
 
             responses.add(response);
         }
@@ -231,46 +251,43 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 .toList();
     }
 
-    private void validateOutputForStudentRecipientsByEmail(List<FeedbackResponseData> responses, String giverEmail,
+    private void validateOutputForStudentRecipientsByEmail(List<FeedbackResponseData> responses, String giverKey,
                                                            List<Student> recipients) {
-        int responsesSize = responses.size();
-        assertEquals(recipients.size(), responsesSize);
+        List<Recipient> expected = studentEmailRecipients(recipients);
+        assertEquals(expected.size(), responses.size());
 
-        List<String> recipientEmails = extractStudentEmails(recipients);
-
-        validateOutput(responses, giverEmail, recipientEmails);
+        validateOutput(responses, giverKey, expected);
     }
 
-    private void validateOutputForStudentRecipientsByTeam(List<FeedbackResponseData> responses, String giverTeam,
+    private void validateOutputForStudentRecipientsByTeam(List<FeedbackResponseData> responses, String giverKey,
                                                           List<Student> recipients) {
-        List<String> recipientTeams = extractStudentTeams(recipients);
-        int responsesSize = responses.size();
-        assertEquals(recipientTeams.size(), responsesSize);
+        List<Recipient> expected = studentTeamRecipients(recipients);
+        assertEquals(expected.size(), responses.size());
 
-        validateOutput(responses, giverTeam, recipientTeams);
+        validateOutput(responses, giverKey, expected);
     }
 
-    private void validateOutputForInstructorRecipients(List<FeedbackResponseData> responses, String giverEmail,
+    private void validateOutputForInstructorRecipients(List<FeedbackResponseData> responses, String giverKey,
                                                        List<Instructor> recipients) {
-        int responsesSize = responses.size();
-        assertEquals(recipients.size(), responsesSize);
+        List<Recipient> expected = instructorRecipientsList(recipients);
+        assertEquals(expected.size(), responses.size());
 
-        List<String> recipientEmails = extractInstructorEmails(recipients);
-
-        validateOutput(responses, giverEmail, recipientEmails);
+        validateOutput(responses, giverKey, expected);
     }
 
-    private void validateOutput(List<FeedbackResponseData> responses, String giverValue, List<String> recipientValues) {
-        for (int i = 0; i < recipientValues.size(); i++) {
-            FeedbackResponseData response = responses.get(i);
-            String recipientValue = recipientValues.get(i);
+    private void validateOutput(List<FeedbackResponseData> responses, String giverKey, List<Recipient> recipients) {
+        for (Recipient expected : recipients) {
+            FeedbackResponseData response = responses.stream()
+                    .filter(r -> expected.key().equals(r.getRecipientIdentifier()))
+                    .findFirst()
+                    .orElseThrow();
 
-            assertEquals(giverValue, response.getGiverIdentifier());
-            assertEquals(recipientValue, response.getRecipientIdentifier());
+            assertEquals(giverKey, response.getGiverIdentifier());
+            assertEquals(expected.key(), response.getRecipientIdentifier());
 
             FeedbackResponseDetails responseDetails = response.getResponseDetails();
             assertEquals(StringEscapeUtils.unescapeHtml(
-                            SanitizationHelper.sanitizeForRichText("Response for " + recipientValue)),
+                            SanitizationHelper.sanitizeForRichText("Response for " + expected.label())),
                     StringEscapeUtils.unescapeHtml(responseDetails.getAnswerString()));
         }
     }
@@ -305,16 +322,16 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 .toList());
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses = responses.stream()
-                    .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))
-                    .filter(response -> response.getRecipient().getIdentifier().equals(recipientEmail))
+                    .filter(response -> ResponseEntityHelper.getIdentifier(response.getGiver()).equals(giverEmail))
+                    .filter(response -> ResponseEntityHelper.getIdentifier(response.getRecipient()).equals(recipientEmail))
                     .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();
 
                 assertEquals(frFeedbackQuestion, feedbackQuestion);
-                assertEquals(feedbackResponse.getGiver().getIdentifier(), giverEmail);
-                assertEquals(feedbackResponse.getRecipient().getIdentifier(), recipientEmail);
+                assertEquals(ResponseEntityHelper.getIdentifier(feedbackResponse.getGiver()), giverEmail);
+                assertEquals(ResponseEntityHelper.getIdentifier(feedbackResponse.getRecipient()), recipientEmail);
 
                 assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
                 assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());
@@ -329,7 +346,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         FeedbackSession session = getSession("session1InCourse1");
         Student student = loginStudent("student1InCourse1");
@@ -503,7 +520,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         questionNumber = 2;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
 
-        verifyCanMasquerade(student.getGoogleId(), submissionParams);
+        verifyCanMasquerade(student.getAccountId(), submissionParams);
 
         ______TS("Typical success with instructor: instructor answers question with correct giver");
         loginInstructor("instructor1OfCourse1");
@@ -558,7 +575,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         questionNumber = 4;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
-        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCanMasquerade(instructor.getAccountId(), submissionParams);
 
         ______TS("Failure with instructor: instructor logged in as student");
         loginStudent("student1InCourse1");
@@ -581,7 +598,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getAccountId(), submissionParams);
 
         ______TS("Failure with instructor: instructor has no modify session comment privileges");
         loginInstructor("instructor1OfCourse1");
@@ -594,14 +611,14 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCannotAccess(submissionParams);
-        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getAccountId(), submissionParams);
 
         // Reset privileges
         setSubmitSessionInSectionsInstructorPrivilege(session, instructor, true);
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() {
         ______TS("Failure: invalid http parameters");
         loginInstructor("instructor1OfCourse1");
@@ -631,13 +648,13 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         questionNumber = 4;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
-        // Null recipient
-        List<String> nullEmail = Collections.singletonList(null);
-        FeedbackResponsesRequest requestBody = buildRequestBody(nullEmail);
+        // Null recipient key
+        FeedbackResponsesRequest requestBody = buildRequestBody(
+                Collections.singletonList(new Recipient(null, "no key")));
         verifyHttpRequestBodyFailure(requestBody, submissionParams);
 
-        // Empty String recipient
-        requestBody = buildRequestBody(Collections.singletonList(""));
+        // Empty recipient key
+        requestBody = buildRequestBody(Collections.singletonList(new Recipient("", "empty key")));
         verifyHttpRequestBodyFailure(requestBody, submissionParams);
 
         ______TS("Success: question has no existing responses");
@@ -651,7 +668,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         requestBody = buildRequestBodyWithInstructorRecipients(instructorRecipients);
 
         List<FeedbackResponseData> outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForInstructorRecipients(outputResponses, instructorGiver.getEmail(), instructorRecipients);
+        validateOutputForInstructorRecipients(
+                outputResponses, "INSTRUCTOR:" + instructorGiver.getId(), instructorRecipients);
         validateInstructorDatabaseByEmail(session, question, instructorGiver.getEmail(), instructorRecipients);
 
         ______TS("Success: instructor is a valid giver of the question to student team");
@@ -665,7 +683,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         requestBody = buildRequestBodyWithStudentRecipientsTeam(studentRecipients);
 
         outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByTeam(outputResponses, instructorGiver.getEmail(), studentRecipients);
+        validateOutputForStudentRecipientsByTeam(
+                outputResponses, "INSTRUCTOR:" + instructorGiver.getId(), studentRecipients);
         validateStudentDatabaseByTeam(session, question, instructorGiver.getEmail(), studentRecipients);
 
         ______TS("Success: question has existing responses");
@@ -679,7 +698,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
 
         outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByEmail(outputResponses, studentGiver.getEmail(), studentRecipients);
+        validateOutputForStudentRecipientsByEmail(outputResponses, "STUDENT:" + studentGiver.getId(), studentRecipients);
         validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
 
         ______TS("Failure: student is a invalid giver of the question");
@@ -703,7 +722,16 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         requestBody = buildRequestBodyWithStudentRecipientsEmail(studentRecipients);
 
         outputResponses = callExecute(requestBody, submissionParams);
-        validateOutputForStudentRecipientsByEmail(outputResponses, studentGiver.getEmail(), studentRecipients);
+        validateOutputForStudentRecipientsByEmail(outputResponses, "STUDENT:" + studentGiver.getId(), studentRecipients);
         validateStudentDatabaseByEmail(session, question, studentGiver.getEmail(), studentRecipients);
+    }
+
+    /**
+     * A recipient's submission key and the email/team label used for its response text.
+     *
+     * @param key the recipient key, in the same format as {@code ResponseRecipient#getKey()}
+     * @param label the email (or team name) used to label the response text
+     */
+    private record Recipient(String key, String label) {
     }
 }

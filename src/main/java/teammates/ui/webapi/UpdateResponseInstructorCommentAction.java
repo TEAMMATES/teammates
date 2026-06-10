@@ -8,12 +8,11 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.ResponseInstructorCommentData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**
@@ -45,13 +44,19 @@ public class UpdateResponseInstructorCommentAction extends Action {
         if (instructor == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
         }
-        if (comment.getGiver().equals(new ResponseGiver(instructor))) {
+        if (comment.getGiver().equals(instructor)) {
             return;
         }
-        gateKeeper.verifyAccessible(instructor, session, response.getGiver().getSectionName(),
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, response.getRecipient().getSectionName(),
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+
+        UUID recipientSectionId = response.getRecipient().getSectionId();
+        if (recipientSectionId == null) {
+            gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
+            return;
+        }
+
+        gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, session.getCourseId(),
+                recipientSectionId, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT);
     }
 
     @Override
@@ -67,11 +72,10 @@ public class UpdateResponseInstructorCommentAction extends Action {
 
         String courseId = comment.getFeedbackResponse().getFeedbackQuestion().getCourseId();
         Instructor instructor = getInstructorFromRequest(courseId);
-        ResponseGiver updater = new ResponseGiver(instructor);
 
         try {
             ResponseInstructorComment updatedResponseInstructorComment =
-                    logic.updateResponseInstructorComment(responseInstructorCommentId, updateRequest, updater);
+                    logic.updateResponseInstructorComment(responseInstructorCommentId, updateRequest, instructor);
             return new JsonResult(new ResponseInstructorCommentData(updatedResponseInstructorComment));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

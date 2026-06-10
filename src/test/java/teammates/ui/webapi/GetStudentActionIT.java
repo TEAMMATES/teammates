@@ -14,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.StudentData;
 
@@ -23,7 +24,7 @@ import teammates.ui.output.StudentData;
 public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -38,7 +39,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Course course = typicalBundle.courses.get("course1");
@@ -118,7 +119,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         assertEquals(student.getGoogleId(), response.getGoogleId());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");

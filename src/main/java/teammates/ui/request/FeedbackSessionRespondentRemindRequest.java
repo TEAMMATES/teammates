@@ -2,6 +2,8 @@ package teammates.ui.request;
 
 import java.util.UUID;
 
+import teammates.ui.exception.InvalidHttpRequestBodyException;
+
 /**
  * Sends a reminder email each to a list of respondents from a feedback session.
  */

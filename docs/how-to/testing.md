@@ -40,15 +40,15 @@ To run an individual test, change `it` to `fit` in the relevant `*.spec.ts` file
 
 **Backend:**
 
-| Test suite          | Command                                          | Results                                         |
-| ------------------- | ------------------------------------------------ | ----------------------------------------------- |
-| All component tests | `./gradlew componentTests --continue`            | `build/reports/tests/componentTests/index.html` |
-| Individual test     | `./gradlew componentTests --tests TestClassName` | `build/reports/tests/componentTests/index.html` |
+| Test suite          | Command                                | Results                               |
+| ------------------- | -------------------------------------- | ------------------------------------- |
+| All component tests | `./gradlew test`                       | `build/reports/tests/test/index.html` |
+| Individual test     | `./gradlew test --tests TestClassName` | `build/reports/tests/test/index.html` |
 
 To generate coverage data:
 
 ```sh
-./gradlew componentTests jacocoReport
+./gradlew jacocoTestReport
 ```
 
 </tab>
@@ -56,21 +56,21 @@ To generate coverage data:
 
 **Backend:**
 
-| Test suite          | Command                                            | Results                                         |
-| ------------------- | -------------------------------------------------- | ----------------------------------------------- |
-| All component tests | `gradlew.bat componentTests --continue`            | `build/reports/tests/componentTests/index.html` |
-| Individual test     | `gradlew.bat componentTests --tests TestClassName` | `build/reports/tests/componentTests/index.html` |
+| Test suite          | Command                                  | Results                               |
+| ------------------- | ---------------------------------------- | ------------------------------------- |
+| All component tests | `gradlew.bat test`                       | `build/reports/tests/test/index.html` |
+| Individual test     | `gradlew.bat test --tests TestClassName` | `build/reports/tests/test/index.html` |
 
 To generate coverage data:
 
 ```sh
-gradlew.bat componentTests jacocoReport
+gradlew.bat jacocoTestReport
 ```
 
 </tab>
 </tabs>
 
-The report can be found in `build/reports/jacoco/jacocoReport/`.
+The report can be found in `build/reports/jacoco/test/`.
 
 ### Writing Component Tests
 

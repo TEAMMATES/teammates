@@ -7,14 +7,13 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
@@ -36,7 +35,6 @@ public final class CoursesLogic {
     private static final CoursesLogic instance = new CoursesLogic();
 
     private CoursesDb coursesDb;
-
     private UsersLogic usersLogic;
 
     private CoursesLogic() {
@@ -69,7 +67,7 @@ public final class CoursesLogic {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
         }
 
-        return coursesDb.createCourse(course);
+        return coursesDb.persistCourse(course);
     }
 
     /**
@@ -93,21 +91,10 @@ public final class CoursesLogic {
         Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
                 timeZone, courseCreateRequest.getInstitute());
 
-        // Create the initial instructor for the course
-        InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        Instructor instructor = new Instructor(
-                course,
-                courseCreator.getName(),
-                courseCreator.getEmail(),
-                false,
-                courseCreator.getName(),
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                privileges);
-        instructor.setAccount(courseCreator);
-
         try {
-            usersLogic.createInstructor(instructor);
+            usersLogic.createInstructor(course, courseCreator.getName(), courseCreator.getEmail(),
+                    false, courseCreator.getName(), InstructorPermissionRole.COOWNER,
+                    courseCreator);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             assert false : "Unexpected exception while trying to create instructor for a new course "
                                   + System.lineSeparator() + course.toString();
@@ -132,7 +119,7 @@ public final class CoursesLogic {
      * @param account The account of the student
      */
     public List<Course> getCoursesForStudentAccount(Account account) {
-        List<Student> students = usersLogic.getAllStudentsByGoogleId(account.getGoogleId());
+        List<Student> students = usersLogic.getStudentsByAccountId(account.getId());
 
         return students
                 .stream()
@@ -178,7 +165,7 @@ public final class CoursesLogic {
             return;
         }
 
-        coursesDb.deleteCourse(course);
+        coursesDb.removeCourse(course);
     }
 
     /**
@@ -231,6 +218,20 @@ public final class CoursesLogic {
     }
 
     /**
+     * Returns the section with the given name in the given course, or null if not found.
+     */
+    public Section getSectionByName(String courseId, String sectionName) {
+        return coursesDb.getSectionByName(courseId, sectionName);
+    }
+
+    /**
+     * Returns the section with the given UUID, or null if not found.
+     */
+    public Section getSectionById(UUID sectionId) {
+        return coursesDb.getSectionById(sectionId);
+    }
+
+    /**
      * Creates a section.
      */
     public Section createSection(Course course, String sectionName)
@@ -245,17 +246,7 @@ public final class CoursesLogic {
 
         validateSection(section);
 
-        return coursesDb.createSection(section);
-    }
-
-    /**
-     * Get section by {@code courseId} and {@code teamName}.
-     */
-    public Section getSectionByCourseIdAndTeam(String courseId, String teamName) {
-        assert courseId != null;
-        assert teamName != null;
-
-        return coursesDb.getSectionByCourseIdAndTeam(courseId, teamName);
+        return coursesDb.persistSection(section);
     }
 
     /**
@@ -286,7 +277,7 @@ public final class CoursesLogic {
 
         validateTeam(team);
 
-        return coursesDb.createTeam(team);
+        return coursesDb.persistTeam(team);
     }
 
     /**

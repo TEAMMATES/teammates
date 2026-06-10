@@ -1,19 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { HttpRequestService } from './http-request.service';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { environment } from '../environments/environment';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import { Intent } from '../types/api-request';
+import { of } from 'rxjs';
 
 describe('AuthService', () => {
   const frontendUrl: string = environment.frontendUrl;
 
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: AuthService;
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [{ provide: HttpRequestService, useValue: spyHttpRequestService }],
     });
@@ -25,6 +26,7 @@ describe('AuthService', () => {
   });
 
   it('should execute getAuthUser', () => {
+    spyHttpRequestService.get.mockReturnValue(of({ loginUrl: '/login', masquerade: false }));
     service.getAuthUser();
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, { frontendUrl });
   });

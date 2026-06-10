@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import java.util.UUID;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
@@ -111,13 +113,19 @@ public class MockUserProvision extends UserProvision {
             return PUBLIC_AUTH_CONTEXT;
         }
 
-        String masqueradeUserId = req.getParameter(Const.ParamsNames.USER);
-        if (masqueradeUserId != null) {
+        if (isMasqueradeRequest(req)) {
             if (!loggedInUserIsAdmin) {
                 throw new UnauthorizedAccessException(
                         String.format("Masquerade failed: user %s does not have admin privilege", loggedInGoogleId));
             }
-            return createAccountAuthContext(AuthType.MASQUERADE, masqueradeUserId, isAdmin, isMaintainer);
+
+            UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
+            Account masqueradeAccount = logic.getAccount(masqueradeAccountUuid);
+            if (masqueradeAccount == null) {
+                throw new UnauthorizedAccessException(
+                        String.format("Masquerade failed: no account found for account id %s", masqueradeAccountUuid));
+            }
+            return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
         }
 
         return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);
@@ -140,7 +148,7 @@ public class MockUserProvision extends UserProvision {
             AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
         Account account = createMissingAccounts
                 ? new Account(
-                        googleId, Provider.TEAMMATES_DEV, "testUserSubject", "tenant-id",
+                        googleId, Provider.TEAMMATES_DEV, googleId, "tenant-id",
                         "Test User", googleId + "@example.com")
                 : logic.getAccountForGoogleId(googleId);
         return new AuthContext(authType, account, null, isAdmin, isMaintainer);

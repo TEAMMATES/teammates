@@ -83,9 +83,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@tester.com',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -98,9 +100,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Benny Charles',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'benny.c.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -113,9 +117,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Alice Betsy',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'alice.b.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -128,9 +134,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Danny Engrid',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'danny.e.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -150,9 +158,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@tester.com',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -165,9 +175,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Benny Charles',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'benny.c.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -180,9 +192,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Alice Betsy',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'alice.b.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -196,9 +210,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Danny Engrid',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'danny.e.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -219,9 +235,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@tester.com',
           joinState: JoinState.NOT_JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -234,9 +252,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Benny Charles',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'benny.c.tmms@gmail.tmt',
           joinState: JoinState.NOT_JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -249,9 +269,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Alice Betsy',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'alice.b.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -264,9 +286,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Danny Engrid',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'danny.e.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -292,9 +316,11 @@ describe('StudentListComponent', () => {
           student: {
             name: 'tester',
             teamName: 'Team 1',
+            teamId: 'team-1',
             email: 'tester@tester.com',
             joinState: JoinState.NOT_JOINED,
             sectionName: 'Tutorial Group 1',
+            sectionId: 'tutorial-group-1',
             courseId: 'text-exa.demo',
             courseName: 'Test Course',
             institute: 'Test Institute',
@@ -307,9 +333,11 @@ describe('StudentListComponent', () => {
           student: {
             name: 'Benny Charles',
             teamName: 'Team 1',
+            teamId: 'team-1',
             email: 'benny.c.tmms@gmail.tmt',
             joinState: JoinState.JOINED,
             sectionName: 'Tutorial Group 1',
+            sectionId: 'tutorial-group-1',
             courseId: 'text-exa.demo',
             courseName: 'Test Course',
             institute: 'Test Institute',
@@ -322,9 +350,11 @@ describe('StudentListComponent', () => {
           student: {
             name: 'Alice Betsy',
             teamName: 'Team 1',
+            teamId: 'team-1',
             email: 'alice.b.tmms@gmail.tmt',
             joinState: JoinState.JOINED,
             sectionName: 'Tutorial Group 2',
+            sectionId: 'tutorial-group-2',
             courseId: 'text-exa.demo',
             courseName: 'Test Course',
             institute: 'Test Institute',
@@ -337,9 +367,11 @@ describe('StudentListComponent', () => {
           student: {
             name: 'Danny Engrid',
             teamName: 'Team 1',
+            teamId: 'team-1',
             email: 'danny.e.tmms@gmail.tmt',
             joinState: JoinState.JOINED,
             sectionName: 'Tutorial Group 2',
+            sectionId: 'tutorial-group-2',
             courseId: 'text-exa.demo',
             courseName: 'Test Course',
             institute: 'Test Institute',
@@ -363,9 +395,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@tester.com',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -378,9 +412,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Benny Charles',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'benny.c.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'tutorial-group-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -393,9 +429,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Alice Betsy',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'alice.b.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'tutorial-group-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -408,9 +446,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Danny Engrid',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'danny.e.tmms@gmail.tmt',
           joinState: JoinState.JOINED,
           sectionName: 'Tutorial Group 2',
+          sectionId: 'section-2',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -433,9 +473,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@tester.com',
           joinState: JoinState.JOINED,
           sectionName: 'None',
+          sectionId: 'None',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -457,9 +499,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@tester.com',
           joinState: JoinState.NOT_JOINED,
           sectionName: 'Tutorial Group 1',
+          sectionId: 'section-1',
           courseId: 'text-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',
@@ -472,8 +516,8 @@ describe('StudentListComponent', () => {
 
     fixture.detectChanges();
 
-    const buttons: any = fixture.debugElement.queryAll(By.css('button'));
-    const sendInviteButton = buttons.find((button: any) => button.nativeElement.textContent.includes('Send Invite'));
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+    const sendInviteButton = buttons.find((button) => button.nativeElement.textContent.includes('Send Invite'));
     expect(sendInviteButton).toBeTruthy();
   });
 
@@ -600,9 +644,11 @@ describe('StudentListComponent', () => {
         student: {
           name: 'Tester',
           teamName: 'Team 1',
+          teamId: 'team-1',
           email: 'tester@example.com',
           joinState: JoinState.JOINED,
           sectionName: 'Section 1',
+          sectionId: 'section-1',
           courseId: 'test-exa.demo',
           courseName: 'Test Course',
           institute: 'Test Institute',

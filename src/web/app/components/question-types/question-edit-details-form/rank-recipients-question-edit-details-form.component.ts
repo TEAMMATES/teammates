@@ -54,15 +54,15 @@ export class RankRecipientsQuestionEditDetailsFormComponent extends QuestionEdit
   /**
    * Displays minOptionsToBeRanked value.
    */
-  get displayValueForMinOptionsToBeRanked(): any {
-    return this.isMinOptionsToBeRankedEnabled ? this.model.minOptionsToBeRanked : '';
+  get displayValueForMinOptionsToBeRanked() {
+    return this.isMinOptionsToBeRankedEnabled ? String(this.model.minOptionsToBeRanked) : '';
   }
 
   /**
    * Displays minOptionsToBeRanked value.
    */
-  get displayValueForMaxOptionsToBeRanked(): any {
-    return this.isMaxOptionsToBeRankedEnabled ? this.model.maxOptionsToBeRanked : '';
+  get displayValueForMaxOptionsToBeRanked() {
+    return this.isMaxOptionsToBeRankedEnabled ? String(this.model.maxOptionsToBeRanked) : '';
   }
 
   /**

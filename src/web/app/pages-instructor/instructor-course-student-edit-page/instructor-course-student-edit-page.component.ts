@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -75,7 +75,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         courseId: '',
         name: 'Alice Betsy',
         comments: 'Alice is a transfer student.',
+        teamId: 'team-a',
         teamName: 'Team A',
+        sectionId: 'section-a',
         sectionName: 'Section A',
         joinState: JoinState.JOINED,
         institute: 'NUS',
@@ -85,10 +87,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       return;
     }
 
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.studentId = queryParams.userid;
-      this.loadStudentEditDetails(queryParams.courseid, queryParams.userid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
+      this.studentId = queryParams['userid'];
+      this.loadStudentEditDetails(queryParams['courseid'], queryParams['userid']);
     });
   }
 
@@ -178,7 +180,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Handles logic related to showing the appropriate modal boxes
    * upon submission of the form. Submits the form otherwise.
    */
-  onSubmit(resendPastLinksModal: any): void {
+  onSubmit(resendPastLinksModal: TemplateRef<unknown>): void {
     if (!this.isEnabled) {
       return;
     }
@@ -208,7 +210,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Shows the `resendPastSessionLinks` modal if email field has changed.
    * Submits the form  otherwise.
    */
-  deleteExistingResponses(resendPastLinksModal: any): void {
+  deleteExistingResponses(resendPastLinksModal: TemplateRef<unknown>): void {
     if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {

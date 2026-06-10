@@ -36,22 +36,8 @@
     "instructor": {
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FTextQn.CS2104",
       "displayName": "Co-owner",
@@ -60,22 +46,8 @@
     "instructor2": {
       "name": "Teammates Test 2",
       "email": "tmms.test2@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.FTextQn.CS2104",
       "displayName": "Co-owner"
@@ -83,22 +55,8 @@
     "instructor3": {
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.FTextQn.CS1101",
       "displayName": "Co-owner",

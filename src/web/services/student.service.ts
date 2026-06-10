@@ -6,7 +6,7 @@ import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
+import { CourseView, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import { joinStateToString } from '../app/utils/join-state.util';
@@ -76,7 +76,7 @@ export class StudentService {
   /**
    * Deletes a student by calling API.
    */
-  deleteStudent(queryParams: { userId: string }): Observable<any> {
+  deleteStudent(queryParams: { userId: string }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       userid: queryParams.userId,
     };
@@ -120,7 +120,8 @@ export class StudentService {
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
     return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(
-      mergeMap((course: Course) => {
+      mergeMap((courseView: CourseView) => {
+        const course = courseView.course;
         return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(
           map((students: Students) => {
             return this.processStudentsToCsv(course.courseId, course.courseName, students.students);

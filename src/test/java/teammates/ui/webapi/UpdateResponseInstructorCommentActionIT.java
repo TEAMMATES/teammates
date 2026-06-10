@@ -8,10 +8,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.ui.output.CommentVisibilityType;
+import teammates.test.GroupNames;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**
@@ -20,7 +21,7 @@ import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<UpdateResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -35,7 +36,7 @@ public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<Update
         return PUT;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -58,7 +59,7 @@ public class UpdateResponseInstructorCommentActionIT extends BaseActionIT<Update
         assertEquals(newCommentText, actualFrc.getCommentText());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");

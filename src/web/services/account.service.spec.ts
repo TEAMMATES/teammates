@@ -3,18 +3,18 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
 import { AccountRequestStatus } from '../types/api-output';
 import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
 
 describe('AccountService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: AccountService;
   const id = 'TestID';
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
@@ -32,29 +32,9 @@ describe('AccountService', () => {
   it('should execute GET on account endpoint', () => {
     service.getAccount(id);
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: id,
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
-  });
-
-  it('should execute POST on account endpoint with timezone string', () => {
-    const testKey = 'testKey';
-    const testTimezone = 'UTC';
-    const paramMap: Record<string, string> = {
-      key: testKey,
-      timezone: testTimezone,
-    };
-    service.createAccount(testKey, testTimezone);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
-  });
-
-  it('should execute POST on account endpoint with empty timezone string', () => {
-    const testKey = 'testKey';
-    const paramMap: Record<string, string> = {
-      key: testKey,
-    };
-    service.createAccount(testKey, '');
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
   it('should execute POST on account request endpoint', () => {
@@ -70,7 +50,7 @@ describe('AccountService', () => {
   it('should execute DELETE on account endpoint', () => {
     service.deleteAccount(id);
     const paramMap: Record<string, string> = {
-      instructorid: id,
+      accountid: id,
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });

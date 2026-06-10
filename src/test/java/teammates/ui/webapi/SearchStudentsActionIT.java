@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
 import teammates.ui.output.StudentsData;
 
 /**
@@ -23,7 +24,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     private Student student1InCourse1;
     private Instructor instructor1OfCourse1;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -45,7 +46,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         // See test cases below.
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void execute_invalidParameters_parameterFailure() {
         loginAsAdmin();
         verifyHttpParameterFailure();
@@ -62,7 +63,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         verifyHttpParameterFailure(invalidEntityParams);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void execute_adminSearchName_success() {
         loginAsAdmin();
         String[] accNameParams = new String[] {
@@ -79,7 +80,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         assertEquals((int) expectedMatches, response.getStudents().size());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void execute_adminSearchCourseId_success() {
         loginAsAdmin();
         String[] accCourseIdParams = new String[] {
@@ -96,7 +97,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         assertEquals(expectedMatches, response.getStudents().size());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void execute_adminSearchEmail_success() {
         loginAsAdmin();
         String[] emailParams = new String[] {
@@ -111,7 +112,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         assertEquals(4, response.getStudents().size());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void execute_adminSearchNoMatch_noMatch() {
         loginAsAdmin();
         String[] accNameParams = new String[] {
@@ -125,7 +126,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         assertEquals(0, response.getStudents().size());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void execute_instructorSearchGoogleId_matchOnlyStudentsInCourse() {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] googleIdParams = new String[] {
@@ -139,7 +140,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         assertEquals(3, response.getStudents().size());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
         public void execute_searchWithoutSearchService_shouldSucceed() {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] params = new String[] {
@@ -166,7 +167,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
         verifyAccessibleForAdmin(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN);
         Course course = typicalBundle.courses.get("course1");

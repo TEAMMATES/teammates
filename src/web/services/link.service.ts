@@ -26,7 +26,7 @@ export class LinkService {
    */
   generateCourseJoinLink(entity: Student | Instructor, entityType: string): string {
     const frontendUrl: string = window.location.origin;
-    const key: string = entity.key || '';
+    const key: string = entity.key ?? '';
     const params: {
       [key: string]: string;
     } = {
@@ -58,9 +58,9 @@ export class LinkService {
   /**
    * Generates home page link.
    */
-  generateHomePageLink(googleId: string, homePage: string): string {
+  generateHomePageLink(accountId: string, homePage: string): string {
     const params: { [key: string]: string } = {
-      user: googleId,
+      masqueradeaccountid: accountId,
     };
 
     this.filterEmptyParams(params);
@@ -71,11 +71,11 @@ export class LinkService {
   /**
    * Generates manage account link.
    */
-  generateManageAccountLink(googleId: string, accountsPage: string): string {
+  generateManageAccountLink(accountId: string, accountsPage: string): string {
     const params: {
       [key: string]: string;
     } = {
-      instructorid: googleId,
+      accountid: accountId,
     };
 
     this.filterEmptyParams(params);
@@ -86,14 +86,14 @@ export class LinkService {
   /**
    * Generates student profile page link.
    */
-  generateProfilePageLink(student: Student, instructorGoogleId: string): string {
+  generateProfilePageLink(student: Student, instructorAccountId: string): string {
     const { courseId: courseid, userId: userid }: Student = student;
     const params: {
       [key: string]: string;
     } = {
       courseid,
       userid,
-      user: instructorGoogleId,
+      masqueradeaccountid: instructorAccountId,
     };
 
     this.filterEmptyParams(params);
@@ -106,7 +106,7 @@ export class LinkService {
    */
   generateSubmitUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
-    const key: string = entity.key || '';
+    const key: string = entity.key ?? '';
     const params: {
       [key: string]: string;
     } = {
@@ -128,7 +128,7 @@ export class LinkService {
    */
   generateResultUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
-    const key: string = entity.key || '';
+    const key: string = entity.key ?? '';
     const params: {
       [key: string]: string;
     } = {

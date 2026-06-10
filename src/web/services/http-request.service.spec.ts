@@ -1,20 +1,24 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 
 describe('HttpRequestService', () => {
   const backendUrl: string = environment.backendUrl;
   const withCredentials: boolean = environment.withCredentials;
 
-  let spyHttpClient: any;
+  let spyHttpClient: Partial<HttpClient>;
   let service: HttpRequestService;
 
   beforeEach(() => {
-    spyHttpClient = createSpyFromClass(HttpRequestService);
-    spyHttpClient.get.mockReturnValue(new Observable<ArrayBuffer>());
+    spyHttpClient = {
+      get: vi.fn().mockReturnValue(new Observable<ArrayBuffer>()),
+      post: vi.fn().mockReturnValue(new Observable()),
+      put: vi.fn().mockReturnValue(new Observable()),
+      delete: vi.fn().mockReturnValue(new Observable<void>()),
+    };
     TestBed.configureTestingModule({
       providers: [{ provide: HttpClient, useValue: spyHttpClient }],
     });
@@ -47,82 +51,81 @@ describe('HttpRequestService', () => {
   it('should execute GET', () => {
     service.get('/url');
     expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}/url`, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
-      responseType: 'json' as 'text',
     });
   });
 
   it('should execute POST with null body and empty params by default', () => {
     service.post('/url');
     expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute POST with params if specified', () => {
     service.post('/url', { key: 'value' });
     expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute POST with body if specified', () => {
     service.post('/url', {}, 'body');
     expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/url`, 'body', {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute PUT with null body and empty params by default', () => {
     service.put('/url');
     expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute PUT with params if specified', () => {
     service.put('/url', { key: 'value' });
     expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute PUT with body if specified', () => {
     service.put('/url', {}, 'body');
     expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/url`, 'body', {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute DELETE', () => {
     service.delete('/url');
     expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}/url`, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 
   it('should execute DELETE with params', () => {
     service.delete('/url', { key: 'value' });
     expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}/url`, {
+      params: expect.any(HttpParams),
+      headers: expect.any(HttpHeaders),
       withCredentials,
-      headers: expect.any(Object),
-      params: expect.any(Object),
     });
   });
 });

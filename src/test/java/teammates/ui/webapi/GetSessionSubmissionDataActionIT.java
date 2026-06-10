@@ -10,13 +10,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionSubmissionData;
@@ -29,7 +30,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
@@ -45,7 +46,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         FeedbackSession session = typicalBundle.feedbackSessions.get("session1InCourse1");
@@ -103,7 +104,7 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
         assertEquals("Feedback session not found", enfe.getMessage());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
@@ -142,9 +143,9 @@ public class GetSessionSubmissionDataActionIT extends BaseActionIT<GetSessionSub
     private boolean canInstructorSee(UUID questionId) {
         return inTransaction(() -> {
             FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(questionId);
-            return feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS)
-                    && feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS)
-                    && feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
+            return feedbackQuestion.getShowResponsesTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                    && feedbackQuestion.getShowGiverNameTo().contains(FeedbackVisibilityType.INSTRUCTORS)
+                    && feedbackQuestion.getShowRecipientNameTo().contains(FeedbackVisibilityType.INSTRUCTORS);
         });
     }
 }

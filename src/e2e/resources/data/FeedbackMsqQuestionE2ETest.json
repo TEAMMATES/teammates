@@ -37,22 +37,8 @@
       "id": "00000000-0000-4000-8000-000000000501",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "courseId": "tm.e2e.FMsqQn.CS2104",
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
@@ -61,44 +47,16 @@
       "id": "00000000-0000-4000-8000-000000000502",
       "name": "Teammates Test 2",
       "email": "tmms.test2@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "courseId": "tm.e2e.FMsqQn.CS2104",
       "displayName": "Co-owner"
     },
     "instructor3": {
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.FMsqQn.CS1101",
       "displayName": "Co-owner",
@@ -192,9 +150,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {

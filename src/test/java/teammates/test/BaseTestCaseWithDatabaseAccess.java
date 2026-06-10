@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import org.junit.jupiter.api.function.Executable;
@@ -30,6 +31,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Student;
+import teammates.test.scenariobuilder.GivenData;
 
 import liquibase.command.CommandScope;
 
@@ -37,25 +39,30 @@ import liquibase.command.CommandScope;
  * Base test case for tests that access the database.
  */
 public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
-
     private static final PostgreSQLContainer PGSQL = new PostgreSQLContainer("postgres:15.1-alpine");
+
+    /**
+     * GivenData instance for building test data.
+     */
+    protected GivenData given;
 
     private final Logic logic = Logic.inst();
 
-    @BeforeSuite
+    @BeforeSuite(alwaysRun = true)
     protected static void setUpSuite() throws Exception {
         PGSQL.start();
-
         runLiquibaseMigrations(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
-
         HibernateUtil.buildSessionFactory(PGSQL.getJdbcUrl(), PGSQL.getUsername(), PGSQL.getPassword());
-
-        LogicStarter.initializeDependencies();
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void setUpMethod() {
+    protected void setUpMethod(Method method) {
         LogicStarter.initializeDependencies();
+        given = new GivenData(getTestMethodName(method));
+    }
+
+    private String getTestMethodName(Method method) {
+        return method.getDeclaringClass().getSimpleName() + "." + method.getName();
     }
 
     private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
@@ -65,6 +72,10 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 .addArgumentValue("username", username)
                 .addArgumentValue("password", password)
                 .execute();
+    }
+
+    protected void persistGivenData(GivenData givenData) {
+        inTransaction(() -> logic.persistDataBundle(givenData.getDataBundle()));
     }
 
     /**
@@ -113,7 +124,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         });
     }
 
-    @AfterSuite
+    @AfterSuite(alwaysRun = true)
     protected static void tearDownSuite() {
         PGSQL.close();
     }
@@ -172,6 +183,14 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     }
 
     /**
+     * Verifies that the entity identified by the given class and id is present in the database.
+     */
+    protected <T extends BaseEntity> void verifyPresentInDatabase(Class<T> entityClass, Object id) {
+        BaseEntity actual = getEntityInTransaction(entityClass, id);
+        assertNotNull(actual);
+    }
+
+    /**
      * Verifies that the given entity is not present in the database.
      */
     protected void verifyAbsentInDatabase(BaseEntity entity) {
@@ -180,6 +199,16 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         assertNull(actual);
     }
 
+    /**
+     * Verifies that the entity identified by the given class and id is not present in the database.
+     */
+    protected void verifyAbsentInDatabase(Class<? extends BaseEntity> entityClass, Object id) {
+        BaseEntity actual = getEntityInTransaction(entityClass, id);
+        assertNull(actual);
+    }
+
+    // Legacy method for backward compatibility.
+    // New tests should use the getEntity method that takes in the entity class and id.
     private BaseEntity getEntity(BaseEntity entity) {
         if (entity instanceof Course) {
             return logic.getCourse(((Course) entity).getId());
@@ -206,6 +235,14 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         } else {
             throw new RuntimeException("Unknown entity type");
         }
+    }
+
+    protected <T extends BaseEntity> T getEntity(Class<T> entityClass, Object id) {
+        return HibernateUtil.get(entityClass, id);
+    }
+
+    protected <T extends BaseEntity> T getEntityInTransaction(Class<T> entityClass, Object id) {
+        return inTransaction(() -> getEntity(entityClass, id));
     }
 
     /**

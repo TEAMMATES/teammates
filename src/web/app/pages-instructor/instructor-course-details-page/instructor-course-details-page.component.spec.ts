@@ -26,7 +26,9 @@ const testStudent: Student = {
   email: 'jamie@gmail.com',
   joinState: JoinState.NOT_JOINED,
   teamName: 'Team 1',
+  teamId: 'team-1',
   sectionName: 'Tutorial Group 1',
+  sectionId: 'tutorial-group-1',
   courseId: 'CS101',
   courseName: 'Test Course',
   institute: 'Test Institute',
@@ -42,7 +44,7 @@ const testInstructor: Instructor = {
   googleId: 'Hock',
   name: 'Hock',
   email: 'hock@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   displayedToStudentsAs: 'Hock',
   isDisplayedToStudents: false,
 };
@@ -90,11 +92,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
       googleId: 'Hodor',
       name: 'Hodor',
       email: 'hodor@gmail.com',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       displayedToStudentsAs: 'Hodor',
       isDisplayedToStudents: true,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -122,11 +124,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
       googleId: 'Bran',
       name: 'Bran',
       email: 'bran@gmail.com',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       displayedToStudentsAs: 'Bran',
       isDisplayedToStudents: false,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -156,7 +158,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 1,
       numOfStudents: 1,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -178,7 +180,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
 
-    const deleteAllButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-all');
+    const deleteAllButton = fixture.debugElement.nativeElement.querySelector('#btn-delete-all');
     deleteAllButton.click();
     fixture.detectChanges();
 
@@ -191,7 +193,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 10,
       numOfStudents: 350,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };
@@ -217,7 +219,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       numOfTeams: 1,
       numOfStudents: 1,
     };
-    const courseDetails: any = {
+    const courseDetails: { course: Course; stats: CourseStatistics } = {
       course,
       stats,
     };

@@ -18,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -28,7 +29,7 @@ import teammates.ui.request.FeedbackQuestionCreateRequest;
 public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQuestionAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -43,7 +44,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         return POST;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -112,7 +113,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         assertEquals(100, question.getNumOfEntitiesToGiveFeedbackTo().intValue());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -125,7 +126,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFoundAcl(submissionParams);
+        verifyCannotAccess(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");
 

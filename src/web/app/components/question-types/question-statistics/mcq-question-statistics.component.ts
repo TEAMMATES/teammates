@@ -76,7 +76,7 @@ export class McqQuestionStatisticsComponent implements OnChanges {
     ];
 
     this.perRecipientRowsData = Object.keys(stats.perRecipientResponses).map((key: string) => {
-      const recipientEmail: string = stats.perRecipientResponses[key].recipientEmail;
+      const recipientEmail: string | undefined = stats.perRecipientResponses[key].recipientEmail;
       return [
         { value: stats.perRecipientResponses[key].recipientTeam },
         {

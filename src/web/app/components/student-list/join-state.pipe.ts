@@ -10,7 +10,7 @@ export class JoinStatePipe implements PipeTransform {
   /**
    * Transforms {@code JoinState} to a join state display for the student list component.
    */
-  transform(joinState?: JoinState): any {
+  transform(joinState?: JoinState): string {
     return joinStateToString(joinState);
   }
 }

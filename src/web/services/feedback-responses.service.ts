@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
@@ -149,24 +150,31 @@ export class FeedbackResponsesService {
    */
   isFeedbackResponsesDisplayedOnSection(
     response: ResponseOutput,
-    section: string,
+    sectionId: string,
     sectionType: InstructorSessionResultSectionType,
   ): boolean {
     let isDisplayed = true;
 
-    if (section) {
+    if (sectionId) {
+      const isGiverInSection =
+        sectionId === NO_SPECIFIC_SECTION_ID ? response.giverSectionId == null : response.giverSectionId === sectionId;
+      const isRecipientInSection =
+        sectionId === NO_SPECIFIC_SECTION_ID
+          ? response.recipientSectionId == null
+          : response.recipientSectionId === sectionId;
+
       switch (sectionType) {
         case InstructorSessionResultSectionType.EITHER:
-          isDisplayed = response.giverSection === section || response.recipientSection === section;
+          isDisplayed = isGiverInSection || isRecipientInSection;
           break;
         case InstructorSessionResultSectionType.GIVER:
-          isDisplayed = response.giverSection === section;
+          isDisplayed = isGiverInSection;
           break;
         case InstructorSessionResultSectionType.EVALUEE:
-          isDisplayed = response.recipientSection === section;
+          isDisplayed = isRecipientInSection;
           break;
         case InstructorSessionResultSectionType.BOTH:
-          isDisplayed = response.giverSection === section && response.recipientSection === section;
+          isDisplayed = isGiverInSection && isRecipientInSection;
           break;
         default:
       }

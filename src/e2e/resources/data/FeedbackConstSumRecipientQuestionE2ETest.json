@@ -61,22 +61,8 @@
       "courseId": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
@@ -85,22 +71,8 @@
       "courseId": "tm.e2e.FCSumRcptQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "displayName": "Co-owner",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
@@ -228,9 +200,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
@@ -248,9 +220,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },

@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 import teammates.ui.output.CoursesData;
+import teammates.ui.output.InstructorCoursePermissionsData;
 
 /**
  * Gets all courses for the instructor, and filtered by active and soft-deleted.
@@ -46,11 +46,8 @@ public class GetCoursesAction extends Action {
     }
 
     private JsonResult getStudentCourses() {
-        List<Course> courses = logic.getCoursesForStudentAccount(authContext.account());
+        List<Course> courses = logic.getCoursesForStudentAccount(requestContext.getAccount());
         CoursesData coursesData = new CoursesData(courses);
-        List<CourseData> courseDataList = coursesData.getCourses();
-
-        courseDataList.forEach(CourseData::hideInformationForStudent);
 
         return new JsonResult(coursesData);
     }
@@ -58,7 +55,7 @@ public class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
-        List<Instructor> instructors = logic.getInstructorsForGoogleId(authContext.account().getGoogleId());
+        List<Instructor> instructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
         List<Course> courses;
 
         switch (courseStatus) {
@@ -77,16 +74,18 @@ public class GetCoursesAction extends Action {
 
         CoursesLogic.sortById(courses);
         CoursesData coursesData = new CoursesData(courses);
-        List<CourseData> coursesDataList = coursesData.getCourses();
+        List<CourseViewData> coursesDataList = coursesData.getCourses();
 
-        coursesDataList.sort(Comparator.comparing(CourseData::getCourseId));
+        coursesDataList.sort(Comparator.comparing(courseData -> courseData.getCourse().getCourseId()));
         coursesDataList.forEach(courseData -> {
-            Instructor instructor = courseIdToInstructor.get(courseData.getCourseId());
+            Instructor instructor = courseIdToInstructor.get(courseData.getCourse().getCourseId());
             if (instructor == null) {
                 return;
             }
-            InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
-            courseData.setPrivileges(privilege);
+            courseData.setInstructorPermissions(new InstructorCoursePermissionsData(
+                    logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_COURSE),
+                    logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_STUDENT),
+                    logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)));
         });
 
         return new JsonResult(coursesData);

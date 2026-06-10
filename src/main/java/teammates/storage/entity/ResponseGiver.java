@@ -114,6 +114,36 @@ public class ResponseGiver {
     }
 
     /**
+     * Gets the team ID of the giver: the team's own ID for team givers, the student's team ID for
+     * student givers, or {@code null} for instructor givers.
+     */
+    public UUID getTeamId() {
+        if (isGiverTeam()) {
+            return getGiverTeamId();
+        }
+        if (giverUser instanceof Student student) {
+            return student.getTeamId();
+        }
+        return null;
+    }
+
+    /**
+     * Gets the section ID of the giver.
+     */
+    public UUID getSectionId() {
+        if (isGiverTeam()) {
+            return giverTeam != null && giverTeam.getSection() != null ? giverTeam.getSection().getId() : null;
+        }
+        if (giverUser instanceof Student student) {
+            return student.getSectionId();
+        }
+        if (giverUser instanceof Instructor) {
+            return null; // instructors do not belong to any section
+        }
+        return null;
+    }
+
+    /**
      * Gets the section name of the giver. If the giver is an instructor, returns the default section name.
      */
     public String getSectionName() {
@@ -124,22 +154,23 @@ public class ResponseGiver {
             return student.getSectionName();
         }
         if (giverUser instanceof Instructor) {
-            return Const.DEFAULT_SECTION;
+            return Const.NO_SPECIFIC_SECTION;
         }
         return Const.UNKNOWN_SECTION;
     }
 
     /**
-     * Gets the giver identifier: team name for team givers, user email for user givers.
+     * Gets the giver key: a stable identifier composed of the giver type and UUID
+     * (team ID for teams, user ID for users).
      */
-    public String getIdentifier() {
-        if (giverTeam != null) {
-            return giverTeam.getName();
+    public String getKey() {
+        if (isGiverTeam()) {
+            return "TEAM:" + getGiverTeamId();
         }
-        if (giverUser != null) {
-            return giverUser.getEmail();
+        if (isGiverInstructor()) {
+            return "INSTRUCTOR:" + getGiverUserId();
         }
-        return Const.UNKNOWN_USER;
+        return "STUDENT:" + getGiverUserId();
     }
 
     /**

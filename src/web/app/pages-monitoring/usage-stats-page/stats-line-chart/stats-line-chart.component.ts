@@ -27,13 +27,20 @@ export class StatsLineChartComponent implements OnChanges {
   private width = 700;
   private height = 700;
   private margin = 50;
-  private svg: any;
-  private svgInner: any;
-  private yScale: any;
-  private xScale: any;
-  private xAxis: any;
-  private yAxis: any;
-  private lineGroup: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private svg!: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private svgInner!: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private yScale!: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private xScale!: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private xAxis!: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private yAxis!: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private lineGroup!: any;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] && this.data && this.timeRange) {
@@ -57,8 +64,8 @@ export class StatsLineChartComponent implements OnChanges {
     this.yScale = d3
       .scaleLinear()
       .domain([
-        (d3.max(this.data, (d: DataPoint) => d.value) || 0) + 1,
-        (d3.min(this.data, (d: DataPoint) => d.value) || 0) - 1,
+        (d3.max(this.data, (d: DataPoint) => d.value) ?? 0) + 1,
+        (d3.min(this.data, (d: DataPoint) => d.value) ?? 0) - 1,
       ])
       .range([0, this.height - 2 * this.margin]);
 
@@ -119,12 +126,13 @@ export class StatsLineChartComponent implements OnChanges {
       .attr('cx', (d: DataPoint) => this.xScale(new Date(d.date)))
       .attr('cy', (d: DataPoint) => this.yScale(d.value))
       .attr('fill', '#FFC107')
-      .on('mouseover', (event: any, d: DataPoint) => {
+      .on('mouseover', (event: unknown, d: DataPoint) => {
+        const mouseEvent = event as MouseEvent;
         div.transition().duration(200).style('opacity', 0.9);
         div
           .html(`Time: ${new Date(d.date).toString()}<br>New ${this.dataName} count: ${d.value}`)
-          .style('left', `${event.pageX}px`)
-          .style('top', `${event.pageY - 32}px`);
+          .style('left', `${mouseEvent.pageX}px`)
+          .style('top', `${mouseEvent.pageY - 32}px`);
       })
       .on('mouseout', () => {
         div.transition().duration(500).style('opacity', 0);

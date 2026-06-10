@@ -22,7 +22,7 @@ public class GetNotificationsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
+        if (requestContext.isAdmin()) {
             return;
         }
 
@@ -34,11 +34,11 @@ public class GetNotificationsAction extends Action {
 
         for (NotificationTargetUser targetUser : targetUsers) {
             if (targetUser == NotificationTargetUser.STUDENT) {
-                gateKeeper.verifyStudentInAnyCourse(getCurrentAccount());
+                gateKeeper.verifyStudentInAnyCourse(requestContext);
             }
 
             if (targetUser == NotificationTargetUser.INSTRUCTOR) {
-                gateKeeper.verifyInstructorInAnyCourse(getCurrentAccount());
+                gateKeeper.verifyInstructorInAnyCourse(requestContext);
             }
         }
     }

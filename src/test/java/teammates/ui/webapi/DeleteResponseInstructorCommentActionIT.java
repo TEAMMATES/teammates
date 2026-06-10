@@ -11,6 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
+import teammates.test.GroupNames;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -19,7 +20,7 @@ import teammates.ui.output.MessageOutput;
 public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<DeleteResponseInstructorCommentAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
@@ -34,7 +35,7 @@ public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<Delete
         return DELETE;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() {
         ______TS("Typical successful case, comment deleted");
@@ -51,7 +52,7 @@ public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<Delete
         assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         ______TS("Instructor who give the comment can delete comment");
@@ -61,14 +62,14 @@ public class DeleteResponseInstructorCommentActionIT extends BaseActionIT<Delete
         };
         Instructor instructorWhoGiveComment = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        assertEquals(instructorWhoGiveComment, frc.getGiver().getGiverUser());
+        assertEquals(instructorWhoGiveComment, frc.getGiver());
         loginAsInstructor(instructorWhoGiveComment.getGoogleId());
         verifyCanAccess(submissionParams);
 
         ______TS("Different instructor of same course cannot delete comment");
 
         Instructor differentInstructorInSameCourse = typicalBundle.instructors.get("instructor2OfCourse1");
-        assertNotEquals(differentInstructorInSameCourse, frc.getGiver().getGiverUser());
+        assertNotEquals(differentInstructorInSameCourse, frc.getGiver());
         loginAsInstructor(differentInstructorInSameCourse.getGoogleId());
         verifyCannotAccess(submissionParams);
     }

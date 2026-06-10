@@ -16,7 +16,7 @@ import java.util.function.BiPredicate;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.storage.entity.DeadlineExtension;
 
 /**
@@ -96,11 +96,11 @@ public final class FieldValidator {
     public static final String ROLE_FIELD_NAME = "access-level";
     public static final List<String> ROLE_ACCEPTED_VALUES =
             Collections.unmodifiableList(
-                    Arrays.asList(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-                            Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+                    Arrays.asList(Const.InstructorPermissionRoleNames.COOWNER,
+                            Const.InstructorPermissionRoleNames.MANAGER,
+                            Const.InstructorPermissionRoleNames.OBSERVER,
+                            Const.InstructorPermissionRoleNames.TUTOR,
+                            Const.InstructorPermissionRoleNames.CUSTOM));
 
     public static final String GIVER_TYPE_NAME = "feedback giver";
     public static final String RECIPIENT_TYPE_NAME = "feedback recipient";
@@ -834,9 +834,9 @@ public final class FieldValidator {
      * @return Error string if any type in any list is invalid, otherwise empty string.
      */
     public static List<String> getValidityInfoForFeedbackResponseVisibility(
-            List<ViewerType> showResponsesTo,
-            List<ViewerType> showGiverNameTo,
-            List<ViewerType> showRecipientNameTo) {
+            List<FeedbackVisibilityType> showResponsesTo,
+            List<FeedbackVisibilityType> showGiverNameTo,
+            List<FeedbackVisibilityType> showRecipientNameTo) {
 
         assert showResponsesTo != null;
         assert showGiverNameTo != null;
@@ -847,7 +847,7 @@ public final class FieldValidator {
 
         List<String> errors = new LinkedList<>();
 
-        for (ViewerType type : showGiverNameTo) {
+        for (FeedbackVisibilityType type : showGiverNameTo) {
             if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show giver name to "
                         + type.toString()
@@ -855,7 +855,7 @@ public final class FieldValidator {
             }
         }
 
-        for (ViewerType type : showRecipientNameTo) {
+        for (FeedbackVisibilityType type : showRecipientNameTo) {
             if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show recipient name to "
                         + type.toString()

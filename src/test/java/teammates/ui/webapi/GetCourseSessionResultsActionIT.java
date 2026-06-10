@@ -10,6 +10,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
 import teammates.ui.output.SessionResultsData;
 
 /**
@@ -28,14 +29,14 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         return GET;
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         logoutUser();
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -50,7 +51,7 @@ public class GetCourseSessionResultsActionIT extends BaseActionIT<GetCourseSessi
         SessionResultsData output = (SessionResultsData) result.getOutput();
 
         SessionResultsData expected = inTransaction(() -> SessionResultsData.init(logic.getSessionResults(
-                feedbackSession, instructor, null, null)));
+                feedbackSession, instructor, null, null, false)));
 
         assertEquals(expected.getQuestions().size(), output.getQuestions().size());
     }

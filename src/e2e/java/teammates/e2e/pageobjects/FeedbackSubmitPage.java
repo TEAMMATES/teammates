@@ -16,7 +16,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
@@ -38,6 +37,7 @@ import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -661,7 +661,7 @@ public class FeedbackSubmitPage extends AppPage {
         if (feedbackQuestion.getRecipientType() == QuestionRecipientType.SELF) {
             verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
         }
-        for (ViewerType viewerType : feedbackQuestion.getShowResponsesTo()) {
+        for (FeedbackVisibilityType viewerType : feedbackQuestion.getShowResponsesTo()) {
             verifyVisibilityStringPresent(qnNumber, getVisibilityString(feedbackQuestion, viewerType));
         }
     }
@@ -689,7 +689,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getVisibilityString(FeedbackQuestion feedbackQuestion,
-                                       ViewerType viewerType) {
+                                       FeedbackVisibilityType viewerType) {
         if (!feedbackQuestion.getShowResponsesTo().contains(viewerType)) {
             return "";
         }
@@ -713,11 +713,11 @@ public class FeedbackSubmitPage extends AppPage {
         return message.toString();
     }
 
-    private String getViewerString(ViewerType viewerType, QuestionRecipientType recipientType) {
+    private String getViewerString(FeedbackVisibilityType viewerType, QuestionRecipientType recipientType) {
         switch (viewerType) {
-        case RECEIVER:
+        case RECIPIENT:
             return "The receiving " + getRecipientString(recipientType);
-        case OWN_TEAM_MEMBERS:
+        case GIVER_TEAM_MEMBERS:
             return "Your team members";
         case STUDENTS:
             return "Other students in the course";

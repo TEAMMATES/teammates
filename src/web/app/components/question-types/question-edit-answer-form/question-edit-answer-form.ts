@@ -31,14 +31,14 @@ export abstract class QuestionEditAnswerFormComponent<R extends FeedbackResponse
   /**
    * Triggers the change of the response details for the form.
    */
-  triggerResponseDetailsChange(field: string, data: any): void {
+  triggerResponseDetailsChange(field: string, data: unknown): void {
     this.responseDetailsChange.emit({ ...this.responseDetails, [field]: data });
   }
 
   /**
    * Triggers changes of the response details for the form.
    */
-  triggerResponseDetailsChangeBatch(obj: { [key: string]: any }): void {
+  triggerResponseDetailsChangeBatch(obj: Record<string, unknown>): void {
     this.responseDetailsChange.emit({ ...this.responseDetails, ...obj });
   }
 }

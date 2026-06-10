@@ -12,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.AccountRequest;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link AccountRequestsDb}.
@@ -22,12 +23,12 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchAccountRequestsInWholeSystem_typicalCase_success() {
         AccountRequest ins1General = typicalBundle.accountRequests.get("instructor1");
         AccountRequest ins2General = typicalBundle.accountRequests.get("instructor2");
@@ -96,20 +97,20 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountRequestsDb.deleteAccountRequest(ins1InCourse1));
+        inTransaction(() -> accountRequestsDb.removeAccountRequest(ins1InCourse1));
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountRequestsDb.deleteAccountRequest(ins1InCourse2));
+        inTransaction(() -> accountRequestsDb.removeAccountRequest(ins1InCourse2));
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountRequestsDb.deleteAccountRequest(ins1InCourse3));
+        inTransaction(() -> accountRequestsDb.removeAccountRequest(ins1InCourse3));
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, unregisteredInstructor1);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchAccountRequestsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<AccountRequest> results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("_"));
         verifySearchResults(results);

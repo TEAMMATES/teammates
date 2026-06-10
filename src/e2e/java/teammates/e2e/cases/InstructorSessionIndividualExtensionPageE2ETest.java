@@ -154,7 +154,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
     private InstructorSessionIndividualExtensionPage loginToInstructorSessionIndividualExtensionPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE)
-                .withFeedbackSessionId(feedbackSession.getId().toString());
+                .withFeedbackSessionId(feedbackSession.getId());
 
         return loginToPage(url, InstructorSessionIndividualExtensionPage.class, instructor.getGoogleId());
     }

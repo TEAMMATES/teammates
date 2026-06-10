@@ -22,8 +22,8 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: keyof D, data: D[keyof D]): void {
-    this.detailsChange.emit({ ...this.model, [field]: data });
+  triggerModelChange(field: keyof D, data: unknown): void {
+    this.detailsChange.emit({ ...this.model, [field]: data as D[keyof D] });
   }
 
   /**
@@ -67,14 +67,14 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
   restrictIntegerInputLength(input: HTMLInputElement, field: keyof D): void {
     if (input.value != null && input.value.length > 9) {
       input.value = input.value.substring(0, 9);
-      this.triggerModelChange(field, parseInt(input.value, 10) as any);
+      this.triggerModelChange(field, parseInt(input.value, 10));
     }
   }
 
   restrictFloatInputLength(input: HTMLInputElement, field: keyof D): void {
     if (input.value != null && input.value.length > 9) {
       input.value = input.value.substring(0, 9);
-      this.triggerModelChange(field, parseFloat(input.value) as any);
+      this.triggerModelChange(field, parseFloat(input.value));
     }
   }
 }

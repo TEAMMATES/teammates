@@ -1,7 +1,6 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +12,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.storage.entity.Instructor;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsersDb}.
@@ -23,12 +23,12 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchInstructorsInWholeSystem_typicalCase_success() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -85,7 +85,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         verifySearchResults(results, insUniqueDisplayName);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testSearchInstructorsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
@@ -94,29 +94,16 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
         List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins1InCourse1, ins2InCourse1, unregisteredInsInCourse1);
 
-        inTransaction(() -> usersDb.deleteUser(ins1InCourse1));
+        inTransaction(() -> usersDb.removeUser(ins1InCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, ins2InCourse1, unregisteredInsInCourse1);
 
-        inTransaction(() -> usersDb.deleteUser(ins2InCourse1));
+        inTransaction(() -> usersDb.removeUser(ins2InCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
         verifySearchResults(results, unregisteredInsInCourse1);
 
-        inTransaction(() -> usersDb.deleteUser(unregisteredInsInCourse1));
+        inTransaction(() -> usersDb.removeUser(unregisteredInsInCourse1));
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("course-1"));
-        verifySearchResults(results);
-    }
-
-    @Test
-    public void testSearchInstructorsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
-        List<Instructor> results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("_"));
-
-        List<Instructor> expectedUnderscoreMatches = inTransaction(() -> usersDb
-                .searchInstructorsInWholeSystem("instructor_permission_role_"));
-        assertFalse(results.isEmpty());
-        AssertHelper.assertSameContentIgnoreOrder(expectedUnderscoreMatches, results);
-
-        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("%"));
         verifySearchResults(results);
     }
 

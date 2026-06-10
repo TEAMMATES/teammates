@@ -1,7 +1,7 @@
 import { inject, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
@@ -20,6 +20,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessionStats,
   FeedbackSessionSubmissionStatus,
+  FeedbackSessionView,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../types/api-output';
@@ -375,9 +376,9 @@ export abstract class InstructorSessionBasePageComponent {
           copyToCourseId,
           result.sessionToCopyCourseId,
         ).pipe(
-          catchError((err: any) => {
+          catchError((err: ErrorMessageOutput) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
-            return of(err);
+            return EMPTY;
           }),
         ),
       );
@@ -405,17 +406,17 @@ export abstract class InstructorSessionBasePageComponent {
             intent: Intent.FULL_DETAIL,
           })
           .pipe(
-            switchMap((feedbackSession: FeedbackSession) =>
+            switchMap((feedbackSessionView: FeedbackSessionView) =>
               this.copyFeedbackSession(
-                feedbackSession,
+                feedbackSessionView.feedbackSession,
                 result.newFeedbackSessionName,
                 copyToCourseId,
                 result.sessionToCopyCourseId,
               ),
             ),
-            catchError((err: any) => {
+            catchError((err: ErrorMessageOutput) => {
               this.failedToCopySessions[copyToCourseId] = err.error.message;
-              return of(err);
+              return EMPTY;
             }),
           ),
       );
@@ -426,7 +427,7 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Submits a single copy session request.
    */
-  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<any>): void {
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>, modifiedTimestampsModal: TemplateRef<void>): void {
     copySessionRequest.subscribe({
       next: (createdSession: FeedbackSession) => {
         if (Object.keys(this.failedToCopySessions).length > 0) {
@@ -459,7 +460,7 @@ export abstract class InstructorSessionBasePageComponent {
     });
   }
 
-  showCopyStatusMessage(modifiedTimestampsModal: TemplateRef<any>): void {
+  showCopyStatusMessage(modifiedTimestampsModal: TemplateRef<void>): void {
     if (Object.keys(this.failedToCopySessions).length > 0) {
       this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
     } else if (this.coursesOfModifiedSession.length > 0) {

@@ -13,6 +13,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
@@ -23,7 +24,7 @@ import teammates.ui.request.InstructorCreateRequest;
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(getTypicalDataBundle());
 
@@ -44,12 +45,12 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute() {
         // see test cases below
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_typicalCase_shouldPass() {
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
 
@@ -60,9 +61,9 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         };
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
-                "00000000-0000-4000-8000-000000000006", "newInstructorName",
-                "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                "instructorDisplayName", false);
+                "newInstructorName",
+                "newinstructoremail@mail.com", Const.InstructorPermissionRoleNames.COOWNER,
+                "instructorDisplayName", false, null);
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
 
         JsonResult response = getJsonResult(action);
@@ -76,13 +77,17 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         assertEquals(createdInstructor.getName(), instructorData.getName());
         assertEquals(createdInstructor.getEmail(), instructorData.getEmail());
         assertFalse(createdInstructor.isDisplayedToStudents());
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(logic.hasInstructorPermissions(createdInstructor,
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_uniqueEmailClash_shouldFail() {
         loginAsAdmin();
 
@@ -93,16 +98,16 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         };
 
         InstructorCreateRequest instructorCreateRequest = new InstructorCreateRequest(
-                instructor1OfCourse1.getCourseId(), "instructor3ofCourse1",
-                instructor1OfCourse1.getEmail(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
-                "instructor3ofCourse1", false);
+                "instructor3ofCourse1",
+                instructor1OfCourse1.getEmail(), Const.InstructorPermissionRoleNames.TUTOR,
+                "instructor3ofCourse1", false, null);
 
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
         assertThrowsInTransaction(InvalidOperationException.class, action::execute);
     }
 
     @Override
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
         Course course = typicalBundle.courses.get("course1");
         Instructor instructor = typicalBundle.instructors.get("instructor2OfCourse1");

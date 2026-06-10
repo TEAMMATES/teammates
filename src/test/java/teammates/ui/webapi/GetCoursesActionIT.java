@@ -10,7 +10,9 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.test.GroupNames;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.CourseViewData;
 import teammates.ui.output.CoursesData;
 
 /**
@@ -19,7 +21,7 @@ import teammates.ui.output.CoursesData;
 public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     private DataBundle typicalBundle;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         typicalBundle = persistDataBundle(loadDataBundle("/GetCoursesActionIT.json"));
     }
@@ -34,20 +36,20 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         return GET;
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testExecute() throws Exception {
         // See separated test cases below.
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withNoParameter_shouldThrowHttpParameterException() {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
         verifyHttpParameterFailure();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withInvalidEntityType_shouldReturnBadResponse() {
         String[] params = new String[] { Const.ParamsNames.ENTITY_TYPE, "invalid_entity_type" };
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -55,7 +57,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifyHttpParameterFailure(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withInstructorEntityTypeAndNoCourseStatus_shouldThrowParameterFailure() {
         String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR, };
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -63,7 +65,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifyHttpParameterFailure(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withInvalidCourseStatus_shouldReturnBadResponse() {
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -75,7 +77,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifyHttpParameterFailure(params);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withInstructorEntityTypeAndActiveCourses_shouldReturnCorrectCourses() {
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -94,7 +96,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifySameCourseData(courses.getCourses().get(2), expectedCourse3);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withInstructorEntityTypeAndSoftDeletedCourses_shouldReturnCorrectCourses() {
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -112,14 +114,14 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testGetCoursesAction_withStudentEntityType_shouldReturnCorrectCourses() {
         String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT };
         Student student = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        courses.getCourses().sort((c1, c2) -> c1.getCourseId().compareTo(c2.getCourseId()));
+        courses.getCourses().sort((c1, c2) -> c1.getCourse().getCourseId().compareTo(c2.getCourse().getCourseId()));
         assertEquals(2, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
@@ -128,14 +130,15 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
     }
 
-    private void verifySameCourseData(CourseData actualCourse, Course expectedCourse) {
-        assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
-        assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
-        assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
+    private void verifySameCourseData(CourseViewData actualCourse, Course expectedCourse) {
+        CourseData actualCourseData = actualCourse.getCourse();
+        assertEquals(actualCourseData.getCourseId(), expectedCourse.getId());
+        assertEquals(actualCourseData.getCourseName(), expectedCourse.getName());
+        assertEquals(actualCourseData.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
         if (expectedCourse.getDeletedAt() != null) {
-            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+            assertEquals(actualCourseData.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
         }
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
+        assertEquals(actualCourseData.getTimeZone(), expectedCourse.getTimeZone());
     }
 
     private CoursesData getValidCourses(String... params) {
@@ -144,7 +147,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         return (CoursesData) result.getOutput();
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     @Override
     protected void testAccessControl() throws Exception {
         String[] studentParams = new String[] { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT, };

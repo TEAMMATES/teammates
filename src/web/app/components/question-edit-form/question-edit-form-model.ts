@@ -32,8 +32,6 @@ export interface QuestionEditFormModel {
   questionBrief: string;
   questionDescription: string;
 
-  isQuestionHasResponses: boolean;
-
   questionType: FeedbackQuestionType;
   questionDetails: FeedbackQuestionDetails;
 

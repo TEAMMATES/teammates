@@ -9,10 +9,10 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -21,6 +21,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
+import teammates.test.GroupNames;
 
 /**
  * SUT: {@link UsersLogic}.
@@ -39,7 +40,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private Account account;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void setUp() {
         inTransaction(() -> {
             Course typicalCourse = getTypicalCourse();
@@ -57,20 +58,19 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         });
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testResetAccount_instructor() {
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(course);
-        instructor.setAccount(account);
-
-        String googleId = instructor.getGoogleId();
+        String googleId = account.getGoogleId();
 
         ______TS("failure: reset instructor that does not exist");
         assertThrowsInTransaction(EntityDoesNotExistException.class,
-                () -> usersLogic.resetAccount(instructor.getId()));
+                () -> usersLogic.resetAccount(UUID.randomUUID()));
 
         ______TS("success: reset instructor that exists");
-        inTransaction(() -> usersLogic.createInstructor(instructor));
+        Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
+                course, "instructor-name", "valid@teammates.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
+                InstructorPermissionRole.COOWNER, account));
         User resetUser = inTransaction(() -> usersLogic.resetAccount(instructor.getId()));
         instructor.setAccount(null);
 
@@ -79,7 +79,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testResetAccount_student() {
         String email = "email@gmail.tmt";
         String googleId = account.getGoogleId();
@@ -104,19 +104,22 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
     }
 
-    @Test
+    @Test(groups = GroupNames.INTEGRATION)
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
-        Instructor instructor = getTypicalInstructor();
-        instructor.setCourse(course);
-        instructor.setAccount(account);
+        Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
+                course, "instructor-name", "valid@teammates.tmt",
+                false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
+                InstructorPermissionRole.CUSTOM, account));
 
-        ______TS("success: preserves modify instructor privilege if last instructor in course with privilege");
-        InstructorPrivileges privileges = instructor.getPrivileges();
-        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-        instructor.setPrivileges(privileges);
-        inTransaction(() -> usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor));
+        ______TS("does not grant modify instructor privilege when the instructor does not already have it");
+        InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        inTransaction(() -> InstructorPermissionsLogic.inst().saveInstructorPrivileges(instructor, privileges));
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        inTransaction(() -> usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor));
+
+        InstructorPrivileges result = inTransaction(() ->
+                InstructorPermissionsLogic.inst().getInstructorPrivileges(instructor));
+        assertFalse(result.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 }

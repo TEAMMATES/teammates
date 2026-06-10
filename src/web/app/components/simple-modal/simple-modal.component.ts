@@ -20,7 +20,7 @@ export class SimpleModalComponent {
   SimpleModalType!: typeof SimpleModalType;
 
   @Input() header = '';
-  @Input() content: string | TemplateRef<any> = '';
+  @Input() content: string | TemplateRef<void> = '';
   @Input() type: SimpleModalType = SimpleModalType.NEUTRAL;
   @Input() isInformationOnly = false; // true will cause modal to only have 1 button
   @Input() confirmMessage = 'Yes'; // custom text message for confirm button
@@ -34,7 +34,7 @@ export class SimpleModalComponent {
     return this.content instanceof TemplateRef;
   }
 
-  get contentAsTemplateRef(): TemplateRef<any> {
-    return this.content as TemplateRef<any>;
+  get contentAsTemplateRef(): TemplateRef<void> {
+    return this.content as TemplateRef<void>;
   }
 }

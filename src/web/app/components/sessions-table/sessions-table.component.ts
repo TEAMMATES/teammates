@@ -175,12 +175,19 @@ export class SessionsTableComponent implements OnInit {
       return [];
     }
 
-    const rowData: SortableTableCellData = {
-      ...(config.value && { value: config.value }),
-      ...(config.displayValue && { displayValue: config.displayValue }),
-      ...(config.customComponent && { customComponent: config.customComponent }),
-      ...(config.style && { style: config.style }),
-    };
+    const rowData: Partial<SortableTableCellData> = {};
+    if (config.value) {
+      rowData.value = config.value;
+    }
+    if (config.displayValue) {
+      rowData.displayValue = config.displayValue;
+    }
+    if (config.customComponent) {
+      rowData.customComponent = config.customComponent;
+    }
+    if (config.style) {
+      rowData.style = config.style;
+    }
 
     return [rowData];
   }
@@ -261,7 +268,7 @@ export class SessionsTableComponent implements OnInit {
     });
   }
 
-  private createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
+  createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
     const { feedbackSessionId, submissionStatus, publishStatus } = feedbackSession;
 
@@ -293,7 +300,7 @@ export class SessionsTableComponent implements OnInit {
     };
   }
 
-  private createCellWithResponseRateComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
+  createCellWithResponseRateComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { responseRate, isLoadingResponseRate } = sessionTableRowModel;
     return {
       customComponent: {

@@ -7,8 +7,8 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.RegKeyRequest;
 
 /**
@@ -36,7 +36,7 @@ public class JoinCourseAction extends Action {
         User user;
 
         try {
-            user = logic.joinCourse(regKey, authContext.account());
+            user = logic.joinCourse(regKey, requestContext.getAccount());
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
@@ -51,7 +51,7 @@ public class JoinCourseAction extends Action {
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {
         Course course = logic.getCourse(courseId);
         EmailWrapper email = emailGenerator.generateUserCourseRegisteredEmail(
-                userName, userEmail, authContext.account().getGoogleId(), isInstructor, course);
+                userName, userEmail, requestContext.getAccount().getGoogleId(), isInstructor, course);
         emailSender.sendEmail(email);
     }
 }

@@ -54,7 +54,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
     }
   }
 
-  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: any): void {
+  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: Event | null): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();

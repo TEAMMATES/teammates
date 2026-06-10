@@ -88,11 +88,11 @@ describe('CopySessionModalComponent', () => {
     fixture.detectChanges();
 
     const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
-    const secondOption: any = options[1];
+    const secondOption = options[1];
     secondOption.triggerEventHandler('click', { target: secondOption.nativeElement });
     fixture.detectChanges();
 
-    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
+    const copyButton = fixture.debugElement.query(By.css('button.btn.btn-primary'));
     expect(copyButton.nativeElement.disabled).toBeFalsy();
   });
 

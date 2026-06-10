@@ -25,7 +25,7 @@ public final class Const {
     public static final String UNKNOWN_USER = "Unknown User";
     public static final String UNKNOWN_TEAM = "Unknown Team";
     public static final String UNKNOWN_SECTION = "Unknown Section";
-    public static final String DEFAULT_SECTION = "None";
+    public static final String NO_SPECIFIC_SECTION = "No Specific Section";
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
@@ -85,11 +85,11 @@ public final class Const {
      * Represents role names for instructors based on their permission settings.
      */
     public static class InstructorPermissionRoleNames {
-        public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_OBSERVER = "Observer";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_TUTOR = "Tutor";
-        public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
+        public static final String COOWNER = "Co-owner";
+        public static final String MANAGER = "Manager";
+        public static final String OBSERVER = "Observer";
+        public static final String TUTOR = "Tutor";
+        public static final String CUSTOM = "Custom";
     }
 
     /**
@@ -100,10 +100,10 @@ public final class Const {
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
         public static final String CAN_MODIFY_SESSION = "canmodifysession";
         public static final String CAN_MODIFY_STUDENT = "canmodifystudent";
-        public static final String CAN_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
-        public static final String CAN_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
-        public static final String CAN_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
-        public static final String CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
+        public static final String CAN_VIEW_STUDENT = "canviewstudent";
+        public static final String CAN_VIEW_SESSION = "canviewsession";
+        public static final String CAN_SUBMIT_SESSION = "cansubmitsession";
+        public static final String CAN_MODIFY_SESSION_COMMENT = "canmodifysessioncomment";
     }
 
     /**
@@ -138,11 +138,14 @@ public final class Const {
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
+        public static final String IS_NO_SPECIFIC_SECTION = "isnospecificsection";
 
         public static final String PREVIEWAS = "previewas";
 
         public static final String USER_ID = "userid";
         public static final String STUDENT_ID = "googleid";
+        public static final String ACCOUNT_ID = "accountid";
+        public static final String MASQUERADE_ACCOUNT_ID = "masqueradeaccountid";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -152,7 +155,6 @@ public final class Const {
         public static final String TEAM_NAME = "teamname";
 
         public static final String ERROR = "error";
-        public static final String USER = "user";
 
         public static final String SEARCH_KEY = "searchkey";
 
@@ -306,6 +308,7 @@ public final class Const {
         public static final String RESPONSE_GIVER_COMMENT = URI_PREFIX + "/response/givercomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
+        public static final String DEMO_COURSE = URI_PREFIX + "/demo/course";
         public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
         public static final String COURSES = URI_PREFIX + "/courses";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
@@ -346,6 +349,7 @@ public final class Const {
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
+        public static final String CONFIG = URI_PREFIX + "/config";
     }
 
     /**
@@ -354,7 +358,6 @@ public final class Const {
     public static class CronJobURIs {
         public static final String URI_PREFIX = "/auto";
 
-        public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
         public static final String AUTOMATED_FEEDBACK_OPENED_REMINDERS =

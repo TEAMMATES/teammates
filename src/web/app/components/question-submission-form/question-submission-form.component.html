@@ -38,7 +38,7 @@
         @if (model.recipientType === QuestionRecipientType.SELF) {
           <li>You can see your own feedback in the results page later on.</li>
         }
-        @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+        @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
           @if (
             visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
             visibilityStateMachine.hasAnyVisibilityControl(visibilityType)
@@ -311,7 +311,7 @@
                       @if (model.recipientType === QuestionRecipientType.SELF) {
                         <li>You can see your own feedback in the results page later on.</li>
                       }
-                      @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+                      @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
                         @if (
                           visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
                           visibilityStateMachine.hasAnyVisibilityControl(visibilityType)
@@ -441,26 +441,7 @@
       }
     </div>
     @if (!model.recipientList.length) {
-      <div class="alert alert-warning" role="alert">
-        @if (model.recipientType === QuestionRecipientType.OWN_TEAM_MEMBERS) {
-          <span
-            >This question is for team members and you don't have any team members. Therefore, you will not be able to
-            answer this question.</span
-          >
-        }
-        @if (model.recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF) {
-          <span
-            >This question is for other teams in this course and this course doesn't have any other team. Therefore, you
-            will not be able to answer this question.</span
-          >
-        }
-        @if (model.recipientType === QuestionRecipientType.STUDENTS_EXCLUDING_SELF) {
-          <span
-            >This question is for other students in this course and this course doesn't have any other student.
-            Therefore, you will not be able to answer this question.</span
-          >
-        }
-      </div>
+      <tm-no-recipients-warning [recipientType]="model.recipientType"></tm-no-recipients-warning>
     }
     @if (model.recipientList.length > 0 && currentSelectedSessionView === allSessionViews.DEFAULT) {
       <div class="row">

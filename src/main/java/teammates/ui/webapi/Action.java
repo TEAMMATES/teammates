@@ -1,20 +1,19 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
+import java.util.Optional;
 import java.util.UUID;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.RequestContext;
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
-import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
@@ -25,10 +24,10 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * An "action" to be performed by the system.
@@ -44,10 +43,9 @@ public abstract class Action {
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
-    LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
-    AuthContext authContext;
+    RequestContext requestContext;
 
     // buffer to store the request body
     private String requestBody;
@@ -57,7 +55,8 @@ public abstract class Action {
      */
     public void init(HttpServletRequest req) throws UnauthorizedAccessException {
         this.req = req;
-        this.authContext = userProvision.getAuthContextFromRequest(req);
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
+        this.requestContext = new RequestContext(authContext);
     }
 
     /**
@@ -83,10 +82,6 @@ public abstract class Action {
         this.recaptchaVerifier = recaptchaVerifier;
     }
 
-    public void setLogsProcessor(LogsProcessor logsProcessor) {
-        this.logsProcessor = logsProcessor;
-    }
-
     public void setEmailGenerator(EmailGenerator emailGenerator) {
         this.emailGenerator = emailGenerator;
     }
@@ -95,12 +90,12 @@ public abstract class Action {
      * Checks if the requesting user has sufficient authority to access the resource.
      */
     public void checkAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
-        if (authContext.authType().getLevel() < getMinAuthLevel().getLevel()) {
+        if (requestContext.getAuthType().getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
         }
 
-        if (authContext.authType() == AuthType.ALL_ACCESS) {
+        if (requestContext.getAuthType() == AuthType.ALL_ACCESS) {
             // All-access auth type is allowed to access all resources without further checks
             return;
         }
@@ -116,7 +111,7 @@ public abstract class Action {
         RequestLogUser user = new RequestLogUser();
 
         Account account = getCurrentAccount();
-        User regKeyUser = authContext.regKeyUser();
+        User regKeyUser = requestContext.getRegKeyUser();
 
         if (account != null) {
             user.setEmail(account.getEmail());
@@ -129,7 +124,7 @@ public abstract class Action {
     }
 
     Account getCurrentAccount() {
-        return authContext.account();
+        return requestContext.getAccount();
     }
 
     String getCurrentUserGoogleId() {
@@ -177,6 +172,17 @@ public abstract class Action {
             throw new InvalidHttpParameterException(
                     "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]");
         }
+    }
+
+    /**
+     * Returns the first value or null for the specified parameter expected to be present in the HTTP request as boolean.
+     */
+    Optional<Boolean> getNullableBooleanRequestParamValue(String paramName) {
+        String value = getRequestParamValue(paramName);
+        if (value == null) {
+            return Optional.empty();
+        }
+        return Optional.of(getBooleanRequestParamValue(paramName));
     }
 
     /**
@@ -260,64 +266,12 @@ public abstract class Action {
         return reqBody;
     }
 
-    private Student getUnregisteredStudent() {
-        if (authContext.regKeyUser() instanceof Student student) {
-            return student;
-        }
-        return null;
-    }
-
-    private Instructor getUnregisteredInstructor() {
-        if (authContext.regKeyUser() instanceof Instructor instructor) {
-            return instructor;
-        }
-        return null;
-    }
-
     Instructor getInstructorFromRequest(String courseId) {
-        if (authContext.authType() == AuthType.REG_KEY) {
-            return getUnregisteredInstructor();
-        }
-
-        Account account = authContext.account();
-        if (account == null) {
-            return null;
-        }
-
-        return logic.getInstructorByGoogleId(courseId, account.getGoogleId());
+        return requestContext.getInstructorForCourse(courseId, logic::getInstructorFromAuthContext);
     }
 
     Student getStudentFromRequest(String courseId) {
-        if (authContext.authType() == AuthType.REG_KEY) {
-            return getUnregisteredStudent();
-        }
-
-        Account account = authContext.account();
-        if (account == null) {
-            return null;
-        }
-
-        return logic.getStudentByGoogleId(courseId, account.getGoogleId());
-    }
-
-    InstructorPermissionSet constructInstructorPrivileges(Instructor instructor, String feedbackSessionName) {
-        InstructorPermissionSet privilege = instructor.getPrivileges().getCourseLevelPrivileges();
-        if (feedbackSessionName != null) {
-            privilege.setCanSubmitSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-            privilege.setCanViewSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-            privilege.setCanModifySessionCommentsInSections(
-                    instructor.isAllowedForPrivilege(
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        }
-        return privilege;
+        return requestContext.getStudentForCourse(courseId, logic::getStudentFromAuthContext);
     }
 
     /**
@@ -333,6 +287,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
+    public abstract JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

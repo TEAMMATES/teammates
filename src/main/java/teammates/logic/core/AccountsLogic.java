@@ -64,15 +64,6 @@ public final class AccountsLogic {
     }
 
     /**
-     * Gets accounts associated with email.
-     */
-    public List<Account> getAccountsForEmail(String email) {
-        assert email != null;
-
-        return accountsDb.getAccountsByEmail(email);
-    }
-
-    /**
      * Creates and returns an account for the given email if it does not exist,
      * otherwise just return the existing account.
      *
@@ -148,7 +139,7 @@ public final class AccountsLogic {
             return;
         }
 
-        accountsDb.deleteAccount(account);
+        accountsDb.removeAccount(account);
     }
 
     /**
@@ -168,7 +159,7 @@ public final class AccountsLogic {
             usersLogic.deleteUser(user);
         }
 
-        accountsDb.deleteAccount(account);
+        accountsDb.removeAccount(account);
     }
 
     /**

@@ -14,7 +14,7 @@ public class FeedbackQuestionRecipientData implements ApiOutput {
 
     public FeedbackQuestionRecipientData(ResponseRecipient recipient) {
         this.name = recipient.getDisplayName();
-        this.identifier = recipient.getIdentifier();
+        this.identifier = recipient.getKey();
         this.section = recipient.getSectionName();
         this.team = recipient.getTeamName();
     }

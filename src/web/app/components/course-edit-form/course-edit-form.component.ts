@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
-import { UntypedFormGroup, FormsModule } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, AbstractControl } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { Subscription } from 'rxjs';
@@ -188,7 +188,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.form.invalid) {
-      Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
+      Object.values(this.form.controls).forEach((control: AbstractControl) => control.markAsTouched());
       return;
     }
 
@@ -241,7 +241,9 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
           this.feedbackSessionsService
             .getFeedbackSessionsForInstructor(courseId)
             .subscribe((feedbackSessions: FeedbackSessions) => {
-              modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
+              modalRef.componentInstance.courseToFeedbackSession[courseId] = [
+                ...feedbackSessions.feedbackSessions.map((session) => session.feedbackSession),
+              ];
             });
         },
         (resp: ErrorMessageOutput) => {
@@ -260,7 +262,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
    * Resets form controls to be untouched and pristine.
    */
   private resetForm(): void {
-    Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
-    Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
+    Object.values(this.form.controls).forEach((control: AbstractControl) => control.markAsUntouched());
+    Object.values(this.form.controls).forEach((control: AbstractControl) => control.markAsPristine());
   }
 }

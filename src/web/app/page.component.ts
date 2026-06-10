@@ -6,24 +6,28 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnInit,
   Output,
   forwardRef,
   inject,
   signal,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, Data } from '@angular/router';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { environment } from '../environments/environment';
 import { StatusMessageService } from '../services/status-message.service';
-import { NotificationTargetUser } from '../types/api-output';
+import { AuthInfo, NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 import { NotificationBannerComponent } from './components/notification-banner/notification-banner.component';
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { NavItem } from './page.model';
+import { AuthService } from '../services/auth.service';
+import { finalize } from 'rxjs/operators';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -71,27 +75,26 @@ export class ClickOutsideDirective {
     RouterOutlet,
   ],
 })
-export class PageComponent {
+export class PageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly title = inject(Title);
   private readonly ngbModal = inject(NgbModal);
   private readonly statusMessageService = inject(StatusMessageService);
+  private readonly authService = inject(AuthService);
 
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
 
-  @Input() isFetchingAuthDetails = false;
-  @Input() user = '';
-  @Input() isStudent = false;
-  @Input() isInstructor = false;
-  @Input() isAdmin = false;
-  @Input() isMaintainer = false;
-  @Input() isValidUser = false;
+  isFetchingAuthDetails = false;
+  user = '';
+  isStudent = false;
+  isInstructor = false;
+  isAdmin = false;
+  isMaintainer = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
-  @Input() hideAuthInfo = false;
-  @Input() navItems: any[] = [];
+  @Input() navItems: NavItem[] = [];
 
   readonly isNetworkOnline = signal(navigator.onLine);
   readonly isCookieEnabled = signal(navigator.cookieEnabled);
@@ -105,7 +108,7 @@ export class PageComponent {
     const location = inject(Location);
 
     this.NotificationTargetUser = NotificationTargetUser;
-    this.router.events.subscribe((val: any) => {
+    this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
         this.toast = null; // reset toast
@@ -113,9 +116,9 @@ export class PageComponent {
         while (r.firstChild) {
           r = r.firstChild;
         }
-        r.data.subscribe((resp: any) => {
-          this.pageTitle = resp.pageTitle;
-          this.title.setTitle(resp.htmlTitle || DEFAULT_TITLE);
+        r.data.subscribe((resp: Data) => {
+          this.pageTitle = resp['pageTitle'];
+          this.title.setTitle(resp['htmlTitle'] ?? DEFAULT_TITLE);
         });
       }
     });
@@ -136,6 +139,40 @@ export class PageComponent {
     this.statusMessageService.getToastEvent().subscribe((toast: Toast) => {
       this.toast = toast;
     });
+  }
+
+  ngOnInit(): void {
+    this.isFetchingAuthDetails = true;
+    this.authService
+      .getAuthUser(this.router.url)
+      .pipe(
+        finalize(() => {
+          this.isFetchingAuthDetails = false;
+        }),
+      )
+      .subscribe({
+        next: (authInfo: AuthInfo) => {
+          const user = authInfo.user;
+          if (user) {
+            this.user = user.id;
+            if (authInfo.masquerade) {
+              this.user += ' (M)';
+            }
+            this.isStudent = user.isStudent;
+            this.isInstructor = user.isInstructor;
+            this.isAdmin = user.isAdmin;
+            this.isMaintainer = user.isMaintainer;
+          } else {
+            this.isStudent = false;
+            this.isInstructor = false;
+            this.isAdmin = false;
+            this.isMaintainer = false;
+          }
+        },
+        error: () => {
+          // Do nothing, the user will be treated as not logged in.
+        },
+      });
   }
 
   /**
@@ -166,6 +203,7 @@ export class PageComponent {
   }
 
   logout(): void {
+    this.authService.clearAuthCache();
     globalThis.location.href = this.logoutUrl;
   }
 }

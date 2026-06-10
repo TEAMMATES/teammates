@@ -2,8 +2,8 @@ package teammates.ui.constants;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import teammates.common.datatransfer.DefaultInstructorPrivileges;
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 
@@ -12,11 +12,11 @@ import teammates.common.util.JsonUtils;
  */
 public enum DefaultInstructorPermissions {
     // CHECKSTYLE.OFF:JavadocVariable
-    COOWNER(getPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)),
-    MANAGER(getPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER)),
-    OBSERVER(getPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)),
-    TUTOR(getPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)),
-    CUSTOM(getPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM));
+    COOWNER(getPrivileges(Const.InstructorPermissionRoleNames.COOWNER)),
+    MANAGER(getPrivileges(Const.InstructorPermissionRoleNames.MANAGER)),
+    OBSERVER(getPrivileges(Const.InstructorPermissionRoleNames.OBSERVER)),
+    TUTOR(getPrivileges(Const.InstructorPermissionRoleNames.TUTOR)),
+    CUSTOM(getPrivileges(Const.InstructorPermissionRoleNames.CUSTOM));
     // CHECKSTYLE.ON:JavadocVariable
 
     @JsonValue
@@ -31,7 +31,7 @@ public enum DefaultInstructorPermissions {
     }
 
     private static InstructorPermissionSet getPrivileges(String roleName) {
-        return new InstructorPrivileges(roleName).getCourseLevelPrivileges();
+        return DefaultInstructorPrivileges.getDefaultPrivileges(roleName);
     }
 
 }

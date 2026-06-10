@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, Courses, CourseSections, JoinStatus, MessageOutput, Student } from '../types/api-output';
+import { Course, CourseSections, CourseView, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 /**
@@ -37,7 +37,7 @@ export class CourseService {
   /**
    * Get course data by calling API as an instructor.
    */
-  getCourseAsInstructor(courseId: string, regKey?: string): Observable<Course> {
+  getCourseAsInstructor(courseId: string, regKey?: string): Observable<CourseView> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'instructor',
@@ -61,7 +61,7 @@ export class CourseService {
   /**
    * Get course data by calling API as a student.
    */
-  getCourseAsStudent(courseId: string, regKey?: string): Observable<Course> {
+  getCourseAsStudent(courseId: string, regKey?: string): Observable<CourseView> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
       entitytype: 'student',
@@ -139,7 +139,7 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKeyRequest: RegKeyRequest): Observable<any> {
+  joinCourse(regKeyRequest: RegKeyRequest): Observable<MessageOutput> {
     return this.httpRequestService.put(ResourceEndpoints.JOIN, {}, regKeyRequest);
   }
 
@@ -188,5 +188,16 @@ export class CourseService {
       numOfTeams: teams.size,
       numOfStudents: students.length,
     };
+  }
+
+  /**
+   * Creates a demo course.
+   */
+  createDemoCourse(key: string, timezone: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = { key };
+    if (timezone) {
+      paramMap['timezone'] = timezone;
+    }
+    return this.httpRequestService.post(ResourceEndpoints.DEMO_COURSE, paramMap);
   }
 }
