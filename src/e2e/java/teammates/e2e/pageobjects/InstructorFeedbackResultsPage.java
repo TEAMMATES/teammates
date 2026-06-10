@@ -49,7 +49,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     private static final String NO_RESPONSE_LABEL = "No Response";
     private static final String NO_TEAM_LABEL = "No Specific Team";
-    private static final String NO_SECTION_LABEL = "No specific section";
+    private static final String NO_SECTION_LABEL = "Instructors / General Recipients";
     private static final String NO_USER_LABEL = "No Specific User";
 
     private static final String MCQ_OTHER = "Other";

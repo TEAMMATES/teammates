@@ -1,6 +1,5 @@
 package teammates.ui.request;
 
-import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
@@ -20,7 +19,7 @@ public class StudentUpdateRequest extends BasicRequest {
     }
 
     public StudentUpdateRequest(String name, String email, String team, String section, String comments,
-                                Boolean isSessionSummarySendEmail) {
+            Boolean isSessionSummarySendEmail) {
         this.name = name;
         this.email = email;
         this.team = team;
@@ -54,7 +53,7 @@ public class StudentUpdateRequest extends BasicRequest {
     }
 
     public String getSection() {
-        return this.section.isEmpty() ? Const.DEFAULT_SECTION : SanitizationHelper.sanitizeName(this.section);
+        return SanitizationHelper.sanitizeName(this.section);
     }
 
     public String getComments() {

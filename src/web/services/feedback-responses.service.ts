@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumOptionsResponseDetails,
@@ -157,9 +157,9 @@ export class FeedbackResponsesService {
 
     if (sectionId) {
       const isGiverInSection =
-        sectionId === DEFAULT_SECTION_ID ? response.giverSectionId == null : response.giverSectionId === sectionId;
+        sectionId === NO_SPECIFIC_SECTION_ID ? response.giverSectionId == null : response.giverSectionId === sectionId;
       const isRecipientInSection =
-        sectionId === DEFAULT_SECTION_ID
+        sectionId === NO_SPECIFIC_SECTION_ID
           ? response.recipientSectionId == null
           : response.recipientSectionId === sectionId;
 
