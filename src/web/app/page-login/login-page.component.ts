@@ -63,7 +63,7 @@ export class LoginPageComponent implements OnInit {
     globalThis.location.href = loginUrl;
   }
 
-  getCompleteLoginUrl(loginMethod: LoginMethod): string {
+  private getCompleteLoginUrl(loginMethod: LoginMethod): string {
     const url = new URL(this.backendLoginUrl, globalThis.location.origin);
     url.searchParams.set('method', loginMethod);
     return url.toString();

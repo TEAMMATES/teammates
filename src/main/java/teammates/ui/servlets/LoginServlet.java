@@ -10,7 +10,6 @@ import org.apache.http.HttpStatus;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
@@ -18,6 +17,7 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.ui.output.LoginMethod;
 
 /**
  * Servlet that handles login.
@@ -44,14 +44,26 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        if (Config.isDevServerLoginEnabled()) {
-            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
-            String redirectUrl = resp.encodeRedirectURL("/devServerLogin?nextUrl=" + getEncodedQueryParam(nextUrl));
-            resp.sendRedirect(redirectUrl);
+        LoginMethod loginMethod = getLoginMethodFromRequest(req, resp);
+        if (loginMethod == null) {
             return;
         }
 
-        AuthState state = new AuthState(nextUrl, req.getSession().getId());
+        switch (loginMethod) {
+        case GOOGLE:
+            handleGoogleLogin(req, resp, nextUrl);
+            break;
+        case DEV_SERVER:
+            handleDevServerLogin(req, resp, nextUrl);
+            break;
+        default:
+            // Should not reach here.
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Unexpected error with login method: " + loginMethod);
+        }
+    }
+
+    private void handleGoogleLogin(HttpServletRequest req, HttpServletResponse resp, String nextUrl) throws IOException {
+        AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.GOOGLE);
         GoogleAuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
         authorizationUrl.setRedirectUri(getRedirectUri(req));
         authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
@@ -59,6 +71,15 @@ public class LoginServlet extends AuthServlet {
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
 
         resp.sendRedirect(authorizationUrl.build());
+    }
+
+    private void handleDevServerLogin(HttpServletRequest req, HttpServletResponse resp, String nextUrl) throws IOException {
+        AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
+        String redirectUrl = resp.encodeRedirectURL("/devServerLogin?state="
+                + getEncodedQueryParam(JsonUtils.toCompactJson(state)));
+        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
+
+        resp.sendRedirect(redirectUrl);
     }
 
     private boolean isLoginNeeded(HttpServletRequest req) {

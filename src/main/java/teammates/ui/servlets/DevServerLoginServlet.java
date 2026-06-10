@@ -10,6 +10,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
+import teammates.common.util.JsonUtils;
 
 /**
  * Servlet that handles dev server login.
@@ -36,19 +37,28 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
+        AuthState state = JsonUtils.fromJson(req.getParameter("state"), AuthState.class);
+
         String email = req.getParameter("email");
         if (email == null) {
             return;
         }
 
-        String nextUrl = req.getParameter("nextUrl");
+        String nextUrl = state.getNextUrl();
         if (nextUrl == null) {
             nextUrl = "/";
         }
 
+        String method = state.getMethodValue();
+        if (method == null) {
+            return;
+        }
+
         email = getEncodedQueryParam(email);
         nextUrl = getEncodedQueryParam(getSanitizedRedirectUrl(nextUrl));
-        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&nextUrl=" + nextUrl);
+        method = getEncodedQueryParam(method);
+        String redirectUrl = resp.encodeRedirectURL(
+                "/oauth2callback?email=" + email + "&nextUrl=" + nextUrl + "&method=" + method);
         resp.sendRedirect(redirectUrl);
     }
 

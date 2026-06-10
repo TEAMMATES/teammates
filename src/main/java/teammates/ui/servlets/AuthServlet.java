@@ -9,6 +9,9 @@ import java.util.List;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.apache.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -24,7 +27,9 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.ui.output.LoginMethod;
 
 /**
  * Common servlet class that serves user authentication-related functions.
@@ -35,6 +40,7 @@ abstract class AuthServlet extends HttpServlet {
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Arrays.asList("openid", "email");
+    private static final Logger log = Logger.getLogger();
 
     /**
      * Gets the Google authorization code flow to be used across all HTTP servlet requests.
@@ -100,16 +106,55 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     /**
+     * Logs the given error message and prints it in the HTTP response.
+     */
+    void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
+            throws IOException {
+        resp.setStatus(status);
+        resp.getWriter().print(message);
+
+        log.request(req, status, message);
+    }
+
+    /**
+     * Extracts and validates the login method from the HTTP servlet request.
+     * @return the login method, or null if it fails the check.
+     */
+    LoginMethod getLoginMethodFromRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String method = req.getParameter("method");
+        if (method == null) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing login method");
+            return null;
+        }
+
+        LoginMethod loginMethod;
+        try {
+            loginMethod = LoginMethod.fromString(method);
+        } catch (IllegalArgumentException e) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid login method: " + method);
+            return null;
+        }
+
+        if (!Config.isSupportedLoginMethod(loginMethod)) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Valid but unsupported login method: " + method);
+            return null;
+        }
+        return loginMethod;
+    }
+
+    /**
      * Represents the state object to be persisted during the callback.
      */
     static class AuthState {
         private final String nextUrl;
         private final String sessionId;
+        private final LoginMethod method;
 
         @JsonCreator
-        AuthState(String nextUrl, String sessionId) {
+        AuthState(String nextUrl, String sessionId, LoginMethod method) {
             this.nextUrl = nextUrl;
             this.sessionId = sessionId;
+            this.method = method;
         }
 
         String getNextUrl() {
@@ -118,6 +163,10 @@ abstract class AuthServlet extends HttpServlet {
 
         public String getSessionId() {
             return sessionId;
+        }
+
+        public String getMethodValue() {
+            return method.getMethod();
         }
     }
 

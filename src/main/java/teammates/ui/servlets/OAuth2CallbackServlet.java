@@ -25,6 +25,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
+import teammates.ui.output.LoginMethod;
 
 import tools.jackson.core.JacksonException;
 
@@ -39,11 +40,27 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LoginMethod loginMethod = getLoginMethodFromRequest(req, resp);
+        if (loginMethod == null) {
+            return;
+        }
+
         AuthResult authResult;
-        if (Config.isDevServerLoginEnabled()) {
+        switch (loginMethod) {
+        case DEV_SERVER:
+            if (!Config.isDevServerLoginEnabled()) {
+                logAndPrintError(req, resp, HttpStatus.SC_FORBIDDEN, "Dev server login is disabled");
+                return;
+            }
             authResult = getDevServerAuthResult(req);
-        } else {
+            break;
+        case GOOGLE:
             authResult = getGoogleOauth2AuthResult(req, resp);
+            break;
+        default:
+            // Should not reach here.
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Unexpected error with login method: " + loginMethod);
+            return;
         }
 
         if (authResult == null) {
@@ -152,14 +169,6 @@ public class OAuth2CallbackServlet extends AuthServlet {
         }
 
         return new AuthResult(Provider.GOOGLE, payload.getSubject(), null, payload.getEmail(), nextUrl);
-    }
-
-    private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
-            throws IOException {
-        resp.setStatus(status);
-        resp.getWriter().print(message);
-
-        log.request(req, status, message);
     }
 
     private static final class AuthResult {
