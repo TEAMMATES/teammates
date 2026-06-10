@@ -320,7 +320,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestion.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
                 FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
@@ -331,7 +331,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
                 FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
@@ -343,7 +343,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
                 FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
@@ -356,7 +356,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 details.validateGiverRecipientVisibility(feedbackQuestion));
         assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
         assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS,
+        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT,
                 FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
