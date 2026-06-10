@@ -1,8 +1,6 @@
 package teammates.ui.loginmethodhandlers;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +13,7 @@ import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 import teammates.ui.output.LoginMethod;
 
 import tools.jackson.core.JacksonException;
@@ -36,7 +35,7 @@ public class DevServerLoginHandler implements LoginMethodHandler {
 
         AuthState state = new AuthState(nextUrl, req.getSession().getId(), LoginMethod.DEV_SERVER);
         String redirectUrl = resp.encodeRedirectURL("/devServerLogin?state="
-                + getEncodedQueryParam(JsonUtils.toCompactJson(state)));
+                + UrlHelper.encodeQueryParam(JsonUtils.toCompactJson(state)));
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
 
         resp.sendRedirect(redirectUrl);
@@ -69,13 +68,6 @@ public class DevServerLoginHandler implements LoginMethodHandler {
         }
 
         return new AuthResult(Provider.TEAMMATES_DEV, email, null, email, nextUrl);
-    }
-
-    /**
-     * Encodes the given query parameter value to be safely included in a URL.
-     */
-    private String getEncodedQueryParam(String param) {
-        return URLEncoder.encode(param, StandardCharsets.UTF_8);
     }
 
 }

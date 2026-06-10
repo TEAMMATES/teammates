@@ -12,6 +12,7 @@ import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 import teammates.ui.loginmethodhandlers.AuthState;
 import teammates.ui.output.LoginMethod;
 
@@ -63,6 +64,10 @@ public class DevServerLoginServlet extends AuthServlet {
                 "/oauth2callback?email=" + email
                 + "&state=" + getEncodedQueryParam(StringHelper.encrypt(JsonUtils.toJson(state))));
         resp.sendRedirect(redirectUrl);
+    }
+
+    private String getEncodedQueryParam(String param) {
+        return UrlHelper.encodeQueryParam(param);
     }
 
 }

@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.ui.loginmethodhandlers.LoginMethodHandler;
 import teammates.ui.output.LoginMethod;
@@ -33,7 +34,7 @@ public class LoginServlet extends AuthServlet {
             nextUrl = "/";
         }
 
-        nextUrl = getSanitizedRedirectUrl(nextUrl);
+        nextUrl = UrlHelper.getSanitizedRedirectUrl(nextUrl);
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
