@@ -1,5 +1,4 @@
 <div
-  #combobox="ngCombobox"
   class="searchable-combobox position-relative w-100"
   ngCombobox
   filterMode="manual"
@@ -15,19 +14,19 @@
     [id]="inputId"
     [value]="inputValue()"
     (valueChange)="onInputValueChange($event)"
-    (click)="onInputClick(combobox)"
+    (click)="onInputClick()"
     [placeholder]="placeholder"
     [disabled]="disabled"
     [attr.aria-label]="ariaLabel || null"
   />
 
-  @if (clearable && hasSelectedDisplayValue && !disabled) {
+  @if (clearable && hasSelectedDisplayValue() && !disabled) {
     <button
       class="searchable-combobox-toggle"
       type="button"
       tabindex="-1"
       aria-label="Clear selection"
-      (click)="clearSelection($event, combobox)"
+      (click)="clearSelection($event)"
     >
       <span class="fa fa-times"></span>
     </button>
@@ -38,7 +37,7 @@
       tabindex="-1"
       aria-hidden="true"
       [disabled]="disabled"
-      (click)="onInputClick(combobox)"
+      (click)="onInputClick()"
     >
       <span class="fa fa-chevron-down"></span>
     </button>

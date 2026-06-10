@@ -1,18 +1,15 @@
 import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   Output,
-  Signal,
   ViewChild,
   computed,
   signal,
-  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Combobox, ComboboxInput, ComboboxPopupContainer } from '@angular/aria/combobox';
@@ -47,8 +44,6 @@ export interface ComboboxOption<TValue, TData = unknown> {
   ],
 })
 export class SearchableComboboxComponent<TValue, TData = unknown> implements ControlValueAccessor {
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
-
   @Input()
   options: ComboboxOption<TValue, TData>[] = [];
 
@@ -62,13 +57,15 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   placeholder = '';
 
   @Input()
-  disabled = false;
+  set disabled(value: boolean) {
+    this._disabled.set(value);
+  }
+  get disabled(): boolean {
+    return this._disabled();
+  }
 
   @Input()
   clearable = false;
-
-  @Input()
-  clearValue: TValue | null = null;
 
   @Input()
   compareWith: (firstValue: TValue | null, secondValue: TValue | null) => boolean = Object.is;
@@ -76,13 +73,24 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   @Output()
   optionSelected: EventEmitter<ComboboxOption<TValue, TData>> = new EventEmitter();
 
+  @ViewChild(Combobox)
+  private readonly combobox?: Combobox<TValue>;
+
   @ViewChild('comboboxInput')
   private readonly comboboxInput?: ElementRef<HTMLInputElement>;
 
-  readonly selectedValue = signal<TValue | null>(null);
-  readonly inputValue = signal('');
-  readonly selectedValues = signal<TValue[]>([]);
-  readonly filteredOptions: Signal<ComboboxOption<TValue, TData>[]> = computed(() => {
+  private readonly _disabled = signal(false);
+  private readonly selectedValue = signal<TValue | null>(null);
+  private readonly isShowingAllOptions = signal(false);
+  private onChange: (value: TValue | null) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  protected readonly inputValue = signal('');
+  protected readonly selectedValues = computed(() => {
+    const value = this.selectedValue();
+    return this.hasMatchingOption(value) ? [value] : [];
+  });
+  protected readonly filteredOptions = computed(() => {
     if (this.isShowingAllOptions()) {
       return this.options;
     }
@@ -96,22 +104,13 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
       if (this.normalize(option.label).includes(searchValue)) {
         return true;
       }
-
       return option.keywords?.some((keyword: string) => this.normalize(keyword).includes(searchValue)) ?? false;
     });
   });
-
-  private readonly isShowingAllOptions = signal(false);
-  private onChange: (value: TValue | null) => void = () => {};
-  private onTouched: () => void = () => {};
-
-  get hasSelectedDisplayValue(): boolean {
-    return this.getSelectedLabel() !== '';
-  }
+  protected readonly hasSelectedDisplayValue = computed(() => this.getSelectedLabel() !== '');
 
   writeValue(value: TValue | null): void {
     this.selectedValue.set(value);
-    this.selectedValues.set(this.hasMatchingOption(value) ? [value] : []);
     this.inputValue.set(this.getSelectedLabel());
   }
 
@@ -124,44 +123,38 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   }
 
   setDisabledState(disabled: boolean): void {
-    this.disabled = disabled;
-    this.changeDetectorRef.markForCheck();
+    this._disabled.set(disabled);
   }
 
-  onInputValueChange(value: string): void {
+  protected onInputValueChange(value: string): void {
     this.isShowingAllOptions.set(false);
     this.inputValue.set(value);
   }
 
-  onInputClick(combobox: Combobox<TValue>): void {
+  protected onInputClick(): void {
     if (this.disabled) {
       return;
     }
-
     this.isShowingAllOptions.set(true);
-    combobox.open();
+    this.combobox?.open();
   }
 
-  clearSelection(event: MouseEvent, combobox: Combobox<TValue>): void {
+  protected clearSelection(event: MouseEvent): void {
     event.stopPropagation();
-
     if (this.disabled) {
       return;
     }
 
-    combobox.close();
+    this.combobox?.close();
     this.isShowingAllOptions.set(false);
-    this.selectedValue.set(this.clearValue);
-    this.selectedValues.set(this.hasMatchingOption(this.clearValue) ? [this.clearValue] : []);
+    this.selectedValue.set(null);
     this.inputValue.set(this.getSelectedLabel());
-    this.onChange(this.clearValue);
+    this.onChange(null);
     this.onTouched();
   }
 
-  onValuesChange(values: TValue[]): void {
+  protected onValuesChange(values: TValue[]): void {
     if (values.length === 0) {
-      const selectedValue: TValue | null = this.selectedValue();
-      this.selectedValues.set(this.hasMatchingOption(selectedValue) ? [selectedValue] : []);
       return;
     }
 
@@ -170,7 +163,6 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
 
     this.isShowingAllOptions.set(false);
     this.selectedValue.set(value);
-    this.selectedValues.set(value === null ? [] : [value]);
     this.inputValue.set(selectedOption?.label ?? '');
     this.onChange(value);
 
@@ -179,7 +171,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
     }
   }
 
-  onComboboxFocusOut(event: FocusEvent): void {
+  protected onComboboxFocusOut(event: FocusEvent): void {
     const relatedTarget: Node | null = event.relatedTarget as Node | null;
     const currentTarget: Node = event.currentTarget as Node;
     if (relatedTarget && currentTarget.contains(relatedTarget)) {
@@ -195,7 +187,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
     this.comboboxInput?.nativeElement.focus();
   }
 
-  isSelected(option: ComboboxOption<TValue, TData>): boolean {
+  protected isSelected(option: ComboboxOption<TValue, TData>): boolean {
     const selectedValue: TValue | null = this.selectedValue();
     return selectedValue !== null && this.compareWith(option.value, selectedValue);
   }
