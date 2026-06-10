@@ -1050,7 +1050,7 @@ public class Logic {
      * If it does not exist, create and return it.
      */
     public Section getDefaultSectionOrCreate(String courseId) {
-        return usersLogic.getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
+        return usersLogic.getSectionOrCreate(courseId, Const.NO_SPECIFIC_SECTION);
     }
 
     /**
@@ -1234,9 +1234,9 @@ public class Logic {
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isDefaultSection) {
+            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructor, questionId, sectionId, isDefaultSection);
+                feedbackSession, instructor, questionId, sectionId, isNoSpecificSection);
     }
 
     /**

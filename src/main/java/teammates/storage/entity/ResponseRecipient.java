@@ -152,7 +152,7 @@ public class ResponseRecipient {
         if (recipientType == ResponseRecipientType.TEAM) {
             return recipientTeam != null ? recipientTeam.getSection().getName() : Const.UNKNOWN_SECTION;
         } else if (recipientType == ResponseRecipientType.NO_SPECIFIC_RECIPIENT || recipientUser instanceof Instructor) {
-            return Const.DEFAULT_SECTION;
+            return Const.NO_SPECIFIC_SECTION;
         } else if (recipientUser instanceof Student student) {
             return student.getSectionName();
         } else {

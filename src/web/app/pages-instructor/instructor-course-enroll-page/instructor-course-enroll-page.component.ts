@@ -152,9 +152,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Parse the user input to be requests.
     data.forEach((row: CellValue[], index: number) => {
       if (!row.every((cell: CellValue) => normalizeCell(cell) === '')) {
+        const section = normalizeCell(row[0]) || 'Default Section';
+        const team = normalizeCell(row[1]) || 'Default Team';
         studentEnrollRequests.set(index, {
-          section: normalizeCell(row[0]),
-          team: normalizeCell(row[1]),
+          section,
+          team,
           name: normalizeCell(row[2]),
           email: normalizeCell(row[3]),
           comments: normalizeCell(row[4]),
@@ -333,17 +335,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if (
-        (studentEnrollRequests.size >= 100 && request.section === '') ||
-        request.team === '' ||
-        request.name === '' ||
-        request.email === ''
-      ) {
+      // Section and team are compulsory, however they should have been set to "Default Section" and "Default Team" if left empty.
+      // Therefore, we only check for the presence of name, and email.
+      if (request.name === '' || request.email === '') {
         this.invalidRowsIndex.add(key);
       }
     });
     if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
-      this.enrollErrorMessage += 'Found empty compulsory fields and/or sections with more than 100 students. ';
+      this.enrollErrorMessage += 'Found empty compulsory fields.';
     }
   }
 
