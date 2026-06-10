@@ -39,6 +39,7 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
@@ -78,6 +79,50 @@ public final class FeedbackQuestionsLogic {
         this.usersLogic = usersLogic;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
         this.instructorPermissionsLogic = instructorPermissionsLogic;
+    }
+
+    /**
+     * Creates a feedback question from a create request.
+     *
+     * @return the created feedback question
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     * @throws InvalidParametersException if the question is invalid
+     */
+    public FeedbackQuestion createFeedbackQuestion(UUID feedbackSessionId, FeedbackQuestionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session not found");
+        }
+
+        FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
+                createRequest.getQuestionNumber(),
+                createRequest.getQuestionDescription(),
+                createRequest.getGiverType(),
+                createRequest.getRecipientType(),
+                createRequest.getNumberOfEntitiesToGiveFeedbackTo(),
+                createRequest.getShowResponsesTo(),
+                createRequest.getShowGiverNameTo(),
+                createRequest.getShowRecipientNameTo(),
+                createRequest.getQuestionDetails()
+        );
+        feedbackSession.addFeedbackQuestion(feedbackQuestion);
+
+        String err = feedbackQuestion.getQuestionDetailsCopy().validateGiverRecipientVisibility(feedbackQuestion);
+        if (!err.isEmpty()) {
+            throw new InvalidParametersException(err);
+        }
+        List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetailsCopy().validateQuestionDetails();
+        if (!questionDetailsErrors.isEmpty()) {
+            throw new InvalidParametersException(questionDetailsErrors.toString());
+        }
+
+        validateFeedbackQuestion(feedbackQuestion);
+        FeedbackQuestion createdQuestion = fqDb.persistFeedbackQuestion(feedbackQuestion);
+        List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackSession);
+        questionsBefore.remove(createdQuestion);
+        adjustQuestionNumbers(questionsBefore.size() + 1, createdQuestion.getQuestionNumber(), questionsBefore);
+        return createdQuestion;
     }
 
     /**

@@ -69,6 +69,7 @@ import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.CourseCreateRequest;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.FeedbackSessionCreateRequest;
@@ -618,19 +619,13 @@ public class Logic {
     }
 
     /**
-     * Creates a new feedback question.
+     * Creates a feedback question from a create request, validating giver/recipient visibility and question details.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return the created question
-     * @throws InvalidParametersException   if the question is invalid
-     * @throws EntityAlreadyExistsException if the question already exists
+     * @return the created feedback question
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+    public FeedbackQuestion createFeedbackQuestion(UUID feedbackSessionId, FeedbackQuestionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackSessionId, createRequest);
     }
 
     /**
