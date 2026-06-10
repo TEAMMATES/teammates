@@ -2,11 +2,10 @@
   class="searchable-combobox position-relative w-100"
   ngCombobox
   filterMode="manual"
-  [disabled]="disabled"
+  [disabled]="isDisabled()"
   (focusout)="onComboboxFocusOut($event)"
 >
   <input
-    #comboboxInput
     ngComboboxInput
     class="form-control w-100 searchable-combobox-input"
     type="text"
@@ -16,11 +15,11 @@
     (valueChange)="onInputValueChange($event)"
     (click)="onInputClick()"
     [placeholder]="placeholder"
-    [disabled]="disabled"
+    [disabled]="isDisabled()"
     [attr.aria-label]="ariaLabel || null"
   />
 
-  @if (clearable && hasSelectedDisplayValue() && !disabled) {
+  @if (clearable && hasSelectedDisplayValue() && !isDisabled()) {
     <button
       class="searchable-combobox-toggle"
       type="button"
@@ -36,7 +35,7 @@
       type="button"
       tabindex="-1"
       aria-hidden="true"
-      [disabled]="disabled"
+      [disabled]="isDisabled()"
       (click)="onInputClick()"
     >
       <span class="fa fa-chevron-down"></span>
@@ -51,7 +50,7 @@
         data-testid="searchable-combobox-options"
         [values]="selectedValues()"
         (valuesChange)="onValuesChange($event)"
-        [disabled]="disabled"
+        [disabled]="isDisabled()"
         focusMode="activedescendant"
         selectionMode="explicit"
       >
@@ -62,11 +61,7 @@
             data-testid="searchable-combobox-option"
             [value]="option.value"
             [label]="option.label"
-            [disabled]="option.disabled"
-            [ngClass]="{
-              'searchable-combobox-option-selected': isSelected(option),
-              'text-secondary pe-none': option.disabled,
-            }"
+            [ngClass]="{ 'searchable-combobox-option-selected': isSelected(option) }"
           >
             {{ option.label }}
           </div>

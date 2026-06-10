@@ -2,13 +2,13 @@ import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   Output,
   ViewChild,
   computed,
+  input,
   signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -22,13 +22,40 @@ export interface ComboboxOption<TValue, TData = unknown> {
   value: TValue;
   label: string;
   keywords?: string[];
-  disabled?: boolean;
   data?: TData;
 }
 
 /**
  * A Bootstrap-compatible single-select combobox with type-to-filter support.
- */
+ *
+ * Integrates with Angular forms via `ngModel` or `formControl`. The generic
+ * `TValue` is the type of each option's value; `TData` is optional arbitrary
+ * data attached to an option and surfaced through `optionSelected`.
+ *
+ * @example
+ * <tm-searchable-combobox
+ *   inputId="student-select"
+ *   ariaLabel="Select student"
+ *   placeholder="Search..."
+ *   [options]="studentOptions"
+ *   [clearable]="true"
+ *   clearValue=""
+ *   [(ngModel)]="selectedStudentId"
+ *   (optionSelected)="onStudentSelected($event)"
+ * />
+ *
+ * Each entry in `options` must implement `ComboboxOption<TValue, TData>`:
+ *   - `value`    — the form value emitted on selection
+ *   - `label`    — display text shown in the input and dropdown
+ *   - `keywords` — (optional) extra searchable strings (e.g. email)
+ *   - `data`     — (optional) arbitrary payload forwarded via `optionSelected`
+ *
+ * Set `clearable` to show a clear button. `clearValue` controls the value
+ * emitted when clearing; defaults to `null`, use `""` for string-typed forms.
+ *
+ * Supply `compareWith` when value equality cannot use `Object.is` (e.g. when
+ * comparing objects by id rather than reference).
+ * */
 @Component({
   selector: 'tm-searchable-combobox',
   templateUrl: './searchable-combobox.component.html',
@@ -56,16 +83,13 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   @Input()
   placeholder = '';
 
-  @Input()
-  set disabled(value: boolean) {
-    this._disabled.set(value);
-  }
-  get disabled(): boolean {
-    return this._disabled();
-  }
+  readonly disabled = input(false);
 
   @Input()
   clearable = false;
+
+  @Input()
+  clearValue: TValue | null = null;
 
   @Input()
   compareWith: (firstValue: TValue | null, secondValue: TValue | null) => boolean = Object.is;
@@ -76,21 +100,19 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   @ViewChild(Combobox)
   private readonly combobox?: Combobox<TValue>;
 
-  @ViewChild('comboboxInput')
-  private readonly comboboxInput?: ElementRef<HTMLInputElement>;
-
-  private readonly _disabled = signal(false);
+  private readonly _formDisabled = signal(false);
   private readonly selectedValue = signal<TValue | null>(null);
   private readonly isShowingAllOptions = signal(false);
   private onChange: (value: TValue | null) => void = () => {};
   private onTouched: () => void = () => {};
 
+  protected readonly isDisabled = computed(() => this.disabled() || this._formDisabled());
   protected readonly inputValue = signal('');
   protected readonly selectedValues = computed(() => {
     const value = this.selectedValue();
     return this.hasMatchingOption(value) ? [value] : [];
   });
-  protected readonly filteredOptions = computed(() => {
+  readonly filteredOptions = computed(() => {
     if (this.isShowingAllOptions()) {
       return this.options;
     }
@@ -123,37 +145,37 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
   }
 
   setDisabledState(disabled: boolean): void {
-    this._disabled.set(disabled);
+    this._formDisabled.set(disabled);
   }
 
-  protected onInputValueChange(value: string): void {
+  onInputValueChange(value: string): void {
     this.isShowingAllOptions.set(false);
     this.inputValue.set(value);
   }
 
-  protected onInputClick(): void {
-    if (this.disabled) {
+  onInputClick(): void {
+    if (this.isDisabled()) {
       return;
     }
     this.isShowingAllOptions.set(true);
     this.combobox?.open();
   }
 
-  protected clearSelection(event: MouseEvent): void {
+  clearSelection(event: MouseEvent): void {
     event.stopPropagation();
-    if (this.disabled) {
+    if (this.isDisabled()) {
       return;
     }
 
     this.combobox?.close();
     this.isShowingAllOptions.set(false);
-    this.selectedValue.set(null);
+    this.selectedValue.set(this.clearValue);
     this.inputValue.set(this.getSelectedLabel());
-    this.onChange(null);
+    this.onChange(this.clearValue);
     this.onTouched();
   }
 
-  protected onValuesChange(values: TValue[]): void {
+  onValuesChange(values: TValue[]): void {
     if (values.length === 0) {
       return;
     }
@@ -171,7 +193,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
     }
   }
 
-  protected onComboboxFocusOut(event: FocusEvent): void {
+  onComboboxFocusOut(event: FocusEvent): void {
     const relatedTarget: Node | null = event.relatedTarget as Node | null;
     const currentTarget: Node = event.currentTarget as Node;
     if (relatedTarget && currentTarget.contains(relatedTarget)) {
@@ -183,11 +205,7 @@ export class SearchableComboboxComponent<TValue, TData = unknown> implements Con
     this.onTouched();
   }
 
-  focus(): void {
-    this.comboboxInput?.nativeElement.focus();
-  }
-
-  protected isSelected(option: ComboboxOption<TValue, TData>): boolean {
+  isSelected(option: ComboboxOption<TValue, TData>): boolean {
     const selectedValue: TValue | null = this.selectedValue();
     return selectedValue !== null && this.compareWith(option.value, selectedValue);
   }
