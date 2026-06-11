@@ -975,6 +975,7 @@ describe('SessionSubmissionPageComponent', () => {
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
     ]);
+    expect(mockModalRef.componentInstance.submittedQuestions).toEqual([testQuestionSubmissionForm1.questionNumber]);
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
     expect(logSpy).toHaveBeenCalledTimes(1);
@@ -1084,6 +1085,7 @@ describe('SessionSubmissionPageComponent', () => {
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
     ]);
+    expect(mockModalRef.componentInstance.submittedQuestions).toEqual([testQuestionSubmissionForm1.questionNumber]);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });

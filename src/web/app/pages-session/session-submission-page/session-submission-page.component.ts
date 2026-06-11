@@ -701,6 +701,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const questionResponses: Record<string, FeedbackResponseRequest[]> = {};
+    const submittedQuestions: Set<number> = new Set();
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       const responses: FeedbackResponseRequest[] = [];
@@ -742,6 +743,9 @@ export class SessionSubmissionPageComponent implements OnInit {
       const isQuestionFullyAnswered = responses.length > 0;
       if (!hasValidationErrorInQuestion) {
         questionResponses[questionSubmissionFormModel.feedbackQuestionId] = responses;
+        if (isQuestionFullyAnswered) {
+          submittedQuestions.add(questionSubmissionFormModel.questionNumber);
+        }
       }
 
       if (!isQuestionFullyAnswered) {
@@ -753,7 +757,12 @@ export class SessionSubmissionPageComponent implements OnInit {
       if (questionSubmissionForms.length === 1 && Object.keys(failToSaveQuestions).length === 0) {
         this.showSubmissionSuccessToast(questionSubmissionForms);
       } else {
-        this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+        this.openSavingCompleteModal(
+          questionSubmissionForms,
+          submittedQuestions,
+          notYetAnsweredQuestions,
+          failToSaveQuestions,
+        );
       }
       return;
     }
@@ -761,6 +770,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.submitFeedbackResponses(
       questionResponses,
       questionSubmissionForms,
+      submittedQuestions,
       notYetAnsweredQuestions,
       failToSaveQuestions,
     );
@@ -769,6 +779,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   private submitFeedbackResponses(
     questionResponses: Record<string, FeedbackResponseRequest[]>,
     questionSubmissionForms: QuestionSubmissionFormModel[],
+    submittedQuestions: Set<number>,
     notYetAnsweredQuestions: Set<number>,
     failToSaveQuestions: Record<number, string>,
   ) {
@@ -827,7 +838,12 @@ export class SessionSubmissionPageComponent implements OnInit {
           if (questionSubmissionForms.length === 1 && Object.keys(failToSaveQuestions).length === 0) {
             this.showSubmissionSuccessToast(questionSubmissionForms);
           } else {
-            this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+            this.openSavingCompleteModal(
+              questionSubmissionForms,
+              submittedQuestions,
+              notYetAnsweredQuestions,
+              failToSaveQuestions,
+            );
           }
           this.logStudentSubmission();
         },
@@ -849,11 +865,13 @@ export class SessionSubmissionPageComponent implements OnInit {
 
   private openSavingCompleteModal(
     questionSubmissionForms: QuestionSubmissionFormModel[],
+    submittedQuestions: Set<number>,
     notYetAnsweredQuestions: Set<number>,
     failToSaveQuestions: Record<number, string>,
   ): void {
     const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
     modalRef.componentInstance.questions = questionSubmissionForms;
+    modalRef.componentInstance.submittedQuestions = Array.from(submittedQuestions.values());
     modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
     modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
   }
