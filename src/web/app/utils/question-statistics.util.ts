@@ -130,9 +130,10 @@ export function calculateContributionQuestionStatistics(
   isStudent: boolean,
 ): ContributionQuestionStatistics {
   const stats: ContributionQuestionStatistics = {
-    emailToTeamName: {},
-    emailToName: {},
-    emailToDiff: {},
+    userIdToTeamName: {},
+    userIdToName: {},
+    userIdToEmail: {},
+    userIdToDiff: {},
     questionOverallStatistics: {
       results: {},
     },
@@ -160,29 +161,36 @@ export function calculateContributionQuestionStatistics(
     }
   } else {
     for (const response of responses) {
-      // the recipient email will always exist for contribution question when viewing by instructors
-      if (!response.recipientEmail) {
+      // the recipientId will always exist for contribution question when viewing by instructors
+      if (!response.recipientUserId) {
         continue;
       }
 
-      if (!stats.emailToTeamName[response.recipientEmail]) {
-        stats.emailToTeamName[response.recipientEmail] = response.recipientTeam;
+      if (!stats.userIdToTeamName[response.recipientUserId]) {
+        stats.userIdToTeamName[response.recipientUserId] = response.recipientTeam;
       }
-      if (!stats.emailToName[response.recipientEmail]) {
-        stats.emailToName[response.recipientEmail] = response.recipient;
+      if (!stats.userIdToName[response.recipientUserId]) {
+        stats.userIdToName[response.recipientUserId] = response.recipient;
+      }
+      if (response.recipientEmail && !stats.userIdToEmail[response.recipientUserId]) {
+        stats.userIdToEmail[response.recipientUserId] = response.recipientEmail;
       }
     }
 
     stats.questionOverallStatistics = statisticsObject;
 
-    for (const email of Object.keys(stats.emailToName)) {
-      const statisticsForEmail: ContributionStatisticsEntry = stats.questionOverallStatistics.results[email];
-      const { claimed }: { claimed: number } = statisticsForEmail;
-      const { perceived }: { perceived: number } = statisticsForEmail;
+    for (const userId of Object.keys(stats.userIdToName)) {
+      const statisticsForUser: ContributionStatisticsEntry | undefined =
+        stats.questionOverallStatistics.results[userId];
+      if (!statisticsForUser) {
+        continue;
+      }
+      const { claimed }: { claimed: number } = statisticsForUser;
+      const { perceived }: { perceived: number } = statisticsForUser;
       if (claimed < 0 || perceived < 0) {
-        stats.emailToDiff[email] = CONTRIBUTION_POINT_NOT_SUBMITTED;
+        stats.userIdToDiff[userId] = CONTRIBUTION_POINT_NOT_SUBMITTED;
       } else {
-        stats.emailToDiff[email] = perceived - claimed;
+        stats.userIdToDiff[userId] = perceived - claimed;
       }
     }
   }

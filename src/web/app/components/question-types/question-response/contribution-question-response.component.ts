@@ -7,7 +7,6 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { areEmailsEqual } from '../../teammates-common/email-utils';
 
 /**
  * Contribution question response.
@@ -21,8 +20,8 @@ import { areEmailsEqual } from '../../teammates-common/email-utils';
 export class ContributionQuestionResponseComponent implements OnInit {
   @Input() responseDetails: FeedbackContributionResponseDetails = DEFAULT_CONTRIBUTION_RESPONSE_DETAILS();
   @Input() statistics = '';
-  @Input() giverEmail = '';
-  @Input() recipientEmail = '';
+  @Input() giverUserId = '';
+  @Input() recipientUserId = '';
 
   answer = 100;
 
@@ -40,12 +39,15 @@ export class ContributionQuestionResponseComponent implements OnInit {
 
   ngOnInit(): void {
     this.answer = this.responseDetails.answer;
-    if (this.statistics) {
+    if (this.statistics && this.giverUserId && this.recipientUserId) {
       const statisticsObject: ContributionStatistics = JSON.parse(this.statistics);
-      if (areEmailsEqual(this.giverEmail, this.recipientEmail)) {
-        this.answer = statisticsObject.results[this.giverEmail].claimed;
-      } else {
-        this.answer = statisticsObject.results[this.giverEmail].claimedOthers[this.recipientEmail];
+      const giverStats = statisticsObject.results[this.giverUserId];
+      if (giverStats) {
+        if (this.giverUserId === this.recipientUserId) {
+          this.answer = giverStats.claimed;
+        } else if (giverStats.claimedOthers[this.recipientUserId] !== undefined) {
+          this.answer = giverStats.claimedOthers[this.recipientUserId];
+        }
       }
     }
   }

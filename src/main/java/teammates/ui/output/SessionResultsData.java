@@ -83,7 +83,7 @@ public class SessionResultsData implements ApiOutput {
 
             String questionStatistics = hasResponseButNotVisibleForPreview
                     ? ""
-                    : questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle);
+                    : questionDetails.getQuestionResultStatisticsJson(question, user.getId(), bundle);
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionStatistics,
                     hasResponseButNotVisibleForPreview,
@@ -185,11 +185,15 @@ public class SessionResultsData implements ApiOutput {
         return ResponseOutput.builder()
                 .withResponseId(response.getId().toString())
                 .withGiver(giverName)
+                .withGiverUserId(giver.getGiverUserId())
+                .withGiverTeamId(giver.getTeamId())
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
                 .withGiverSectionName(giver.getSectionName())
                 .withGiverSectionId(giver.getSectionId())
                 .withRecipient(recipientName)
+                .withRecipientUserId(recipient.getRecipientUserId())
+                .withRecipientTeamId(recipient.getTeamId())
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSectionName(recipient.getSectionName())
@@ -259,12 +263,16 @@ public class SessionResultsData implements ApiOutput {
                 .withIsMissingResponse(false)
                 .withResponseId(response.getId().toString())
                 .withGiver(giverName)
+                .withGiverUserId(responseGiver.getGiverUserId())
+                .withGiverTeamId(responseGiver.getTeamId())
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
                 .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
                 .withGiverSectionId(responseGiver.getSectionId())
                 .withRecipient(recipientName)
+                .withRecipientUserId(responseRecipient.getRecipientUserId())
+                .withRecipientTeamId(responseRecipient.getTeamId())
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
@@ -326,12 +334,16 @@ public class SessionResultsData implements ApiOutput {
                 .withIsMissingResponse(true)
                 .withResponseId(response.id().toString())
                 .withGiver(giverName)
+                .withGiverUserId(responseGiver.getGiverUserId())
+                .withGiverTeamId(responseGiver.getTeamId())
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
                 .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
                 .withGiverSectionId(responseGiver.getSectionId())
                 .withRecipient(recipientName)
+                .withRecipientUserId(responseRecipient.getRecipientUserId())
+                .withRecipientTeamId(responseRecipient.getTeamId())
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
@@ -456,6 +468,10 @@ public class SessionResultsData implements ApiOutput {
         private String giver;
         @Nullable
         private String userIdForModeration;
+        @Nullable
+        private String giverUserId;
+        @Nullable
+        private UUID giverTeamId;
         private String giverTeam;
         @Nullable
         private String giverEmail;
@@ -464,7 +480,11 @@ public class SessionResultsData implements ApiOutput {
         private String giverSection;
         private String recipient;
         @Nullable
+        private String recipientUserId;
+        @Nullable
         private UUID recipientSectionId;
+        @Nullable
+        private UUID recipientTeamId;
         private String recipientTeam;
         @Nullable
         private String recipientEmail;
@@ -500,6 +520,11 @@ public class SessionResultsData implements ApiOutput {
         }
 
         @Nullable
+        public String getGiverUserId() {
+            return giverUserId;
+        }
+
+        @Nullable
         public String getGiverEmail() {
             return giverEmail;
         }
@@ -511,6 +536,11 @@ public class SessionResultsData implements ApiOutput {
 
         public String getGiverTeam() {
             return giverTeam;
+        }
+
+        @Nullable
+        public UUID getGiverTeamId() {
+            return giverTeamId;
         }
 
         public String getGiverSection() {
@@ -525,8 +555,18 @@ public class SessionResultsData implements ApiOutput {
             return recipient;
         }
 
+        @Nullable
+        public String getRecipientUserId() {
+            return recipientUserId;
+        }
+
         public String getRecipientTeam() {
             return recipientTeam;
+        }
+
+        @Nullable
+        public UUID getRecipientTeamId() {
+            return recipientTeamId;
         }
 
         @Nullable
@@ -585,6 +625,16 @@ public class SessionResultsData implements ApiOutput {
                 return this;
             }
 
+            Builder withGiverUserId(@Nullable UUID giverUserId) {
+                responseOutput.giverUserId = giverUserId == null ? null : giverUserId.toString();
+                return this;
+            }
+
+            Builder withGiverTeamId(@Nullable UUID giverTeamId) {
+                responseOutput.giverTeamId = giverTeamId;
+                return this;
+            }
+
             Builder withGiverTeam(String giverTeam) {
                 responseOutput.giverTeam = giverTeam;
                 return this;
@@ -607,6 +657,16 @@ public class SessionResultsData implements ApiOutput {
 
             Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
+                return this;
+            }
+
+            Builder withRecipientUserId(@Nullable UUID recipientUserId) {
+                responseOutput.recipientUserId = recipientUserId == null ? null : recipientUserId.toString();
+                return this;
+            }
+
+            Builder withRecipientTeamId(@Nullable UUID recipientTeamId) {
+                responseOutput.recipientTeamId = recipientTeamId;
                 return this;
             }
 

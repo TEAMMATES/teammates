@@ -489,12 +489,16 @@ export interface ResponseOutput {
   responseId: string;
   giver: string;
   userIdForModeration?: string;
+  giverUserId?: string;
+  giverTeamId?: string;
   giverTeam: string;
   giverEmail?: string;
   giverSectionId?: string;
   giverSection: string;
   recipient: string;
+  recipientUserId?: string;
   recipientSectionId?: string;
+  recipientTeamId?: string;
   recipientTeam: string;
   recipientEmail?: string;
   recipientSection: string;

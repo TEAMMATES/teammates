@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.TeamEvalResult;
@@ -21,11 +20,9 @@ import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.User;
 
 /**
  * Contains specific structure and processing logic for contribution feedback questions.
@@ -77,107 +74,89 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
+            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
         List<FeedbackResponse> responses = bundle.getQuestionResponseMap().get(question);
+        boolean isStudent = currentUserId != null;
 
-        boolean isStudent = studentEmail != null;
-
-        // Build team-name based views from the roster's student list (the contribution computation
-        // and its output are keyed by email/team name).
-        Map<String, List<Student>> teamNameToMembers = new LinkedHashMap<>();
-        Map<String, String> emailToTeamName = new HashMap<>();
-        for (Student student : bundle.getRoster().getStudents()) {
-            teamNameToMembers.computeIfAbsent(student.getTeamName(), key -> new ArrayList<>()).add(student);
-            emailToTeamName.put(student.getEmail().toLowerCase(Locale.ROOT), student.getTeamName());
-        }
-
-        List<String> teamNames;
-        if (isStudent) {
-            teamNames = getTeamsWithAtLeastOneResponse(responses);
-        } else {
-            teamNames = new ArrayList<>(teamNameToMembers.keySet());
-        }
-
-        // Each team's member (email) list
-        Map<String, List<String>> teamMembersEmail = getTeamMembersEmail(teamNameToMembers, teamNames);
-
-        // Each team's responses
-        Map<String, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, teamNames);
-
-        // Get each team's submission array. -> int[teamSize][teamSize]
-        // Where int[0][1] refers points from student 0 to student 1
-        // Where student 0 is the 0th student in the list in teamMembersEmail
-        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(teamNames, teamMembersEmail, teamResponses);
-
-        // Each team's contribution question results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
+        Map<UUID, List<Student>> teamIdToMembers = getTeamIdToMembers(bundle);
+        List<UUID> teamIds = isStudent
+                ? getTeamsWithAtLeastOneResponse(responses)
+                : new ArrayList<>(teamIdToMembers.keySet());
+        Map<UUID, List<FeedbackResponse>> teamResponses = getTeamResponses(responses, teamIds);
+        Map<UUID, int[][]> teamSubmissionArray = getTeamSubmissionArray(teamIds, teamIdToMembers, teamResponses);
+        Map<UUID, TeamEvalResult> teamResults = getTeamResults(teamIds, teamSubmissionArray);
         ContributionStatistics output = new ContributionStatistics();
 
         if (isStudent) {
-            String currentUserTeam = emailToTeamName.get(studentEmail.toLowerCase(Locale.ROOT));
-            TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
-            if (currentUserTeamResults != null) {
-                List<String> teamEmails = teamMembersEmail.get(currentUserTeam);
-                int currentUserIndex = -1;
-                for (int i = 0; i < teamEmails.size(); i++) {
-                    if (SanitizationHelper.areEmailsEqual(teamEmails.get(i), studentEmail)) {
-                        currentUserIndex = i;
-                        break;
-                    }
-                }
-                if (currentUserIndex < 0) {
-                    return JsonUtils.toJson(output);
-                }
-                int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
-                int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
-
-                int claimed = 0;
-                int perceived = 0;
-                Map<String, Integer> claimedOthers = new HashMap<>();
-                List<Integer> perceivedOthers = new ArrayList<>();
-
-                for (int i = 0; i < claimedNumbers.length; i++) {
-                    if (i == currentUserIndex) {
-                        claimed = claimedNumbers[i];
-                    } else {
-                        claimedOthers.put(teamEmails.get(i), claimedNumbers[i]);
-                    }
-                }
-
-                for (int i = 0; i < perceivedNumbers.length; i++) {
-                    if (i == currentUserIndex) {
-                        perceived = perceivedNumbers[i];
-                    } else {
-                        perceivedOthers.add(perceivedNumbers[i]);
-                    }
-                }
-                perceivedOthers.sort(Comparator.reverseOrder());
-
-                output.results.put(studentEmail, new ContributionStatisticsEntry(claimed, perceived,
-                        claimedOthers,
-                        perceivedOthers.stream().mapToInt(i -> i).toArray()));
+            Student currentStudent = getStudentByUserId(bundle, currentUserId);
+            if (currentStudent == null) {
+                return JsonUtils.toJson(output);
             }
-        } else {
-            Map<String, int[]> studentResults = getStudentResults(teamMembersEmail, teamResults);
 
-            for (Map.Entry<String, int[]> entry : studentResults.entrySet()) {
+            UUID currentTeamId = currentStudent.getTeamId();
+            TeamEvalResult currentUserTeamResults = teamResults.get(currentTeamId);
+            List<Student> teamMembers = teamIdToMembers.get(currentTeamId);
+            int currentUserIndex = teamMembers == null ? -1 : indexOfStudent(teamMembers, currentUserId);
+            if (currentUserTeamResults == null || currentUserIndex < 0) {
+                return JsonUtils.toJson(output);
+            }
+
+            int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
+            int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
+
+            int claimed = 0;
+            int perceived = 0;
+            Map<String, Integer> claimedOthers = new LinkedHashMap<>();
+            List<Integer> perceivedOthers = new ArrayList<>();
+
+            for (int i = 0; i < claimedNumbers.length; i++) {
+                if (i == currentUserIndex) {
+                    claimed = claimedNumbers[i];
+                } else {
+                    claimedOthers.put(teamMembers.get(i).getId().toString(), claimedNumbers[i]);
+                }
+            }
+
+            for (int i = 0; i < perceivedNumbers.length; i++) {
+                if (i == currentUserIndex) {
+                    perceived = perceivedNumbers[i];
+                } else {
+                    perceivedOthers.add(perceivedNumbers[i]);
+                }
+            }
+            perceivedOthers.sort(Comparator.reverseOrder());
+
+            output.results.put(currentUserId.toString(), new ContributionStatisticsEntry(
+                    claimed, perceived, claimedOthers, perceivedOthers.stream().mapToInt(i -> i).toArray()));
+        } else {
+            Map<UUID, int[]> studentResults = getStudentResults(teamIdToMembers, teamResults);
+
+            for (Map.Entry<UUID, int[]> entry : studentResults.entrySet()) {
                 int[] summary = entry.getValue();
-                String email = entry.getKey();
-                String team = emailToTeamName.get(email.toLowerCase(Locale.ROOT));
-                List<String> teamEmails = teamMembersEmail.get(team);
-                TeamEvalResult teamResult = teamResults.get(team);
-                int studentIndex = teamEmails.indexOf(email);
-                Map<String, Integer> claimedOthers = new HashMap<>();
+                UUID studentId = entry.getKey();
+                Student student = getStudentByUserId(bundle, studentId);
+                if (student == null) {
+                    continue;
+                }
+                List<Student> teamMembers = teamIdToMembers.get(student.getTeamId());
+                TeamEvalResult teamResult = teamResults.get(student.getTeamId());
+                int studentIndex = teamMembers == null ? -1 : indexOfStudent(teamMembers, studentId);
+                if (teamResult == null || studentIndex < 0) {
+                    continue;
+                }
+
+                Map<String, Integer> claimedOthers = new LinkedHashMap<>();
                 List<Integer> perceivedOthers = new ArrayList<>();
                 for (int i = 0; i < teamResult.normalizedPeerContributionRatio.length; i++) {
                     if (i != studentIndex) {
-                        claimedOthers.put(teamEmails.get(i), teamResult.normalizedPeerContributionRatio[studentIndex][i]);
+                        claimedOthers.put(teamMembers.get(i).getId().toString(),
+                                teamResult.normalizedPeerContributionRatio[studentIndex][i]);
                         perceivedOthers.add(teamResult.normalizedPeerContributionRatio[i][studentIndex]);
                     }
                 }
                 perceivedOthers.sort(Comparator.reverseOrder());
 
-                output.results.put(email, new ContributionStatisticsEntry(summary[SUMMARY_INDEX_CLAIMED],
+                output.results.put(studentId.toString(), new ContributionStatisticsEntry(summary[SUMMARY_INDEX_CLAIMED],
                         summary[SUMMARY_INDEX_PERCEIVED],
                         claimedOthers, perceivedOthers.stream().mapToInt(i -> i).toArray()));
             }
@@ -186,101 +165,112 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return JsonUtils.toJson(output);
     }
 
-    private Map<String, int[]> getStudentResults(
-            Map<String, List<String>> teamMembersEmail,
-            Map<String, TeamEvalResult> teamResults) {
-        Map<String, int[]> studentResults = new LinkedHashMap<>();
-        teamResults.forEach((key, teamResult) -> {
-            List<String> teamEmails = teamMembersEmail.get(key);
-            for (int i = 0; i < teamEmails.size(); i++) {
-                String studentEmail = teamEmails.get(i);
+    private Map<UUID, List<Student>> getTeamIdToMembers(SessionResultsBundle bundle) {
+        Map<UUID, List<Student>> teamIdToMembers = new LinkedHashMap<>();
+        for (Student student : bundle.getRoster().getStudents()) {
+            teamIdToMembers.computeIfAbsent(student.getTeamId(), key -> new ArrayList<>()).add(student);
+        }
+        return teamIdToMembers;
+    }
+
+    private Student getStudentByUserId(SessionResultsBundle bundle, UUID studentId) {
+        return bundle.getRoster().getStudents().stream()
+                .filter(student -> Objects.equals(student.getId(), studentId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private int indexOfStudent(List<Student> students, UUID studentId) {
+        for (int i = 0; i < students.size(); i++) {
+            if (Objects.equals(students.get(i).getId(), studentId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private Map<UUID, int[]> getStudentResults(
+            Map<UUID, List<Student>> teamIdToMembers,
+            Map<UUID, TeamEvalResult> teamResults) {
+        Map<UUID, int[]> studentResults = new LinkedHashMap<>();
+        teamResults.forEach((teamId, teamResult) -> {
+            List<Student> teamMembers = teamIdToMembers.get(teamId);
+            for (int i = 0; i < teamMembers.size(); i++) {
                 int[] summary = new int[2];
                 summary[SUMMARY_INDEX_CLAIMED] = teamResult.normalizedClaimed[i][i];
                 summary[SUMMARY_INDEX_PERCEIVED] = teamResult.normalizedAveragePerceived[i];
 
-                studentResults.put(studentEmail, summary);
+                studentResults.put(teamMembers.get(i).getId(), summary);
             }
         });
         return studentResults;
     }
 
-    private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
-            Map<String, int[][]> teamSubmissionArray) {
-        Map<String, TeamEvalResult> teamResults = new LinkedHashMap<>();
-        for (String team : teamNames) {
-            TeamEvalResult teamEvalResult = new TeamEvalResult(teamSubmissionArray.get(team));
-            teamResults.put(team, teamEvalResult);
+    private Map<UUID, TeamEvalResult> getTeamResults(List<UUID> teamIds,
+            Map<UUID, int[][]> teamSubmissionArray) {
+        Map<UUID, TeamEvalResult> teamResults = new LinkedHashMap<>();
+        for (UUID teamId : teamIds) {
+            TeamEvalResult teamEvalResult = new TeamEvalResult(teamSubmissionArray.get(teamId));
+            teamResults.put(teamId, teamEvalResult);
         }
         return teamResults;
     }
 
-    private Map<String, int[][]> getTeamSubmissionArray(List<String> teamNames,
-                                                        Map<String, List<String>> teamMembersEmail,
-                                                        Map<String, List<FeedbackResponse>> teamResponses) {
-        Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<>();
-        for (String team : teamNames) {
-            int teamSize = teamMembersEmail.get(team).size();
-            teamSubmissionArray.put(team, new int[teamSize][teamSize]);
+    private Map<UUID, int[][]> getTeamSubmissionArray(List<UUID> teamIds,
+                                                      Map<UUID, List<Student>> teamIdToMembers,
+                                                      Map<UUID, List<FeedbackResponse>> teamResponses) {
+        Map<UUID, int[][]> teamSubmissionArray = new LinkedHashMap<>();
+        for (UUID teamId : teamIds) {
+            List<Student> teamMembers = teamIdToMembers.getOrDefault(teamId, List.of());
+            int teamSize = teamMembers.size();
+            teamSubmissionArray.put(teamId, new int[teamSize][teamSize]);
             //Initialize all as not submitted.
             for (int i = 0; i < teamSize; i++) {
                 for (int j = 0; j < teamSize; j++) {
-                    teamSubmissionArray.get(team)[i][j] = Const.POINTS_NOT_SUBMITTED;
+                    teamSubmissionArray.get(teamId)[i][j] = Const.POINTS_NOT_SUBMITTED;
                 }
             }
             //Fill in submitted points
-            List<FeedbackResponse> teamResponseList = teamResponses.get(team);
-            List<String> memberEmailList = teamMembersEmail.get(team);
+            List<FeedbackResponse> teamResponseList = teamResponses.getOrDefault(teamId, List.of());
             for (FeedbackResponse response : teamResponseList) {
-                User giverUser = response.getGiver().getGiverUser();
-                User recipientUser = response.getRecipient().getRecipientUser();
-                if (giverUser == null || recipientUser == null) {
+                UUID giverUserId = response.getGiver().getGiverUserId();
+                UUID recipientUserId = response.getRecipient().getRecipientUserId();
+                if (giverUserId == null || recipientUserId == null) {
                     continue;
                 }
-                int giverIndx = memberEmailList.indexOf(giverUser.getEmail());
-                int recipientIndx = memberEmailList.indexOf(recipientUser.getEmail());
+                int giverIndx = indexOfStudent(teamMembers, giverUserId);
+                int recipientIndx = indexOfStudent(teamMembers, recipientUserId);
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
                 int points = ((FeedbackContributionResponseDetails) response.getFeedbackResponseDetailsCopy()).getAnswer();
-                teamSubmissionArray.get(team)[giverIndx][recipientIndx] = points;
+                teamSubmissionArray.get(teamId)[giverIndx][recipientIndx] = points;
             }
         }
         return teamSubmissionArray;
     }
 
-    private Map<String, List<FeedbackResponse>> getTeamResponses(
-            List<FeedbackResponse> responses, List<String> teamNames) {
-        Map<String, List<FeedbackResponse>> teamResponses = new LinkedHashMap<>();
-        for (String teamName : teamNames) {
-            teamResponses.put(teamName, new ArrayList<>());
+    private Map<UUID, List<FeedbackResponse>> getTeamResponses(
+            List<FeedbackResponse> responses, List<UUID> teamIds) {
+        Map<UUID, List<FeedbackResponse>> teamResponses = new LinkedHashMap<>();
+        for (UUID teamId : teamIds) {
+            teamResponses.put(teamId, new ArrayList<>());
         }
         for (FeedbackResponse response : responses) {
-            String team = response.getGiver().getTeamName();
-            if (teamResponses.containsKey(team)) {
-                teamResponses.get(team).add(response);
+            UUID teamId = response.getGiver().getTeamId();
+            if (teamResponses.containsKey(teamId)) {
+                teamResponses.get(teamId).add(response);
             }
         }
         return teamResponses;
     }
 
-    private Map<String, List<String>> getTeamMembersEmail(
-            Map<String, List<Student>> teamNameToMembers, List<String> teamNames) {
-        Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
-        for (String teamName : teamNames) {
-            List<String> memberEmails = teamNameToMembers.getOrDefault(teamName, List.of())
-                    .stream().map(Student::getEmail)
-                    .collect(Collectors.toList());
-            teamMembersEmail.put(teamName, memberEmails);
-        }
-        return teamMembersEmail;
-    }
-
-    private List<String> getTeamsWithAtLeastOneResponse(List<FeedbackResponse> responses) {
-        Set<String> teamNames = new HashSet<>();
+    private List<UUID> getTeamsWithAtLeastOneResponse(List<FeedbackResponse> responses) {
+        Set<UUID> teamIds = new HashSet<>();
         for (FeedbackResponse response : responses) {
-            teamNames.add(response.getGiver().getTeamName());
+            teamIds.add(response.getGiver().getTeamId());
         }
-        return new ArrayList<>(teamNames);
+        return new ArrayList<>(teamIds);
     }
 
     @Override
