@@ -29,8 +29,8 @@ export class AdminAccountsPageComponent implements OnInit {
   private navigationService = inject(NavigationService);
   private statusMessageService = inject(StatusMessageService);
   private accountService = inject(AccountService);
-  private linkService = inject(LinkService);
   private simpleModalService = inject(SimpleModalService);
+  private linkService = inject(LinkService);
 
   accountInfo: Account = {
     accountId: '',
@@ -75,15 +75,28 @@ export class AdminAccountsPageComponent implements OnInit {
    * Deletes the entire account.
    */
   deleteAccount(): void {
-    const accountId: string = this.accountInfo.accountId;
-    this.accountService.deleteAccount(accountId).subscribe({
-      next: () => {
-        this.navigationService.navigateWithSuccessMessage('/web/admin/search', `Account is successfully deleted.`);
+    const modalContent = `This will <strong>delete the account</strong> and unlink all student and instructor profiles.
+      It will <strong>not</strong> delete the students or instructors.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+      'Delete account?',
+      SimpleModalType.DANGER,
+      modalContent,
+    );
+
+    modalRef.result.then(
+      () => {
+        const accountId: string = this.accountInfo.accountId;
+        this.accountService.deleteAccount(accountId).subscribe({
+          next: () => {
+            this.navigationService.navigateWithSuccessMessage('/web/admin/search', `Account is successfully deleted.`);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
       },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+      () => {},
+    );
   }
 
   /**

@@ -304,19 +304,12 @@ public class Logic {
     }
 
     /**
-     * Deletes account and all users by googleId.
+     * Deletes account associated with the {@code accountId}.
      *
-     * <ul>
-     * <li>Fails silently if no such account.</li>
-     * </ul>
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * All parameters are non-null.
+     * <p>Fails silently if the account doesn't exist.</p>
      */
-    public void deleteAccountCascade(String googleId) {
-        accountsLogic.deleteAccountCascade(googleId);
+    public void deleteAccount(UUID accountId) {
+        accountsLogic.deleteAccount(accountId);
     }
 
     /**

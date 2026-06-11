@@ -8,16 +8,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.Provider;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.User;
 import teammates.test.BaseTestCase;
 
 /**
@@ -29,46 +25,21 @@ public class AccountsLogicTest extends BaseTestCase {
 
     private AccountsDb accountsDb;
 
-    private UsersLogic usersLogic;
-
     @BeforeMethod
     public void setUpMethod() {
         accountsDb = mock(AccountsDb.class);
-        usersLogic = mock(UsersLogic.class);
+        UsersLogic usersLogic = mock(UsersLogic.class);
         accountsLogic.initLogicDependencies(accountsDb, usersLogic);
     }
 
     @Test
     public void testDeleteAccount_accountExists_success() {
         Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
 
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
+        when(accountsLogic.getAccount(account.getId())).thenReturn(account);
 
-        accountsLogic.deleteAccount(googleId);
+        accountsLogic.deleteAccount(account.getId());
 
-        verify(accountsDb, times(1)).removeAccount(account);
-    }
-
-    @Test
-    public void testDeleteAccountCascade_googleIdExists_success() {
-        Account account = getTypicalAccount();
-        String googleId = account.getGoogleId();
-        List<User> users = new ArrayList<>();
-
-        for (int i = 0; i < 2; ++i) {
-            users.add(getTypicalInstructor());
-            users.add(getTypicalStudent());
-        }
-
-        when(usersLogic.getAllUsersByGoogleId(googleId)).thenReturn(users);
-        when(accountsLogic.getAccountForGoogleId(googleId)).thenReturn(account);
-
-        accountsLogic.deleteAccountCascade(googleId);
-
-        for (User user : users) {
-            verify(usersLogic, times(1)).deleteUser(user);
-        }
         verify(accountsDb, times(1)).removeAccount(account);
     }
 
