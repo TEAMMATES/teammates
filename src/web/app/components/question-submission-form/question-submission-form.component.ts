@@ -121,7 +121,6 @@ export class QuestionSubmissionFormComponent {
   QuestionRecipientType!: typeof QuestionRecipientType;
   CommentRowMode!: typeof CommentRowMode;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
-  isMCQDropDownEnabled = false;
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
   readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
@@ -535,13 +534,6 @@ export class QuestionSubmissionFormComponent {
         keywords: [recipient.recipientName, recipient.recipientSection ?? '', recipient.recipientTeam ?? ''],
         data: recipient,
       }));
-  }
-
-  /**
-   * Triggers adding a col-12 if MCQ Dropdown is enabled.
-   */
-  refreshCssForDropdownMCQ(add: boolean): void {
-    this.isMCQDropDownEnabled = add;
   }
 
   /**
