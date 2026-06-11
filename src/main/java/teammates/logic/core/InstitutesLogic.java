@@ -57,7 +57,7 @@ public final class InstitutesLogic {
 
     /**
      * Deletes the institute with the given {@code id}.
-     * 
+     *
      * <p>Fails silently if the institute does not exist.
      */
     public void deleteInstitute(UUID id) {
@@ -65,7 +65,7 @@ public final class InstitutesLogic {
         if (institute == null) {
             return;
         }
-        
+
         institutesDb.removeInstitute(institute);
     }
 }
