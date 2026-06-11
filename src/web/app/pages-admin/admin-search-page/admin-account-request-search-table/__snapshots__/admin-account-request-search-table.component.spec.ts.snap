@@ -110,7 +110,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               institute
             </td>
             <td>
-              SG
+              Singapore
             </td>
             <td
               id="timestamp-box"
@@ -264,7 +264,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               institute
             </td>
             <td>
-              SG
+              Singapore
             </td>
             <td
               id="timestamp-box"
@@ -506,7 +506,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               institute
             </td>
             <td>
-              SG
+              Singapore
             </td>
             <td
               id="timestamp-box"
@@ -662,7 +662,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               institute
             </td>
             <td>
-              SG
+              Singapore
             </td>
             <td
               id="timestamp-box"
@@ -906,7 +906,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
               institute
             </td>
             <td>
-              SG
+              Singapore
             </td>
             <td
               id="timestamp-box"

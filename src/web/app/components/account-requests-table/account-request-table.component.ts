@@ -12,6 +12,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { CountryNamePipe } from '../../pipes/country-name.pipe';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
@@ -22,7 +23,7 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
   selector: 'tm-account-request-table',
   templateUrl: './account-request-table.component.html',
   styleUrls: ['./account-request-table.component.scss'],
-  imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
+  imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, CountryNamePipe],
 })
 export class AccountRequestTableComponent {
   private readonly statusMessageService = inject(StatusMessageService);

@@ -9,6 +9,7 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
+import { CountryNamePipe } from '../../../pipes/country-name.pipe';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
 import { EditRequestModalComponentResult } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
@@ -32,6 +33,7 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
     NgbDropdownToggle,
     NgbDropdownMenu,
     SearchTermsHighlighterPipe,
+    CountryNamePipe,
   ],
 })
 export class AdminAccountRequestSearchTableComponent implements OnChanges {
