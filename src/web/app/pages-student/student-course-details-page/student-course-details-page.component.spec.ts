@@ -41,6 +41,8 @@ const course: Course = {
   courseId: '1.1.c-demo2',
   courseName: 'Sample Course 101',
   institute: 'Test Institute',
+  country: 'SG',
+  instituteId: 'test-institute-id',
   creationTimestamp: 1552472130000,
   deletionTimestamp: 0,
   timeZone: 'UTC',

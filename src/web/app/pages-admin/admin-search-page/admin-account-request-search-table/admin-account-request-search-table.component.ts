@@ -83,6 +83,7 @@ export class AdminAccountRequestSearchTableComponent implements OnChanges {
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
     modalRef.componentInstance.accountRequestInstitution = accountRequest.institute;
+    modalRef.componentInstance.accountRequestCountry = accountRequest.country;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
     modalRef.result.then(
@@ -92,6 +93,7 @@ export class AdminAccountRequestSearchTableComponent implements OnChanges {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
+            country: res.accountRequestCountry,
             status: accountRequest.status,
             comments: res.accountRequestComment,
           })
@@ -101,6 +103,7 @@ export class AdminAccountRequestSearchTableComponent implements OnChanges {
               accountRequest.name = resp.name;
               accountRequest.email = resp.email;
               accountRequest.institute = resp.institute;
+              accountRequest.country = resp.country;
               this.statusMessageService.showSuccessToast('Account request was successfully updated.');
             },
             error: (resp: ErrorMessageOutput) => {

@@ -79,7 +79,7 @@ describe('CourseService', () => {
       courseId: 'test-id',
       courseName: 'test-name',
       timeZone: 'test-zone',
-      institute: 'test-institute',
+      instituteId: 'test-institute',
     };
     service.createCourse(request);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.COURSE, {}, request);

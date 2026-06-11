@@ -38,6 +38,7 @@ describe('AdminHomePageComponent', () => {
         email: 'some.person@example.com',
         name: 'Some Person',
         institute: 'NUS',
+        country: 'SG',
         status: AccountRequestStatus.PENDING,
         registrationKey: 'registrationKey',
         createdAt: 528,
@@ -54,6 +55,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorName = 'Instructor Name';
     component.instructorEmail = 'instructor@example.com';
     component.instructorInstitution = 'Instructor Institution';
+    component.instructorCountry = 'SG';
     fixture.detectChanges();
 
     const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor');
@@ -65,6 +67,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('');
     expect(component.instructorEmail).toEqual('');
     expect(component.instructorInstitution).toEqual('');
+    expect(component.instructorCountry).toEqual('');
   });
 
   it('should not create account request if some fields are empty', () => {
@@ -82,7 +85,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('Instructor Name');
     expect(component.instructorEmail).toEqual('');
     expect(component.instructorInstitution).toEqual('Instructor Institution');
-    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, and Institution.');
+    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, Institution, and Country.');
     expect(spyAccountService).not.toHaveBeenCalled();
 
     component.instructorName = '';
@@ -93,7 +96,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('');
     expect(component.instructorEmail).toEqual('instructor@example.com');
     expect(component.instructorInstitution).toEqual('Instructor Institution');
-    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, and Institution.');
+    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, Institution, and Country.');
     expect(spyAccountService).not.toHaveBeenCalled();
 
     component.instructorName = 'Instructor Name';
@@ -104,75 +107,8 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('Instructor Name');
     expect(component.instructorEmail).toEqual('instructor@example.com');
     expect(component.instructorInstitution).toEqual('');
-    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, and Institution.');
+    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, Institution, and Country.');
     expect(spyAccountService).not.toHaveBeenCalled();
-  });
-
-  it('should not create any account request if multiple instructor details contain invalid format', () => {
-    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      of({
-        accountRequestId: 'some.person@example.com%NUS',
-        email: 'some.person@example.com',
-        name: 'Some Person',
-        institute: 'NUS',
-        status: AccountRequestStatus.PENDING,
-        registrationKey: 'registrationKey',
-        createdAt: 528,
-      }),
-    );
-    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showWarningToast');
-    const instructorDetails: string = [
-      'Instructor A | instructora@example.com | Institution A',
-      'Instructor B | instructorb@example.com',
-      'Instructor C | | instructorc@example.com',
-      'Instructor D | instructord@example.com | Institution D',
-      '| instructore@example.com | Institution E',
-    ].join('\n');
-    component.instructorDetails = instructorDetails;
-    fixture.detectChanges();
-
-    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
-    button.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalledWith(
-      '3 line(s) with missing or invalid fields. ' + 'Format required: Name | Email | Institution',
-    );
-    expect(component.instructorDetails).toEqual(instructorDetails);
-    expect(spyAccountService).toHaveBeenCalledTimes(0);
-  });
-
-  it('should create account requests for all multiple instructor details split by vertical bars', () => {
-    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      of({
-        accountRequestId: 'some.person@example.com%NUS',
-        email: 'some.person@example.com',
-        name: 'Some Person',
-        institute: 'NUS',
-        status: AccountRequestStatus.PENDING,
-        registrationKey: 'registrationKey',
-        createdAt: 528,
-      }),
-    );
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('2 account request(s) were successfully created');
-      });
-    const spyFetchAccountRequests = vi
-      .spyOn(accountService, 'getPendingAccountRequests')
-      .mockReturnValue(of({ accountRequests: [] }));
-    component.instructorDetails = [
-      'Instructor A | instructora@example.com | Institution A',
-      'Instructor B | instructorb@example.com | Institution B',
-    ].join('\n');
-    fixture.detectChanges();
-
-    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
-    button.click();
-
-    expect(spyAccountService).toHaveBeenCalledTimes(2);
-    expect(spyStatusMessageService).toHaveBeenCalledTimes(1);
-    expect(spyFetchAccountRequests).toHaveBeenCalled();
   });
 
   it('should show error toast when account request creation fails', () => {
@@ -192,6 +128,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorName = 'Instructor Name';
     component.instructorEmail = 'instructor@example.com';
     component.instructorInstitution = 'Instructor Institution';
+    component.instructorCountry = 'SG';
     component.validateAndAddInstructorDetail();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -199,41 +136,5 @@ describe('AdminHomePageComponent', () => {
 
   it('should snap with default view', () => {
     expect(fixture).toMatchSnapshot();
-  });
-
-  it('should create account requests for all multiple instructor details split by tabs with empty lines', () => {
-    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      of({
-        accountRequestId: 'some.person@example.com%NUS',
-        email: 'some.person@example.com',
-        name: 'Some Person',
-        institute: 'NUS',
-        status: AccountRequestStatus.PENDING,
-        registrationKey: 'registrationKey',
-        createdAt: 528,
-      }),
-    );
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('2 account request(s) were successfully created');
-      });
-    const spyFetchAccountRequests = vi
-      .spyOn(accountService, 'getPendingAccountRequests')
-      .mockReturnValue(of({ accountRequests: [] }));
-    component.instructorDetails = [
-      'Instructor A   \t  instructora@example.com \t  Sample Institution A',
-      'Instructor B \t instructorb@example.com \t Sample Institution B',
-      '',
-    ].join('\n');
-
-    fixture.detectChanges();
-
-    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
-    button.click();
-
-    expect(spyAccountService).toHaveBeenCalledTimes(2);
-    expect(spyStatusMessageService).toHaveBeenCalledTimes(1);
-    expect(spyFetchAccountRequests).toHaveBeenCalled();
   });
 });

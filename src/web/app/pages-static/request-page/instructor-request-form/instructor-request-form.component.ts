@@ -149,12 +149,12 @@ export class InstructorRequestFormComponent {
     const countryCode = this.country.value!;
     const countryName = this.countryOptions.find((o) => o.value === countryCode)?.label ?? countryCode;
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${institution}, ${countryName}`;
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
       instructorName: name,
-      instructorInstitution: combinedInstitution,
+      instructorInstitution: institution,
+      instructorCountry: countryCode,
       captchaResponse: this.captchaSiteKey ? this.captchaResponse! : '',
     };
 
