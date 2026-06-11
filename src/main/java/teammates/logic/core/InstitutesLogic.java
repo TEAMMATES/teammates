@@ -68,4 +68,16 @@ public final class InstitutesLogic {
 
         institutesDb.removeInstitute(institute);
     }
+
+    /**
+     * Delete institute with the given name and country.
+     */
+    public void deleteInstitute(String name, String country) {
+        Institute institute = institutesDb.getInstituteByNameAndCountry(name, country);
+        if (institute == null) {
+            return;
+        }
+
+        institutesDb.removeInstitute(institute);
+    }
 }

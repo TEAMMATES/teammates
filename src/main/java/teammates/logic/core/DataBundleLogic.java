@@ -444,7 +444,9 @@ public final class DataBundleLogic {
         }
 
         dataBundle.institutes.values().forEach(institute ->
-                institutesLogic.deleteInstitute(institute.getId())
+                // Temporary workaround for E2E tests until they can be migrated to use the new GivenData setup.
+                // The current E2E tests do not generate IDs that are stable.
+                institutesLogic.deleteInstitute(institute.getName(), institute.getCountry())
         );
         dataBundle.notifications.values().forEach(notification ->
                 notificationsLogic.deleteNotification(notification.getId())
