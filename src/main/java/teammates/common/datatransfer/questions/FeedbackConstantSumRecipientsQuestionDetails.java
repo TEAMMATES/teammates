@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.FeedbackConstantSumQuestionDetailsHelper;
@@ -32,7 +33,7 @@ public class FeedbackConstantSumRecipientsQuestionDetails extends FeedbackQuesti
 
     @Override
     public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
+            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
         return "";
     }
 

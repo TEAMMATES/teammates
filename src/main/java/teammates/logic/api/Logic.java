@@ -43,6 +43,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstitutesLogic;
 import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
@@ -56,6 +57,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -69,8 +71,10 @@ import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.CourseCreateRequest;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
@@ -91,6 +95,7 @@ public class Logic {
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
@@ -207,10 +212,17 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(String name, String email, String institute, String country,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
+        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments);
+    }
+
+    /**
+     * Returns the shared institute matching {@code name} and {@code country}, creating it if needed.
+     */
+    public Institute getOrCreateInstitute(String name, String country) throws InvalidParametersException {
+        return institutesLogic.getOrCreateInstitute(name, country);
     }
 
     /**
@@ -599,13 +611,14 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback session.
+     * Creates a feedback session from a create request, validating timing and copying questions if requested.
      *
      * @return returns the created feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    public FeedbackSession createFeedbackSession(String courseId, Instructor instructor,
+            FeedbackSessionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.createFeedbackSession(courseId, instructor, createRequest);
     }
 
     /**
@@ -616,19 +629,13 @@ public class Logic {
     }
 
     /**
-     * Creates a new feedback question.
+     * Creates a feedback question from a create request, validating giver/recipient visibility and question details.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return the created question
-     * @throws InvalidParametersException   if the question is invalid
-     * @throws EntityAlreadyExistsException if the question already exists
+     * @return the created feedback question
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+    public FeedbackQuestion createFeedbackQuestion(UUID feedbackSessionId, FeedbackQuestionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackSessionId, createRequest);
     }
 
     /**
@@ -1043,6 +1050,13 @@ public class Logic {
      */
     public List<Student> getStudentsByTeamName(String teamName, String courseId) {
         return usersLogic.getStudentsForTeam(teamName, courseId);
+    }
+
+    /**
+     * Gets students by associated {@code teamId} and {@code courseId}.
+     */
+    public List<Student> getStudentsByTeamId(UUID teamId, String courseId) {
+        return usersLogic.getStudentsForTeam(teamId, courseId);
     }
 
     /**

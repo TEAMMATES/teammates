@@ -41,6 +41,7 @@ describe('AccountService', () => {
     const testRequest: AccountCreateRequest = {
       instructorEmail: 'testEmail',
       instructorInstitution: 'testInstitution',
+      instructorCountry: 'SG',
       instructorName: 'testName',
     };
     service.createAccountRequest(testRequest);
@@ -108,6 +109,7 @@ describe('AccountService', () => {
       name: 'name',
       email: 'email@email.com',
       institute: 'institute',
+      country: 'SG',
       status: AccountRequestStatus.PENDING,
       comments: 'comments',
     };

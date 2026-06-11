@@ -1,38 +1,6 @@
 <div class="card bg-light top-padded">
   <div class="card-body">
     <div>
-      <strong>Adding Multiple Instructors</strong>
-      <p class="text-muted">
-        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
-      </p>
-      <textarea
-        class="form-control"
-        id="instructor-details-single-line"
-        [(ngModel)]="instructorDetails"
-        aria-label="Add multiple instructors"
-      ></textarea>
-    </div>
-
-    <div class="top-padded">
-      <button
-        class="btn btn-primary"
-        id="add-instructor-single-line"
-        (click)="validateAndAddInstructorDetails()"
-        [disabled]="isAddingMultipleInstructors"
-      >
-        Add Instructors
-      </button>
-    </div>
-  </div>
-</div>
-
-<div class="card bg-light top-padded">
-  <div class="card-body">
-    <div>
-      <strong>Adding a Single Instructor</strong>
-    </div>
-
-    <div class="top-padded">
       <label for="instructor-name">
         <strong>Name:</strong>
       </label>
@@ -51,6 +19,18 @@
         <strong>Institution:</strong>
       </label>
       <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution" />
+    </div>
+
+    <div class="top-padded">
+      <label for="instructor-country">
+        <strong>Country or Region:</strong>
+      </label>
+      <tm-searchable-combobox
+        inputId="instructor-country"
+        placeholder="Search for a country or region..."
+        [options]="countryOptions"
+        [(ngModel)]="instructorCountry"
+      />
     </div>
 
     <div class="top-padded">

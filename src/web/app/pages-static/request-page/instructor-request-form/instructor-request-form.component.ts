@@ -6,15 +6,19 @@ import { finalize } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../../services/account.service';
+import { CountryService } from '../../../../services/country.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import {
   STUDENT_NAME_MAX_LENGTH,
   INSTITUTION_NAME_MAX_LENGTH,
-  COUNTRY_NAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
   NAME_REGEX,
   EMAIL_REGEX,
 } from '../../../../types/field-validator';
+import {
+  ComboboxOption,
+  SearchableComboboxComponent,
+} from '../../../components/searchable-combobox/searchable-combobox.component';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
@@ -22,16 +26,28 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, TeammatesRouterDirective],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgxCaptchaModule,
+    NgbAlert,
+    TeammatesRouterDirective,
+    SearchableComboboxComponent,
+  ],
 })
 export class InstructorRequestFormComponent {
-  private accountService = inject(AccountService);
+  private readonly accountService = inject(AccountService);
+  private readonly countryService = inject(CountryService);
 
   // Create members to be accessed in template
   readonly STUDENT_NAME_MAX_LENGTH!: number;
   readonly INSTITUTION_NAME_MAX_LENGTH!: number;
-  readonly COUNTRY_NAME_MAX_LENGTH!: number;
   readonly EMAIL_MAX_LENGTH!: number;
+
+  readonly countryOptions: ComboboxOption<string>[] = this.countryService.getCountryOptions().map((o) => ({
+    value: o.code,
+    label: o.name,
+  }));
 
   // Captcha
   captchaSiteKey: string = environment.captchaSiteKey;
@@ -52,11 +68,7 @@ export class InstructorRequestFormComponent {
         Validators.maxLength(INSTITUTION_NAME_MAX_LENGTH),
         Validators.pattern(NAME_REGEX),
       ]),
-      country: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(COUNTRY_NAME_MAX_LENGTH),
-        Validators.pattern(NAME_REGEX),
-      ]),
+      country: new FormControl('', { validators: [Validators.required], updateOn: 'change' }),
       email: new FormControl('', [
         Validators.required,
         Validators.pattern(EMAIL_REGEX),
@@ -84,7 +96,6 @@ export class InstructorRequestFormComponent {
   constructor() {
     this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
     this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;
-    this.COUNTRY_NAME_MAX_LENGTH = COUNTRY_NAME_MAX_LENGTH;
     this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
   }
 
@@ -135,93 +146,15 @@ export class InstructorRequestFormComponent {
     const name = this.name.value!.trim();
     const email = this.email.value!.trim();
     const comments = this.comments.value!.trim();
-    // Country Mapping
-    const countryMapping: { [key: string]: string } = {
-      'united states': 'USA',
-      'u.s.a': 'USA',
-      'u.s.a.': 'USA',
-      us: 'USA',
-      america: 'USA',
-      'united states of america': 'USA',
-
-      'united kingdom': 'UK',
-      uk: 'UK',
-      britain: 'UK',
-      'great britain': 'UK',
-      england: 'UK',
-
-      'united arab emirates': 'UAE',
-      uae: 'UAE',
-      emirates: 'UAE',
-
-      deutschland: 'Germany',
-      germany: 'Germany',
-
-      netherlands: 'Netherlands',
-      'the netherlands': 'Netherlands',
-      nederland: 'Netherlands',
-      holland: 'Netherlands',
-
-      belgium: 'Belgium',
-      belgië: 'Belgium',
-
-      brazil: 'Brazil',
-      brasil: 'Brazil',
-
-      spain: 'Spain',
-      españa: 'Spain',
-
-      mexico: 'Mexico',
-      méxico: 'Mexico',
-
-      italy: 'Italy',
-      italia: 'Italy',
-
-      china: 'China',
-      'peoples republic of china': 'China',
-      prc: 'China',
-
-      france: 'France',
-      'republic of france': 'France',
-
-      india: 'India',
-
-      japan: 'Japan',
-
-      russia: 'Russia',
-      'russian federation': 'Russia',
-
-      'south korea': 'South Korea',
-      'republic of korea': 'South Korea',
-      korea: 'South Korea',
-
-      'north korea': 'North Korea',
-      'democratic peoples republic of korea': 'North Korea',
-
-      'south africa': 'South Africa',
-      'republic of south africa': 'South Africa',
-
-      switzerland: 'Switzerland',
-
-      turkey: 'Turkey',
-      'republic of turkey': 'Turkey',
-      'republic of türkiye': 'Turkey',
-
-      vietnam: 'Vietnam',
-      'viet nam': 'Vietnam',
-
-      malaysia: 'Malaysia',
-    };
-    // Combine country and institution
-    const country = this.country.value!.trim();
-    const mappedCountry = countryMapping[country.toLowerCase()] || country;
+    const countryCode = this.country.value!;
+    const countryName = this.countryOptions.find((o) => o.value === countryCode)?.label ?? countryCode;
     const institution = this.institution.value!.trim();
-    const combinedInstitution = `${institution}, ${mappedCountry}`;
 
     const requestData: AccountCreateRequest = {
       instructorEmail: email,
       instructorName: name,
-      instructorInstitution: combinedInstitution,
+      instructorInstitution: institution,
+      instructorCountry: countryCode,
       captchaResponse: this.captchaSiteKey ? this.captchaResponse! : '',
     };
 
@@ -242,7 +175,7 @@ export class InstructorRequestFormComponent {
           this.requestSubmissionEvent.emit({
             name,
             institution,
-            country,
+            country: countryName,
             email,
             comments,
           });

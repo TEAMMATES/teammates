@@ -132,15 +132,15 @@
             class="col-xs-12 form-control form-select"
             type="text"
             name="institute"
-            [(ngModel)]="model.course.institute"
+            [(ngModel)]="model.course.instituteId"
             [disabled]="isInEditMode || isInputDisabled"
             required
           >
             @if (isInEditMode) {
-              <option [value]="model.course.institute" selected>{{ model.course.institute }}</option>
+              <option [value]="model.course.instituteId" selected>{{ model.course.institute }}</option>
             }
-            @for (institute of institutes; track institute) {
-              <option [value]="institute">{{ institute }}</option>
+            @for (institute of institutes; track institute.id) {
+              <option [value]="institute.id">{{ institute.name }}</option>
             }
           </select>
         </div>

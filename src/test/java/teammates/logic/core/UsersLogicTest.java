@@ -28,6 +28,7 @@ import teammates.common.util.Const;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
@@ -69,7 +70,8 @@ public class UsersLogicTest extends BaseTestCase {
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
         usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
 
-        course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE);
+        new Institute("institute", "SG").addCourse(course);
         instructor = getTypicalInstructor();
         student = getTypicalStudent();
         Account account = getTypicalAccount();

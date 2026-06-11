@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "InstructorCourseEditPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "ICEdit.coowner": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -93,35 +100,35 @@
     "ICEdit.CS2104": {
       "id": "tm.e2e.ICEdit.CS2104",
       "name": "Programming Language Concepts",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg",
       "createdAt": "2010-04-02T12:00:00Z"
     },
     "ICEdit.CS2103T": {
       "id": "tm.e2e.ICEdit.CS2103T",
       "name": "Software Engineering",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg",
       "createdAt": "2017-04-21T12:00:00Z"
     },
     "ICEdit.CS2105": {
       "id": "tm.e2e.ICEdit.CS2105",
       "name": "Introduction to Computer Networks",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg",
       "createdAt": "2014-04-02T12:00:00Z"
     },
     "ICEdit.CS2106": {
       "id": "tm.e2e.ICEdit.CS2106",
       "name": "Introduction to Operating Systems",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg",
       "createdAt": "2012-04-02T12:00:00Z"
     },
     "ICEdit.CS2107": {
       "id": "tm.e2e.ICEdit.CS2107",
       "name": "Introduction to Information Security",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg",
       "createdAt": "2014-04-10T12:00:00Z",
       "deletedAt": "2014-04-12T12:00:00Z"

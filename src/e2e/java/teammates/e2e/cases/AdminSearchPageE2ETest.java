@@ -123,7 +123,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.clickEditAccountRequestButton(accountRequest);
         searchPage.fillInEditModalFields("Different name", accountRequest.getEmail(),
-                accountRequest.getInstitute(), "New comment");
+                accountRequest.getInstitute().getName(), "New comment");
         searchPage.clickSaveEditAccountRequestButton();
         accountRequest.setName("Different name");
         accountRequest.setComments("New comment");
@@ -145,7 +145,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.clickEditAccountRequestButton(accountRequest);
         searchPage.fillInEditModalFields(accountRequest.getName(), "invalid",
-                accountRequest.getInstitute(), "New comment");
+                accountRequest.getInstitute().getName(), "New comment");
         searchPage.closeToastsIfPresent();
         searchPage.clickSaveEditAccountRequestButton();
         String formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
@@ -159,7 +159,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         searchPage.clickEditAccountRequestButton(accountRequest);
-        searchPage.fillInEditModalFields(name, accountRequest.getEmail(), accountRequest.getInstitute(), "New comment");
+        searchPage.fillInEditModalFields(name, accountRequest.getEmail(),
+                accountRequest.getInstitute().getName(), "New comment");
         searchPage.clickSaveEditAccountRequestButton();
         formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
                 + "The value of a/an %s should be no longer than %d characters. It should not be empty.",

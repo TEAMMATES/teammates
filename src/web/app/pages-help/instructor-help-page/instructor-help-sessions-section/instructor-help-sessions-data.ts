@@ -134,6 +134,8 @@ export const EXAMPLE_COURSE_CANDIDATES: Course[] = [
     courseId: 'CS2103T',
     courseName: 'Software Engineering',
     institute: 'TEAMMATES Test Institute 1',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     timeZone: 'UTC',
     creationTimestamp: 0,
     deletionTimestamp: 0,

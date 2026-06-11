@@ -72,7 +72,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
-                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
+                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute().getName(),
+                bundleAccountRequest.getInstitute().getCountry(),
                 AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
@@ -87,7 +88,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(accountRequest.getName(), data.getName());
         assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        assertEquals(accountRequest.getInstitute().getName(), data.getInstitute());
         assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
         assertEquals(accountRequest.getComments(), data.getComments());
 
@@ -104,7 +105,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
-                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
+                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute().getName(),
+                bundleAccountRequest.getInstitute().getCountry(),
                 AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
@@ -119,7 +121,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(accountRequest.getName(), data.getName());
         assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        assertEquals(accountRequest.getInstitute().getName(), data.getInstitute());
         assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
         assertEquals(accountRequest.getComments(), data.getComments());
 
@@ -130,7 +132,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_withReasonBodyButNoTitle_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
-                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
+                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute().getName(),
+                bundleAccountRequest.getInstitute().getCountry(),
                 AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
@@ -147,7 +150,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_withReasonTitleButNoBody_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
-                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
+                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute().getName(),
+                bundleAccountRequest.getInstitute().getCountry(),
                 AccountRequestStatus.PENDING, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
 
@@ -164,7 +168,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     protected void testExecute_alreadyRejected_shouldThrow() {
         AccountRequest bundleAccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest(bundleAccountRequest.getName(),
-                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute(),
+                bundleAccountRequest.getEmail(), bundleAccountRequest.getInstitute().getName(),
+                bundleAccountRequest.getInstitute().getCountry(),
                 AccountRequestStatus.REJECTED, bundleAccountRequest.getComments()));
         UUID id = accountRequest.getId();
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};

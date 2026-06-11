@@ -64,7 +64,7 @@ public class StudentData implements ApiOutput {
         this.teamName = student.getTeamName();
         this.sectionId = student.getSectionId();
         this.sectionName = student.getSectionName();
-        this.institute = student.getCourse().getInstitute();
+        this.institute = student.getCourse().getInstitute().getName();
         this.courseName = student.getCourse().getName();
     }
 

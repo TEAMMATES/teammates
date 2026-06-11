@@ -1,0 +1,84 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260611-introduce-institute-1">
+        <createTable tableName="institutes">
+            <column name="id" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="institutesPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP(6) WITH TIME ZONE"/>
+            <column name="updated_at" type="TIMESTAMP(6) WITH TIME ZONE"/>
+        </createTable>
+
+        <addUniqueConstraint columnNames="name, country"
+            constraintName="uc_institutes_name_country"
+            tableName="institutes"/>
+    
+        <!--
+            Account requests are dropped.
+            Existing courses keep their institute name; the country defaults to Singapore (SG).
+        -->
+        <delete tableName="account_requests"/>
+
+        <dropColumn columnName="institute" tableName="account_requests"/>
+
+        <addColumn tableName="account_requests">
+            <column name="institute_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseColumnNames="institute_id"
+            baseTableName="account_requests"
+            constraintName="FK_account_requests_institute_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="institutes"
+            validate="true"/>
+
+        <addColumn tableName="courses">
+            <column name="institute_id" type="UUID"/>
+        </addColumn>
+
+        <sql>
+            INSERT INTO institutes (id, name, country, created_at, updated_at)
+            SELECT gen_random_uuid(), distinct_institutes.institute, 'SG', NOW(), NOW()
+            FROM (SELECT DISTINCT institute FROM courses) AS distinct_institutes;
+        </sql>
+
+        <sql>
+            UPDATE courses c
+            SET institute_id = i.id
+            FROM institutes i
+            WHERE i.name = c.institute AND i.country = 'SG';
+        </sql>
+
+        <addNotNullConstraint columnName="institute_id"
+            columnDataType="UUID"
+            tableName="courses"/>
+
+        <dropColumn columnName="institute" tableName="courses"/>
+
+        <addForeignKeyConstraint baseColumnNames="institute_id"
+            baseTableName="courses"
+            constraintName="FK_courses_institute_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="institutes"
+            validate="true"/>
+    </changeSet>
+</databaseChangeLog>

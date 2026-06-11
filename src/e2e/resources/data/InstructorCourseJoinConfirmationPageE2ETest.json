@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "InstructorCourseJoinConfirmationPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "ICJoinConf.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -14,21 +21,21 @@
       "id": "00000000-0000-4000-8000-000000000101",
       "name": "Teammates Test 2",
       "email": "icjoinconf.instr2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "ICJoinConf.newinstr": {
       "id": "00000000-0000-4000-8000-000000000201",
       "name": "Teammates Test 3",
       "email": "icjoinconf.newinstr@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     }
   },
   "courses": {
     "ICJoinConf.CS1101": {
       "id": "tm.e2e.ICJoinConf.CS1101",
       "name": "Programming Methodology",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     }
   },

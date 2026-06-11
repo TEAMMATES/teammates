@@ -96,9 +96,6 @@ public final class Config {
     /** Value of {@code app.recaptcha.service}. */
     public static final String RECAPTCHA_SERVICE;
 
-    /** Value of {@code app.logging.service}. */
-    public static final String LOGGING_SERVICE;
-
     /** Value of {@code app.admins} (comma-separated in the property file). */
     public static final List<String> APP_ADMINS;
 
@@ -215,8 +212,6 @@ public final class Config {
         CAPTCHA_SECRET_KEY = getProperty(properties, devProperties, "app.captcha.secretkey");
         RECAPTCHA_SERVICE = getProperty(properties, devProperties, "app.recaptcha.service",
                 IS_DEV_SERVER ? "local" : "google");
-        LOGGING_SERVICE = getProperty(properties, devProperties, "app.logging.service",
-                IS_DEV_SERVER ? "local" : "google-cloud");
         APP_ADMINS = Collections.unmodifiableList(
                 Arrays.asList(getProperty(properties, devProperties, "app.admins", "").split(",")));
         APP_MAINTAINERS = Collections.unmodifiableList(
@@ -403,10 +398,6 @@ public final class Config {
 
     public static boolean isUsingLocalRecaptcha() {
         return "local".equalsIgnoreCase(RECAPTCHA_SERVICE);
-    }
-
-    public static boolean isUsingLocalLogging() {
-        return "local".equalsIgnoreCase(LOGGING_SERVICE);
     }
 
     /**

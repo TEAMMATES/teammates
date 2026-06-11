@@ -33,6 +33,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseGiver;
@@ -127,8 +128,14 @@ public class BaseTestCase {
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role);
     }
 
+    protected Institute getTypicalInstitute() {
+        return new Institute("teammates", "SG");
+    }
+
     protected Course getTypicalCourse() {
-        return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE);
+        getTypicalInstitute().addCourse(course);
+        return course;
     }
 
     protected Student getTypicalStudent() {
@@ -209,8 +216,10 @@ public class BaseTestCase {
     }
 
     protected AccountRequest getTypicalAccountRequest() {
-        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
+        AccountRequest accountRequest = new AccountRequest("valid@test.com", "Test Name",
                 AccountRequestStatus.PENDING, "");
+        getTypicalInstitute().addAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {

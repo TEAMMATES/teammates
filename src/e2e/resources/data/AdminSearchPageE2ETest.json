@@ -1,4 +1,36 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "AdminSearchPageE2ETest 0",
+      "country": "SG"
+    },
+    "institute2": {
+      "id": "00000000-0000-4000-9000-000000000002",
+      "name": "AdminSearchPageE2ETest 1",
+      "country": "SG"
+    },
+    "institute3": {
+      "id": "00000000-0000-4000-9000-000000000003",
+      "name": "AdminSearchPageE2ETest 2",
+      "country": "SG"
+    },
+    "institute4": {
+      "id": "00000000-0000-4000-9000-000000000004",
+      "name": "AdminSearchPageE2ETest 3",
+      "country": "SG"
+    },
+    "institute5": {
+      "id": "00000000-0000-4000-9000-000000000005",
+      "name": "AdminSearchPageE2ETest 4",
+      "country": "SG"
+    },
+    "institute6": {
+      "id": "00000000-0000-4000-9000-000000000006",
+      "name": "AdminSearchPageE2ETest 5",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -29,49 +61,49 @@
     "instructor1OfCourse1": {
       "name": "Instructor1 of Course1",
       "email": "asearch.instructor1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor2OfCourse1": {
       "name": "Instructor2 of Course1",
       "email": "asearch.instructor2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2011-01-01T00:00:00Z",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "unregisteredInstructor1": {
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor1@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2011-01-01T00:00:00Z",
       "status": "PENDING"
     },
     "unregisteredInstructor2": {
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor2@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 2",
+      "instituteId": "00000000-0000-4000-9000-000000000003",
       "createdAt": "2011-01-01T00:00:00Z",
       "status": "PENDING"
     },
     "unregisteredInstructor3": {
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor3@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 3",
+      "instituteId": "00000000-0000-4000-9000-000000000004",
       "createdAt": "2011-01-01T00:00:00Z",
       "status": "PENDING"
     },
     "unregisteredInstructor4": {
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor4@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 4",
+      "instituteId": "00000000-0000-4000-9000-000000000005",
       "createdAt": "2011-01-01T00:00:00Z",
       "status": "PENDING"
     },
     "unregisteredInstructor5": {
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor5@gmail.tmt",
-      "institute": "TEAMMATES Test Institute 5",
+      "instituteId": "00000000-0000-4000-9000-000000000006",
       "createdAt": "2011-01-01T00:00:00Z",
       "status": "PENDING"
     }
@@ -81,7 +113,7 @@
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "tm.e2e.ASearch.idOfTypicalCourse1",
       "name": "ASearch Course 1",
-      "institute": "TEAMMATES Test Institute 0",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg"
     }
   },

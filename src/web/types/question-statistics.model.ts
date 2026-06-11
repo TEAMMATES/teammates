@@ -9,11 +9,15 @@ import { ContributionStatistics, ContributionStatisticsEntry, FeedbackResponseDe
  */
 export interface Response<R extends FeedbackResponseDetails> {
   giver: string;
+  giverUserId?: string;
   giverEmail?: string;
+  giverTeamId?: string;
   giverTeam: string;
   giverSection: string;
   recipient: string;
+  recipientUserId?: string;
   recipientEmail?: string;
+  recipientTeamId?: string;
   recipientTeam: string;
   recipientSection: string;
   responseDetails: R;
@@ -35,9 +39,10 @@ export interface ConstsumRecipientsQuestionStatistics {
 }
 
 export interface ContributionQuestionStatistics {
-  emailToTeamName: Record<string, string>;
-  emailToName: Record<string, string>;
-  emailToDiff: Record<string, number>;
+  userIdToTeamName: Record<string, string>;
+  userIdToName: Record<string, string>;
+  userIdToEmail: Record<string, string>;
+  userIdToDiff: Record<string, number>;
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntry & { claimedOthersValues: number[] };
 }

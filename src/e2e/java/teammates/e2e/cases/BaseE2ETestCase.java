@@ -129,7 +129,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         boolean isSuccess = context.getFailedTests().getAllMethods()
                 .stream()
                 .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
-        if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
+        if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE || TestProperties.SELENIUM_HEADLESS) {
             browser.close();
         }
     }
@@ -275,7 +275,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             CourseData actualCourse = (CourseData) actual;
             assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
             assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
-            assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
+            assertEquals(expectedCourse.getInstitute().getName(), actualCourse.getInstitute());
         } else if (expected instanceof FeedbackSession) {
             FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;

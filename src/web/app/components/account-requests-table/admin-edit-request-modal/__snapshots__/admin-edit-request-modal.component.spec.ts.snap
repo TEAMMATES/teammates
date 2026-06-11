@@ -3,10 +3,14 @@
 exports[`RejectWithReasonModal > should show empty fields 1`] = `
 <tm-edit-request-modal
   accountRequestComments=""
+  accountRequestCountry=""
   accountRequestEmail=""
   accountRequestInstitution=""
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
+  country={[Function FormControl]}
+  countryOptions={[Function Array]}
+  countryService={[Function _CountryService]}
 >
   <div
     class="modal-header bg-primary"
@@ -54,7 +58,7 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
     <div>
       <label>
         <b>
-          Institution, Country:
+          Institution:
         </b>
       </label>
       <input
@@ -62,6 +66,49 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
         id="request-institution"
         type="text"
       />
+    </div>
+    <div>
+      <label>
+        <b>
+          Country:
+        </b>
+      </label>
+      <tm-searchable-combobox
+        class="ng-untouched ng-pristine ng-valid"
+        inputid="request-country"
+        placeholder="Search for a country or region..."
+      >
+        <div
+          class="searchable-combobox position-relative w-100"
+          data-expanded="false"
+          filtermode="manual"
+          ngcombobox=""
+        >
+          <input
+            aria-autocomplete="list"
+            aria-disabled="false"
+            aria-expanded="false"
+            autocomplete="off"
+            class="form-control w-100 searchable-combobox-input"
+            id="request-country"
+            ngcomboboxinput=""
+            placeholder="Search for a country or region..."
+            role="combobox"
+            type="text"
+          />
+          <button
+            aria-label="Open"
+            class="searchable-combobox-toggle"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              aria-hidden="true"
+              class="fa fa-chevron-down"
+            />
+          </button>
+        </div>
+      </tm-searchable-combobox>
     </div>
     <div
       class="row"
@@ -111,10 +158,14 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
 exports[`RejectWithReasonModal > should show populated data 1`] = `
 <tm-edit-request-modal
   accountRequestComments={[Function String]}
+  accountRequestCountry=""
   accountRequestEmail={[Function String]}
   accountRequestInstitution={[Function String]}
   accountRequestName={[Function String]}
   activeModal={[Function NgbActiveModal]}
+  country={[Function FormControl]}
+  countryOptions={[Function Array]}
+  countryService={[Function _CountryService]}
 >
   <div
     class="modal-header bg-primary"
@@ -162,7 +213,7 @@ exports[`RejectWithReasonModal > should show populated data 1`] = `
     <div>
       <label>
         <b>
-          Institution, Country:
+          Institution:
         </b>
       </label>
       <input
@@ -170,6 +221,49 @@ exports[`RejectWithReasonModal > should show populated data 1`] = `
         id="request-institution"
         type="text"
       />
+    </div>
+    <div>
+      <label>
+        <b>
+          Country:
+        </b>
+      </label>
+      <tm-searchable-combobox
+        class="ng-untouched ng-pristine ng-valid"
+        inputid="request-country"
+        placeholder="Search for a country or region..."
+      >
+        <div
+          class="searchable-combobox position-relative w-100"
+          data-expanded="false"
+          filtermode="manual"
+          ngcombobox=""
+        >
+          <input
+            aria-autocomplete="list"
+            aria-disabled="false"
+            aria-expanded="false"
+            autocomplete="off"
+            class="form-control w-100 searchable-combobox-input"
+            id="request-country"
+            ngcomboboxinput=""
+            placeholder="Search for a country or region..."
+            role="combobox"
+            type="text"
+          />
+          <button
+            aria-label="Open"
+            class="searchable-combobox-toggle"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              aria-hidden="true"
+              class="fa fa-chevron-down"
+            />
+          </button>
+        </div>
+      </tm-searchable-combobox>
     </div>
     <div
       class="row"

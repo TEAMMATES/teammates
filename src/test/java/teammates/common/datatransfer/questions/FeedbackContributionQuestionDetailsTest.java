@@ -3,13 +3,14 @@ package teammates.common.datatransfer.questions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static teammates.test.AssertHelper.assertJsonEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -20,8 +21,12 @@ import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.storage.entity.Student;
 import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.test.BaseTestCase;
+
+import tools.jackson.core.type.TypeReference;
 
 /**
  * SUT: {@link FeedbackContributionQuestionDetails}.
@@ -378,366 +383,109 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                         new ArrayList<>(responseBundle.instructors.values())));
 
         FeedbackContributionQuestion fqa;
+        Student student1 = responseBundle.students.get("student1InCourse1");
+        Student student2 = responseBundle.students.get("student2InCourse1");
+        Student student3 = responseBundle.students.get("student3InCourse1");
+        Student student5 = responseBundle.students.get("student5InCourse1");
+        Student student6 = responseBundle.students.get("student6InCourse1");
+        Student student7 = responseBundle.students.get("student7InCourse1");
+        Student student8 = responseBundle.students.get("student8InCourse1");
 
-        ______TS("(student email specified): all students have response");
+        ______TS("(student user ID specified): all students have response");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        assertJsonEquals("""
-                        {
-                          "results": {
-                            "student1incourse1@gmail.tmt": {
-                              "claimed": 10,
-                              "perceived": 17,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": 20,
-                                "student3incourse1@gmail.tmt": 30
-                              },
-                              "perceivedOthers": [
-                                24,
-                                19
-                              ]
-                            }
-                          }
-                        }""",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
-                        "student1incourse1@gmail.tmt", resultsBundle));
+        Map<String, Map<String, Object>> studentStats = getContributionResults(
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, student1.getId(), resultsBundle));
+        assertEquals(1, studentStats.size());
+        Map<String, Object> student1Entry = studentStats.get(student1.getId().toString());
+        assertEquals(10, intField(student1Entry, "claimed"));
+        assertEquals(17, intField(student1Entry, "perceived"));
+        assertEquals(Map.of(student2.getId().toString(), 20, student3.getId().toString(), 30),
+                intMapField(student1Entry, "claimedOthers"));
+        assertEquals(List.of(24, 19), intListField(student1Entry, "perceivedOthers"));
 
-        ______TS("(student email specified): mix of students with responses and students without responses");
+        ______TS("(student user ID specified): mix of students with responses and students without responses");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertJsonEquals("""
-                        {
-                          "results": {
-                            "student5incourse1@gmail.tmt": {
-                              "claimed": 10,
-                              "perceived": 15,
-                              "claimedOthers": {
-                                "student4incourse1@gmail.tmt": -999,
-                                "student6incourse1@gmail.tmt": 20
-                              },
-                              "perceivedOthers": [
-                                15,
-                                -9999
-                              ]
-                            }
-                          }
-                        }""",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
-                        "student5incourse1@gmail.tmt", resultsBundle));
+        studentStats = getContributionResults(
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, student5.getId(), resultsBundle));
+        assertEquals(1, studentStats.size());
+        Map<String, Object> student5Entry = studentStats.get(student5.getId().toString());
+        assertEquals(10, intField(student5Entry, "claimed"));
+        assertEquals(15, intField(student5Entry, "perceived"));
+        assertEquals(Map.of(student6.getId().toString(), 20),
+                intMapField(student5Entry, "claimedOthers"));
+        assertEquals(List.of(15), intListField(student5Entry, "perceivedOthers"));
 
-        ______TS("(student email specified): all students do not have responses");
+        ______TS("(student user ID specified): all students do not have responses");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-        assertJsonEquals("""
-                        {
-                          "results": {}
-                        }""",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
-                        "student8incourse1@gmail.tmt", resultsBundle));
+        studentStats = getContributionResults(
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, student8.getId(), resultsBundle));
+        assertTrue(studentStats.isEmpty());
 
-        ______TS("(student email not specified): qn1");
+        ______TS("(student user ID not specified): qn1");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        assertJsonEquals("""
-                        {
-                          "results": {
-                            "student8incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student7incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999
-                              ]
-                            },
-                            "student2incourse1@gmail.tmt": {
-                              "claimed": 100,
-                              "perceived": 93,
-                              "claimedOthers": {
-                                "student1incourse1@gmail.tmt": 80,
-                                "student3incourse1@gmail.tmt": 120
-                              },
-                              "perceivedOthers": [
-                                107,
-                                80
-                              ]
-                            },
-                            "student5incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student4incourse1@gmail.tmt": -9999,
-                                "student6incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student1incourse1@gmail.tmt": {
-                              "claimed": 50,
-                              "perceived": 87,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": 80,
-                                "student3incourse1@gmail.tmt": 120
-                              },
-                              "perceivedOthers": [
-                                93,
-                                80
-                              ]
-                            },
-                            "student4incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student5incourse1@gmail.tmt": -9999,
-                                "student6incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student3incourse1@gmail.tmt": {
-                              "claimed": 113,
-                              "perceived": 120,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": 107,
-                                "student1incourse1@gmail.tmt": 93
-                              },
-                              "perceivedOthers": [
-                                120,
-                                120
-                              ]
-                            },
-                            "student6incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student5incourse1@gmail.tmt": -9999,
-                                "student4incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student7incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student8incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999
-                              ]
-                            }
-                          }
-                        }""",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
-                        resultsBundle));
+        Map<String, Map<String, Object>> instructorStats = getContributionResults(
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null, resultsBundle));
+        assertEquals(8, instructorStats.size());
+        Map<String, Object> student2Entry = instructorStats.get(student2.getId().toString());
+        assertEquals(100, intField(student2Entry, "claimed"));
+        assertEquals(93, intField(student2Entry, "perceived"));
+        assertEquals(Map.of(student1.getId().toString(), 80, student3.getId().toString(), 120),
+                intMapField(student2Entry, "claimedOthers"));
+        assertEquals(List.of(107, 80), intListField(student2Entry, "perceivedOthers"));
+        Map<String, Object> student8Entry = instructorStats.get(student8.getId().toString());
+        assertEquals(-999, intField(student8Entry, "claimed"));
+        assertEquals(-9999, intField(student8Entry, "perceived"));
+        assertEquals(Map.of(student7.getId().toString(), -9999), intMapField(student8Entry, "claimedOthers"));
 
-        ______TS("(student email not specified): qn2");
+        ______TS("(student user ID not specified): qn2");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertJsonEquals("""
-                        {
-                          "results": {
-                            "student8incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student7incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999
-                              ]
-                            },
-                            "student2incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student1incourse1@gmail.tmt": -9999,
-                                "student3incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student5incourse1@gmail.tmt": {
-                              "claimed": 67,
-                              "perceived": 100,
-                              "claimedOthers": {
-                                "student4incourse1@gmail.tmt": -9999,
-                                "student6incourse1@gmail.tmt": 100
-                              },
-                              "perceivedOthers": [
-                                100,
-                                -9999
-                              ]
-                            },
-                            "student1incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": -9999,
-                                "student3incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student4incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student5incourse1@gmail.tmt": -9999,
-                                "student6incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student3incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": -9999,
-                                "student1incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student6incourse1@gmail.tmt": {
-                              "claimed": 114,
-                              "perceived": 100,
-                              "claimedOthers": {
-                                "student5incourse1@gmail.tmt": 100,
-                                "student4incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                100,
-                                -9999
-                              ]
-                            },
-                            "student7incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student8incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999
-                              ]
-                            }
-                          }
-                        }""",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
-                        resultsBundle));
+        instructorStats = getContributionResults(
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null, resultsBundle));
+        assertEquals(8, instructorStats.size());
+        student5Entry = instructorStats.get(student5.getId().toString());
+        assertEquals(67, intField(student5Entry, "claimed"));
+        assertEquals(100, intField(student5Entry, "perceived"));
+        assertEquals(Map.of(student6.getId().toString(), 100),
+                intMapField(student5Entry, "claimedOthers"));
+        Map<String, Object> student6Entry = instructorStats.get(student6.getId().toString());
+        assertEquals(114, intField(student6Entry, "claimed"));
+        assertEquals(100, intField(student6Entry, "perceived"));
+        assertEquals(Map.of(student5.getId().toString(), 100),
+                intMapField(student6Entry, "claimedOthers"));
 
-        ______TS("(student email not specified): qn3");
+        ______TS("(student user ID not specified): qn3");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-        assertJsonEquals("""
-                        {
-                          "results": {
-                            "student8incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student7incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999
-                              ]
-                            },
-                            "student2incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student1incourse1@gmail.tmt": -9999,
-                                "student3incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student5incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student4incourse1@gmail.tmt": -9999,
-                                "student6incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student1incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": -9999,
-                                "student3incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student4incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student5incourse1@gmail.tmt": -9999,
-                                "student6incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student3incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student2incourse1@gmail.tmt": -9999,
-                                "student1incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student6incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student5incourse1@gmail.tmt": -9999,
-                                "student4incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999,
-                                -9999
-                              ]
-                            },
-                            "student7incourse1@gmail.tmt": {
-                              "claimed": -999,
-                              "perceived": -9999,
-                              "claimedOthers": {
-                                "student8incourse1@gmail.tmt": -9999
-                              },
-                              "perceivedOthers": [
-                                -9999
-                              ]
-                            }
-                          }
-                        }""",
-                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
-                        resultsBundle));
+        instructorStats = getContributionResults(
+                feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null, resultsBundle));
+        assertEquals(8, instructorStats.size());
+        assertTrue(instructorStats.values().stream()
+                .allMatch(entry -> intField(entry, "claimed") == -999 && intField(entry, "perceived") == -9999));
 
+    }
+
+    private Map<String, Map<String, Object>> getContributionResults(String json) {
+        Map<String, Map<String, Map<String, Object>>> stats = JsonUtils.fromJson(
+                json, new TypeReference<>() { });
+        return stats.get("results");
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Integer> intMapField(Map<String, Object> entry, String field) {
+        Map<String, Object> rawMap = (Map<String, Object>) entry.get(field);
+        Map<String, Integer> parsedMap = new LinkedHashMap<>();
+        rawMap.forEach((key, value) -> parsedMap.put(key, ((Number) value).intValue()));
+        return parsedMap;
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Integer> intListField(Map<String, Object> entry, String field) {
+        return ((List<Object>) entry.get(field)).stream()
+                .map(value -> ((Number) value).intValue())
+                .toList();
+    }
+
+    private int intField(Map<String, Object> entry, String field) {
+        return ((Number) entry.get(field)).intValue();
     }
 
 }
