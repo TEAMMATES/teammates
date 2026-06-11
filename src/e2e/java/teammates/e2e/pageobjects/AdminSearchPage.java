@@ -23,14 +23,14 @@ import teammates.storage.entity.Student;
 public class AdminSearchPage extends AppPage {
     private static final int STUDENT_COL_DETAILS = 1;
     private static final int STUDENT_COL_NAME = 2;
-    private static final int STUDENT_COL_GOOGLE_ID = 3;
+    private static final int STUDENT_COL_EMAIL = 3;
     private static final int STUDENT_COL_INSTITUTE = 4;
     private static final int STUDENT_COL_COMMENTS = 5;
     private static final int STUDENT_COL_OPTIONS = 6;
 
     private static final int INSTRUCTOR_COL_COURSE_ID = 1;
     private static final int INSTRUCTOR_COL_NAME = 2;
-    private static final int INSTRUCTOR_COL_GOOGLE_ID = 3;
+    private static final int INSTRUCTOR_COL_EMAIL = 3;
     private static final int INSTRUCTOR_COL_INSTITUTE = 4;
     private static final int INSTRUCTOR_COL_OPTIONS = 5;
 
@@ -40,10 +40,8 @@ public class AdminSearchPage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
     private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
 
-    private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
     private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
     private static final String EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK = "Account Registration Link";
-    private static final String LINK_TEXT_RESET_GOOGLE_ID = "Reset Google ID";
 
     @FindBy(id = "search-box")
     private WebElement inputBox;
@@ -176,12 +174,8 @@ public class AdminSearchPage extends AppPage {
         return getColumnText(studentRow, STUDENT_COL_NAME);
     }
 
-    public String getStudentGoogleId(WebElement studentRow) {
-        return getColumnText(studentRow, STUDENT_COL_GOOGLE_ID);
-    }
-
-    public String getStudentHomeLink(WebElement studentRow) {
-        return getColumnLink(studentRow, STUDENT_COL_GOOGLE_ID);
+    public String getStudentEmail(WebElement studentRow) {
+        return getColumnText(studentRow, STUDENT_COL_EMAIL);
     }
 
     public String getStudentInstitute(WebElement studentRow) {
@@ -196,10 +190,6 @@ public class AdminSearchPage extends AppPage {
         return getColumnLink(studentRow, STUDENT_COL_OPTIONS);
     }
 
-    public String getStudentEmail(WebElement studentRow) {
-        return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_EMAIL);
-    }
-
     public String getStudentJoinLink(WebElement studentRow) {
         return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
     }
@@ -207,15 +197,6 @@ public class AdminSearchPage extends AppPage {
     public String getStudentJoinLink(Student student) {
         WebElement studentRow = getStudentRow(student);
         return getStudentJoinLink(studentRow);
-    }
-
-    public void resetStudentGoogleId(Student student) {
-        WebElement studentRow = getStudentRow(student);
-        WebElement link = studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
-        link.click();
-
-        waitForConfirmationModalAndClickOk();
-        waitForElementStaleness(link);
     }
 
     public WebElement getInstructorRow(Instructor instructor) {
@@ -241,12 +222,8 @@ public class AdminSearchPage extends AppPage {
         return getColumnText(instructorRow, INSTRUCTOR_COL_NAME);
     }
 
-    public String getInstructorGoogleId(WebElement instructorRow) {
-        return getColumnText(instructorRow, INSTRUCTOR_COL_GOOGLE_ID);
-    }
-
-    public String getInstructorHomePageLink(WebElement instructorRow) {
-        return getColumnLink(instructorRow, INSTRUCTOR_COL_GOOGLE_ID);
+    public String getInstructorEmail(WebElement instructorRow) {
+        return getColumnText(instructorRow, INSTRUCTOR_COL_EMAIL);
     }
 
     public String getInstructorInstitute(WebElement instructorRow) {
@@ -257,10 +234,6 @@ public class AdminSearchPage extends AppPage {
         return getColumnLink(instructorRow, INSTRUCTOR_COL_OPTIONS);
     }
 
-    public String getInstructorEmail(WebElement instructorRow) {
-        return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_EMAIL);
-    }
-
     public String getInstructorJoinLink(WebElement instructorRow) {
         return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
     }
@@ -268,15 +241,6 @@ public class AdminSearchPage extends AppPage {
     public String getInstructorJoinLink(Instructor instructor) {
         WebElement instructorRow = getInstructorRow(instructor);
         return getInstructorJoinLink(instructorRow);
-    }
-
-    public void resetInstructorGoogleId(Instructor instructor) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        WebElement link = instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
-        link.click();
-
-        waitForConfirmationModalAndClickOk();
-        waitForElementStaleness(link);
     }
 
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
@@ -445,16 +409,6 @@ public class AdminSearchPage extends AppPage {
         waitForConfirmationModalAndClickOk();
     }
 
-    public void clickResetAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement resetButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
-        scrollElementToCenter(resetButton);
-        waitForElementToBeClickable(resetButton);
-        resetButton.click();
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-    }
-
     public int getNumExpandedRows(WebElement row) {
         String xpath = "following-sibling::tr[1]/td/ul/li";
         return (int) row.findElements(By.xpath(xpath))
@@ -487,44 +441,26 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyStudentRowContent(Student student, Course course,
-                                        String expectedDetails, String expectedManageAccountLink,
-                                        String expectedHomePageLink) {
+                                        String expectedDetails, String expectedManageAccountLink) {
         WebElement studentRow = getStudentRow(student);
         String actualDetails = getStudentDetails(studentRow);
         String actualName = getStudentName(studentRow);
-        String actualGoogleId = getStudentGoogleId(studentRow);
-        String actualHomepageLink = getStudentHomeLink(studentRow);
+        String actualEmail = getStudentEmail(studentRow);
         String actualInstitute = getStudentInstitute(studentRow);
         String actualComment = getStudentComments(studentRow);
         String actualManageAccountLink = getStudentManageAccountLink(studentRow);
 
         String expectedName = student.getName();
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.getGoogleId());
+        String expectedEmail = StringHelper.convertToEmptyStringIfNull(student.getEmail());
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
         assertEquals(expectedDetails, actualDetails);
         assertEquals(expectedName, actualName);
-        assertEquals(expectedGoogleId, actualGoogleId);
+        assertEquals(expectedEmail, actualEmail);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedComment, actualComment);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
-        assertEquals(expectedHomePageLink, actualHomepageLink);
-    }
-
-    public void verifyStudentRowContentAfterReset(Student student, Course course) {
-        WebElement studentRow = getStudentRow(student);
-        String actualName = getStudentName(studentRow);
-        String actualInstitute = getStudentInstitute(studentRow);
-        String actualComment = getStudentComments(studentRow);
-
-        String expectedName = student.getName();
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
-        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
-
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedInstitute, actualInstitute);
-        assertEquals(expectedComment, actualComment);
     }
 
     public void verifyStudentExpandedLinks(Student student, int expectedNumExpandedRows) {
@@ -542,41 +478,24 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyInstructorRowContent(Instructor instructor, Course course,
-                                           String expectedManageAccountLink, String expectedHomePageLink) {
+                                           String expectedManageAccountLink) {
         WebElement instructorRow = getInstructorRow(instructor);
         String actualCourseId = getInstructorCourseId(instructorRow);
         String actualName = getInstructorName(instructorRow);
-        String actualGoogleId = getInstructorGoogleId(instructorRow);
-        String actualHomePageLink = getInstructorHomePageLink(instructorRow);
+        String actualEmail = getInstructorEmail(instructorRow);
         String actualInstitute = getInstructorInstitute(instructorRow);
         String actualManageAccountLink = getInstructorManageAccountLink(instructorRow);
 
         String expectedCourseId = instructor.getCourseId();
         String expectedName = instructor.getName();
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
+        String expectedEmail = StringHelper.convertToEmptyStringIfNull(instructor.getEmail());
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);
-        assertEquals(expectedGoogleId, actualGoogleId);
-        assertEquals(expectedHomePageLink, actualHomePageLink);
+        assertEquals(expectedEmail, actualEmail);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
-    }
-
-    public void verifyInstructorRowContentAfterReset(Instructor instructor, Course course) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        String actualCourseId = getInstructorCourseId(instructorRow);
-        String actualName = getInstructorName(instructorRow);
-        String actualInstitute = getInstructorInstitute(instructorRow);
-
-        String expectedCourseId = instructor.getCourseId();
-        String expectedName = instructor.getName();
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
-
-        assertEquals(expectedCourseId, actualCourseId);
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedInstitute, actualInstitute);
     }
 
     public void verifyInstructorExpandedLinks(Instructor instructor) {
