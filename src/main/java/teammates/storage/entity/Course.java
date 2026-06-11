@@ -5,14 +5,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.Const;
@@ -34,8 +40,13 @@ public class Course extends BaseEntity {
     @Column(nullable = false)
     private String timeZone;
 
-    @Column(nullable = false)
-    private String institute;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "instituteId", nullable = false)
+    private Institute institute;
+
+    @Column(name = "instituteId", nullable = false, insertable = false, updatable = false)
+    private UUID instituteId;
 
     @OneToMany(mappedBy = "course")
     private Set<FeedbackSession> feedbackSessions = new HashSet<>();
@@ -52,7 +63,7 @@ public class Course extends BaseEntity {
         // required by Hibernate
     }
 
-    public Course(String id, String name, String timeZone, String institute) {
+    public Course(String id, String name, String timeZone, Institute institute) {
         this.setId(id);
         this.setName(name);
         this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
@@ -65,7 +76,6 @@ public class Course extends BaseEntity {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForCourseId(getId()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForCourseName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
     }
@@ -110,12 +120,20 @@ public class Course extends BaseEntity {
         this.timeZone = timeZone;
     }
 
-    public String getInstitute() {
+    public Institute getInstitute() {
         return institute;
     }
 
-    public void setInstitute(String institute) {
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
+    /**
+     * Sets the institute of the course.
+     */
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
+        this.instituteId = institute == null ? null : institute.getId();
+    }
+
+    public UUID getInstituteId() {
+        return instituteId;
     }
 
     public Set<FeedbackSession> getFeedbackSessions() {
@@ -156,7 +174,8 @@ public class Course extends BaseEntity {
 
     @Override
     public String toString() {
-        return "Course [id=" + id + ", name=" + name + ", timeZone=" + timeZone + ", institute=" + institute
+        return "Course [id=" + id + ", name=" + name + ", timeZone=" + timeZone
+                + ", instituteId=" + instituteId
                 + ", feedbackSessions=" + feedbackSessions + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
     }

@@ -6,14 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.AccountRequestStatus;
@@ -41,7 +46,13 @@ public class AccountRequest extends BaseEntity {
 
     private String email;
 
-    private String institute;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "instituteId", nullable = false)
+    private Institute institute;
+
+    @Column(name = "instituteId", nullable = false, insertable = false, updatable = false)
+    private UUID instituteId;
 
     @Enumerated(EnumType.STRING)
     private AccountRequestStatus status;
@@ -58,7 +69,7 @@ public class AccountRequest extends BaseEntity {
         // required by Hibernate
     }
 
-    public AccountRequest(String email, String name, String institute, AccountRequestStatus status, String comments) {
+    public AccountRequest(String email, String name, Institute institute, AccountRequestStatus status, String comments) {
         this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
@@ -76,7 +87,6 @@ public class AccountRequest extends BaseEntity {
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(getEmail()), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(getName()), errors);
-        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
     }
@@ -131,12 +141,20 @@ public class AccountRequest extends BaseEntity {
         this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
-    public String getInstitute() {
+    public Institute getInstitute() {
         return this.institute;
     }
 
-    public void setInstitute(String institute) {
-        this.institute = SanitizationHelper.sanitizeTitle(institute);
+    /**
+     * Sets the institute of the account request.
+     */
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
+        this.instituteId = institute == null ? null : institute.getId();
+    }
+
+    public UUID getInstituteId() {
+        return this.instituteId;
     }
 
     public AccountRequestStatus getStatus() {
@@ -192,7 +210,8 @@ public class AccountRequest extends BaseEntity {
     @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", institute=" + institute + ", status=" + status + ", comments=" + comments
+                + email + ", instituteId=" + instituteId
+                + ", status=" + status + ", comments=" + comments
                 + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
