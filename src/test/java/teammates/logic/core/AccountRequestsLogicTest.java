@@ -20,6 +20,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCase;
 
 /**
@@ -33,7 +34,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         accountRequestsDb = mock(AccountRequestsDb.class);
-        accountRequestsLogic.initLogicDependencies(accountRequestsDb);
+        accountRequestsLogic.initLogicDependencies(accountRequestsDb, mock(InstitutesLogic.class));
     }
 
     @Test
@@ -140,7 +141,8 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     @Test
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", AccountRequestStatus.PENDING, "comments");
+        new Institute("institute", "SG").addAccountRequest(expectedAccountRequest);
         UUID id = expectedAccountRequest.getId();
         when(accountRequestsDb.getAccountRequest(id)).thenReturn(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);

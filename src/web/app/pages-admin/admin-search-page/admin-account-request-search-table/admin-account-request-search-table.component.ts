@@ -9,6 +9,7 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
+import { CountryNamePipe } from '../../../pipes/country-name.pipe';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
 import { EditRequestModalComponentResult } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
@@ -32,6 +33,7 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
     NgbDropdownToggle,
     NgbDropdownMenu,
     SearchTermsHighlighterPipe,
+    CountryNamePipe,
   ],
 })
 export class AdminAccountRequestSearchTableComponent implements OnChanges {
@@ -83,6 +85,7 @@ export class AdminAccountRequestSearchTableComponent implements OnChanges {
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
     modalRef.componentInstance.accountRequestInstitution = accountRequest.institute;
+    modalRef.componentInstance.accountRequestCountry = accountRequest.country;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
     modalRef.result.then(
@@ -92,6 +95,7 @@ export class AdminAccountRequestSearchTableComponent implements OnChanges {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
+            country: res.accountRequestCountry,
             status: accountRequest.status,
             comments: res.accountRequestComment,
           })
@@ -101,6 +105,7 @@ export class AdminAccountRequestSearchTableComponent implements OnChanges {
               accountRequest.name = resp.name;
               accountRequest.email = resp.email;
               accountRequest.institute = resp.institute;
+              accountRequest.country = resp.country;
               this.statusMessageService.showSuccessToast('Account request was successfully updated.');
             },
             error: (resp: ErrorMessageOutput) => {

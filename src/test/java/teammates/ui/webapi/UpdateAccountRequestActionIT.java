@@ -49,15 +49,17 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments"));
+                "institute", "SG", AccountRequestStatus.PENDING, "comments"));
         UUID id = accountRequest.getId();
         String name = "newName";
         String email = "newemail@email.com";
         String institute = "newInstitute";
+        String country = "SG";
         String comments = "newComments";
         AccountRequestStatus status = accountRequest.getStatus();
 
-        AccountRequestUpdateRequest requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
+        AccountRequestUpdateRequest requestBody =
+                new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         UpdateAccountRequestAction action = getAction(requestBody, params);
@@ -75,7 +77,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("non-existent but valid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
-                "institute", AccountRequestStatus.PENDING, "comments");
+                "institute", "SG", AccountRequestStatus.PENDING, "comments");
         String validUuid = UUID.randomUUID().toString();
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, validUuid};
 
@@ -85,7 +87,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("invalid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
-                "institute", AccountRequestStatus.PENDING, "comments");
+                "institute", "SG", AccountRequestStatus.PENDING, "comments");
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(requestBody, params);
@@ -94,12 +96,12 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("invalid email");
         accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments"));
+                "institute", "SG", AccountRequestStatus.PENDING, "comments"));
         id = accountRequest.getId();
         email = "newemail";
         status = accountRequest.getStatus();
 
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -112,7 +114,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         name = "@$@#$#@#@$#@$";
         email = "newemail@email.com";
 
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -124,7 +126,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ______TS("invalid name too long");
         name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, status, comments);
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -136,7 +138,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ______TS("null email value");
         name = "newName";
 
-        requestBody = new AccountRequestUpdateRequest(name, null, institute, status, comments);
+        requestBody = new AccountRequestUpdateRequest(name, null, institute, country, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -144,7 +146,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("email cannot be null", ihrbe.getMessage());
 
         ______TS("null name value");
-        requestBody = new AccountRequestUpdateRequest(null, email, institute, status, comments);
+        requestBody = new AccountRequestUpdateRequest(null, email, institute, country, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -152,7 +154,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("name cannot be null", ihrbe.getMessage());
 
         ______TS("null status value");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, null, comments);
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, null, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -160,7 +162,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("status cannot be null", ihrbe.getMessage());
 
         ______TS("null institute value");
-        requestBody = new AccountRequestUpdateRequest(name, email, null, status, comments);
+        requestBody = new AccountRequestUpdateRequest(name, email, null, country, status, comments);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -168,7 +170,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         assertEquals("institute cannot be null", ihrbe.getMessage());
 
         ______TS("allow null comments in request");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, status, null);
+        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, null);
         params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         action = getAction(requestBody, params);

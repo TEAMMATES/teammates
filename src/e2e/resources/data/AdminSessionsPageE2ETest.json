@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "AdminSessionsPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -14,7 +21,7 @@
     "typicalCourse1": {
       "id": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Typical Course 1",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Asia/Singapore"
     }
   },

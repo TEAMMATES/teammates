@@ -87,7 +87,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         assertEquals(student.getName(), response.getName());
         assertNull(response.getComments());
         assertNull(response.getJoinState());
-        assertEquals(student.getCourse().getInstitute(), response.getInstitute());
+        assertEquals(student.getCourse().getInstitute().getName(), response.getInstitute());
 
         ______TS("Student is non existent");
         params = new String[] {

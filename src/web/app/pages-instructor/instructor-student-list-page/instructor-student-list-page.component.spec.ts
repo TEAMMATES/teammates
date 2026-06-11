@@ -18,6 +18,8 @@ describe('InstructorStudentListPageComponent', () => {
     courseName: 'Course 1',
     timeZone: 'UTC',
     institute: 'Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 1649791778732,
     deletionTimestamp: 0,
   };

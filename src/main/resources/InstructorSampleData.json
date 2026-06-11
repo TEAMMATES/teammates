@@ -5,7 +5,6 @@
     "DemoCourse": {
       "id": "demo.course",
       "name": "Sample Course 101",
-      "institute": "demo.institute",
       "timeZone": "demo.timezone"
     }
   },

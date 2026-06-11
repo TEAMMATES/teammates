@@ -15,6 +15,8 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 const course: Course = {
   courseId: 'CS101',
   institute: 'Test Institute',
+  country: 'SG',
+  instituteId: 'test-institute-id',
   courseName: 'Introduction to CS',
   timeZone: '',
   creationTimestamp: 0,

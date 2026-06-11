@@ -74,7 +74,7 @@ public class GetStudentAction extends Action {
             // hide information if not an instructor
             studentData.hideInformationForStudent();
             // add student institute
-            studentData.setInstitute(student.getCourse().getInstitute());
+            studentData.setInstitute(student.getCourse().getInstitute().getName());
         }
 
         return new JsonResult(studentData);

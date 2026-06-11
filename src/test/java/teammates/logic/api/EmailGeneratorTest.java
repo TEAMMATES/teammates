@@ -12,6 +12,7 @@ import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
 
@@ -23,9 +24,10 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("chosen-one@jedi.org", "Anakin Skywalker", "Jedi Order",
+        AccountRequest accountRequest = new AccountRequest("chosen-one@jedi.org", "Anakin Skywalker",
                 AccountRequestStatus.PENDING,
                 "I don't like sand. It's coarse and rough and irritating... and it gets everywhere.");
+        new Institute("Jedi Order", "SG").addAccountRequest(accountRequest);
         EmailWrapper email = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
                 "TEAMMATES (Action Needed): New Account Request Received",
@@ -34,8 +36,9 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withNoComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul",
                 AccountRequestStatus.PENDING, null);
+        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
         EmailWrapper email = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
                 "TEAMMATES (Action Needed): New Account Request Received",
@@ -44,9 +47,10 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     @Test
     void testGenerateNewAccountRequestAcknowledgementEmail_withComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader", "Sith Order",
+        AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader",
                 AccountRequestStatus.PENDING,
                 "I Am Your Father");
+        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
         EmailWrapper email = emailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
@@ -55,8 +59,9 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     @Test
     void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul",
                 AccountRequestStatus.PENDING, null);
+        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
         EmailWrapper email = emailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
@@ -65,8 +70,9 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     @Test
     void testGenerateAccountRequestRejectionEmail_withDefaultReason_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
+        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul",
                 AccountRequestStatus.PENDING, null);
+        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
         String title = "We are Unable to Create an Account for you";
         String content = new StringBuilder()
                             .append("<p>Hi, Maul</p>\n")

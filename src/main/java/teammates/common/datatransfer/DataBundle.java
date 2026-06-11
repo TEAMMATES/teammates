@@ -11,6 +11,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -26,6 +27,7 @@ import teammates.storage.entity.Team;
  */
 // CHECKSTYLE.OFF:JavadocVariable each field represents different entity types
 public class DataBundle {
+    public Map<String, Institute> institutes = new LinkedHashMap<>();
     public Map<String, Account> accounts = new LinkedHashMap<>();
     public Map<String, AccountRequest> accountRequests = new LinkedHashMap<>();
     public Map<String, Course> courses = new LinkedHashMap<>();

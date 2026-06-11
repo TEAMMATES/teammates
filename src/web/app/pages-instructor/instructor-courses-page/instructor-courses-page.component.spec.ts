@@ -31,6 +31,8 @@ describe('InstructorCoursesPageComponent', () => {
       course: {
         courseId: 'CS3281',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         courseName: 'Modifiable Students and Courses',
         timeZone: 'UTC',
         creationTimestamp: date1.getTime(),
@@ -45,6 +47,8 @@ describe('InstructorCoursesPageComponent', () => {
       course: {
         courseId: 'CS3282',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         courseName: 'Nothing modifiable',
         timeZone: 'UTC',
         creationTimestamp: date2.getTime(),
@@ -62,6 +66,8 @@ describe('InstructorCoursesPageComponent', () => {
       course: {
         courseId: 'CS1020',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         courseName: 'Can modify deleted',
         timeZone: 'UTC',
         creationTimestamp: date3.getTime(),
@@ -76,6 +82,8 @@ describe('InstructorCoursesPageComponent', () => {
       course: {
         courseId: 'CS2010',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         courseName: 'Cannot modify deleted',
         timeZone: 'UTC',
         creationTimestamp: date5.getTime(),
@@ -106,6 +114,8 @@ describe('InstructorCoursesPageComponent', () => {
   const courseCS1231: Course = {
     courseId: 'CS1231',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     courseName: 'Discrete Structures',
     creationTimestamp: date1.getTime(),
     deletionTimestamp: 0,
@@ -115,6 +125,8 @@ describe('InstructorCoursesPageComponent', () => {
   const courseCS3281: Course = {
     courseId: 'CS3281',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     courseName: 'Thematic Systems Project I',
     creationTimestamp: date3.getTime(),
     deletionTimestamp: date4.getTime(),
@@ -124,6 +136,8 @@ describe('InstructorCoursesPageComponent', () => {
   const courseCS3282: Course = {
     courseId: 'CS3282',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     courseName: 'Thematic Systems Project II',
     creationTimestamp: date5.getTime(),
     deletionTimestamp: date6.getTime(),
@@ -133,6 +147,8 @@ describe('InstructorCoursesPageComponent', () => {
   const courseST4234: Course = {
     courseId: 'ST4234',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     courseName: 'Bayesian Statistics',
     creationTimestamp: date2.getTime(),
     deletionTimestamp: 0,
@@ -336,7 +352,7 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.softDeletedCourses[0].course.courseId).toEqual('ST4234');
     expect(component.softDeletedCourses[0].course.courseName).toEqual('Bayesian Statistics');
 
-    expect(component.courseFormModel.institutes).toEqual(['Test Institute']);
+    expect(component.courseFormModel.institutes).toEqual([{ id: 'test-institute-id', name: 'Test Institute' }]);
     expect(component.courseFormModel.course.institute).toEqual('Test Institute');
   });
 

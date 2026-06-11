@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "AutomatedSessionRemindersE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructorWithEvals": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -13,7 +20,7 @@
     "course": {
       "id": "tm.e2e.AutSesRem.course",
       "name": "Test Course for Aut Sessions Reminder",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     }
   },

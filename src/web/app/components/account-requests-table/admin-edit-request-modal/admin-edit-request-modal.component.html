@@ -28,7 +28,7 @@
     />
   </div>
   <div>
-    <label><b>Institution, Country:</b></label>
+    <label><b>Institution:</b></label>
     <input
       #requestInstitutionInput
       id="request-institution"
@@ -36,6 +36,15 @@
       class="form-control"
       [value]="accountRequestInstitution"
       (input)="accountRequestInstitution = requestInstitutionInput.value"
+    />
+  </div>
+  <div>
+    <label><b>Country:</b></label>
+    <tm-searchable-combobox
+      inputId="request-country"
+      placeholder="Search for a country or region..."
+      [options]="countryOptions"
+      [formControl]="country"
     />
   </div>
   <div class="row">

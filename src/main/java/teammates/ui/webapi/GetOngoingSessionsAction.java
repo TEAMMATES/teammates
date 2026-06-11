@@ -90,7 +90,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
             List<FeedbackSession> feedbackSessions = courseIdFeedbackSessionList.getValue();
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
             UUID accountId = getRegisteredInstructorAccountIdFromInstructors(instructors);
-            String institute = logic.getCourse(courseId).getInstitute();
+            String institute = logic.getCourse(courseId).getInstitute().getName();
             List<OngoingSession> sessions = feedbackSessions.stream()
                     .map(session -> new OngoingSession(session, accountId))
                     .collect(Collectors.toList());

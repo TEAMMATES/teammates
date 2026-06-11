@@ -48,6 +48,8 @@ describe('CourseEditFormComponent', () => {
     courseName: 'Test Course1',
     timeZone: validTimeZone,
     institute: validInstitute1,
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };

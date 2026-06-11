@@ -159,6 +159,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 feedback_responses,
                 feedback_session_logs,
                 feedback_sessions,
+                institutes,
                 instructors,
                 notifications,
                 read_notifications,

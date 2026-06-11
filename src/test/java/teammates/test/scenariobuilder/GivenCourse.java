@@ -3,6 +3,7 @@ package teammates.test.scenariobuilder;
 import java.time.Instant;
 
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 
 /**
  * Builder for Course entities used in test scenarios.
@@ -30,10 +31,11 @@ public final class GivenCourse extends GivenBase<Course> {
     }
 
     /**
-     * Sets the institute for the course.
+     * Sets the institute for the course, referenced by its alias.
      */
-    public GivenCourse institute(String institute) {
-        entity.setInstitute(institute);
+    public GivenCourse institute(String instituteAlias) {
+        Institute institute = given.getOrCreate(instituteAlias, given.dataBundle.institutes, given::institute);
+        institute.addCourse(entity);
         return this;
     }
 
@@ -47,7 +49,9 @@ public final class GivenCourse extends GivenBase<Course> {
 
     @Override
     void ensureConsistent() {
-        // No mandatory relationships
+        if (entity.getInstituteId() == null) {
+            this.institute("default");
+        }
     }
 
     /**
@@ -58,6 +62,6 @@ public final class GivenCourse extends GivenBase<Course> {
     }
 
     private Course defaultCourse(String courseId) {
-        return new Course(courseId, "Course Name", "UTC", "Institute Name");
+        return new Course(courseId, "Course Name", "UTC");
     }
 }

@@ -18,6 +18,7 @@ import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -36,6 +37,7 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
     private UsersLogic usersLogic;
+    private InstitutesLogic institutesLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -45,9 +47,10 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, InstitutesLogic institutesLogic) {
         this.coursesDb = coursesDb;
         this.usersLogic = usersLogic;
+        this.institutesLogic = institutesLogic;
     }
 
     /**
@@ -57,9 +60,10 @@ public final class CoursesLogic {
      * @throws InvalidParametersException   if the course is not valid
      * @throws EntityAlreadyExistsException if a course with the same ID already exists
      */
-    public Course createCourse(String courseId, String courseName, String timeZone, String institute)
+    public Course createCourse(String courseId, String courseName, String timeZone, Institute institute)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Course course = new Course(courseId, courseName, timeZone, institute);
+        Course course = new Course(courseId, courseName, timeZone);
+        institute.addCourse(course);
 
         validateCourse(course);
 
@@ -88,8 +92,13 @@ public final class CoursesLogic {
             throw new InvalidParametersException(timeZoneErrorMessage);
         }
 
+        Institute institute = institutesLogic.getInstitute(courseCreateRequest.getInstituteId());
+        if (institute == null) {
+            throw new InvalidParametersException("The institute for the course could not be found.");
+        }
+
         Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
-                timeZone, courseCreateRequest.getInstitute());
+                timeZone, institute);
 
         try {
             usersLogic.createInstructor(course, courseCreator.getName(), courseCreator.getEmail(),

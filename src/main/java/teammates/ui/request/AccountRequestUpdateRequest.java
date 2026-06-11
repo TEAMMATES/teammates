@@ -13,6 +13,7 @@ public class AccountRequestUpdateRequest extends BasicRequest {
     private String name;
     private String email;
     private String institute;
+    private String country;
     private AccountRequestStatus status;
 
     @Nullable
@@ -22,11 +23,12 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         // for Jackson deserialization
     }
 
-    public AccountRequestUpdateRequest(String name, String email, String institute, AccountRequestStatus status,
-                                       String comments) {
+    public AccountRequestUpdateRequest(String name, String email, String institute, String country,
+                                       AccountRequestStatus status, String comments) {
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeName(institute);
+        this.country = country;
         this.status = status;
         if (comments != null) {
             this.comments = SanitizationHelper.sanitizeTextField(comments);
@@ -38,6 +40,7 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         validateTrue(name != null, "name cannot be null");
         validateTrue(email != null, "email cannot be null");
         validateTrue(institute != null, "institute cannot be null");
+        validateTrue(country != null, "country cannot be null");
         validateTrue(status != null, "status cannot be null");
         validateTrue(status == AccountRequestStatus.APPROVED
                 || status == AccountRequestStatus.REJECTED
@@ -56,6 +59,10 @@ public class AccountRequestUpdateRequest extends BasicRequest {
 
     public String getInstitute() {
         return this.institute;
+    }
+
+    public String getCountry() {
+        return this.country;
     }
 
     public AccountRequestStatus getStatus() {

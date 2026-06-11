@@ -5,6 +5,7 @@ export interface AccountCreateRequest extends BasicRequest {
   instructorEmail: string;
   instructorName: string;
   instructorInstitution: string;
+  instructorCountry: string;
   instructorComments?: string;
   captchaResponse?: string;
 }
@@ -18,6 +19,7 @@ export interface AccountRequestUpdateRequest extends BasicRequest {
   name: string;
   email: string;
   institute: string;
+  country: string;
   status: AccountRequestStatus;
   comments?: string;
 }
@@ -32,7 +34,7 @@ export interface CourseBasicRequest extends BasicRequest {
 
 export interface CourseCreateRequest extends CourseBasicRequest {
   courseId: string;
-  institute: string;
+  instituteId: string;
 }
 
 export interface CourseUpdateRequest extends CourseBasicRequest {

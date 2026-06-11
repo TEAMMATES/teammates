@@ -28,6 +28,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
     email: '',
     name: '',
     institute: '',
+    country: '',
     registrationLink: '',
     status: AccountRequestStatus.PENDING,
     comments: '',
@@ -41,6 +42,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
     .name('name')
     .status(AccountRequestStatus.PENDING)
     .institute('institute')
+    .country('SG')
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 
@@ -337,6 +339,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
+      country: '',
       registrationKey: 'registration key',
       name: 'new name',
       createdAt: 1,
@@ -368,6 +371,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
+      country: '',
       registrationKey: 'registration key',
       name: component.accountRequests[0].name,
       createdAt: 1,
@@ -394,6 +398,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
+      country: '',
       registrationKey: 'registration key',
       name: component.accountRequests[0].name,
       createdAt: 1,

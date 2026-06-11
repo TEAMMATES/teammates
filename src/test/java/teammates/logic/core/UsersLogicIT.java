@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -44,6 +45,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     protected void setUp() {
         inTransaction(() -> {
             Course typicalCourse = getTypicalCourse();
+            HibernateUtil.persist(typicalCourse.getInstitute());
             course = coursesLogic.createCourse(
                     typicalCourse.getId(), typicalCourse.getName(), typicalCourse.getTimeZone(),
                     typicalCourse.getInstitute());
