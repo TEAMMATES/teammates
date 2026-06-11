@@ -982,37 +982,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-1"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  1.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 1: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1283,37 +1294,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  3.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 3: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1533,33 +1555,47 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-primary text-white"
+            class="card-header bg-primary cursor-pointer text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  2.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 2: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2"
+                />
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1644,37 +1680,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-4"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  4.
+                </span>
+                <span>
+                  MSQ question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 4: 
-              </b>
-              MSQ question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1966,37 +2013,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-5"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  5.
+                </span>
+                <span>
+                  numerical scale question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 5: 
-              </b>
-              numerical scale question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -2175,37 +2233,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-6"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  6.
+                </span>
+                <span>
+                  constant sum question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 6: 
-              </b>
-              constant sum question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -2398,37 +2467,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-7"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  7.
+                </span>
+                <span>
+                  contribution question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 7: 
-              </b>
-              contribution question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -2851,37 +2931,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-8"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  8.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 8: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -3204,37 +3295,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-9"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  9.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 9: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -3480,37 +3582,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-10"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  10.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 10: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -3964,37 +4077,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-1"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  1.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 1: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4271,37 +4395,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  3.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 3: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4524,33 +4659,47 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-primary text-white"
+            class="card-header bg-primary cursor-pointer text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  2.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 2: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2"
+                />
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4635,37 +4784,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-4"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  4.
+                </span>
+                <span>
+                  MSQ question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 4: 
-              </b>
-              MSQ question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4963,37 +5123,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-5"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  5.
+                </span>
+                <span>
+                  numerical scale question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 5: 
-              </b>
-              numerical scale question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -5174,37 +5345,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-6"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  6.
+                </span>
+                <span>
+                  constant sum question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 6: 
-              </b>
-              constant sum question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -5399,37 +5581,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-7"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  7.
+                </span>
+                <span>
+                  contribution question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 7: 
-              </b>
-              contribution question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -5854,37 +6047,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-8"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  8.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 8: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -6218,37 +6422,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-9"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  9.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 9: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -6496,37 +6711,48 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-10"
         >
           <div
-            class="card-header question-header cursor-pointer border-0 bg-success text-white"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  10.
+                </span>
+                <span>
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 10: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"

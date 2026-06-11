@@ -223,6 +223,34 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.getResponseSubmissionStatus('recipient-c')).toBe(ResponseSubmissionStatus.NEW);
   });
 
+  it('getResponseSubmissionStatusLabel: maps statuses to user-facing labels', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.NEW).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.MODIFIED).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-c').status(ResponseSubmissionStatus.SAVED).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-d').status(ResponseSubmissionStatus.ERROR).build() },
+    );
+
+    expect(component.getResponseSubmissionStatusLabel('recipient-a')).toBe('');
+    expect(component.getResponseSubmissionStatusLabel('recipient-b')).toBe('Unsaved Changes');
+    expect(component.getResponseSubmissionStatusLabel('recipient-c')).toBe('Saved');
+    expect(component.getResponseSubmissionStatusLabel('recipient-d')).toBe('Error');
+  });
+
+  it('getResponseSubmissionStatusIconClass: maps statuses to icons', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.NEW).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.MODIFIED).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-c').status(ResponseSubmissionStatus.SAVED).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-d').status(ResponseSubmissionStatus.ERROR).build() },
+    );
+
+    expect(component.getResponseSubmissionStatusIconClass('recipient-a')).toBe('');
+    expect(component.getResponseSubmissionStatusIconClass('recipient-b')).toBe('fas fa-circle');
+    expect(component.getResponseSubmissionStatusIconClass('recipient-c')).toBe('fas fa-check');
+    expect(component.getResponseSubmissionStatusIconClass('recipient-d')).toBe('fas fa-exclamation-triangle');
+  });
+
   it('hasSectionTeam: should return false if QuestionSubmissionFormMode is not FLEXIBLE_RECIPIENT', () => {
     component.formMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 

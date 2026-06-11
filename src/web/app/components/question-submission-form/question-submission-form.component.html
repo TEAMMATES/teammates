@@ -1,18 +1,18 @@
 <div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
-  <div
-    class="card-header question-header cursor-pointer border-0"
-    (click)="toggleQuestionTab()"
-    [ngClass]="getQuestionHeaderClass()"
-  >
-    <div class="collapse-caret">
-      <tm-panel-chevron [isExpanded]="isTabExpanded()"></tm-panel-chevron>
+  <div class="card-header bg-primary cursor-pointer" (click)="toggleQuestionTab()" [ngClass]="getQuestionHeaderClass()">
+    <div>
+      <h2 class="h6 fw-medium mb-0 d-flex">
+        <span class="me-2 flex-shrink-0">{{ model.questionNumber }}.</span>
+        <span>{{ model.questionBrief }}</span>
+      </h2>
     </div>
-    @if (getResponseSubmissionStatus(recipientId) === ResponseSubmissionStatus.SAVED) {
-      <i class="fas fa-check me-2" aria-hidden="true"></i>
-    }
-    <h2 class="question-details">
-      <b>{{ model.questionNumber }}. </b>{{ model.questionBrief }}
-    </h2>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <span class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white">
+        <i class="me-2" [ngClass]="getResponseSubmissionStatusIconClass(recipientId)" aria-hidden="true"></i>
+        {{ getResponseSubmissionStatusLabel(recipientId) }}
+      </span>
+    </div>
+    <tm-panel-chevron [isExpanded]="isTabExpanded()"></tm-panel-chevron>
   </div>
 
   <div class="card-body" [ngbCollapse]="!isTabExpanded()">

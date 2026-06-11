@@ -270,6 +270,34 @@ export class QuestionSubmissionFormComponent {
     }
   }
 
+  getResponseSubmissionStatusLabel(recipientId?: string): string {
+    switch (this.getResponseSubmissionStatus(recipientId)) {
+      case ResponseSubmissionStatus.ERROR:
+        return 'Error';
+      case ResponseSubmissionStatus.SAVED:
+        return 'Saved';
+      case ResponseSubmissionStatus.MODIFIED:
+        return 'Unsaved Changes';
+      case ResponseSubmissionStatus.NEW:
+      default:
+        return '';
+    }
+  }
+
+  getResponseSubmissionStatusIconClass(recipientId?: string): string {
+    switch (this.getResponseSubmissionStatus(recipientId)) {
+      case ResponseSubmissionStatus.ERROR:
+        return 'fas fa-exclamation-triangle';
+      case ResponseSubmissionStatus.MODIFIED:
+        return 'fas fa-circle';
+      case ResponseSubmissionStatus.SAVED:
+        return 'fas fa-check';
+      case ResponseSubmissionStatus.NEW:
+      default:
+        return '';
+    }
+  }
+
   private compareByName(firstRecipient: FeedbackResponseRecipient, secondRecipient: FeedbackResponseRecipient): number {
     return firstRecipient.recipientName.localeCompare(secondRecipient.recipientName);
   }
