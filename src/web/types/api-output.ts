@@ -537,7 +537,6 @@ export interface Student extends ApiOutput {
   institute: string;
   courseName: string;
   accountId?: string;
-  googleId?: string;
   comments?: string;
   key?: string;
   joinState?: JoinState;

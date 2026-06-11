@@ -2,7 +2,6 @@
 
 exports[`AdminInstructorSearchTableComponent > should snap with a deleted course 1`] = `
 <tm-admin-instructor-search-table
-  accountService={[Function _AccountService]}
   instructorReset={[Function EventEmitter_]}
   instructors={[Function Array]}
   isRegeneratingInstructorKeys={[Function Array]}
@@ -56,7 +55,7 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
               Name
             </th>
             <th>
-              Google ID
+              Email
             </th>
             <th>
               Institute
@@ -98,13 +97,7 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
               instructor
             </td>
             <td>
-              <a
-                href="home-page-link"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                ins-google-id
-              </a>
+              instructor@tester.com
             </td>
             <td>
               institute
@@ -119,16 +112,6 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
                   class="fas fa-info-circle"
                 />
                  Manage this account 
-              </a>
-              <br />
-              <a
-                href="javascript:;"
-                id="reset-instructor-id-0"
-              >
-                <i
-                  class="fas fa-sync"
-                />
-                 Reset Google ID 
               </a>
               <br />
               <button
@@ -147,17 +130,6 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
               <ul
                 class="list-group collapse"
               >
-                <li
-                  class="list-group-item list-group-item-success has-success"
-                >
-                  <strong>
-                    Email
-                  </strong>
-                  <input
-                    class="form-control"
-                    disabled=""
-                  />
-                </li>
                 <li
                   class="list-group-item list-group-item-info"
                 >
@@ -225,7 +197,6 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
 
 exports[`AdminInstructorSearchTableComponent > should snap with an expanded instructor table 1`] = `
 <tm-admin-instructor-search-table
-  accountService={[Function _AccountService]}
   instructorReset={[Function EventEmitter_]}
   instructors={[Function Array]}
   isRegeneratingInstructorKeys={[Function Array]}
@@ -279,7 +250,7 @@ exports[`AdminInstructorSearchTableComponent > should snap with an expanded inst
               Name
             </th>
             <th>
-              Google ID
+              Email
             </th>
             <th>
               Institute
@@ -318,13 +289,7 @@ exports[`AdminInstructorSearchTableComponent > should snap with an expanded inst
               tester
             </td>
             <td>
-              <a
-                href="home-page-link"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                instructor-google-id
-              </a>
+              tester@tester.com
             </td>
             <td>
               institute
@@ -339,16 +304,6 @@ exports[`AdminInstructorSearchTableComponent > should snap with an expanded inst
                   class="fas fa-info-circle"
                 />
                  Manage this account 
-              </a>
-              <br />
-              <a
-                href="javascript:;"
-                id="reset-instructor-id-0"
-              >
-                <i
-                  class="fas fa-sync"
-                />
-                 Reset Google ID 
               </a>
               <br />
               <button
@@ -367,17 +322,6 @@ exports[`AdminInstructorSearchTableComponent > should snap with an expanded inst
               <ul
                 class="list-group collapse show"
               >
-                <li
-                  class="list-group-item list-group-item-success has-success"
-                >
-                  <strong>
-                    Email
-                  </strong>
-                  <input
-                    class="form-control"
-                    disabled=""
-                  />
-                </li>
                 <li
                   class="list-group-item list-group-item-info"
                 >

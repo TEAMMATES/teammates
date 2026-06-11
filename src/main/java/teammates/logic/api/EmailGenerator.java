@@ -826,18 +826,18 @@ public final class EmailGenerator {
     /**
      * Generates the course re-join email for the given {@code student} in {@code course}.
      */
-    public EmailWrapper generateStudentCourseRejoinEmailAfterGoogleIdReset(
+    public EmailWrapper generateStudentCourseRejoinEmailAfterUnlinkAccount(
             Course course, Student student) {
 
         String emailBody = Templates.populateTemplate(
-                fillUpStudentRejoinAfterGoogleIdResetFragment(student),
+                fillUpStudentRejoinAfterUnlinkAccountFragment(student),
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${coOwnersEmails}", generateCoOwnersEmailsLine(course.getId()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.getEmail());
-        email.setType(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
+        email.setType(EmailType.STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT);
         email.setSubjectFromType(course.getName(), course.getId());
         email.setContent(emailBody);
         return email;
@@ -868,17 +868,17 @@ public final class EmailGenerator {
     /**
      * Generates the course re-join email for the given {@code instructor} in {@code course}.
      */
-    public EmailWrapper generateInstructorCourseRejoinEmailAfterGoogleIdReset(
+    public EmailWrapper generateInstructorCourseRejoinEmailAfterUnlinkAccount(
             Instructor instructor, Course course) {
 
         String emailBody = Templates.populateTemplate(
-                fillUpInstructorRejoinAfterGoogleIdResetFragment(instructor),
+                fillUpInstructorRejoinAfterUnlinkAccountFragment(instructor),
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
-        email.setType(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET);
+        email.setType(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT);
         email.setSubjectFromType(course.getName(), course.getId());
         email.setContent(emailBody);
         return email;
@@ -982,11 +982,11 @@ public final class EmailGenerator {
             "${joinUrl}", joinUrl);
     }
 
-    private String fillUpStudentRejoinAfterGoogleIdResetFragment(Student student) {
+    private String fillUpStudentRejoinAfterUnlinkAccountFragment(Student student) {
         String joinUrl = Config.getFrontEndAppUrl(student.getRegistrationUrl()).toAbsoluteString();
 
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
+            "${joinFragment}", EmailTemplates.FRAGMENT_STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
             "${joinUrl}", joinUrl,
             "${supportEmail}", Config.SUPPORT_EMAIL);
     }
@@ -1001,11 +1001,11 @@ public final class EmailGenerator {
             "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
-    private String fillUpInstructorRejoinAfterGoogleIdResetFragment(Instructor instructor) {
+    private String fillUpInstructorRejoinAfterUnlinkAccountFragment(Instructor instructor) {
         String joinUrl = Config.getFrontEndAppUrl(instructor.getRegistrationUrl()).toAbsoluteString();
 
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
-            "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
+            "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT,
             "${joinUrl}", joinUrl,
             "${supportEmail}", Config.SUPPORT_EMAIL);
     }

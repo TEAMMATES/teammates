@@ -1021,11 +1021,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the account associated with the user.
+     * Unlinks the account associated with the user profile without deleting
+     * either entity, allowing the profile to be linked to a different account.
      */
-    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
-        assert userId != null;
-
+    public User unlinkAccount(UUID userId) throws EntityDoesNotExistException {
         User user = getUser(userId);
 
         if (user == null) {

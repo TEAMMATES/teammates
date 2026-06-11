@@ -22,7 +22,7 @@
         <tr>
           <th>Course [Section] (Team)</th>
           <th>Name</th>
-          <th>Google ID</th>
+          <th>Email</th>
           <th>Institute</th>
           <th>Comments</th>
           <th>Options</th>
@@ -71,22 +71,11 @@
               >
               </a>
             </td>
-            <td>
-              @if (student.googleId) {
-                <a
-                  href="{{ student.homePageLink }}"
-                  (click)="$event.stopPropagation()"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  [innerHtml]="student.googleId | highlighter: searchString : true"
-                >
-                </a>
-              }
-            </td>
+            <td [innerHtml]="student.email | highlighter: searchString : true"></td>
             <td [innerHtml]="student.institute | highlighter: searchString : true"></td>
             <td [innerHtml]="student.comments | highlighter: searchString : true"></td>
             <td>
-              @if (student.googleId && student.manageAccountLink) {
+              @if (student.manageAccountLink) {
                 <a
                   href="{{ student.manageAccountLink }}"
                   (click)="$event.stopPropagation()"
@@ -95,14 +84,8 @@
                 >
                   <i class="fas fa-info-circle"></i> Manage this account
                 </a>
+                <br />
               }
-              <br />
-              @if (student.googleId) {
-                <a id="reset-student-id-{{ i }}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
-                  <i class="fas fa-sync"></i> Reset Google ID
-                </a>
-              }
-              <br />
               <button
                 id="regenerate-student-key-{{ i }}"
                 data-testid="regenerate-student-key"
@@ -120,10 +103,6 @@
           <tr>
             <td colspan="6">
               <ul class="list-group" [ngbCollapse]="!student.showLinks">
-                <li class="list-group-item list-group-item-success has-success">
-                  <strong>Email</strong>
-                  <input [value]="student.email" disabled class="form-control" />
-                </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
                   <button

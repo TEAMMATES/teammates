@@ -3,7 +3,6 @@ package teammates.e2e.cases;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.Instant;
-import java.util.UUID;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
@@ -47,16 +46,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         String studentDetails = getExpectedStudentDetails(student);
         String studentManageAccountLink = getExpectedStudentManageAccountLink(student);
-        String studentHomePageLink = getExpectedStudentHomePageLink(student);
         int numExpandedRows = getExpectedNumExpandedRows(student);
-        searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink,
-                studentHomePageLink);
+        searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink);
         searchPage.verifyStudentExpandedLinks(student, numExpandedRows);
-
-        ______TS("Typical case: Reset student google id");
-        searchPage.resetStudentGoogleId(student);
-        student.setGoogleId(null);
-        searchPage.verifyStudentRowContentAfterReset(student, course);
 
         ______TS("Typical case: Regenerate registration key for a course student");
         searchPage.clickExpandStudentLinks();
@@ -71,14 +63,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         String instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
-        String instructorHomePageLink = getExpectedInstructorHomePageLink(instructor);
-        searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink,
-                instructorHomePageLink);
+        searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink);
         searchPage.verifyInstructorExpandedLinks(instructor);
-
-        ______TS("Typical case: Reset instructor google id");
-        searchPage.resetInstructorGoogleId(instructor);
-        searchPage.verifyInstructorRowContentAfterReset(instructor, course);
 
         ______TS("Typical case: Regenerate registration key for an instructor");
         searchPage.clickExpandInstructorLinks();
@@ -99,8 +85,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchContent = "Course1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyStudentRowContentAfterReset(student, course);
-        searchPage.verifyInstructorRowContentAfterReset(instructor, course);
         searchPage.verifyAccountRequestRowContent(accountRequest);
 
         ______TS("Typical case: Expand and collapse links");
@@ -217,14 +201,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 student.getTeamName());
     }
 
-    private String getExpectedStudentHomePageLink(Student student) {
-        UUID accountId = student.isRegistered() ? student.getAccountId() : null;
-        return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withMasqueradeAccount(accountId)
-                .toAbsoluteString()
-                : "";
-    }
-
     private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withAccountId(student.getAccountId())
@@ -233,7 +209,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private int getExpectedNumExpandedRows(Student student) {
-        int expectedNumExpandedRows = 2;
+        int expectedNumExpandedRows = 1;
         for (FeedbackSession sessions : testData.feedbackSessions.values()) {
             if (sessions.getCourse().equals(student.getCourse())) {
                 expectedNumExpandedRows += 1;
@@ -243,13 +219,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
             }
         }
         return expectedNumExpandedRows;
-    }
-
-    private String getExpectedInstructorHomePageLink(Instructor instructor) {
-        UUID accountId = instructor.isRegistered() ? instructor.getAccountId() : null;
-        return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withMasqueradeAccount(accountId)
-                .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {

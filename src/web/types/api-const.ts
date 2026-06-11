@@ -63,7 +63,7 @@ export enum ResourceEndpoints {
   AUTH = "/webapi/auth",
   AUTH_REGKEY = "/webapi/auth/regkey",
   ACCOUNT = "/webapi/account",
-  ACCOUNT_RESET = "/webapi/account/reset",
+  ACCOUNT_UNLINK = "/webapi/account/unlink",
   ACCOUNT_REQUEST = "/webapi/account/request",
   ACCOUNT_REQUESTS = "/webapi/account/requests",
   ACCOUNT_REQUEST_REJECT = "/webapi/account/request/rejection",

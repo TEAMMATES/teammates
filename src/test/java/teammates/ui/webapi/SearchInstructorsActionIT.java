@@ -93,21 +93,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
     }
 
     @Test(groups = GroupNames.INTEGRATION)
-    protected void testExecute_searchGoogleId_shouldSucceed() {
-        loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getGoogleId() };
-        SearchInstructorsAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-        InstructorsData response = (InstructorsData) result.getOutput();
-        assertTrue(response.getInstructors().stream()
-                .filter(i -> i.getName().equals(instructor.getName()))
-                .findAny()
-                .isPresent());
-        assertNotNull(response.getInstructors().get(0).getKey());
-        assertNotNull(response.getInstructors().get(0).getInstitute());
-    }
-
-    @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_searchName_shouldSucceed() {
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, instructor.getName() };

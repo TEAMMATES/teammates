@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, injec
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { AccountService } from '../../../../services/account.service';
 import { FeedbackSessionsGroup, InstructorAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -22,7 +21,6 @@ import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highligh
 export class AdminInstructorSearchTableComponent implements OnChanges {
   private statusMessageService = inject(StatusMessageService);
   private simpleModalService = inject(SimpleModalService);
-  private accountService = inject(AccountService);
   private userService = inject(UserService);
 
   @Input()
@@ -52,37 +50,6 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
     for (const instructor of this.instructors) {
       instructor.showLinks = false;
     }
-  }
-
-  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: Event | null): void {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    const modalContent = `Are you sure you want to reset the Google account ID currently associated for
-        <strong>${instructor.name}</strong> in the course <strong>${instructor.courseId}</strong>?
-        The user will need to re-associate their account with a new Google ID.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Reset <strong>${instructor.name}</strong>'s Google ID?`,
-      SimpleModalType.WARNING,
-      modalContent,
-    );
-
-    modalRef.result.then(
-      () => {
-        this.accountService.resetAccount(instructor.userId).subscribe({
-          next: () => {
-            this.instructorReset.emit();
-            this.statusMessageService.showSuccessToast("The instructor's Google ID has been reset.");
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-      },
-      () => {},
-    );
   }
 
   regenerateUserKey(instructor: InstructorAccountSearchResult, index: number): void {

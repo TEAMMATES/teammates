@@ -297,7 +297,7 @@ public final class Const {
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
         public static final String ACCOUNT = URI_PREFIX + "/account";
-        public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
+        public static final String ACCOUNT_UNLINK = URI_PREFIX + "/account/unlink";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
         public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
         public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";

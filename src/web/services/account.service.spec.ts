@@ -64,12 +64,12 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   });
 
-  it('should execute PUT on account/reset endpoint', () => {
-    service.resetAccount('testUserId');
+  it('should execute PUT on account/unlink endpoint', () => {
+    service.unlinkAccount('testUserId');
     const paramMap: Record<string, string> = {
       userid: 'testUserId',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_RESET, paramMap);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   });
 
   it('should execute POST on account request approval endpoint', () => {

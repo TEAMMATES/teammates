@@ -116,7 +116,6 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
 
         assertEquals(student.getName(), response.getName());
         assertEquals(student.getRegKey(), response.getKey());
-        assertEquals(student.getGoogleId(), response.getGoogleId());
     }
 
     @Test(groups = GroupNames.INTEGRATION)

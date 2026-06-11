@@ -22,7 +22,7 @@
         <tr>
           <th>Course</th>
           <th>Name</th>
-          <th>Google ID</th>
+          <th>Email</th>
           <th>Institute</th>
           <th>Options</th>
         </tr>
@@ -58,16 +58,7 @@
               </div>
             </td>
             <td [innerHtml]="instructor.name | highlighter: searchString : true"></td>
-            <td>
-              <a
-                href="{{ instructor.homePageLink }}"
-                (click)="$event.stopPropagation()"
-                target="_blank"
-                rel="noopener noreferrer"
-                [innerHtml]="instructor.googleId | highlighter: searchString : true"
-              >
-              </a>
-            </td>
+            <td [innerHtml]="instructor.email | highlighter: searchString : true"></td>
             <td [innerHtml]="instructor.institute | highlighter: searchString : true"></td>
             <td>
               @if (instructor.manageAccountLink) {
@@ -79,18 +70,8 @@
                 >
                   <i class="fas fa-info-circle"></i> Manage this account
                 </a>
+                <br />
               }
-              <br />
-              @if (instructor.googleId) {
-                <a
-                  id="reset-instructor-id-{{ i }}"
-                  href="javascript:;"
-                  (click)="resetInstructorGoogleId(instructor, $event)"
-                >
-                  <i class="fas fa-sync"></i> Reset Google ID
-                </a>
-              }
-              <br />
               <button
                 id="regenerate-instructor-key-{{ i }}"
                 data-testid="regenerate-instructor-key"
@@ -108,10 +89,6 @@
           <tr>
             <td colspan="5">
               <ul class="list-group" [ngbCollapse]="!instructor.showLinks">
-                <li class="list-group-item list-group-item-success has-success">
-                  <strong>Email</strong>
-                  <input [value]="instructor.email" disabled class="form-control" />
-                </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
                   <input [value]="instructor.courseJoinLink" disabled class="form-control" />

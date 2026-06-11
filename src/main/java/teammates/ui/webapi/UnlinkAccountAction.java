@@ -14,9 +14,10 @@ import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 
 /**
- * Action: resets an account ID.
+ * Unlinks the account associated with the user profile without deleting
+ * either entity, allowing the profile to be linked to a different account.
  */
-public class ResetAccountAction extends AdminOnlyAction {
+public class UnlinkAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
@@ -24,7 +25,7 @@ public class ResetAccountAction extends AdminOnlyAction {
         User existingUser;
 
         try {
-            existingUser = logic.resetAccount(userId);
+            existingUser = logic.unlinkAccount(userId);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
@@ -34,20 +35,20 @@ public class ResetAccountAction extends AdminOnlyAction {
         if (existingUser instanceof Student existingStudent) {
             // Generate and queue rejoin email to priority queue
             EmailWrapper email = emailGenerator
-                    .generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
+                    .generateStudentCourseRejoinEmailAfterUnlinkAccount(course, existingStudent);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
             taskQueuer.scheduleEmailsForPrioritySending(emails);
         } else if (existingUser instanceof Instructor existingInstructor) {
             // Generate and queue rejoin email to priority queue
             EmailWrapper email = emailGenerator
-                    .generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
+                    .generateInstructorCourseRejoinEmailAfterUnlinkAccount(existingInstructor, course);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
             taskQueuer.scheduleEmailsForPrioritySending(emails);
         }
 
-        return new JsonResult("Account is successfully reset.");
+        return new JsonResult("Account unlinked successfully.");
     }
 
 }
