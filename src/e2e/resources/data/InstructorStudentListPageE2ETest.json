@@ -2,12 +2,12 @@
   "institutes": {
     "institute1": {
       "id": "00000000-0000-4000-9000-000000000001",
-      "name": "TEAMMATES Test Institute 1",
+      "name": "InstructorStudentListPageE2ETest 1",
       "country": "SG"
     },
     "institute2": {
       "id": "00000000-0000-4000-9000-000000000002",
-      "name": "TEAMMATES Test Institute 5",
+      "name": "InstructorStudentListPageE2ETest 5",
       "country": "SG"
     }
   },

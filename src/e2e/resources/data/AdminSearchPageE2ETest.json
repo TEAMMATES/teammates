@@ -2,32 +2,32 @@
   "institutes": {
     "institute1": {
       "id": "00000000-0000-4000-9000-000000000001",
-      "name": "TEAMMATES Test Institute 0",
+      "name": "AdminSearchPageE2ETest 0",
       "country": "SG"
     },
     "institute2": {
       "id": "00000000-0000-4000-9000-000000000002",
-      "name": "TEAMMATES Test Institute 1",
+      "name": "AdminSearchPageE2ETest 1",
       "country": "SG"
     },
     "institute3": {
       "id": "00000000-0000-4000-9000-000000000003",
-      "name": "TEAMMATES Test Institute 2",
+      "name": "AdminSearchPageE2ETest 2",
       "country": "SG"
     },
     "institute4": {
       "id": "00000000-0000-4000-9000-000000000004",
-      "name": "TEAMMATES Test Institute 3",
+      "name": "AdminSearchPageE2ETest 3",
       "country": "SG"
     },
     "institute5": {
       "id": "00000000-0000-4000-9000-000000000005",
-      "name": "TEAMMATES Test Institute 4",
+      "name": "AdminSearchPageE2ETest 4",
       "country": "SG"
     },
     "institute6": {
       "id": "00000000-0000-4000-9000-000000000006",
-      "name": "TEAMMATES Test Institute 5",
+      "name": "AdminSearchPageE2ETest 5",
       "country": "SG"
     }
   },

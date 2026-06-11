@@ -54,4 +54,18 @@ public final class InstitutesLogic {
 
         return institutesDb.persistInstitute(candidate);
     }
+
+    /**
+     * Deletes the institute with the given {@code id}.
+     * 
+     * <p>Fails silently if the institute does not exist.
+     */
+    public void deleteInstitute(UUID id) {
+        Institute institute = institutesDb.getInstitute(id);
+        if (institute == null) {
+            return;
+        }
+        
+        institutesDb.removeInstitute(institute);
+    }
 }

@@ -49,9 +49,8 @@ public final class DataBundleLogic {
     private static final DataBundleLogic instance = new DataBundleLogic();
 
     private AccountsLogic accountsLogic;
-    private AccountRequestsLogic accountRequestsLogic;
-    private CoursesLogic coursesLogic;
     private NotificationsLogic notificationsLogic;
+    private InstitutesLogic institutesLogic;
 
     private DataBundleLogic() {
         // prevent initialization
@@ -61,12 +60,11 @@ public final class DataBundleLogic {
         return instance;
     }
 
-    void initLogicDependencies(AccountsLogic accountsLogic, AccountRequestsLogic accountRequestsLogic,
-            CoursesLogic coursesLogic, NotificationsLogic notificationsLogic) {
+    void initLogicDependencies(AccountsLogic accountsLogic,
+            NotificationsLogic notificationsLogic, InstitutesLogic institutesLogic) {
         this.accountsLogic = accountsLogic;
-        this.accountRequestsLogic = accountRequestsLogic;
-        this.coursesLogic = coursesLogic;
         this.notificationsLogic = notificationsLogic;
+        this.institutesLogic = institutesLogic;
     }
 
     /**
@@ -445,20 +443,14 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Data bundle is null");
         }
 
-        dataBundle.courses.values().forEach(course ->
-                coursesLogic.deleteCourse(course.getId())
-        );
-        dataBundle.readNotifications.values().forEach(readNotification ->
-                notificationsLogic.deleteReadNotification(readNotification.getId())
+        dataBundle.institutes.values().forEach(institute ->
+                institutesLogic.deleteInstitute(institute.getId())
         );
         dataBundle.notifications.values().forEach(notification ->
                 notificationsLogic.deleteNotification(notification.getId())
         );
         dataBundle.accounts.values().forEach(account ->
                 accountsLogic.deleteAccount(account.getGoogleId())
-        );
-        dataBundle.accountRequests.values().forEach(accountRequest ->
-                accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
         );
     }
 
