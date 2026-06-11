@@ -12,6 +12,11 @@ import {
   QuestionRecipientType,
 } from '../../types/api-output';
 
+const student1UserId = 'student1-user-id';
+const student2UserId = 'student2-user-id';
+const student3UserId = 'student3-user-id';
+const student4UserId = 'student4-user-id';
+
 const feedbackSessionResultsContribResults: SessionResults = {
   questions: [
     {
@@ -36,7 +41,7 @@ const feedbackSessionResultsContribResults: SessionResults = {
       },
       questionStatistics: `{
   "results": {
-    "student2InCourse1@gmail.tmt": {
+    "${student2UserId}": {
       "claimed": -999,
       "perceived": 75,
       "claimedOthers": {},
@@ -46,13 +51,7 @@ const feedbackSessionResultsContribResults: SessionResults = {
         -9999
       ]
     },
-    "student5InCourse1@gmail.tmt": {
-      "claimed": -999,
-      "perceived": -9999,
-      "claimedOthers": {},
-      "perceivedOthers": []
-    },
-    "student1InCourse1@gmail.tmt": {
+    "${student1UserId}": {
       "claimed": 95,
       "perceived": -9999,
       "claimedOthers": {},
@@ -62,7 +61,7 @@ const feedbackSessionResultsContribResults: SessionResults = {
         -9999
       ]
     },
-    "student4InCourse1@gmail.tmt": {
+    "${student4UserId}": {
       "claimed": -999,
       "perceived": 122,
       "claimedOthers": {},
@@ -72,7 +71,7 @@ const feedbackSessionResultsContribResults: SessionResults = {
         -9999
       ]
     },
-    "student3InCourse1@gmail.tmt": {
+    "${student3UserId}": {
       "claimed": -999,
       "perceived": 103,
       "claimedOthers": {},
@@ -89,11 +88,13 @@ const feedbackSessionResultsContribResults: SessionResults = {
           isMissingResponse: false,
           responseId: `agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDYM%student1InCourse1@gmail.tmt%student3InCourse1@gmail.tmt`,
           giver: `student1 In Course1</td></div>'"`,
-          userIdForModeration: `c35dc7b8-ee63-48b3-93dc-d781803f9a03`,
+          userIdForModeration: student1UserId,
+          giverUserId: student1UserId,
           giverTeam: `Team 1.1</td></div>'"`,
           giverEmail: `student1InCourse1@gmail.tmt`,
           giverSection: `None`,
           recipient: `student3 In Course1`,
+          recipientUserId: student3UserId,
           recipientTeam: `Team 1.1</td></div>'"`,
           recipientEmail: `student3InCourse1@gmail.tmt`,
           recipientSection: `None`,
@@ -107,11 +108,13 @@ const feedbackSessionResultsContribResults: SessionResults = {
           isMissingResponse: false,
           responseId: `agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDYM%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt`,
           giver: `student1 In Course1</td></div>'"`,
-          userIdForModeration: `c35dc7b8-ee63-48b3-93dc-d781803f9a03`,
+          userIdForModeration: student1UserId,
+          giverUserId: student1UserId,
           giverTeam: `Team 1.1</td></div>'"`,
           giverEmail: `student1InCourse1@gmail.tmt`,
           giverSection: `None`,
           recipient: `student1 In Course1</td></div>'"`,
+          recipientUserId: student1UserId,
           recipientTeam: `Team 1.1</td></div>'"`,
           recipientEmail: `student1InCourse1@gmail.tmt`,
           recipientSection: `None`,
@@ -125,11 +128,13 @@ const feedbackSessionResultsContribResults: SessionResults = {
           isMissingResponse: false,
           responseId: `agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDYM%student1InCourse1@gmail.tmt%student4InCourse1@gmail.tmt`,
           giver: `student1 In Course1</td></div>'"`,
-          userIdForModeration: `c35dc7b8-ee63-48b3-93dc-d781803f9a03`,
+          userIdForModeration: student1UserId,
+          giverUserId: student1UserId,
           giverTeam: `Team 1.1</td></div>'"`,
           giverEmail: `student1InCourse1@gmail.tmt`,
           giverSection: `None`,
           recipient: `student4 In Course1`,
+          recipientUserId: student4UserId,
           recipientTeam: `Team 1.1</td></div>'"`,
           recipientEmail: `student4InCourse1@gmail.tmt`,
           recipientSection: `None`,
@@ -144,11 +149,13 @@ const feedbackSessionResultsContribResults: SessionResults = {
           isMissingResponse: false,
           responseId: `agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDYM%student1InCourse1@gmail.tmt%student2InCourse1@gmail.tmt`,
           giver: `student1 In Course1</td></div>'"`,
-          userIdForModeration: `c35dc7b8-ee63-48b3-93dc-d781803f9a03`,
+          userIdForModeration: student1UserId,
+          giverUserId: student1UserId,
           giverTeam: `Team 1.1</td></div>'"`,
           giverEmail: `student1InCourse1@gmail.tmt`,
           giverSection: `None`,
           recipient: `student2 In Course1`,
+          recipientUserId: student2UserId,
           recipientTeam: `Team 1.1</td></div>'"`,
           recipientEmail: `student2InCourse1@gmail.tmt`,
           recipientSection: `None`,

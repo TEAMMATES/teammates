@@ -62,14 +62,15 @@ export class FeedbackContributionQuestionDetailsImpl
       perceivedStr: string;
       ratingsReceivedStr: string[];
     }[] = [];
-    for (const email of Object.keys(statsCalculation.emailToName)) {
-      const teamName: string = statsCalculation.emailToTeamName[email];
-      const name: string = statsCalculation.emailToName[email];
-      const claimed: number = statsCalculation.questionOverallStatistics.results[email].claimed;
+    for (const userId of Object.keys(statsCalculation.userIdToName)) {
+      const teamName: string = statsCalculation.userIdToTeamName[userId];
+      const name: string = statsCalculation.userIdToName[userId];
+      const email: string = statsCalculation.userIdToEmail[userId] ?? '';
+      const claimed: number = statsCalculation.questionOverallStatistics.results[userId].claimed;
       const claimedStr: string = this.getContributionPointToText(claimed);
-      const perceived: number = statsCalculation.questionOverallStatistics.results[email].perceived;
+      const perceived: number = statsCalculation.questionOverallStatistics.results[userId].perceived;
       const perceivedStr: string = this.getContributionPointToText(perceived);
-      const ratingsReceivedStr: string[] = statsCalculation.questionOverallStatistics.results[email].perceivedOthers
+      const ratingsReceivedStr: string[] = statsCalculation.questionOverallStatistics.results[userId].perceivedOthers
         .concat()
         .sort((a: number, b: number) => b - a)
         .map(this.getContributionPointToText);

@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -51,7 +52,7 @@ public abstract class FeedbackQuestionDetails {
     * Get question result statistics as JSON string.
     */
     public abstract String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle);
+            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle);
 
     /**
      * Checks whether the changes to the question details require deletion of corresponding responses.

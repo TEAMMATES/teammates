@@ -92,39 +92,41 @@ export class ContributionQuestionStatisticsComponent implements OnChanges {
       { header: 'Ratings Received', headerToolTip: 'The list of points that this student received from others' },
     ];
 
-    this.rowsData = Object.keys(stats.emailToName).map((email: string) => {
+    this.rowsData = Object.keys(stats.userIdToName).map((userId: string) => {
+      const email = stats.userIdToEmail[userId];
+      const recipientLabel = email ? `${stats.userIdToName[userId]} (${email})` : stats.userIdToName[userId];
       return [
-        { value: stats.emailToTeamName[email] },
-        { value: `${stats.emailToName[email]} (${email})` },
+        { value: stats.userIdToTeamName[userId] },
+        { value: recipientLabel },
         {
-          value: statistics.results[email].claimed,
+          value: statistics.results[userId].claimed,
           customComponent: {
             component: ContributionComponent,
             componentData: () => {
               return {
-                value: statistics.results[email].claimed,
+                value: statistics.results[userId].claimed,
               };
             },
           },
         },
         {
-          value: statistics.results[email].perceived,
+          value: statistics.results[userId].perceived,
           customComponent: {
             component: ContributionComponent,
             componentData: () => {
               return {
-                value: statistics.results[email].perceived,
+                value: statistics.results[userId].perceived,
               };
             },
           },
         },
         {
-          value: stats.emailToDiff[email],
+          value: stats.userIdToDiff[userId],
           customComponent: {
             component: ContributionComponent,
             componentData: () => {
               return {
-                value: stats.emailToDiff[email],
+                value: stats.userIdToDiff[userId],
                 diffOnly: true,
               };
             },
@@ -135,7 +137,7 @@ export class ContributionQuestionStatisticsComponent implements OnChanges {
             component: ContributionRatingsListComponent,
             componentData: () => {
               return {
-                ratingsList: statistics.results[email].perceivedOthers,
+                ratingsList: statistics.results[userId].perceivedOthers,
               };
             },
           },

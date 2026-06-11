@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
@@ -33,7 +34,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
+            FeedbackQuestion question, UUID currentUserId, SessionResultsBundle bundle) {
         // Statistics are calculated in the frontend as they depend on the responses being filtered.
         return "";
     }
