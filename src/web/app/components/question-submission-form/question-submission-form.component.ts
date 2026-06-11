@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, DoCheck, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
@@ -108,9 +108,9 @@ import { ComboboxOption, SearchableComboboxComponent } from '../searchable-combo
     NoRecipientsWarningComponent,
   ],
 })
-export class QuestionSubmissionFormComponent implements DoCheck {
-  private feedbackQuestionsService = inject(FeedbackQuestionsService);
-  private feedbackResponseService = inject(FeedbackResponsesService);
+export class QuestionSubmissionFormComponent {
+  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private readonly feedbackResponseService = inject(FeedbackResponsesService);
 
   readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
   readonly ResponseDetailsTypeChecker: typeof ResponseDetailsTypeChecker;
@@ -141,7 +141,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-    this.isEveryRecipientSorted = false;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       model.giverType,
       model.recipientType,
@@ -159,6 +158,10 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
+
+    if (this.model.recipientList.length > 0) {
+      this.sortRecipients();
+    }
   }
 
   @Input()
@@ -217,13 +220,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
-  isSectionTeamShown = false;
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
-  isEveryRecipientSorted = false;
 
   constructor() {
     this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
@@ -252,12 +253,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       }
     }
     return false;
-  }
-
-  ngDoCheck(): void {
-    if (this.model.recipientList.length > 0 && !this.isEveryRecipientSorted) {
-      this.sortRecipientsByName();
-    }
   }
 
   toggleQuestionTab(): void {
@@ -348,23 +343,24 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         return firstRecipientIndex - secondRecipientIndex;
       },
     );
-    this.isEveryRecipientSorted = true;
   }
 
-  sortRecipientsByName(): void {
-    this.model.recipientList.sort(this.compareByName);
-    this.updateSubmissionFormIndexes();
-  }
-
-  private sortRecipientsBySectionTeam(): void {
-    if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
-      this.model.recipientList.sort((firstRecipient, secondRecipient) => {
-        return (
-          this.compareBySection(firstRecipient, secondRecipient) || this.compareByTeam(firstRecipient, secondRecipient)
-        );
-      });
-    } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
-      this.model.recipientList.sort(this.compareByTeam);
+  private sortRecipients(): void {
+    if (this.hasSectionTeam) {
+      if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
+        this.model.recipientList.sort((firstRecipient, secondRecipient) => {
+          return (
+            this.compareBySection(firstRecipient, secondRecipient) ||
+            this.compareByTeam(firstRecipient, secondRecipient)
+          );
+        });
+      } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
+        this.model.recipientList.sort(this.compareByTeam);
+      } else {
+        this.model.recipientList.sort(this.compareByName);
+      }
+    } else {
+      this.model.recipientList.sort(this.compareByName);
     }
     this.updateSubmissionFormIndexes();
   }
@@ -518,20 +514,20 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   getSelectionOptionLabel(recipient: FeedbackResponseRecipient): string {
-    if (!this.isSectionTeamShown) {
+    if (!this.hasSectionTeam) {
       return recipient.recipientName;
     }
 
     if (recipient.recipientSection && recipient.recipientTeam) {
-      return `${recipient.recipientSection} / ${recipient.recipientTeam} | ${recipient.recipientName}`;
+      return `${recipient.recipientName} (${recipient.recipientTeam} / ${recipient.recipientSection})`;
     }
 
     if (recipient.recipientSection) {
-      return `${recipient.recipientSection} | ${recipient.recipientName}`;
+      return `${recipient.recipientName} (${recipient.recipientSection})`;
     }
 
     if (recipient.recipientTeam) {
-      return `${recipient.recipientTeam} | ${recipient.recipientName}`;
+      return `${recipient.recipientName} (${recipient.recipientTeam})`;
     }
 
     return recipient.recipientName;
@@ -552,17 +548,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         keywords: [recipient.recipientName, recipient.recipientSection ?? '', recipient.recipientTeam ?? ''],
         data: recipient,
       }));
-  }
-
-  toggleSectionTeam(event: Event): void {
-    const checkbox: HTMLInputElement = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.isSectionTeamShown = true;
-      this.sortRecipientsBySectionTeam();
-    } else {
-      this.isSectionTeamShown = false;
-      this.sortRecipientsByName();
-    }
   }
 
   /**

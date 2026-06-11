@@ -1,8 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -107,10 +105,6 @@ describe('QuestionSubmissionFormComponent', () => {
   let component: QuestionSubmissionFormComponent;
   let fixture: ComponentFixture<QuestionSubmissionFormComponent>;
 
-  const getShowSectionTeamCheckBox = (): DebugElement => {
-    return fixture.debugElement.query(By.css('.form-check input[type="checkbox"]'));
-  };
-
   const feedbackResponseRecipientBuilder = createBuilder<FeedbackResponseRecipient>({
     recipientIdentifier: 'testIdentifier',
     recipientName: 'test-name',
@@ -148,14 +142,6 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.model).toBe(model);
   });
 
-  it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)', () => {
-    const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
-    component.formModel = model;
-    component.ngDoCheck();
-
-    expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
-  });
-
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)', () => {
     const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
 
@@ -168,9 +154,33 @@ describe('QuestionSubmissionFormComponent', () => {
     ];
 
     component.formModel = model;
-    component.ngDoCheck();
 
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
+  });
+
+  it('should arrange recipients by section and team when section/team labels are shown', () => {
+    const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    model.recipientList = [
+      { recipientName: 'Alan Rogers', recipientIdentifier: 'rogers-alan-id', recipientSection: 'Section C', recipientTeam: 'Team B' },
+      { recipientName: 'Arthur Buck', recipientIdentifier: 'buck-arthur-id', recipientSection: 'Section A', recipientTeam: 'Team C' },
+      { recipientName: 'Barry Harris', recipientIdentifier: 'harris-barry-id', recipientSection: 'Section A', recipientTeam: 'Team A' },
+      { recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id', recipientSection: 'Section B', recipientTeam: 'Team A' },
+    ];
+    component.formModel = model;
+
+    expect(model.recipientList.map((recipient) => recipient.recipientIdentifier)).toEqual([
+      'harris-barry-id',
+      'buck-arthur-id',
+      'hans-charlie-id',
+      'rogers-alan-id',
+    ]);
+    expect(model.recipientSubmissionForms.map((form) => form.recipientIdentifier)).toEqual([
+      'harris-barry-id',
+      'buck-arthur-id',
+      'hans-charlie-id',
+      'rogers-alan-id',
+    ]);
   });
 
   it('isSaved: returns false when there are no saved responses', () => {
@@ -402,46 +412,48 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(emittedModel).toStrictEqual(component.model);
   });
 
-  it('getSelectionOptionLabel: should return recipient name if isSectionTeamShown is false', () => {
-    component.isSectionTeamShown = false;
-
+  it('getSelectionOptionLabel: should return recipient name when section/team labels are not shown', () => {
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
 
     expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name');
   });
 
   it('getSelectionOptionLabel: should return recipientSection and recipientTeam if both are defined', () => {
-    component.isSectionTeamShown = true;
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
     feedbackResponseRecipient.recipientSection = 'test-section';
     feedbackResponseRecipient.recipientTeam = 'test-team';
 
-    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-section / test-team | test-name');
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-team / test-section)');
   });
 
   it('getSelectionOptionLabel: should return only recipientSection if recipientTeam is undefined', () => {
-    component.isSectionTeamShown = true;
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
     feedbackResponseRecipient.recipientSection = 'test-section';
 
-    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-section | test-name');
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-section)');
   });
 
   it('getSelectionOptionLabel: should return only recipientTeam if recipientSection is undefined', () => {
-    component.isSectionTeamShown = true;
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_TEAM;
 
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
     feedbackResponseRecipient.recipientTeam = 'test-team';
 
-    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-team | test-name');
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-team)');
   });
 
   it(
-    'getSelectionOptionLabel: should return recipientName if' + 'both recipientSection and recipientTeam are undefined',
+    'getSelectionOptionLabel: should return recipientName if both recipientSection and recipientTeam are undefined',
     () => {
-      component.isSectionTeamShown = true;
+      component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+      component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
       const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
 
@@ -481,90 +493,6 @@ describe('QuestionSubmissionFormComponent', () => {
       availableRecipient.recipientName,
       currentRecipient.recipientName,
     ]);
-  });
-
-  it(
-    'toggleSectionTeam: should set isSectionTeamShown to true and sort recipients by' +
-      'Section and Team if FeedbackRecipientLabelType is INCLUDE_SECTION',
-    () => {
-      component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-      component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
-      component.isSectionTeamShown = false;
-
-      const recipient1 = feedbackResponseRecipientBuilder.recipientName('A').build();
-      recipient1.recipientSection = 'Section A';
-      recipient1.recipientTeam = 'Team B';
-      const recipient2 = feedbackResponseRecipientBuilder.recipientName('B').build();
-      recipient2.recipientSection = 'Section C';
-      recipient2.recipientTeam = 'Team A';
-      const recipient3 = feedbackResponseRecipientBuilder.recipientName('C').build();
-      recipient3.recipientSection = 'Section B';
-      recipient3.recipientTeam = 'Team A';
-      component.model.recipientList = [recipient1, recipient2, recipient3];
-
-      fixture.detectChanges();
-
-      const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
-
-      getShowSectionTeamCheckBox().nativeElement.click();
-
-      expect(toggleSectionTeamSpy).toHaveBeenCalled();
-      expect(component.isSectionTeamShown).toBeTruthy();
-      expect(component.model.recipientList).toStrictEqual([recipient1, recipient3, recipient2]);
-    },
-  );
-
-  it(
-    'toggleSectionTeam: should set isSectionTeamShown to true and sort recipients by' +
-      'Team if FeedbackRecipientLabelType is INCLUDE_TEAM',
-    () => {
-      component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-      component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_TEAM;
-      component.isSectionTeamShown = false;
-
-      const recipient1 = feedbackResponseRecipientBuilder.recipientName('A').build();
-      recipient1.recipientTeam = 'Team B';
-      const recipient2 = feedbackResponseRecipientBuilder.recipientName('B').build();
-      recipient2.recipientTeam = 'Team A';
-      const recipient3 = feedbackResponseRecipientBuilder.recipientName('C').build();
-      recipient3.recipientTeam = 'Team A';
-      component.model.recipientList = [recipient1, recipient2, recipient3];
-
-      fixture.detectChanges();
-
-      const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
-
-      getShowSectionTeamCheckBox().nativeElement.click();
-
-      expect(toggleSectionTeamSpy).toHaveBeenCalled();
-      expect(component.isSectionTeamShown).toBeTruthy();
-      expect(component.model.recipientList).toStrictEqual([recipient2, recipient3, recipient1]);
-    },
-  );
-
-  it('toggleSectionTeam: should set isSectionTeamShown to false and sort recipients by name if toggled', () => {
-    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_TEAM;
-    component.isSectionTeamShown = true;
-
-    const recipient1 = feedbackResponseRecipientBuilder.recipientName('B').build();
-    recipient1.recipientTeam = 'Team A';
-    const recipient2 = feedbackResponseRecipientBuilder.recipientName('C').build();
-    recipient2.recipientTeam = 'Team B';
-    const recipient3 = feedbackResponseRecipientBuilder.recipientName('A').build();
-    recipient3.recipientTeam = 'Team C';
-    component.model.recipientList = [recipient1, recipient2, recipient3];
-
-    fixture.detectChanges();
-
-    const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
-
-    getShowSectionTeamCheckBox().nativeElement.click();
-    getShowSectionTeamCheckBox().nativeElement.click();
-
-    expect(toggleSectionTeamSpy).toHaveBeenCalled();
-    expect(component.isSectionTeamShown).toBeFalsy();
-    expect(component.model.recipientList).toStrictEqual([recipient3, recipient1, recipient2]);
   });
 
   it('isSaved: returns false when no matching recipient response is saved', () => {
