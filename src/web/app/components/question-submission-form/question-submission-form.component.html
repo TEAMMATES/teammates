@@ -1,13 +1,13 @@
 <div id="question-submission-form-qn-{{ model.questionNumber }}" class="card">
   <div
-    class="card-header bg-primary text-white question-header cursor-pointer border-0"
+    class="card-header question-header cursor-pointer border-0"
     (click)="toggleQuestionTab()"
     [ngClass]="getQuestionHeaderClass()"
   >
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="isTabExpanded()"></tm-panel-chevron>
     </div>
-    @if (shouldShowSavedState()) {
+    @if (getResponseSubmissionStatus(recipientId) === ResponseSubmissionStatus.SAVED) {
       <i class="fas fa-check me-2" aria-hidden="true"></i>
     }
     <h2 class="question-details">

@@ -174,27 +174,53 @@ describe('QuestionSubmissionFormComponent', () => {
     ]);
   });
 
-  it('isSaved: returns false when there are no saved responses', () => {
+  it('getResponseSubmissionStatus: returns ERROR when any response is ERROR', () => {
     component.model.recipientSubmissionForms.push(
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.ERROR },
     );
 
-    expect(component.isSaved()).toBeFalsy();
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.ERROR);
   });
 
-  it('isSaved: returns true when at least one response is saved', () => {
+  it('getResponseSubmissionStatus: returns MODIFIED when there is no ERROR and at least one MODIFIED', () => {
     component.model.recipientSubmissionForms.push(
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
-      {
-        ...recipientSubmissionFormBuilder
-          .recipientIdentifier('other-id')
-          .status(ResponseSubmissionStatus.SAVED)
-          .build(),
-      },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
     );
 
-    expect(component.isSaved()).toBeTruthy();
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.MODIFIED);
+  });
+
+  it('getResponseSubmissionStatus: returns SAVED when there is no ERROR or MODIFIED and at least one SAVED', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+    );
+
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.SAVED);
+  });
+
+  it('getResponseSubmissionStatus: returns NEW when all responses are NEW', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('other-id').status(ResponseSubmissionStatus.NEW).build() },
+    );
+
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.NEW);
+  });
+
+  it('getResponseSubmissionStatus: filters by recipientId before computing the status', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.ERROR).build() },
+      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.SAVED).build() },
+    );
+
+    expect(component.getResponseSubmissionStatus('recipient-b')).toBe(ResponseSubmissionStatus.SAVED);
+    expect(component.getResponseSubmissionStatus('recipient-c')).toBe(ResponseSubmissionStatus.NEW);
   });
 
   it('hasSectionTeam: should return false if QuestionSubmissionFormMode is not FLEXIBLE_RECIPIENT', () => {
@@ -423,21 +449,12 @@ describe('QuestionSubmissionFormComponent', () => {
     ]);
   });
 
-  it('isSaved: returns false when no matching recipient response is saved', () => {
+  it('getResponseSubmissionStatus: returns NEW when the filtered recipient has no responses', () => {
     component.model.recipientSubmissionForms = [
       recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.SAVED).build(),
       recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.NEW).build(),
     ];
 
-    expect(component.isSaved('recipient-c')).toBeFalsy();
-  });
-
-  it('isSaved: returns true when the matching recipient response is saved', () => {
-    component.model.recipientSubmissionForms = [
-      recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.NEW).build(),
-      recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.SAVED).build(),
-    ];
-
-    expect(component.isSaved('recipient-b')).toBeTruthy();
+    expect(component.getResponseSubmissionStatus('recipient-c')).toBe(ResponseSubmissionStatus.NEW);
   });
 });

@@ -258,12 +258,16 @@ export class QuestionSubmissionFormComponent {
     this.isTabExpanded.update((isExpanded) => !isExpanded);
   }
 
-  shouldShowSavedState(): boolean {
-    return this.isSaved(this.recipientId);
-  }
-
   getQuestionHeaderClass(): string {
-    return this.shouldShowSavedState() ? 'bg-success' : 'bg-primary';
+    switch (this.getResponseSubmissionStatus(this.recipientId)) {
+      case ResponseSubmissionStatus.ERROR:
+        return 'bg-danger text-white';
+      case ResponseSubmissionStatus.MODIFIED:
+      case ResponseSubmissionStatus.NEW:
+        return 'bg-primary text-white';
+      case ResponseSubmissionStatus.SAVED:
+        return 'bg-success text-white';
+    }
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient, secondRecipient: FeedbackResponseRecipient): number {
@@ -537,19 +541,31 @@ export class QuestionSubmissionFormComponent {
   }
 
   /**
-   * Checks whether the response of this question has been saved.
+   * Gets the aggregate submission status for this question.
    *
-   * For questions with recipient specific responses, it checks whether the response for the recipient has been saved.
+   * For questions with recipient specific responses, it returns the aggregate status for the recipient.
    */
-  isSaved(recipientId?: string): boolean {
+  getResponseSubmissionStatus(recipientId?: string): ResponseSubmissionStatus {
     const relevantForms = recipientId
       ? this.model.recipientSubmissionForms.filter((form) => form.recipientIdentifier === recipientId)
       : this.model.recipientSubmissionForms;
 
     if (relevantForms.length === 0) {
-      return false;
+      return ResponseSubmissionStatus.NEW;
     }
 
-    return relevantForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
+    if (relevantForms.some((form) => form.status === ResponseSubmissionStatus.ERROR)) {
+      return ResponseSubmissionStatus.ERROR;
+    }
+
+    if (relevantForms.some((form) => form.status === ResponseSubmissionStatus.MODIFIED)) {
+      return ResponseSubmissionStatus.MODIFIED;
+    }
+
+    if (relevantForms.some((form) => form.status === ResponseSubmissionStatus.SAVED)) {
+      return ResponseSubmissionStatus.SAVED;
+    }
+
+    return ResponseSubmissionStatus.NEW;
   }
 }

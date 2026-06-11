@@ -982,7 +982,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-1"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -1283,7 +1283,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -1533,7 +1533,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header question-header cursor-pointer border-0 bg-primary text-white"
           >
             <div
               class="collapse-caret"
@@ -1644,7 +1644,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-4"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -1966,7 +1966,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-5"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -2175,7 +2175,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-6"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -2398,7 +2398,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-7"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -2851,7 +2851,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-8"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -3204,7 +3204,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-9"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -3480,7 +3480,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-10"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -3964,7 +3964,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-1"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -4271,7 +4271,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -4524,7 +4524,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header question-header cursor-pointer border-0 bg-primary text-white"
           >
             <div
               class="collapse-caret"
@@ -4635,7 +4635,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-4"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -4963,7 +4963,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-5"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -5174,7 +5174,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-6"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -5399,7 +5399,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-7"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -5854,7 +5854,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-8"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -6218,7 +6218,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-9"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
@@ -6496,7 +6496,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-10"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header question-header cursor-pointer border-0 bg-success text-white"
           >
             <div
               class="collapse-caret"
