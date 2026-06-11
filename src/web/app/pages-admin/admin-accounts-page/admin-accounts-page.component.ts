@@ -9,6 +9,7 @@ import { StudentService } from '../../../services/student.service';
 import { Account, Instructor, Student } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { LinkService } from '../../../services/link.service';
 
 /**
  * Admin accounts page.
@@ -16,7 +17,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 @Component({
   selector: 'tm-admin-accounts-page',
   templateUrl: './admin-accounts-page.component.html',
-  styleUrls: ['./admin-accounts-page.component.scss'],
   imports: [LoadingSpinnerDirective],
 })
 export class AdminAccountsPageComponent implements OnInit {
@@ -26,6 +26,7 @@ export class AdminAccountsPageComponent implements OnInit {
   private navigationService = inject(NavigationService);
   private statusMessageService = inject(StatusMessageService);
   private accountService = inject(AccountService);
+  private linkService = inject(LinkService);
 
   accountInfo: Account = {
     accountId: '',
@@ -125,5 +126,16 @@ export class AdminAccountsPageComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  /**
+   * Redirects to the instructor home page in masquerade mode.
+   */
+  masqueradeAsUser(): void {
+    const url = this.linkService.generateHomePageLink(
+      this.accountInfo.accountId,
+      this.linkService.INSTRUCTOR_HOME_PAGE,
+    );
+    globalThis.location.assign(url);
   }
 }
