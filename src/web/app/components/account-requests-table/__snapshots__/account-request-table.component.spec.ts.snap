@@ -39,7 +39,10 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -65,6 +68,8 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
             </td>
             <td>
               institute
+            </td>
+            <td>
             </td>
             <td
               id="timestamp-box"
@@ -175,6 +180,8 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
             </td>
             <td>
               institute
+            </td>
+            <td>
             </td>
             <td
               id="timestamp-box"
@@ -319,7 +326,10 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -345,6 +355,8 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
             </td>
             <td>
               institute
+            </td>
+            <td>
             </td>
             <td
               id="timestamp-box"

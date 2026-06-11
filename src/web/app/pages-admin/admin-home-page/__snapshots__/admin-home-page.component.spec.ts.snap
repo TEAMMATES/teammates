@@ -74,7 +74,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
           for="instructor-country"
         >
           <strong>
-            Country:
+            Country or Region:
           </strong>
         </label>
         <tm-searchable-combobox

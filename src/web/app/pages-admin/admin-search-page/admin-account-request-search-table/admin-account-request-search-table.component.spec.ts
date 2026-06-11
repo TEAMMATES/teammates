@@ -42,6 +42,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
     .name('name')
     .status(AccountRequestStatus.PENDING)
     .institute('institute')
+    .country('SG')
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 

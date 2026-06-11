@@ -61,7 +61,10 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -105,6 +108,9 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             </td>
             <td>
               institute
+            </td>
+            <td>
+              SG
             </td>
             <td
               id="timestamp-box"
@@ -256,6 +262,9 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             </td>
             <td>
               institute
+            </td>
+            <td>
+              SG
             </td>
             <td
               id="timestamp-box"
@@ -448,7 +457,10 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -492,6 +504,9 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             </td>
             <td>
               institute
+            </td>
+            <td>
+              SG
             </td>
             <td
               id="timestamp-box"
@@ -645,6 +660,9 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             </td>
             <td>
               institute
+            </td>
+            <td>
+              SG
             </td>
             <td
               id="timestamp-box"
@@ -839,7 +857,10 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
               Status
             </th>
             <th>
-              Institute, Country
+              Institute
+            </th>
+            <th>
+              Country
             </th>
             <th>
               Created At
@@ -883,6 +904,9 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
             </td>
             <td>
               institute
+            </td>
+            <td>
+              SG
             </td>
             <td
               id="timestamp-box"
