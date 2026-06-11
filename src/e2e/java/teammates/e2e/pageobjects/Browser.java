@@ -8,8 +8,8 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.ScriptTimeoutException;
 import org.openqa.selenium.TimeoutException;
