@@ -367,7 +367,6 @@ export class SessionSubmissionPageComponent implements OnInit {
 
           this.logStudentAccess();
           this.handleSubmissionStatusBanner(feedbackSession);
-          this.showMobileSubmissionNote();
         }),
         switchMap(() =>
           forkJoin([this.loadCourseInfoData$(), this.loadPersonNameData$(), this.loadFeedbackQuestionsData$()]),
@@ -589,20 +588,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         break;
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
       default:
-    }
-  }
-
-  private showMobileSubmissionNote(): void {
-    // Display note on submission on mobile device
-    const mobileDeviceWidth = 768;
-    if (
-      this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN &&
-      window.innerWidth < mobileDeviceWidth
-    ) {
-      const modalContent = `Note that you can use the Submit button to save responses already entered,
-              and continue to answer remaining questions after that.
-              You may also edit your submission any number of times before the closing time of this session.`;
-      this.simpleModalService.openInformationModal('Note On Submission', SimpleModalType.INFO, modalContent);
     }
   }
 
