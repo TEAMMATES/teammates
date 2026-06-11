@@ -190,10 +190,9 @@ export class SearchService {
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
     studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeAccountId);
-    studentResult.manageAccountLink = this.linkService.generateManageAccountLink(
-      accountId,
-      this.linkService.ADMIN_ACCOUNTS_PAGE,
-    );
+    studentResult.manageAccountLink = accountId
+      ? this.linkService.generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE)
+      : '';
 
     return studentResult;
   }
