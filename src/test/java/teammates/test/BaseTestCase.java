@@ -53,6 +53,7 @@ public class BaseTestCase {
 
     /**
      * Test case name in the format of ClassName.methodName, e.g. {@code MyTestClass.testMyFunction}.
+     * For e2e tests, this is set to the class name of the test case, e.g. {@code MyE2ETestCase}.
      */
     protected String currentTestName;
 
@@ -71,6 +72,7 @@ public class BaseTestCase {
 
     @BeforeClass(alwaysRun = true)
     public void printTestClassHeader() {
+        currentTestName = getClass().getSimpleName();
         System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
