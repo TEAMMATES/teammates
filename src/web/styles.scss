@@ -2,6 +2,15 @@
 
 @use 'sass:color';
 
+$primary: #1d74fd;
+$success: #25895a;
+$danger: #d33e4d;
+$warning: #f0bc22;
+$info: #1fc7eb;
+$min-contrast-ratio: 3;
+
+@import 'bootstrap/scss/bootstrap';
+
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 0.875rem;
