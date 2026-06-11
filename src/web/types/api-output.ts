@@ -27,10 +27,6 @@ export interface AccountRequests extends ApiOutput {
   accountRequests: AccountRequest[];
 }
 
-export interface ActionClasses extends ApiOutput {
-  actionClasses: string[];
-}
-
 export interface ApiOutput {
 }
 
