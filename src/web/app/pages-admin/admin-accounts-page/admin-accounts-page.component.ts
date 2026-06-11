@@ -17,7 +17,6 @@ import { LinkService } from '../../../services/link.service';
 @Component({
   selector: 'tm-admin-accounts-page',
   templateUrl: './admin-accounts-page.component.html',
-  styleUrls: ['./admin-accounts-page.component.scss'],
   imports: [LoadingSpinnerDirective],
 })
 export class AdminAccountsPageComponent implements OnInit {
@@ -137,6 +136,6 @@ export class AdminAccountsPageComponent implements OnInit {
       this.accountInfo.accountId,
       this.linkService.INSTRUCTOR_HOME_PAGE,
     );
-    this.navigationService.navigateByURL(url);
+    globalThis.location.assign(url);
   }
 }

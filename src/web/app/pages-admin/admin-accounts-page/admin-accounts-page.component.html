@@ -1,23 +1,20 @@
 <div *tmIsLoading="isLoadingAccountInfo">
   @if (accountInfo.googleId) {
-    <div class="card bg-light" style="margin-top: 30px">
-      <div class="card-body row" style="padding: 25px 40px">
-        <label class="col-sm-2 control-label">Google ID:</label>
-        <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
-        <label class="col-sm-2 control-label">Name:</label>
-        <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
-        <label class="col-sm-2 control-label">Email:</label>
-        <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
-        <div class="text-center" style="margin-top: 20px">
+    <div class="card bg-light">
+      <div class="card-body p-4">
+        <div class="row">
+          <strong class="col-sm-2">Google ID:</strong>
+          <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
+          <strong class="col-sm-2">Name:</strong>
+          <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
+          <strong class="col-sm-2">Email:</strong>
+          <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
+        </div>
+        <div class="mt-3 d-flex justify-content-center gap-2">
           <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
             <i class="fas fa-trash-alt"></i> Delete Account
           </button>
-          <button
-            id="btn-masquerade-account"
-            class="btn btn-sm btn-primary"
-            style="margin-left: 20px"
-            (click)="masqueradeAsUser()"
-          >
+          <button id="btn-masquerade-account" class="btn btn-sm btn-primary" (click)="masqueradeAsUser()">
             <i class="fas fa-user-secret"></i> Masquerade as User
           </button>
         </div>
