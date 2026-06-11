@@ -69,13 +69,11 @@ module.exports = defineConfig(
       '@typescript-eslint/consistent-generic-constructors': 'off',
       // The rules below are temporarily disabled to allow gradual migration to the recommended ruleset.
       // They should be re-enabled in the future.
-      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/prefer-nullish-coalescing': 'off',
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/unbound-method': 'off',
       '@typescript-eslint/no-misused-promises': 'off',

@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { type CellValue } from 'handsontable/common';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
@@ -103,9 +103,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.getCourseEnrollPageData(queryParams.courseid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
+      this.getCourseEnrollPageData(queryParams['courseid']);
     });
   }
 
@@ -119,7 +119,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       student.teamName,
       student.name,
       student.email,
-      student.comments || '',
+      student.comments ?? '',
     ]);
   }
 
@@ -152,9 +152,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     // Parse the user input to be requests.
     data.forEach((row: CellValue[], index: number) => {
       if (!row.every((cell: CellValue) => normalizeCell(cell) === '')) {
+        const section = normalizeCell(row[0]) || 'Default Section';
+        const team = normalizeCell(row[1]) || 'Default Team';
         studentEnrollRequests.set(index, {
-          section: normalizeCell(row[0]),
-          team: normalizeCell(row[1]),
+          section,
+          team,
           name: normalizeCell(row[2]),
           email: normalizeCell(row[3]),
           comments: normalizeCell(row[4]),
@@ -333,21 +335,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if (
-        (studentEnrollRequests.size >= 100 && request.section === '') ||
-        request.team === '' ||
-        request.name === '' ||
-        request.email === ''
-      ) {
+      // Section and team are compulsory, however they should have been set to "Default Section" and "Default Team" if left empty.
+      // Therefore, we only check for the presence of name, and email.
+      if (request.name === '' || request.email === '') {
         this.invalidRowsIndex.add(key);
       }
     });
     if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
-      this.enrollErrorMessage += 'Found empty compulsory fields and/or sections with more than 100 students. ';
+      this.enrollErrorMessage += 'Found empty compulsory fields.';
     }
   }
 
-  private checkEmailNotRepeated(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+  checkEmailNotRepeated(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     const emailMap: Map<string, number> = new Map();
     const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
 
@@ -392,7 +391,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.newStudentsGrid().styleRows(rowIdxToClass);
   }
 
-  private populateEnrollResultPanelList(
+  populateEnrollResultPanelList(
     existingStudents: Student[],
     enrolledStudents: Student[],
     enrollRequests: Map<number, StudentEnrollRequest>,
@@ -540,16 +539,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Converts returned student list to a suitable format required by Handsontable.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   studentListDataToHandsontableData(studentsData: Student[], handsontableColHeader: any[]): string[][] {
     const headers: string[] = handsontableColHeader.map(this.unCapitalizeFirstLetter);
     return studentsData.map((student: Student) =>
       headers.map((header: string) => {
         if (header === 'team') {
-          return (student as any).teamName;
+          return student.teamName;
         }
         if (header === 'section') {
-          return (student as any).sectionName;
+          return student.sectionName;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (student as any)[header];
       }),
     );

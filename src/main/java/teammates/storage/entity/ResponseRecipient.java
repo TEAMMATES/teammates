@@ -152,7 +152,7 @@ public class ResponseRecipient {
         if (recipientType == ResponseRecipientType.TEAM) {
             return recipientTeam != null ? recipientTeam.getSection().getName() : Const.UNKNOWN_SECTION;
         } else if (recipientType == ResponseRecipientType.NO_SPECIFIC_RECIPIENT || recipientUser instanceof Instructor) {
-            return Const.DEFAULT_SECTION;
+            return Const.NO_SPECIFIC_SECTION;
         } else if (recipientUser instanceof Student student) {
             return student.getSectionName();
         } else {
@@ -174,17 +174,18 @@ public class ResponseRecipient {
     }
 
     /**
-     * Gets the recipient identifier: team name for team recipients, user email for user recipients.
+     * Gets the recipient key: a stable identifier composed of the recipient type and UUID
+     * (team ID for teams, user ID for users, or none for no specific recipient).
      */
-    public String getIdentifier() {
+    public String getKey() {
         switch (recipientType) {
         case TEAM:
-            return recipientTeam == null ? Const.UNKNOWN_TEAM : recipientTeam.getName();
+            return recipientType + ":" + recipientTeamId;
         case STUDENT, INSTRUCTOR:
-            return recipientUser == null ? Const.UNKNOWN_USER : recipientUser.getEmail();
+            return recipientType + ":" + recipientUserId;
         case NO_SPECIFIC_RECIPIENT:
         default:
-            return Const.GENERAL_QUESTION;
+            return recipientType + ":" + null;
         }
     }
 

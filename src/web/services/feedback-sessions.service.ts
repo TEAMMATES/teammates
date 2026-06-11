@@ -5,11 +5,10 @@ import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { default as templateSessions } from '../data/template-sessions.json';
+import { TemplateSession, templateSessions } from '../data/template-sessions';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   DeadlineExtensions,
-  FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionView,
   FeedbackSessionPublishStatus,
@@ -32,15 +31,7 @@ import {
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
-import { DEFAULT_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-
-/**
- * A template session.
- */
-export interface TemplateSession {
-  name: string;
-  questions: FeedbackQuestion[];
-}
+import { NO_SPECIFIC_SECTION_ID } from '../app/pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**
  * Handles sessions related logic provision.
@@ -57,7 +48,7 @@ export class FeedbackSessionsService {
    * Gets template sessions.
    */
   getTemplateSessions(): TemplateSession[] {
-    return templateSessions as any;
+    return templateSessions;
   }
 
   /**
@@ -378,16 +369,16 @@ export class FeedbackSessionsService {
       sectionNameForCsv?: string;
     },
   ): Observable<string> {
-    const isDefaultSection = sectionOptions?.groupBySectionId
-      ? sectionOptions.groupBySectionId === DEFAULT_SECTION_ID
+    const isNoSpecificSection = sectionOptions?.groupBySectionId
+      ? sectionOptions.groupBySectionId === NO_SPECIFIC_SECTION_ID
       : undefined;
     const groupBySectionId =
-      sectionOptions?.groupBySectionId === DEFAULT_SECTION_ID ? undefined : sectionOptions?.groupBySectionId;
+      sectionOptions?.groupBySectionId === NO_SPECIFIC_SECTION_ID ? undefined : sectionOptions?.groupBySectionId;
     return this.getCourseSessionResults({
       feedbackSessionId,
       questionId,
       groupBySection: groupBySectionId,
-      isDefaultSection: isDefaultSection,
+      isNoSpecificSection: isNoSpecificSection,
     }).pipe(
       map((results: SessionResults) =>
         this.sessionResultCsvService.getCsvForSessionResult(
@@ -411,7 +402,7 @@ export class FeedbackSessionsService {
     feedbackSessionId: string;
     questionId?: string;
     groupBySection?: string;
-    isDefaultSection?: boolean;
+    isNoSpecificSection?: boolean;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
@@ -425,8 +416,8 @@ export class FeedbackSessionsService {
       paramMap['frgroupbysection'] = queryParams.groupBySection;
     }
 
-    if (queryParams.isDefaultSection !== undefined) {
-      paramMap['isdefaultsection'] = queryParams.isDefaultSection.toString();
+    if (queryParams.isNoSpecificSection !== undefined) {
+      paramMap['isnospecificsection'] = queryParams.isNoSpecificSection.toString();
     }
 
     return this.httpRequestService.get(ResourceEndpoints.COURSE_SESSION_RESULTS, paramMap);

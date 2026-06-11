@@ -19,14 +19,18 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
+import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -44,6 +48,7 @@ public final class FeedbackSessionsLogic {
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
     private FeedbackSessionsDb fsDb;
+    private CoursesLogic coursesLogic;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
     private UsersLogic usersLogic;
@@ -57,11 +62,13 @@ public final class FeedbackSessionsLogic {
     }
 
     void initLogicDependencies(FeedbackSessionsDb fsDb,
-            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic, UsersLogic usersLogic) {
+            FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic,
+            UsersLogic usersLogic, CoursesLogic coursesLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
         this.usersLogic = usersLogic;
+        this.coursesLogic = coursesLogic;
     }
 
     /**
@@ -225,25 +232,66 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Creates a feedback session.
+     * Creates a feedback session from a create request.
      *
      * @return created feedback session
-     * @throws InvalidParametersException if the session is not valid
-     * @throws EntityAlreadyExistsException if the session already exist
+     * @throws EntityDoesNotExistException if the course does not exist
+     * @throws InvalidParametersException if the session timing is invalid
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        assert session != null;
-
-        validateFeedbackSession(session);
-
-        if (fsDb.getFeedbackSession(session.getId()) != null
-                || fsDb.getFeedbackSession(session.getName(), session.getCourseId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
+    public FeedbackSession createFeedbackSession(String courseId, Instructor instructor,
+            FeedbackSessionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        Course course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException("Failed to find course with the given course id.");
         }
 
-        return fsDb.persistFeedbackSession(session);
+        String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
+        String timeZone = course.getTimeZone();
+        Instant startTime = createRequest.getSubmissionStartTime();
+        Instant endTime = createRequest.getSubmissionEndTime();
+        Instant sessionVisibleTime = createRequest.getSessionVisibleFromTime();
+
+        validateNewFeedbackSessionTiming(null, timeZone, startTime, endTime, sessionVisibleTime);
+
+        FeedbackSession feedbackSession = new FeedbackSession(
+                feedbackSessionName,
+                instructor,
+                createRequest.getInstructions(),
+                startTime,
+                endTime,
+                sessionVisibleTime,
+                createRequest.getResultsVisibleFromTime(),
+                createRequest.getGracePeriod(),
+                createRequest.isClosingSoonEmailEnabled(),
+                createRequest.isPublishedEmailEnabled()
+        );
+        course.addFeedbackSession(feedbackSession);
+        validateFeedbackSession(feedbackSession);
+        feedbackSession = fsDb.persistFeedbackSession(feedbackSession);
+
+        if (createRequest.getToCopyCourseId() != null) {
+            copyFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
+                    feedbackSessionName, createRequest.getToCopySessionName());
+        }
+
+        HibernateUtil.flushSession();
+        return feedbackSession;
+    }
+
+    private void copyFeedbackQuestions(String oldCourseId, String newCourseId,
+            String newFeedbackSessionName, String oldFeedbackSessionName) {
+        FeedbackSession oldFeedbackSession = getFeedbackSession(oldFeedbackSessionName, oldCourseId);
+        FeedbackSession newFeedbackSession = getFeedbackSession(newFeedbackSessionName, newCourseId);
+        fqLogic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
+            FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
+            newFeedbackSession.addFeedbackQuestion(feedbackQuestion);
+            try {
+                fqLogic.createFeedbackQuestion(feedbackQuestion);
+            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                log.severe("Error when copying feedback question: " + e.getMessage());
+            }
+        });
     }
 
     /**

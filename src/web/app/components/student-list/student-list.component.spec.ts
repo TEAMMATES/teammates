@@ -516,8 +516,8 @@ describe('StudentListComponent', () => {
 
     fixture.detectChanges();
 
-    const buttons: any = fixture.debugElement.queryAll(By.css('button'));
-    const sendInviteButton = buttons.find((button: any) => button.nativeElement.textContent.includes('Send Invite'));
+    const buttons = fixture.debugElement.queryAll(By.css('button'));
+    const sendInviteButton = buttons.find((button) => button.nativeElement.textContent.includes('Send Invite'));
     expect(sendInviteButton).toBeTruthy();
   });
 

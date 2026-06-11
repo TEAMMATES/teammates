@@ -8,6 +8,7 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { SessionsTableRowModel } from '../../components/sessions-table/sessions-table-model';
 import {
   Course,
   Courses,
@@ -26,11 +27,11 @@ const testInstructorPrivilege: InstructorPermissionSet = {
   canModifyCourse: true,
   canModifySession: true,
   canModifyStudent: true,
-  canSubmitSessionInSections: true,
+  canSubmitSession: true,
   canModifyInstructor: false,
-  canViewStudentInSections: false,
-  canModifySessionCommentsInSections: false,
-  canViewSessionInSections: false,
+  canViewStudent: false,
+  canModifySessionComments: false,
+  canViewSession: false,
 };
 
 const testCourse1: Course = {
@@ -163,7 +164,7 @@ describe('InstructorHomePageComponent', () => {
     component.hasCoursesLoaded = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('.card-header');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('.card-header');
     button.click();
     expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
     button.click();
@@ -190,10 +191,10 @@ describe('InstructorHomePageComponent', () => {
     );
     vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
-    const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
+    const courseButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
-    const deleteButton: any = document.querySelector('body > div > div > .btn-delete-course');
-    deleteButton.click();
+    const deleteButton: HTMLElement | null = document.querySelector('body > div > div > .btn-delete-course');
+    deleteButton?.click();
 
     expect(component.courseTabModels.length).toEqual(1);
     expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
@@ -267,7 +268,7 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course without feedback session', () => {
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: testInstructorPrivilege,
       course: testCourse1,
       sessionsTableRowModels: [],
@@ -276,6 +277,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -284,7 +286,7 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course with unpopulated feedback sessions', () => {
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: testInstructorPrivilege,
       course: testCourse2,
       sessionsTableRowModels: [],
@@ -293,6 +295,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: true,
       isTabExpanded: true,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -301,7 +304,7 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course with error loading feedback sessions', () => {
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: testInstructorPrivilege,
       course: testCourse2,
       sessionsTableRowModels: [],
@@ -310,6 +313,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: false,
       isTabExpanded: true,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -318,7 +322,7 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course with unexpanded course tab', () => {
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: testInstructorPrivilege,
       course: testCourse2,
       sessionsTableRowModels: [],
@@ -327,6 +331,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: false,
       isAjaxSuccess: true,
       isTabExpanded: false,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -335,13 +340,13 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course with one feedback session with instructor privilege', () => {
-    const sessionsTableRowModel: any = {
+    const sessionsTableRowModel: SessionsTableRowModel = {
       feedbackSession: testFeedbackSession1,
       instructorPrivilege: testInstructorPrivilege,
       responseRate: '0 / 6',
       isLoadingResponseRate: false,
     };
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: testInstructorPrivilege,
       course: testCourse1,
       sessionsTableRowModels: [sessionsTableRowModel],
@@ -350,6 +355,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -358,25 +364,29 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap with one course with two feedback sessions with tutor privilege', () => {
-    const tutorPrivilege: any = {
+    const tutorPrivilege: InstructorPermissionSet = {
       canModifyCourse: false,
       canModifySession: false,
       canModifyStudent: false,
-      canSubmitSessionInSections: false,
+      canSubmitSession: false,
+      canModifyInstructor: false,
+      canViewStudent: false,
+      canModifySessionComments: false,
+      canViewSession: false,
     };
-    const sessionsTableRowModel1: any = {
+    const sessionsTableRowModel1: SessionsTableRowModel = {
       feedbackSession: testFeedbackSession1,
       instructorPrivilege: tutorPrivilege,
       responseRate: '0 / 6',
       isLoadingResponseRate: false,
     };
-    const sessionsTableRowModel2: any = {
+    const sessionsTableRowModel2: SessionsTableRowModel = {
       feedbackSession: testFeedbackSession2,
       instructorPrivilege: tutorPrivilege,
       responseRate: '5 / 6',
       isLoadingResponseRate: false,
     };
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: tutorPrivilege,
       course: testCourse2,
       sessionsTableRowModels: [sessionsTableRowModel1, sessionsTableRowModel2],
@@ -385,6 +395,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
@@ -393,7 +404,7 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should snap when courses are still loading', () => {
-    const courseTabModels: any = {
+    const courseTabModels: CourseTabModel = {
       instructorPrivilege: testInstructorPrivilege,
       course: testCourse2,
       sessionsTableRowModels: [],
@@ -402,6 +413,7 @@ describe('InstructorHomePageComponent', () => {
       hasPopulated: true,
       isAjaxSuccess: true,
       isTabExpanded: true,
+      hasLoadingFailed: false,
     };
     component.hasCoursesLoaded = false;
     component.courseTabModels = [courseTabModels];

@@ -584,6 +584,40 @@ describe('QuestionSubmissionFormComponent', () => {
     },
   );
 
+  it('getRecipientComboboxOptions: should include unselected recipients and the current recipient', () => {
+    const selectedRecipient = feedbackResponseRecipientBuilder
+      .recipientIdentifier('selected-recipient-id')
+      .recipientName('Selected Recipient')
+      .build();
+    const availableRecipient = feedbackResponseRecipientBuilder
+      .recipientIdentifier('available-recipient-id')
+      .recipientName('Available Recipient')
+      .build();
+    const currentRecipient = feedbackResponseRecipientBuilder
+      .recipientIdentifier('current-recipient-id')
+      .recipientName('Current Recipient')
+      .build();
+    const currentSubmissionForm = recipientSubmissionFormBuilder
+      .recipientIdentifier(currentRecipient.recipientIdentifier)
+      .build();
+    component.model.recipientList = [selectedRecipient, availableRecipient, currentRecipient];
+    component.model.recipientSubmissionForms = [
+      recipientSubmissionFormBuilder.recipientIdentifier(selectedRecipient.recipientIdentifier).build(),
+      currentSubmissionForm,
+    ];
+
+    const options = component.getRecipientComboboxOptions(currentSubmissionForm);
+
+    expect(options.map((option) => option.value)).toEqual([
+      availableRecipient.recipientIdentifier,
+      currentRecipient.recipientIdentifier,
+    ]);
+    expect(options.map((option) => option.label)).toEqual([
+      availableRecipient.recipientName,
+      currentRecipient.recipientName,
+    ]);
+  });
+
   it(
     'toggleSectionTeam: should set isSectionTeamShown to true and sort recipients by' +
       'Section and Team if FeedbackRecipientLabelType is INCLUDE_SECTION',

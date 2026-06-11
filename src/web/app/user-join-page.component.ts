@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { ActivatedRoute, Params } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
@@ -42,10 +42,10 @@ export class UserJoinPageComponent implements OnInit {
   private backendUrl: string = environment.backendUrl;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.entityType = queryParams.entitytype;
-      this.key = queryParams.key;
-      this.isCreatingAccount = queryParams.iscreatingaccount === 'true';
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.entityType = queryParams['entitytype'];
+      this.key = queryParams['key'];
+      this.isCreatingAccount = queryParams['iscreatingaccount'] === 'true';
 
       // Create account request can only come from instructor.
       if (this.isCreatingAccount) {
@@ -78,7 +78,7 @@ export class UserJoinPageComponent implements OnInit {
               this.isLoading = false;
               return;
             }
-            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            const modalRef: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
             modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
             modalRef.componentInstance.errorMessage = resp.error.message;
           },
@@ -93,13 +93,14 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse({ key: this.key }).subscribe({
       next: () => {
+        this.authService.clearAuthCache();
         this.navigationService.navigateByURL(`/web/${this.entityType}`);
       },
       error: (resp: ErrorMessageOutput) => {
         const errorMessage = resp.error.message;
 
         if (resp.status >= 500) {
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          const modalRef = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
           modalRef.componentInstance.errorMessage = errorMessage;
         } else {
@@ -124,13 +125,14 @@ export class UserJoinPageComponent implements OnInit {
       )
       .subscribe({
         next: () => {
+          this.authService.clearAuthCache();
           this.navigationService.navigateByURL('/web/instructor');
         },
         error: (resp: ErrorMessageOutput) => {
           if (resp.status === 404) {
             this.validUrl = false;
           } else {
-            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            const modalRef: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
             modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
             modalRef.componentInstance.errorMessage = resp.error.message;
           }

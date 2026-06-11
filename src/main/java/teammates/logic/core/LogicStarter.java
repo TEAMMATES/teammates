@@ -12,6 +12,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionLogsDb;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstructorPermissionsDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.api.ResponseInstructorCommentsDb;
 import teammates.storage.api.UsageStatisticsDb;
@@ -50,7 +51,7 @@ public class LogicStarter implements ServletContextListener {
         coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, accountRequestsLogic, coursesLogic, notificationsLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic, usersLogic);
-        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic);
+        fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic, coursesLogic);
         fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic,
                 instructorPermissionsLogic);
@@ -60,7 +61,7 @@ public class LogicStarter implements ServletContextListener {
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());
         usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, frLogic, instructorPermissionsLogic);
-        instructorPermissionsLogic.initLogicDependencies();
+        instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
         log.info("Initialized dependencies between logic classes");
     }
 

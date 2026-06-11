@@ -27,9 +27,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.questions.FeedbackConstantSumOptionsQuestion;
 import teammates.storage.entity.questions.FeedbackConstantSumRecipientsQuestion;
@@ -82,16 +82,16 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     private Integer numOfEntitiesToGiveFeedbackTo;
 
     @Column(nullable = false)
-    @Convert(converter = ViewerTypeListConverter.class)
-    private List<ViewerType> showResponsesTo;
+    @Convert(converter = FeedbackVisibilityTypeListConverter.class)
+    private List<FeedbackVisibilityType> showResponsesTo;
 
     @Column(nullable = false)
-    @Convert(converter = ViewerTypeListConverter.class)
-    private List<ViewerType> showGiverNameTo;
+    @Convert(converter = FeedbackVisibilityTypeListConverter.class)
+    private List<FeedbackVisibilityType> showGiverNameTo;
 
     @Column(nullable = false)
-    @Convert(converter = ViewerTypeListConverter.class)
-    private List<ViewerType> showRecipientNameTo;
+    @Convert(converter = FeedbackVisibilityTypeListConverter.class)
+    private List<FeedbackVisibilityType> showRecipientNameTo;
 
     @UpdateTimestamp
     @Column
@@ -104,8 +104,8 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     protected FeedbackQuestion(
             Integer questionNumber,
             String description, QuestionGiverType giverType, QuestionRecipientType recipientType,
-            Integer numOfEntitiesToGiveFeedbackTo, List<ViewerType> showResponsesTo,
-            List<ViewerType> showGiverNameTo, List<ViewerType> showRecipientNameTo
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackVisibilityType> showResponsesTo,
+            List<FeedbackVisibilityType> showGiverNameTo, List<FeedbackVisibilityType> showRecipientNameTo
     ) {
         this.setId(UUID.randomUUID());
         this.setFeedbackSession(feedbackSession);
@@ -140,8 +140,8 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     public static FeedbackQuestion makeQuestion(
             Integer questionNumber,
             String description, QuestionGiverType giverType, QuestionRecipientType recipientType,
-            Integer numOfEntitiesToGiveFeedbackTo, List<ViewerType> showResponsesTo,
-            List<ViewerType> showGiverNameTo, List<ViewerType> showRecipientNameTo,
+            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackVisibilityType> showResponsesTo,
+            List<FeedbackVisibilityType> showGiverNameTo, List<FeedbackVisibilityType> showRecipientNameTo,
             FeedbackQuestionDetails feedbackQuestionDetails
     ) {
         FeedbackQuestion feedbackQuestion = null;
@@ -338,27 +338,27 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.numOfEntitiesToGiveFeedbackTo = numOfEntitiesToGiveFeedbackTo;
     }
 
-    public List<ViewerType> getShowResponsesTo() {
+    public List<FeedbackVisibilityType> getShowResponsesTo() {
         return showResponsesTo;
     }
 
-    public void setShowResponsesTo(List<ViewerType> showResponsesTo) {
+    public void setShowResponsesTo(List<FeedbackVisibilityType> showResponsesTo) {
         this.showResponsesTo = showResponsesTo;
     }
 
-    public List<ViewerType> getShowGiverNameTo() {
+    public List<FeedbackVisibilityType> getShowGiverNameTo() {
         return showGiverNameTo;
     }
 
-    public void setShowGiverNameTo(List<ViewerType> showGiverNameTo) {
+    public void setShowGiverNameTo(List<FeedbackVisibilityType> showGiverNameTo) {
         this.showGiverNameTo = showGiverNameTo;
     }
 
-    public List<ViewerType> getShowRecipientNameTo() {
+    public List<FeedbackVisibilityType> getShowRecipientNameTo() {
         return showRecipientNameTo;
     }
 
-    public void setShowRecipientNameTo(List<ViewerType> showRecipientNameTo) {
+    public void setShowRecipientNameTo(List<FeedbackVisibilityType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
@@ -423,7 +423,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     /**
      * Returns true if the response is visible to the given participant type.
      */
-    public boolean isResponseVisibleTo(ViewerType userType) {
+    public boolean isResponseVisibleTo(FeedbackVisibilityType userType) {
         return showResponsesTo.contains(userType);
     }
 }

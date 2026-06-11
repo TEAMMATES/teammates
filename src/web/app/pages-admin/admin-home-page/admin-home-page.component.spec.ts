@@ -56,7 +56,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor');
     button.click();
 
     expect(spyAccountService).toHaveBeenCalled();
@@ -76,7 +76,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorInstitution = 'Instructor Institution';
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor');
     button.click();
 
     expect(component.instructorName).toEqual('Instructor Name');
@@ -131,7 +131,7 @@ describe('AdminHomePageComponent', () => {
     component.instructorDetails = instructorDetails;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
     expect(spyStatusMessageService).toHaveBeenCalledWith(
@@ -167,7 +167,7 @@ describe('AdminHomePageComponent', () => {
     ].join('\n');
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
     expect(spyAccountService).toHaveBeenCalledTimes(2);
@@ -229,7 +229,7 @@ describe('AdminHomePageComponent', () => {
 
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
     button.click();
 
     expect(spyAccountService).toHaveBeenCalledTimes(2);

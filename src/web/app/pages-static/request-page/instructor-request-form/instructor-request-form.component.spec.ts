@@ -126,27 +126,4 @@ describe('InstructorRequestFormComponent', () => {
     expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
     expect(accountService.createAccountRequest).toHaveBeenCalledWith(expect.objectContaining(typicalCreateRequest));
   });
-
-  it('should auto-unify country when applicable', () => {
-    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      new Observable((subscriber) => {
-        subscriber.next(typicalAccountRequest);
-      }),
-    );
-    const unitedStatesModel: InstructorRequestFormModel = {
-      ...typicalModel,
-      country: 'españa',
-    };
-    const unitedStatesCreateRequest: AccountCreateRequest = {
-      ...typicalCreateRequest,
-      instructorInstitution: `${unitedStatesModel.institution}, Spain`,
-    };
-    fillFormWith(unitedStatesModel);
-    component.onSubmit();
-
-    expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
-    expect(accountService.createAccountRequest).toHaveBeenCalledWith(
-      expect.objectContaining(unitedStatesCreateRequest),
-    );
-  });
 });

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -77,11 +77,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Fetches relevant data to be displayed on page.
    */
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.loadStudent(queryParams.courseid);
-      this.loadCourse(queryParams.courseid);
-      this.loadInstructors(queryParams.courseid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
+      this.loadStudent(queryParams['courseid']);
+      this.loadCourse(queryParams['courseid']);
+      this.loadInstructors(queryParams['courseid']);
     });
   }
 

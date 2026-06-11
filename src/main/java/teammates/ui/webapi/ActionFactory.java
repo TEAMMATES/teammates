@@ -69,6 +69,7 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE_SESSION_RESULTS, GET, GetCourseSessionResultsAction.class);
         map(ResourceURIs.USER_SESSION_RESULTS, GET, GetUserSessionResultsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
+        map(ResourceURIs.CONFIG, GET, GetConfigAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
@@ -137,7 +138,6 @@ public final class ActionFactory {
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
 
-        map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENED_REMINDERS, GET, FeedbackSessionOpenedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_SOON_REMINDERS, GET, FeedbackSessionClosingSoonRemindersAction.class);

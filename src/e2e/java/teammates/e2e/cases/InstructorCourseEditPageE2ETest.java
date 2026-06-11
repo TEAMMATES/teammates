@@ -2,11 +2,14 @@ package teammates.e2e.cases;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
+import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
@@ -54,8 +57,15 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId());
         editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getGoogleId());
 
+        // The helper (instructors[0]) has a custom role; track its name-keyed privileges for verification.
+        InstructorPermissionSet helperCourseLevel = new InstructorPermissionSet();
+        helperCourseLevel.setCanModifyStudent(true);
+        helperCourseLevel.setCanModifyInstructor(true);
+        Map<String, InstructorPermissionSet> helperSectionLevel = new LinkedHashMap<>();
+        Map<String, Map<String, InstructorPermissionSet>> helperSessionLevel = new LinkedHashMap<>();
+
         editPage.verifyCourseDetails(course);
-        editPage.verifyInstructorDetails(instructors[0]);
+        editPage.verifyInstructorDetails(instructors[0], helperCourseLevel, helperSectionLevel, helperSessionLevel);
         editPage.verifyInstructorDetails(instructors[1]);
         editPage.verifyInstructorDetails(instructors[2]);
         editPage.verifyInstructorDetails(instructors[3]);
@@ -113,27 +123,34 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("edit instructor");
         instructors[0].setName("Edited Name");
         instructors[0].setEmail("icedit.edited@gmail.tmt");
-        instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
-        instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-        instructors[0].getPrivileges().updatePrivilege("Section 2",
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, true);
-        instructors[0].getPrivileges().updatePrivilege("Section 1", "First feedback session",
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
+        // Rebuild privileges: update course level, then add section and session entries
+        helperCourseLevel.setCanModifySession(true);
+        helperCourseLevel.setCanModifyStudent(false);
+
+        InstructorPermissionSet section2Perms = new InstructorPermissionSet();
+        section2Perms.setCanViewSession(true);
+        helperSectionLevel.put("Section 2", section2Perms);
+
+        Map<String, InstructorPermissionSet> section1Sessions = new LinkedHashMap<>();
+        InstructorPermissionSet firstSessionPerms = new InstructorPermissionSet();
+        firstSessionPerms.setCanSubmitSession(true);
+        section1Sessions.put("First feedback session", firstSessionPerms);
+        helperSessionLevel.put("Section 1", section1Sessions);
 
         editPage.editInstructor(2, instructors[0]);
         editPage.waitForPageToLoad();
         editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         editPage.toggleCustomCourseLevelPrivilege(2, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         editPage.toggleCustomSectionLevelPrivilege(2, 1, "Section 2",
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
         editPage.toggleCustomSessionLevelPrivilege(2, 2, "Section 1", "First feedback session",
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
         editPage.verifyStatusMessage("The instructor " + instructors[0].getName() + " has been updated.");
-        editPage.verifyInstructorDetails(instructors[0]);
+        editPage.verifyInstructorDetails(instructors[0], helperCourseLevel, helperSectionLevel, helperSessionLevel);
 
         // verify in database by reloading
         editPage.reloadPage();
-        editPage.verifyInstructorDetails(instructors[0]);
+        editPage.verifyInstructorDetails(instructors[0], helperCourseLevel, helperSectionLevel, helperSessionLevel);
 
         ______TS("delete instructor");
         editPage.deleteInstructor(newInstructor);

@@ -228,9 +228,7 @@ public class SessionResultsData implements ApiOutput {
                 userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
                 // team giver, userIdForModeration is any team member's user ID
-                String teamName = responseGiver.getTeamName();
-                List<Student> teamMembers =
-                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                List<Student> teamMembers = bundle.getRoster().getTeamMembers(responseGiver.getTeamId());
                 userIdForModeration = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getId().toString();
                 giverEmail = null;
             }
@@ -248,7 +246,7 @@ public class SessionResultsData implements ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.getId(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-            recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getRecipientUser().getEmail();
         }
 
         // process comments
@@ -301,9 +299,7 @@ public class SessionResultsData implements ApiOutput {
                 userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
                 // team giver, userIdForModeration is any team member's user ID
-                String teamName = responseGiver.getTeamName();
-                List<Student> teamMembers =
-                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                List<Student> teamMembers = bundle.getRoster().getTeamMembers(responseGiver.getTeamId());
                 userIdForModeration = teamMembers.stream().findFirst()
                         .map(student -> student.getId().toString()).orElse(null);
                 giverEmail = null;
@@ -322,7 +318,7 @@ public class SessionResultsData implements ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.id(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-            recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getRecipientUser().getEmail();
         }
 
         FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails(Const.MISSING_RESPONSE_TEXT);

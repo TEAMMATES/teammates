@@ -3,16 +3,16 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
 import { CourseCreateRequest, CourseUpdateRequest, RegKeyRequest } from '../types/api-request';
 
 describe('CourseService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: CourseService;
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

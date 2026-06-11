@@ -30,6 +30,7 @@ type GenericBuilder<T> = {
  *   .build();
  */
 export function createBuilder<T extends object>(initialValues: T): GenericBuilder<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const builder: any = {};
 
   (Object.keys(initialValues) as (keyof T)[]).forEach((key) => {

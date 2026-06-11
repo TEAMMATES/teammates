@@ -123,7 +123,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
 
         loginAsInstructor(instructor1OfCourse1.getAccount().getGoogleId());
 
-        verifyEntityNotFoundAcl(Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000");
+        verifyCannotAccess(Const.ParamsNames.FEEDBACK_QUESTION_ID, "00000000-0000-0000-0000-000000000000");
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

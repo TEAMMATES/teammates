@@ -25,7 +25,6 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -44,6 +43,8 @@ public class UsersLogicTest extends BaseTestCase {
 
     private UsersDb usersDb;
 
+    private InstructorPermissionsLogic instructorPermissionsLogic;
+
     private Instructor instructor;
 
     private Student student;
@@ -55,15 +56,16 @@ public class UsersLogicTest extends BaseTestCase {
         usersDb = mock(UsersDb.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        InstructorPermissionsLogic instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
+        instructorPermissionsLogic = mock(InstructorPermissionsLogic.class);
         doAnswer(invocation -> {
-            Instructor instructor = invocation.getArgument(0);
+            Instructor instr = invocation.getArgument(0);
             String permissionName = invocation.getArgument(1);
-            InstructorPrivileges effectivePrivileges = instructor.getRole()
-                    == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
-                            ? instructor.getPrivileges()
-                            : new InstructorPrivileges(instructor.getRole().getRoleName());
-            return effectivePrivileges.isAllowedForPrivilege(permissionName);
+            InstructorPermissionRole role = instr.getRole();
+            InstructorPrivileges privileges = role == null
+                    || role == InstructorPermissionRole.CUSTOM
+                            ? new InstructorPrivileges(instr.getId())
+                            : new InstructorPrivileges(instr.getId(), role.getRoleName());
+            return privileges.isAllowedForPrivilege(permissionName);
         }).when(instructorPermissionsLogic).hasPermissions(any(Instructor.class), any(String.class));
         usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic, instructorPermissionsLogic);
 
@@ -200,13 +202,15 @@ public class UsersLogicTest extends BaseTestCase {
 
     @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
-        InstructorPrivileges privileges = instructor.getPrivileges();
-        privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
-        instructor.setPrivileges(privileges);
+        instructor.setRole(InstructorPermissionRole.CUSTOM);
+        InstructorPrivileges privileges = new InstructorPrivileges(instructor.getId());
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        when(instructorPermissionsLogic.getInstructorPrivileges(instructor)).thenReturn(privileges);
+
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructor);
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertFalse(instructorPermissionsLogic.getInstructorPrivileges(instructor)
+                .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
     private Instructor createRegisteredInstructor(String email, boolean isDisplayedToStudents) {

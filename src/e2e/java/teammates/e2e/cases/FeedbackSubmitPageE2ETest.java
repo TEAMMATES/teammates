@@ -57,7 +57,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString());
+                .withFeedbackSessionId(openSession.getId());
         FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
@@ -155,7 +155,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("preview as instructor");
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString())
+                .withFeedbackSessionId(openSession.getId())
                 .withPreviewAs(instructor.getId().toString());
         submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
@@ -166,7 +166,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview as student");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString())
+                .withFeedbackSessionId(openSession.getId())
                 .withPreviewAs(student.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
@@ -180,7 +180,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("moderating instructor cannot see questions without instructor visibility");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withFeedbackSessionId(gracePeriodSession.getId().toString())
+                .withFeedbackSessionId(gracePeriodSession.getId())
                 .withParam("moderatedperson", student.getId().toString())
                 .withParam("moderatedquestionId", question.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
@@ -200,7 +200,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     private AppUrl getStudentSubmitPageUrl(FeedbackSession session) {
         return createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withFeedbackSessionId(session.getId().toString());
+                .withFeedbackSessionId(session.getId());
     }
 
     private List<String> getOtherStudents(Student currentStudent) {

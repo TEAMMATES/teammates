@@ -38,7 +38,7 @@
         @if (model.recipientType === QuestionRecipientType.SELF) {
           <li>You can see your own feedback in the results page later on.</li>
         }
-        @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+        @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
           @if (
             visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
             visibilityStateMachine.hasAnyVisibilityControl(visibilityType)
@@ -154,26 +154,17 @@
                   </div>
                 } @else {
                   <div class="row evaluee-select align-items-center">
-                    <select
-                      id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
-                      class="form-control form-select fw-bold col"
+                    <tm-searchable-combobox
+                      class="fw-bold col"
+                      inputId="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"
                       [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
                       (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
+                      [options]="getRecipientComboboxOptions(recipientSubmissionFormModel)"
+                      [clearable]="true"
+                      clearValue=""
                       [disabled]="isFormsDisabled"
-                      [attr.aria-label]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i"
-                    >
-                      <option value=""></option>
-                      @for (recipient of model.recipientList; track recipient) {
-                        @if (
-                          !isRecipientSelected(recipient) ||
-                          recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier
-                        ) {
-                          <option [ngValue]="recipient.recipientIdentifier">
-                            {{ getSelectionOptionLabel(recipient) }}
-                          </option>
-                        }
-                      }
-                    </select>
+                      [ariaLabel]="'Select recipient dropdown question ' + model.questionNumber + ' index ' + i"
+                    />
                     <div class="col-auto text-start">
                       ({{ model.recipientType | recipientTypeName: model.giverType }})
                     </div>
@@ -320,7 +311,7 @@
                       @if (model.recipientType === QuestionRecipientType.SELF) {
                         <li>You can see your own feedback in the results page later on.</li>
                       }
-                      @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
+                      @for (visibilityType of feedbackVisibilityTypes; track visibilityType) {
                         @if (
                           visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) &&
                           visibilityStateMachine.hasAnyVisibilityControl(visibilityType)

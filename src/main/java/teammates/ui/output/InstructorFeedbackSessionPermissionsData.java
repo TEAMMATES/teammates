@@ -8,26 +8,26 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class InstructorFeedbackSessionPermissionsData implements ApiOutput {
 
     private final boolean canModifySession;
-    private final boolean canSubmitSessionInSections;
-    private final boolean canViewSessionInSections;
+    private final boolean canSubmitSession;
+    private final boolean canViewSession;
 
     @JsonCreator
     public InstructorFeedbackSessionPermissionsData(boolean canModifySession,
-            boolean canSubmitSessionInSections, boolean canViewSessionInSections) {
+            boolean canSubmitSession, boolean canViewSession) {
         this.canModifySession = canModifySession;
-        this.canSubmitSessionInSections = canSubmitSessionInSections;
-        this.canViewSessionInSections = canViewSessionInSections;
+        this.canSubmitSession = canSubmitSession;
+        this.canViewSession = canViewSession;
     }
 
     public boolean getCanModifySession() {
         return canModifySession;
     }
 
-    public boolean getCanSubmitSessionInSections() {
-        return canSubmitSessionInSections;
+    public boolean getCanSubmitSession() {
+        return canSubmitSession;
     }
 
-    public boolean getCanViewSessionInSections() {
-        return canViewSessionInSections;
+    public boolean getCanViewSession() {
+        return canViewSession;
     }
 }

@@ -40,20 +40,12 @@ public class RequestTraceFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
 
-        String requestId = request.getHeader("X-Cloud-Trace-Context");
-        String traceId; // TODO: rename to requestId and remove dependency on Cloud Trace format
-        if (requestId == null) {
-            // Generate random hexadecimal string of length 32
-            byte[] resBuf = new byte[16];
-            random.nextBytes(resBuf);
-            traceId = Hex.encodeHexString(resBuf);
-        } else {
-            // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
-            String[] traceAndSpan = requestId.split("/", 2);
-            traceId = traceAndSpan[0];
-        }
+        // Generate random hexadecimal string of length 32
+        byte[] resBuf = new byte[16];
+        random.nextBytes(resBuf);
+        String requestId = Hex.encodeHexString(resBuf);
 
-        response.setHeader(Const.HeaderNames.REQUEST_ID, traceId);
+        response.setHeader(Const.HeaderNames.REQUEST_ID, requestId);
 
         // Worker / Cron requests (from Cloud Tasks with bearer token) may run longer.
         // For these requests, we set the limit to 10 minutes minus a small grace period.
@@ -61,7 +53,7 @@ public class RequestTraceFilter implements Filter {
         boolean isAutomatedWorkerOrCronRequest = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(request);
         int timeoutInSeconds = isAutomatedWorkerOrCronRequest ? 10 * 60 - 5 : 60;
 
-        RequestTracer.init(traceId, timeoutInSeconds);
+        RequestTracer.init(requestId, timeoutInSeconds);
 
         if (Config.MAINTENANCE) {
             throwError(request, response, HttpStatus.SC_SERVICE_UNAVAILABLE,

@@ -9,7 +9,7 @@ export class GiverTypeDescriptionPipe implements PipeTransform {
   /**
    * Transforms {@link QuestionGiverType} to a simple description from giver's perspective.
    */
-  transform(type: QuestionGiverType): any {
+  transform(type: QuestionGiverType): string {
     switch (type) {
       case QuestionGiverType.SESSION_CREATOR:
         return 'Feedback session creator (i.e., me)';
@@ -33,7 +33,7 @@ export class RecipientTypeDescriptionPipe implements PipeTransform {
   /**
    * Transforms {@link QuestionRecipientType} to a simple description from recipient's perspective.
    */
-  transform(type: QuestionRecipientType): any {
+  transform(type: QuestionRecipientType): string {
     switch (type) {
       case QuestionRecipientType.SELF:
         return 'Giver (Self feedback)';

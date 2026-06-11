@@ -1,17 +1,13 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.UUID;
 
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackSession;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
-import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -29,56 +25,23 @@ public class CreateFeedbackQuestionAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackSession(requestContext, feedbackSessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
-    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
-
-        FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
-                request.getQuestionNumber(),
-                request.getQuestionDescription(),
-                request.getGiverType(),
-                request.getRecipientType(),
-                request.getNumberOfEntitiesToGiveFeedbackTo(),
-                request.getShowResponsesTo(),
-                request.getShowGiverNameTo(),
-                request.getShowRecipientNameTo(),
-                request.getQuestionDetails()
-        );
-        feedbackSession.addFeedbackQuestion(feedbackQuestion);
+        FeedbackQuestionCreateRequest createRequest =
+                getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
         try {
-            // validate questions (giver & recipient)
-            String err = feedbackQuestion.getQuestionDetailsCopy().validateGiverRecipientVisibility(feedbackQuestion);
-
-            if (!err.isEmpty()) {
-                throw new InvalidHttpRequestBodyException(err);
-            }
-            // validate questions (question details)
-            FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
-            List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
-            if (!questionDetailsErrors.isEmpty()) {
-                throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
-            }
-            feedbackQuestion = logic.createFeedbackQuestion(feedbackQuestion);
+            FeedbackQuestion feedbackQuestion = logic.createFeedbackQuestion(feedbackSessionId, createRequest);
             return new JsonResult(new FeedbackQuestionData(feedbackQuestion));
-        } catch (InvalidParametersException ex) {
-            throw new InvalidHttpRequestBodyException(ex);
-        } catch (EntityAlreadyExistsException e) {
-            throw new InvalidOperationException(e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         }
     }
 }

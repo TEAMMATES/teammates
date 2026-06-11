@@ -48,22 +48,8 @@
     "SHome.instr.CS2104": {
       "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": false,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.SHome.CS2104",
       "displayName": "Co-owner",
@@ -72,22 +58,8 @@
     "SHome.instr.CS1101": {
       "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": false,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.SHome.CS1101",
       "displayName": "Co-owner",
@@ -96,22 +68,8 @@
     "SHome.instr.CS4215": {
       "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": false,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.SHome.CS4215",
       "displayName": "Co-owner",
@@ -120,22 +78,8 @@
     "SHome.instr.CS4221": {
       "name": "Teammates Test",
       "email": "shome.instr@gmail.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": false,
-      "privileges": {
-        "courseLevel": {
-          "canViewStudentInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true,
-          "canModifyCourse": true,
-          "canViewSessionInSections": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canModifyInstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "id": "00000000-0000-4000-8000-000000000504",
       "courseId": "tm.e2e.SHome.CS4221",
       "displayName": "Co-owner",

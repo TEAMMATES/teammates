@@ -9,7 +9,7 @@ export class QuestionTypeNamePipe implements PipeTransform {
   /**
    * Transforms {@link FeedbackQuestionType} to a simple name.
    */
-  transform(type: FeedbackQuestionType): any {
+  transform(type: FeedbackQuestionType): string {
     switch (type) {
       case FeedbackQuestionType.MCQ:
         return 'Multiple-choice (single answer) question';

@@ -69,7 +69,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('This is the error message');
       });
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -90,7 +90,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('No results found.');
       });
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -145,7 +145,7 @@ describe('AdminSearchPageComponent', () => {
     );
 
     component.searchQuery = 'name';
-    const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
 
     expect(component.students.length).toEqual(0);
@@ -211,7 +211,7 @@ describe('AdminSearchPageComponent', () => {
     );
 
     component.searchQuery = 'name';
-    const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
 
     expect(component.students.length).toEqual(2);

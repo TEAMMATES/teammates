@@ -3,6 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { HttpRequestService } from './http-request.service';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import {
   AccountRequestSearchResult,
   InstructorAccountSearchResult,
@@ -10,7 +11,6 @@ import {
   StudentAccountSearchResult,
 } from './search.service';
 import { TimezoneService } from './timezone.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   AccountRequest,
@@ -29,7 +29,7 @@ import {
 } from '../types/api-output';
 
 describe('SearchService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: SearchService;
   let timezoneService: TimezoneService;
 
@@ -63,7 +63,7 @@ describe('SearchService', () => {
     displayedToStudentsAs: 'Instructor',
     name: 'Lee Wong',
     key: 'instructor-key-001',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
   };
 
@@ -79,7 +79,7 @@ describe('SearchService', () => {
     displayedToStudentsAs: 'Instructor',
     name: 'Brown Taylor',
     key: 'instructor-key-002',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+    role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };
 
@@ -95,7 +95,7 @@ describe('SearchService', () => {
     displayedToStudentsAs: 'Instructor',
     name: 'Chen Lim',
     key: 'instructor-key-003',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
+    role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };
 
@@ -147,10 +147,10 @@ describe('SearchService', () => {
         canModifySession: true,
         canModifyStudent: true,
         canModifyInstructor: true,
-        canViewStudentInSections: true,
-        canModifySessionCommentsInSections: true,
-        canViewSessionInSections: true,
-        canSubmitSessionInSections: true,
+        canViewStudent: true,
+        canModifySessionComments: true,
+        canViewSession: true,
+        canSubmitSession: true,
       },
       sectionLevel: {},
       sessionLevel: {},
@@ -164,10 +164,10 @@ describe('SearchService', () => {
         canModifySession: true,
         canModifyStudent: true,
         canModifyInstructor: false,
-        canViewStudentInSections: true,
-        canModifySessionCommentsInSections: true,
-        canViewSessionInSections: true,
-        canSubmitSessionInSections: true,
+        canViewStudent: true,
+        canModifySessionComments: true,
+        canViewSession: true,
+        canSubmitSession: true,
       },
       sectionLevel: {},
       sessionLevel: {},
@@ -181,10 +181,10 @@ describe('SearchService', () => {
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: true,
-        canViewStudentInSections: false,
-        canModifySessionCommentsInSections: false,
-        canViewSessionInSections: false,
-        canSubmitSessionInSections: false,
+        canViewStudent: false,
+        canModifySessionComments: false,
+        canViewSession: false,
+        canSubmitSession: false,
       },
       sectionLevel: {},
       sessionLevel: {},
@@ -212,7 +212,7 @@ describe('SearchService', () => {
   };
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

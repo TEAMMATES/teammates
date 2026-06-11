@@ -42,7 +42,7 @@ describe('Link Service', () => {
     displayedToStudentsAs: 'Instructor',
     name: 'Adam Lee',
     key: 'instructor-key-001',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
   };
 

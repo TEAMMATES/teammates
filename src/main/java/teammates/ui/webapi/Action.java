@@ -14,7 +14,6 @@ import teammates.common.util.JsonUtils;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
-import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
@@ -44,7 +43,6 @@ public abstract class Action {
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
-    LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
     RequestContext requestContext;
@@ -82,10 +80,6 @@ public abstract class Action {
 
     public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
         this.recaptchaVerifier = recaptchaVerifier;
-    }
-
-    public void setLogsProcessor(LogsProcessor logsProcessor) {
-        this.logsProcessor = logsProcessor;
     }
 
     public void setEmailGenerator(EmailGenerator emailGenerator) {
@@ -293,6 +287,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
+    public abstract JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

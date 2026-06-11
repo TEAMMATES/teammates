@@ -23,12 +23,7 @@ public class RestoreFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("The feedback session does not exist.");
-        }
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackSession(requestContext, feedbackSessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

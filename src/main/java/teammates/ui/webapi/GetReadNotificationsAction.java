@@ -22,7 +22,7 @@ public class GetReadNotificationsAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         Account account = getCurrentAccount();
         List<UUID> readNotifications =
                 logic.getReadNotificationsByAccountId(account.getId()).stream()

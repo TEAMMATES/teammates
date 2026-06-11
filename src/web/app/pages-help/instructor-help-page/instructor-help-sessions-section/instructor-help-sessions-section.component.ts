@@ -17,7 +17,6 @@ import {
 } from './instructor-help-sessions-data';
 import { SessionsSectionQuestions } from './sessions-section-questions';
 import { environment } from '../../../../environments/environment';
-import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import { Course, FeedbackSession, Instructor, ResponseOutput, Student } from '../../../../types/api-output';
 import { AddingQuestionPanelComponent } from '../../../components/adding-question-panel/adding-question-panel.component';
 import type { CommentEditFormModel } from '../../../components/comment-box/comment.model';
@@ -50,6 +49,7 @@ import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
+import { TemplateSession } from '../../../../data/template-sessions';
 
 /**
  * Sessions Section of the Instructor Help Page.

@@ -35,8 +35,8 @@ public class GetStudentAction extends Action {
             }
 
             gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, courseId,
-                    student.getSectionName(),
-                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
+                    student.getSectionId(),
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT);
         } else {
             gateKeeper.verifyStudentInCourse(requestContext, courseId);
         }

@@ -56,7 +56,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(requestContext);
             gateKeeper.verifyInstructorHasPrivilege(requestContext, courseId,
-                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_VIEW_SESSION);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -119,17 +119,17 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             Instructor instructorSubmission) {
         boolean canModifySession =
                 logic.hasInstructorPermissions(instructorSubmission, Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructorSubmission,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getName(),
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        boolean canViewSessionInSections = logic.hasInstructorPermissions(instructorSubmission,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getName(),
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+        boolean canSubmitSession = logic.hasInstructorPermissions(instructorSubmission,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getId(),
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = logic.hasInstructorPermissions(instructorSubmission,
+                Const.InstructorPermissions.CAN_VIEW_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructorSubmission, feedbackSession.getId(),
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
         return new InstructorFeedbackSessionPermissionsData(
                 canModifySession,
-                canSubmitSessionInSections,
-                canViewSessionInSections);
+                canSubmitSession,
+                canViewSession);
     }
 }

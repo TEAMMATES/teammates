@@ -57,9 +57,9 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     const newOptions: string[] = this.model.mcqChoices.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
-    const fieldsToUpdate: any = {};
-    fieldsToUpdate.mcqChoices = newOptions;
-    fieldsToUpdate.mcqWeights = newWeights;
+    const fieldsToUpdate: Record<string, unknown> = {};
+    fieldsToUpdate['mcqChoices'] = newOptions;
+    fieldsToUpdate['mcqWeights'] = newWeights;
     this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
@@ -67,14 +67,14 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Increases number of Mcq options.
    */
   increaseNumberOfOptions(): void {
-    const fieldsToUpdate: any = {};
+    const fieldsToUpdate: Record<string, unknown> = {};
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.push('');
-    fieldsToUpdate.mcqChoices = newOptions;
+    fieldsToUpdate['mcqChoices'] = newOptions;
     if (this.model.hasAssignedWeights) {
       const newWeights: number[] = this.model.mcqWeights.slice();
       newWeights.push(0);
-      fieldsToUpdate.mcqWeights = newWeights;
+      fieldsToUpdate['mcqWeights'] = newWeights;
     }
     this.triggerModelChangeBatch(fieldsToUpdate);
   }
@@ -83,14 +83,14 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
    * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
-    const fieldsToUpdate: any = {};
+    const fieldsToUpdate: Record<string, unknown> = {};
     const newOptions: string[] = this.model.mcqChoices.slice();
     newOptions.splice(event, 1);
-    fieldsToUpdate.mcqChoices = newOptions;
+    fieldsToUpdate['mcqChoices'] = newOptions;
     if (this.model.hasAssignedWeights) {
       const newWeights: number[] = this.model.mcqWeights.slice();
       newWeights.splice(event, 1);
-      fieldsToUpdate.mcqWeights = newWeights;
+      fieldsToUpdate['mcqWeights'] = newWeights;
     }
     this.triggerModelChangeBatch(fieldsToUpdate);
   }

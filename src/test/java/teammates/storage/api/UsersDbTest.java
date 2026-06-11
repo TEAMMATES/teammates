@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -229,14 +228,13 @@ public class UsersDbTest extends BaseDbTestcase {
 
     private static Instructor buildDefaultInstructor(Course course, UUID instructorId) {
         assertNotNull(course);
-        InstructorPermissionRole role = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPermissionRole role = InstructorPermissionRole.COOWNER;
         Instructor instructor = new Instructor(
                 "Instructor Name",
                 "instructor@example.com",
                 true,
                 "Instructor Display Name",
-                role,
-                new InstructorPrivileges(role.getRoleName()));
+                role);
         instructor.setId(instructorId);
         instructor.setCourse(course);
         return instructor;

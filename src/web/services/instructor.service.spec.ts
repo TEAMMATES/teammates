@@ -4,7 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
-import createSpyFromClass from '../test-helpers/create-spy-from-class';
+import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequest } from '../types/api-request';
@@ -12,7 +12,7 @@ import { InstructorCreateRequest, InstructorPermissionRole, InstructorUpdateRequ
 const defaultRequestBody: InstructorCreateRequest = {
   name: 'John Doe',
   email: 'johndoe@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   displayName: 'John Doe',
   isDisplayedToStudent: true,
 };
@@ -21,7 +21,7 @@ const defaultUpdateRequestBody: InstructorUpdateRequest = {
   id: '00000000-0000-4000-8000-000000000001',
   name: 'John Doe',
   email: 'johndoe@gmail.com',
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  role: InstructorPermissionRole.COOWNER,
   displayName: 'John Doe',
   isDisplayedToStudent: true,
 };
@@ -38,7 +38,7 @@ const defaultInstructors: Instructors = {
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
       name: '',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       joinState: JoinState.JOINED,
     },
     {
@@ -51,18 +51,18 @@ const defaultInstructors: Instructors = {
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
       name: '',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       joinState: JoinState.JOINED,
     },
   ],
 };
 
 describe('InstructorService', () => {
-  let spyHttpRequestService: any;
+  let spyHttpRequestService: MockHttpRequestService;
   let service: InstructorService;
 
   beforeEach(() => {
-    spyHttpRequestService = createSpyFromClass(HttpRequestService);
+    spyHttpRequestService = createMockHttpRequestService();
     TestBed.configureTestingModule({
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },

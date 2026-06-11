@@ -28,7 +28,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
-import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
@@ -68,7 +67,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();
-    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
@@ -115,7 +113,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
-            action.setLogsProcessor(mockLogsProcessor);
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -253,18 +250,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void logoutUser() {
         mockUserProvision.logoutUser();
-    }
-
-    void grantInstructorWithSectionPrivilege(
-            Instructor instructor, String privilege, String[] sections) {
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
-
-        for (String section : sections) {
-            instructorPrivileges.updatePrivilege(section, privilege, true);
-        }
-
-        instructor.setPrivileges(instructorPrivileges);
-        assert instructor.isValid();
     }
 
     // The next few methods are for testing access control
@@ -433,12 +418,14 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
-        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        InstructorPrivileges runtimePrivileges = new InstructorPrivileges(instructor.getId());
+        runtimePrivileges.updatePrivilege(privilege, true);
 
-        instructorPrivileges.updatePrivilege(privilege, true);
-        instructor.setPrivileges(instructorPrivileges);
-        instructor.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        inTransaction(() -> logic.getInstructor(instructor.getId()).setPrivileges(instructorPrivileges));
+        inTransaction(() -> {
+            Instructor dbInstructor = logic.getInstructor(instructor.getId());
+            logic.saveInstructorPrivileges(dbInstructor, runtimePrivileges);
+            dbInstructor.setRole(InstructorPermissionRole.CUSTOM);
+        });
 
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, submissionParams);
@@ -726,16 +713,12 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         Instructor instructor = inTransaction(() -> logic.getInstructorForEmail(course.getId(), email));
         if (instructor == null) {
             instructor = inTransaction(() -> {
-                Instructor toCreate = new Instructor(course, "instructor-name", email, true, "display-name",
-                        InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, new InstructorPrivileges());
-                Instructor createdInstructor = logic.createInstructor(toCreate);
-
                 String googleId = email;
                 String subject = email;
                 String tenantId = "tenant-id";
                 Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
-                createdInstructor.setAccount(account);
-                return createdInstructor;
+                return logic.createInstructor(course, "instructor-name", email, true, "display-name",
+                        InstructorPermissionRole.CUSTOM, account);
             });
         }
         return instructor;

@@ -28,6 +28,7 @@ import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
+import teammates.test.ResponseEntityHelper;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.FeedbackSessionData;
 
@@ -94,7 +95,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         FeedbackSession feedbackSession = testData.feedbackSessions.get("Open Session");
 
         resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
-                .withFeedbackSessionId(feedbackSession.getId().toString());
+                .withFeedbackSessionId(feedbackSession.getId());
 
         organiseResponses(course.getId());
 
@@ -337,7 +338,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         FeedbackSession feedbackSession = testData.feedbackSessions.get("Open Session 2");
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
-                .withFeedbackSessionId(feedbackSession.getId().toString());
+                .withFeedbackSessionId(feedbackSession.getId());
         resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
@@ -407,7 +408,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         Set<String> responders = testData.feedbackResponses.values().stream()
                 .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourseId().equals(courseId))
                 .map(FeedbackResponse::getGiver)
-                .map(ResponseGiver::getIdentifier)
+                .map(ResponseEntityHelper::getIdentifier)
                 .collect(Collectors.toSet());
 
         return testData.students.values().stream()
@@ -427,9 +428,11 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     private void sortResponses(List<FeedbackResponse> responses) {
         responses.sort((r1, r2) -> {
             if (r1.getGiver().equals(r2.getGiver())) {
-                return r1.getRecipient().getIdentifier().compareTo(r2.getRecipient().getIdentifier());
+                return ResponseEntityHelper.getIdentifier(r1.getRecipient())
+                        .compareTo(ResponseEntityHelper.getIdentifier(r2.getRecipient()));
             }
-            return r1.getGiver().getIdentifier().compareTo(r2.getGiver().getIdentifier());
+            return ResponseEntityHelper.getIdentifier(r1.getGiver())
+                    .compareTo(ResponseEntityHelper.getIdentifier(r2.getGiver()));
         });
     }
 
@@ -585,8 +588,8 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
             Map<String, List<FeedbackResponse>> recipientToResponse = new HashMap<>();
             Map<String, List<FeedbackResponse>> giverToResponse = new HashMap<>();
             for (FeedbackResponse response : responses) {
-                String recipient = response.getRecipient().getIdentifier();
-                String giver = response.getGiver().getIdentifier();
+                String recipient = ResponseEntityHelper.getIdentifier(response.getRecipient());
+                String giver = ResponseEntityHelper.getIdentifier(response.getGiver());
                 recipientToResponse.computeIfAbsent(recipient, k -> new ArrayList<>()).add(response);
                 giverToResponse.computeIfAbsent(giver, k -> new ArrayList<>()).add(response);
             }

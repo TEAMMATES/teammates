@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, TemplateRef, inject } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -96,8 +96,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   studentSortOrder: SortOrder = SortOrder.ASC;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.loadCourseDetails(queryParams.courseid);
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.loadCourseDetails(queryParams['courseid']);
     });
   }
 
@@ -171,7 +171,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
                 const studentModels: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
                   return {
                     student: studentInSection,
-                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
+                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudent,
                     isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
                   };
                 });
@@ -209,7 +209,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Open the modal for different buttons and link.
    */
-  openModal(content: any): void {
+  openModal(content: TemplateRef<unknown>): void {
     this.ngbModal.open(content);
   }
 
@@ -275,7 +275,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   downloadAllStudentsFromCourse(courseId: string): void {
     this.isLoadingCsv = true;
     const filename = `${courseId.concat('_studentList')}.csv`;
-    let blob: any;
 
     this.studentService
       .loadStudentListAsCsv({ courseId })
@@ -286,7 +285,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: string) => {
-          blob = new Blob([resp], { type: 'text/csv' });
+          const blob = new Blob([resp], { type: 'text/csv' });
           this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {

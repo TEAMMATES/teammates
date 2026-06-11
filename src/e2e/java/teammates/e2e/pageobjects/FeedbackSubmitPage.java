@@ -16,7 +16,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumRecipientsQuestionDetails;
@@ -38,6 +37,7 @@ import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -48,6 +48,10 @@ import teammates.storage.entity.FeedbackSession;
  * Represents the feedback submission page of the website.
  */
 public class FeedbackSubmitPage extends AppPage {
+
+    private static final By RECIPIENT_COMBOBOX_SELECTOR = By.cssSelector("[id^='recipient-dropdown-qn-']");
+    private static final By SEARCHABLE_COMBOBOX_OPTION_SELECTOR =
+            By.cssSelector("[data-testid='searchable-combobox-option']");
 
     public FeedbackSubmitPage(Browser browser) {
         super(browser);
@@ -84,14 +88,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyLimitedRecipients(int qnNumber, int numRecipients, List<String> recipientNames) {
-        List<WebElement> recipientDropdowns = getQuestionForm(qnNumber)
-                .findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
-        assertEquals(numRecipients, recipientDropdowns.size());
-        List<WebElement> recipients = recipientDropdowns.get(0).findElements(By.tagName("option"));
-        assertEquals(recipientNames.size(), recipients.size() - 1);
+        List<WebElement> recipientComboboxes = getQuestionForm(qnNumber).findElements(RECIPIENT_COMBOBOX_SELECTOR);
+        assertEquals(numRecipients, recipientComboboxes.size());
+        List<WebElement> recipients = getRecipientComboboxOptions(recipientComboboxes.get(0));
+        assertEquals(recipientNames.size(), recipients.size());
         Collections.sort(recipientNames);
         for (int i = 0; i < recipientNames.size(); i++) {
-            assertEquals(recipientNames.get(i), recipients.get(i + 1).getText());
+            assertEquals(recipientNames.get(i), recipients.get(i).getText());
         }
     }
 
@@ -658,7 +661,7 @@ public class FeedbackSubmitPage extends AppPage {
         if (feedbackQuestion.getRecipientType() == QuestionRecipientType.SELF) {
             verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
         }
-        for (ViewerType viewerType : feedbackQuestion.getShowResponsesTo()) {
+        for (FeedbackVisibilityType viewerType : feedbackQuestion.getShowResponsesTo()) {
             verifyVisibilityStringPresent(qnNumber, getVisibilityString(feedbackQuestion, viewerType));
         }
     }
@@ -686,7 +689,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getVisibilityString(FeedbackQuestion feedbackQuestion,
-                                       ViewerType viewerType) {
+                                       FeedbackVisibilityType viewerType) {
         if (!feedbackQuestion.getShowResponsesTo().contains(viewerType)) {
             return "";
         }
@@ -710,11 +713,11 @@ public class FeedbackSubmitPage extends AppPage {
         return message.toString();
     }
 
-    private String getViewerString(ViewerType viewerType, QuestionRecipientType recipientType) {
+    private String getViewerString(FeedbackVisibilityType viewerType, QuestionRecipientType recipientType) {
         switch (viewerType) {
-        case RECEIVER:
+        case RECIPIENT:
             return "The receiving " + getRecipientString(recipientType);
-        case OWN_TEAM_MEMBERS:
+        case GIVER_TEAM_MEMBERS:
             return "Your team members";
         case STUDENTS:
             return "Other students in the course";
@@ -776,8 +779,7 @@ public class FeedbackSubmitPage extends AppPage {
         }
         WebElement questionForm = getQuestionForm(qnNumber);
 
-        List<WebElement> recipientDropdowns =
-                questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+        List<WebElement> recipientDropdowns = questionForm.findElements(RECIPIENT_COMBOBOX_SELECTOR);
 
         if (recipientDropdowns.isEmpty()) {
             // For questions with fixed recipients.
@@ -791,9 +793,9 @@ public class FeedbackSubmitPage extends AppPage {
         } else {
             // Flexible recipient questions have dropdowns to select recipients.
             for (int i = 0; i < recipientDropdowns.size(); i++) {
-                String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
+                String dropdownText = getSelectedRecipientComboboxOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {
-                    selectDropdownOptionByText(recipientDropdowns.get(i), recipient);
+                    selectRecipientComboboxOptionByText(recipientDropdowns.get(i), recipient);
                     return i;
                 } else if (dropdownText.equals(recipient)) {
                     return i;
@@ -802,6 +804,45 @@ public class FeedbackSubmitPage extends AppPage {
         }
 
         return -1;
+    }
+
+    private String getSelectedRecipientComboboxOptionText(WebElement recipientCombobox) {
+        return recipientCombobox.getAttribute("value");
+    }
+
+    private void selectRecipientComboboxOptionByText(WebElement recipientCombobox, String text) {
+        scrollElementToCenterAndClick(recipientCombobox);
+        recipientCombobox.clear();
+        if (!text.isEmpty()) {
+            recipientCombobox.sendKeys(text);
+        }
+
+        List<WebElement> options = waitForRecipientComboboxOptions(recipientCombobox);
+        for (WebElement option : options) {
+            if (option.getText().equals(text)) {
+                click(option);
+                return;
+            }
+        }
+
+        fail("Combobox option not found: " + text);
+    }
+
+    private List<WebElement> getRecipientComboboxOptions(WebElement recipientCombobox) {
+        scrollElementToCenterAndClick(recipientCombobox);
+        return waitForRecipientComboboxOptions(recipientCombobox);
+    }
+
+    private List<WebElement> waitForRecipientComboboxOptions(WebElement recipientCombobox) {
+        WebElement searchableCombobox = recipientCombobox.findElement(By.xpath("./ancestor::tm-searchable-combobox"));
+        return waitFor(driver -> {
+            try {
+                List<WebElement> options = searchableCombobox.findElements(SEARCHABLE_COMBOBOX_OPTION_SELECTOR);
+                return options.isEmpty() ? null : options;
+            } catch (StaleElementReferenceException e) {
+                return null;
+            }
+        });
     }
 
     private WebElement getTextResponseEditor(int qnNumber, String recipient) {

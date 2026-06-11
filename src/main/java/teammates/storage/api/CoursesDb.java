@@ -77,6 +77,14 @@ public final class CoursesDb {
     }
 
     /**
+     * Get section by UUID.
+     */
+    public Section getSectionById(UUID sectionId) {
+        // TODO: add tests for this method
+        return HibernateUtil.get(Section.class, sectionId);
+    }
+
+    /**
      * Persists a team.
      */
     public Team persistTeam(Team team) {

@@ -11,7 +11,7 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
-import { AdminAccountSearchTableComponent } from './admin-account-search-table/admin-account-search-table.component';
+import { AdminAccountRequestSearchTableComponent } from './admin-account-request-search-table/admin-account-request-search-table.component';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table/admin-instructor-search-table.component';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table/admin-student-search-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -25,7 +25,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   styleUrls: ['./admin-search-page.component.scss'],
   imports: [
     FormsModule,
-    AdminAccountSearchTableComponent,
+    AdminAccountRequestSearchTableComponent,
     AdminInstructorSearchTableComponent,
     AdminStudentSearchTableComponent,
   ],

@@ -91,7 +91,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     }
   }
 
-  openSendReminderModal(event: any): void {
+  openSendReminderModal(event: Event): void {
     event.stopPropagation();
 
     const courseId: string = this.session.courseId;

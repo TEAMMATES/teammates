@@ -55,9 +55,7 @@ public class GivenInstructor extends GivenBase<Instructor> {
      * Sets the role for the instructor to co-owner.
      */
     public GivenInstructor coOwner() {
-        entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-        entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER.getRoleName()));
+        entity.setRole(InstructorPermissionRole.COOWNER);
         return this;
     }
 
@@ -65,9 +63,7 @@ public class GivenInstructor extends GivenBase<Instructor> {
      * Sets the role for the instructor to manager.
      */
     public GivenInstructor manager() {
-        entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
-        entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER.getRoleName()));
+        entity.setRole(InstructorPermissionRole.MANAGER);
         return this;
     }
 
@@ -75,9 +71,7 @@ public class GivenInstructor extends GivenBase<Instructor> {
      * Sets the role for the instructor to observer.
      */
     public GivenInstructor observer() {
-        entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
-        entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER.getRoleName()));
+        entity.setRole(InstructorPermissionRole.OBSERVER);
         return this;
     }
 
@@ -85,18 +79,20 @@ public class GivenInstructor extends GivenBase<Instructor> {
      * Sets the role for the instructor to tutor.
      */
     public GivenInstructor tutor() {
-        entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR);
-        entity.setPrivileges(
-                new InstructorPrivileges(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR.getRoleName()));
+        entity.setRole(InstructorPermissionRole.TUTOR);
         return this;
     }
 
     /**
      * Sets the role for the instructor to custom with the specified privileges.
+     *
+     * <p>The privileges are recorded in the data bundle's combined instructor privileges section
+     * and expanded into the privilege tables when the bundle is persisted.
      */
     public GivenInstructor custom(InstructorPrivileges privileges) {
-        entity.setRole(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
-        entity.setPrivileges(privileges);
+        entity.setRole(InstructorPermissionRole.CUSTOM);
+        privileges.setInstructorId(entity.getId());
+        given.dataBundle.instructorPrivileges.put(entity.getId().toString(), privileges);
         return this;
     }
 
@@ -131,9 +127,8 @@ public class GivenInstructor extends GivenBase<Instructor> {
         String email = instructorId.toString() + "@teammates.tmt";
         boolean isDisplayedToStudents = true;
         String displayName = name;
-        InstructorPermissionRole role = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        InstructorPrivileges privileges = new InstructorPrivileges(role.getRoleName());
-        Instructor i = new Instructor(name, email, isDisplayedToStudents, displayName, role, privileges);
+        InstructorPermissionRole role = InstructorPermissionRole.COOWNER;
+        Instructor i = new Instructor(name, email, isDisplayedToStudents, displayName, role);
         i.setId(instructorId);
         return i;
     }

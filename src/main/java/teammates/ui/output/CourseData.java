@@ -66,11 +66,4 @@ public class CourseData implements ApiOutput {
     public void setDeletionTimestamp(long deletionTimestamp) {
         this.deletionTimestamp = deletionTimestamp;
     }
-
-    /**
-     * Hides some attributes to student.
-     */
-    public void hideInformationForStudent() {
-        setDeletionTimestamp(0);
-    }
 }

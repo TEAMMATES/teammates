@@ -49,12 +49,12 @@ export type SortableEvent = {
  * 3. value
  */
 export interface SortableTableCellData {
-  value?: any; // Optional value used for sorting with sortBy provided in ColumnData
+  value?: unknown; // Optional value used for sorting with sortBy provided in ColumnData
   displayValue?: string; // Raw string to be display in the cell
   style?: string; // Optional value used to set style of data
   customComponent?: {
-    component: Type<any>;
-    componentData: (idx: number) => Record<string, any>; // @Input values for component
+    component: Type<unknown>;
+    componentData: (idx: number) => Record<string, unknown>; // @Input values for component
   };
 }
 
@@ -154,7 +154,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
       return;
     }
     this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
-    this.tableRows.sort((row1: any[], row2: any[]) => {
+    this.tableRows.sort((row1: SortableTableCellData[], row2: SortableTableCellData[]) => {
       return this.tableComparatorService.compare(
         sortBy,
         this.sortOrder,
@@ -185,7 +185,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   getAlignment(column: ColumnData): { 'text-align': ColumnData['alignment'] } {
     return {
-      'text-align': `${column?.alignment || 'start'}`,
+      'text-align': `${column?.alignment ?? 'start'}`,
     };
   }
 }

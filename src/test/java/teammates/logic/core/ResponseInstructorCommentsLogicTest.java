@@ -16,7 +16,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ResponseInstructorCommentsDb;
@@ -24,7 +24,6 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.test.BaseTestCase;
-import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 
 /**
@@ -78,13 +77,13 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
         ResponseInstructorComment createdComment = frcLogic.createResponseInstructorComment(feedbackResponse.getId(), giver,
-                "new comment", List.of(ViewerType.STUDENTS), List.of(ViewerType.INSTRUCTORS));
+                "new comment", List.of(CommentVisibilityType.STUDENTS), List.of(CommentVisibilityType.INSTRUCTORS));
 
         verify(frcDb, times(1)).persistResponseInstructorComment(createdComment);
         assertEquals("new comment", createdComment.getCommentText());
         assertEquals(giver, createdComment.getGiver());
-        assertEquals(List.of(ViewerType.STUDENTS), createdComment.getShowCommentTo());
-        assertEquals(List.of(ViewerType.INSTRUCTORS), createdComment.getShowGiverNameTo());
+        assertEquals(List.of(CommentVisibilityType.STUDENTS), createdComment.getShowCommentTo());
+        assertEquals(List.of(CommentVisibilityType.INSTRUCTORS), createdComment.getShowGiverNameTo());
     }
 
     @Test
@@ -118,11 +117,11 @@ public class ResponseInstructorCommentsLogicTest extends BaseTestCase {
 
         verify(frcDb, times(1)).getResponseInstructorComment(TYPICAL_ID);
 
-        List<ViewerType> expectedShowCommentTo = new ArrayList<>();
-        expectedShowCommentTo.add(ViewerType.STUDENTS);
-        expectedShowCommentTo.add(ViewerType.INSTRUCTORS);
-        List<ViewerType> expectedShowGiverNameTo = new ArrayList<>();
-        expectedShowGiverNameTo.add(ViewerType.INSTRUCTORS);
+        List<CommentVisibilityType> expectedShowCommentTo = new ArrayList<>();
+        expectedShowCommentTo.add(CommentVisibilityType.STUDENTS);
+        expectedShowCommentTo.add(CommentVisibilityType.INSTRUCTORS);
+        List<CommentVisibilityType> expectedShowGiverNameTo = new ArrayList<>();
+        expectedShowGiverNameTo.add(CommentVisibilityType.INSTRUCTORS);
 
         assertEquals(TYPICAL_ID, updatedComment.getId());
         assertEquals(updatedCommentText, updatedComment.getCommentText());

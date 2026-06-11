@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.UUID;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -13,10 +15,11 @@ import teammates.test.BaseTestCase;
  * SUT: {@link InstructorPrivileges}.
  */
 public class InstructorPrivilegesTest extends BaseTestCase {
+    private static final UUID TEST_INSTRUCTOR_ID = UUID.fromString("00000000-0000-0000-0000-000000000001");
 
     @Test
     public void testSetDefault() {
-        InstructorPrivileges privileges = new InstructorPrivileges();
+        InstructorPrivileges privileges = new InstructorPrivileges(TEST_INSTRUCTOR_ID);
         InstructorPermissionSet courseLevelMap;
 
         // co-owner: all true
@@ -26,10 +29,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
         String invalidKey = "invalid key";
         assertFalse(courseLevelMap.get(invalidKey));
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
@@ -41,10 +44,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
 
         // observer: view only
         privileges.setDefaultPrivilegesForObserver();
@@ -53,10 +56,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
 
         // tutor
         privileges.setDefaultPrivilegesForTutor();
@@ -65,10 +68,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
 
         // helper
         privileges.setDefaultPrivilegesForCustom();
@@ -77,38 +80,38 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
     }
 
     @Test
     public void testConstructor() {
-        InstructorPrivileges privileges = new InstructorPrivileges();
+        InstructorPrivileges privileges = new InstructorPrivileges(TEST_INSTRUCTOR_ID);
         InstructorPrivileges privileges1 =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
 
         privileges.setDefaultPrivilegesForCoowner();
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForManager();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.MANAGER);
+        privileges1 = new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.MANAGER);
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForObserver();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.OBSERVER);
+        privileges1 = new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.OBSERVER);
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForTutor();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.TUTOR);
+        privileges1 = new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.TUTOR);
         assertEquals(privileges, privileges1);
 
         privileges.setDefaultPrivilegesForCustom();
-        privileges1 = new InstructorPrivileges(Const.InstructorPermissionRoleNames.CUSTOM);
+        privileges1 = new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.CUSTOM);
         assertEquals(privileges, privileges1);
 
-        privileges1 = new InstructorPrivileges("random string");
+        privileges1 = new InstructorPrivileges(TEST_INSTRUCTOR_ID, "random string");
         assertEquals(privileges, privileges1);
     }
 
@@ -119,13 +122,13 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(
-                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
         String invalidPrivileName = "invalidPrivilegeName";
         assertFalse(InstructorPrivileges.isPrivilegeNameValid(invalidPrivileName));
 
@@ -138,13 +141,13 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
                 Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
-                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(invalidPrivileName));
 
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
@@ -156,20 +159,20 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
                 Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
-                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
-                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(invalidPrivileName));
     }
 
     @Test
     public void testUpdatePrivilegeInCourseLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
 
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
         InstructorPermissionSet courseLevelPrivileges = privileges.getCourseLevelPrivileges();
@@ -177,10 +180,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
 
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(invalidPrivilegeName, false);
@@ -190,19 +193,19 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
     }
 
     @Test
     public void testUpdatePrivilegeInSectionLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
-        String sectionId = "sectionId";
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
+        UUID sectionId = UUID.randomUUID();
 
-        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT, false);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
 
@@ -211,10 +214,10 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
         assertFalse(sectionPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertFalse(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
-        assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
-        assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        assertFalse(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT));
+        assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
+        assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT));
 
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(sectionId, invalidPrivilegeName, false);
@@ -226,35 +229,35 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testUpdatePrivilegeInSessionLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
-        String sectionId = "sectionId";
-        String sessionId = "sessionId";
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
+        UUID sectionId = UUID.randomUUID();
+        UUID sessionId = UUID.randomUUID();
 
         privileges.updatePrivilege(sectionId, sessionId,
-                                   Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
+                                   Const.InstructorPermissions.CAN_VIEW_SESSION, false);
         privileges.updatePrivilege(sectionId, sessionId,
-                                   Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false);
+                                   Const.InstructorPermissions.CAN_SUBMIT_SESSION, false);
         assertEquals(1, privileges.getSessionLevelPrivileges().size());
         assertTrue(privileges.getSessionLevelPrivileges().containsKey(sectionId));
         assertEquals(1, privileges.getSessionLevelPrivileges().get(sectionId).size());
         assertTrue(privileges.getSessionLevelPrivileges().get(sectionId).containsKey(sessionId));
         InstructorPermissionSet sessionPrivileges = privileges.getSessionLevelPrivileges().get(sectionId).get(sessionId);
-        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
 
         String invalidPrivilegeName = "invalidPrivilegeName";
         privileges.updatePrivilege(sectionId, sessionId, invalidPrivilegeName, false);
         sessionPrivileges = privileges.getSessionLevelPrivileges().get(sectionId).get(sessionId);
-        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION));
+        assertFalse(sessionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION));
     }
 
     @Test
     public void testAddSectionWithDefaultPrivilegesToSectionLevel() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
-        String sectionId = "sectionId";
-        String sectionId2 = "sectionId2";
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
+        UUID sectionId = UUID.randomUUID();
+        UUID sectionId2 = UUID.randomUUID();
 
         privileges.addSectionWithDefaultPrivileges(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
@@ -273,52 +276,52 @@ public class InstructorPrivilegesTest extends BaseTestCase {
     @Test
     public void testIsAllowedForPrivilege() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
 
         assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
 
-        String sectionId = "sectionId";
+        UUID sectionId = UUID.randomUUID();
         assertTrue(privileges.isAllowedForPrivilege(
-                sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
-        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
+                sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION));
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION, false);
         assertFalse(privileges.isAllowedForPrivilege(
-                sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION));
         assertTrue(privileges.isAllowedForPrivilege(
-                sectionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
+                sectionId, Const.InstructorPermissions.CAN_SUBMIT_SESSION));
 
-        String sessionId = "sessionId";
+        UUID sessionId = UUID.randomUUID();
         assertFalse(privileges.isAllowedForPrivilege(
-                sectionId, sessionId, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                sectionId, sessionId, Const.InstructorPermissions.CAN_VIEW_SESSION));
     }
 
     @Test
     public void testValidatePrivileges() {
         InstructorPrivileges privileges =
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.COOWNER);
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
+                new InstructorPrivileges(TEST_INSTRUCTOR_ID, Const.InstructorPermissionRoleNames.COOWNER);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT, false);
         privileges.validatePrivileges();
 
-        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION));
 
         // restore courseLevel to pre-validate
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
-        String sectionName = "section";
-        privileges.addSectionWithDefaultPrivileges(sectionName);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT, false);
+        UUID sectionId = UUID.randomUUID();
+        privileges.addSectionWithDefaultPrivileges(sectionId);
         privileges.validatePrivileges();
-        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION));
         assertTrue(privileges.isAllowedForPrivilege(
-                sectionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION));
 
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
-        privileges.updatePrivilege(sectionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, false);
-        privileges.updatePrivilege(sectionName, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT, false);
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION, false);
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_VIEW_STUDENT, false);
         privileges.validatePrivileges();
-        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION));
         assertTrue(privileges.isAllowedForPrivilege(
-                sectionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
+                sectionId, Const.InstructorPermissions.CAN_VIEW_SESSION));
     }
 
 }

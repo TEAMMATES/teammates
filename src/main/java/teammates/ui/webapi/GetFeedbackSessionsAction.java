@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
@@ -128,18 +129,18 @@ public class GetFeedbackSessionsAction extends Action {
         if (instructor == null) {
             return new InstructorFeedbackSessionPermissionsData(false, false, false);
         }
-        String sessionName = session.getFeedbackSession().getFeedbackSessionName();
+        UUID sessionId = session.getFeedbackSession().getFeedbackSessionId();
         boolean canModifySession = logic.hasInstructorPermissions(instructor,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        boolean canSubmitSessionInSections = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionName,
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        boolean canViewSessionInSections = logic.hasInstructorPermissions(instructor,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
-                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionName,
-                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
+        boolean canSubmitSession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionId,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+        boolean canViewSession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_VIEW_SESSION)
+                || logic.hasInstructorPermissionsForSectionInAnySection(instructor, sessionId,
+                Const.InstructorPermissions.CAN_VIEW_SESSION);
         return new InstructorFeedbackSessionPermissionsData(canModifySession,
-                canSubmitSessionInSections, canViewSessionInSections);
+                canSubmitSession, canViewSession);
     }
 }

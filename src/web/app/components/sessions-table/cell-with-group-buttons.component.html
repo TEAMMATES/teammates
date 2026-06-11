@@ -32,7 +32,7 @@
     Copy
   </button>
 
-  @if (submissionStatus === FeedbackSessionSubmissionStatus.OPEN && instructorPrivileges.canSubmitSessionInSections) {
+  @if (submissionStatus === FeedbackSessionSubmissionStatus.OPEN && instructorPrivileges.canSubmitSession) {
     <a
       tmRouterLink="/web/instructor/sessions/submission"
       [queryParams]="{
@@ -47,9 +47,7 @@
       type="button"
       class="btn btn-light btn-sm"
       ngbTooltip="Start submitting feedback"
-      [disabled]="
-        submissionStatus !== FeedbackSessionSubmissionStatus.OPEN || !instructorPrivileges.canSubmitSessionInSections
-      "
+      [disabled]="submissionStatus !== FeedbackSessionSubmissionStatus.OPEN || !instructorPrivileges.canSubmitSession"
       (click)="onSubmitSessionAsInstructor()"
     >
       Submit
@@ -60,9 +58,7 @@
       type="button"
       class="btn btn-light btn-sm"
       ngbTooltip="Start submitting feedback"
-      [disabled]="
-        submissionStatus !== FeedbackSessionSubmissionStatus.OPEN || !instructorPrivileges.canSubmitSessionInSections
-      "
+      [disabled]="submissionStatus !== FeedbackSessionSubmissionStatus.OPEN || !instructorPrivileges.canSubmitSession"
       (click)="onSubmitSessionAsInstructor()"
     >
       Submit
@@ -74,7 +70,7 @@
       <a
         class="btn dropdown-item clickable"
         [ngClass]="{
-          disabled: !instructorPrivileges.canViewSessionInSections,
+          disabled: !instructorPrivileges.canViewSession,
         }"
         tmRouterLink="/web/instructor/sessions/result"
         [queryParams]="{
@@ -85,7 +81,7 @@
       <a
         class="btn dropdown-item clickable"
         [ngClass]="{
-          disabled: !instructorPrivileges.canViewSessionInSections,
+          disabled: !instructorPrivileges.canViewSession,
         }"
         tmRouterLink="/web/instructor/sessions/report"
         [queryParams]="{
@@ -134,7 +130,7 @@
       <button
         class="btn-download-{{ idx }} btn dropdown-item clickable"
         (click)="downloadSessionResults()"
-        [disabled]="!instructorPrivileges.canViewSessionInSections"
+        [disabled]="!instructorPrivileges.canViewSession"
       >
         Download Results
       </button>

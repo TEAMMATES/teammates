@@ -212,8 +212,6 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     classPatterns = [
         "teammates.ui.output.**",
         "teammates.common.datatransfer.questions.**",
-        "teammates.common.datatransfer.logs.**",
-        "teammates.common.datatransfer.participanttypes.**",
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
@@ -565,68 +563,6 @@ task lint {
 
 def numOfTestRetries = 4
 
-task unitTests(type: Test) {
-    description = "Runs the unit test suite."
-    group = "Test"
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
-    useTestNG()
-    options.suites "src/test/resources/testng-component.xml"
-    options.excludeGroups "integration", "db-test", "logic-test"
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
-
-task integrationTests(type: Test) {
-    description = "Runs the integration test suite."
-    group = "Test"
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
-    useTestNG()
-    options.suites "src/test/resources/testng-component.xml"
-    options.includeGroups "integration", "db-test", "logic-test"
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
-
-task componentTests(type: Test) {
-    description = "Runs the full unit and integration test suite."
-    group = "Test"
-    testClassesDirs = testing.suites.test.sources.output.classesDirs
-    classpath = testing.suites.test.sources.runtimeClasspath
-    useTestNG()
-    options.suites "src/test/resources/testng-component.xml"
-    options.useDefaultListeners = true
-    ignoreFailures = false
-    maxHeapSize = "1g"
-    reports.html.required = false
-    reports.junitXml.required = false
-    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
-
 task e2eTests {
     description = "Runs the E2E test suite and retries failed test up to ${numOfTestRetries} times."
     group = "Test"
@@ -709,19 +645,13 @@ jacoco {
     toolVersion = jacocoVersion
 }
 
-task jacocoReport(type: JacocoReport) {
-    description = "Runs coverage session from available test run data."
-    group = "Test"
-    sourceDirectories.from files(sourceSets.main.java.srcDirs)
-    classDirectories.from files(sourceSets.main.output)
-    executionData fileTree("${buildDir}/jacoco").files
+jacocoTestReport {
+    dependsOn test
+    sourceSets sourceSets.main
+    executionData test
+
     reports {
         xml.required = true
         html.required = true
-    }
-    afterEvaluate {
-        classDirectories.from files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ["**/*.jar"])
-        })
     }
 }

@@ -33,7 +33,7 @@ const instructorDetails: Instructor[] = [
     email: '1@1.com',
     name: '1',
     joinState: JoinState.JOINED,
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
   },
 ];
 
@@ -158,7 +158,7 @@ describe('StudentCourseDetailsPageComponent', () => {
     component.teammateProfiles = teammateProfiles;
     fixture.detectChanges();
 
-    const sortButton: any = fixture.debugElement.nativeElement.querySelector('#sort-name');
+    const sortButton = fixture.debugElement.nativeElement.querySelector('#sort-name');
     sortButton.click();
 
     expect(component.teammateProfiles.length).toEqual(3);

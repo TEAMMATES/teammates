@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
+import teammates.test.ResponseEntityHelper;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -124,13 +125,13 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.feedbackResponses.forEach((id, response) -> {
-                    String giver = response.getGiver().getIdentifier();
+                    String giver = ResponseEntityHelper.getIdentifier(response.getGiver());
                     if (giver != null && giver.contains("@") && !isValidTestEmail(giver)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid response giver email: " + giver);
                     }
 
-                    String recipient = response.getRecipient().getIdentifier();
+                    String recipient = ResponseEntityHelper.getIdentifier(response.getRecipient());
                     if (recipient != null && recipient.contains("@") && !isValidTestEmail(recipient)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid response recipient email: " + recipient);

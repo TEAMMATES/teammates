@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { InstructorCoursePermissions, InstructorPermissionRole, JoinState } from '../../../../types/api-output';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
-import { EnumToArrayPipe } from '../../../components/teammates-common/enum-to-array.pipe';
 import { InstructorRoleDescriptionPipe } from '../../../components/teammates-common/instructor-role-description.pipe';
 import {
   InstructorOverallPermission,
@@ -58,7 +57,6 @@ export enum EditMode {
     FormsModule,
     CustomPrivilegeSettingPanelComponent,
     AjaxLoadingComponent,
-    EnumToArrayPipe,
     InstructorRoleDescriptionPipe,
   ],
 })
@@ -67,6 +65,8 @@ export class InstructorEditPanelComponent {
   JoinState!: typeof JoinState;
   InstructorPermissionRole!: typeof InstructorPermissionRole;
   EditMode!: typeof EditMode;
+
+  readonly instructorRoles = Object.values(InstructorPermissionRole);
 
   @Input()
   editMode: EditMode = EditMode.EDIT;
@@ -82,7 +82,7 @@ export class InstructorEditPanelComponent {
     isDisplayedToStudents: true,
     displayedToStudentsAs: '',
     name: '',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
 
     permission: {
@@ -91,10 +91,10 @@ export class InstructorEditPanelComponent {
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: false,
-        canViewStudentInSections: false,
-        canModifySessionCommentsInSections: false,
-        canViewSessionInSections: false,
-        canSubmitSessionInSections: false,
+        canViewStudent: false,
+        canModifySessionComments: false,
+        canViewSession: false,
+        canSubmitSession: false,
       },
       sectionLevel: [],
     },
@@ -115,10 +115,10 @@ export class InstructorEditPanelComponent {
   currInstructorCoursePrivilege?: InstructorCoursePermissions;
 
   @Input()
-  allSections: string[] = [];
+  allSections: { id: string; name: string }[] = [];
 
   @Input()
-  allSessions: string[] = [];
+  allSessions: { id: string; name: string }[] = [];
 
   @Input()
   isSavingNewInstructor = false;
@@ -137,7 +137,7 @@ export class InstructorEditPanelComponent {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: string, data: unknown): void {
     this.instructorChange.emit({
       ...this.instructor,
       [field]: data,

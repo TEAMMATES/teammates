@@ -7,7 +7,9 @@ import { StudentHomePageComponent } from './student-home-page.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
+  Course,
   Courses,
+  FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
@@ -17,11 +19,29 @@ import {
 } from '../../../types/api-output';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
-const studentCourseA: any = {
+interface StudentSession {
+  session: FeedbackSession;
+  isOpened: boolean;
+  isWaitingToOpen: boolean;
+  isPublished: boolean;
+  isSubmitted: boolean;
+}
+
+interface StudentCourse {
+  course: Course;
+  feedbackSessions: StudentSession[];
+  isFeedbackSessionsLoading: boolean;
+  hasFeedbackSessionsLoadingFailed: boolean;
+  isTabExpanded: boolean;
+  hasPopulated: boolean;
+}
+
+const studentCourseA: StudentCourse = {
   course: {
     courseId: 'CS1231',
     courseName: 'Discrete Structures',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 1549095330000,
     deletionTimestamp: 0,
   },
@@ -79,11 +99,12 @@ const studentCourseA: any = {
   hasPopulated: true,
 };
 
-const studentCourseB: any = {
+const studentCourseB: StudentCourse = {
   course: {
     courseId: 'LSM1306',
     courseName: 'Forensic Science',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
   },
@@ -141,11 +162,12 @@ const studentCourseB: any = {
   hasPopulated: true,
 };
 
-const studentCourseC: any = {
+const studentCourseC: StudentCourse = {
   course: {
     courseId: 'MA1521',
     courseName: 'Calculus for Computing',
     timeZone: 'Asia/Singapore',
+    institute: 'Test Institute',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
   },
@@ -469,11 +491,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should disable view response button when session is not published', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000,
         deletionTimestamp: 0,
       },
@@ -512,17 +535,18 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0');
     expect(button.textContent).toEqual(' View Responses ');
     expect(button.className).toContain('disabled');
   });
 
   it('should disable start submission button when session is waiting to open', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -561,17 +585,18 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#disabled-start-submit-btn-0');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#disabled-start-submit-btn-0');
     expect(button.textContent).toEqual(' Start Submission ');
     expect(button.className).toContain('disabled');
   });
 
   it('should activate start submission button when session is open and response is not submitted', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -610,16 +635,17 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#start-submit-btn-0');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#start-submit-btn-0');
     expect(button.textContent).toEqual(' Start Submission ');
   });
 
   it('should activate edit submission button when session is open and response is submitted', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -658,16 +684,17 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#edit-submit-btn-0');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-submit-btn-0');
     expect(button.textContent).toEqual(' Edit Submission ');
   });
 
   it('should activate view submission button when session is not open', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -706,49 +733,64 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0');
     expect(button.textContent).toEqual(' View Submission ');
   });
 
   it('should navigate to student course page to view the corresponding team', () => {
-    const studentCourse1: any = {
+    const studentCourse1: StudentCourse = {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems I',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false,
     };
 
-    const studentCourse2: any = {
+    const studentCourse2: StudentCourse = {
       course: {
         courseId: 'CS3282',
         courseName: 'Thematic Systems II',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false,
     };
 
     component.courses = [studentCourse1, studentCourse2];
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const href1: any = fixture.debugElement.nativeElement.querySelector('#view-team-btn-0').getAttribute('href');
-    const href2: any = fixture.debugElement.nativeElement.querySelector('#view-team-btn-1').getAttribute('href');
+    const href1: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-team-btn-0')
+      .getAttribute('href');
+    const href2: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-team-btn-1')
+      .getAttribute('href');
     expect(href1).toEqual('/web/student/course?courseid=CS3281');
     expect(href2).toEqual('/web/student/course?courseid=CS3282');
   });
 
   it('should navigate to student session result page to view responses', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -810,8 +852,12 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const href1: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0').getAttribute('href');
-    const href2: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-1').getAttribute('href');
+    const href1: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-responses-btn-0')
+      .getAttribute('href');
+    const href2: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-responses-btn-1')
+      .getAttribute('href');
     expect(href1).toEqual('/web/student/sessions/result?fsid=fs-id-1');
     expect(href2).toEqual('/web/student/sessions/result?fsid=fs-id-2');
   });
@@ -819,11 +865,12 @@ describe('StudentHomePageComponent', () => {
   // start/edit/view submission button share the same router link and query params
   // here we only have to test one of them
   it('should navigate to student session submission page for viewing', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -885,8 +932,12 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const href1: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0').getAttribute('href');
-    const href2: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-1').getAttribute('href');
+    const href1: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-submit-btn-0')
+      .getAttribute('href');
+    const href2: HTMLElement = fixture.debugElement.nativeElement
+      .querySelector('#view-submit-btn-1')
+      .getAttribute('href');
     expect(href1).toEqual('/web/student/sessions/submission?fsid=fs-id-1');
     expect(href2).toEqual('/web/student/sessions/submission?fsid=fs-id-2');
   });
@@ -896,7 +947,7 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id-btn');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#sort-course-id-btn');
     button.click();
 
     expect(component.courses[0].course.courseId).toEqual(studentCourseA.course.courseId);
@@ -909,7 +960,7 @@ describe('StudentHomePageComponent', () => {
     component.isCoursesLoading = false;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name-btn');
+    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#sort-course-name-btn');
     button.click();
 
     expect(component.courses[0].course.courseId).toEqual(studentCourseC.course.courseId);
@@ -929,15 +980,20 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback sessions', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false,
     };
     component.courses = [studentCourse];
     component.isCoursesLoading = false;
@@ -946,26 +1002,36 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback session over 2 courses', () => {
-    const studentCourse1: any = {
+    const studentCourse1: StudentCourse = {
       course: {
         courseId: 'CS3281',
         courseName: 'Thematic Systems I',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false,
     };
 
-    const studentCourse2: any = {
+    const studentCourse2: StudentCourse = {
       course: {
         courseId: 'CS3282',
         courseName: 'Thematic Systems II',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
       feedbackSessions: [],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false,
     };
 
     component.courses = [studentCourse1, studentCourse2];
@@ -975,11 +1041,12 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with feedback sessions', () => {
-    const studentCourse: any = {
+    const studentCourse: StudentCourse = {
       course: {
         courseId: 'CS2103',
         courseName: 'Software Engineering',
         timeZone: 'Asia/Singapore',
+        institute: 'Test Institute',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -1031,6 +1098,10 @@ describe('StudentHomePageComponent', () => {
           isSubmitted: false,
         },
       ],
+      isFeedbackSessionsLoading: false,
+      hasFeedbackSessionsLoadingFailed: false,
+      isTabExpanded: false,
+      hasPopulated: false,
     };
 
     component.courses = [studentCourse];

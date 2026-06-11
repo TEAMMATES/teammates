@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
@@ -10,7 +10,6 @@ import { CopyFromOtherSessionsModalComponent } from './copy-from-other-sessions-
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
-import { TemplateSession } from '../../../services/feedback-sessions.service';
 import {
   Course,
   Courses,
@@ -21,6 +20,7 @@ import {
   FeedbackSessions,
   ResponseVisibleSetting,
   SessionVisibleSetting,
+  MessageOutput,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -28,7 +28,10 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
 import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 import { SessionEditFormMode } from '../../components/session-edit-form/session-edit-form-model';
 import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
-import { SessionsRecycleBinTableComponent } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import {
+  SessionsRecycleBinTableComponent,
+  RecycleBinFeedbackSessionRowModel,
+} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -43,7 +46,7 @@ import {
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
-import { RecycleBinFeedbackSessionRowModel } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { TemplateSession } from '../../../data/template-sessions';
 /**
  * Instructor feedback sessions list page.
  */
@@ -100,7 +103,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   hasCourseLoadingFailed = false;
   hasFeedbackSessionLoadingFailed = false;
 
-  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+  @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<void>;
 
   constructor() {
     super();
@@ -119,8 +122,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     };
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
     });
 
     this.isSessionEditFormExpanded = !!this.courseId;
@@ -411,10 +414,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-              instructorPrivilege: sessionView.instructorPermissions || {
+              instructorPrivilege: sessionView.instructorPermissions ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             };
             this.sessionsTableRowModels.push(model);
@@ -481,8 +484,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             isLoadingResponseRate: false,
             instructorPrivilege: model.instructorPrivilege ?? {
               canModifySession: false,
-              canSubmitSessionInSections: false,
-              canViewSessionInSections: false,
+              canSubmitSession: false,
+              canViewSession: false,
             },
           };
           this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
@@ -616,10 +619,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             const session: FeedbackSession = sessionView.feedbackSession;
             this.recycleBinFeedbackSessionRowModels.push({
               feedbackSession: session,
-              instructorPrivilege: sessionView.instructorPermissions || {
+              instructorPrivilege: sessionView.instructorPermissions ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             });
           });
@@ -644,8 +647,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       restorePrivileges.push(
         model.instructorPrivilege ?? {
           canModifySession: false,
-          canSubmitSessionInSections: false,
-          canViewSessionInSections: false,
+          canSubmitSession: false,
+          canViewSession: false,
         },
       );
       restoreRequests.push(
@@ -669,8 +672,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               isLoadingResponseRate: false,
               instructorPrivilege: restorePrivileges[index] ?? {
                 canModifySession: false,
-                canSubmitSessionInSections: false,
-                canViewSessionInSections: false,
+                canSubmitSession: false,
+                canViewSession: false,
               },
             };
             this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
@@ -728,7 +731,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result
       .then(() => {
-        const deleteRequests: Observable<any>[] = [];
+        const deleteRequests: Observable<MessageOutput>[] = [];
 
         this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
           deleteRequests.push(

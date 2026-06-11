@@ -17,7 +17,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -57,12 +57,12 @@ public class ResponseInstructorComment extends BaseEntity {
     private String commentText;
 
     @Column(nullable = false)
-    @Convert(converter = ViewerTypeListConverter.class)
-    private List<ViewerType> showCommentTo;
+    @Convert(converter = CommentVisibilityTypeListConverter.class)
+    private List<CommentVisibilityType> showCommentTo;
 
     @Column(nullable = false)
-    @Convert(converter = ViewerTypeListConverter.class)
-    private List<ViewerType> showGiverNameTo;
+    @Convert(converter = CommentVisibilityTypeListConverter.class)
+    private List<CommentVisibilityType> showGiverNameTo;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -73,7 +73,7 @@ public class ResponseInstructorComment extends BaseEntity {
 
     public ResponseInstructorComment(
             Instructor giver, String commentText,
-            List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo,
+            List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo,
             @Nullable Instructor lastEditedBy
     ) {
         this.setGiver(giver);
@@ -132,19 +132,19 @@ public class ResponseInstructorComment extends BaseEntity {
         this.commentText = commentText;
     }
 
-    public List<ViewerType> getShowCommentTo() {
+    public List<CommentVisibilityType> getShowCommentTo() {
         return showCommentTo;
     }
 
-    public void setShowCommentTo(List<ViewerType> showCommentTo) {
+    public void setShowCommentTo(List<CommentVisibilityType> showCommentTo) {
         this.showCommentTo = showCommentTo;
     }
 
-    public List<ViewerType> getShowGiverNameTo() {
+    public List<CommentVisibilityType> getShowGiverNameTo() {
         return showGiverNameTo;
     }
 
-    public void setShowGiverNameTo(List<ViewerType> showGiverNameTo) {
+    public void setShowGiverNameTo(List<CommentVisibilityType> showGiverNameTo) {
         this.showGiverNameTo = showGiverNameTo;
     }
 
@@ -185,7 +185,7 @@ public class ResponseInstructorComment extends BaseEntity {
     /**
      * Returns true if the response comment is visible to the given participant type.
      */
-    public boolean checkIsVisibleTo(ViewerType viewerType) {
+    public boolean checkIsVisibleTo(CommentVisibilityType viewerType) {
         return showCommentTo.contains(viewerType);
     }
 

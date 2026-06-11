@@ -27,10 +27,10 @@ export class RankOptionsFieldComponent {
   index = 0;
 
   @Output()
-  elementDeleted: EventEmitter<any> = new EventEmitter();
+  elementDeleted: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  rankOptionText: EventEmitter<any> = new EventEmitter();
+  rankOptionText: EventEmitter<string> = new EventEmitter();
 
   /**
    * When user enters an Rank option text, emit the change to parent component.

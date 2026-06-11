@@ -37,8 +37,8 @@ public class FeedbackResponseData implements ApiOutput {
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
         this.feedbackResponseId = feedbackResponse.getId();
-        this.giverIdentifier = feedbackResponse.getGiver().getIdentifier();
-        this.recipientIdentifier = feedbackResponse.getRecipient().getIdentifier();
+        this.giverIdentifier = feedbackResponse.getGiver().getKey();
+        this.recipientIdentifier = feedbackResponse.getRecipient().getKey();
         this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
         this.giverComment = feedbackResponse.getGiverComment();
     }

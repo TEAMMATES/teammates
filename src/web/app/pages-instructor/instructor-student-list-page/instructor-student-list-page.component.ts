@@ -146,7 +146,7 @@ export class InstructorStudentListPageComponent implements OnInit {
       next: (students: Students) => {
         courseTab.studentList = []; // Reset the list of students for the course
         const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-          const term: string = x.sectionName;
+          const term: string = x.sectionId;
           (acc[term] = acc[term] || []).push(x);
           return acc;
         }, {});
@@ -164,15 +164,15 @@ export class InstructorStudentListPageComponent implements OnInit {
             next: (instructorPrivilege: InstructorPrivilege) => {
               const courseLevelPrivilege: InstructorPermissionSet = instructorPrivilege.privileges.courseLevel;
 
-              Object.keys(sections).forEach((sectionName: string) => {
+              Object.keys(sections).forEach((sectionId: string) => {
                 const sectionLevelPrivilege: InstructorPermissionSet =
-                  instructorPrivilege.privileges.sectionLevel[sectionName] || courseLevelPrivilege;
+                  instructorPrivilege.privileges.sectionLevel[sectionId] || courseLevelPrivilege;
 
-                const studentsInSection: Student[] = sections[sectionName];
+                const studentsInSection: Student[] = sections[sectionId];
                 const studentModels: StudentListRowModel[] = studentsInSection.map((stuInSection: Student) => {
                   return {
                     student: stuInSection,
-                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudentInSections,
+                    isAllowedToViewStudentInSection: sectionLevelPrivilege.canViewStudent,
                     isAllowedToModifyStudent: sectionLevelPrivilege.canModifyStudent,
                   };
                 });

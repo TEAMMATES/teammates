@@ -139,7 +139,7 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKeyRequest: RegKeyRequest): Observable<any> {
+  joinCourse(regKeyRequest: RegKeyRequest): Observable<MessageOutput> {
     return this.httpRequestService.put(ResourceEndpoints.JOIN, {}, regKeyRequest);
   }
 

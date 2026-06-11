@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.ResponseInstructorCommentsDb;
@@ -65,7 +65,7 @@ public final class ResponseInstructorCommentsLogic {
      * @throws InvalidParametersException if the comment is invalid
      */
     public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
-            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackResponse feedbackResponse = frLogic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
@@ -144,7 +144,7 @@ public final class ResponseInstructorCommentsLogic {
             return false;
         }
 
-        boolean isVisibleToGiver = relatedComment.checkIsVisibleTo(ViewerType.GIVER);
+        boolean isVisibleToGiver = relatedComment.checkIsVisibleTo(CommentVisibilityType.GIVER);
 
         boolean isVisibleToUser = checkIsVisibleToUser(user, response, relatedComment, isVisibleToGiver);
 
@@ -183,16 +183,16 @@ public final class ResponseInstructorCommentsLogic {
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients =
                 relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
-                && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.RECEIVER)
+                && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.RECIPIENT)
                 && isUserInRecipientTeam;
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
-                || checkIsResponseCommentVisibleTo(relatedComment, ViewerType.OWN_TEAM_MEMBERS))
+                || checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.GIVER_TEAM_MEMBERS))
                 && isUserInGiverTeam;
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
-                checkIsResponseCommentVisibleTo(relatedComment, ViewerType.RECEIVER_TEAM_MEMBERS)
+                checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.RECIPIENT_TEAM_MEMBERS)
                 && isUserInRecipientTeam;
 
         return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
@@ -206,11 +206,11 @@ public final class ResponseInstructorCommentsLogic {
         boolean isUserInstructor = user instanceof Instructor;
 
         boolean isUserInstructorAndRelatedResponseCommentVisibleToInstructors =
-                isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.INSTRUCTORS);
+                isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
                 Objects.equals(response.getRecipient().getRecipientUser(), user)
-                        && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.RECEIVER);
+                        && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.RECIPIENT);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
                 Objects.equals(response.getGiver().getGiverUser(), user) && isVisibleToGiver;
@@ -218,7 +218,7 @@ public final class ResponseInstructorCommentsLogic {
         boolean isUserResponseCommentGiver = Objects.equals(user, relatedComment.getGiver());
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
-                !isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, ViewerType.STUDENTS);
+                !isUserInstructor && checkIsResponseCommentVisibleTo(relatedComment, CommentVisibilityType.STUDENTS);
 
         return isUserInstructorAndRelatedResponseCommentVisibleToInstructors
                 || isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients
@@ -229,7 +229,7 @@ public final class ResponseInstructorCommentsLogic {
 
     private boolean checkIsResponseCommentVisibleTo(
                                                ResponseInstructorComment relatedComment,
-                                               ViewerType viewerType) {
+                                               CommentVisibilityType viewerType) {
         return relatedComment.checkIsVisibleTo(viewerType);
     }
 
@@ -243,7 +243,7 @@ public final class ResponseInstructorCommentsLogic {
             return true;
         }
 
-        List<ViewerType> showNameTo = comment.getShowGiverNameTo();
+        List<CommentVisibilityType> showNameTo = comment.getShowGiverNameTo();
         assert showNameTo != null : "showNameTo should not be null";
 
         return checkIsFeedbackGiverNameVisibleToUser(response, user, showNameTo);
@@ -257,22 +257,22 @@ public final class ResponseInstructorCommentsLogic {
     }
 
     private boolean checkIsFeedbackGiverNameVisibleToUser(FeedbackResponse response,
-            User user, List<ViewerType> showNameTo) {
+            User user, List<CommentVisibilityType> showNameTo) {
         ResponseGiver responseGiver = response.getGiver();
         ResponseRecipient responseRecipient = response.getRecipient();
-        for (ViewerType type : showNameTo) {
+        for (CommentVisibilityType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
                 if (user instanceof Instructor) {
                     return true;
                 }
                 break;
-            case OWN_TEAM_MEMBERS:
+            case GIVER_TEAM_MEMBERS:
                 if (user instanceof Student student && student.getTeam().equals(responseGiver.getGiverTeam())) {
                     return true;
                 }
                 break;
-            case RECEIVER:
+            case RECIPIENT:
                 if (responseRecipient.isRecipientUser() && user.equals(responseRecipient.getRecipientUser())) {
                     return true;
                 }
@@ -281,7 +281,7 @@ public final class ResponseInstructorCommentsLogic {
                     return true;
                 }
                 break;
-            case RECEIVER_TEAM_MEMBERS:
+            case RECIPIENT_TEAM_MEMBERS:
                 if (user instanceof Student student && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
                     return true;
                 }

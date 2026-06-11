@@ -500,8 +500,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+    const extendButton = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
     expect(extendButton.textContent).toEqual(' Extend / Edit ');
     expect(extendButton.disabled).toBeTruthy();
@@ -520,8 +520,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.studentsOfCourse[1].isSelected = true; // Bob has no extension
     fixture.detectChanges();
 
-    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+    const extendButton = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
     expect(extendButton.textContent).toEqual(' Extend / Edit ');
     expect(extendButton.disabled).toBeFalsy();
@@ -540,8 +540,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     fixture.detectChanges();
 
-    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+    const extendButton = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
     expect(extendButton.textContent).toEqual(' Extend / Edit ');
     expect(extendButton.disabled).toBeFalsy();
@@ -561,8 +561,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.studentsOfCourse[1].isSelected = true; // Bob does not
     fixture.detectChanges();
 
-    const extendButton: any = fixture.debugElement.nativeElement.querySelector('#extend-btn');
-    const deleteButton: any = fixture.debugElement.nativeElement.querySelector('#delete-btn');
+    const extendButton = fixture.debugElement.nativeElement.querySelector('#extend-btn');
+    const deleteButton = fixture.debugElement.nativeElement.querySelector('#delete-btn');
 
     expect(extendButton.textContent).toEqual(' Extend / Edit ');
     expect(extendButton.disabled).toBeFalsy();
@@ -583,9 +583,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
-    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
-    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+    const studentOneCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
@@ -614,9 +614,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
-    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
-    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+    const studentOneCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeTruthy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
@@ -647,9 +647,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(fixture).toMatchSnapshot();
 
-    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
-    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
-    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+    const studentOneCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
@@ -684,9 +684,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(fixture).toMatchSnapshot();
 
-    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
-    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
-    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+    const studentOneCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
@@ -776,8 +776,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
     expect(fixture).toMatchSnapshot();
 
-    const instructorOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
-    const instructorTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
+    const instructorOneCheckBox = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
+    const instructorTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();

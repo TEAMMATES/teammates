@@ -13,7 +13,9 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
@@ -22,7 +24,7 @@ import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -67,9 +69,12 @@ import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.CourseCreateRequest;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
+import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
@@ -146,34 +151,54 @@ public class Logic {
     /**
      * Checks if the given instructor has the specified section-level permissions.
      */
-    public boolean hasInstructorPermissionsForSection(Instructor instructor, String sectionName,
+    public boolean hasInstructorPermissionsForSection(Instructor instructor, UUID sectionId,
             String... permissionNames) {
-        return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionName, permissionNames);
+        return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionId, permissionNames);
     }
 
     /**
      * Checks if the given instructor has the specified session-in-section-level permissions.
      */
-    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, String sectionName,
-            String feedbackSessionName, String... permissionNames) {
+    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, UUID sectionId,
+            UUID feedbackSessionId, String... permissionNames) {
         return instructorPermissionsLogic.hasPermissionsForSessionInSection(
-                instructor, sectionName, feedbackSessionName, permissionNames);
+                instructor, sectionId, feedbackSessionId, permissionNames);
     }
 
     /**
      * Checks if the given instructor has the specified session-in-section-level permissions in any section.
      */
     public boolean hasInstructorPermissionsForSectionInAnySection(Instructor instructor,
-            String sessionName, String... permissionNames) {
-        return instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionName, permissionNames);
+            UUID sessionId, String... permissionNames) {
+        return instructorPermissionsLogic.hasPermissionsForSectionInAnySection(instructor, sessionId, permissionNames);
     }
 
     /**
      * Returns a map of sections with the specified permission for the given instructor.
      */
-    public Map<String, InstructorPermissionSet> getSectionsWithInstructorPermission(
+    public Map<UUID, InstructorPermissionSet> getSectionsWithInstructorPermission(
             Instructor instructor, String permissionName) {
         return instructorPermissionsLogic.getSectionsWithPermission(instructor, permissionName);
+    }
+
+    /**
+     * Returns the InstructorPrivileges for the given instructor.
+     *
+     * <p>
+     * For instructors with predefined roles, the privileges are determined by their
+     * role.
+     * For instructors with the custom role, the privileges are determined by their
+     * stored privileges.
+     */
+    public InstructorPrivileges getInstructorPrivileges(Instructor instructor) {
+        return instructorPermissionsLogic.getInstructorPrivileges(instructor);
+    }
+
+    /**
+     * Saves the instructor privileges for the given instructor.
+     */
+    public void saveInstructorPrivileges(Instructor instructor, InstructorPrivileges privileges) {
+        instructorPermissionsLogic.saveInstructorPrivileges(instructor, privileges);
     }
 
     /**
@@ -576,13 +601,14 @@ public class Logic {
     }
 
     /**
-     * Creates a feedback session.
+     * Creates a feedback session from a create request, validating timing and copying questions if requested.
      *
      * @return returns the created feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
+    public FeedbackSession createFeedbackSession(String courseId, Instructor instructor,
+            FeedbackSessionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackSessionsLogic.createFeedbackSession(courseId, instructor, createRequest);
     }
 
     /**
@@ -593,19 +619,13 @@ public class Logic {
     }
 
     /**
-     * Creates a new feedback question.
+     * Creates a feedback question from a create request, validating giver/recipient visibility and question details.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @return the created question
-     * @throws InvalidParametersException   if the question is invalid
-     * @throws EntityAlreadyExistsException if the question already exists
+     * @return the created feedback question
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
+    public FeedbackQuestion createFeedbackQuestion(UUID feedbackSessionId, FeedbackQuestionCreateRequest createRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return feedbackQuestionsLogic.createFeedbackQuestion(feedbackSessionId, createRequest);
     }
 
     /**
@@ -866,11 +886,23 @@ public class Logic {
     }
 
     /**
-     * Creates an instructor.
+     * Creates an instructor with the given attributes.
+     *
+     * @param account optional account to associate with the instructor at creation time
      */
-    public Instructor createInstructor(Instructor instructor)
+    public Instructor createInstructor(Course course, String name, String email,
+            boolean isDisplayedToStudents, String displayedName, InstructorPermissionRole role,
+            @Nullable Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        return usersLogic.createInstructor(instructor);
+        return usersLogic.createInstructor(course, name, email, isDisplayedToStudents, displayedName, role, account);
+    }
+
+    /**
+     * Creates an instructor from a create request, handling sanitization and custom privileges.
+     */
+    public Instructor createInstructor(String courseId, InstructorCreateRequest request)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createInstructor(courseId, request);
     }
 
     /**
@@ -1015,7 +1047,7 @@ public class Logic {
      * If it does not exist, create and return it.
      */
     public Section getDefaultSectionOrCreate(String courseId) {
-        return usersLogic.getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
+        return usersLogic.getSectionOrCreate(courseId, Const.NO_SPECIFIC_SECTION);
     }
 
     /**
@@ -1199,9 +1231,9 @@ public class Logic {
      */
     public SessionResultsBundle getSessionResults(
             FeedbackSession feedbackSession, Instructor instructor,
-            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isDefaultSection) {
+            @Nullable UUID questionId, @Nullable UUID sectionId, boolean isNoSpecificSection) {
         return feedbackResponsesLogic.getSessionResults(
-                feedbackSession, instructor, questionId, sectionId, isDefaultSection);
+                feedbackSession, instructor, questionId, sectionId, isNoSpecificSection);
     }
 
     /**
@@ -1392,7 +1424,7 @@ public class Logic {
      * @throws InvalidParametersException   if the comment is invalid
      */
     public ResponseInstructorComment createResponseInstructorComment(UUID feedbackResponseId, Instructor giver,
-            String commentText, List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo)
+            String commentText, List<CommentVisibilityType> showCommentTo, List<CommentVisibilityType> showGiverNameTo)
             throws InvalidParametersException, EntityDoesNotExistException {
         return responseInstructorCommentsLogic.createResponseInstructorComment(
                 feedbackResponseId, giver, commentText, showCommentTo, showGiverNameTo);

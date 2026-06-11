@@ -13,7 +13,7 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { DEFAULT_SECTION_ID } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { NO_SPECIFIC_SECTION_ID } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
@@ -249,6 +249,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
   }
 
   private isResponseSection(responseSectionId: string | null | undefined, sectionId: string): boolean {
-    return sectionId === DEFAULT_SECTION_ID ? !responseSectionId : responseSectionId === sectionId;
+    return sectionId === NO_SPECIFIC_SECTION_ID ? !responseSectionId : responseSectionId === sectionId;
   }
 }

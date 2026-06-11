@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
+import teammates.common.datatransfer.visibility.CommentVisibilityType;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseInstructorComment;
@@ -65,7 +65,7 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
     /**
      * Sets who can see the comment.
      */
-    public GivenResponseInstructorComment showCommentTo(ViewerType... viewerTypes) {
+    public GivenResponseInstructorComment showCommentTo(CommentVisibilityType... viewerTypes) {
         entity.setShowCommentTo(viewerTypesList(viewerTypes));
         return this;
     }
@@ -73,7 +73,7 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
     /**
      * Sets who can see the giver name.
      */
-    public GivenResponseInstructorComment showGiverNameTo(ViewerType... viewerTypes) {
+    public GivenResponseInstructorComment showGiverNameTo(CommentVisibilityType... viewerTypes) {
         entity.setShowGiverNameTo(viewerTypesList(viewerTypes));
         return this;
     }
@@ -103,17 +103,19 @@ public final class GivenResponseInstructorComment extends GivenBase<ResponseInst
         return given.getAlias(entity.getFeedbackResponse().getFeedbackQuestion().getFeedbackSession().getCourse());
     }
 
-    private static List<ViewerType> defaultViewerTypes() {
-        return viewerTypesList(ViewerType.GIVER, ViewerType.RECEIVER, ViewerType.INSTRUCTORS);
+    private static List<CommentVisibilityType> defaultCommentVisibilityTypes() {
+        return viewerTypesList(
+                CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT, CommentVisibilityType.INSTRUCTORS);
     }
 
-    private static List<ViewerType> viewerTypesList(ViewerType... viewerTypes) {
+    private static List<CommentVisibilityType> viewerTypesList(CommentVisibilityType... viewerTypes) {
         return new ArrayList<>(Arrays.asList(viewerTypes));
     }
 
     private ResponseInstructorComment defaultResponseInstructorComment(UUID responseInstructorCommentId) {
         ResponseInstructorComment responseInstructorComment = new ResponseInstructorComment(
-                null, "comment:" + responseInstructorCommentId, defaultViewerTypes(), defaultViewerTypes(), null);
+                null, "comment:" + responseInstructorCommentId,
+                defaultCommentVisibilityTypes(), defaultCommentVisibilityTypes(), null);
         responseInstructorComment.setId(responseInstructorCommentId);
         return responseInstructorComment;
     }

@@ -23,7 +23,7 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
-                .withFeedbackSessionId(testData.feedbackSessions.get("Open Session").getId().toString());
+                .withFeedbackSessionId(testData.feedbackSessions.get("Open Session").getId());
         InstructorFeedbackResultsPage resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class,
                 testData.instructors.get("IFRep.instr.CS2104").getGoogleId());
 

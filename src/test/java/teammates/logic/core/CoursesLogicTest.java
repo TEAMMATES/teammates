@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -23,6 +26,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -31,7 +35,6 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
@@ -161,10 +164,14 @@ public class CoursesLogicTest extends BaseTestCase {
         assertEquals("Course Name", createdCourse.getName());
         assertEquals(Const.DEFAULT_TIME_ZONE, createdCourse.getTimeZone());
         assertEquals("Institute", createdCourse.getInstitute());
-        verify(usersLogic, times(1)).createInstructor(argThat(instructor ->
-                instructor.getCourse().equals(createdCourse)
-                        && instructor.getGoogleId().equals(instructorGoogleId)
-                        && instructor.hasCoownerPrivileges()));
+        verify(usersLogic, times(1)).createInstructor(
+                eq(createdCourse),
+                eq("Course Creator"),
+                eq("course-creator@email.tmt"),
+                eq(false),
+                eq("Course Creator"),
+                eq(InstructorPermissionRole.COOWNER),
+                argThat(account -> account.getGoogleId().equals(instructorGoogleId)));
     }
 
     @Test
@@ -183,7 +190,9 @@ public class CoursesLogicTest extends BaseTestCase {
                 + "it is not available as a choice. "
                 + "The value must be one of the values from the time zone dropdown selector.", ex.getMessage());
         verify(coursesDb, never()).persistCourse(any(Course.class));
-        verify(usersLogic, never()).createInstructor(any(Instructor.class));
+        verify(usersLogic, never()).createInstructor(
+                any(Course.class), anyString(), anyString(), anyBoolean(),
+                anyString(), any(InstructorPermissionRole.class), any());
     }
 
     @Test

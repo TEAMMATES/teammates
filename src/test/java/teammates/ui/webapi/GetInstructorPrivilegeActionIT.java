@@ -63,10 +63,10 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         assertTrue(courseLevelPrivilege.isCanModifyInstructor());
         assertTrue(courseLevelPrivilege.isCanModifySession());
         assertTrue(courseLevelPrivilege.isCanModifyStudent());
-        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
-        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertTrue(courseLevelPrivilege.isCanViewStudent());
+        assertTrue(courseLevelPrivilege.isCanViewSession());
+        assertTrue(courseLevelPrivilege.isCanSubmitSession());
+        assertTrue(courseLevelPrivilege.isCanModifySessionComments());
 
         assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
@@ -85,10 +85,10 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         assertFalse(courseLevelPrivilege.isCanModifyInstructor());
         assertFalse(courseLevelPrivilege.isCanModifySession());
         assertFalse(courseLevelPrivilege.isCanModifyStudent());
-        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
-        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
-        assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertTrue(courseLevelPrivilege.isCanViewStudent());
+        assertTrue(courseLevelPrivilege.isCanViewSession());
+        assertTrue(courseLevelPrivilege.isCanSubmitSession());
+        assertFalse(courseLevelPrivilege.isCanModifySessionComments());
 
         assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());

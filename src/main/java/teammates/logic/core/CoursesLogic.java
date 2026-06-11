@@ -7,14 +7,13 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
@@ -36,7 +35,6 @@ public final class CoursesLogic {
     private static final CoursesLogic instance = new CoursesLogic();
 
     private CoursesDb coursesDb;
-
     private UsersLogic usersLogic;
 
     private CoursesLogic() {
@@ -93,21 +91,10 @@ public final class CoursesLogic {
         Course course = createCourse(courseCreateRequest.getCourseId().trim(), courseCreateRequest.getCourseName(),
                 timeZone, courseCreateRequest.getInstitute());
 
-        // Create the initial instructor for the course
-        InstructorPrivileges privileges = new InstructorPrivileges(
-                Const.InstructorPermissionRoleNames.COOWNER);
-        Instructor instructor = new Instructor(
-                course,
-                courseCreator.getName(),
-                courseCreator.getEmail(),
-                false,
-                courseCreator.getName(),
-                InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                privileges);
-        instructor.setAccount(courseCreator);
-
         try {
-            usersLogic.createInstructor(instructor);
+            usersLogic.createInstructor(course, courseCreator.getName(), courseCreator.getEmail(),
+                    false, courseCreator.getName(), InstructorPermissionRole.COOWNER,
+                    courseCreator);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             assert false : "Unexpected exception while trying to create instructor for a new course "
                                   + System.lineSeparator() + course.toString();
@@ -228,6 +215,20 @@ public final class CoursesLogic {
         validateCourse(course);
 
         return course;
+    }
+
+    /**
+     * Returns the section with the given name in the given course, or null if not found.
+     */
+    public Section getSectionByName(String courseId, String sectionName) {
+        return coursesDb.getSectionByName(courseId, sectionName);
+    }
+
+    /**
+     * Returns the section with the given UUID, or null if not found.
+     */
+    public Section getSectionById(UUID sectionId) {
+        return coursesDb.getSectionById(sectionId);
     }
 
     /**

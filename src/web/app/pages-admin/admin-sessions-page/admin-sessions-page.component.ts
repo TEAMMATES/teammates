@@ -185,7 +185,7 @@ export class AdminSessionsPageComponent implements OnInit {
   /**
    * Gets the response rate of a feedback session.
    */
-  getResponseRate(institute: string, feedbackSessionId: string, event: any): void {
+  getResponseRate(institute: string, feedbackSessionId: string, event: Event | null): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();

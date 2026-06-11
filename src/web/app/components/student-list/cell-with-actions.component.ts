@@ -24,10 +24,10 @@ export class CellWithActionsComponent {
     canModifyInstructor: false,
     canModifySession: false,
     canModifyStudent: false,
-    canViewStudentInSections: false,
-    canViewSessionInSections: false,
-    canSubmitSessionInSections: false,
-    canModifySessionCommentsInSections: false,
+    canViewStudent: false,
+    canViewSession: false,
+    canSubmitSession: false,
+    canModifySessionComments: false,
   };
 
   @Input() remindStudentFromCourse: () => void = () => {};

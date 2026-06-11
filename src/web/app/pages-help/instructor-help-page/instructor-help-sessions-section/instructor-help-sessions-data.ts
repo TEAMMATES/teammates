@@ -1,4 +1,3 @@
-import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   CommentVisibilityType,
   Course,
@@ -32,6 +31,7 @@ import { SessionEditFormModel } from '../../../components/session-edit-form/sess
 import { RecycleBinFeedbackSessionRowModel } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/feedback-question.model';
+import { TemplateSession } from '../../../../data/template-sessions';
 
 /**
  * Structure of example session edit form model
@@ -180,7 +180,7 @@ export const EXAMPLE_INSTRUCTORS: Instructor[] = [
     displayedToStudentsAs: 'Instructor',
     name: 'Bob Ruth',
     key: 'instructor-key',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+    role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
     institute: 'NUS',
     courseName: 'CS3281',

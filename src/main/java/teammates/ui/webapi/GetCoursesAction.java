@@ -48,9 +48,6 @@ public class GetCoursesAction extends Action {
     private JsonResult getStudentCourses() {
         List<Course> courses = logic.getCoursesForStudentAccount(requestContext.getAccount());
         CoursesData coursesData = new CoursesData(courses);
-        List<CourseViewData> courseDataList = coursesData.getCourses();
-
-        courseDataList.forEach(courseData -> courseData.getCourse().hideInformationForStudent());
 
         return new JsonResult(coursesData);
     }

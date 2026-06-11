@@ -115,7 +115,8 @@ export class SubmissionReceiptService {
   private appendQuestionContent(fileContent: string[], entry: QuestionResponses): void {
     const question: QuestionSubmissionFormModel = entry.question;
     const questionResponses: FeedbackResponse[] = [...entry.responses].sort(
-      (a: FeedbackResponse, b: FeedbackResponse) => a.recipientIdentifier.localeCompare(b.recipientIdentifier),
+      (a: FeedbackResponse, b: FeedbackResponse) =>
+        this.getRecipientLabel(question, a).localeCompare(this.getRecipientLabel(question, b)),
     );
 
     fileContent.push(`Question ${question.questionNumber}`, `${question.questionBrief}`, '');
@@ -150,8 +151,6 @@ export class SubmissionReceiptService {
     const recipient: FeedbackResponseRecipient | undefined = question.recipientList.find(
       (item: FeedbackResponseRecipient) => item.recipientIdentifier === response.recipientIdentifier,
     );
-    return recipient?.recipientName
-      ? `${recipient.recipientName} [${response.recipientIdentifier}]`
-      : response.recipientIdentifier;
+    return recipient?.recipientName ?? 'Unknown Recipient';
   }
 }

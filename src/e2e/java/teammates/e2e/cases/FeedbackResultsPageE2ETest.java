@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackResultsPage;
@@ -23,6 +23,7 @@ import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
+import teammates.test.ResponseEntityHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
@@ -51,7 +52,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("unregistered student: can access results");
         Student unregistered = testData.students.get("Unregistered");
         AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString())
+                .withFeedbackSessionId(openSession.getId())
                 .withRegistrationKey(unregistered.getRegKey());
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
@@ -63,7 +64,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("registered student: can access results");
         Student student = testData.students.get("Alice");
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString());
+                .withFeedbackSessionId(openSession.getId());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
@@ -102,7 +103,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         logout();
         Instructor instructor = testData.instructors.get("FRes.instr");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString());
+                .withFeedbackSessionId(openSession.getId());
         resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
@@ -115,7 +116,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview results as student: can access results");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString())
+                .withFeedbackSessionId(openSession.getId())
                 .withPreviewAs(student.getId().toString());
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
@@ -136,7 +137,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview results as instructor: can access results");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withFeedbackSessionId(openSession.getId().toString())
+                .withFeedbackSessionId(openSession.getId())
                 .withPreviewAs(instructor.getId().toString());
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
@@ -218,11 +219,11 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
         boolean isGiverVisibleToInstructor = feedbackQuestion.getShowGiverNameTo()
-                .contains(ViewerType.INSTRUCTORS);
+                .contains(FeedbackVisibilityType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor = feedbackQuestion.getShowRecipientNameTo()
-                .contains(ViewerType.INSTRUCTORS);
+                .contains(FeedbackVisibilityType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor = feedbackQuestion.getShowResponsesTo()
-                .contains(ViewerType.INSTRUCTORS);
+                .contains(FeedbackVisibilityType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
@@ -270,20 +271,20 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .toList();
 
         List<FeedbackResponse> selfEvaluationResponses = questionResponses.stream()
-                .filter(fr -> currentStudent.getEmail().equals(fr.getGiver().getIdentifier())
-                        && currentStudent.getEmail().equals(fr.getRecipient().getIdentifier()))
+                .filter(fr -> currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                 .toList();
 
         List<FeedbackResponse> responsesByOthers = questionResponses.stream()
-                .filter(fr -> !currentStudent.getEmail().equals(fr.getGiver().getIdentifier())
-                        && visibleResponseGivers.contains(fr.getGiver().getIdentifier()))
+                .filter(fr -> !currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && visibleResponseGivers.contains(ResponseEntityHelper.getIdentifier(fr.getGiver())))
                 .toList();
 
         List<FeedbackResponse> responsesToSelf = new ArrayList<>();
-        if (visibleResponseGivers.contains("RECEIVER")) {
+        if (visibleResponseGivers.contains("RECEIPIENT")) {
             responsesToSelf = questionResponses.stream()
-                    .filter(fr -> !currentStudent.getEmail().equals(fr.getGiver().getIdentifier())
-                            && currentStudent.getEmail().equals(fr.getRecipient().getIdentifier()))
+                    .filter(fr -> !currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                            && currentStudent.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                     .toList();
         }
 
@@ -305,20 +306,20 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .toList();
 
         List<FeedbackResponse> selfEvaluationResponses = questionResponses.stream()
-                .filter(fr -> currentInstructor.getEmail().equals(fr.getGiver().getIdentifier())
-                        && currentInstructor.getEmail().equals(fr.getRecipient().getIdentifier()))
+                .filter(fr -> currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                 .toList();
 
         List<FeedbackResponse> responsesByOthers = questionResponses.stream()
-                .filter(fr -> !currentInstructor.getEmail().equals(fr.getGiver().getIdentifier())
-                        && visibleResponseGivers.contains(fr.getGiver().getIdentifier()))
+                .filter(fr -> !currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                        && visibleResponseGivers.contains(ResponseEntityHelper.getIdentifier(fr.getGiver())))
                 .toList();
 
         List<FeedbackResponse> responsesToSelf = new ArrayList<>();
         if (visibleResponseGivers.contains("RECEIVER") || visibleResponseGivers.contains("INSTRUCTORS")) {
             responsesToSelf = questionResponses.stream()
-                    .filter(fr -> !currentInstructor.getEmail().equals(fr.getGiver().getIdentifier())
-                            && currentInstructor.getEmail().equals(fr.getRecipient().getIdentifier()))
+                    .filter(fr -> !currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getGiver()))
+                            && currentInstructor.getEmail().equals(ResponseEntityHelper.getIdentifier(fr.getRecipient())))
                     .toList();
         }
 
@@ -355,30 +356,30 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getRelevantUsers(Student giver, List<ViewerType> relevantParticipants) {
+    private Set<String> getRelevantUsers(Student giver, List<FeedbackVisibilityType> relevantParticipants) {
         Set<String> relevantUsers = new HashSet<>();
         List<Student> students = new ArrayList<>();
-        if (relevantParticipants.contains(ViewerType.STUDENTS)) {
+        if (relevantParticipants.contains(FeedbackVisibilityType.STUDENTS)) {
             students.addAll(getOtherStudents(giver));
-        } else if (relevantParticipants.contains(ViewerType.OWN_TEAM_MEMBERS)) {
+        } else if (relevantParticipants.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)) {
             students.addAll(getOtherTeammates(giver));
         }
         students.forEach(s -> relevantUsers.add(s.getEmail()));
         students.forEach(s -> relevantUsers.add(s.getTeamName()));
 
-        if (relevantParticipants.contains(ViewerType.RECEIVER)) {
+        if (relevantParticipants.contains(FeedbackVisibilityType.RECIPIENT)) {
             relevantUsers.add("RECEIVER");
         }
 
         return relevantUsers;
     }
 
-    private Set<String> getRelevantUsersForInstructors(List<ViewerType> relevantParticipants) {
+    private Set<String> getRelevantUsersForInstructors(List<FeedbackVisibilityType> relevantParticipants) {
         Set<String> relevantUsers = new HashSet<>();
-        if (relevantParticipants.contains(ViewerType.RECEIVER)) {
+        if (relevantParticipants.contains(FeedbackVisibilityType.RECIPIENT)) {
             relevantUsers.add("RECEIVER");
         }
-        if (relevantParticipants.contains(ViewerType.INSTRUCTORS)) {
+        if (relevantParticipants.contains(FeedbackVisibilityType.INSTRUCTORS)) {
             relevantUsers.add("INSTRUCTORS");
         }
         return relevantUsers;
@@ -421,7 +422,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentStudent, giver.getIdentifier());
+        return getIdentifier(currentStudent, ResponseEntityHelper.getIdentifier(giver));
     }
 
     private String getIdentifier(Student currentStudent, ResponseRecipient recipient) {
@@ -429,7 +430,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentStudent, recipient.getIdentifier());
+        return getIdentifier(currentStudent, ResponseEntityHelper.getIdentifier(recipient));
     }
 
     private String getIdentifier(Student currentStudent, String user) {
@@ -474,7 +475,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentInstructor, giver.getIdentifier());
+        return getIdentifier(currentInstructor, ResponseEntityHelper.getIdentifier(giver));
     }
 
     private String getIdentifier(Instructor currentInstructor, ResponseRecipient recipient) {
@@ -482,7 +483,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             return "";
         }
 
-        return getIdentifier(currentInstructor, recipient.getIdentifier());
+        return getIdentifier(currentInstructor, ResponseEntityHelper.getIdentifier(recipient));
     }
 
     private String getStudentName(String studentEmail) {

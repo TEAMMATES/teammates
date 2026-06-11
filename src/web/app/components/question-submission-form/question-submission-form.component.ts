@@ -56,11 +56,11 @@ import { NumScaleQuestionInstructionComponent } from '../question-types/question
 import { RankOptionsQuestionInstructionComponent } from '../question-types/question-instruction/rank-options-question-instruction.component';
 import { RankRecipientsQuestionInstructionComponent } from '../question-types/question-instruction/rank-recipients-question-instruction.component';
 import { TextQuestionInstructionComponent } from '../question-types/question-instruction/text-question-instruction.component';
-import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import { SafeHtmlPipe } from '../teammates-common/safe-html.pipe';
 import { VisibilityCapabilityPipe } from '../visibility-messages/visibility-capability.pipe';
 import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-entity-name.pipe';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { ComboboxOption, SearchableComboboxComponent } from '../searchable-combobox/searchable-combobox.component';
 
 /**
  * The question submission form for a question.
@@ -100,11 +100,11 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
     RankRecipientsQuestionConstraintComponent,
     ConstsumRecipientsQuestionConstraintComponent,
     AjaxLoadingComponent,
-    EnumToArrayPipe,
     SafeHtmlPipe,
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
     RecipientTypeNamePipe,
+    SearchableComboboxComponent,
     NoRecipientsWarningComponent,
   ],
 })
@@ -123,6 +123,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
   isMCQDropDownEnabled = false;
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
+
+  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
   get isSaved(): boolean {
     return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
@@ -335,9 +337,9 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         firstRecipient: FeedbackResponseRecipientSubmissionFormModel,
         secondRecipient: FeedbackResponseRecipientSubmissionFormModel,
       ) => {
-        const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+        const firstRecipientIndex: number = indexes.get(firstRecipient.recipientIdentifier) ?? Number.MAX_SAFE_INTEGER;
         const secondRecipientIndex: number =
-          indexes.get(secondRecipient.recipientIdentifier) || Number.MAX_SAFE_INTEGER;
+          indexes.get(secondRecipient.recipientIdentifier) ?? Number.MAX_SAFE_INTEGER;
 
         return firstRecipientIndex - secondRecipientIndex;
       },
@@ -386,7 +388,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   /**
    * Triggers the change of the recipient submission form.
    */
-  triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
+  triggerRecipientSubmissionFormChange(index: number, field: string, data: unknown): void {
     if (this.isFormsDisabled) {
       return;
     }
@@ -529,6 +531,23 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     }
 
     return recipient.recipientName;
+  }
+
+  getRecipientComboboxOptions(
+    recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel,
+  ): ComboboxOption<string, FeedbackResponseRecipient>[] {
+    return this.model.recipientList
+      .filter(
+        (recipient: FeedbackResponseRecipient) =>
+          !this.isRecipientSelected(recipient) ||
+          recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier,
+      )
+      .map((recipient: FeedbackResponseRecipient) => ({
+        value: recipient.recipientIdentifier,
+        label: this.getSelectionOptionLabel(recipient),
+        keywords: [recipient.recipientName, recipient.recipientSection ?? '', recipient.recipientTeam ?? ''],
+        data: recipient,
+      }));
   }
 
   toggleSectionTeam(event: Event): void {

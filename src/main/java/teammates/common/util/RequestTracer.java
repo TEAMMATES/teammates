@@ -17,14 +17,14 @@ public final class RequestTracer {
     }
 
     /**
-     * Returns the trace ID of the current request.
+     * Returns the request ID of the current request.
      */
-    public static String getTraceId() {
+    public static String getRequestId() {
         RequestTrace trace = THREAD_LOCAL.get();
         if (trace == null) {
             return null;
         }
-        return trace.traceId;
+        return trace.requestId;
     }
 
     /**
@@ -63,17 +63,17 @@ public final class RequestTracer {
     /**
      * Initializes the request with an ID and the timeout value (in seconds).
      */
-    public static void init(String traceId, int timeoutInSeconds) {
-        THREAD_LOCAL.set(new RequestTrace(traceId, timeoutInSeconds));
+    public static void init(String requestId, int timeoutInSeconds) {
+        THREAD_LOCAL.set(new RequestTrace(requestId, timeoutInSeconds));
     }
 
     private static final class RequestTrace {
-        private final String traceId;
+        private final String requestId;
         private final long initTimestamp;
         private final long timeoutTimestamp;
 
-        private RequestTrace(String traceId, int timeoutInSeconds) {
-            this.traceId = traceId;
+        private RequestTrace(String requestId, int timeoutInSeconds) {
+            this.requestId = requestId;
             this.initTimestamp = Instant.now().toEpochMilli();
             this.timeoutTimestamp = Instant.now().plus(timeoutInSeconds, ChronoUnit.SECONDS).toEpochMilli();
         }

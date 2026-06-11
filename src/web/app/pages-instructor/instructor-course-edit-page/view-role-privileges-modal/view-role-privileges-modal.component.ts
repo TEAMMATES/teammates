@@ -15,7 +15,7 @@ export class ViewRolePrivilegesModalComponent {
   activeModal = inject(NgbActiveModal);
 
   @Input()
-  role: InstructorPermissionRole = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+  role: InstructorPermissionRole = InstructorPermissionRole.CUSTOM;
 
   @Input()
   instructorPrivilege: InstructorPermissionSet = {
@@ -23,9 +23,9 @@ export class ViewRolePrivilegesModalComponent {
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,
-    canViewStudentInSections: false,
-    canModifySessionCommentsInSections: false,
-    canViewSessionInSections: false,
-    canSubmitSessionInSections: false,
+    canViewStudent: false,
+    canModifySessionComments: false,
+    canViewSession: false,
+    canSubmitSession: false,
   };
 }

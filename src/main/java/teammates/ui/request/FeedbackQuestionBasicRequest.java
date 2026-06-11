@@ -2,17 +2,15 @@ package teammates.ui.request;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.visibility.FeedbackVisibilityType;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
-import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 
 /**
@@ -101,58 +99,16 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         return 0;
     }
 
-    /**
-     * Get feedback participants who can see responses.
-     */
-    public List<ViewerType> getShowResponsesTo() {
-        List<ViewerType> showResponsesTo =
-                this.convertToViewerType(this.showResponsesTo);
-
-        // specially handling for contribution questions
-        // TODO: remove the hack
-        if (this.questionType == FeedbackQuestionType.CONTRIB
-                && this.giverType == QuestionGiverType.STUDENTS
-                && this.recipientType == QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF
-                && showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS)) {
-            // add the redundant participant type OWN_TEAM_MEMBERS even if it is just RECIPIENT_TEAM_MEMBERS
-            // contribution question keep the redundancy for legacy reason
-            showResponsesTo.add(ViewerType.RECEIVER_TEAM_MEMBERS);
-        }
-
+    public List<FeedbackVisibilityType> getShowResponsesTo() {
         return showResponsesTo;
     }
 
-    public List<ViewerType> getShowGiverNameTo() {
-        return this.convertToViewerType(showGiverNameTo);
+    public List<FeedbackVisibilityType> getShowGiverNameTo() {
+        return showGiverNameTo;
     }
 
-    public List<ViewerType> getShowRecipientNameTo() {
-        return this.convertToViewerType(showRecipientNameTo);
-    }
-
-    /**
-     * Converts a list of feedback visibility type to a list of feedback participant type.
-     */
-    private List<ViewerType> convertToViewerType(
-            List<FeedbackVisibilityType> feedbackVisibilityTypes) {
-        return feedbackVisibilityTypes.stream().map(feedbackVisibilityType -> {
-            switch (feedbackVisibilityType) {
-            case STUDENTS:
-                return ViewerType.STUDENTS;
-            case INSTRUCTORS:
-                return ViewerType.INSTRUCTORS;
-            case RECIPIENT:
-                return ViewerType.RECEIVER;
-            case GIVER_TEAM_MEMBERS:
-                return ViewerType.OWN_TEAM_MEMBERS;
-            case RECIPIENT_TEAM_MEMBERS:
-                return ViewerType.RECEIVER_TEAM_MEMBERS;
-            default:
-                assert false : "Unknown feedbackVisibilityType" + feedbackVisibilityType;
-                break;
-            }
-            return null;
-        }).collect(Collectors.toList());
+    public List<FeedbackVisibilityType> getShowRecipientNameTo() {
+        return showRecipientNameTo;
     }
 
     public void setQuestionNumber(int questionNumber) {

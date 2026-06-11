@@ -255,9 +255,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             FeedbackResponseDetails expectedResponseDetails = expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
             FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
-            assertEquals(expectedFeedbackResponse.getGiver().getIdentifier(),
+            assertEquals(expectedFeedbackResponse.getGiver().getKey(),
                     actualResponse.getGiverIdentifier());
-            assertEquals(expectedFeedbackResponse.getRecipient().getIdentifier(),
+            assertEquals(expectedFeedbackResponse.getRecipient().getKey(),
                     actualResponse.getRecipientIdentifier());
             assertEquals(expectedResponseDetails.getAnswerString(),
                     actualResponse.getResponseDetails().getAnswerString());

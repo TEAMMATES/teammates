@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
@@ -72,9 +72,9 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe({
-      next: (queryParams: any) => {
-        this.courseId = queryParams.courseid;
-        this.studentId = queryParams.userid;
+      next: (queryParams: Params) => {
+        this.courseId = queryParams['courseid'];
+        this.studentId = queryParams['userid'];
 
         this.loadStudentResults(this.courseId, this.studentId);
       },

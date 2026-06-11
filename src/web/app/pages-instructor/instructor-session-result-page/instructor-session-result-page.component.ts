@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
@@ -15,8 +15,8 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
 import {
   SectionTabModel,
   QuestionTabModel,
-  DEFAULT_SECTION_ID,
-  DEFAULT_SECTION_NAME,
+  NO_SPECIFIC_SECTION_ID,
+  NO_SPECIFIC_SECTION_NAME,
 } from './instructor-session-tab.model';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -179,8 +179,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.feedbackSessionId = queryParams.fsid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.feedbackSessionId = queryParams['fsid'];
       this.loadFeedbackSessionResults(this.feedbackSessionId);
     });
   }
@@ -240,10 +240,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load section tabs
           this.courseService.getCourseSections(this.courseId).subscribe({
             next: (courseSections) => {
-              this.sectionsModel[DEFAULT_SECTION_ID] = {
+              this.sectionsModel[NO_SPECIFIC_SECTION_ID] = {
                 section: {
-                  sectionId: DEFAULT_SECTION_ID,
-                  sectionName: DEFAULT_SECTION_NAME,
+                  sectionId: NO_SPECIFIC_SECTION_ID,
+                  sectionName: NO_SPECIFIC_SECTION_NAME,
                 },
                 questions: [],
                 hasPopulated: false,
@@ -407,8 +407,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
           return this.feedbackSessionsService.getCourseSessionResults({
             questionId,
             feedbackSessionId: this.session.feedbackSessionId,
-            groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionId,
-            isDefaultSection: this.isDefaultSection(sectionId),
+            groupBySection: this.isNoSpecificSection(sectionId) ? undefined : sectionId,
+            isNoSpecificSection: this.isNoSpecificSection(sectionId),
           });
         }),
       )
@@ -466,8 +466,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getCourseSessionResults({
         feedbackSessionId: this.session.feedbackSessionId,
-        groupBySection: this.isDefaultSection(sectionId) ? undefined : sectionId,
-        isDefaultSection: this.isDefaultSection(sectionId),
+        groupBySection: this.isNoSpecificSection(sectionId) ? undefined : sectionId,
+        isNoSpecificSection: this.isNoSpecificSection(sectionId),
       })
       .subscribe({
         next: (resp: SessionResults) => {
@@ -501,8 +501,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
     return this.sectionsModel[sectionId]?.section.sectionName ?? sectionId;
   }
 
-  private isDefaultSection(sectionId: string): boolean {
-    return sectionId === DEFAULT_SECTION_ID;
+  private isNoSpecificSection(sectionId: string): boolean {
+    return sectionId === NO_SPECIFIC_SECTION_ID;
   }
 
   /**
@@ -582,7 +582,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
     modalRef.result.then(
       () => {
-        const response: Observable<any> = isPublished
+        const response = isPublished
           ? this.feedbackSessionsService.unpublishFeedbackSession(this.session.feedbackSessionId)
           : this.feedbackSessionsService.publishFeedbackSession(this.session.feedbackSessionId);
 
@@ -662,7 +662,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: string) => {
-          const blob: any = new Blob([resp], { type: 'text/csv' });
+          const blob = new Blob([resp], { type: 'text/csv' });
           this.fileSaveService.saveFile(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {

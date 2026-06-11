@@ -77,10 +77,10 @@ describe('SessionsTableComponent', () => {
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,
-    canViewStudentInSections: true,
-    canModifySessionCommentsInSections: true,
-    canViewSessionInSections: true,
-    canSubmitSessionInSections: true,
+    canViewStudent: true,
+    canModifySessionComments: true,
+    canViewSession: true,
+    canSubmitSession: true,
   };
 
   const instructorCannotEverything: InstructorPermissionSet = {
@@ -88,10 +88,10 @@ describe('SessionsTableComponent', () => {
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,
-    canViewStudentInSections: false,
-    canModifySessionCommentsInSections: false,
-    canViewSessionInSections: false,
-    canSubmitSessionInSections: false,
+    canViewStudent: false,
+    canModifySessionComments: false,
+    canViewSession: false,
+    canSubmitSession: false,
   };
 
   const sessionTable1: SessionsTableRowModel = {
@@ -261,6 +261,7 @@ describe('SessionsTableComponent', () => {
   it('should create response rate component data and emit on click', () => {
     vi.spyOn(component.loadResponseRateEvent, 'emit');
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = (component as any).createCellWithResponseRateComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
 
@@ -281,6 +282,7 @@ describe('SessionsTableComponent', () => {
     component.rowsData = [[]];
     component.columnsData = [];
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = (component as any).createCellWithGroupButtonsComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
 

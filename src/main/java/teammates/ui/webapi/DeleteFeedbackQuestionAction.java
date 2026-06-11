@@ -4,8 +4,6 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackSession;
-import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -20,19 +18,8 @@ public class DeleteFeedbackQuestionAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        UUID questionId;
-        FeedbackQuestion question = null;
-
-        questionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        question = logic.getFeedbackQuestion(questionId);
-
-        if (question == null) {
-            throw new EntityNotFoundException("Unknown question id");
-        }
-
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(question.getFeedbackSession().getName(),
-                question.getCourseId());
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, feedbackSession.getCourseId(),
+        UUID questionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        gateKeeper.verifyInstructorHasPrivilegeInFeedbackQuestion(requestContext, questionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
 
     }

@@ -451,23 +451,9 @@
       "courseId": "CS1101S",
       "name": "Alice",
       "email": "alice@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Prof. Khan",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": true,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2OfCourse1": {
@@ -475,23 +461,9 @@
       "courseId": "CS1101S",
       "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
+      "role": "TUTOR",
       "isDisplayedToStudents": true,
       "displayName": "Mr. Tanaka",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": false,
-          "canModifyInstructor": false,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "instructor1OfCourse2": {
@@ -499,23 +471,9 @@
       "courseId": "CS2103T",
       "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Dr. Vasquez",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": true,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "instructor2OfCourse2": {
@@ -523,23 +481,9 @@
       "courseId": "CS2103T",
       "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
+      "role": "OBSERVER",
       "isDisplayedToStudents": true,
       "displayName": "Mr. Okonkwo",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": false,
-          "canModifyInstructor": false,
-          "canModifySession": false,
-          "canModifyStudent": false,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": false,
-          "canModifySessionCommentsInSections": false
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "instructor1OfCourse3": {
@@ -547,23 +491,9 @@
       "courseId": "CS2040DE",
       "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Dr. Sharma",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": true,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "instructor2OfCourse3": {
@@ -571,23 +501,9 @@
       "courseId": "CS2040DE",
       "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
-      "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
+      "role": "MANAGER",
       "isDisplayedToStudents": true,
       "displayName": "Prof. Eriksson",
-      "privileges": {
-        "courseLevel": {
-          "canModifyCourse": false,
-          "canModifyInstructor": true,
-          "canModifySession": true,
-          "canModifyStudent": true,
-          "canViewStudentInSections": true,
-          "canViewSessionInSections": true,
-          "canSubmitSessionInSections": true,
-          "canModifySessionCommentsInSections": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      },
       "accountId": "00000000-0000-4000-8000-000000000006"
     }
   },
@@ -1084,9 +1000,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3InSession1InCourse1": {
@@ -1121,9 +1037,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn2InSession2InCourse1": {
@@ -1146,9 +1062,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn3InSession2InCourse1": {
@@ -1227,9 +1143,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000703"
     },
     "qn1InSession4InCourse1": {
@@ -1321,9 +1237,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "qn3InSession1InCourse2": {
@@ -1374,9 +1290,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn2InSession2InCourse2": {
@@ -1418,9 +1334,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn1InSession3InCourse2": {
@@ -1494,9 +1410,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn2InSession1InCourse3": {
@@ -1513,9 +1429,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn3InSession1InCourse3": {
@@ -1565,9 +1481,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "qn2InSession2InCourse3": {
@@ -1624,9 +1540,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showResponsesTo": ["RECIPIENT", "GIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"],
       "sessionId": "00000000-0000-4000-8000-000000000710"
     },
     "qn2InSession3InCourse3": {

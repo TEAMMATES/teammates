@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -17,7 +17,6 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
-import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -26,7 +25,6 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
-  AuthInfo,
   Course,
   CourseView,
   Courses,
@@ -67,6 +65,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
+import { AuthService } from '../../../services/auth.service';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
@@ -124,8 +123,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   resetCourseFormEvent: EventEmitter<void> = new EventEmitter();
 
   // for fine-grain permission setting
-  allSections: string[] = [];
-  allSessions: string[] = [];
+  allSections: { id: string; name: string }[] = [];
+  allSessions: { id: string; name: string }[] = [];
 
   isCourseLoading = false;
   hasCourseLoadingFailed = false;
@@ -141,8 +140,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
+    this.route.queryParams.subscribe((queryParams: Params) => {
+      this.courseId = queryParams['courseid'];
 
       this.loadCourseInfo();
       this.loadCurrInstructorInfo();
@@ -151,14 +150,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
       forkJoin([
         this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
         this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ]).subscribe((vals: any[]) => {
-        const students: Students = vals[0] as Students;
-        const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
+      ]).subscribe((vals) => {
+        const students: Students = vals[0];
+        const sessions: FeedbackSessions = vals[1];
 
-        this.allSections = Array.from(new Set(students.students.map((value: Student) => value.sectionName)));
-        this.allSessions = sessions.feedbackSessions.map(
-          (sessionView: FeedbackSessionView) => sessionView.feedbackSession.feedbackSessionName,
-        );
+        this.allSections = Array.from(
+          new Map(students.students.map((s: Student) => [s.sectionId, s.sectionName])).entries(),
+        ).map(([id, name]) => ({ id, name }));
+        this.allSessions = sessions.feedbackSessions.map((sv: FeedbackSessionView) => ({
+          id: sv.feedbackSession.feedbackSessionId,
+          name: sv.feedbackSession.feedbackSessionName,
+        }));
 
         this.loadCourseInstructors();
       });
@@ -196,14 +198,24 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the information of the current logged-in instructor.
    */
   loadCurrInstructorInfo(): void {
-    this.authService.getAuthUser().subscribe({
-      next: (res: AuthInfo) => {
-        this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.hasInstructorsLoadingFailed = false;
+    this.isInstructorsLoading = true;
+    this.authService
+      .getAuthUser()
+      .pipe(
+        finalize(() => {
+          this.isInstructorsLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (authInfo) => {
+          this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -315,7 +327,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudents: true,
       displayedToStudentsAs: 'Instructor',
       name: '',
-      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      role: InstructorPermissionRole.COOWNER,
       joinState: JoinState.NOT_JOINED,
 
       permission: {
@@ -324,10 +336,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
           canModifySession: defaultPrivileges,
           canModifyStudent: defaultPrivileges,
           canModifyInstructor: defaultPrivileges,
-          canViewStudentInSections: defaultPrivileges,
-          canModifySessionCommentsInSections: defaultPrivileges,
-          canViewSessionInSections: defaultPrivileges,
-          canSubmitSessionInSections: defaultPrivileges,
+          canViewStudent: defaultPrivileges,
+          canModifySessionComments: defaultPrivileges,
+          canViewSession: defaultPrivileges,
+          canSubmitSession: defaultPrivileges,
         },
         sectionLevel: [],
       },
@@ -369,19 +381,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
     );
     let privilege: InstructorPermissionSet;
     switch (role) {
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
+      case InstructorPermissionRole.COOWNER:
         privilege = DEFAULT_PRIVILEGE_COOWNER();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
+      case InstructorPermissionRole.MANAGER:
         privilege = DEFAULT_PRIVILEGE_MANAGER();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
+      case InstructorPermissionRole.OBSERVER:
         privilege = DEFAULT_PRIVILEGE_OBSERVER();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
+      case InstructorPermissionRole.TUTOR:
         privilege = DEFAULT_PRIVILEGE_TUTOR();
         break;
-      case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
+      case InstructorPermissionRole.CUSTOM:
       default:
         privilege = DEFAULT_INSTRUCTOR_PRIVILEGE();
     }
@@ -416,7 +428,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       displayName: panelDetail.editPanel.displayedToStudentsAs,
       isDisplayedToStudent: panelDetail.editPanel.isDisplayedToStudents,
       privileges:
-        panelDetail.editPanel.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+        panelDetail.editPanel.role === InstructorPermissionRole.CUSTOM
           ? this.toInstructorPrivileges(panelDetail.editPanel.permission)
           : undefined,
     };
@@ -536,7 +548,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       displayName: this.newInstructorPanel.displayedToStudentsAs,
       isDisplayedToStudent: this.newInstructorPanel.isDisplayedToStudents,
       privileges:
-        this.newInstructorPanel.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM
+        this.newInstructorPanel.role === InstructorPermissionRole.CUSTOM
           ? this.toInstructorPrivileges(this.newInstructorPanel.permission)
           : undefined,
     };
@@ -587,7 +599,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const instructor: Instructor = panel.originalInstructor;
     const permission: InstructorOverallPermission = panel.editPanel.permission;
 
-    if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+    if (instructor.role !== InstructorPermissionRole.CUSTOM) {
       this.isInstructorsLoading = false;
       return;
     }
@@ -599,17 +611,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
       .subscribe((resp: InstructorPrivilege) => {
         permission.privilege = resp.privileges.courseLevel;
 
-        this.allSections.forEach((sectionName: string) => {
+        this.allSections.forEach((section: { id: string; name: string }) => {
           const sectionLevelPermission: InstructorSectionLevelPermission = {
-            sectionNames: [sectionName],
-            privilege: resp.privileges.sectionLevel[sectionName] || permission.privilege,
+            sections: [section],
+            privilege: resp.privileges.sectionLevel[section.id] || permission.privilege,
             sessionLevel: [],
           };
 
-          this.allSessions.forEach((sessionName: string) => {
+          this.allSessions.forEach((session: { id: string; name: string }) => {
             const sessionLevelPermission: InstructorSessionLevelPermission = {
-              sessionName,
-              privilege: resp.privileges.sessionLevel[sectionName]?.[sessionName] || sectionLevelPermission.privilege,
+              sessionId: session.id,
+              sessionName: session.name,
+              privilege: resp.privileges.sessionLevel[section.id]?.[session.id] || sectionLevelPermission.privilege,
             };
             sectionLevelPermission.sessionLevel.push(sessionLevelPermission);
           });
@@ -619,40 +632,30 @@ export class InstructorCourseEditPageComponent implements OnInit {
         permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
-            if (
-              sectionLevelPermission.privilege.canViewStudentInSections !==
-              permission.privilege.canViewStudentInSections
-            ) {
+            if (sectionLevelPermission.privilege.canViewStudent !== permission.privilege.canViewStudent) {
               return true;
             }
             if (
-              sectionLevelPermission.privilege.canModifySessionCommentsInSections !==
-              permission.privilege.canModifySessionCommentsInSections
+              sectionLevelPermission.privilege.canModifySessionComments !==
+              permission.privilege.canModifySessionComments
             ) {
               return true;
             }
-            if (
-              sectionLevelPermission.privilege.canViewSessionInSections !==
-              permission.privilege.canViewSessionInSections
-            ) {
+            if (sectionLevelPermission.privilege.canViewSession !== permission.privilege.canViewSession) {
               return true;
             }
-            if (
-              sectionLevelPermission.privilege.canSubmitSessionInSections !==
-              permission.privilege.canSubmitSessionInSections
-            ) {
+            if (sectionLevelPermission.privilege.canSubmitSession !== permission.privilege.canSubmitSession) {
               return true;
             }
 
             return sectionLevelPermission.sessionLevel.some(
               (sessionLevelPermission: InstructorSessionLevelPermission) => {
                 return (
-                  sectionLevelPermission.privilege.canModifySessionCommentsInSections !==
-                    sessionLevelPermission.privilege.canModifySessionCommentsInSections ||
-                  sectionLevelPermission.privilege.canViewSessionInSections !==
-                    sessionLevelPermission.privilege.canViewSessionInSections ||
-                  sectionLevelPermission.privilege.canSubmitSessionInSections !==
-                    sessionLevelPermission.privilege.canSubmitSessionInSections
+                  sectionLevelPermission.privilege.canModifySessionComments !==
+                    sessionLevelPermission.privilege.canModifySessionComments ||
+                  sectionLevelPermission.privilege.canViewSession !== sessionLevelPermission.privilege.canViewSession ||
+                  sectionLevelPermission.privilege.canSubmitSession !==
+                    sessionLevelPermission.privilege.canSubmitSession
                 );
               },
             );
@@ -663,10 +666,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
           if (
             sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
               return (
-                sectionLevel.privilege.canModifySessionCommentsInSections ===
-                  sessionLevel.privilege.canModifySessionCommentsInSections &&
-                sectionLevel.privilege.canViewSessionInSections === sessionLevel.privilege.canViewSessionInSections &&
-                sectionLevel.privilege.canSubmitSessionInSections === sessionLevel.privilege.canSubmitSessionInSections
+                sectionLevel.privilege.canModifySessionComments === sessionLevel.privilege.canModifySessionComments &&
+                sectionLevel.privilege.canViewSession === sessionLevel.privilege.canViewSession &&
+                sectionLevel.privilege.canSubmitSession === sessionLevel.privilege.canSubmitSession
               );
             })
           ) {
@@ -688,12 +690,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       sessionLevel: {},
     };
     permission.sectionLevel.forEach((sectionLevel: InstructorSectionLevelPermission) => {
-      sectionLevel.sectionNames.forEach((sectionName: string) => {
-        privileges.sectionLevel[sectionName] = sectionLevel.privilege;
-        privileges.sessionLevel[sectionName] = {};
+      sectionLevel.sections.forEach((section: { id: string; name: string }) => {
+        privileges.sectionLevel[section.id] = sectionLevel.privilege;
+        privileges.sessionLevel[section.id] = {};
 
         sectionLevel.sessionLevel.forEach((sessionLevel: InstructorSessionLevelPermission) => {
-          privileges.sessionLevel[sectionName][sessionLevel.sessionName] = sessionLevel.privilege;
+          privileges.sessionLevel[section.id][sessionLevel.sessionId] = sessionLevel.privilege;
         });
       });
     });

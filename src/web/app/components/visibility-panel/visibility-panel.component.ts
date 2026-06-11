@@ -14,7 +14,6 @@ import {
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
-import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 import {
   VisibilityControlNamePipe,
   VisibilityTypeDescriptionPipe,
@@ -35,7 +34,6 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
     NgbDropdownToggle,
     NgbDropdownMenu,
     NgbTooltip,
-    EnumToArrayPipe,
     VisibilityControlNamePipe,
     VisibilityTypeDescriptionPipe,
     VisibilityTypeNamePipe,
@@ -50,6 +48,9 @@ export class VisibilityPanelComponent {
   NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
   VisibilityControl!: typeof VisibilityControl;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
+
+  readonly visibilityControls = Object.values(VisibilityControl);
+  readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
   @Input()
   model: QuestionEditFormModel = {
@@ -156,8 +157,8 @@ export class VisibilityPanelComponent {
   }
 
   getCheckboxAriaLabel(visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): string {
-    const group: string = this.visibilityTypeAriaLabels.get(visibilityType) || '';
-    const groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) || '';
+    const group: string = this.visibilityTypeAriaLabels.get(visibilityType) ?? '';
+    const groupVisibility: string = this.visibilityControlAriaLabels.get(visibilityControl) ?? '';
     return `${group} can see ${groupVisibility}`;
   }
 

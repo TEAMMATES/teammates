@@ -33,7 +33,7 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
 
         AppUrl recordsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                 .withCourseId(courseId)
-                .withUserId(student.getId().toString());
+                .withUserId(student.getId());
 
         InstructorStudentRecordsPage recordsPage =
                 loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class, instructorId);
