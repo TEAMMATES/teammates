@@ -24,6 +24,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.InstructorCoursePrivilege;
 import teammates.storage.entity.InstructorSectionPrivilege;
@@ -84,6 +85,7 @@ public final class DataBundleLogic {
     public static DataBundle deserializeDataBundle(String jsonString) {
         DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
+        Collection<Institute> institutes = dataBundle.institutes.values();
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
@@ -101,6 +103,7 @@ public final class DataBundleLogic {
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
         // Mapping of IDs or placeholder IDs to actual entity
+        Map<UUID, Institute> institutesMap = new HashMap<>();
         Map<String, Course> coursesMap = new HashMap<>();
         Map<UUID, Section> sectionsMap = new HashMap<>();
         Map<UUID, Team> teamsMap = new HashMap<>();
@@ -114,13 +117,21 @@ public final class DataBundleLogic {
         // Replace any placeholder IDs with newly generated UUIDs
         // Store mapping of placeholder ID to actual entity to keep track of
         // associations between entities
+        for (Institute institute : institutes) {
+            UUID placeholderId = institute.getId();
+            institute.setId(UUID.randomUUID());
+            institutesMap.put(placeholderId, institute);
+        }
+
         for (AccountRequest accountRequest : accountRequests) {
             accountRequest.setId(UUID.randomUUID());
             accountRequest.generateNewRegistrationKey();
+            accountRequest.setInstitute(institutesMap.get(accountRequest.getInstituteId()));
         }
 
         for (Course course : courses) {
             coursesMap.put(course.getId(), course);
+            course.setInstitute(institutesMap.get(course.getInstituteId()));
         }
 
         for (Section section : sections) {
@@ -388,6 +399,7 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Null data bundle");
         }
 
+        Collection<Institute> institutes = dataBundle.institutes.values();
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
@@ -404,6 +416,7 @@ public final class DataBundleLogic {
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
+        persistEntities(institutes);
         persistEntities(accountRequests);
         persistEntities(notifications);
         persistEntities(accounts);

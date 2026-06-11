@@ -17,6 +17,7 @@ public class AccountRequestData implements ApiOutput {
     private final String email;
     private final String name;
     private final String institute;
+    private final String country;
     private final String registrationKey;
     private final AccountRequestStatus status;
     @Nullable
@@ -26,12 +27,14 @@ public class AccountRequestData implements ApiOutput {
     private final long createdAt;
 
     @JsonCreator
-    private AccountRequestData(UUID accountRequestId, String email, String name, String institute, String registrationKey,
-                                AccountRequestStatus status, String comments, Long registeredAt, long createdAt) {
+    private AccountRequestData(UUID accountRequestId, String email, String name, String institute, String country,
+                                String registrationKey, AccountRequestStatus status, String comments,
+                                Long registeredAt, long createdAt) {
         this.accountRequestId = accountRequestId;
         this.email = email;
         this.name = name;
         this.institute = institute;
+        this.country = country;
         this.registrationKey = registrationKey;
         this.status = status;
         this.comments = comments;
@@ -43,7 +46,8 @@ public class AccountRequestData implements ApiOutput {
         this.accountRequestId = accountRequest.getId();
         this.name = accountRequest.getName();
         this.email = accountRequest.getEmail();
-        this.institute = accountRequest.getInstitute();
+        this.institute = accountRequest.getInstitute().getName();
+        this.country = accountRequest.getInstitute().getCountry();
         this.registrationKey = accountRequest.getRegistrationKey();
         this.status = accountRequest.getStatus();
         this.comments = accountRequest.getComments();
@@ -62,6 +66,10 @@ public class AccountRequestData implements ApiOutput {
 
     public String getInstitute() {
         return institute;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public String getEmail() {

@@ -12,6 +12,7 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionLogsDb;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.InstitutesDb;
 import teammates.storage.api.InstructorPermissionsDb;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.api.ResponseInstructorCommentsDb;
@@ -33,6 +34,7 @@ public class LogicStarter implements ServletContextListener {
         AccountsLogic accountsLogic = AccountsLogic.inst();
         AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
+        InstitutesLogic institutesLogic = InstitutesLogic.inst();
         DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
         DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -46,9 +48,10 @@ public class LogicStarter implements ServletContextListener {
         InstructorPermissionsLogic instructorPermissionsLogic = InstructorPermissionsLogic.inst();
 
         authLogic.initLogicDependencies(usersLogic);
-        accountRequestsLogic.initLogicDependencies(AccountRequestsDb.inst());
+        institutesLogic.initLogicDependencies(InstitutesDb.inst());
+        accountRequestsLogic.initLogicDependencies(AccountRequestsDb.inst(), institutesLogic);
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic);
-        coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic);
+        coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, accountRequestsLogic, coursesLogic, notificationsLogic);
         deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic, usersLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), frLogic, fqLogic, usersLogic, coursesLogic);

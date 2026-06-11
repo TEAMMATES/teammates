@@ -54,7 +54,7 @@ public class InstructorData implements ApiOutput {
         this.displayedToStudentsAs = instructor.getDisplayName();
         this.name = instructor.getName();
         this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
-        this.institute = instructor.getCourse().getInstitute();
+        this.institute = instructor.getCourse().getInstitute().getName();
         this.courseName = instructor.getCourse().getName();
     }
 
