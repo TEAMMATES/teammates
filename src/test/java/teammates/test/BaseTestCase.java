@@ -51,6 +51,9 @@ import teammates.storage.entity.UsageStatistics;
 @SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class BaseTestCase {
 
+    /**
+     * Test case name in the format of ClassName.methodName, e.g. {@code MyTestClass.testMyFunction}.
+     */
     protected String currentTestName;
 
     /**

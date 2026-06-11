@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 import org.junit.jupiter.api.function.Executable;
@@ -56,7 +55,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void setUpMethod(Method method) {
+    protected void setUpMethod() {
         LogicStarter.initializeDependencies();
         given = new GivenData(currentTestName);
     }

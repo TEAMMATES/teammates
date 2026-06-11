@@ -408,7 +408,7 @@ public final class DataBundleLogic {
     }
 
     private static UUID generateId(UUID placeholderId, String seed) {
-        assert placeholderId != null: "placeholderId must be defined";
+        assert placeholderId != null : "placeholderId must be defined";
         if (seed == null) {
             return UUID.randomUUID();
         }
