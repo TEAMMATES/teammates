@@ -58,11 +58,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     @BeforeMethod(alwaysRun = true)
     protected void setUpMethod(Method method) {
         LogicStarter.initializeDependencies();
-        given = new GivenData(getTestMethodName(method));
-    }
-
-    private String getTestMethodName(Method method) {
-        return method.getDeclaringClass().getSimpleName() + "." + method.getName();
+        given = new GivenData(currentTestName);
     }
 
     private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {

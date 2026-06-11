@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
@@ -50,6 +51,8 @@ import teammates.storage.entity.UsageStatistics;
 @SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class BaseTestCase {
 
+    protected String currentTestName;
+
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
@@ -75,6 +78,11 @@ public class BaseTestCase {
         System.out.println(getClass().getCanonicalName() + " completed");
     }
 
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod(Method method) {
+        currentTestName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+    }
+
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
     }
@@ -87,7 +95,7 @@ public class BaseTestCase {
         try {
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return DataBundleLogic.deserializeDataBundle(jsonString);
+            return DataBundleLogic.deserializeDataBundle(jsonString, currentTestName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
