@@ -176,7 +176,7 @@ public class CreateDemoCourseAction extends Action {
 
         // The demo course is created under the institute associated with the account request.
         for (Course course : dataBundle.courses.values()) {
-            course.setInstitute(institute);
+            institute.addCourse(course);
         }
 
         return logic.persistDataBundle(dataBundle);

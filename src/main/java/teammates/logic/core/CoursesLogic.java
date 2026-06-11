@@ -62,7 +62,8 @@ public final class CoursesLogic {
      */
     public Course createCourse(String courseId, String courseName, String timeZone, Institute institute)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Course course = new Course(courseId, courseName, timeZone, institute);
+        Course course = new Course(courseId, courseName, timeZone);
+        institute.addCourse(course);
 
         validateCourse(course);
 

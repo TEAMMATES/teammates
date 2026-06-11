@@ -65,6 +65,22 @@ public class Institute extends BaseEntity {
         return errors;
     }
 
+    /**
+     * Adds a course to the Institute.
+     */
+    public void addCourse(Course course) {
+        this.courses.add(course);
+        course.setInstitute(this);
+    }
+
+    /**
+     * Adds an account request to the Institute.
+     */
+    public void addAccountRequest(AccountRequest accountRequest) {
+        this.accountRequests.add(accountRequest);
+        accountRequest.setInstitute(this);
+    }
+
     public UUID getId() {
         return id;
     }

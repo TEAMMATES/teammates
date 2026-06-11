@@ -69,11 +69,10 @@ public class AccountRequest extends BaseEntity {
         // required by Hibernate
     }
 
-    public AccountRequest(String email, String name, Institute institute, AccountRequestStatus status, String comments) {
+    public AccountRequest(String email, String name, AccountRequestStatus status, String comments) {
         this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
-        this.setInstitute(institute);
         this.setStatus(status);
         this.setComments(comments);
         this.generateNewRegistrationKey();

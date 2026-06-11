@@ -63,11 +63,10 @@ public class Course extends BaseEntity {
         // required by Hibernate
     }
 
-    public Course(String id, String name, String timeZone, Institute institute) {
+    public Course(String id, String name, String timeZone) {
         this.setId(id);
         this.setName(name);
         this.setTimeZone(StringUtils.defaultIfEmpty(timeZone, Const.DEFAULT_TIME_ZONE));
-        this.setInstitute(institute);
     }
 
     @Override

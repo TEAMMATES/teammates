@@ -53,7 +53,8 @@ public final class AccountRequestsLogic {
     public AccountRequest createAccountRequest(String name, String email, String instituteName, String country,
             AccountRequestStatus status, String comments) throws InvalidParametersException {
         Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
-        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
+        AccountRequest toCreate = new AccountRequest(email, name, status, comments);
+        institute.addAccountRequest(toCreate);
 
         return createAccountRequest(toCreate);
     }
