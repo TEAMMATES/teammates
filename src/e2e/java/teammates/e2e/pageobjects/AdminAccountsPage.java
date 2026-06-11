@@ -81,6 +81,7 @@ public class AdminAccountsPage extends AppPage {
 
     public void clickDeleteAccount() {
         click(deleteAccountButton);
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
     }
 
