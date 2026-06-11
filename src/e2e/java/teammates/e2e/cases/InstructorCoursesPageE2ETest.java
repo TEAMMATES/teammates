@@ -53,7 +53,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 "New Course",
                 "Asia/Singapore"
         );
-        new Institute("TEAMMATES Test Institute 1", "SG").addCourse(newCourse);
+        new Institute("InstructorCoursesPageE2ETest 1", "SG").addCourse(newCourse);
         newCourse.setCreatedAt(Instant.now());
 
         copyCourse = new Course(
@@ -61,7 +61,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 "Copy Course",
                 "Asia/Singapore"
         );
-        new Institute("TEAMMATES Test Institute 1", "SG").addCourse(copyCourse);
+        new Institute("InstructorCoursesPageE2ETest 1", "SG").addCourse(copyCourse);
         copyCourse.setCreatedAt(Instant.now());
 
         copyCourse2 = new Course(
@@ -69,7 +69,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 "Copy Course 2",
                 "Asia/Singapore"
         );
-        new Institute("TEAMMATES Test Institute 1", "SG").addCourse(copyCourse2);
+        new Institute("InstructorCoursesPageE2ETest 1", "SG").addCourse(copyCourse2);
         copyCourse2.setCreatedAt(Instant.now());
 
         copySession = new FeedbackSession(
