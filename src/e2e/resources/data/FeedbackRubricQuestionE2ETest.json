@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "TEAMMATES Test Institute 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -15,13 +22,13 @@
       "id": "tm.e2e.FRubricQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     },
     "course2": {
       "id": "tm.e2e.FRubricQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     }
   },
   "sections": {

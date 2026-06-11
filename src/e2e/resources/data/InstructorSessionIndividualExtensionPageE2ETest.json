@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "TEAMMATES Test Institute 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "ISesIe.instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -61,7 +68,7 @@
     "course": {
       "id": "tm.e2e.ISesIe.CS2104",
       "name": "Programming Language Concepts",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Asia/Singapore"
     }
   },

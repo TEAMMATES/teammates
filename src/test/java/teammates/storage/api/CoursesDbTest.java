@@ -12,7 +12,9 @@ import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
 import org.testng.annotations.Test;
 
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.GroupNames;
@@ -47,7 +49,10 @@ public class CoursesDbTest extends BaseDbTestcase {
     public void persistCourse_courseIsNew_courseIsPersisted() {
         Course course = buildDefaultCourse("new-course");
 
-        Course actual = inTransaction(() -> coursesDb.persistCourse(course));
+        Course actual = inTransaction(() -> {
+            HibernateUtil.persist(course.getInstitute());
+            return coursesDb.persistCourse(course);
+        });
 
         assertEquals(course.getId(), actual.getId());
         verifyPresentInDatabase(Course.class, course.getId());
@@ -59,7 +64,10 @@ public class CoursesDbTest extends BaseDbTestcase {
         persistGivenData(given);
         Course course = buildDefaultCourse(existingCourse.id());
 
-        assertThrowsInTransaction(ConstraintViolationException.class, () -> coursesDb.persistCourse(course));
+        assertThrowsInTransaction(ConstraintViolationException.class, () -> {
+            HibernateUtil.persist(course.getInstitute());
+            coursesDb.persistCourse(course);
+        });
     }
 
     @Test(groups = GroupNames.DB)
@@ -165,7 +173,9 @@ public class CoursesDbTest extends BaseDbTestcase {
     }
 
     private static Course buildDefaultCourse(String courseId) {
-        return new Course(courseId, "Course Name", "UTC", "Institute");
+        Course course = new Course(courseId, "Course Name", "UTC");
+        new Institute("Institute " + courseId, "SG").addCourse(course);
+        return course;
     }
 
     private static Team buildDefaultTeam(Section section, UUID teamId) {

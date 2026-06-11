@@ -18,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCoursesPage;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
@@ -50,25 +51,25 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         newCourse = new Course(
                 "tm.e2e.ICs.CS4100",
                 "New Course",
-                "Asia/Singapore",
-                "TEAMMATES Test Institute 1"
+                "Asia/Singapore"
         );
+        new Institute("TEAMMATES Test Institute 1", "SG").addCourse(newCourse);
         newCourse.setCreatedAt(Instant.now());
 
         copyCourse = new Course(
                 "tm.e2e.ICs.CS5000",
                 "Copy Course",
-                "Asia/Singapore",
-                "TEAMMATES Test Institute 1"
+                "Asia/Singapore"
         );
+        new Institute("TEAMMATES Test Institute 1", "SG").addCourse(copyCourse);
         copyCourse.setCreatedAt(Instant.now());
 
         copyCourse2 = new Course(
                 "tm.e2e.ICs.CS6000",
                 "Copy Course 2",
-                "Asia/Singapore",
-                "TEAMMATES Test Institute 1"
+                "Asia/Singapore"
         );
+        new Institute("TEAMMATES Test Institute 1", "SG").addCourse(copyCourse2);
         copyCourse2.setCreatedAt(Instant.now());
 
         copySession = new FeedbackSession(

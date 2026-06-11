@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -19,9 +18,6 @@ public class AdminHomePage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
 
-    @FindBy(id = "instructor-details-single-line")
-    private WebElement detailsSingleLineTextBox;
-
     @FindBy (id = "instructor-name")
     private WebElement nameTextBox;
 
@@ -31,11 +27,11 @@ public class AdminHomePage extends AppPage {
     @FindBy (id = "instructor-institution")
     private WebElement institutionTextBox;
 
+    @FindBy (id = "instructor-country")
+    private WebElement countryTextBox;
+
     @FindBy (id = "add-instructor")
     private WebElement submitButton;
-
-    @FindBy (id = "add-instructor-single-line")
-    private WebElement submitButtonDetailsSingleLineForm;
 
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -46,7 +42,7 @@ public class AdminHomePage extends AppPage {
         return getPageSource().contains("Add New Instructor</h1>");
     }
 
-    public void addInstructor(String name, String email, String institute) {
+    public void addInstructor(String name, String email, String institute, String country) {
         if (name != null) {
             fillTextBox(nameTextBox, name);
         }
@@ -56,19 +52,11 @@ public class AdminHomePage extends AppPage {
         if (institute != null) {
             fillTextBox(institutionTextBox, institute);
         }
+        if (country != null) {
+            fillTextBox(countryTextBox, country);
+        }
 
         click(submitButton);
-    }
-
-    public void addInstructor(String instructorDetails) {
-        if (instructorDetails != null) {
-            fillTextBox(detailsSingleLineTextBox, instructorDetails);
-        }
-        click(submitButtonDetailsSingleLineForm);
-    }
-
-    public void verifyMultipleInstructorDetails(String expectedInstructorDetails) {
-        assertEquals(expectedInstructorDetails, detailsSingleLineTextBox.getAttribute("value"));
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {

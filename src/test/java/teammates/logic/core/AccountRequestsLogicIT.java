@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.GroupNames;
 
@@ -29,7 +30,8 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
     @Test(groups = GroupNames.INTEGRATION)
     public void testGetAccountRequest_existingAccountRequest_getsSuccessfully() {
         AccountRequest expectedAccountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
+                new AccountRequest("test@gmail.com", "name", AccountRequestStatus.PENDING, "comments");
+        new Institute("institute", "SG").addAccountRequest(expectedAccountRequest);
         UUID id = expectedAccountRequest.getId();
         inTransaction(() -> accountRequestsLogic.createAccountRequest(expectedAccountRequest));
         AccountRequest actualAccountRequest = inTransaction(() -> accountRequestsLogic.getAccountRequest(id));

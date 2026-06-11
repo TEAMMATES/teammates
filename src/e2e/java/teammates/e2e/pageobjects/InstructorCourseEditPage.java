@@ -104,7 +104,7 @@ public class InstructorCourseEditPage extends AppPage {
     public void verifyCourseDetails(Course course) {
         assertEquals(course.getId(), getCourseId());
         assertEquals(course.getName(), getCourseName());
-        assertEquals(course.getInstitute(), getCourseInstitute());
+        assertEquals(course.getInstitute().getName(), getCourseInstitute());
         assertEquals(course.getTimeZone(), getTimeZone());
     }
 

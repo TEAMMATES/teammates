@@ -68,7 +68,7 @@ public class FeedbackSubmitPage extends AppPage {
     public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
         assertEquals(getCourseId(), feedbackSession.getCourseId());
         assertEquals(getCourseName(), course.getName());
-        assertEquals(getCourseInstitute(), course.getInstitute());
+        assertEquals(getCourseInstitute(), course.getInstitute().getName());
         assertEquals(getFeedbackSessionName(), feedbackSession.getName());
         assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), course.getTimeZone());
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), course.getTimeZone());

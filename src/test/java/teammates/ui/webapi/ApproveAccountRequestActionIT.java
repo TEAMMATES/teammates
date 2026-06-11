@@ -50,7 +50,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_pendingRequest_approvesSuccessfully() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "pending@email.com",
-                "institute", AccountRequestStatus.PENDING, "comments"));
+                "institute", "SG", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -60,7 +60,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         AccountRequestData data = (AccountRequestData) result.getOutput();
         assertEquals(accountRequest.getName(), data.getName());
         assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        assertEquals(accountRequest.getInstitute().getName(), data.getInstitute());
         assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         assertEquals(accountRequest.getComments(), data.getComments());
         verifyNumberOfEmailsSent(1);
@@ -69,7 +69,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_rejectedRequest_approvesSuccessfully() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "rejected@email.com",
-                "institute", AccountRequestStatus.REJECTED, "comments"));
+                "institute", "SG", AccountRequestStatus.REJECTED, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -90,7 +90,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
                 existingAccount.getEmail(), existingAccount.getGoogleId()));
 
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", existingAccount.getEmail(),
-                "anotherInstitute", AccountRequestStatus.PENDING, "comments"));
+                "anotherInstitute", "SG", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -105,9 +105,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_existingApprovedRequestWithSameEmailDifferentInstitute_approvesSuccessfully() {
         inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
-                "instituteA", AccountRequestStatus.APPROVED, "comments"));
+                "instituteA", "SG", AccountRequestStatus.APPROVED, "comments"));
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "same@email.com",
-                "instituteB", AccountRequestStatus.PENDING, "comments"));
+                "instituteB", "SG", AccountRequestStatus.PENDING, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         ApproveAccountRequestAction action = getAction(params);
@@ -139,7 +139,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidStatus_throwsInvalidOperationException() {
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "registered@email.com",
-                "institute", AccountRequestStatus.REGISTERED, "comments"));
+                "institute", "SG", AccountRequestStatus.REGISTERED, "comments"));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);

@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "TEAMMATES Test Institute 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "ICDet.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -37,7 +44,7 @@
     "ICDet.CS2104": {
       "id": "tm.e2e.ICDet.CS2104",
       "name": "Programming Language Concepts",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     }
   },

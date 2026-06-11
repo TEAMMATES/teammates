@@ -85,7 +85,9 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('Instructor Name');
     expect(component.instructorEmail).toEqual('');
     expect(component.instructorInstitution).toEqual('Instructor Institution');
-    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, Institution, and Country.');
+    expect(spyStatusMessageService).toHaveBeenCalledWith(
+      'Please fill in all fields: Name, Email, Institution, and Country.',
+    );
     expect(spyAccountService).not.toHaveBeenCalled();
 
     component.instructorName = '';
@@ -96,7 +98,9 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('');
     expect(component.instructorEmail).toEqual('instructor@example.com');
     expect(component.instructorInstitution).toEqual('Instructor Institution');
-    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, Institution, and Country.');
+    expect(spyStatusMessageService).toHaveBeenCalledWith(
+      'Please fill in all fields: Name, Email, Institution, and Country.',
+    );
     expect(spyAccountService).not.toHaveBeenCalled();
 
     component.instructorName = 'Instructor Name';
@@ -107,7 +111,9 @@ describe('AdminHomePageComponent', () => {
     expect(component.instructorName).toEqual('Instructor Name');
     expect(component.instructorEmail).toEqual('instructor@example.com');
     expect(component.instructorInstitution).toEqual('');
-    expect(spyStatusMessageService).toHaveBeenCalledWith('Please fill in all fields: Name, Email, Institution, and Country.');
+    expect(spyStatusMessageService).toHaveBeenCalledWith(
+      'Please fill in all fields: Name, Email, Institution, and Country.',
+    );
     expect(spyAccountService).not.toHaveBeenCalled();
   });
 

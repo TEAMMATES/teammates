@@ -281,7 +281,7 @@ public class AdminSearchPage extends AppPage {
 
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
-        String institute = accountRequest.getInstitute();
+        String institute = accountRequest.getInstitute().getName();
         List<WebElement> rows = browser.driver.findElements(
                 By.cssSelector("tm-admin-account-request-search-table tbody tr"));
         for (WebElement row : rows) {
@@ -500,7 +500,7 @@ public class AdminSearchPage extends AppPage {
 
         String expectedName = student.getName();
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.getGoogleId());
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
         assertEquals(expectedDetails, actualDetails);
@@ -519,7 +519,7 @@ public class AdminSearchPage extends AppPage {
         String actualComment = getStudentComments(studentRow);
 
         String expectedName = student.getName();
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
         assertEquals(expectedName, actualName);
@@ -554,7 +554,7 @@ public class AdminSearchPage extends AppPage {
         String expectedCourseId = instructor.getCourseId();
         String expectedName = instructor.getName();
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);
@@ -572,7 +572,7 @@ public class AdminSearchPage extends AppPage {
 
         String expectedCourseId = instructor.getCourseId();
         String expectedName = instructor.getName();
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);
@@ -601,7 +601,7 @@ public class AdminSearchPage extends AppPage {
 
         assertEquals(accountRequest.getName(), actualName);
         assertEquals(accountRequest.getEmail(), actualEmail);
-        assertEquals(accountRequest.getInstitute(), actualInstitute);
+        assertEquals(accountRequest.getInstitute().getName(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
         if (accountRequest.getRegisteredAt() == null) {
             assertEquals("Not Registered Yet", actualRegisteredAt);

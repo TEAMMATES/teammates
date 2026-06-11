@@ -108,7 +108,7 @@ public class InstructorCoursesPage extends AppPage {
 
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
-        selectCourseInstitute(newCourse.getInstitute());
+        selectCourseInstitute(newCourse.getInstitute().getName());
         selectNewTimeZone(newCourse.getTimeZone());
 
         click(submitButton);

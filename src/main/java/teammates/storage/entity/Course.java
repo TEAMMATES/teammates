@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -40,7 +39,7 @@ public class Course extends BaseEntity {
     @Column(nullable = false)
     private String timeZone;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "instituteId", nullable = false)
     private Institute institute;

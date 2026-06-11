@@ -41,6 +41,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorName("Paul Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
         assertEquals("email cannot be null", ihrbException.getMessage());
     }
@@ -50,6 +51,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
         assertEquals("name cannot be null", ihrbException.getMessage());
     }
@@ -69,6 +71,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail("invalid email address");
         request.setInstructorName("Paul Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
         String expectedMessage = "\"invalid email address\" is not acceptable to TEAMMATES as a/an email because it is not "
                 + "in the correct format. An email address contains some text followed by one '@' sign followed by some "
@@ -83,6 +86,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Pau| Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
         String expectedMessage = "\"Pau| Atreides\" is not acceptable to TEAMMATES as a/an person name because it contains "
                 + "invalid characters. A/An person name must start with an alphanumeric character, and cannot contain any "
@@ -96,6 +100,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
         request.setInstructorInstitution("House Atreide%");
+        request.setInstructorCountry("SG");
         InvalidHttpRequestBodyException ihrbException = verifyHttpRequestBodyFailure(request);
         String expectedMessage = "\"House Atreide%\" is not acceptable to TEAMMATES as a/an institute name because it "
                 + "contains invalid characters. A/An institute name must start with an alphanumeric character, and cannot "
@@ -109,6 +114,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         request.setInstructorComments("My road leads into the desert. I can see it.");
         CreateAccountRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
@@ -123,7 +129,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
                 inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute());
+        assertEquals("House Atreides", accountRequest.getInstitute().getName());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
@@ -140,6 +146,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail(" kwisatz.haderach@atreides.org   ");
         request.setInstructorName("  Paul Atreides ");
         request.setInstructorInstitution("   House Atreides  ");
+        request.setInstructorCountry("SG");
         CreateAccountRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
         AccountRequestData output = (AccountRequestData) result.getOutput();
@@ -153,7 +160,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
                 inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute());
+        assertEquals("House Atreides", accountRequest.getInstitute().getName());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertNull(accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
@@ -168,11 +175,12 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
         AccountRequest existingAccountRequest = inTransaction(() -> logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
-                "House Atreides", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it."));
+                "House Atreides", "SG", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it."));
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         request.setInstructorComments("My road leads into the desert. I can see it.");
         CreateAccountRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
@@ -188,7 +196,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
                 inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute());
+        assertEquals("House Atreides", accountRequest.getInstitute().getName());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
         assertNull(accountRequest.getRegisteredAt());
@@ -206,6 +214,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
         request.setInstructorInstitution("House Atreides");
+        request.setInstructorCountry("SG");
         request.setInstructorComments("My road leads into the desert. I can see it.");
         CreateAccountRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);

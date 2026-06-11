@@ -34,6 +34,7 @@ import teammates.logic.api.MockUserProvision;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -704,7 +705,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     private Course createTestCourseOther() {
         if (testCourseOther == null) {
             testCourseOther = inTransaction(() -> coursesLogic.createCourse("test-course-other-id", "test course other",
-                    Const.DEFAULT_TIME_ZONE, "test-institute"));
+                    Const.DEFAULT_TIME_ZONE, new Institute("test-institute", "SG")));
         }
         return testCourseOther;
     }
