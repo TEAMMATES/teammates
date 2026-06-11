@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.ScriptTimeoutException;
 import org.openqa.selenium.TimeoutException;
@@ -52,7 +53,11 @@ public class Browser {
 
     public Browser() {
         this.driver = createWebDriver();
-        this.driver.manage().window().maximize();
+        if (TestProperties.SELENIUM_HEADLESS) {
+            this.driver.manage().window().setSize(new Dimension(1920, 1080));
+        } else {
+            this.driver.manage().window().maximize();
+        }
         this.driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(TestProperties.TEST_TIMEOUT * 2L));
         this.driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
     }
@@ -169,6 +174,9 @@ public class Browser {
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
             options.addArguments("-private");
+            if (TestProperties.SELENIUM_HEADLESS) {
+                options.addArguments("-headless");
+            }
 
             return new FirefoxDriver(options);
         }
@@ -182,6 +190,9 @@ public class Browser {
             options.addArguments("--allow-file-access-from-files");
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("incognito");
+            if (TestProperties.SELENIUM_HEADLESS) {
+                options.addArguments("--headless");
+            }
 
             return new ChromeDriver(options);
         }
@@ -194,6 +205,9 @@ public class Browser {
             options.setExperimentalOption("prefs", edgePrefs);
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("-inprivate");
+            if (TestProperties.SELENIUM_HEADLESS) {
+                options.addArguments("--headless");
+            }
 
             return new EdgeDriver(options);
         }

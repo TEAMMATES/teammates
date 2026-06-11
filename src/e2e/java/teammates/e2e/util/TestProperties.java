@@ -42,6 +42,9 @@ public final class TestProperties {
     /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_EDGE = "edge";
 
+    /** The value of "test.selenium.headless" in test.properties file. */
+    public static final boolean SELENIUM_HEADLESS;
+
     /** The value of "test.browser.closeonfailure" in test.properties file. */
     public static final boolean CLOSE_BROWSER_ON_FAILURE;
 
@@ -72,6 +75,7 @@ public final class TestProperties {
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
+            SELENIUM_HEADLESS = Boolean.parseBoolean(prop.getProperty("test.selenium.headless"));
             CLOSE_BROWSER_ON_FAILURE = Boolean.parseBoolean(prop.getProperty("test.browser.closeonfailure"));
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
