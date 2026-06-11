@@ -1,35 +1,28 @@
-import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
+import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
+import { NotificationActionsCellComponent } from './notification-actions-cell.component';
+import { NotificationDateCellComponent } from './notification-date-cell.component';
+import { NotificationStyleCellComponent } from './notification-style-cell.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { Notification } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
-import { FormatDateBriefPipe } from '../../../components/teammates-common/format-date-brief.pipe';
-import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
-import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
-import { NotificationStyleDescriptionPipe } from '../../../components/teammates-common/notification-style-description.pipe';
+import {
+  ColumnData,
+  SortableEvent,
+  SortableTableCellData,
+  SortableTableComponent,
+  SortableTableHeaderColorScheme,
+} from '../../../components/sortable-table/sortable-table.component';
 
 @Component({
   selector: 'tm-notifications-table',
   templateUrl: './notifications-table.component.html',
   styleUrls: ['./notifications-table.component.scss'],
-  imports: [
-    NgClass,
-    NgbTooltip,
-    FormatDateDetailPipe,
-    FormatDateBriefPipe,
-    NotificationStyleDescriptionPipe,
-    NotificationStyleClassPipe,
-  ],
+  imports: [SortableTableComponent],
 })
-export class NotificationsTableComponent {
+export class NotificationsTableComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
-
-  SortBy!: typeof SortBy;
-  SortOrder!: typeof SortOrder;
-  NotificationsTableHeaderColorScheme!: typeof NotificationsTableHeaderColorScheme;
 
   @Input()
   guessTimezone = 'UTC';
@@ -47,7 +40,7 @@ export class NotificationsTableComponent {
   headerColorScheme = NotificationsTableHeaderColorScheme.BLUE;
 
   @Output()
-  sortNotificationsTableRowModelsEvent: EventEmitter<SortBy> = new EventEmitter();
+  sortNotificationsTableRowModelsEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   @Output()
   deleteNotificationEvent: EventEmitter<string> = new EventEmitter();
@@ -55,24 +48,30 @@ export class NotificationsTableComponent {
   @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
 
+  columnsData: ColumnData[] = [];
+  rowsData: SortableTableCellData[][] = [];
+  sortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
+
   constructor() {
-    this.SortBy = SortBy;
-    this.SortOrder = SortOrder;
-    this.NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
+    this.setColumnsData();
   }
 
-  /**
-   * Sorts the list of feedback session row.
-   */
-  sortNotificationsTableRowModels(by: SortBy): void {
-    this.sortNotificationsTableRowModelsEvent.emit(by);
+  ngOnChanges(): void {
+    this.sortableTableHeaderColorScheme =
+      this.headerColorScheme === NotificationsTableHeaderColorScheme.WHITE
+        ? SortableTableHeaderColorScheme.WHITE
+        : SortableTableHeaderColorScheme.BLUE;
+    this.setRowsData();
   }
 
-  getAriaSort(by: SortBy): string {
-    if (by !== this.notificationsTableRowModelsSortBy) {
-      return 'none';
+  sortNotificationsTableRowsEventHandler(event: SortableEvent): void {
+    if (
+      event.sortBy === this.notificationsTableRowModelsSortBy &&
+      event.sortOrder === this.notificationsTableRowModelsSortOrder
+    ) {
+      return;
     }
-    return this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? 'ascending' : 'descending';
+    this.sortNotificationsTableRowModelsEvent.emit(event);
   }
 
   /**
@@ -92,5 +91,76 @@ export class NotificationsTableComponent {
    */
   loadNotificationEditForm(notification: Notification): void {
     this.loadNotificationEditFormEvent.emit(notification);
+  }
+
+  private setColumnsData(): void {
+    this.columnsData = [
+      { header: 'Title', sortBy: SortBy.NOTIFICATION_TITLE },
+      { header: 'Start Time', sortBy: SortBy.NOTIFICATION_START_TIME },
+      { header: 'End Time', sortBy: SortBy.NOTIFICATION_END_TIME },
+      { header: 'Target User', sortBy: SortBy.NOTIFICATION_TARGET_USER },
+      { header: 'Style', sortBy: SortBy.NOTIFICATION_STYLE },
+      { header: 'Creation Time', sortBy: SortBy.NOTIFICATION_CREATE_TIME },
+      { header: 'Actions' },
+    ];
+  }
+
+  private setRowsData(): void {
+    this.rowsData = this.notificationsTableRowModels.map((notificationsTableRowModel: NotificationsTableRowModel) => {
+      const notification: Notification = notificationsTableRowModel.notification;
+      return [
+        { value: notification.title },
+        {
+          value: notification.startTimestamp,
+          customComponent: {
+            component: NotificationDateCellComponent,
+            componentData: () => ({
+              timestamp: notification.startTimestamp,
+              guessTimezone: this.guessTimezone,
+            }),
+          },
+        },
+        {
+          value: notification.endTimestamp,
+          customComponent: {
+            component: NotificationDateCellComponent,
+            componentData: () => ({
+              timestamp: notification.endTimestamp,
+              guessTimezone: this.guessTimezone,
+            }),
+          },
+        },
+        { value: notification.targetUser },
+        {
+          value: notification.style,
+          customComponent: {
+            component: NotificationStyleCellComponent,
+            componentData: () => ({
+              style: notification.style,
+            }),
+          },
+        },
+        {
+          value: notification.createdAt,
+          customComponent: {
+            component: NotificationDateCellComponent,
+            componentData: () => ({
+              timestamp: notification.createdAt,
+              guessTimezone: this.guessTimezone,
+            }),
+          },
+        },
+        {
+          customComponent: {
+            component: NotificationActionsCellComponent,
+            componentData: () => ({}),
+            componentOutputs: () => ({
+              editClicked: () => this.loadNotificationEditForm(notification),
+              deleteClicked: () => this.deleteNotification(notification.notificationId, notification.title),
+            }),
+          },
+        },
+      ];
+    });
   }
 }

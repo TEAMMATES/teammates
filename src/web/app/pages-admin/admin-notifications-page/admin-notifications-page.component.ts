@@ -22,6 +22,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { NotificationEditFormComponent } from './notification-edit-form/notification-edit-form.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
+import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 
 @Component({
   selector: 'tm-admin-notifications-page',
@@ -68,6 +69,7 @@ export class AdminNotificationsPageComponent implements OnInit {
     isDeleting: false,
   };
 
+  // Keep row models immutable so NotificationsTableComponent can rebuild its derived row data via ngOnChanges.
   notificationsTableRowModels: NotificationsTableRowModel[] = [];
   notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
   notificationsTableRowModelsSortOrder = SortOrder.DESC;
@@ -145,16 +147,13 @@ export class AdminNotificationsPageComponent implements OnInit {
       )
       .subscribe({
         next: (notifications: Notifications) => {
-          notifications.notifications.forEach((notification: Notification) => {
-            this.notificationsTableRowModels.push({
-              isHighlighted: false,
-              notification,
-            });
+          this.notificationsTableRowModels = notifications.notifications.map((notification: Notification) => ({
+            notification,
+          }));
+          this.sortNotificationsTableRowModelsHandler({
+            sortBy: SortBy.NOTIFICATION_CREATE_TIME,
+            sortOrder: SortOrder.DESC,
           });
-          // sort the list using create time, and allocate the index in ascending order
-          // note: order is set to be descending here as it will be reversed later
-          this.notificationsTableRowModelsSortOrder = SortOrder.ASC;
-          this.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_CREATE_TIME);
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasNotificationLoadingFailed = true;
@@ -271,10 +270,12 @@ export class AdminNotificationsPageComponent implements OnInit {
       )
       .subscribe({
         next: (notification: Notification) => {
-          this.notificationsTableRowModels.unshift({
-            isHighlighted: true,
-            notification,
-          });
+          this.notificationsTableRowModels = [
+            {
+              notification,
+            },
+            ...this.notificationsTableRowModels,
+          ];
           this.initNotificationEditFormModel();
           this.statusMessageService.showSuccessToast('Notification created successfully.');
         },
@@ -321,12 +322,16 @@ export class AdminNotificationsPageComponent implements OnInit {
         next: (notification: Notification) => {
           this.statusMessageService.showSuccessToast('Notification updated successfully.');
 
-          this.notificationsTableRowModels.forEach((rowModel: NotificationsTableRowModel) => {
-            if (rowModel.notification.notificationId === notification.notificationId) {
-              rowModel.isHighlighted = true;
-              rowModel.notification = notification;
-            }
-          });
+          this.notificationsTableRowModels = this.notificationsTableRowModels.map(
+            (rowModel: NotificationsTableRowModel) => {
+              if (rowModel.notification.notificationId === notification.notificationId) {
+                return {
+                  notification,
+                };
+              }
+              return rowModel;
+            },
+          );
 
           this.initNotificationEditFormModel();
         },
@@ -358,20 +363,12 @@ export class AdminNotificationsPageComponent implements OnInit {
   /**
    * Handles sorting event from the table sub-component.
    */
-  sortNotificationsTableRowModelsHandler(sortBy: SortBy): void {
-    if (this.notificationsTableRowModelsSortBy === sortBy) {
-      // if sorting the same column, reverse the order
-      this.notificationsTableRowModelsSortOrder =
-        this.notificationsTableRowModelsSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
-    } else {
-      // if different column, change the sortBy value and but sort order will not be changed
-      this.notificationsTableRowModelsSortBy = sortBy;
-    }
-    // before sorting, remove highlights from all rows
-    this.notificationsTableRowModels.forEach((notificationsTableRowModel: NotificationsTableRowModel) => {
-      notificationsTableRowModel.isHighlighted = false;
-    });
-    this.notificationsTableRowModels.sort(this.getNotificationsTableRowModelsComparator());
+  sortNotificationsTableRowModelsHandler(event: SortableEvent): void {
+    this.notificationsTableRowModelsSortBy = event.sortBy;
+    this.notificationsTableRowModelsSortOrder = event.sortOrder;
+    this.notificationsTableRowModels = [...this.notificationsTableRowModels].sort(
+      this.getNotificationsTableRowModelsComparator(),
+    );
   }
 
   /**

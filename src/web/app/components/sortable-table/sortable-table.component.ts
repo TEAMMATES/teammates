@@ -1,7 +1,12 @@
 import { NgClass, NgStyle, NgComponentOutlet } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { DynamicComponent, ComponentOutletInjectorDirective, DynamicIoDirective } from 'ng-dynamic-component';
+import {
+  DynamicComponent,
+  ComponentOutletInjectorDirective,
+  DynamicIoDirective,
+  OutputsType,
+} from 'ng-dynamic-component';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
@@ -55,7 +60,12 @@ export interface SortableTableCellData {
   customComponent?: {
     component: Type<unknown>;
     componentData: (idx: number) => Record<string, unknown>; // @Input values for component
+    componentOutputs?: (idx: number) => OutputsType; // @Output handlers for component
   };
+}
+
+interface SortableTableRowData {
+  cells: SortableTableCellData[];
 }
 
 /**
@@ -110,6 +120,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
 
   columnToSortBy = '';
   tableRows: SortableTableCellData[][] = [];
+  displayRows: SortableTableRowData[] = [];
   setMainTableStyle = true;
 
   constructor() {
@@ -120,18 +131,20 @@ export class SortableTableComponent implements OnInit, OnChanges {
     this.tableRows = this.rows;
     this.initialSort(); // Performs an initial sort on the table
     this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
+    this.updateDisplayRows();
   }
 
   ngOnChanges(): void {
     this.tableRows = this.rows;
     this.sortRows();
+    this.setMainTableStyle = this.headerColorScheme === SortableTableHeaderColorScheme.BLUE;
   }
 
   onClickHeader(columnHeader: string): void {
     this.sortOrder =
       this.columnToSortBy === columnHeader && this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     this.columnToSortBy = columnHeader;
-    this.sortRows();
+    this.sortRows(true);
   }
 
   getAriaSort(column: string): string {
@@ -141,27 +154,35 @@ export class SortableTableComponent implements OnInit, OnChanges {
     return this.sortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
-  sortRows(): void {
+  sortRows(emitSortEvent = true): void {
     if (!this.columnToSortBy) {
+      this.updateDisplayRows();
       return;
     }
     const columnIndex: number = this.columns.findIndex((column: ColumnData) => column.header === this.columnToSortBy);
     if (columnIndex < 0) {
+      this.updateDisplayRows();
       return;
     }
     const sortBy: SortBy | undefined = this.columns[columnIndex].sortBy;
     if (!sortBy) {
+      this.updateDisplayRows();
       return;
     }
-    this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
-    this.tableRows.sort((row1: SortableTableCellData[], row2: SortableTableCellData[]) => {
-      return this.tableComparatorService.compare(
-        sortBy,
-        this.sortOrder,
-        String(row1[columnIndex].value),
-        String(row2[columnIndex].value),
-      );
-    });
+    if (emitSortEvent) {
+      this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
+    }
+    if (emitSortEvent) {
+      this.tableRows.sort((row1: SortableTableCellData[], row2: SortableTableCellData[]) => {
+        return this.tableComparatorService.compare(
+          sortBy,
+          this.sortOrder,
+          String(row1[columnIndex].value),
+          String(row2[columnIndex].value),
+        );
+      });
+    }
+    this.updateDisplayRows();
   }
 
   /**
@@ -187,5 +208,11 @@ export class SortableTableComponent implements OnInit, OnChanges {
     return {
       'text-align': `${column?.alignment ?? 'start'}`,
     };
+  }
+
+  private updateDisplayRows(): void {
+    this.displayRows = this.tableRows.map((row: SortableTableCellData[]) => ({
+      cells: row,
+    }));
   }
 }

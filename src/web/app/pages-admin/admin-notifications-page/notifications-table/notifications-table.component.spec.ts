@@ -5,9 +5,9 @@ import { NotificationsTableRowModel } from './notifications-table-model';
 import { NotificationsTableComponent } from './notifications-table.component';
 import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { SortableEvent } from '../../../components/sortable-table/sortable-table.component';
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
-  isHighlighted: true,
   notification: {
     notificationId: 'notification1',
     startTimestamp: new Date('2017-09-15T09:30+00:00').getTime(),
@@ -21,7 +21,6 @@ const notificationTableRowModel1: NotificationsTableRowModel = {
 };
 
 const notificationTableRowModel2: NotificationsTableRowModel = {
-  isHighlighted: false,
   notification: {
     notificationId: 'notification2',
     startTimestamp: new Date('2018-12-15T09:30+00:00').getTime(),
@@ -72,5 +71,28 @@ describe('NotificationsTableComponent', () => {
     component.notificationsTableRowModelsSortOrder = SortOrder.DESC;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should emit only when the requested sort differs from the current inputs', () => {
+    const emitSpy = vi.spyOn(component.sortNotificationsTableRowModelsEvent, 'emit');
+
+    component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
+    component.notificationsTableRowModelsSortOrder = SortOrder.DESC;
+
+    const unchangedSortEvent: SortableEvent = {
+      sortBy: SortBy.NOTIFICATION_CREATE_TIME,
+      sortOrder: SortOrder.DESC,
+    };
+    component.sortNotificationsTableRowsEventHandler(unchangedSortEvent);
+
+    expect(emitSpy).not.toHaveBeenCalled();
+
+    const changedSortEvent: SortableEvent = {
+      sortBy: SortBy.NOTIFICATION_START_TIME,
+      sortOrder: SortOrder.DESC,
+    };
+    component.sortNotificationsTableRowsEventHandler(changedSortEvent);
+
+    expect(emitSpy).toHaveBeenCalledWith(changedSortEvent);
   });
 });

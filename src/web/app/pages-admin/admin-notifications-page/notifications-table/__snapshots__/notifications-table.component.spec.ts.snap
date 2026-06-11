@@ -2,9 +2,7 @@
 
 exports[`NotificationsTableComponent > should snap like in notification page with 2 notifications sorted by create time 1`] = `
 <tm-notifications-table
-  NotificationsTableHeaderColorScheme={[Function Object]}
-  SortBy={[Function Object]}
-  SortOrder={[Function Object]}
+  columnsData={[Function Array]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
@@ -12,8 +10,10 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
+  rowsData={[Function Array]}
   simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  sortableTableHeaderColorScheme="0"
 >
   <div
     class="row"
@@ -21,254 +21,174 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
     <div
       class="col-12 table-responsive"
     >
-      <table
-        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-        id="notifications-table"
+      <tm-sortable-table
+        tableid="notifications-table"
       >
-        <thead>
-          <tr
-            class="bg-primary text-white"
-          >
-            <th
-              aria-sort="none"
-              class="sortable-header"
+        <table
+          class="table table-bordered table-striped"
+          id="notifications-table"
+        >
+          <thead>
+            <tr
+              class="bg-primary text-white"
             >
-              <button>
-                 Title 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Start Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 End Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Target User 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Style 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="descending"
-              class="sortable-header"
-            >
-              <button>
-                 Creation Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </button>
-            </th>
-            <th>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="table-success"
-            id="notification1"
-          >
-            <td
-              class="text-break"
-            >
-              valid title 1
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              INSTRUCTOR
-            </td>
-            <td
-              class="text-break alert alert-success"
-            >
-               Success (green) 
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="actions-cell"
-            >
-              <div
-                class="d-flex"
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
               >
                 <button
-                  class="btn btn-light btn-sm"
-                  type="button"
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                   Edit 
+                  <span
+                    container="body"
+                  >
+                    Title
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
                 </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                >
-                   Delete 
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr
-            id="notification2"
-          >
-            <td
-              class="text-break"
-            >
-              valid title 2
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Dec 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              GENERAL
-            </td>
-            <td
-              class="text-break alert alert-danger"
-            >
-               Danger (red) 
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Nov 9:30 AM
-              </span>
-            </td>
-            <td
-              class="actions-cell"
-            >
-              <div
-                class="d-flex"
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
               >
                 <button
-                  class="btn btn-light btn-sm"
-                  type="button"
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                   Edit 
+                  <span
+                    container="body"
+                  >
+                    Start Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
                 </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
                 <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                   Delete 
+                  <span
+                    container="body"
+                  >
+                    End Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
                 </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                >
+                  <span
+                    container="body"
+                  >
+                    Target User
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                >
+                  <span
+                    container="body"
+                  >
+                    Style
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                >
+                  <span
+                    container="body"
+                  >
+                    Creation Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                style="text-align: start;"
+              >
+                <span
+                  container="body"
+                >
+                  Actions
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </tm-sortable-table>
     </div>
   </div>
 </tm-notifications-table>
@@ -276,9 +196,7 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
 
 exports[`NotificationsTableComponent > should snap like in notification page with 2 notifications sorted by start time 1`] = `
 <tm-notifications-table
-  NotificationsTableHeaderColorScheme={[Function Object]}
-  SortBy={[Function Object]}
-  SortOrder={[Function Object]}
+  columnsData={[Function Array]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
@@ -286,8 +204,10 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
+  rowsData={[Function Array]}
   simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  sortableTableHeaderColorScheme="0"
 >
   <div
     class="row"
@@ -295,254 +215,174 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
     <div
       class="col-12 table-responsive"
     >
-      <table
-        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-        id="notifications-table"
+      <tm-sortable-table
+        tableid="notifications-table"
       >
-        <thead>
-          <tr
-            class="bg-primary text-white"
-          >
-            <th
-              aria-sort="none"
-              class="sortable-header"
+        <table
+          class="table table-bordered table-striped"
+          id="notifications-table"
+        >
+          <thead>
+            <tr
+              class="bg-primary text-white"
             >
-              <button>
-                 Title 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="descending"
-              class="sortable-header"
-            >
-              <button>
-                 Start Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 End Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Target User 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Style 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Creation Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
-                >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="table-success"
-            id="notification1"
-          >
-            <td
-              class="text-break"
-            >
-              valid title 1
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              INSTRUCTOR
-            </td>
-            <td
-              class="text-break alert alert-success"
-            >
-               Success (green) 
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="actions-cell"
-            >
-              <div
-                class="d-flex"
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
               >
                 <button
-                  class="btn btn-light btn-sm"
-                  type="button"
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                   Edit 
+                  <span
+                    container="body"
+                  >
+                    Title
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
                 </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                >
-                   Delete 
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr
-            id="notification2"
-          >
-            <td
-              class="text-break"
-            >
-              valid title 2
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Dec 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Sep 9:30 AM
-              </span>
-            </td>
-            <td
-              class="text-break"
-            >
-              GENERAL
-            </td>
-            <td
-              class="text-break alert alert-danger"
-            >
-               Danger (red) 
-            </td>
-            <td
-              class="text-break"
-            >
-              <span
-                class="ngb-tooltip-class"
-              >
-                15 Nov 9:30 AM
-              </span>
-            </td>
-            <td
-              class="actions-cell"
-            >
-              <div
-                class="d-flex"
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
               >
                 <button
-                  class="btn btn-light btn-sm"
-                  type="button"
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                   Edit 
+                  <span
+                    container="body"
+                  >
+                    Start Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
                 </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
                 <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                   Delete 
+                  <span
+                    container="body"
+                  >
+                    End Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
                 </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                >
+                  <span
+                    container="body"
+                  >
+                    Target User
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                >
+                  <span
+                    container="body"
+                  >
+                    Style
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
+                >
+                  <span
+                    container="body"
+                  >
+                    Creation Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                style="text-align: start;"
+              >
+                <span
+                  container="body"
+                >
+                  Actions
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </tm-sortable-table>
     </div>
   </div>
 </tm-notifications-table>
@@ -550,9 +390,7 @@ exports[`NotificationsTableComponent > should snap like in notification page wit
 
 exports[`NotificationsTableComponent > should snap with default fields 1`] = `
 <tm-notifications-table
-  NotificationsTableHeaderColorScheme={[Function Object]}
-  SortBy={[Function Object]}
-  SortOrder={[Function Object]}
+  columnsData={[Function Array]}
   deleteNotificationEvent={[Function EventEmitter_]}
   guessTimezone={[Function String]}
   headerColorScheme="0"
@@ -560,8 +398,10 @@ exports[`NotificationsTableComponent > should snap with default fields 1`] = `
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
+  rowsData={[Function Array]}
   simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
+  sortableTableHeaderColorScheme="0"
 >
   <div
     class="row"
@@ -569,121 +409,174 @@ exports[`NotificationsTableComponent > should snap with default fields 1`] = `
     <div
       class="col-12 table-responsive"
     >
-      <table
-        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
-        id="notifications-table"
+      <tm-sortable-table
+        tableid="notifications-table"
       >
-        <thead>
-          <tr
-            class="bg-primary text-white"
-          >
-            <th
-              aria-sort="none"
-              class="sortable-header"
+        <table
+          class="table table-bordered table-striped"
+          id="notifications-table"
+        >
+          <thead>
+            <tr
+              class="bg-primary text-white"
             >
-              <button>
-                 Title 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Start Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
+                  <span
+                    container="body"
+                  >
+                    Title
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 End Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
+                  <span
+                    container="body"
+                  >
+                    Start Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Target User 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
+                  <span
+                    container="body"
+                  >
+                    End Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="none"
-              class="sortable-header"
-            >
-              <button>
-                 Style 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
+                  <span
+                    container="body"
+                  >
+                    Target User
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
-                </span>
-              </button>
-            </th>
-            <th
-              aria-sort="descending"
-              class="sortable-header"
-            >
-              <button>
-                 Creation Time 
-                <span
-                  aria-hidden="true"
-                  class="fa-stack"
+                  <span
+                    container="body"
+                  >
+                    Style
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="descending"
+                class="sortable-header"
+                style="text-align: start;"
+              >
+                <button
+                  class="d-lg-flex align-items-center gap-lg-1 d-inline"
                 >
-                  <i
-                    class="fas fa-sort"
-                  />
-                  <i
-                    class="fas fa-sort-down"
-                  />
+                  <span
+                    container="body"
+                  >
+                    Creation Time
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    <i
+                      class="fas fa-sort-down"
+                    />
+                  </span>
+                </button>
+              </th>
+              <th
+                aria-sort="none"
+                style="text-align: start;"
+              >
+                <span
+                  container="body"
+                >
+                  Actions
                 </span>
-              </button>
-            </th>
-            <th>
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </tm-sortable-table>
     </div>
   </div>
 </tm-notifications-table>

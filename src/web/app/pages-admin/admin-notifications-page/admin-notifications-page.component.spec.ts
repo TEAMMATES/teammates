@@ -11,7 +11,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
 import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
-import { SortBy } from '../../../types/sort-properties';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SortableEvent } from '../../components/sortable-table/sortable-table.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 const testNotificationEditModel: NotificationEditFormModel = {
@@ -54,12 +55,10 @@ const testNotificationTwo: Notification = {
 };
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
-  isHighlighted: true,
   notification: testNotificationOne,
 };
 
 const notificationTableRowModel2: NotificationsTableRowModel = {
-  isHighlighted: false,
   notification: testNotificationTwo,
 };
 
@@ -170,12 +169,14 @@ describe('AdminNotificationsPageComponent', () => {
   it('should add notification for all fields filled in', () => {
     vi.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
     const spy = vi.spyOn(statusMessageService, 'showSuccessToast');
+    const previousRowModels = component.notificationsTableRowModels;
 
     component.addNewNotificationHandler();
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy).toHaveBeenCalledWith('Notification created successfully.');
     expect(component.isNotificationEditFormExpanded).toBeFalsy();
+    expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
     expect(component.notificationsTableRowModels.length).toEqual(1);
     expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(
       testNotificationOne.notificationId,
@@ -230,6 +231,25 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.hasNotificationLoadingFailed).toBeTruthy();
   });
 
+  it('should update notification immutably', () => {
+    const updatedNotification: Notification = {
+      ...testNotificationOne,
+      title: 'updated title',
+      message: 'updated message',
+    };
+    component.notificationsTableRowModels = [notificationTableRowModel1];
+    component.notificationEditFormModel = testNotificationEditModel;
+    const previousRowModels = component.notificationsTableRowModels;
+    vi.spyOn(notificationService, 'updateNotification').mockReturnValue(of(updatedNotification));
+    const spy = vi.spyOn(statusMessageService, 'showSuccessToast');
+
+    component.editExistingNotificationHandler();
+
+    expect(spy).toHaveBeenCalledWith('Notification updated successfully.');
+    expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
+    expect(component.notificationsTableRowModels[0].notification).toEqual(updatedNotification);
+  });
+
   it('should display warning when attempts to edit another notification when form is open', async () => {
     const promise: Promise<void> = Promise.resolve();
     const modalSpy = vi
@@ -272,6 +292,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should delete notfication', () => {
     component.notificationsTableRowModels = [notificationTableRowModel1];
+    const previousRowModels = component.notificationsTableRowModels;
     expect(component.notificationsTableRowModels.length).toEqual(1);
     vi.spyOn(notificationService, 'deleteNotification').mockReturnValue(
       of({
@@ -284,19 +305,31 @@ describe('AdminNotificationsPageComponent', () => {
 
     component.deleteNotificationHandler(testNotificationEditModel.notificationId);
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
     expect(component.notificationsTableRowModels.length).toEqual(0);
   });
 
   it('should sort notification by start time', () => {
     component.notificationsTableRowModels = [notificationTableRowModel1, notificationTableRowModel2];
+    const previousRowModels = component.notificationsTableRowModels;
     component.notificationsTableRowModelsSortBy = SortBy.NOTIFICATION_CREATE_TIME;
-    component.sortNotificationsTableRowModelsHandler(SortBy.NOTIFICATION_START_TIME);
+    const sortEvent: SortableEvent = {
+      sortBy: SortBy.NOTIFICATION_START_TIME,
+      sortOrder: SortOrder.DESC,
+    };
+    component.sortNotificationsTableRowModelsHandler(sortEvent);
     expect(component.notificationsTableRowModelsSortBy).toEqual(SortBy.NOTIFICATION_START_TIME);
+    expect(component.notificationsTableRowModelsSortOrder).toEqual(SortOrder.DESC);
+    expect(component.notificationsTableRowModels).not.toBe(previousRowModels);
 
     const expected: NotificationsTableRowModel[] = [notificationTableRowModel2, notificationTableRowModel1].sort(
       component.getNotificationsTableRowModelsComparator(),
     );
-    expect(expected[0]).toBe(component.notificationsTableRowModels[0]);
-    expect(expected[1]).toBe(component.notificationsTableRowModels[1]);
+    expect(component.notificationsTableRowModels[0].notification.notificationId).toBe(
+      expected[0].notification.notificationId,
+    );
+    expect(component.notificationsTableRowModels[1].notification.notificationId).toBe(
+      expected[1].notification.notificationId,
+    );
   });
 });

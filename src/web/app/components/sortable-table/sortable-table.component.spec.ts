@@ -1,6 +1,15 @@
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SortableTableCellData, SortableTableComponent } from './sortable-table.component';
 
-import { SortableTableComponent } from './sortable-table.component';
+@Component({
+  standalone: true,
+  template: '<button type="button" (click)="triggered.emit(3)">Trigger</button>',
+})
+class TestDynamicCellComponent {
+  @Output() triggered: EventEmitter<number> = new EventEmitter<number>();
+}
 
 describe('SortableTableComponent', () => {
   let component: SortableTableComponent;
@@ -9,10 +18,59 @@ describe('SortableTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SortableTableComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should render table id when tableId is provided', () => {
+    component.tableId = 'test-table-id';
+    component.columns = [{ header: 'Name' }];
+    component.rows = [[{ value: 'Alice' }]];
+    fixture.detectChanges();
+
+    const table: HTMLTableElement = fixture.nativeElement.querySelector('table');
+    expect(table.getAttribute('id')).toBe('test-table-id');
+  });
+
+  it('should sort rows on input changes using the active sort settings', () => {
+    component.columns = [{ header: 'Name', sortBy: SortBy.COURSE_ID }];
+    component.initialSortBy = SortBy.COURSE_ID;
+    component.sortOrder = SortOrder.ASC;
+    component.rows = [[{ value: 'b' }], [{ value: 'a' }]];
+    fixture.detectChanges();
+
+    const updatedRows: SortableTableCellData[][] = [[{ value: 'c' }], [{ value: 'a' }], [{ value: 'b' }]];
+    component.rows = updatedRows;
+    component.ngOnChanges();
+
+    expect(component.tableRows).toBe(updatedRows);
+    expect(component.tableRows.map((row: SortableTableCellData[]) => row[0].value)).toEqual(['a', 'b', 'c']);
+  });
+
+  it('should bind outputs for dynamic custom components', () => {
+    const spy = vi.fn();
+    component.columns = [{ header: 'Actions' }];
+    component.rows = [
+      [
+        {
+          customComponent: {
+            component: TestDynamicCellComponent,
+            componentData: () => ({}),
+            componentOutputs: () => ({
+              triggered: spy,
+            }),
+          },
+        },
+      ],
+    ];
+    fixture.detectChanges();
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector('button');
+    button.click();
+
+    expect(spy).toHaveBeenCalledWith(3);
   });
 });
