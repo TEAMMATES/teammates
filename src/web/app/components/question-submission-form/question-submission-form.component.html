@@ -2,20 +2,12 @@
   <div
     class="card-header bg-primary text-white question-header cursor-pointer border-0"
     (click)="toggleQuestionTab()"
-    [ngClass]="
-      currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS
-        ? isSavedForRecipient(recipientId)
-          ? 'bg-success'
-          : 'bg-primary'
-        : isSaved
-          ? 'bg-success'
-          : 'bg-primary'
-    "
+    [ngClass]="getQuestionHeaderClass()"
   >
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="shouldTabExpand()"></tm-panel-chevron>
     </div>
-    @if (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS ? isSavedForRecipient(recipientId) : isSaved) {
+    @if (shouldShowSavedState()) {
       <i class="fas fa-check me-2" aria-hidden="true"></i>
     }
     <h2 class="question-details">

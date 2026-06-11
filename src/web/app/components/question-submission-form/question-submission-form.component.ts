@@ -126,10 +126,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
-  get isSaved(): boolean {
-    return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
-  }
-
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
@@ -274,6 +270,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       );
     }
     this.formModelChange.emit(this.model);
+  }
+
+  shouldShowSavedState(): boolean {
+    return this.isSaved(this.recipientId);
+  }
+
+  getQuestionHeaderClass(): string {
+    return this.shouldShowSavedState() ? 'bg-success' : 'bg-primary';
   }
 
   shouldTabExpand(): boolean {
@@ -569,33 +573,19 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   /**
-   * Checks whether the response of this question has been saved for this recipient.
+   * Checks whether the response of this question has been saved.
    *
-   * For questions with recipient specific responses, it checks if:
-   * 1. The response is not the default empty response
-   * 2. The response has not been modified since last saved
-   * 3. The recipient identifier matches the given recipientId
-   *
-   * For questions without recipient specific responses, it checks if the response has been saved and not modified.
+   * For questions with recipient specific responses, it checks whether the response for the recipient has been saved.
    */
-  isSavedForRecipient(recipientId: string): boolean {
-    if (
-      [
-        FeedbackQuestionType.CONSTSUM_RECIPIENTS,
-        FeedbackQuestionType.CONTRIB,
-        FeedbackQuestionType.RANK_RECIPIENTS,
-      ].includes(this.model.questionType)
-    ) {
-      return this.isSaved;
-    }
+  isSaved(recipientId?: string): boolean {
+    const relevantForms = recipientId
+      ? this.model.recipientSubmissionForms.filter((form) => form.recipientIdentifier === recipientId)
+      : this.model.recipientSubmissionForms;
 
-    const recipientSpecificForms = this.model.recipientSubmissionForms.filter(
-      (form) => form.recipientIdentifier === recipientId,
-    );
-    if (recipientSpecificForms.length === 0) {
+    if (relevantForms.length === 0) {
       return false;
     }
 
-    return recipientSpecificForms.every((form) => form.status === ResponseSubmissionStatus.SAVED);
+    return relevantForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
   }
 }

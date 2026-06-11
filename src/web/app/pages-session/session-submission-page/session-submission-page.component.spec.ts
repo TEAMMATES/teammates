@@ -1101,7 +1101,7 @@ describe('SessionSubmissionPageComponent', () => {
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
     expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].status).toBe(
-      ResponseSubmissionStatus.MODIFIED,
+      ResponseSubmissionStatus.ERROR,
     );
   });
 
