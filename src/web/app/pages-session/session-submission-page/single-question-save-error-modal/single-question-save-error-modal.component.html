@@ -1,0 +1,22 @@
+<div class="modal-header bg-danger text-white">
+  <h5 class="modal-title">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    Question {{ questionNumber }} could not be submitted
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <p class="mb-3">Your response for question {{ questionNumber }} was not saved.</p>
+
+  @if (errorMessage) {
+    <div class="alert alert-danger mb-0">
+      <div class="fw-semibold mb-1">Error details</div>
+      <div>{{ errorMessage }}</div>
+    </div>
+  }
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" (click)="activeModal.close()">OK</button>
+</div>

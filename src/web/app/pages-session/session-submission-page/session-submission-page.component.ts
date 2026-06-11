@@ -61,6 +61,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SingleQuestionSaveErrorModalComponent } from './single-question-save-error-modal/single-question-save-error-modal.component';
 
 /**
  * Feedback session submission page.
@@ -754,8 +755,16 @@ export class SessionSubmissionPageComponent implements OnInit {
     });
 
     if (Object.keys(questionResponses).length === 0) {
-      if (questionSubmissionForms.length === 1 && Object.keys(failToSaveQuestions).length === 0) {
-        this.showSubmissionSuccessToast(questionSubmissionForms);
+      if (questionSubmissionForms.length === 1) {
+        const questionNumber = questionSubmissionForms[0].questionNumber;
+        if (Object.keys(failToSaveQuestions).length === 0) {
+          this.showSubmissionSuccessToast(questionSubmissionForms);
+        } else {
+          this.openSingleQuestionSaveErrorModal(
+            questionNumber,
+            failToSaveQuestions[questionNumber] ?? 'Invalid responses provided. Please check question constraints.',
+          );
+        }
       } else {
         this.openSavingCompleteModal(
           questionSubmissionForms,
@@ -849,6 +858,13 @@ export class SessionSubmissionPageComponent implements OnInit {
         },
         error: (resp: ErrorMessageOutput) => {
           const contextMessage = resp.error?.message ?? 'An unknown error occurred.';
+          if (questionSubmissionForms.length === 1) {
+            this.openSingleQuestionSaveErrorModal(
+              questionSubmissionForms[0].questionNumber,
+              `An error occurred and your response could not be saved. Error details: ${contextMessage}`,
+            );
+            return;
+          }
           this.simpleModalService.openInformationModal(
             'Saving Failed',
             SimpleModalType.DANGER,
@@ -874,6 +890,12 @@ export class SessionSubmissionPageComponent implements OnInit {
     modalRef.componentInstance.submittedQuestions = Array.from(submittedQuestions.values());
     modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
     modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
+  }
+
+  private openSingleQuestionSaveErrorModal(questionNumber: number, errorMessage: string): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(SingleQuestionSaveErrorModalComponent);
+    modalRef.componentInstance.questionNumber = questionNumber;
+    modalRef.componentInstance.errorMessage = errorMessage;
   }
 
   downloadSubmissionReceipt(): void {

@@ -58,6 +58,7 @@ import {
 import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { SingleQuestionSaveErrorModalComponent } from './single-question-save-error-modal/single-question-save-error-modal.component';
 
 describe('SessionSubmissionPageComponent', () => {
   const testOpenFeedbackSession: FeedbackSession = {
@@ -1094,7 +1095,20 @@ describe('SessionSubmissionPageComponent', () => {
     );
   });
 
-  it('should show one backend error modal when batch save fails', () => {
+  it('should show a single-question error modal when validation fails', () => {
+    const testQuestionSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
+    testQuestionSubmissionForm.recipientSubmissionForms[0].isValid = false;
+    component.questionSubmissionForms = [testQuestionSubmissionForm];
+
+    const ngbModalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+
+    component.saveFeedbackResponses(component.questionSubmissionForms);
+
+    expect(ngbModalSpy).toHaveBeenCalledWith(SingleQuestionSaveErrorModalComponent);
+  });
+
+  it('should show a single-question error modal when backend save fails', () => {
     const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
@@ -1102,22 +1116,16 @@ describe('SessionSubmissionPageComponent', () => {
 
     vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockReturnValue(
       throwError(() => ({
-        error: {
-          message: 'backend error',
-        },
-      })),
+      error: {
+        message: 'backend error',
+      },
+    })),
     );
-    const simpleModalSpy = vi.spyOn(simpleModalService, 'openInformationModal');
-    const ngbModalSpy = vi.spyOn(ngbModal, 'open');
+    const ngbModalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(simpleModalSpy).toHaveBeenCalledWith(
-      'Saving Failed',
-      SimpleModalType.DANGER,
-      'An error occurred and your responses could not be saved. Error details: backend error',
-    );
-    expect(ngbModalSpy).toHaveBeenCalledTimes(1);
+    expect(ngbModalSpy).toHaveBeenCalledWith(SingleQuestionSaveErrorModalComponent);
   });
 
   it('should delete participant comment', () => {
