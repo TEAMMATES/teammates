@@ -9,11 +9,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.exception.ConstraintViolationException;
+import jakarta.persistence.EntityExistsException;
+
 import org.testng.annotations.Test;
 
-import jakarta.persistence.EntityExistsException;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Institute;
 import teammates.storage.entity.Section;
