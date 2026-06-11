@@ -436,7 +436,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public String getCourseInstitute() {
-        return courseInstituteTextBox.getAttribute("value");
+        return courseInstituteTextBox.getText().trim();
     }
 
     public String getTimeZone() {
