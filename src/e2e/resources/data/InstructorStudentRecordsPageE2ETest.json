@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "InstructorStudentRecordsPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "teammates.test": {
       "googleId": "tm.e2e.ISRecords.teammates.test",
@@ -10,7 +17,7 @@
     },
     "benny.c.tmms@ISR.CS2104": {
       "googleId": "tm.e2e.ISRecords.benny.c.tmms",
-      "name": "Benny Charl\u00e9s",
+      "name": "Benny Charlés",
       "email": "benny.c.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
@@ -23,7 +30,7 @@
       "id": "tm.e2e.ISRecords.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     }
   },
   "sections": {
@@ -55,10 +62,10 @@
   },
   "students": {
     "benny.c.tmms@ISR.CS2104": {
-      "comments": "This student's name is Benny Charl\u00e9s",
+      "comments": "This student's name is Benny Charlés",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ISRecords.CS2104",
-      "name": "Benny Charl\u00e9s",
+      "name": "Benny Charlés",
       "email": "benny.c.tmms@gmail.tmt",
       "accountId": "00000000-0000-4000-8000-000000000002",
       "teamId": "00000000-0000-4000-8000-000000000301"

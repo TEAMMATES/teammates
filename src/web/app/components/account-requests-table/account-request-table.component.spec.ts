@@ -27,7 +27,8 @@ describe('AccountRequestTableComponent', () => {
     id: '',
     email: '',
     name: '',
-    instituteAndCountry: '',
+    institute: '',
+    country: '',
     registrationLink: '',
     status: AccountRequestStatus.PENDING,
     comments: '',
@@ -40,7 +41,7 @@ describe('AccountRequestTableComponent', () => {
     .email('email')
     .name('name')
     .status(AccountRequestStatus.PENDING)
-    .instituteAndCountry('institute')
+    .institute('institute')
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 
@@ -180,6 +181,7 @@ describe('AccountRequestTableComponent', () => {
       email: 'email',
       name: 'name',
       institute: 'institute',
+      country: '',
       registrationKey: '',
       status: AccountRequestStatus.PENDING,
       createdAt: 0,
@@ -209,6 +211,7 @@ describe('AccountRequestTableComponent', () => {
       email: 'email',
       name: 'name',
       institute: 'institute',
+      country: '',
       registrationKey: '',
       status: AccountRequestStatus.REJECTED,
       createdAt: 0,
@@ -334,6 +337,7 @@ describe('AccountRequestTableComponent', () => {
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
+      country: '',
       registrationKey: 'registration key',
       name: 'new name',
       createdAt: 1,
@@ -350,7 +354,7 @@ describe('AccountRequestTableComponent', () => {
     fixture.detectChanges();
     expect(component.accountRequests[0].comments).toEqual('new comment');
     expect(component.accountRequests[0].email).toEqual('new email');
-    expect(component.accountRequests[0].instituteAndCountry).toEqual('new institute');
+    expect(component.accountRequests[0].institute).toEqual('new institute');
     expect(component.accountRequests[0].name).toEqual('new name');
   });
 
@@ -364,7 +368,8 @@ describe('AccountRequestTableComponent', () => {
       accountRequestId: component.accountRequests[0].id,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
-      institute: component.accountRequests[0].instituteAndCountry,
+      institute: component.accountRequests[0].institute,
+      country: '',
       registrationKey: 'registration key',
       name: component.accountRequests[0].name,
       createdAt: 1,
@@ -390,7 +395,8 @@ describe('AccountRequestTableComponent', () => {
       accountRequestId: component.accountRequests[0].id,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
-      institute: component.accountRequests[0].instituteAndCountry,
+      institute: component.accountRequests[0].institute,
+      country: '',
       registrationKey: 'registration key',
       name: component.accountRequests[0].name,
       createdAt: 1,

@@ -4,12 +4,13 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
 <tm-admin-home-page
   accountReqs={[Function Array]}
   accountService={[Function _AccountService]}
+  countryOptions={[Function Array]}
+  countryService={[Function _CountryService]}
   dateFormatService={[Function _DateFormatService]}
-  instructorDetails=""
+  instructorCountry=""
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
-  isAddingMultipleInstructors="false"
   isAddingSingleInstructor="false"
   statusMessageService={[Function _StatusMessageService]}
   timezoneService={[Function _TimezoneService]}
@@ -21,48 +22,6 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
       class="card-body"
     >
       <div>
-        <strong>
-          Adding Multiple Instructors
-        </strong>
-        <p
-          class="text-muted"
-        >
-          <i
-            class="fas fa-exclamation-circle"
-          />
-           Add Instructor Details in the format: Name | Email | Institution 
-        </p>
-        <textarea
-          aria-label="Add multiple instructors"
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-details-single-line"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <button
-          class="btn btn-primary"
-          id="add-instructor-single-line"
-        >
-           Add Instructors 
-        </button>
-      </div>
-    </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
-    <div
-      class="card-body"
-    >
-      <div>
-        <strong>
-          Adding a Single Instructor
-        </strong>
-      </div>
-      <div
-        class="top-padded"
-      >
         <label
           for="instructor-name"
         >
@@ -107,6 +66,53 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
           id="instructor-institution"
           type="text"
         />
+      </div>
+      <div
+        class="top-padded"
+      >
+        <label
+          for="instructor-country"
+        >
+          <strong>
+            Country or Region:
+          </strong>
+        </label>
+        <tm-searchable-combobox
+          class="ng-untouched ng-pristine ng-valid"
+          inputid="instructor-country"
+          placeholder="Search for a country or region..."
+        >
+          <div
+            class="searchable-combobox position-relative w-100"
+            data-expanded="false"
+            filtermode="manual"
+            ngcombobox=""
+          >
+            <input
+              aria-autocomplete="list"
+              aria-disabled="false"
+              aria-expanded="false"
+              autocomplete="off"
+              class="form-control w-100 searchable-combobox-input"
+              id="instructor-country"
+              ngcomboboxinput=""
+              placeholder="Search for a country or region..."
+              role="combobox"
+              type="text"
+            />
+            <button
+              aria-label="Open"
+              class="searchable-combobox-toggle"
+              tabindex="-1"
+              type="button"
+            >
+              <span
+                aria-hidden="true"
+                class="fa fa-chevron-down"
+              />
+            </button>
+          </div>
+        </tm-searchable-combobox>
       </div>
       <div
         class="top-padded"

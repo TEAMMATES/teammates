@@ -15,6 +15,7 @@ export interface AccountRequest extends ApiOutput {
   email: string;
   name: string;
   institute: string;
+  country: string;
   registrationKey: string;
   status: AccountRequestStatus;
   comments?: string;
@@ -59,6 +60,8 @@ export interface Course extends ApiOutput {
   courseName: string;
   timeZone: string;
   institute: string;
+  country: string;
+  instituteId: string;
   creationTimestamp: number;
   deletionTimestamp: number;
 }

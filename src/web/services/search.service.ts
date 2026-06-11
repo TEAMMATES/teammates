@@ -334,6 +334,7 @@ export class SearchService {
       name: '',
       email: '',
       institute: '',
+      country: '',
       createdAtText: '',
       registeredAtText: '',
       registrationLink: '',
@@ -349,6 +350,7 @@ export class SearchService {
       registeredAt,
       name,
       institute,
+      country,
       email,
       status,
       comments,
@@ -366,6 +368,7 @@ export class SearchService {
       name,
       email,
       institute,
+      country,
       registrationLink,
       status,
     };
@@ -510,6 +513,7 @@ export interface AccountRequestSearchResult {
   email: string;
   status: AccountRequestStatus;
   institute: string;
+  country: string;
   createdAtText: string;
   registeredAtText: string | null;
   registrationLink: string;

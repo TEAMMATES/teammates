@@ -63,7 +63,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
 
         ______TS("Search via Institute");
-        submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute() };
+        submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute().getName() };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();

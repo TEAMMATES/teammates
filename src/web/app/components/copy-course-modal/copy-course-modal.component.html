@@ -60,9 +60,9 @@
           </span>
         </label>
         <div class="input-group">
-          <select id="copy-course-institute" class="form-control form-select" [(ngModel)]="newCourseInstitute">
-            @for (institute of institutes; track institute) {
-              <option [value]="institute">{{ institute }}</option>
+          <select id="copy-course-institute" class="form-control form-select" [(ngModel)]="newCourseInstituteId">
+            @for (institute of institutes; track institute.id) {
+              <option [value]="institute.id">{{ institute.name }}</option>
             }
           </select>
         </div>
@@ -148,7 +148,7 @@
     type="button"
     class="btn btn-primary"
     (click)="copy()"
-    [disabled]="!newCourseId || !newCourseName || !newCourseInstitute"
+    [disabled]="!newCourseId || !newCourseName || !newCourseInstituteId"
   >
     Copy
   </button>

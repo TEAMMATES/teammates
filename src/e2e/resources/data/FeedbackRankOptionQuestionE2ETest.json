@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "FeedbackRankOptionQuestionE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -46,13 +53,13 @@
     "course": {
       "id": "tm.e2e.FRankOptQn.CS2104",
       "name": "Programming Language Concepts",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
       "id": "tm.e2e.FRankOptQn.CS1101",
       "name": "Programming Methodology",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg"
     }
   },

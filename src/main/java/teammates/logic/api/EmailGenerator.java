@@ -889,7 +889,7 @@ public final class EmailGenerator {
      */
     public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
         String name = accountRequest.getName();
-        String institute = accountRequest.getInstitute();
+        String institute = accountRequest.getInstitute().getName();
         String emailAddress = accountRequest.getEmail();
         String comments = accountRequest.getComments();
         if (comments == null) {
@@ -916,7 +916,7 @@ public final class EmailGenerator {
      */
     public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
         String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
-        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute());
+        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute().getName());
         String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
         String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
         if (comments == null) {

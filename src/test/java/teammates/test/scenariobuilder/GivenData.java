@@ -16,6 +16,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -88,6 +89,25 @@ public final class GivenData {
 
     public GivenData(String testName) {
         this.testName = testName;
+    }
+
+    /**
+     * Creates an institute with default values.
+     */
+    public InstituteRef institute(String alias) {
+        return institute(alias, i -> {
+        });
+    }
+
+    /**
+     * Creates an institute and applies the provided options to customize it.
+     */
+    public InstituteRef institute(String alias, Consumer<GivenInstitute> options) {
+        GivenInstitute instituteData = new GivenInstitute(this, uuid(alias));
+        options.accept(instituteData);
+        Institute institute = instituteData.build();
+        registerEntity(alias, institute, dataBundle.institutes);
+        return new InstituteRef(institute.getId(), alias);
     }
 
     /**
@@ -437,6 +457,14 @@ public final class GivenData {
      * @param alias GivenData alias
      */
     public record AccountRef(UUID id, String alias) {}
+
+    /**
+     * Reference to an institute created by GivenData.
+     *
+     * @param id generated entity ID
+     * @param alias GivenData alias
+     */
+    public record InstituteRef(UUID id, String alias) {}
 
     /**
      * Reference to an account request created by GivenData.

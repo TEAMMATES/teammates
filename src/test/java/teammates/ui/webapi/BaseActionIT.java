@@ -25,6 +25,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
@@ -34,6 +35,7 @@ import teammates.logic.api.MockUserProvision;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -703,8 +705,12 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     // TODO: createXX methods should be deprecated and replaced with proper test data builders.
     private Course createTestCourseOther() {
         if (testCourseOther == null) {
-            testCourseOther = inTransaction(() -> coursesLogic.createCourse("test-course-other-id", "test course other",
-                    Const.DEFAULT_TIME_ZONE, "test-institute"));
+            testCourseOther = inTransaction(() -> {
+                Institute institute = new Institute("test-institute", "SG");
+                HibernateUtil.persist(institute);
+                return coursesLogic.createCourse("test-course-other-id", "test course other",
+                        Const.DEFAULT_TIME_ZONE, institute);
+            });
         }
         return testCourseOther;
     }

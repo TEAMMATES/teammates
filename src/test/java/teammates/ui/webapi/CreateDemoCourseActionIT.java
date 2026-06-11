@@ -54,7 +54,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
 
         AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
         String email = accReq.getEmail();
-        String institute = accReq.getInstitute();
+        String institute = accReq.getInstitute().getName();
         String name = accReq.getName();
 
         ______TS("Not enough parameters");
@@ -87,7 +87,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         Course course = inTransaction(() -> logic.getCourse(firstCourseId));
         assertNotNull(course);
         assertEquals("Sample Course 101", course.getName());
-        assertEquals(institute, course.getInstitute());
+        assertEquals(institute, course.getInstitute().getName());
         assertEquals(timezone, course.getTimeZone());
 
         ZoneId zoneId = ZoneId.of(timezone);

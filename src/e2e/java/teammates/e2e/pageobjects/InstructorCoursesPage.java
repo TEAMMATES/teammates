@@ -108,7 +108,7 @@ public class InstructorCoursesPage extends AppPage {
 
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
-        selectCourseInstitute(newCourse.getInstitute());
+        selectCourseInstitute(newCourse.getInstitute().getName());
         selectNewTimeZone(newCourse.getTimeZone());
 
         click(submitButton);
@@ -217,13 +217,11 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private void selectCourseInstitute(String institute) {
-        scrollElementToCenter(courseInstituteDropdown);
         Select dropdown = new Select(courseInstituteDropdown);
-        dropdown.selectByValue(institute);
+        dropdown.selectByContainsVisibleText(institute);
     }
 
     private void selectNewTimeZone(String timeZone) {
-        scrollElementToCenter(timeZoneDropdown);
         Select dropdown = new Select(timeZoneDropdown);
         dropdown.selectByValue(timeZone);
     }

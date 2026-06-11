@@ -56,7 +56,7 @@ public class StudentCourseDetailsPage extends AppPage {
     public void verifyCourseDetails(Course courseDetails) {
         assertEquals(courseDetails.getName(), courseNameField.getText());
         assertEquals(courseDetails.getId(), courseIdField.getText());
-        assertEquals(courseDetails.getInstitute(), courseInstituteField.getText());
+        assertEquals(courseDetails.getInstitute().getName(), courseInstituteField.getText());
     }
 
     public void verifyInstructorsDetails(Instructor[] instructorDetails) {

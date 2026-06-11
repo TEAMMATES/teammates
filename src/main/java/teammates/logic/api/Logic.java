@@ -43,6 +43,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstitutesLogic;
 import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
@@ -56,6 +57,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -93,6 +95,7 @@ public class Logic {
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
@@ -209,10 +212,17 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(String name, String email, String institute, String country,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
+        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments);
+    }
+
+    /**
+     * Returns the shared institute matching {@code name} and {@code country}, creating it if needed.
+     */
+    public Institute getOrCreateInstitute(String name, String country) throws InvalidParametersException {
+        return institutesLogic.getOrCreateInstitute(name, country);
     }
 
     /**

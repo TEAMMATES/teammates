@@ -50,6 +50,8 @@ export const courseBuilder = createBuilder<Course>({
   courseName: '',
   timeZone: '',
   institute: '',
+  country: '',
+  instituteId: '',
   creationTimestamp: 0,
   deletionTimestamp: 0,
 });

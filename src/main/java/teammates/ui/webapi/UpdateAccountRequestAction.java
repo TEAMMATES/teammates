@@ -5,6 +5,7 @@ import java.util.UUID;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
@@ -30,9 +31,11 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
                 getAndValidateRequestBody(AccountRequestUpdateRequest.class);
 
         try {
+            Institute institute = logic.getOrCreateInstitute(
+                    accountRequestUpdateRequest.getInstitute(), accountRequestUpdateRequest.getCountry());
             accountRequest.setName(accountRequestUpdateRequest.getName());
             accountRequest.setEmail(accountRequestUpdateRequest.getEmail());
-            accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
+            accountRequest.setInstitute(institute);
             // This action is for updating the account request details.
             // Approval or rejection are handled in their respective actions, so status should not be updated here.
             accountRequest.setStatus(accountRequest.getStatus());

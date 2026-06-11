@@ -188,12 +188,13 @@ export class InstructorCoursesPageComponent implements OnInit {
 
         this.courseFormModel.activeCourses = this.activeCoursesList;
         this.courseFormModel.allCourses = this.allCoursesList;
-        this.courseFormModel.institutes = Array.from(
-          new Set(this.allCoursesList.map((course: Course) => course.institute)),
-        );
+        const instituteMap: Map<string, string> = new Map();
+        this.allCoursesList.forEach((course: Course) => instituteMap.set(course.instituteId, course.institute));
+        this.courseFormModel.institutes = Array.from(instituteMap, ([id, name]) => ({ id, name }));
 
         if (this.courseFormModel.institutes.length) {
-          this.courseFormModel.course.institute = this.courseFormModel.institutes[0];
+          this.courseFormModel.course.instituteId = this.courseFormModel.institutes[0].id;
+          this.courseFormModel.course.institute = this.courseFormModel.institutes[0].name;
         }
       },
       error: (resp: ErrorMessageOutput) => {
@@ -260,7 +261,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         courseName: this.courseFormModel.course.courseName,
         timeZone: this.courseFormModel.course.timeZone,
         courseId: this.courseFormModel.course.courseId,
-        institute: this.courseFormModel.course.institute,
+        instituteId: this.courseFormModel.course.instituteId,
       })
       .pipe(
         finalize(() => {
@@ -347,7 +348,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         courseName: result.newCourseName,
         timeZone: result.newTimeZone,
         courseId: result.newCourseId,
-        institute: result.newCourseInstitute,
+        instituteId: result.newCourseInstituteId,
       })
       .subscribe({
         next: () => {

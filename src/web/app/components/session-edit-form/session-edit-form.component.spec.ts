@@ -145,6 +145,8 @@ describe('SessionEditFormComponent', () => {
         courseName: 'testCourse1',
         timeZone: 'Asia/Singapore',
         institute: 'Institute 1',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1000000000000,
         deletionTimestamp: 1500000000000,
       },

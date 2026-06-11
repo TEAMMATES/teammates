@@ -22,13 +22,15 @@ describe('InstructorRequestFormComponent', () => {
   const typicalCreateRequest: AccountCreateRequest = {
     instructorEmail: typicalModel.email,
     instructorName: typicalModel.name,
-    instructorInstitution: `${typicalModel.institution}, ${typicalModel.country}`,
+    instructorInstitution: typicalModel.institution,
+    instructorCountry: typicalModel.country,
   };
   const typicalAccountRequest: AccountRequest = {
     accountRequestId: 'id',
     email: typicalModel.email,
     name: typicalModel.name,
-    institute: `${typicalModel.institution}, ${typicalModel.country}`,
+    institute: typicalModel.institution,
+    country: typicalModel.country,
     registrationKey: 'registration-key',
     status: AccountRequestStatus.PENDING,
     createdAt: 0,

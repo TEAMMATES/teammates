@@ -89,7 +89,7 @@ describe('CopyCourseModalComponent', () => {
   it('should enable copy button after new courseId is provided', () => {
     component.newCourseId = 'Test02';
     component.newCourseName = 'TestName02';
-    component.newCourseInstitute = 'Test institute';
+    component.newCourseInstituteId = 'Test institute';
     fixture.detectChanges();
     const copyButton = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
     expect(copyButton.nativeElement.disabled).toBeFalsy();
@@ -134,6 +134,8 @@ describe('CopyCourseModalComponent', () => {
         courseName: 'testCourse1',
         timeZone: 'Asia/Singapore',
         institute: 'Institute 1',
+        country: 'SG',
+        instituteId: 'institute-id-1',
         creationTimestamp: 1000000000000,
         deletionTimestamp: 1500000000000,
       },
@@ -142,6 +144,8 @@ describe('CopyCourseModalComponent', () => {
         courseName: 'testCourse2',
         timeZone: 'Asia/Singapore',
         institute: 'Institute 2',
+        country: 'SG',
+        instituteId: 'institute-id-2',
         creationTimestamp: 1000000000000,
         deletionTimestamp: 1500000000000,
       },
@@ -149,7 +153,7 @@ describe('CopyCourseModalComponent', () => {
     component.allCourses = testCourses;
     component.ngOnInit();
 
-    expect(component.newCourseInstitute).toBe('Institute 1');
+    expect(component.newCourseInstituteId).toBe('institute-id-1');
   });
 
   it('should set the timezones property correctly', () => {
@@ -185,6 +189,8 @@ describe('CopyCourseModalComponent', () => {
         courseName: 'testCourse1',
         timeZone: 'Asia/Singapore',
         institute: 'Institute 1',
+        country: '',
+        instituteId: '',
         creationTimestamp: 1000000000000,
         deletionTimestamp: 1500000000000,
       },
@@ -193,6 +199,8 @@ describe('CopyCourseModalComponent', () => {
         courseName: 'testCourse2',
         timeZone: 'Asia/Singapore',
         institute: 'Institute 2',
+        country: '',
+        instituteId: '',
         creationTimestamp: 1000000000000,
         deletionTimestamp: 1500000000000,
       },
@@ -214,7 +222,7 @@ describe('CopyCourseModalComponent', () => {
     expect(activeModalSpy).toHaveBeenCalledWith({
       newCourseId: 'testId2',
       newCourseName: 'testName',
-      newCourseInstitute: '',
+      newCourseInstituteId: '',
       newTimeZone: 'Asia/Singapore',
       oldCourseId: '',
       selectedFeedbackSessionList: new Set(),

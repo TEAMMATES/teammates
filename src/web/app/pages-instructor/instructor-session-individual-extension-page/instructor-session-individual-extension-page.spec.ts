@@ -35,6 +35,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     courseId: 'exampleId',
     courseName: 'Example Course',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     timeZone: 'UTC',
     creationTimestamp: 0,
     deletionTimestamp: 1000,

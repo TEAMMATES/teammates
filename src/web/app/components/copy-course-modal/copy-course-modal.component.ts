@@ -48,12 +48,12 @@ export class CopyCourseModalComponent implements OnInit {
   newCourseIdIsConflicting = false;
   newCourseIdTouched = false;
   newCourseNameTouched = false;
-  institutes: string[] = [];
+  institutes: { id: string; name: string }[] = [];
   timezones: Timezone[] = [];
   newTimezone = '';
   newCourseId = '';
   newCourseName = '';
-  newCourseInstitute = '';
+  newCourseInstituteId = '';
   oldCourseId = '';
   oldCourseName = '';
 
@@ -71,9 +71,11 @@ export class CopyCourseModalComponent implements OnInit {
       const sign: string = offset < 0 ? '-' : '+';
       return { id, offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}` };
     });
-    this.institutes = Array.from(new Set(this.allCourses.map((course: Course) => course.institute)));
+    const instituteMap: Map<string, string> = new Map();
+    this.allCourses.forEach((course: Course) => instituteMap.set(course.instituteId, course.institute));
+    this.institutes = Array.from(instituteMap, ([id, name]) => ({ id, name }));
     if (this.institutes.length) {
-      this.newCourseInstitute = this.institutes[0];
+      this.newCourseInstituteId = this.institutes[0].id;
     }
     this.newTimezone = this.timezoneService.guessTimezone();
   }
@@ -99,7 +101,7 @@ export class CopyCourseModalComponent implements OnInit {
     const result: CopyCourseModalResult = {
       newCourseId: this.newCourseId,
       newCourseName: this.newCourseName,
-      newCourseInstitute: this.newCourseInstitute,
+      newCourseInstituteId: this.newCourseInstituteId,
       oldCourseId: this.oldCourseId,
       newTimeZone: this.newTimezone,
       selectedFeedbackSessionList: this.selectedFeedbackSessions,
