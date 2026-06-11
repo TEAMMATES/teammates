@@ -129,7 +129,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         boolean isSuccess = context.getFailedTests().getAllMethods()
                 .stream()
                 .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
-        if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
+        if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE || TestProperties.SELENIUM_HEADLESS) {
             browser.close();
         }
     }
