@@ -59,6 +59,7 @@
   },
   "accountRequests": {
     "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000101",
       "name": "Instructor1 of Course1",
       "email": "asearch.instructor1@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -66,6 +67,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor2OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000000102",
       "name": "Instructor2 of Course1",
       "email": "asearch.instructor2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -73,6 +75,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "unregisteredInstructor1": {
+      "id": "00000000-0000-4000-8000-000000000103",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor1@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -80,6 +83,7 @@
       "status": "PENDING"
     },
     "unregisteredInstructor2": {
+      "id": "00000000-0000-4000-8000-000000000104",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000003",
@@ -87,6 +91,7 @@
       "status": "PENDING"
     },
     "unregisteredInstructor3": {
+      "id": "00000000-0000-4000-8000-000000000105",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor3@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000004",
@@ -94,6 +99,7 @@
       "status": "PENDING"
     },
     "unregisteredInstructor4": {
+      "id": "00000000-0000-4000-8000-000000000106",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor4@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000005",
@@ -101,6 +107,7 @@
       "status": "PENDING"
     },
     "unregisteredInstructor5": {
+      "id": "00000000-0000-4000-8000-000000000107",
       "name": "Typical Instructor Name",
       "email": "asearch.unregisteredinstructor5@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000006",

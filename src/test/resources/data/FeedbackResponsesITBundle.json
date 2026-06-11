@@ -55,7 +55,7 @@
       "subject": "instructorOfCourse2WithUniqueDisplayName"
     },
     "unregisteredInstructor1": {
-      "id": "00000000-0000-4000-8000-000000000006",
+      "id": "00000000-0000-4000-8000-000000002008",
       "googleId": "unregisteredInstructor1",
       "name": "Unregistered Instructor 1",
       "email": "unregisteredinstructor1@gmail.tmt",
@@ -63,7 +63,7 @@
       "subject": "unregisteredInstructor1"
     },
     "unregisteredInstructor2": {
-      "id": "00000000-0000-4000-8000-000000000007",
+      "id": "00000000-0000-4000-8000-000000002009",
       "googleId": "unregisteredInstructor2",
       "name": "Unregistered Instructor 2",
       "email": "unregisteredinstructor2@gmail.tmt",
@@ -119,6 +119,7 @@
       "registeredAt": "2015-02-14T00:00:00Z"
     },
     "instructor3": {
+      "id": "00000000-0000-4000-8000-000000002001",
       "name": "Instructor 3 of CourseNoRegister",
       "email": "instr3@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -126,6 +127,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000002002",
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -133,6 +135,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor2OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000002003",
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -140,6 +143,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor1OfCourse2": {
+      "id": "00000000-0000-4000-8000-000000002004",
       "name": "Instructor 1 of Course 2",
       "email": "instr1@course2.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -147,6 +151,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor2OfCourse2": {
+      "id": "00000000-0000-4000-8000-000000002005",
       "name": "Instructor 2 of Course 2",
       "email": "instr2@course2.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -154,6 +159,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor1OfCourse3": {
+      "id": "00000000-0000-4000-8000-000000002006",
       "name": "Instructor 1 of Course 3",
       "email": "instr1@course3.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -161,6 +167,7 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "instructor2OfCourse3": {
+      "id": "00000000-0000-4000-8000-000000002007",
       "name": "Instructor 2 of Course 3",
       "email": "instr2@course3.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
@@ -168,12 +175,14 @@
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "unregisteredInstructor1": {
+      "id": "00000000-0000-4000-8000-000000002008",
       "name": "Unregistered Instructor 1",
       "email": "unregisteredinstructor1@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2011-01-01T00:00:00Z"
     },
     "unregisteredInstructor2": {
+      "id": "00000000-0000-4000-8000-000000002009",
       "name": "Unregistered Instructor 2",
       "email": "unregisteredinstructor2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000004",
@@ -597,7 +606,7 @@
       "creatorId": "00000000-0000-4000-8000-000000000506"
     },
     "ongoingSession2InCourse3": {
-      "id": "00000000-0000-4000-8000-000000000707",
+      "id": "00000000-0000-4000-8000-000000002016",
       "courseId": "course-3",
       "name": "Ongoing session 2 in course 3",
       "instructions": "Please please fill in the following questions.",
@@ -881,6 +890,7 @@
   },
   "responseInstructorComments": {
     "comment1ToResponse1ForQ1": {
+      "id": "00000000-0000-4000-8000-000000002010",
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
@@ -889,6 +899,7 @@
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment2ToResponse2ForQ1": {
+      "id": "00000000-0000-4000-8000-000000002011",
       "giverId": "00000000-0000-4000-8000-000000000502",
       "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Instructor 2 comment to student 2 self feedback",
@@ -897,6 +908,7 @@
       "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResponse1ForQ2s": {
+      "id": "00000000-0000-4000-8000-000000002012",
       "giverId": "00000000-0000-4000-8000-000000000502",
       "lastEditedById": "00000000-0000-4000-8000-000000000502",
       "commentText": "Instructor 2 comment to student 2 self feedback",
@@ -905,6 +917,7 @@
       "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "comment1ToResponse1ForQ3": {
+      "id": "00000000-0000-4000-8000-000000002013",
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
@@ -913,6 +926,7 @@
       "responseId": "00000000-0000-4000-8000-000000000905"
     },
     "comment1ToResponse4ForQ1": {
+      "id": "00000000-0000-4000-8000-000000002014",
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 4 self feedback",
@@ -921,6 +935,7 @@
       "responseId": "00000000-0000-4000-8000-000000000908"
     },
     "comment1ToResponse1ForQ1InSession2": {
+      "id": "00000000-0000-4000-8000-000000002015",
       "giverId": "00000000-0000-4000-8000-000000000501",
       "lastEditedById": "00000000-0000-4000-8000-000000000501",
       "commentText": "Instructor 1 comment to student 1 self feedback",
