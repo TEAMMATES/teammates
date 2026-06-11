@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
@@ -147,6 +147,8 @@ export class QuestionSubmissionFormComponent {
   @Input()
   isSavingResponses = false;
 
+  readonly isTabExpanded = signal(true);
+
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
@@ -162,11 +164,6 @@ export class QuestionSubmissionFormComponent {
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
 
-    // Initialise the "isTabExpandedForRecipients" variable
-    // for a recipient when the recipients of the questions is not loaded.
-    this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-      this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
-    });
     this.sortRecipientsIfReady();
   }
 
@@ -197,7 +194,6 @@ export class QuestionSubmissionFormComponent {
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
-    isTabExpanded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -221,8 +217,6 @@ export class QuestionSubmissionFormComponent {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     showResponsesTo: [],
-
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
@@ -262,15 +256,7 @@ export class QuestionSubmissionFormComponent {
   }
 
   toggleQuestionTab(): void {
-    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
-      this.model.isTabExpanded = !this.model.isTabExpanded;
-    } else {
-      this.model.isTabExpandedForRecipients.set(
-        this.recipientId,
-        !this.model.isTabExpandedForRecipients.get(this.recipientId)!,
-      );
-    }
-    this.formModelChange.emit(this.model);
+    this.isTabExpanded.update((isExpanded) => !isExpanded);
   }
 
   shouldShowSavedState(): boolean {
@@ -279,17 +265,6 @@ export class QuestionSubmissionFormComponent {
 
   getQuestionHeaderClass(): string {
     return this.shouldShowSavedState() ? 'bg-success' : 'bg-primary';
-  }
-
-  shouldTabExpand(): boolean {
-    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
-      return this.model.isTabExpanded;
-    }
-
-    if (this.model.isTabExpandedForRecipients.get(this.recipientId) === undefined) {
-      this.model.isTabExpandedForRecipients.set(this.recipientId, true);
-    }
-    return this.model.isTabExpandedForRecipients.get(this.recipientId)!;
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient, secondRecipient: FeedbackResponseRecipient): number {

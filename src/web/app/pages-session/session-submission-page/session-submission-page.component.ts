@@ -463,7 +463,6 @@ export class SessionSubmissionPageComponent implements OnInit {
     response.questions.forEach((questionData: SessionSubmissionQuestion) => {
       const feedbackQuestion: FeedbackQuestion = questionData.question;
       const model: QuestionSubmissionFormModel = {
-        isTabExpanded: true,
         feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
         questionNumber: feedbackQuestion.questionNumber,
@@ -491,8 +490,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         showGiverNameTo: feedbackQuestion.showGiverNameTo,
         showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
         showResponsesTo: feedbackQuestion.showResponsesTo,
-
-        isTabExpandedForRecipients: new Map<string, boolean>(),
       };
 
       this.questionSubmissionForms.push(model);

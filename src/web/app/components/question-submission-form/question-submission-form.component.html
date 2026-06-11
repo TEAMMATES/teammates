@@ -5,7 +5,7 @@
     [ngClass]="getQuestionHeaderClass()"
   >
     <div class="collapse-caret">
-      <tm-panel-chevron [isExpanded]="shouldTabExpand()"></tm-panel-chevron>
+      <tm-panel-chevron [isExpanded]="isTabExpanded()"></tm-panel-chevron>
     </div>
     @if (shouldShowSavedState()) {
       <i class="fas fa-check me-2" aria-hidden="true"></i>
@@ -15,7 +15,7 @@
     </h2>
   </div>
 
-  <div class="card-body" [ngbCollapse]="!shouldTabExpand()">
+  <div class="card-body" [ngbCollapse]="!isTabExpanded()">
     @if (model.questionDescription) {
       <div class="card mb-3">
         <div class="card-header">

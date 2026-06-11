@@ -246,8 +246,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -270,8 +268,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -293,8 +289,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -321,8 +315,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -346,8 +338,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -372,8 +362,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -395,8 +383,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -428,8 +414,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -451,8 +435,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -476,8 +458,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testInfo: AuthInfo = {

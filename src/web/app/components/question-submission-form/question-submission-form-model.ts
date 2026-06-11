@@ -48,10 +48,6 @@ export interface QuestionSubmissionFormModel {
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
-
-  isTabExpandedForRecipients: Map<string, boolean>;
-
-  isTabExpanded: boolean;
 }
 
 /**

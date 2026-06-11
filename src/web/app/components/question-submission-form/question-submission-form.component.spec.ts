@@ -22,7 +22,6 @@ import {
   FeedbackNumericalScaleResponseDetails,
   FeedbackTextResponseDetails,
 } from '../../../types/api-output';
-import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseId: 'response-id-1',
@@ -91,14 +90,6 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-
-  isTabExpanded: true,
-  isTabExpandedForRecipients: new Map<string, boolean>([
-    ['rogers-alan-id', true],
-    ['buck-arthur-id', true],
-    ['harris-barry-id', true],
-    ['hans-charlie-id', true],
-  ]),
 };
 
 describe('QuestionSubmissionFormComponent', () => {
@@ -248,69 +239,6 @@ describe('QuestionSubmissionFormComponent', () => {
 
       fixture.detectChanges();
       expect(component.hasSectionTeam).toBeTruthy();
-    },
-  );
-
-  it('toggleQuestionTab: should toggle isTabExpanded if currentSelectedSessionView is DEFAULT', () => {
-    component.currentSelectedSessionView = SessionView.DEFAULT;
-    component.model.isTabExpanded = true;
-    let emittedModel: QuestionSubmissionFormModel | undefined;
-    testEventEmission(component.formModelChange, (value) => {
-      emittedModel = value;
-    });
-
-    component.toggleQuestionTab();
-
-    expect(component.model.isTabExpanded).toBeFalsy();
-    expect(emittedModel).toStrictEqual(component.model);
-  });
-
-  it(
-    'toggleQuestionTab: should toggle isTabExpanded for only the recipientId in isTabExpandedForRecipients' +
-      'if currentSelectedSessionView is not DEFAULT',
-    () => {
-      component.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
-      component.model.isTabExpanded = true;
-      component.recipientId = 'test-id';
-      const otherRecipientId = 'test-other-id';
-
-      let emittedModel: QuestionSubmissionFormModel | undefined;
-      testEventEmission(component.formModelChange, (value) => {
-        emittedModel = value;
-      });
-
-      component.toggleQuestionTab();
-
-      expect(component.model.isTabExpanded).toBeTruthy();
-      expect(component.model.isTabExpandedForRecipients.get(component.recipientId)).toBeTruthy();
-      expect(component.model.isTabExpandedForRecipients.get(otherRecipientId)).toBeFalsy();
-      expect(emittedModel).toStrictEqual(component.model);
-    },
-  );
-
-  it(
-    'shouldTabExpand: should set recipientId in isTabExpandedForRecipients to true if its undefined' +
-      'and currentSelectedSessionView is not DEFAULT',
-    () => {
-      component.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
-      const recipientId = 'test-id';
-      component.recipientId = recipientId;
-
-      expect(component.shouldTabExpand()).toBeTruthy();
-      expect(component.model.isTabExpandedForRecipients.get(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'shouldTabExpand: should return isTabExpandedForRecipients for recipientId if' +
-      'currentSelectedSessionView is not DEFAULT',
-    () => {
-      component.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
-      const recipientId = 'test-id';
-      component.recipientId = recipientId;
-      component.model.isTabExpandedForRecipients.set(recipientId, false);
-
-      expect(component.shouldTabExpand()).toBeFalsy();
     },
   );
 
