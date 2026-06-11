@@ -6,9 +6,11 @@ import { of, throwError } from 'rxjs';
 import { AdminAccountsPageComponent } from './admin-accounts-page.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
 import { Account, JoinState } from '../../../types/api-output';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { NavigationService } from '../../../services/navigation.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 
 const DEFAULT_ACCOUNT: Account = {
   accountId: '63375cd0-db90-4e54-b7db-81ba478bdcbc',
@@ -52,6 +54,7 @@ describe('AdminAccountsPageComponent', () => {
   let fixture: ComponentFixture<AdminAccountsPageComponent>;
   let accountService: AccountService;
   let simpleModalService: SimpleModalService;
+  let navigationService: NavigationService;
   let statusMessageService: StatusMessageService;
 
   beforeEach(async () => {
@@ -59,36 +62,19 @@ describe('AdminAccountsPageComponent', () => {
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
+    fixture = TestBed.createComponent(AdminAccountsPageComponent);
     accountService = TestBed.inject(AccountService);
     simpleModalService = TestBed.inject(SimpleModalService);
+    navigationService = TestBed.inject(NavigationService);
     statusMessageService = TestBed.inject(StatusMessageService);
 
     vi.spyOn(accountService, 'getAccount').mockReturnValue(of(structuredClone(DEFAULT_ACCOUNT)));
-
-    fixture = TestBed.createComponent(AdminAccountsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should unlink the account after confirmation', async () => {
-    vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
-    const unlinkSpy = vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
-      of({
-        message: 'Account unlinked successfully.',
-      }),
-    );
-    const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation(() => {});
-
-    component.unlinkStudentAccount(component.accountInfo.students[0]);
-    await Promise.resolve();
-
-    expect(unlinkSpy).toHaveBeenCalledWith('1b401154-8b29-4912-a158-7b8c091ca8b9');
-    expect(component.accountInfo.students).toHaveLength(0);
-    expect(successSpy).toHaveBeenCalledWith('The account has been successfully unlinked from the user profile.');
   });
 
   it('should unlink the instructor account after confirmation', async () => {
@@ -124,5 +110,38 @@ describe('AdminAccountsPageComponent', () => {
 
     expect(component.accountInfo.students).toHaveLength(1);
     expect(errorSpy).toHaveBeenCalledWith('This is the error message.');
+  });
+
+  it('should display a confirmation modal before deleting an account', () => {
+    component.accountInfo.accountId = 'account-id-1';
+
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
+    const deleteSpy = vi.spyOn(accountService, 'deleteAccount').mockReturnValue(of({ message: 'deleted' }));
+    const navigateSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation(() => {});
+
+    component.deleteAccount();
+
+    expect(modalSpy).toHaveBeenCalledWith(
+      'Delete account?',
+      SimpleModalType.DANGER,
+      expect.stringContaining('delete the account'),
+    );
+    expect(deleteSpy).not.toHaveBeenCalled();
+    expect(navigateSpy).not.toHaveBeenCalled();
+  });
+
+  it('should delete the account after the confirmation modal is accepted', async () => {
+    component.accountInfo.accountId = 'account-id-1';
+
+    const modalRef = createMockNgbModalRef({}, Promise.resolve());
+    vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(modalRef);
+    const deleteSpy = vi.spyOn(accountService, 'deleteAccount').mockReturnValue(of({ message: 'deleted' }));
+    const navigateSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation(() => {});
+
+    component.deleteAccount();
+    await Promise.resolve();
+
+    expect(deleteSpy).toHaveBeenCalledExactlyOnceWith('account-id-1');
+    expect(navigateSpy).toHaveBeenCalledExactlyOnceWith('/web/admin/search', 'Account is successfully deleted.');
   });
 });
