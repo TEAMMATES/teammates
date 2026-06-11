@@ -95,14 +95,14 @@
                 >
                   <i class="fas fa-info-circle"></i> Manage this account
                 </a>
+                <br />
               }
-              <br />
               @if (student.googleId) {
                 <a id="reset-student-id-{{ i }}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)">
                   <i class="fas fa-sync"></i> Reset Google ID
                 </a>
+                <br />
               }
-              <br />
               <button
                 id="regenerate-student-key-{{ i }}"
                 data-testid="regenerate-student-key"

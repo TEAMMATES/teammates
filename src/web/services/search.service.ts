@@ -252,14 +252,12 @@ export class SearchService {
 
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
-    instructorResult.homePageLink = this.linkService.generateHomePageLink(
-      accountId,
-      this.linkService.INSTRUCTOR_HOME_PAGE,
-    );
-    instructorResult.manageAccountLink = this.linkService.generateManageAccountLink(
-      accountId,
-      this.linkService.ADMIN_ACCOUNTS_PAGE,
-    );
+    instructorResult.homePageLink = accountId
+      ? this.linkService.generateHomePageLink(accountId, this.linkService.INSTRUCTOR_HOME_PAGE)
+      : '';
+    instructorResult.manageAccountLink = accountId
+      ? this.linkService.generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE)
+      : '';
 
     return instructorResult;
   }

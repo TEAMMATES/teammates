@@ -144,7 +144,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     expect(component.instructors[0].showLinks).toEqual(true);
   });
 
-  it('should show success message if successfully reset instructor google id', () => {
+  it('should show success message if successfully unlinked instructor account', () => {
     const instructorResult: InstructorAccountSearchResult = {
       userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
@@ -173,7 +173,7 @@ describe('AdminInstructorSearchTableComponent', () => {
       });
     });
 
-    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
+    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
       of({
         message: 'Success',
       }),
@@ -190,7 +190,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
-  it('should show error message if fail to reset instructor google id', () => {
+  it('should show error message if fail to unlink instructor account', () => {
     const instructorResult: InstructorAccountSearchResult = {
       userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
@@ -219,7 +219,7 @@ describe('AdminInstructorSearchTableComponent', () => {
       });
     });
 
-    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
+    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',

@@ -142,7 +142,7 @@ describe('AdminStudentSearchTableComponent', () => {
     expect(component.students[0].showLinks).toEqual(true);
   });
 
-  it('should show success message if successfully reset student google id', () => {
+  it('should show success message if successfully unlinked student account', () => {
     const studentResult: StudentAccountSearchResult = DEFAULT_STUDENT_SEARCH_RESULT;
     component.students = [studentResult];
     fixture.detectChanges();
@@ -154,7 +154,7 @@ describe('AdminStudentSearchTableComponent', () => {
       });
     });
 
-    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
+    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
       of({
         message: 'success',
       }),
@@ -172,7 +172,7 @@ describe('AdminStudentSearchTableComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
-  it('should show error message if fail to reset student google id', () => {
+  it('should show error message if fail to unlink student account', () => {
     const studentResult: StudentAccountSearchResult = {
       userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
@@ -205,7 +205,7 @@ describe('AdminStudentSearchTableComponent', () => {
       });
     });
 
-    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
+    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
