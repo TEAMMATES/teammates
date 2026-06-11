@@ -7,6 +7,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import teammates.test.ThreadHelper;
 
@@ -27,11 +28,11 @@ public class AdminHomePage extends AppPage {
     @FindBy (id = "instructor-institution")
     private WebElement institutionTextBox;
 
-    @FindBy (id = "instructor-country")
-    private WebElement countryTextBox;
-
     @FindBy (id = "add-instructor")
     private WebElement submitButton;
+
+    @FindBy(id = "instructor-country")
+    private WebElement countryBox;
 
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -53,10 +54,18 @@ public class AdminHomePage extends AppPage {
             fillTextBox(institutionTextBox, institute);
         }
         if (country != null) {
-            fillTextBox(countryTextBox, country);
+            selectCountry(country);
         }
 
         click(submitButton);
+    }
+
+    private void selectCountry(String countryName) {
+        click(countryBox);
+        countryBox.sendKeys(countryName);
+        By optionLocator = By.xpath(
+                "//*[@data-testid='searchable-combobox-option' and normalize-space()='" + countryName + "']");
+        click(waitFor(ExpectedConditions.elementToBeClickable(optionLocator)));
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {

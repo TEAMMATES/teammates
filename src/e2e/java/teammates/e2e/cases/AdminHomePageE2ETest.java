@@ -27,7 +27,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         String name = "AHPUiT Instrúctör WithPlusInEmail";
         String email = "ahpuit+++_.instr1!@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-        String country = "SG";
+        String country = "Singapore";
 
         homePage.addInstructor(name, email, institute, country);
         homePage.verifyStatusMessage("Account request was successfully created");
