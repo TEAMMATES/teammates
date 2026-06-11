@@ -85,7 +85,7 @@ public class UsersLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         when(usersDb.getUser(instructor.getId())).thenReturn(instructor);
 
-        User resetUser = usersLogic.resetAccount(instructor.getId());
+        User resetUser = usersLogic.unlinkAccount(instructor.getId());
 
         assertEquals(instructor, resetUser);
         assertNull(instructor.getAccount());
@@ -98,7 +98,7 @@ public class UsersLogicTest extends BaseTestCase {
         when(usersDb.getUser(userId)).thenReturn(null);
 
         EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetAccount(userId));
+                () -> usersLogic.unlinkAccount(userId));
 
         assertEquals(ERROR_UPDATE_NON_EXISTENT + "User [id=" + userId + "]", exception.getMessage());
     }
@@ -108,7 +108,7 @@ public class UsersLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException {
         when(usersDb.getUser(student.getId())).thenReturn(student);
 
-        User resetUser = usersLogic.resetAccount(student.getId());
+        User resetUser = usersLogic.unlinkAccount(student.getId());
 
         assertEquals(student, resetUser);
         assertNull(student.getAccount());

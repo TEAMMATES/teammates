@@ -126,8 +126,8 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
         inTransaction(() -> {
-            logic.resetAccount(student1.getId());
-            logic.resetAccount(instructor1.getId());
+            logic.unlinkAccount(student1.getId());
+            logic.unlinkAccount(instructor1.getId());
         });
 
         logoutUser();

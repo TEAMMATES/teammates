@@ -46,13 +46,13 @@ export class AccountService {
   }
 
   /**
-   * Resets a user account by calling API.
+   * Unlinks a user account by calling API.
    */
-  resetAccount(userId: string): Observable<MessageOutput> {
+  unlinkAccount(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       userid: userId,
     };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
+    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   }
 
   /**

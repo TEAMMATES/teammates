@@ -1157,13 +1157,11 @@ public class Logic {
     }
 
     /**
-     * Resets the account associated with the user.
-     *
-     * @return the user whose account was reset.
-     * @throws EntityDoesNotExistException If user cannot be found with given id.
+     * Unlinks the account associated with the user profile without deleting
+     * either entity, allowing the profile to be linked to a different account.
      */
-    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
-        return usersLogic.resetAccount(userId);
+    public User unlinkAccount(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.unlinkAccount(userId);
     }
 
     /**

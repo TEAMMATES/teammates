@@ -62,7 +62,8 @@ public class SmtpService implements EmailSenderService {
         // Set security protocol
         boolean isUsingSsl = "ssl".equalsIgnoreCase(securityProtocol);
         boolean isUsingStartTls = "starttls".equalsIgnoreCase(securityProtocol);
-        if (!isUsingSsl && !isUsingStartTls) {
+        boolean isUsingNone = "none".equalsIgnoreCase(securityProtocol);
+        if (!isUsingSsl && !isUsingStartTls && !isUsingNone) {
             throw new IllegalArgumentException("Unsupported SMTP security protocol: " + securityProtocol);
         }
         props.put("mail.smtp.ssl.enable", String.valueOf(isUsingSsl));

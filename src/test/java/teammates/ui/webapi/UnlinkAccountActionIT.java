@@ -19,9 +19,9 @@ import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.MessageOutput;
 
 /**
- * SUT: {@link ResetAccountAction}.
+ * SUT: {@link UnlinkAccountAction}.
  */
-public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
+public class UnlinkAccountActionIT extends BaseActionIT<UnlinkAccountAction> {
     private DataBundle typicalBundle;
 
     @BeforeMethod(alwaysRun = true)
@@ -31,7 +31,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNT_RESET;
+        return Const.ResourceURIs.ACCOUNT_UNLINK;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
                 Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
-        ResetAccountAction resetAccountAction = getAction(params);
+        UnlinkAccountAction resetAccountAction = getAction(params);
         JsonResult actionOutput = getJsonResult(resetAccountAction);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
