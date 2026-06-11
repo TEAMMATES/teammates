@@ -1002,6 +1002,37 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
   }
 
+  getSubmissionStatusSummary(): {
+    totalQuestions: number;
+    saved: number;
+    modified: number;
+    new: number;
+    error: number;
+  } {
+    const summary = {
+      totalQuestions: this.questionSubmissionForms.length,
+      saved: 0,
+      modified: 0,
+      new: 0,
+      error: 0,
+    };
+
+    this.questionSubmissionForms.forEach((questionSubmissionForm: QuestionSubmissionFormModel) => {
+      const status = this.getQuestionSubmissionStatus(questionSubmissionForm);
+      if (status === ResponseSubmissionStatus.SAVED) {
+        summary.saved += 1;
+      } else if (status === ResponseSubmissionStatus.MODIFIED) {
+        summary.modified += 1;
+      } else if (status === ResponseSubmissionStatus.ERROR) {
+        summary.error += 1;
+      } else {
+        summary.new += 1;
+      }
+    });
+
+    return summary;
+  }
+
   /**
    * Gets recipient name in {@code FIXED_RECIPIENT} mode and in {@code GROUP_RECIPIENTS} view.
    */
@@ -1021,6 +1052,26 @@ export class SessionSubmissionPageComponent implements OnInit {
     );
 
     return recipient ? recipient.recipientName : 'Unknown';
+  }
+
+  private getQuestionSubmissionStatus(questionSubmissionForm: QuestionSubmissionFormModel): ResponseSubmissionStatus {
+    const recipientStatuses = questionSubmissionForm.recipientSubmissionForms.map(
+      (recipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel) => recipientSubmissionForm.status,
+    );
+
+    if (recipientStatuses.some((status: ResponseSubmissionStatus) => status === ResponseSubmissionStatus.ERROR)) {
+      return ResponseSubmissionStatus.ERROR;
+    }
+
+    if (recipientStatuses.some((status: ResponseSubmissionStatus) => status === ResponseSubmissionStatus.MODIFIED)) {
+      return ResponseSubmissionStatus.MODIFIED;
+    }
+
+    if (recipientStatuses.some((status: ResponseSubmissionStatus) => status === ResponseSubmissionStatus.SAVED)) {
+      return ResponseSubmissionStatus.SAVED;
+    }
+
+    return ResponseSubmissionStatus.NEW;
   }
 
   /**
