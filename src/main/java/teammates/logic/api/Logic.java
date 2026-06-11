@@ -1053,6 +1053,13 @@ public class Logic {
     }
 
     /**
+     * Gets students by associated {@code teamId} and {@code courseId}.
+     */
+    public List<Student> getStudentsByTeamId(UUID teamId, String courseId) {
+        return usersLogic.getStudentsForTeam(teamId, courseId);
+    }
+
+    /**
      * Returns the default section.
      * If it does not exist, create and return it.
      */

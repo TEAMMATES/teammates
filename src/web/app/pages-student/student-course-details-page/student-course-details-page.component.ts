@@ -129,7 +129,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       .subscribe({
         next: (student: Student) => {
           this.student = student;
-          this.loadTeammates(courseId, student.teamName);
+          this.loadTeammates(courseId, student.teamId);
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
@@ -142,12 +142,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Loads the teammates of the current student.
    *
    * @param courseId id of the course queried
-   * @param teamName team of current student
+   * @param teamId team of current student
    */
-  loadTeammates(courseId: string, teamName: string): void {
+  loadTeammates(courseId: string, teamId: string): void {
     this.isLoadingTeammates = true;
     this.teammateProfiles = [];
-    this.studentService.getStudentsFromCourseAndTeam(courseId, teamName).subscribe({
+    this.studentService.getStudentsFromCourse({ courseId, teamId }).subscribe({
       next: (students: Students) => {
         // No teammates
         if (students.students.length === 1 && areEmailsEqual(students.students[0].email, this.student.email)) {
