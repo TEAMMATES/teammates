@@ -7,7 +7,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
 
-
 describe('RejectWithReasonModal', () => {
   let statusMessageService: StatusMessageService;
   let fixture: ComponentFixture<RejectWithReasonModalComponent>;

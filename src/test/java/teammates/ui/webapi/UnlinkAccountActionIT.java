@@ -56,7 +56,7 @@ public class UnlinkAccountActionIT extends BaseActionIT<UnlinkAccountAction> {
         JsonResult actionOutput = getJsonResult(resetAccountAction);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        assertEquals(response.getMessage(), "Account is successfully reset.");
+        assertEquals("Account unlinked successfully.", response.getMessage());
         Student updatedStudent = inTransaction(() -> logic.getStudent(student.getId()));
         assertNotNull(updatedStudent);
         assertNull(updatedStudent.getAccount());
@@ -80,7 +80,7 @@ public class UnlinkAccountActionIT extends BaseActionIT<UnlinkAccountAction> {
         actionOutput = getJsonResult(resetAccountAction);
         response = (MessageOutput) actionOutput.getOutput();
 
-        assertEquals(response.getMessage(), "Account is successfully reset.");
+        assertEquals("Account unlinked successfully.", response.getMessage());
         Instructor updatedInstructor = inTransaction(() -> logic.getInstructor(instructor.getId()));
         assertNotNull(updatedInstructor);
         assertNull(updatedInstructor.getAccount());

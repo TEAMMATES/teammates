@@ -11,7 +11,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -302,16 +301,13 @@ public final class UsersDb {
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Course> coursesJoin = instructorRoot.join("course");
-        Join<Instructor, Account> accountsJoin = instructorRoot.join("account", JoinType.LEFT);
 
         Predicate searchPredicate = cb.or(
                 cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery, escapeChar));
+                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar));
 
         cr.select(instructorRoot)
                 .where(searchPredicate)

@@ -105,9 +105,7 @@ describe('AdminAccountsPageComponent', () => {
 
     expect(unlinkSpy).toHaveBeenCalledWith('2f730f03-59fd-47df-93e3-f17fd5dce1dc');
     expect(component.accountInfo.instructors).toHaveLength(0);
-    expect(successSpy).toHaveBeenCalledWith(
-      'The account has been successfully unlinked from the user profile.',
-    );
+    expect(successSpy).toHaveBeenCalledWith('The account has been successfully unlinked from the user profile.');
   });
 
   it('should show error message if unlinking fails', async () => {

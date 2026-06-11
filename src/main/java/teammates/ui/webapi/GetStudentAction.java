@@ -1,10 +1,8 @@
 package teammates.ui.webapi;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -63,11 +61,6 @@ public class GetStudentAction extends Action {
         StudentData studentData = new StudentData(student);
         if (requestContext.isAdmin()) {
             studentData.setKey(student.getRegKey());
-            studentData.setGoogleId(
-                    Optional.ofNullable(student.getAccount())
-                        .map(Account::getGoogleId)
-                        .orElse("")
-            );
         }
 
         if (studentId == null) {

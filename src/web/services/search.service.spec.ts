@@ -41,7 +41,6 @@ describe('SearchService', () => {
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',
     name: 'Alice Brown',
-    googleId: 'alice.brown.sample',
     comments: 'Student record used for search service tests',
     key: 'student-key-001',
     joinState: JoinState.JOINED,

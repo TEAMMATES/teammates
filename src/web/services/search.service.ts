@@ -234,7 +234,7 @@ export class SearchService {
       publishedSessions: {},
     };
     const { userId, email, name, accountId = '', institute = '' }: Instructor = instructor;
-    instructorResult = { ...instructorResult, userId, email, name,  institute };
+    instructorResult = { ...instructorResult, userId, email, name, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };

@@ -32,10 +32,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
     public void testSearchInstructorsInWholeSystem_typicalCase_success() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        Instructor ins1InCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
-        Instructor ins1InCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
         Instructor ins2InCourse4 = typicalBundle.instructors.get("instructor2YetToJoinCourse4");
-        Instructor ins3InCourse4 = typicalBundle.instructors.get("instructor3YetToJoinCourse4");
         Instructor insInUnregCourse = typicalBundle.instructors.get("instructorOfUnregisteredCourse");
         Instructor insUniqueDisplayName = typicalBundle.instructors.get("instructorOfCourse2WithUniqueDisplayName");
         Instructor unregisteredInsInCourse1 = typicalBundle.instructors.get("unregisteredInstructorOfCourse1");
@@ -69,14 +66,6 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
 
         results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("instr2@teammates.tmt"));
         verifySearchResults(results, ins2InCourse1, ins2InCourse4);
-
-        ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
-
-        results = inTransaction(() -> usersDb.searchInstructorsInWholeSystem("coowner"));
-        verifySearchResults(results, ins1InCourse1,
-                insInUnregCourse, insUniqueDisplayName,
-                ins1InCourse3, ins1InCourse4,
-                ins2InCourse4, ins3InCourse4);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
 
