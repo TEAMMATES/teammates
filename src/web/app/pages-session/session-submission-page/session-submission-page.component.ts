@@ -726,25 +726,26 @@ export class SessionSubmissionPageComponent implements OnInit {
 
       questionSubmissionFormModel.recipientSubmissionForms.forEach(
         (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+          const isEmptyResponse = this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
+            questionSubmissionFormModel.questionType,
+            recipientSubmissionFormModel.responseDetails,
+          );
+
           // Consider untouched questions to be valid
           // Untouched questions are those that are not filled in and are not saved before
           const isValid =
             recipientSubmissionFormModel.status === ResponseSubmissionStatus.NEW ||
             recipientSubmissionFormModel.isValid;
 
-          if (!isValid) {
+          if (!isValid || (!isEmptyResponse && recipientSubmissionFormModel.recipientIdentifier === '')) {
+            recipientSubmissionFormModel.status = ResponseSubmissionStatus.ERROR;
             failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
               'Invalid responses provided. Please check question constraints.';
             hasValidationErrorInQuestion = true;
             return;
           }
 
-          if (
-            !this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
-              questionSubmissionFormModel.questionType,
-              recipientSubmissionFormModel.responseDetails,
-            )
-          ) {
+          if (!isEmptyResponse) {
             // Only include non-empty responses in the request, empty responses will be deleted in the backend
             responses.push({
               responseId: recipientSubmissionFormModel.responseId,

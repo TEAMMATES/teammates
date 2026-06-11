@@ -86,6 +86,7 @@ export enum ResponseSubmissionStatus {
   NEW,
   SAVED,
   MODIFIED,
+  ERROR,
 }
 
 export enum FeedbackRecipientLabelType {
