@@ -150,9 +150,7 @@ public final class Const {
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
 
-        public static final String SECTION_NAME = "sectionname";
-
-        public static final String TEAM_NAME = "teamname";
+        public static final String TEAM_ID = "teamid";
 
         public static final String ERROR = "error";
 

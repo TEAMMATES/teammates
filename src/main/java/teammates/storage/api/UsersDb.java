@@ -613,6 +613,24 @@ public final class UsersDb {
     }
 
     /**
+     * Gets all students of a team of a course by team ID.
+     */
+    public List<Student> getStudentsForTeam(UUID teamId, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(teamsJoin.get("id"), teamId)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets the section with the specified {@code sectionName} and {@code courseId}.
      *
      * @deprecated unused in production code

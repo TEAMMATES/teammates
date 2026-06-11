@@ -188,18 +188,18 @@ public class UsersDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getStudentsForTeam_studentsExist_returnsStudentsInMatchingCourseAndTeam() {
         var course = given.course("course");
-        var team = given.team("team", t -> t.course(course.alias()).name("Team Name"));
-        var anotherTeam = given.team("another-team", t -> t.course(course.alias()).name("Another Team Name"));
+        var team = given.team("team", t -> t.course(course.alias()));
+        var anotherTeam = given.team("another-team", t -> t.course(course.alias()));
         var anotherCourse = given.course("another-course");
         var anotherCourseTeam = given.team("another-course-team",
-                t -> t.course(anotherCourse.alias()).name("Team Name"));
+                t -> t.course(anotherCourse.alias()));
         var student = given.student("student", s -> s.course(course.alias()).team(team.alias()));
         given.student("another-team-student", s -> s.course(course.alias()).team(anotherTeam.alias()));
         given.student("another-course-student",
                 s -> s.course(anotherCourse.alias()).team(anotherCourseTeam.alias()));
         persistGivenData(given);
 
-        List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam("Team Name", course.id()));
+        List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam(team.id(), course.id()));
 
         assertEquals(List.of(student.id()), actual.stream().map(Student::getId).toList());
     }

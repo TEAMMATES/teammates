@@ -575,6 +575,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students of a team by team ID.
+     */
+    public List<Student> getStudentsForTeam(UUID teamId, String courseId) {
+        List<Student> studentReturnList = usersDb.getStudentsForTeam(teamId, courseId);
+        sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
