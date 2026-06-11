@@ -126,8 +126,17 @@ export class QuestionSubmissionFormComponent {
 
   readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
+  private _formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
+
   @Input()
-  formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
+  set formMode(value: QuestionSubmissionFormMode) {
+    this._formMode = value;
+    this.sortRecipientsIfReady();
+  }
+
+  get formMode(): QuestionSubmissionFormMode {
+    return this._formMode;
+  }
 
   @Input()
   isFormsDisabled = false;
@@ -158,10 +167,7 @@ export class QuestionSubmissionFormComponent {
     this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
       this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
     });
-
-    if (this.model.recipientList.length > 0) {
-      this.sortRecipients();
-    }
+    this.sortRecipientsIfReady();
   }
 
   @Input()
@@ -343,6 +349,12 @@ export class QuestionSubmissionFormComponent {
         return firstRecipientIndex - secondRecipientIndex;
       },
     );
+  }
+
+  private sortRecipientsIfReady(): void {
+    if (this.model.recipientList.length > 0) {
+      this.sortRecipients();
+    }
   }
 
   private sortRecipients(): void {
