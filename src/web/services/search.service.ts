@@ -144,10 +144,8 @@ export class SearchService {
       isCourseDeleted: false,
       institute: '',
       manageAccountLink: '',
-      homePageLink: '',
       profilePageLink: '',
       courseJoinLink: '',
-      googleId: '',
       showLinks: false,
     };
     const {
@@ -158,10 +156,9 @@ export class SearchService {
       teamName: team,
       sectionName: section,
       accountId = '',
-      googleId = '',
       institute = '',
     }: Student = student;
-    studentResult = { ...studentResult, userId, email, name, comments, team, section, googleId, institute };
+    studentResult = { ...studentResult, userId, email, name, comments, team, section, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -192,7 +189,6 @@ export class SearchService {
 
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
-    studentResult.homePageLink = this.linkService.generateHomePageLink(accountId, this.linkService.STUDENT_HOME_PAGE);
     studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeAccountId);
     studentResult.manageAccountLink = this.linkService.generateManageAccountLink(
       accountId,
@@ -230,17 +226,15 @@ export class SearchService {
       isCourseDeleted: false,
       institute: '',
       manageAccountLink: '',
-      homePageLink: '',
       courseJoinLink: '',
-      googleId: '',
       showLinks: false,
       awaitingSessions: {},
       openSessions: {},
       notOpenSessions: {},
       publishedSessions: {},
     };
-    const { userId, email, name, accountId = '', googleId = '', institute = '' }: Instructor = instructor;
-    instructorResult = { ...instructorResult, userId, email, name, googleId, institute };
+    const { userId, email, name, accountId = '', institute = '' }: Instructor = instructor;
+    instructorResult = { ...instructorResult, userId, email, name,  institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -252,9 +246,6 @@ export class SearchService {
 
     // Generate links for instructors
     instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
-    instructorResult.homePageLink = accountId
-      ? this.linkService.generateHomePageLink(accountId, this.linkService.INSTRUCTOR_HOME_PAGE)
-      : '';
     instructorResult.manageAccountLink = accountId
       ? this.linkService.generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE)
       : '';
@@ -526,13 +517,11 @@ export interface InstructorAccountSearchResult {
   userId: string;
   name: string;
   email: string;
-  googleId: string;
   courseId: string;
   courseName: string;
   isCourseDeleted: boolean;
   institute: string;
   courseJoinLink: string;
-  homePageLink: string;
   manageAccountLink: string;
   showLinks: boolean;
   awaitingSessions: FeedbackSessionsGroup;

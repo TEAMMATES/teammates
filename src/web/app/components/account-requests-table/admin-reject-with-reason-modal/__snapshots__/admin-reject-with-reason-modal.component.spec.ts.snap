@@ -8,7 +8,6 @@ exports[`RejectWithReasonModal > should show empty title and body 1`] = `
   existingAccount={[Function Object]}
   rejectionReasonBody={[Function String]}
   rejectionReasonTitle={[Function String]}
-  searchService={[Function _SearchService]}
   statusMessageService={[Function _StatusMessageService]}
 >
   <div

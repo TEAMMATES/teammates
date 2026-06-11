@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, injec
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { AccountService } from '../../../../services/account.service';
 import { EmailGenerationService } from '../../../../services/email-generation.service';
 import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -23,7 +22,6 @@ import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highligh
 export class AdminStudentSearchTableComponent implements OnChanges {
   private statusMessageService = inject(StatusMessageService);
   private simpleModalService = inject(SimpleModalService);
-  private accountService = inject(AccountService);
   private userService = inject(UserService);
   private emailGenerationService = inject(EmailGenerationService);
 
@@ -54,37 +52,6 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     for (const student of this.students) {
       student.showLinks = false;
     }
-  }
-
-  resetStudentGoogleId(student: StudentAccountSearchResult, event: MouseEvent | undefined): void {
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    const modalContent = `Are you sure you want to reset the Google account ID currently associated for
-        <strong>${student.name}</strong> in the course <strong>${student.courseId}</strong>?
-        The user will need to re-associate their account with a new Google ID.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Reset <strong>${student.name}</strong>'s Google ID?`,
-      SimpleModalType.WARNING,
-      modalContent,
-    );
-
-    modalRef.result.then(
-      () => {
-        this.accountService.unlinkAccount(student.userId).subscribe({
-          next: () => {
-            student.googleId = '';
-            this.studentReset.emit();
-            this.statusMessageService.showSuccessToast("The student's Google ID has been reset.");
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-      },
-      () => {},
-    );
   }
 
   regenerateUserKey(student: StudentAccountSearchResult, index: number): void {

@@ -2,7 +2,6 @@
 
 exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`] = `
 <tm-admin-student-search-table
-  accountService={[Function _AccountService]}
   emailGenerationService={[Function _EmailGenerationService]}
   isRegeneratingStudentKeys={[Function Array]}
   searchString=""
@@ -57,7 +56,7 @@ exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`
               Name
             </th>
             <th>
-              Google ID
+              Email
             </th>
             <th>
               Institute
@@ -106,13 +105,7 @@ exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`
               </a>
             </td>
             <td>
-              <a
-                href="home-page-link"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                student-google-id
-              </a>
+              student@gmail.tmt
             </td>
             <td>
               institute
@@ -132,16 +125,6 @@ exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`
                  Manage this account 
               </a>
               <br />
-              <a
-                href="javascript:;"
-                id="reset-student-id-0"
-              >
-                <i
-                  class="fas fa-sync"
-                />
-                 Reset Google ID 
-              </a>
-              <br />
               <button
                 class="btn btn-danger"
                 data-testid="regenerate-student-key"
@@ -158,17 +141,6 @@ exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`
               <ul
                 class="list-group collapse"
               >
-                <li
-                  class="list-group-item list-group-item-success has-success"
-                >
-                  <strong>
-                    Email
-                  </strong>
-                  <input
-                    class="form-control"
-                    disabled=""
-                  />
-                </li>
                 <li
                   class="list-group-item list-group-item-info"
                 >
@@ -271,7 +243,6 @@ exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`
 
 exports[`AdminStudentSearchTableComponent > should snap with an expanded student table 1`] = `
 <tm-admin-student-search-table
-  accountService={[Function _AccountService]}
   emailGenerationService={[Function _EmailGenerationService]}
   isRegeneratingStudentKeys={[Function Array]}
   searchString=""
@@ -326,7 +297,7 @@ exports[`AdminStudentSearchTableComponent > should snap with an expanded student
               Name
             </th>
             <th>
-              Google ID
+              Email
             </th>
             <th>
               Institute
@@ -372,13 +343,7 @@ exports[`AdminStudentSearchTableComponent > should snap with an expanded student
               </a>
             </td>
             <td>
-              <a
-                href="home-page-link"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                student-google-id
-              </a>
+              alice.b.tmms@gmail.tmt
             </td>
             <td>
               institute
@@ -398,16 +363,6 @@ exports[`AdminStudentSearchTableComponent > should snap with an expanded student
                  Manage this account 
               </a>
               <br />
-              <a
-                href="javascript:;"
-                id="reset-student-id-0"
-              >
-                <i
-                  class="fas fa-sync"
-                />
-                 Reset Google ID 
-              </a>
-              <br />
               <button
                 class="btn btn-danger"
                 data-testid="regenerate-student-key"
@@ -424,17 +379,6 @@ exports[`AdminStudentSearchTableComponent > should snap with an expanded student
               <ul
                 class="list-group collapse show"
               >
-                <li
-                  class="list-group-item list-group-item-success has-success"
-                >
-                  <strong>
-                    Email
-                  </strong>
-                  <input
-                    class="form-control"
-                    disabled=""
-                  />
-                </li>
                 <li
                   class="list-group-item list-group-item-info"
                 >

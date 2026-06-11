@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table.component';
-import { AccountService } from '../../../../services/account.service';
 import { EmailGenerationService } from '../../../../services/email-generation.service';
 import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -25,13 +24,11 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
   name: 'name',
   email: 'email',
-  googleId: 'googleId',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
   institute: 'institute',
   courseJoinLink: 'courseJoinLink',
-  homePageLink: 'homePageLink',
   manageAccountLink: 'manageAccountLink',
   showLinks: false,
   section: 'section',
@@ -47,7 +44,6 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
 describe('AdminStudentSearchTableComponent', () => {
   let component: AdminStudentSearchTableComponent;
   let fixture: ComponentFixture<AdminStudentSearchTableComponent>;
-  let accountService: AccountService;
   let userService: UserService;
   let statusMessageService: StatusMessageService;
   let emailGenerationService: EmailGenerationService;
@@ -60,7 +56,6 @@ describe('AdminStudentSearchTableComponent', () => {
 
     fixture = TestBed.createComponent(AdminStudentSearchTableComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.inject(AccountService);
     userService = TestBed.inject(UserService);
     statusMessageService = TestBed.inject(StatusMessageService);
     emailGenerationService = TestBed.inject(EmailGenerationService);
@@ -78,13 +73,11 @@ describe('AdminStudentSearchTableComponent', () => {
         userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
         name: 'student',
         email: 'student@gmail.tmt',
-        googleId: 'student-google-id',
         courseId: 'deleted-course',
         courseName: 'deleted',
         isCourseDeleted: true,
         institute: 'institute',
         courseJoinLink: 'course-join-link',
-        homePageLink: 'home-page-link',
         manageAccountLink: 'manage-account-link',
         showLinks: false,
         section: 'section',
@@ -108,13 +101,11 @@ describe('AdminStudentSearchTableComponent', () => {
         userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
         name: 'Alice Betsy',
         email: 'alice.b.tmms@gmail.tmt',
-        googleId: 'student-google-id',
         courseId: 'test-exa.demo',
         courseName: 'demo',
         isCourseDeleted: false,
         institute: 'institute',
         courseJoinLink: 'course-join-link',
-        homePageLink: 'home-page-link',
         manageAccountLink: 'manage-account-link',
         showLinks: true,
         section: 'section',
@@ -140,89 +131,6 @@ describe('AdminStudentSearchTableComponent', () => {
     const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#show-student-links');
     button.click();
     expect(component.students[0].showLinks).toEqual(true);
-  });
-
-  it('should show success message if successfully unlinked student account', () => {
-    const studentResult: StudentAccountSearchResult = DEFAULT_STUDENT_SEARCH_RESULT;
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({
-        name: 'dummy',
-        course: 'dummy',
-      });
-    });
-
-    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
-      of({
-        message: 'success',
-      }),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual("The student's Google ID has been reset.");
-      });
-
-    const link: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
-    link.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-  });
-
-  it('should show error message if fail to unlink student account', () => {
-    const studentResult: StudentAccountSearchResult = {
-      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      isCourseDeleted: false,
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      profilePageLink: 'profilePageLink',
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({
-        name: 'dummy',
-        course: 'dummy',
-      });
-    });
-
-    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
-      throwError(() => ({
-        error: {
-          message: 'This is the error message.',
-        },
-      })),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const link: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
-    link.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
   it('should show success message and update all keys if successfully regenerated student registration key', () => {

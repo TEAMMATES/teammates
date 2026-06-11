@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table.component';
-import { AccountService } from '../../../../services/account.service';
 import { FeedbackSessionsGroup, InstructorAccountSearchResult } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { UserService } from '../../../../services/user.service';
@@ -24,13 +23,11 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
   userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
   name: 'name',
   email: 'email',
-  googleId: 'googleId',
   courseId: 'courseId',
   courseName: 'courseName',
   isCourseDeleted: false,
   institute: 'institute',
   courseJoinLink: 'courseJoinLink',
-  homePageLink: 'homePageLink',
   manageAccountLink: 'manageAccountLink',
   showLinks: false,
   awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -42,7 +39,6 @@ const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
 describe('AdminInstructorSearchTableComponent', () => {
   let component: AdminInstructorSearchTableComponent;
   let fixture: ComponentFixture<AdminInstructorSearchTableComponent>;
-  let accountService: AccountService;
   let userService: UserService;
   let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
@@ -54,7 +50,6 @@ describe('AdminInstructorSearchTableComponent', () => {
 
     fixture = TestBed.createComponent(AdminInstructorSearchTableComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.inject(AccountService);
     userService = TestBed.inject(UserService);
     statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
@@ -71,13 +66,11 @@ describe('AdminInstructorSearchTableComponent', () => {
         userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'instructor',
         email: 'instructor@tester.com',
-        googleId: 'ins-google-id',
         courseId: 'deleted-course',
         courseName: 'deleted',
         isCourseDeleted: true,
         institute: 'institute',
         courseJoinLink: 'course-join-link',
-        homePageLink: 'home-page-link',
         manageAccountLink: 'manage-account-link',
         showLinks: false,
         awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -97,13 +90,11 @@ describe('AdminInstructorSearchTableComponent', () => {
         userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'tester',
         email: 'tester@tester.com',
-        googleId: 'instructor-google-id',
         courseId: 'test-exa.demo',
         courseName: 'demo',
         isCourseDeleted: false,
         institute: 'institute',
         courseJoinLink: 'course-join-link',
-        homePageLink: 'home-page-link',
         manageAccountLink: 'manage-account-link',
         showLinks: true,
         awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -122,13 +113,11 @@ describe('AdminInstructorSearchTableComponent', () => {
       userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
       email: 'email',
-      googleId: 'googleId',
       courseId: 'courseId',
       courseName: 'courseName',
       isCourseDeleted: false,
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
       awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -142,101 +131,6 @@ describe('AdminInstructorSearchTableComponent', () => {
     const button = fixture.debugElement.nativeElement.querySelector('#show-instructor-links');
     button.click();
     expect(component.instructors[0].showLinks).toEqual(true);
-  });
-
-  it('should show success message if successfully unlinked instructor account', () => {
-    const instructorResult: InstructorAccountSearchResult = {
-      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      isCourseDeleted: false,
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
-    component.instructors = [instructorResult];
-    fixture.detectChanges();
-
-    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({
-        name: 'dummy',
-        course: 'dummy',
-      });
-    });
-
-    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
-      of({
-        message: 'Success',
-      }),
-    );
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual("The instructor's Google ID has been reset.");
-      });
-
-    const link = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
-    link.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-  });
-
-  it('should show error message if fail to unlink instructor account', () => {
-    const instructorResult: InstructorAccountSearchResult = {
-      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      isCourseDeleted: false,
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
-    component.instructors = [instructorResult];
-    fixture.detectChanges();
-
-    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
-      return createMockNgbModalRef({
-        name: 'dummy',
-        course: 'dummy',
-      });
-    });
-
-    vi.spyOn(accountService, 'unlinkAccount').mockReturnValue(
-      throwError(() => ({
-        error: {
-          message: 'This is the error message',
-        },
-      })),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message');
-      });
-
-    const link = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
-    link.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
   it('should show success message and update all keys if successfully regenerated instructor registration key', () => {

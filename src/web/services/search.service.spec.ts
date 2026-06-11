@@ -307,12 +307,11 @@ describe('SearchService', () => {
     });
     expect(result.courseId).toBe('cs1010-demo');
     expect(result.courseJoinLink).toBe(
-      `${window.location.origin}/web/join?key=instructor-key-001&entitytype=instructor`,
+      `${globalThis.location.origin}/web/join?key=instructor-key-001&entitytype=instructor`,
     );
     expect(result.courseName).toBe('Introduction to Software Engineering');
     expect(result.email).toBe('lee.instructor@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-000000000001');
-    expect(result.homePageLink).toBe('/web/instructor/home?masqueradeaccountid=00000000-0000-4000-8000-000000000001');
   });
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
