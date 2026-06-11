@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
 import org.testng.annotations.Test;
 
+import jakarta.persistence.EntityExistsException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Institute;
@@ -47,10 +48,12 @@ public class CoursesDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistCourse_courseIsNew_courseIsPersisted() {
+        var institute = given.institute("institute");
+        persistGivenData(given);
         Course course = buildDefaultCourse("new-course");
 
         Course actual = inTransaction(() -> {
-            HibernateUtil.persist(course.getInstitute());
+            getEntity(Institute.class, institute.id()).addCourse(course);
             return coursesDb.persistCourse(course);
         });
 
@@ -60,12 +63,13 @@ public class CoursesDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistCourse_courseIdExists_throwsException() {
-        var existingCourse = given.course("existing-course");
+        var institute = given.institute("institute");
+        var existingCourse = given.course("existing-course", c -> c.institute(institute.alias()));
         persistGivenData(given);
         Course course = buildDefaultCourse(existingCourse.id());
 
-        assertThrowsInTransaction(ConstraintViolationException.class, () -> {
-            HibernateUtil.persist(course.getInstitute());
+        assertThrowsInTransaction(EntityExistsException.class, () -> {
+            getEntity(Institute.class, institute.id()).addCourse(course);
             coursesDb.persistCourse(course);
         });
     }
@@ -173,9 +177,7 @@ public class CoursesDbTest extends BaseDbTestcase {
     }
 
     private static Course buildDefaultCourse(String courseId) {
-        Course course = new Course(courseId, "Course Name", "UTC");
-        new Institute("Institute " + courseId, "SG").addCourse(course);
-        return course;
+        return new Course(courseId, "Course Name", "UTC");
     }
 
     private static Team buildDefaultTeam(Section section, UUID teamId) {

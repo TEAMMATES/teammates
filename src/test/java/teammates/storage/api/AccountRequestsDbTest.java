@@ -12,7 +12,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Institute;
 import teammates.test.GroupNames;
@@ -47,11 +46,13 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistAccountRequest_accountRequestIsNew_accountRequestIsPersisted() {
+        var institute = given.institute("institute");
+        persistGivenData(given);
         var accountRequestId = given.uuid("account-request");
         AccountRequest accountRequest = buildDefaultAccountRequest(accountRequestId);
 
         AccountRequest actual = inTransaction(() -> {
-            HibernateUtil.persist(accountRequest.getInstitute());
+            getEntity(Institute.class, institute.id()).addAccountRequest(accountRequest);
             return accountRequestsDb.persistAccountRequest(accountRequest);
         });
 
@@ -106,7 +107,6 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
                 "Account Request",
                 AccountRequestStatus.PENDING,
                 "");
-        new Institute("TEAMMATES Test Institute " + accountRequestId, "SG").addAccountRequest(accountRequest);
         accountRequest.setId(accountRequestId);
         accountRequest.setRegistrationKey("registration-key:" + accountRequestId);
         return accountRequest;
