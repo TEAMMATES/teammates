@@ -422,7 +422,7 @@
     }
     @if (model.recipientList.length > 0 && currentSelectedSessionView === allSessionViews.DEFAULT) {
       <div class="row">
-        <div class="col-12 text-center">
+        <div class="col-12 text-end">
           <button
             id="btn-submit-qn-{{ model.questionNumber }}"
             type="submit"
@@ -436,9 +436,7 @@
             @if (isSavingResponses) {
               <tm-ajax-loading></tm-ajax-loading>
             }
-            <span>{{
-              isQuestionCountOne ? 'Submit Response' : 'Submit Response for Question ' + model.questionNumber
-            }}</span>
+            <span>Submit Response</span>
           </button>
         </div>
       </div>
