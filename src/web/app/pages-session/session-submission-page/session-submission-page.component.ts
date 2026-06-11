@@ -3,7 +3,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
@@ -75,7 +74,6 @@ import { SingleQuestionSaveErrorModalComponent } from './single-question-save-er
     FormsModule,
     LoadingRetryComponent,
     QuestionSubmissionFormComponent,
-    NgbTooltip,
     AjaxLoadingComponent,
     SafeHtmlPipe,
     KeyValuePipe,

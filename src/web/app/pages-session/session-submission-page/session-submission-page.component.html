@@ -196,7 +196,6 @@
                 id="btn-submit-by-recipient"
                 type="button"
                 class="btn btn-success"
-                ngbTooltip="You can save your responses at any time and come back later to continue."
                 (click)="saveResponsesForSelectedRecipientQuestions(entry.key, questionSubmissionForms)"
                 [disabled]="isSavingResponses || isSubmissionFormsDisabled"
               >
@@ -266,7 +265,6 @@
             id="btn-download-submission-receipt"
             type="button"
             class="btn btn-info"
-            ngbTooltip="Download a receipt of your submission."
             (click)="downloadSubmissionReceipt()"
             [disabled]="isDownloadingSubmissionReceipt || isSavingResponses || isSubmissionFormsDisabled"
           >
@@ -283,7 +281,6 @@
               id="btn-submit"
               type="button"
               class="btn btn-success"
-              ngbTooltip="You can save your responses at any time and come back later to continue."
               (click)="saveFeedbackResponses(questionSubmissionForms)"
               [disabled]="isSavingResponses || isSubmissionFormsDisabled"
             >
