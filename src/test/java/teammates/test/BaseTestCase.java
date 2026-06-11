@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
@@ -51,6 +52,12 @@ import teammates.storage.entity.UsageStatistics;
 public class BaseTestCase {
 
     /**
+     * Test case name in the format of ClassName.methodName, e.g. {@code MyTestClass.testMyFunction}.
+     * For e2e tests, this is set to the class name of the test case, e.g. {@code MyE2ETestCase}.
+     */
+    protected String currentTestName;
+
+    /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
      *
@@ -65,6 +72,7 @@ public class BaseTestCase {
 
     @BeforeClass(alwaysRun = true)
     public void printTestClassHeader() {
+        currentTestName = getClass().getSimpleName();
         System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
@@ -73,6 +81,11 @@ public class BaseTestCase {
     @AfterClass(alwaysRun = true)
     public void printTestClassFooter() {
         System.out.println(getClass().getCanonicalName() + " completed");
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod(Method method) {
+        currentTestName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
     }
 
     protected String getTestDataFolder() {
@@ -87,7 +100,7 @@ public class BaseTestCase {
         try {
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return DataBundleLogic.deserializeDataBundle(jsonString);
+            return DataBundleLogic.deserializeDataBundle(jsonString, currentTestName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
