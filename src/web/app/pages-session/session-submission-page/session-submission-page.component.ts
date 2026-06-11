@@ -765,7 +765,11 @@ export class SessionSubmissionPageComponent implements OnInit {
     });
 
     if (Object.keys(questionResponses).length === 0) {
-      this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+      if (questionSubmissionForms.length === 1 && Object.keys(failToSaveQuestions).length === 0) {
+        this.showSubmissionSuccessToast(questionSubmissionForms);
+      } else {
+        this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+      }
       return;
     }
 
@@ -835,7 +839,11 @@ export class SessionSubmissionPageComponent implements OnInit {
             );
           });
 
-          this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+          if (questionSubmissionForms.length === 1 && Object.keys(failToSaveQuestions).length === 0) {
+            this.showSubmissionSuccessToast(questionSubmissionForms);
+          } else {
+            this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+          }
           this.logStudentSubmission();
         },
         error: (resp: ErrorMessageOutput) => {
@@ -847,6 +855,11 @@ export class SessionSubmissionPageComponent implements OnInit {
           );
         },
       });
+  }
+
+  private showSubmissionSuccessToast(questionSubmissionForms: QuestionSubmissionFormModel[]): void {
+    const successMessage = `Response to question ${questionSubmissionForms[0].questionNumber} submitted successfully.`;
+    this.statusMessageService.showSuccessToast(successMessage);
   }
 
   private openSavingCompleteModal(

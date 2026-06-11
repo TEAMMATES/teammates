@@ -13,6 +13,7 @@ import { FileSaveService } from '../../../services/file-save.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import {
   AuthInfo,
   FeedbackConstantSumRecipientsQuestionDetails,
@@ -501,6 +502,7 @@ describe('SessionSubmissionPageComponent', () => {
   let feedbackSessionsService: FeedbackSessionsService;
   let feedbackResponsesService: FeedbackResponsesService;
   let simpleModalService: SimpleModalService;
+  let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
   let logService: LogService;
 
@@ -532,6 +534,7 @@ describe('SessionSubmissionPageComponent', () => {
     feedbackResponsesService = TestBed.inject(FeedbackResponsesService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     simpleModalService = TestBed.inject(SimpleModalService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
@@ -983,7 +986,6 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should submit empty question responses to delete saved responses', () => {
-    const mockModalRef = createMockNgbModalRef();
     const testQuestionSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
     testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm.recipientSubmissionForms[0].responseDetails = {
@@ -1000,7 +1002,8 @@ describe('SessionSubmissionPageComponent', () => {
         requestId: '10',
       }),
     );
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
+    const modalSpy = vi.spyOn(ngbModal, 'open');
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
@@ -1018,6 +1021,10 @@ describe('SessionSubmissionPageComponent', () => {
         moderatedperson: '',
       },
     );
+    expect(toastSpy).toHaveBeenCalledWith(
+      `Response to question ${testQuestionSubmissionForm.questionNumber} submitted successfully.`,
+    );
+    expect(modalSpy).not.toHaveBeenCalled();
     expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].responseId).toBe('');
     expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].status).toBe(ResponseSubmissionStatus.NEW);
   });
