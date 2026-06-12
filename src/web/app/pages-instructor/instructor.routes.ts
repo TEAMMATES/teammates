@@ -116,7 +116,6 @@ const routes: Routes = [
             (m) => m.SessionSubmissionPageComponent,
           ),
         data: {
-          pageTitle: 'Submit Feedback',
           intent: Intent.INSTRUCTOR_SUBMISSION,
         },
       },

@@ -50,58 +50,41 @@
   </div>
 }
 @if (regKey) {
-  <div class="row">
-    <div class="col-12">
-      <div class="alert alert-primary" role="alert">
-        @if (loggedInUser) {
-          <div>
-            You are submitting feedback as
-            <mark
-              ><b>{{ personName }}</b></mark
-            >. If you wish to link your Google account ({{ loggedInUser }}) with this user,
-            <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">click here</a>.
-          </div>
-        }
-        @if (!loggedInUser) {
-          <div>
-            You are submitting feedback as
-            <mark
-              ><b>{{ personName }}</b></mark
-            >. You may submit feedback for sessions that are currently open and view results without logging in. To
-            access other features you need to
-            <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
-              >log in using a Google account</a
-            >
-            (optional).
-          </div>
-        }
-      </div>
+  <div class="alert alert-light border mb-3">
+    <div class="mb-1">
+      You are submitting as <strong>{{ personName }}</strong
+      >.
     </div>
-  </div>
-}
-
-@if (feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
-  <div class="alert alert-primary" role="alert">
-    <i class="fas fa-info-circle"></i>
-    You may edit and resubmit your responses any number of times before the session closes.
+    @if (loggedInUser) {
+      <div class="text-secondary">
+        Link this submission to your account:
+        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ loggedInUser }}</a
+        >.
+      </div>
+    } @else {
+      <div class="text-secondary">
+        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">Log in here</a> (optional) to
+        link this submission to your account.
+      </div>
+    }
   </div>
 }
 
 <div class="card border bg-body-secondary mb-3" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
     <div class="flex-grow-1">
-      <h2 id="fs-name" class="fs-4 fw-semibold mb-2">{{ feedbackSessionName }}</h2>
-      <div class="text-secondary d-flex flex-wrap gap-3">
+      <h1 id="fs-name" class="fs-4 fw-semibold mb-2">{{ feedbackSessionName }}</h1>
+      <div class="d-flex flex-wrap gap-3">
         <span><strong>Opening:</strong> {{ formattedSessionOpeningTime }}</span>
         <span><strong>Closing:</strong> {{ formattedSessionClosingTime }}</span>
       </div>
       <div class="mt-3">
-        <div class="text-secondary mb-1"><strong>Instructions</strong></div>
-        <div id="instructions" class="lh-base" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+        <div class="mb-1"><strong>Instructions</strong></div>
+        <div id="instructions" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
       </div>
-      <details class="d-inline-block mt-3">
+      <details class="d-inline-block mt-2">
         <summary class="text-secondary">Additional details</summary>
-        <div class="d-flex flex-column gap-2 text-secondary mt-2">
+        <div class="d-flex flex-column gap-2 mt-2">
           @if (courseName) {
             <div><strong>Course:</strong> {{ courseName }}</div>
           }
@@ -154,6 +137,13 @@
     </div>
   </div>
 </div>
+
+@if (feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
+  <div class="my-3 text-secondary fw-semibold">
+    <i class="fas fa-info-circle me-1"></i>
+    You may edit and resubmit your responses any number of times before the session closes.
+  </div>
+}
 
 <tm-loading-retry
   [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed"
