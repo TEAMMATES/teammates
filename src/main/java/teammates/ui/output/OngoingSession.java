@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.util.Config;
-import teammates.common.util.Const;
+import teammates.common.util.LinksUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 
@@ -32,9 +31,7 @@ public class OngoingSession {
         if (accountId == null) {
             instructorHomePageLinkNullable = null;
         } else {
-            instructorHomePageLinkNullable = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withMasqueradeAccount(accountId)
-                    .toString();
+            instructorHomePageLinkNullable = LinksUtil.getInstructorHomePageRelativeUrl(accountId);
         }
         this.instructorHomePageLink = instructorHomePageLinkNullable;
         Course course = fs.getCourse();

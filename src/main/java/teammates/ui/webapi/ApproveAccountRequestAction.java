@@ -6,6 +6,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.LinksUtil;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
@@ -38,7 +39,8 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             accountRequest.setStatus(AccountRequestStatus.APPROVED);
             accountRequest = logic.updateAccountRequest(accountRequest);
             EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                    accountRequest.getEmail(), accountRequest.getName(), accountRequest.getRegistrationUrl());
+                    accountRequest.getEmail(), accountRequest.getName(),
+                    LinksUtil.getAccountRequestJoinUrl(accountRequest.getRegistrationKey()));
             emailSender.sendEmail(email);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
