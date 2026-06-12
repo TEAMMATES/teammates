@@ -62,17 +62,17 @@ public class FeedbackSubmitPage extends AppPage {
         if (isElementPresent(By.className("modal-content"))) {
             waitForConfirmationModalAndClickOk();
         }
-        return getPageTitle().contains("Submit Feedback");
+        return isElementPresent(By.id("fs-name"));
     }
 
     public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
-        assertEquals(getCourseId(), feedbackSession.getCourseId());
-        assertEquals(getCourseName(), course.getName());
-        assertEquals(getCourseInstitute(), course.getInstitute().getName());
         assertEquals(getFeedbackSessionName(), feedbackSession.getName());
         assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), course.getTimeZone());
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), course.getTimeZone());
         assertEquals(getInstructions(), feedbackSession.getInstructions());
+        expandAdditionalDetails();
+        assertEquals(getCourseName(), "Course: " + course.getName());
+        assertEquals(getCourseInstitute(), "Institute: " + course.getInstitute().getName());
     }
 
     public void verifyNumQuestions(int expected) {
@@ -94,7 +94,7 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(recipientNames.size(), recipients.size());
         Collections.sort(recipientNames);
         for (int i = 0; i < recipientNames.size(); i++) {
-            assertEquals(recipientNames.get(i), recipients.get(i).getText());
+            assertEquals(recipientNames.get(i), recipients.get(i).getText().split(" \\(")[0]);
         }
     }
 
@@ -117,14 +117,12 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
         click(getSubmitAllQuestionsButton());
-        waitForPageToLoad();
-        StringBuilder expectedSb = new StringBuilder();
+        WebElement modal = waitForElementPresence(By.className("modal-content"));
+        assertTrue(modal.getText().contains("Submission summary"));
+        WebElement notAnsweredSection = modal.findElement(By.id("not-yet-answered-questions-section"));
         for (int unansweredQuestion : unansweredQuestions) {
-            expectedSb.append(unansweredQuestion).append(", ");
+            assertTrue(notAnsweredSection.getText().contains("Q" + unansweredQuestion));
         }
-        String expectedString = expectedSb.toString().substring(0, expectedSb.length() - 2) + ".";
-        String warningString = waitForElementPresence(By.id("not-answered-questions")).getText();
-        assertEquals(warningString.split(": ")[1], expectedString);
         waitForConfirmationModalAndClickOk();
     }
 
@@ -590,10 +588,6 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    private String getCourseId() {
-        return browser.driver.findElement(By.id("course-id")).getText();
-    }
-
     private String getCourseName() {
         return browser.driver.findElement(By.id("course-name")).getText();
     }
@@ -607,15 +601,19 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getOpeningTime() {
-        return browser.driver.findElement(By.id("opening-time")).getText();
+        return browser.driver.findElement(By.id("opening-time")).getText().split(": ")[1];
     }
 
     private String getClosingTime() {
-        return browser.driver.findElement(By.id("closing-time")).getText();
+        return browser.driver.findElement(By.id("closing-time")).getText().split(": ")[1];
     }
 
     private String getInstructions() {
         return browser.driver.findElement(By.id("instructions")).getAttribute("innerHTML");
+    }
+
+    private void expandAdditionalDetails() {
+        click(By.cssSelector("summary"));
     }
 
     private void assertDateEquals(String actual, Instant instant, String timeZone) {
@@ -650,8 +648,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getQuestionBrief(int qnNumber) {
-        String questionDetails = getQuestionForm(qnNumber).findElement(By.className("question-details")).getText();
-        return questionDetails.split(": ")[1];
+        return getQuestionForm(qnNumber).findElement(By.id("question-brief-" + qnNumber)).getText();
     }
 
     private void verifyVisibilityList(int qnNumber, FeedbackQuestion feedbackQuestion) {
@@ -745,7 +742,8 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void clickSubmitQuestionButton(int qnNumber) {
         WebElement submitQnButton = waitForElementPresence(By.id("btn-submit-qn-" + qnNumber));
-        clickAndConfirm(submitQnButton);
+        click(submitQnButton);
+        verifyStatusMessage("Response to question " + qnNumber + " submitted successfully.");
     }
 
     public void clickSubmitAllQuestionsButton() {

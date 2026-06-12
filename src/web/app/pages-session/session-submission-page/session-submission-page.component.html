@@ -59,8 +59,8 @@
     <div class="flex-grow-1">
       <h1 id="fs-name" class="fs-4 fw-semibold mb-2">{{ feedbackSessionName }}</h1>
       <div class="d-flex flex-wrap gap-3">
-        <span><strong>Opening:</strong> {{ formattedSessionOpeningTime }}</span>
-        <span><strong>Closing:</strong> {{ formattedSessionClosingTime }}</span>
+        <span id="opening-time"><strong>Opening:</strong> {{ formattedSessionOpeningTime }}</span>
+        <span id="closing-time"><strong>Closing:</strong> {{ formattedSessionClosingTime }}</span>
       </div>
       <div class="my-3">
         <div id="instructions" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
@@ -69,10 +69,10 @@
         <summary class="text-secondary">Additional details</summary>
         <div class="d-flex flex-column gap-2 mt-2">
           @if (courseName) {
-            <div><strong>Course:</strong> {{ courseName }}</div>
+            <div id="course-name"><strong>Course:</strong> {{ courseName }}</div>
           }
           @if (courseInstitute) {
-            <div><strong>Institute:</strong> {{ courseInstitute }}</div>
+            <div id="course-institute"><strong>Institute:</strong> {{ courseInstitute }}</div>
           }
         </div>
       </details>

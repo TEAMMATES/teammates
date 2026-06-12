@@ -19,7 +19,7 @@
   </div>
 
   @if (hasSubmittedQuestions) {
-    <div class="mb-3">
+    <div id="submitted-questions-section" class="mb-3">
       <div class="fw-semibold mb-2 text-success">
         <i class="fas fa-check-circle me-1"></i>
         Submitted
@@ -33,7 +33,7 @@
   }
 
   @if (hasFailToSaveQuestions) {
-    <div class="mb-3">
+    <div id="failed-to-save-questions-section" class="mb-3">
       <div class="fw-semibold mb-2 text-danger">
         <i class="fas fa-exclamation-circle me-1"></i>
         Errors
@@ -50,7 +50,7 @@
   }
 
   @if (hasNotYetAnsweredQuestions) {
-    <div class="mb-3">
+    <div id="not-yet-answered-questions-section" class="mb-3">
       <div class="fw-semibold mb-2 text-secondary">
         <i class="fas fa-question-circle me-1"></i>
         Not answered yet
