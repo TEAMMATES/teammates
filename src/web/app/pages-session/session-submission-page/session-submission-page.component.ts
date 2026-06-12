@@ -131,7 +131,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   isDownloadingSubmissionReceipt = false;
   isSubmissionFormsDisabled = false;
 
-  isModerationHintExpanded = false;
   moderatedQuestionId = '';
 
   isFeedbackSessionLoading = true;
