@@ -62,8 +62,7 @@
         <span><strong>Opening:</strong> {{ formattedSessionOpeningTime }}</span>
         <span><strong>Closing:</strong> {{ formattedSessionClosingTime }}</span>
       </div>
-      <div class="mt-3">
-        <div class="mb-1"><strong>Instructions</strong></div>
+      <div class="my-3">
         <div id="instructions" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
       </div>
       <details class="d-inline-block mt-2">

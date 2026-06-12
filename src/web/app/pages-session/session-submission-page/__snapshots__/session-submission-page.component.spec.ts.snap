@@ -622,15 +622,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
           </span>
         </div>
         <div
-          class="mt-3"
+          class="my-3"
         >
-          <div
-            class="mb-1"
-          >
-            <strong>
-              Instructions
-            </strong>
-          </div>
           <div
             id="instructions"
           >
@@ -849,15 +842,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           </span>
         </div>
         <div
-          class="mt-3"
+          class="my-3"
         >
-          <div
-            class="mb-1"
-          >
-            <strong>
-              Instructions
-            </strong>
-          </div>
           <div
             id="instructions"
           />
@@ -3912,15 +3898,8 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           </span>
         </div>
         <div
-          class="mt-3"
+          class="my-3"
         >
-          <div
-            class="mb-1"
-          >
-            <strong>
-              Instructions
-            </strong>
-          </div>
           <div
             id="instructions"
           />
