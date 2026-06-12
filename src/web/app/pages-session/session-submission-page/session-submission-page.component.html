@@ -124,7 +124,7 @@
           <span class="badge rounded-pill bg-success">{{ getSubmissionStatusSummary().saved }} saved</span>
         }
         @if (getSubmissionStatusSummary().modified > 0) {
-          <span class="badge rounded-pill bg-primary">{{ getSubmissionStatusSummary().modified }} modified</span>
+          <span class="badge rounded-pill bg-primary">{{ getSubmissionStatusSummary().modified }} unsaved</span>
         }
         @if (getSubmissionStatusSummary().new > 0) {
           <span class="badge rounded-pill bg-info text-dark">{{ getSubmissionStatusSummary().new }} not answered</span>

@@ -1565,7 +1565,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header bg-primary cursor-pointer text-white"
+            class="card-header bg-primary cursor-pointer bg-info text-dark"
           >
             <div>
               <h2
@@ -4645,7 +4645,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header bg-primary cursor-pointer text-white"
+            class="card-header bg-primary cursor-pointer bg-info text-dark"
           >
             <div>
               <h2

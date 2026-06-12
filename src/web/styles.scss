@@ -1,14 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
 @use 'sass:color';
-
-$primary: #1d74fd;
-$success: #25895a;
-$danger: #d33e4d;
-$warning: #f0bc22;
-$info: #1fc7eb;
-$min-contrast-ratio: 3;
-
 @import 'bootstrap/scss/bootstrap';
 
 body {
@@ -57,11 +49,11 @@ h6,
 }
 
 .color-orange {
-  color: #e46d0b;
+  color: #c58a1a;
 }
 
 .color-blue {
-  color: #4379d1;
+  color: #4f75c2;
 }
 
 .hidden {

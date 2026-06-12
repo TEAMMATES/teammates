@@ -263,8 +263,9 @@ export class QuestionSubmissionFormComponent {
       case ResponseSubmissionStatus.ERROR:
         return 'bg-danger text-white';
       case ResponseSubmissionStatus.MODIFIED:
-      case ResponseSubmissionStatus.NEW:
         return 'bg-primary text-white';
+      case ResponseSubmissionStatus.NEW:
+        return 'bg-info text-dark';
       case ResponseSubmissionStatus.SAVED:
         return 'bg-success text-white';
     }
