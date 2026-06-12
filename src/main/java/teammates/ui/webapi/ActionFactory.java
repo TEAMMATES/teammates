@@ -133,7 +133,6 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
         map(ResourceURIs.USAGE_STATISTICS, GET, GetUsageStatisticsAction.class);
-        map(ResourceURIs.ACTION_CLASS, GET, GetActionClassesAction.class);
 
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/scheduling-jobs-with-cron-yaml
