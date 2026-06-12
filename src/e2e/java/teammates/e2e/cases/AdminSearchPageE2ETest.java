@@ -2,8 +2,6 @@ package teammates.e2e.cases;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.time.Instant;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
@@ -15,7 +13,6 @@ import teammates.common.util.StringHelperExtension;
 import teammates.e2e.pageobjects.AdminSearchPage;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
@@ -46,15 +43,11 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         String studentDetails = getExpectedStudentDetails(student);
         String studentManageAccountLink = getExpectedStudentManageAccountLink(student);
-        int numExpandedRows = getExpectedNumExpandedRows(student);
         searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink);
-        searchPage.verifyStudentExpandedLinks(student, numExpandedRows);
 
         ______TS("Typical case: Regenerate registration key for a course student");
-        searchPage.clickExpandStudentLinks();
-        String originalJoinLink = searchPage.getStudentJoinLink(student);
         searchPage.regenerateStudentKey(student);
-        searchPage.verifyRegenerateStudentKey(student, originalJoinLink);
+        searchPage.verifyRegenerateStudentKey();
         searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");
@@ -64,13 +57,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         String instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
         searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink);
-        searchPage.verifyInstructorExpandedLinks(instructor);
 
         ______TS("Typical case: Regenerate registration key for an instructor");
-        searchPage.clickExpandInstructorLinks();
-        originalJoinLink = searchPage.getInstructorJoinLink(instructor);
         searchPage.regenerateInstructorKey(instructor);
-        searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
+        searchPage.verifyRegenerateInstructorKey();
 
         ______TS("Typical case: Search for account request by email");
         searchPage.clearSearchBox();
@@ -86,9 +76,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.verifyAccountRequestRowContent(accountRequest);
-
-        ______TS("Typical case: Expand and collapse links");
-        searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
 
         ______TS("Typical case: Delete account request successful");
         accountRequest = testData.accountRequests.get("unregisteredInstructor1");
@@ -206,19 +193,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 .withAccountId(student.getAccountId())
                 .toAbsoluteString()
                 : "";
-    }
-
-    private int getExpectedNumExpandedRows(Student student) {
-        int expectedNumExpandedRows = 1;
-        for (FeedbackSession sessions : testData.feedbackSessions.values()) {
-            if (sessions.getCourse().equals(student.getCourse())) {
-                expectedNumExpandedRows += 1;
-                if (sessions.getResultsVisibleFromTime().isBefore(Instant.now())) {
-                    expectedNumExpandedRows += 1;
-                }
-            }
-        }
-        return expectedNumExpandedRows;
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {

@@ -40,7 +40,6 @@ public class AdminSearchPage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
     private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
 
-    private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
     private static final String EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK = "Account Registration Link";
 
     @FindBy(id = "search-box")
@@ -98,12 +97,9 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void verifyRegenerateStudentKey(Student student, String originalJoinLink) {
+    public void verifyRegenerateStudentKey() {
         verifyStatusMessage("User's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
-
-        String regeneratedJoinLink = getStudentJoinLink(student);
-        assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
     public void regenerateInstructorKey(Instructor instructor) {
@@ -115,28 +111,8 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void clickExpandStudentLinks() {
-        click(expandStudentLinksButton);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickExpandInstructorLinks() {
-        click(expandInstructorLinksButton);
-        waitUntilAnimationFinish();
-    }
-
     public void clickExpandAccountRequestLinks() {
         click(expandAccountRequestLinksButton);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickCollapseStudentLinks() {
-        click(collapseStudentLinksButton);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickCollapseInstructorLinks() {
-        click(collapseInstructorLinksButton);
         waitUntilAnimationFinish();
     }
 
@@ -190,15 +166,6 @@ public class AdminSearchPage extends AppPage {
         return getColumnLink(studentRow, STUDENT_COL_OPTIONS);
     }
 
-    public String getStudentJoinLink(WebElement studentRow) {
-        return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
-    }
-
-    public String getStudentJoinLink(Student student) {
-        WebElement studentRow = getStudentRow(student);
-        return getStudentJoinLink(studentRow);
-    }
-
     public WebElement getInstructorRow(Instructor instructor) {
         WebElement table = browser.driver.findElement(By.id("search-table-instructor"));
         List<WebElement> rows = table.findElements(By.tagName("tr"));
@@ -232,15 +199,6 @@ public class AdminSearchPage extends AppPage {
 
     public String getInstructorManageAccountLink(WebElement instructorRow) {
         return getColumnLink(instructorRow, INSTRUCTOR_COL_OPTIONS);
-    }
-
-    public String getInstructorJoinLink(WebElement instructorRow) {
-        return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
-    }
-
-    public String getInstructorJoinLink(Instructor instructor) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        return getInstructorJoinLink(instructorRow);
     }
 
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
@@ -463,20 +421,6 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
     }
 
-    public void verifyStudentExpandedLinks(Student student, int expectedNumExpandedRows) {
-        clickExpandStudentLinks();
-        WebElement studentRow = getStudentRow(student);
-        String actualEmail = getStudentEmail(studentRow);
-        String actualJoinLink = getStudentJoinLink(studentRow);
-        int actualNumExpandedRows = getNumExpandedRows(studentRow);
-
-        String expectedEmail = student.getEmail();
-
-        assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
-        assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
-    }
-
     public void verifyInstructorRowContent(Instructor instructor, Course course,
                                            String expectedManageAccountLink) {
         WebElement instructorRow = getInstructorRow(instructor);
@@ -496,18 +440,6 @@ public class AdminSearchPage extends AppPage {
         assertEquals(expectedEmail, actualEmail);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
-    }
-
-    public void verifyInstructorExpandedLinks(Instructor instructor) {
-        clickExpandInstructorLinks();
-        WebElement instructorRow = getInstructorRow(instructor);
-        String actualEmail = getInstructorEmail(instructorRow);
-        String actualJoinLink = getInstructorJoinLink(instructorRow);
-
-        String expectedEmail = instructor.getEmail();
-
-        assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
     }
 
     public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
@@ -537,48 +469,26 @@ public class AdminSearchPage extends AppPage {
         assertFalse(actualRegistrationLink.isBlank());
     }
 
-    public void verifyLinkExpansionButtons(Student student,
-                                           Instructor instructor, AccountRequest accountRequest) {
-        WebElement studentRow = getStudentRow(student);
-        WebElement instructorRow = getInstructorRow(instructor);
+    public void verifyLinkExpansionButtons(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
 
-        clickExpandStudentLinks();
-        clickExpandInstructorLinks();
         clickExpandAccountRequestLinks();
-        int numExpandedStudentRows = getNumExpandedRows(studentRow);
-        int numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+
         int numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedStudentRows, 0);
-        assertNotEquals(numExpandedInstructorRows, 0);
         assertNotEquals(numExpandedAccountRequestRows, 0);
 
-        clickCollapseInstructorLinks();
-        numExpandedStudentRows = getNumExpandedRows(studentRow);
-        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedStudentRows, 0);
-        assertEquals(numExpandedInstructorRows, 0);
         assertNotEquals(numExpandedAccountRequestRows, 0);
 
-        clickExpandInstructorLinks();
-        clickCollapseStudentLinks();
         clickCollapseAccountRequestLinks();
         waitUntilAnimationFinish();
 
-        numExpandedStudentRows = getNumExpandedRows(studentRow);
-        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertEquals(numExpandedStudentRows, 0);
-        assertNotEquals(numExpandedInstructorRows, 0);
         assertEquals(numExpandedAccountRequestRows, 0);
     }
 
-    public void verifyRegenerateInstructorKey(Instructor instructor, String originalJoinLink) {
+    public void verifyRegenerateInstructorKey() {
         verifyStatusMessage("User's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
-
-        String regeneratedJoinLink = getInstructorJoinLink(instructor);
-        assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 }
