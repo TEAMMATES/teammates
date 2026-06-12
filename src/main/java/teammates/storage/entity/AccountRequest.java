@@ -21,8 +21,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
@@ -213,10 +211,4 @@ public class AccountRequest extends BaseEntity {
                 + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
-    public String getRegistrationUrl() {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withIsCreatingAccount("true")
-                .withRegistrationKey(this.getRegistrationKey())
-                .toAbsoluteString();
-    }
 }
