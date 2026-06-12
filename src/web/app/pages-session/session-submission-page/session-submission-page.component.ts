@@ -306,13 +306,20 @@ export class SessionSubmissionPageComponent implements OnInit {
           catchError(() => of(null)),
         );
       case Intent.INSTRUCTOR_SUBMISSION:
+        if (this.moderatedPerson || this.previewAsPerson) {
+          const userId = this.moderatedPerson || this.previewAsPerson;
+          return this.instructorService.getInstructor({ userId }).pipe(
+            tap((instructor: Instructor) => {
+              this.personName = instructor.name;
+              this.personEmail = instructor.email;
+            }),
+            catchError(() => of(null)),
+          );
+        }
         return this.instructorService
-          .getInstructor({
+          .getOwnInstructor({
             courseId: this.courseId,
-            intent: this.intent,
             key: this.regKey,
-            moderatedPerson: this.moderatedPerson,
-            previewAs: this.previewAsPerson,
           })
           .pipe(
             tap((instructor: Instructor) => {

@@ -77,6 +77,7 @@ export enum ResourceEndpoints {
   DEMO_COURSE = "/webapi/demo/course",
   INSTRUCTORS = "/webapi/instructors",
   INSTRUCTOR = "/webapi/instructor",
+  OWN_INSTRUCTOR = "/webapi/me/instructor",
   INSTRUCTOR_PRIVILEGE = "/webapi/instructor/privilege",
   COURSE_SESSION_RESULTS = "/webapi/session/results/course",
   USER_SESSION_RESULTS = "/webapi/session/results/user",

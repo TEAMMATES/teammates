@@ -262,17 +262,13 @@ export class SessionResultPageComponent implements OnInit {
         }
         break;
       case Intent.INSTRUCTOR_RESULT:
-        this.instructorService
-          .getInstructor({
-            courseId: this.courseId,
-            intent: this.intent,
-            key: this.regKey,
-            previewAs: this.previewAsPerson,
-          })
-          .subscribe((instructor: Instructor) => {
-            this.personName = instructor.name;
-            this.personEmail = instructor.email;
-          });
+        (this.previewAsPerson
+          ? this.instructorService.getInstructor({ userId: this.previewAsPerson })
+          : this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.regKey })
+        ).subscribe((instructor: Instructor) => {
+          this.personName = instructor.name;
+          this.personEmail = instructor.email;
+        });
         break;
       default:
     }
