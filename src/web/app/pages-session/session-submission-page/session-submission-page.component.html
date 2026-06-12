@@ -137,9 +137,6 @@
   <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
     @if (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS) {
       <div class="d-flex flex-column gap-3">
-        @if (recipientQuestionMap.size === 0 && ungroupableQuestionsSorted.length === 0) {
-          <div class="alert alert-info mb-0" role="alert">There are no groupable questions here.</div>
-        }
         @for (entry of recipientQuestionMap | keyvalue; track entry) {
           <section class="border rounded bg-body mb-3">
             <div class="border-bottom bg-body-tertiary px-3 py-3">

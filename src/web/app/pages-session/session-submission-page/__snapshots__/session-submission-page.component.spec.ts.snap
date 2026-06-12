@@ -29,7 +29,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -56,39 +55,26 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
     </div>
-  </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
+      >
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
+    </div>
   </div><tm-loading-spinner>
     <div
       class="loading-container"
@@ -104,7 +90,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
       </div>
     </div>
   </tm-loading-spinner><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -121,7 +107,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             0 questions
           </span>
@@ -154,6 +140,13 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -209,7 +202,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
@@ -236,39 +228,26 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
     </div>
-  </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
+      >
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
+    </div>
   </div><tm-loading-spinner>
     <div
       class="loading-container"
@@ -284,7 +263,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
       </div>
     </div>
   </tm-loading-spinner><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -301,7 +280,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             0 questions
           </span>
@@ -334,6 +313,13 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -386,7 +372,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -413,39 +398,26 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
     </div>
-  </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
+      >
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
+    </div>
   </div><tm-loading-spinner>
     <div
       class="loading-container"
@@ -461,7 +433,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
       </div>
     </div>
   </tm-loading-spinner><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -478,7 +450,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             0 questions
           </span>
@@ -511,6 +483,13 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -563,7 +542,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -590,42 +568,30 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       You are submitting as 
+      <strong>
+        person name
+      </strong>
+      . 
+    </div>
+    <div
+      class="text-secondary"
+    >
+       Link this submission to your account: 
+      <a
+        href="#"
       >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-              person name
-            </b>
-          </mark>
-          . If you wish to link your Google account (logged-in-user) with this user, 
-          <a
-            href="#"
-          >
-            click here
-          </a>
-          . 
-        </div>
-      </div>
+        logged-in-user
+      </a>
+      . 
     </div>
   </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
-  </div><div
-    class="card border bg-body-tertiary mb-3"
+    class="card border bg-body-secondary mb-3"
   >
     <div
       class="card-body"
@@ -633,14 +599,14 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
       <div
         class="flex-grow-1"
       >
-        <h2
+        <h1
           class="fs-4 fw-semibold mb-2"
           id="fs-name"
         >
           First team feedback session
-        </h2>
+        </h1>
         <div
-          class="text-secondary d-flex flex-wrap gap-3"
+          class="d-flex flex-wrap gap-3"
         >
           <span>
             <strong>
@@ -659,29 +625,28 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
           class="mt-3"
         >
           <div
-            class="text-secondary mb-1"
+            class="mb-1"
           >
             <strong>
               Instructions
             </strong>
           </div>
           <div
-            class="lh-base"
             id="instructions"
           >
             Please give your feedback based on the following questions.
           </div>
         </div>
         <details
-          class="d-inline-block mt-3"
+          class="d-inline-block mt-2"
         >
           <summary
             class="text-secondary"
           >
-            Session details
+            Additional details
           </summary>
           <div
-            class="d-flex flex-column gap-2 text-secondary mt-2"
+            class="d-flex flex-column gap-2 mt-2"
           >
             <div>
               <strong>
@@ -700,7 +665,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
       </div>
     </div>
   </div><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -717,7 +682,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             0 questions
           </span>
@@ -750,6 +715,13 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -802,7 +774,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -829,41 +800,28 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
+    </div>
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
       >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
-  </div><div
-    class="card border bg-body-tertiary mb-3"
+    class="card border bg-body-secondary mb-3"
   >
     <div
       class="card-body"
@@ -871,13 +829,13 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       <div
         class="flex-grow-1"
       >
-        <h2
+        <h1
           class="fs-4 fw-semibold mb-2"
           id="fs-name"
         >
-        </h2>
+        </h1>
         <div
-          class="text-secondary d-flex flex-wrap gap-3"
+          class="d-flex flex-wrap gap-3"
         >
           <span>
             <strong>
@@ -894,34 +852,33 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           class="mt-3"
         >
           <div
-            class="text-secondary mb-1"
+            class="mb-1"
           >
             <strong>
               Instructions
             </strong>
           </div>
           <div
-            class="lh-base"
             id="instructions"
           />
         </div>
         <details
-          class="d-inline-block mt-3"
+          class="d-inline-block mt-2"
         >
           <summary
             class="text-secondary"
           >
-            Session details
+            Additional details
           </summary>
           <div
-            class="d-flex flex-column gap-2 text-secondary mt-2"
+            class="d-flex flex-column gap-2 mt-2"
           >
           </div>
         </details>
       </div>
     </div>
   </div><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -938,7 +895,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             10 questions
           </span>
@@ -981,6 +938,13 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -3873,7 +3837,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
@@ -3900,41 +3863,28 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
+    </div>
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
       >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
-  </div><div
-    class="card border bg-body-tertiary mb-3"
+    class="card border bg-body-secondary mb-3"
   >
     <div
       class="card-body"
@@ -3942,13 +3892,13 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
       <div
         class="flex-grow-1"
       >
-        <h2
+        <h1
           class="fs-4 fw-semibold mb-2"
           id="fs-name"
         >
-        </h2>
+        </h1>
         <div
-          class="text-secondary d-flex flex-wrap gap-3"
+          class="d-flex flex-wrap gap-3"
         >
           <span>
             <strong>
@@ -3965,34 +3915,33 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           class="mt-3"
         >
           <div
-            class="text-secondary mb-1"
+            class="mb-1"
           >
             <strong>
               Instructions
             </strong>
           </div>
           <div
-            class="lh-base"
             id="instructions"
           />
         </div>
         <details
-          class="d-inline-block mt-3"
+          class="d-inline-block mt-2"
         >
           <summary
             class="text-secondary"
           >
-            Session details
+            Additional details
           </summary>
           <div
-            class="d-flex flex-column gap-2 text-secondary mt-2"
+            class="d-flex flex-column gap-2 mt-2"
           >
           </div>
         </details>
       </div>
     </div>
   </div><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -4009,7 +3958,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             10 questions
           </span>
@@ -4052,6 +4001,13 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -6982,7 +6938,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -7009,40 +6964,28 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-              alice
-            </b>
-          </mark>
-          . If you wish to link your Google account (alice) with this user, 
-          <a
-            href="#"
-          >
-            click here
-          </a>
-          . 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+        alice
+      </strong>
+      . 
     </div>
-  </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
+    <div
+      class="text-secondary"
+    >
+       Link this submission to your account: 
+      <a
+        href="#"
+      >
+        alice
+      </a>
+      . 
+    </div>
   </div><tm-loading-spinner>
     <div
       class="loading-container"
@@ -7058,7 +7001,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
       </div>
     </div>
   </tm-loading-spinner><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -7075,7 +7018,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             0 questions
           </span>
@@ -7108,6 +7051,13 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -7160,7 +7110,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -7187,40 +7136,27 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-              alice
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+        alice
+      </strong>
+      . 
     </div>
-  </div><div
-    class="alert alert-primary"
-    role="alert"
-  >
-    <i
-      class="fas fa-info-circle"
-    />
-     You may edit and resubmit your responses any number of times before the session closes. 
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
+      >
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
+    </div>
   </div><tm-loading-spinner>
     <div
       class="loading-container"
@@ -7236,7 +7172,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
       </div>
     </div>
   </tm-loading-spinner><div
-    class="border rounded bg-body mb-3 px-3 py-3"
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
   >
     <div
       class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
@@ -7253,7 +7189,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
           class="d-flex flex-wrap align-items-center gap-2"
         >
           <span
-            class="text-secondary"
+            class="text-secondary small"
           >
             0 questions
           </span>
@@ -7286,6 +7222,13 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
         </select>
       </div>
     </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
