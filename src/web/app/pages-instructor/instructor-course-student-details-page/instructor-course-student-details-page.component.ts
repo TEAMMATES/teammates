@@ -35,18 +35,18 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       this.courseId = queryParams['courseid'];
       this.studentId = queryParams['userid'];
 
-      this.loadStudentDetails(this.courseId, this.studentId);
+      this.loadStudentDetails(this.studentId);
     });
   }
 
   /**
    * Loads the student's details based on the given course ID and user ID.
    */
-  loadStudentDetails(courseId: string, studentId: string): void {
+  loadStudentDetails(studentId: string): void {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService
-      .getStudent({ courseId, userId: studentId })
+      .getStudent({ userId: studentId })
       .pipe(
         finalize(() => {
           this.isStudentLoading = false;

@@ -94,8 +94,8 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     this.isStudentResultsLoading = true;
 
     combineLatest({
-      feedbackSession: this.getFeedbackSessions(this.courseId),
-      student: this.loadStudentRecords(courseId, studentId),
+      feedbackSession: this.getFeedbackSessions(courseId),
+      student: this.loadStudentRecords(studentId),
     })
       .pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
@@ -127,8 +127,8 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   /**
    * Loads the student's records based on the given course ID and user ID.
    */
-  private loadStudentRecords(courseId: string, studentId: string): Observable<Student> {
-    return this.studentService.getStudent({ courseId, userId: studentId }).pipe(
+  private loadStudentRecords(studentId: string): Observable<Student> {
+    return this.studentService.getStudent({ userId: studentId }).pipe(
       tap((resp: Student) => {
         this.studentName = resp.name;
         this.studentEmail = resp.email;

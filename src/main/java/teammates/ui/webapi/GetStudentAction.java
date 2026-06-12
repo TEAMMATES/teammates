@@ -9,73 +9,35 @@ import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.StudentData;
 
 /**
- * Get the information of a student inside a course.
+ * Get the information of a student by user ID.
  */
 public class GetStudentAction extends Action {
 
-    /** Message indicating that a student not found. */
-    static final String STUDENT_NOT_FOUND = "No student found";
-
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
-
-        if (studentId != null) {
-            Student student = getStudentInCourse(courseId, studentId);
-            if (student == null) {
-                throw new EntityNotFoundException(STUDENT_NOT_FOUND);
-            }
-
-            gateKeeper.verifyInstructorHasPrivilegeForSection(requestContext, courseId,
-                    student.getSectionId(),
-                    Const.InstructorPermissions.CAN_VIEW_STUDENT);
-        } else {
-            gateKeeper.verifyStudentInCourse(requestContext, courseId);
+        if (requestContext.isAdmin()) {
+            return;
         }
+
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        gateKeeper.verifyInstructorCanViewStudent(requestContext, studentId);
     }
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Student student;
-
-        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
-
-        if (studentId == null) {
-            student = getStudentFromRequest(courseId);
-        } else {
-            student = getStudentInCourse(courseId, studentId);
-        }
-
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Student student = logic.getStudent(studentId);
         if (student == null) {
-            throw new EntityNotFoundException(STUDENT_NOT_FOUND);
+            throw new EntityNotFoundException("No student found");
         }
 
         StudentData studentData = new StudentData(student);
-        if (requestContext.isAdmin()) {
-            studentData.setKey(student.getRegKey());
-        }
-
-        if (studentId == null) {
-            // hide information if not an instructor
-            studentData.hideInformationForStudent();
-        }
 
         return new JsonResult(studentData);
-    }
-
-    private Student getStudentInCourse(String courseId, UUID studentId) {
-        Student student = logic.getStudent(studentId);
-        if (student == null || !courseId.equals(student.getCourseId())) {
-            return null;
-        }
-        return student;
     }
 }

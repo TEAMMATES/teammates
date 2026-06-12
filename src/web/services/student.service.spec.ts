@@ -84,17 +84,28 @@ describe('StudentService', () => {
 
   it('should execute GET when getting a student by user ID', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
       userid: '00000000-0000-4000-9000-000000000001',
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
     service.getStudent({
-      courseId: paramMap['courseid'],
       userId: paramMap['userid'],
     });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramMap);
+  });
+
+  it('should execute GET when getting the current student of a course', () => {
+    const paramMap: Record<string, string> = {
+      courseid: 'CS3281',
+    };
+    vi.spyOn(spyHttpRequestService, 'get');
+
+    service.getOwnStudent({
+      courseId: paramMap['courseid'],
+    });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_STUDENT, paramMap);
   });
 
   it('should execute GET when getting students in a team by team ID', () => {

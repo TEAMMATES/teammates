@@ -90,7 +90,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.route.queryParams.subscribe((queryParams: Params) => {
       this.courseId = queryParams['courseid'];
       this.studentId = queryParams['userid'];
-      this.loadStudentEditDetails(queryParams['courseid'], queryParams['userid']);
+      this.loadStudentEditDetails(queryParams['userid']);
     });
   }
 
@@ -106,11 +106,11 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   /**
    * Loads student details required for this page.
    */
-  loadStudentEditDetails(courseId: string, studentId: string): void {
+  loadStudentEditDetails(studentId: string): void {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService
-      .getStudent({ courseId, userId: studentId })
+      .getStudent({ userId: studentId })
       .pipe(
         finalize(() => {
           this.isStudentLoading = false;

@@ -40,22 +40,28 @@ export class StudentService {
   }
 
   /**
-   * Gets student of a course by calling API.
-   *
-   * If both userId and regKey are not provided, get the student of current logged-in user.
-   *
+   * Gets a student by user ID by calling API.
    */
-  getStudent(queryParams: { courseId: string; userId?: string; regKey?: string }): Observable<Student> {
+  getStudent(queryParams: { userId: string }): Observable<Student> {
+    const paramsMap: { [key: string]: string } = {
+      userid: queryParams.userId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
+  }
+
+  /**
+   * Gets the student associated with the current request by calling API.
+   */
+  getOwnStudent(queryParams: { courseId: string; regKey?: string }): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
-    if (queryParams.userId) {
-      paramsMap['userid'] = queryParams.userId;
-    }
     if (queryParams.regKey) {
       paramsMap['key'] = queryParams.regKey;
     }
-    return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
+
+    return this.httpRequestService.get(ResourceEndpoints.OWN_STUDENT, paramsMap);
   }
 
   /**

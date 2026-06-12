@@ -3,6 +3,7 @@ package teammates.test.scenariobuilder;
 import java.util.UUID;
 
 import teammates.common.datatransfer.Provider;
+import teammates.common.util.Config;
 import teammates.storage.entity.Account;
 
 /**
@@ -27,6 +28,14 @@ public final class GivenAccount extends GivenBase<Account> {
      */
     public GivenAccount googleId(String googleId) {
         entity.setGoogleId(googleId);
+        return this;
+    }
+
+    /**
+     * Gets the admin account.
+     */
+    public GivenAccount admin() {
+        this.email(Config.APP_ADMINS.get(0));
         return this;
     }
 

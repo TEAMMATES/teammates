@@ -244,16 +244,14 @@ export class SessionResultPageComponent implements OnInit {
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
         if (this.previewAsPerson) {
-          this.studentService
-            .getStudent({ courseId: this.courseId, userId: this.previewAsPerson })
-            .subscribe((student: Student) => {
-              this.studentId = student.userId;
-              this.personName = student.name;
-              this.personEmail = student.email;
-            });
+          this.studentService.getStudent({ userId: this.previewAsPerson }).subscribe((student: Student) => {
+            this.studentId = student.userId;
+            this.personName = student.name;
+            this.personEmail = student.email;
+          });
         } else {
           this.studentService
-            .getStudent({ courseId: this.courseId, regKey: this.regKey })
+            .getOwnStudent({ courseId: this.courseId, regKey: this.regKey })
             .subscribe((student: Student) => {
               this.studentId = student.userId;
               this.personName = student.name;

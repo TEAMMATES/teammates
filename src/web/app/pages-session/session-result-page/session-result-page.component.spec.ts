@@ -263,7 +263,7 @@ describe('SessionResultPageComponent', () => {
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    vi.spyOn(studentService, 'getStudent').mockReturnValue(
+    vi.spyOn(studentService, 'getOwnStudent').mockReturnValue(
       of({
         name: 'student-name',
         email: 'student@tmt.tmt',
