@@ -69,6 +69,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.SessionLinksData;
 import teammates.ui.output.UsageStatisticsData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -1157,6 +1158,13 @@ public class Logic {
     public User regenerateUserRegistrationKey(UUID userId)
             throws EntityDoesNotExistException, UserUpdateException {
         return usersLogic.regenerateUserRegistrationKey(userId);
+    }
+
+    /**
+     * Gets all feedback session links for the user with {@code userId}.
+     */
+    public SessionLinksData getSessionLinks(UUID userId) throws EntityDoesNotExistException {
+        return feedbackSessionsLogic.getSessionLinks(userId);
     }
 
     /**

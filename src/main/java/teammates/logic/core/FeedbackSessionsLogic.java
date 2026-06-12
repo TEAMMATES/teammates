@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
+import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -20,6 +21,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.LinksUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -30,6 +32,11 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
+import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.SessionLinksData;
+import teammates.ui.output.SessionResultLinkData;
+import teammates.ui.output.SessionSubmissionLinkData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
@@ -101,10 +108,85 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
+     * Gets all feedback session links for the user with {@code userId}.
+     */
+    public SessionLinksData getSessionLinks(UUID userId) throws EntityDoesNotExistException {
+        User user = usersLogic.getUser(userId);
+        if (user == null) {
+            throw new EntityDoesNotExistException(String.format("User with id %s not found.", userId));
+        }
+
+        List<SessionSubmissionLinkData> submissionLinks = new ArrayList<>();
+        List<SessionResultLinkData> resultsLinks = new ArrayList<>();
+        String regKey = user.getRegKey();
+
+        for (FeedbackSession feedbackSession : getFeedbackSessionsForCourse(user.getCourseId())) {
+            submissionLinks.add(new SessionSubmissionLinkData(
+                    feedbackSession.getId(),
+                    feedbackSession.getName(),
+                    feedbackSession.getStartTime().toEpochMilli(),
+                    feedbackSession.getEndTime().toEpochMilli(),
+                    feedbackSession.getCourse().getTimeZone(),
+                    getSubmissionStatus(feedbackSession),
+                    getSubmissionUrl(user.getUserType(), feedbackSession.getId(), regKey)));
+
+            if (feedbackSession.isPublished()) {
+                resultsLinks.add(new SessionResultLinkData(
+                        feedbackSession.getId(),
+                        feedbackSession.getName(),
+                        feedbackSession.getStartTime().toEpochMilli(),
+                        feedbackSession.getEndTime().toEpochMilli(),
+                        feedbackSession.getCourse().getTimeZone(),
+                        getResultUrl(user.getUserType(), feedbackSession.getId(), regKey)));
+            }
+        }
+
+        return new SessionLinksData(getCourseJoinUrl(user.getUserType(), regKey), submissionLinks, resultsLinks);
+    }
+
+    /**
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
         return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
+    }
+
+    private String getCourseJoinUrl(UserType userType, String regKey) {
+        return switch (userType) {
+        case STUDENT -> LinksUtil.getStudentCourseJoinUrl(regKey);
+        case INSTRUCTOR -> LinksUtil.getInstructorCourseJoinUrl(regKey);
+        };
+    }
+
+    private String getSubmissionUrl(UserType userType, UUID feedbackSessionId, String regKey) {
+        return switch (userType) {
+        case STUDENT -> LinksUtil.getStudentSessionSubmitUrl(feedbackSessionId, regKey);
+        case INSTRUCTOR -> LinksUtil.getInstructorSessionSubmitUrl(feedbackSessionId, regKey);
+        };
+    }
+
+    private String getResultUrl(UserType userType, UUID feedbackSessionId, String regKey) {
+        return switch (userType) {
+        case STUDENT -> LinksUtil.getStudentSessionResultsUrl(feedbackSessionId, regKey);
+        case INSTRUCTOR -> LinksUtil.getInstructorSessionResultsUrl(feedbackSessionId, regKey);
+        };
+    }
+
+    private FeedbackSessionSubmissionStatus getSubmissionStatus(FeedbackSession feedbackSession) {
+        if (!feedbackSession.isVisible()) {
+            return FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+        }
+        if (feedbackSession.isInGracePeriod()) {
+            return FeedbackSessionSubmissionStatus.GRACE_PERIOD;
+        }
+        if (feedbackSession.isOpened()) {
+            return FeedbackSessionSubmissionStatus.OPEN;
+        }
+        if (feedbackSession.isClosed()) {
+            return FeedbackSessionSubmissionStatus.CLOSED;
+        }
+
+        return FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
     }
 
     /**
