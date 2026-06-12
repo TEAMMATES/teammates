@@ -172,44 +172,28 @@
                 <div class="text-secondary small">{{ entry.value.size }} questions</div>
               </div>
             </div>
-            <div class="px-3 py-3">
+            <div class="px-3 py-3 d-flex flex-column gap-2">
               @for (
                 questionSubmissionForm of questionSubmissionForms;
                 track questionSubmissionForm.feedbackQuestionId;
                 let i = $index
               ) {
                 @if (entry.value.has(questionSubmissionForm.questionNumber)) {
-                  <div class="mb-3">
-                    <tm-question-submission-form
-                      [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                      [(formModel)]="questionSubmissionForms[i]"
-                      [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
-                      [isSubmissionDisabled]="isSubmissionFormsDisabled"
-                      [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                      [isSavingResponses]="isSavingResponses"
-                      (responsesSave)="saveFeedbackResponses([$event])"
-                      (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                      [isQuestionCountOne]="isQuestionCountOne"
-                      [currentSelectedSessionView]="currentSelectedSessionView"
-                      [recipientId]="entry.key"
-                    ></tm-question-submission-form>
-                  </div>
+                  <tm-question-submission-form
+                    [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                    [(formModel)]="questionSubmissionForms[i]"
+                    [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
+                    [isSubmissionDisabled]="isSubmissionFormsDisabled"
+                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                    [isSavingResponses]="isSavingResponses"
+                    (responsesSave)="saveFeedbackResponses([$event])"
+                    (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                    [isQuestionCountOne]="isQuestionCountOne"
+                    [currentSelectedSessionView]="currentSelectedSessionView"
+                    [recipientId]="entry.key"
+                  ></tm-question-submission-form>
                 }
               }
-            </div>
-            <div class="px-3 pb-3 d-flex justify-content-center">
-              <button
-                id="btn-submit-by-recipient"
-                type="button"
-                class="btn btn-success"
-                (click)="saveResponsesForSelectedRecipientQuestions(entry.key, questionSubmissionForms)"
-                [disabled]="isSavingResponses || isSubmissionFormsDisabled"
-              >
-                @if (isSavingResponses) {
-                  <tm-ajax-loading></tm-ajax-loading>
-                }
-                Submit Responses for {{ getRecipientName(entry.key) }}
-              </button>
             </div>
           </section>
         }
@@ -219,26 +203,24 @@
               <h2 class="h5 mb-1">Ungrouped Questions</h2>
               <div class="text-secondary small">{{ ungroupableQuestionsSorted.length }} questions</div>
             </div>
-            <div class="px-3 py-3">
+            <div class="px-3 py-3 d-flex flex-column gap-2">
               @for (
                 questionSubmissionForm of questionSubmissionForms;
                 track questionSubmissionForm.feedbackQuestionId;
                 let i = $index
               ) {
                 @if (ungroupableQuestionsSorted.includes(questionSubmissionForm.questionNumber)) {
-                  <div class="mb-3">
-                    <tm-question-submission-form
-                      [attr.id]="questionSubmissionForm.feedbackQuestionId"
-                      [(formModel)]="questionSubmissionForms[i]"
-                      [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
-                      [isSubmissionDisabled]="isSubmissionFormsDisabled"
-                      [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
-                      [isSavingResponses]="isSavingResponses"
-                      (responsesSave)="saveFeedbackResponses([$event])"
-                      (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                      [isQuestionCountOne]="isQuestionCountOne"
-                    ></tm-question-submission-form>
-                  </div>
+                  <tm-question-submission-form
+                    [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                    [(formModel)]="questionSubmissionForms[i]"
+                    [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
+                    [isSubmissionDisabled]="isSubmissionFormsDisabled"
+                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                    [isSavingResponses]="isSavingResponses"
+                    (responsesSave)="saveFeedbackResponses([$event])"
+                    (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+                    [isQuestionCountOne]="isQuestionCountOne"
+                  ></tm-question-submission-form>
                 }
               }
             </div>

@@ -997,27 +997,6 @@ export class SessionSubmissionPageComponent implements OnInit {
     return userSessionEndingTime - Date.now() < Milliseconds.IN_FIFTEEN_MINUTES;
   }
 
-  /**
-   * Filter questions that we are submitting for intended recipient
-   * when grouped session view is toggled and save the responses after.
-   */
-  saveResponsesForSelectedRecipientQuestions(
-    recipientId: string,
-    questionSubmissionForms: QuestionSubmissionFormModel[],
-  ): void {
-    const questionsToRecipient = this.recipientQuestionMap.get(recipientId);
-    if (!questionsToRecipient) {
-      this.statusMessageService.showErrorToast('There was an issue saving your responses.');
-      return;
-    }
-    const recipientQSForms = questionSubmissionForms.filter(
-      (questionSubmissionFormModel: QuestionSubmissionFormModel) =>
-        questionsToRecipient.has(questionSubmissionFormModel.questionNumber),
-    );
-
-    this.saveFeedbackResponses(recipientQSForms);
-  }
-
   private addQuestionForRecipient(recipientId: string, questionId: number): void {
     if (this.recipientQuestionMap.has(recipientId)) {
       this.recipientQuestionMap.get(recipientId)!.add(questionId);

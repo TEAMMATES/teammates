@@ -420,7 +420,7 @@
     @if (!model.recipientList.length) {
       <tm-no-recipients-warning [recipientType]="model.recipientType"></tm-no-recipients-warning>
     }
-    @if (model.recipientList.length > 0 && currentSelectedSessionView === allSessionViews.DEFAULT) {
+    @if (model.recipientList.length > 0) {
       <div class="row">
         <div class="col-12 text-end">
           <button
