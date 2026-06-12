@@ -784,7 +784,7 @@ public class FeedbackSubmitPage extends AppPage {
             int limit = 20; // we are not likely to set test data exceeding this number
             for (int i = 0; i < limit; i++) {
                 if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
-                        .getText().contains(recipient)) {
+                        .getText().startsWith(recipient)) {
                     return i;
                 }
             }
@@ -795,7 +795,7 @@ public class FeedbackSubmitPage extends AppPage {
                 if (dropdownText.isEmpty()) {
                     selectRecipientComboboxOptionByText(recipientDropdowns.get(i), recipient);
                     return i;
-                } else if (dropdownText.equals(recipient)) {
+                } else if (dropdownText.startsWith(recipient)) {
                     return i;
                 }
             }
@@ -817,7 +817,7 @@ public class FeedbackSubmitPage extends AppPage {
 
         List<WebElement> options = waitForRecipientComboboxOptions(recipientCombobox);
         for (WebElement option : options) {
-            if (option.getText().equals(text)) {
+            if (option.getText().startsWith(text)) {
                 click(option);
                 return;
             }
