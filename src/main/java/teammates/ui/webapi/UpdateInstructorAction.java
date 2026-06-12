@@ -51,7 +51,6 @@ public class UpdateInstructorAction extends Action {
         logic.updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);
 
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
-        newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
 
         return new JsonResult(newInstructorData);
     }

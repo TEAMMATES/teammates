@@ -25,6 +25,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
+  AuthInfo,
   Course,
   CourseView,
   Courses,
@@ -108,7 +109,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   CourseEditFormMode!: typeof CourseEditFormMode;
 
   courseId = '';
-  currInstructorGoogleId = '';
+  authInfo: AuthInfo | null = null;
   currInstructorCoursePrivilege?: InstructorCoursePermissions;
 
   instructorDetailPanels: InstructorEditPanelDetail[] = [];
@@ -209,7 +210,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       )
       .subscribe({
         next: (authInfo) => {
-          this.currInstructorGoogleId = authInfo.user === undefined ? '' : authInfo.user.id;
+          this.authInfo = authInfo;
         },
         error: (resp: ErrorMessageOutput) => {
           this.hasInstructorsLoadingFailed = true;
@@ -299,7 +300,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
     return this.getDefaultInstructorPanel({
-      googleId: i.googleId,
+      id: i.userId,
       courseId: i.courseId,
       email: i.email,
       isDisplayedToStudents: i.isDisplayedToStudents,
@@ -321,7 +322,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     defaultPrivileges = false,
   ): InstructorEditPanel {
     return {
-      googleId: '',
+      id: '',
       courseId: '',
       email: '',
       isDisplayedToStudents: true,
@@ -467,7 +468,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
+    const isDeletingSelf: boolean =
+      !!panelDetail.originalInstructor.accountId &&
+      panelDetail.originalInstructor.accountId === this.authInfo?.user?.accountId;
     const modalContent: string = isDeletingSelf
       ? `Are you sure you want to delete your instructor role
         from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
@@ -489,7 +492,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           })
           .subscribe({
             next: () => {
-              if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
+              if (isDeletingSelf) {
                 this.navigationService.navigateWithSuccessMessage(
                   '/web/instructor/courses',
                   'Instructor is successfully deleted.',

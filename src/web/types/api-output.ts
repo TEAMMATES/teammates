@@ -344,7 +344,6 @@ export interface Instructor extends ApiOutput {
   institute: string;
   courseName: string;
   accountId?: string;
-  googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;

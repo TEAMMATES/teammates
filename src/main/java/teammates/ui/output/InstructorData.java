@@ -16,8 +16,6 @@ public class InstructorData implements ApiOutput {
     private final UUID userId;
     @Nullable
     private UUID accountId;
-    @Nullable
-    private String googleId;
     private final String courseId;
     private final String email;
     @Nullable
@@ -60,14 +58,6 @@ public class InstructorData implements ApiOutput {
 
     public UUID getUserId() {
         return userId;
-    }
-
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
     }
 
     public String getCourseId() {

@@ -53,7 +53,6 @@ describe('SearchService', () => {
   const mockInstructorA: Instructor = {
     userId: '00000000-0000-4000-8000-000000000001',
     accountId: '00000000-0000-4000-8000-000000000001',
-    googleId: 'instructor.lee@example.edu',
     courseId: 'cs1010-demo',
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',
@@ -69,7 +68,6 @@ describe('SearchService', () => {
   const mockInstructorB: Instructor = {
     userId: '00000000-0000-4000-8000-000000000002',
     accountId: '00000000-0000-4000-8000-000000000002',
-    googleId: 'instructor.brown@example.edu',
     courseId: 'cs1010-demo',
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',
@@ -85,7 +83,6 @@ describe('SearchService', () => {
   const mockInstructorC: Instructor = {
     userId: '00000000-0000-4000-8000-000000000003',
     accountId: '00000000-0000-4000-8000-000000000003',
-    googleId: 'instructor.chen@example.edu',
     courseId: 'cs1010-demo',
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',
@@ -266,7 +263,7 @@ describe('SearchService', () => {
     );
     expect(result.comments).toBe('Student record used for search service tests');
     expect(result.courseId).toBe('cs1010-demo');
-    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=student-key-001&entitytype=student`);
+    expect(result.courseJoinLink).toBe(`${globalThis.location.origin}/web/join?key=student-key-001&entitytype=student`);
     expect(result.courseName).toBe('Introduction to Software Engineering');
     expect(result.email).toBe('alice.brown@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-00000000000a');
@@ -329,7 +326,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
     expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
     expect(result.registrationLink).toBe(
-      `${window.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
+      `${globalThis.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
     );
   });
 
@@ -343,7 +340,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
     expect(result.registeredAtText).toBe(null);
     expect(result.registrationLink).toBe(
-      `${window.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
+      `${globalThis.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
     );
   });
 });

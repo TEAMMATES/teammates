@@ -29,7 +29,6 @@ const defaultUpdateRequestBody: InstructorUpdateRequest = {
 const defaultInstructors: Instructors = {
   instructors: [
     {
-      googleId: '',
       courseId: 'CS3281',
       courseName: 'Test Course',
       institute: 'Test Institute',
@@ -42,7 +41,6 @@ const defaultInstructors: Instructors = {
       joinState: JoinState.JOINED,
     },
     {
-      googleId: '',
       courseId: 'CS3282',
       courseName: 'Test Course',
       institute: 'Test Institute',

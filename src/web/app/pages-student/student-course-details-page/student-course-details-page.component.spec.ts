@@ -23,7 +23,6 @@ const student: Student = {
 
 const instructorDetails: Instructor[] = [
   {
-    googleId: '',
     courseId: '1.1.c-demo2',
     courseName: 'Test Course',
     institute: 'Test Institute',
