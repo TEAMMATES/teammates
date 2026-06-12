@@ -153,10 +153,30 @@ describe('QuestionSubmissionFormComponent', () => {
     const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
     component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
     model.recipientList = [
-      { recipientName: 'Alan Rogers', recipientIdentifier: 'rogers-alan-id', recipientSection: 'Section C', recipientTeam: 'Team B' },
-      { recipientName: 'Arthur Buck', recipientIdentifier: 'buck-arthur-id', recipientSection: 'Section A', recipientTeam: 'Team C' },
-      { recipientName: 'Barry Harris', recipientIdentifier: 'harris-barry-id', recipientSection: 'Section A', recipientTeam: 'Team A' },
-      { recipientName: 'Charlie Hans', recipientIdentifier: 'hans-charlie-id', recipientSection: 'Section B', recipientTeam: 'Team A' },
+      {
+        recipientName: 'Alan Rogers',
+        recipientIdentifier: 'rogers-alan-id',
+        recipientSection: 'Section C',
+        recipientTeam: 'Team B',
+      },
+      {
+        recipientName: 'Arthur Buck',
+        recipientIdentifier: 'buck-arthur-id',
+        recipientSection: 'Section A',
+        recipientTeam: 'Team C',
+      },
+      {
+        recipientName: 'Barry Harris',
+        recipientIdentifier: 'harris-barry-id',
+        recipientSection: 'Section A',
+        recipientTeam: 'Team A',
+      },
+      {
+        recipientName: 'Charlie Hans',
+        recipientIdentifier: 'hans-charlie-id',
+        recipientSection: 'Section B',
+        recipientTeam: 'Team A',
+      },
     ];
     component.formModel = model;
 
@@ -207,7 +227,9 @@ describe('QuestionSubmissionFormComponent', () => {
   it('getResponseSubmissionStatus: returns NEW when all responses are NEW', () => {
     component.model.recipientSubmissionForms.push(
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('other-id').status(ResponseSubmissionStatus.NEW).build() },
+      {
+        ...recipientSubmissionFormBuilder.recipientIdentifier('other-id').status(ResponseSubmissionStatus.NEW).build(),
+      },
     );
 
     expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.NEW);
@@ -215,8 +237,18 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('getResponseSubmissionStatus: filters by recipientId before computing the status', () => {
     component.model.recipientSubmissionForms.push(
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.ERROR).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.SAVED).build() },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-a')
+          .status(ResponseSubmissionStatus.ERROR)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-b')
+          .status(ResponseSubmissionStatus.SAVED)
+          .build(),
+      },
     );
 
     expect(component.getResponseSubmissionStatus('recipient-b')).toBe(ResponseSubmissionStatus.SAVED);
@@ -225,10 +257,30 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('getResponseSubmissionStatusLabel: maps statuses to user-facing labels', () => {
     component.model.recipientSubmissionForms.push(
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.NEW).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.MODIFIED).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-c').status(ResponseSubmissionStatus.SAVED).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-d').status(ResponseSubmissionStatus.ERROR).build() },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-a')
+          .status(ResponseSubmissionStatus.NEW)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-b')
+          .status(ResponseSubmissionStatus.MODIFIED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-c')
+          .status(ResponseSubmissionStatus.SAVED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-d')
+          .status(ResponseSubmissionStatus.ERROR)
+          .build(),
+      },
     );
 
     expect(component.getResponseSubmissionStatusLabel('recipient-a')).toBe('');
@@ -239,10 +291,30 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('getResponseSubmissionStatusIconClass: maps statuses to icons', () => {
     component.model.recipientSubmissionForms.push(
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.NEW).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.MODIFIED).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-c').status(ResponseSubmissionStatus.SAVED).build() },
-      { ...recipientSubmissionFormBuilder.recipientIdentifier('recipient-d').status(ResponseSubmissionStatus.ERROR).build() },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-a')
+          .status(ResponseSubmissionStatus.NEW)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-b')
+          .status(ResponseSubmissionStatus.MODIFIED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-c')
+          .status(ResponseSubmissionStatus.SAVED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-d')
+          .status(ResponseSubmissionStatus.ERROR)
+          .build(),
+      },
     );
 
     expect(component.getResponseSubmissionStatusIconClass('recipient-a')).toBe('');
@@ -431,17 +503,14 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-team)');
   });
 
-  it(
-    'getSelectionOptionLabel: should return recipientName if both recipientSection and recipientTeam are undefined',
-    () => {
-      component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-      component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
+  it('getSelectionOptionLabel: should return recipientName if both recipientSection and recipientTeam are undefined', () => {
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
-      const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
+    const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
 
-      expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name');
-    },
-  );
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name');
+  });
 
   it('getRecipientComboboxOptions: should include unselected recipients and the current recipient', () => {
     const selectedRecipient = feedbackResponseRecipientBuilder

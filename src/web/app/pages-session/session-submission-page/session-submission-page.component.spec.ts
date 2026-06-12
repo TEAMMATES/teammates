@@ -1116,10 +1116,10 @@ describe('SessionSubmissionPageComponent', () => {
 
     vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockReturnValue(
       throwError(() => ({
-      error: {
-        message: 'backend error',
-      },
-    })),
+        error: {
+          message: 'backend error',
+        },
+      })),
     );
     const ngbModalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
