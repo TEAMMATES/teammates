@@ -120,8 +120,10 @@ public class InstructorCourseEditPage extends AppPage {
             Map<String, Map<String, InstructorPermissionSet>> sessionLevelPrivileges) {
         waitForElementPresence(By.tagName("tm-instructor-edit-panel"));
         int instrNum = getIntrNum(instructor.getEmail());
-        if (instructor.getGoogleId() != null) {
-            assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
+        if (instructor.getAccountId() != null) {
+            assertEquals("Joined", getInstructorJoinState(instrNum));
+        } else {
+            assertEquals("Yet to Join", getInstructorJoinState(instrNum));
         }
         assertEquals(instructor.getName(), getInstructorName(instrNum));
         assertEquals(instructor.getEmail(), getInstructorEmail(instrNum));
@@ -479,8 +481,8 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("displayed-name-instructor-" + instrNum));
     }
 
-    public String getInstructorGoogleId(int instrNum) {
-        return browser.driver.findElement(By.id("google-id-instructor-" + instrNum)).getAttribute("value");
+    public String getInstructorJoinState(int instrNum) {
+        return browser.driver.findElement(By.id("join-state-instructor-" + instrNum)).getAttribute("value");
     }
 
     public String getInstructorName(int instrNum) {

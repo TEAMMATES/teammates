@@ -31,7 +31,6 @@ describe('Link Service', () => {
   };
 
   const mockInstructor: Instructor = {
-    googleId: 'instructor.lee@example.edu',
     courseId: 'cs1010-demo',
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',

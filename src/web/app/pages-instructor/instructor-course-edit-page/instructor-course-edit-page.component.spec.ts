@@ -43,7 +43,7 @@ const testInstructor3 = instructorBuilder
   .build();
 
 const emptyInstructorPanel: InstructorEditPanel = {
-  googleId: '',
+  id: '',
   courseId: '',
   email: '',
   isDisplayedToStudents: true,

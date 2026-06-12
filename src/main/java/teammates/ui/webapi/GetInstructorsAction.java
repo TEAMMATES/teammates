@@ -69,7 +69,7 @@ public class GetInstructorsAction extends Action {
 
             // hide information
             data.getInstructors().forEach(i -> {
-                i.setGoogleId(null);
+                i.setAccountId(null);
                 i.setJoinState(null);
                 i.setIsDisplayedToStudents(null);
                 i.setRole(null);
@@ -84,7 +84,6 @@ public class GetInstructorsAction extends Action {
 
                 for (Instructor instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
-                    instructorData.setGoogleId(instructor.getGoogleId());
                     if (requestContext.isAdmin()) {
                         instructorData.setKey(instructor.getRegKey());
                     }
