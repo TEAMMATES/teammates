@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -1250,6 +1251,13 @@ public final class FeedbackResponsesLogic {
         boolean isGiverVisibleToInstructor =
                 responseInstructorComment.getShowGiverNameTo().contains(CommentVisibilityType.INSTRUCTORS);
         return isCommentVisibleToInstructor && isGiverVisibleToInstructor;
+    }
+
+    /**
+     * Gets createdAt timestamps of feedback responses created within the given time range.
+     */
+    public List<Instant> getFeedbackResponseCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return frDb.getCreatedAtTimestampsForTimeRange(startTime, endTime);
     }
 
 }

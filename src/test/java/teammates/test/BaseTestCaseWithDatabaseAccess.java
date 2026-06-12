@@ -162,7 +162,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 sections,
                 students,
                 teams,
-                usage_statistics,
                 users
             RESTART IDENTITY CASCADE
             """)

@@ -18,9 +18,7 @@ exports[`UsageStatisticsPageComponent > should snap with default fields 1`] = `
   timezoneService={[Function _TimezoneService]}
   usageStatisticsService={[Function _UsageStatisticsService]}
 >
-  <p>
-    Data available from: 1 January 2016, 00:00 UTC
-  </p><div
+  <div
     class="card bg-form no-border"
   >
     <div
@@ -236,16 +234,6 @@ exports[`UsageStatisticsPageComponent > should snap with default fields 1`] = `
               value="4"
             >
               # of account requests
-            </option>
-            <option
-              value="5"
-            >
-              # of emails
-            </option>
-            <option
-              value="6"
-            >
-              # of submissions
             </option>
           </select>
         </div>

@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -651,6 +652,32 @@ public final class UsersDb {
      */
     public Team getTeam(UUID teamId) {
         return HibernateUtil.get(Team.class, teamId);
+    }
+
+    /**
+     * Gets createdAt timestamps of students created within the given time range.
+     */
+    public List<Instant> getStudentCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
+        Root<Student> root = cr.from(Student.class);
+        cr.select(root.get("createdAt")).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets createdAt timestamps of instructors created within the given time range.
+     */
+    public List<Instant> getInstructorCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
+        Root<Instructor> root = cr.from(Instructor.class);
+        cr.select(root.get("createdAt")).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
 }

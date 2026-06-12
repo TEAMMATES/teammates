@@ -38,7 +38,6 @@ import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.UsageStatistics;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
@@ -54,7 +53,6 @@ import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.StudentData;
-import teammates.ui.output.UsageStatisticsData;
 
 /**
  * Base class for all browser tests.
@@ -326,19 +324,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             // TODO: A student might not have a team or section.
             // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
             // assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
-        } else if (expected instanceof UsageStatistics) {
-            UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
-            UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
-            assertEquals(expectedUsageStatistics.getStartTime().toEpochMilli(), actualUsageStatistics.getStartTime());
-            assertEquals(expectedUsageStatistics.getTimePeriod(), actualUsageStatistics.getTimePeriod());
-            assertEquals(expectedUsageStatistics.getNumResponses(), actualUsageStatistics.getNumResponses());
-            assertEquals(expectedUsageStatistics.getNumCourses(), actualUsageStatistics.getNumCourses());
-            assertEquals(expectedUsageStatistics.getNumStudents(), actualUsageStatistics.getNumStudents());
-            assertEquals(expectedUsageStatistics.getNumInstructors(), actualUsageStatistics.getNumInstructors());
-            assertEquals(expectedUsageStatistics.getNumAccountRequests(),
-                    actualUsageStatistics.getNumAccountRequests());
-            assertEquals(expectedUsageStatistics.getNumEmails(), actualUsageStatistics.getNumEmails());
-            assertEquals(expectedUsageStatistics.getNumSubmissions(), actualUsageStatistics.getNumSubmissions());
         } else {
             fail("Unknown entity");
         }

@@ -67,9 +67,9 @@ import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.UsageStatisticsData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
@@ -726,24 +726,13 @@ public class Logic {
     }
 
     /**
-     * Get usage statistics within a time range.
+     * Calculates usage statistics for the given time range, bucketed by hour.
+     *
+     * @throws InvalidParametersException if the time range is invalid
      */
-    public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
-    }
-
-    /**
-     * Calculate usage statistics within a time range.
-     */
-    public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        return usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
-    }
-
-    /**
-     * Create usage statistics within a time range.
-     */
-    public void createUsageStatistics(UsageStatistics attributes) {
-        usageStatisticsLogic.createUsageStatistics(attributes);
+    public List<UsageStatisticsData> getUsageStatistics(Instant startTime, Instant endTime)
+            throws InvalidParametersException {
+        return usageStatisticsLogic.getUsageStatistics(startTime, endTime);
     }
 
     /**

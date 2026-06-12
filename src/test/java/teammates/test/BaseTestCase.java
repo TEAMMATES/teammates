@@ -43,7 +43,6 @@ import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 
 /**
  * Base class for all test cases.
@@ -233,10 +232,6 @@ public class BaseTestCase {
                 AccountRequestStatus.PENDING, "");
         getTypicalInstitute().addAccountRequest(accountRequest);
         return accountRequest;
-    }
-
-    protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
-        return new UsageStatistics(startTime, 60, 2, 2, 2, 2, 2, 0, 0);
     }
 
     /**

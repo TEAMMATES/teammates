@@ -365,8 +365,6 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionClosingSoonReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
-        public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
-                URI_PREFIX + "/calculateUsageStatistics";
         public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP =
                 URI_PREFIX + "/cleanupFeedbackSessionLogs";
     }

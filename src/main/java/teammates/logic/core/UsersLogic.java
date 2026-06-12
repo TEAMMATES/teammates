@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1059,5 +1060,19 @@ public final class UsersLogic {
         if (!user.isValid()) {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
+    }
+
+    /**
+     * Gets createdAt timestamps of students created within the given time range.
+     */
+    public List<Instant> getStudentCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return usersDb.getStudentCreatedAtTimestampsForTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Gets createdAt timestamps of instructors created within the given time range.
+     */
+    public List<Instant> getInstructorCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return usersDb.getInstructorCreatedAtTimestampsForTimeRange(startTime, endTime);
     }
 }
