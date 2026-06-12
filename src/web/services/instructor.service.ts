@@ -30,29 +30,28 @@ export class InstructorService {
   }
 
   /**
-   * Get an instructor in a course by calling API.
+   * Get an instructor by user ID by calling API.
    */
-  getInstructor(queryParams: {
-    courseId: string;
-    intent: Intent;
-    key?: string;
-    moderatedPerson?: string;
-    previewAs?: string;
-  }): Observable<Instructor> {
+  getInstructor(queryParams: { userId: string }): Observable<Instructor> {
+    const paramMap: Record<string, string> = {
+      userid: queryParams.userId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR, paramMap);
+  }
+
+  /**
+   * Get the instructor associated with the current request in a course by calling API.
+   */
+  getOwnInstructor(queryParams: { courseId: string; key?: string }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
-      intent: queryParams.intent,
     };
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;
     }
-    if (queryParams.moderatedPerson) {
-      paramMap['moderatedperson'] = queryParams.moderatedPerson;
-    }
-    if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
-    }
-    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR, paramMap);
+
+    return this.httpRequestService.get(ResourceEndpoints.OWN_INSTRUCTOR, paramMap);
   }
 
   /**

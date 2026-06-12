@@ -106,6 +106,16 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the user has instructor privileges in the same course as the specified instructor.
+     */
+    void verifyInstructorInSameCourseAsInstructor(RequestContext requestContext, UUID userId)
+            throws UnauthorizedAccessException {
+        Instructor instructor = logic.getInstructor(userId);
+        verifyNotNull(instructor, "instructor");
+        verifyInstructorInCourse(requestContext, instructor.getCourseId());
+    }
+
+    /**
      * Verifies that the user has student privileges in the course of the specified feedback session.
      */
     void verifyStudentInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId)

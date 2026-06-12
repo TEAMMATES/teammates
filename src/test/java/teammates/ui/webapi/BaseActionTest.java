@@ -157,5 +157,9 @@ public abstract class BaseActionTest<T extends Action, R extends ApiOutput> exte
             this.request = request;
             return this;
         }
+
+        public RequestContext withRegKey(String regKey) {
+            return withParam(Const.ParamsNames.REGKEY, regKey);
+        }
     }
 }
