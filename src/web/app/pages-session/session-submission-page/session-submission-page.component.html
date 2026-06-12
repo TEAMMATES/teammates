@@ -87,7 +87,7 @@
   </div>
 }
 
-<div class="card border bg-body-tertiary mb-3" *tmIsLoading="isFeedbackSessionLoading">
+<div class="card border bg-body-secondary mb-3" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
     <div class="flex-grow-1">
       <h2 id="fs-name" class="fs-4 fw-semibold mb-2">{{ feedbackSessionName }}</h2>
@@ -114,7 +114,7 @@
   </div>
 </div>
 
-<div class="border rounded bg-body mb-3 px-3 py-3">
+<div class="border rounded bg-body-tertiary mb-3 px-3 py-3">
   <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
     <div class="d-flex flex-column gap-1">
       <div class="fw-semibold">Submission status</div>
@@ -166,7 +166,7 @@
         }
         @for (entry of recipientQuestionMap | keyvalue; track entry) {
           <section class="border rounded bg-body mb-3">
-            <div class="border-bottom px-3 py-3">
+            <div class="border-bottom bg-body-tertiary px-3 py-3">
               <div>
                 <h2 class="h5 mb-1">{{ getRecipientName(entry.key) }}</h2>
                 <div class="text-secondary small">{{ entry.value.size }} questions</div>
@@ -199,7 +199,7 @@
         }
         @if (ungroupableQuestionsSorted.length > 0) {
           <section class="border rounded bg-body">
-            <div class="border-bottom px-3 py-3">
+            <div class="border-bottom bg-body-tertiary px-3 py-3">
               <h2 class="h5 mb-1">Ungrouped Questions</h2>
               <div class="text-secondary small">{{ ungroupableQuestionsSorted.length }} questions</div>
             </div>
