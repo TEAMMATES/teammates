@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -122,6 +123,20 @@ public final class CoursesDb {
                 cb.equal(courseJoin.get("id"), courseId));
 
         return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets createdAt timestamps of non-deleted courses created within the given time range.
+     */
+    public List<Instant> getCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cq = cb.createQuery(Instant.class);
+        Root<Course> root = cq.from(Course.class);
+        cq.select(root.get("createdAt")).where(cb.and(
+                cb.isNull(root.get("deletedAt")),
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cq).getResultList();
     }
 
 }

@@ -548,16 +548,12 @@ export interface TimeZones extends ApiOutput {
 }
 
 export interface UsageStatistics extends ApiOutput {
-  usageStatisticsId: string;
   startTime: number;
-  timePeriod: number;
   numResponses: number;
   numCourses: number;
   numStudents: number;
   numInstructors: number;
   numAccountRequests: number;
-  numEmails: number;
-  numSubmissions: number;
 }
 
 export interface UsageStatisticsRange extends ApiOutput {

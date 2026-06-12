@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -117,5 +118,12 @@ public final class AccountRequestsLogic {
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
+    }
+
+    /**
+     * Gets createdAt timestamps of account requests created within the given time range.
+     */
+    public List<Instant> getAccountRequestCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return accountRequestDb.getCreatedAtTimestampsForTimeRange(startTime, endTime);
     }
 }

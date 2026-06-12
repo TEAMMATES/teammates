@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -218,6 +220,38 @@ public class UsersDbTest extends BaseDbTestcase {
         verifyAbsentInDatabase(Student.class, student1.id());
         verifyAbsentInDatabase(Student.class, student2.id());
         verifyPresentInDatabase(Student.class, anotherCourseStudent.id());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudentCreatedAtTimestampsForTimeRange_studentsExist_returnsTimestampsInRange() {
+        given.student("student-1");
+        given.student("student-2");
+        given.instructor("instructor-1");
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> usersDb.getStudentCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(2, actual.size());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getInstructorCreatedAtTimestampsForTimeRange_instructorsExist_returnsTimestampsInRange() {
+        given.instructor("instructor-1");
+        given.instructor("instructor-2");
+        given.student("student-1");
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> usersDb.getInstructorCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(2, actual.size());
     }
 
     // TODO: add tests for search related methods in UsersDb

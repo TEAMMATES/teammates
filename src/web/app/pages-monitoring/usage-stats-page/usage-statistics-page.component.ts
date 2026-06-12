@@ -25,8 +25,6 @@ export enum StatisticsType {
   NUM_STUDENTS,
   NUM_INSTRUCTORS,
   NUM_ACCOUNT_REQUESTS,
-  NUM_EMAILS,
-  NUM_SUBMISSIONS,
 }
 
 export enum AggregationType {
@@ -181,14 +179,6 @@ export class UsageStatisticsPageComponent implements OnInit {
         case StatisticsType.NUM_ACCOUNT_REQUESTS:
           value = statisticsObj.numAccountRequests;
           this.itemName = 'account requests';
-          break;
-        case StatisticsType.NUM_EMAILS:
-          value = statisticsObj.numEmails;
-          this.itemName = 'emails sent';
-          break;
-        case StatisticsType.NUM_SUBMISSIONS:
-          value = statisticsObj.numSubmissions;
-          this.itemName = 'submissions';
           break;
         default:
           throw new Error('Unexpected statsType');

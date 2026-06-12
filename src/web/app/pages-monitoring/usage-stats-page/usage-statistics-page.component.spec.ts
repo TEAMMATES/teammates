@@ -12,16 +12,12 @@ const generateData = (startTime: number, iterations: number): UsageStatistics[] 
   let time = startTime;
   for (let i = 1; i <= iterations; i += 1) {
     stats.push({
-      usageStatisticsId: `usage-stat-${i}`,
       startTime: time,
-      timePeriod: 60,
       numResponses: i,
       numCourses: 0,
       numStudents: 0,
       numInstructors: 0,
       numAccountRequests: 0,
-      numEmails: 0,
-      numSubmissions: 0,
     });
     time += Milliseconds.IN_ONE_HOUR;
   }
@@ -65,28 +61,20 @@ describe('UsageStatisticsPageComponent', () => {
 
     const statsObjects: UsageStatistics[] = [
       {
-        usageStatisticsId: 'usage-stat-100',
         startTime: new Date('2022-03-27T23:00:00Z').getTime(),
-        timePeriod: 60,
         numResponses: 100,
         numCourses: 3,
         numStudents: 2,
         numInstructors: 2,
         numAccountRequests: 1,
-        numEmails: 50,
-        numSubmissions: 99,
       },
       {
-        usageStatisticsId: 'usage-stat-101',
         startTime: new Date('2022-03-28T00:00:00Z').getTime(),
-        timePeriod: 60,
         numResponses: 400,
         numCourses: 1,
         numStudents: 1,
         numInstructors: 5,
         numAccountRequests: 2,
-        numEmails: 61,
-        numSubmissions: 71,
       },
     ];
 

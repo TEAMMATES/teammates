@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -173,6 +175,21 @@ public class CoursesDbTest extends BaseDbTestcase {
 
         assertEquals(2, actual.size());
         assertEquals(Set.of(team1.id(), team2.id()), actual.stream().map(Team::getId).collect(Collectors.toSet()));
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getCreatedAtTimestampsForTimeRange_excludesSoftDeletedCourses() {
+        given.course("active-course");
+        given.course("deleted-course", c -> c.softDeleted());
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> coursesDb.getCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(1, actual.size());
     }
 
     private static Course buildDefaultCourse(String courseId) {

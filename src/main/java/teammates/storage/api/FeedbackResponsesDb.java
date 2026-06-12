@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -175,6 +176,19 @@ public final class FeedbackResponsesDb {
                     ));
 
         return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets createdAt timestamps of feedback responses created within the given time range.
+     */
+    public List<Instant> getCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
+        Root<FeedbackResponse> root = cr.from(FeedbackResponse.class);
+        cr.select(root.get("createdAt")).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
 }

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -127,6 +129,21 @@ public class FeedbackResponsesDbTest extends BaseDbTestcase {
         boolean actual = inTransaction(() -> feedbackResponsesDb.hasResponsesForCourse(course.id()));
 
         assertTrue(actual);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getCreatedAtTimestampsForTimeRange_responsesExist_returnsTimestampsInRange() {
+        given.feedbackResponse("response-1");
+        given.feedbackResponse("response-2");
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> feedbackResponsesDb.getCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(2, actual.size());
     }
 
     private static FeedbackResponse buildDefaultFeedbackResponse(

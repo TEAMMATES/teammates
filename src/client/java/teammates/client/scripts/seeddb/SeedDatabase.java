@@ -54,7 +54,7 @@ public final class SeedDatabase {
             "TRUNCATE TABLE account_requests, accounts, courses, deadline_extensions, "
                     + "feedback_questions, feedback_response_comments, feedback_responses, "
                     + "feedback_session_logs, feedback_sessions, instructors, notifications, "
-                    + "read_notifications, sections, students, teams, usage_statistics, users "
+                    + "read_notifications, sections, students, teams,  users, institutes "
                     + "RESTART IDENTITY CASCADE";
 
     private SeedDatabase() {

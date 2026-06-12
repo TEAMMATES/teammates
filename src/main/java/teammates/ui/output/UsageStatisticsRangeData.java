@@ -1,19 +1,16 @@
 package teammates.ui.output;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import teammates.storage.entity.UsageStatistics;
 
 /**
- * The API output format of a list of {@link UsageStatistics}.
+ * The API output format of a list of usage statistics buckets.
  */
 public class UsageStatisticsRangeData implements ApiOutput {
 
     private final List<UsageStatisticsData> result;
 
-    public UsageStatisticsRangeData(List<UsageStatistics> usageStatistics) {
-        this.result = usageStatistics.stream().map(UsageStatisticsData::new).collect(Collectors.toList());
+    public UsageStatisticsRangeData(List<UsageStatisticsData> result) {
+        this.result = result;
     }
 
     public List<UsageStatisticsData> getResult() {

@@ -320,4 +320,11 @@ public final class CoursesLogic {
             throw new InvalidParametersException(course.getInvalidityInfo());
         }
     }
+
+    /**
+     * Gets createdAt timestamps of non-deleted courses created within the given time range.
+     */
+    public List<Instant> getCourseCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return coursesDb.getCreatedAtTimestampsForTimeRange(startTime, endTime);
+    }
 }
