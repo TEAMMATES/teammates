@@ -33,6 +33,7 @@
     </div>
   </div>
 }
+
 @if (previewAsPerson) {
   <div class="bg-light">
     <div class="col-12 text-center text-break">
@@ -49,12 +50,13 @@
     </div>
   </div>
 }
-@if (regKey) {
-  <div class="alert alert-light border mb-3">
-    <div class="mb-1">
-      You are submitting as <strong>{{ personName }}</strong
-      >.
-    </div>
+
+<div class="alert alert-light border mb-3">
+  <div class="mb-1">
+    You are submitting as <strong>{{ personName }}</strong
+    >.
+  </div>
+  @if (regKey) {
     @if (loggedInUser) {
       <div class="text-secondary">
         Link this submission to your account:
@@ -67,8 +69,8 @@
         link this submission to your account.
       </div>
     }
-  </div>
-}
+  }
+</div>
 
 <div class="card border bg-body-secondary mb-3" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
