@@ -288,7 +288,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAsPerson) {
           const userId = this.moderatedPerson || this.previewAsPerson;
-          return this.studentService.getStudent({ courseId: this.courseId, userId }).pipe(
+          return this.studentService.getStudent({ userId }).pipe(
             tap((student: Student) => {
               this.personName = student.name;
               this.personEmail = student.email;
@@ -297,7 +297,7 @@ export class SessionSubmissionPageComponent implements OnInit {
             catchError(() => of(null)),
           );
         }
-        return this.studentService.getStudent({ courseId: this.courseId, regKey: this.regKey }).pipe(
+        return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.regKey }).pipe(
           tap((student: Student) => {
             this.personName = student.name;
             this.personEmail = student.email;

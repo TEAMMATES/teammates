@@ -84,6 +84,14 @@ public class GivenInstructor extends GivenBase<Instructor> {
     }
 
     /**
+     * Sets the instructor to have no privileges.
+     */
+    public GivenInstructor noPrivileges() {
+        entity.setRole(InstructorPermissionRole.CUSTOM);
+        return this;
+    }
+
+    /**
      * Sets the role for the instructor to custom with the specified privileges.
      *
      * <p>The privileges are recorded in the data bundle's combined instructor privileges section

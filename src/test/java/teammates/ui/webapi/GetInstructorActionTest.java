@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -38,7 +37,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction,
 
     @Test(groups = GroupNames.ACTION)
     public void getInstructorAction_adminBypass_returnsInstructorData() {
-        var adminAccount = given.account("admin-account", a -> a.email(Config.APP_ADMINS.get(0)));
+        var adminAccount = given.account("admin-account", a -> a.admin());
         var course = given.course("course");
         var targetInstructor = given.instructor("target", i -> i.course(course.alias()));
         persistGivenData(given);
