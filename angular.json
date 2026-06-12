@@ -27,6 +27,11 @@
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": ["moment-timezone"],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": ["import"]
+              }
+            },
             "assets": [
               "src/web/assets/",
               "src/web/robots.txt",

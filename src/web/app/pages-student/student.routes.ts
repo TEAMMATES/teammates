@@ -38,7 +38,6 @@ const routes: Routes = [
             (m) => m.SessionSubmissionPageComponent,
           ),
         data: {
-          pageTitle: 'Submit Feedback',
           intent: Intent.STUDENT_SUBMISSION,
         },
       },

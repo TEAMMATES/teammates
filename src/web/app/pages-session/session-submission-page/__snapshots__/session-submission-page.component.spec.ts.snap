@@ -29,7 +29,6 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -56,64 +55,25 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
     </div>
-  </div><div
-    class="row mobile-invisible"
-  >
     <div
-      class="col-12"
+      class="text-secondary"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+      <a
+        href="#"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><tm-loading-spinner>
     <div
@@ -129,7 +89,65 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            0 questions
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
+  </div><tm-loading-retry>
     <div
       aria-hidden="true"
     />
@@ -184,7 +202,6 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
@@ -211,64 +228,25 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
     </div>
-  </div><div
-    class="row mobile-invisible"
-  >
     <div
-      class="col-12"
+      class="text-secondary"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+      <a
+        href="#"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><tm-loading-spinner>
     <div
@@ -284,7 +262,65 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            0 questions
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
+  </div><tm-loading-retry>
     <div
       aria-hidden="true"
     />
@@ -336,7 +372,6 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -363,64 +398,25 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
     </div>
-  </div><div
-    class="row mobile-invisible"
-  >
     <div
-      class="col-12"
+      class="text-secondary"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+      <a
+        href="#"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><tm-loading-spinner>
     <div
@@ -436,7 +432,65 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            0 questions
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
+  </div><tm-loading-retry>
     <div
       aria-hidden="true"
     />
@@ -488,7 +542,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -515,212 +568,161 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       You are submitting as 
+      <strong>
+        person name
+      </strong>
+      . 
+    </div>
+    <div
+      class="text-secondary"
+    >
+       Link this submission to your account: 
+      <a
+        href="#"
       >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-              person name
-            </b>
-          </mark>
-          . If you wish to link your Google account (logged-in-user) with this user, 
-          <a
-            href="#"
-          >
-            click here
-          </a>
-          . 
-        </div>
-      </div>
+        logged-in-user
+      </a>
+      . 
     </div>
   </div><div
-    class="row mobile-invisible"
+    class="card border bg-body-secondary mb-3"
   >
     <div
-      class="col-12"
+      class="card-body"
     >
       <div
-        class="alert alert-primary"
-        role="alert"
+        class="flex-grow-1"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div><div
-    class="card card-plain"
-  >
-    <div
-      class="card card-plain"
-    >
-      <div
-        class="card-body"
-      >
-        <div
-          class="row text-center"
+        <h1
+          class="fs-4 fw-semibold mb-2"
+          id="fs-name"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Course ID:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="course-id"
-          >
-            test.exa-demo
-          </div>
-        </div>
+          First team feedback session
+        </h1>
         <div
-          class="row text-center"
+          class="d-flex flex-wrap gap-3"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Course name:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="course-name"
-          >
-            Course name
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Course institute:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="course-institute"
-          >
-            Test institute
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Session:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="fs-name"
-          >
-            First team feedback session
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Opening time:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
+          <span
             id="opening-time"
           >
-            Sun, 01 Apr, 2012, 11:59 PM +08
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Closing time:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
+            <strong>
+              Opening:
+            </strong>
+             Sun, 01 Apr, 2012, 11:59 PM +08
+          </span>
+          <span
             id="closing-time"
           >
-            Mon, 02 Apr, 2012, 11:59 PM +08
-          </div>
+            <strong>
+              Closing:
+            </strong>
+             Mon, 02 Apr, 2012, 11:59 PM +08
+          </span>
         </div>
         <div
-          class="row text-center"
+          class="my-3"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Instructions:
-          </label>
           <div
-            class="col-md-10 text-md-start"
             id="instructions"
           >
             Please give your feedback based on the following questions.
           </div>
         </div>
-        <div
-          class="row text-center d-flex align-items-center"
+        <details
+          class="d-inline-block mt-2"
         >
-          <label
-            class="col-md-2 text-md-end"
+          <summary
+            class="text-secondary"
           >
-            Group by:
-          </label>
+            Additional details
+          </summary>
           <div
-            class="col-md-10 text-md-start"
-            id="group-by"
+            class="d-flex flex-column gap-2 mt-2"
           >
-            <select
-              aria-label="Select group by view"
-              class="w-25 form-control form-select"
-              id="select-group-by"
+            <div
+              id="course-name"
             >
-              <option
-                value="Question"
-              >
-                 Question 
-              </option>
-              <option
-                value="Recipient"
-              >
-                 Recipient 
-              </option>
-            </select>
+              <strong>
+                Course:
+              </strong>
+               Course name
+            </div>
+            <div
+              id="course-institute"
+            >
+              <strong>
+                Institute:
+              </strong>
+               Test institute
+            </div>
           </div>
-        </div>
+        </details>
       </div>
     </div>
+  </div><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            0 questions
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -773,7 +775,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -800,175 +801,148 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
+    </div>
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
       >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><div
-    class="row mobile-invisible"
+    class="card border bg-body-secondary mb-3"
   >
     <div
-      class="col-12"
+      class="card-body"
     >
       <div
-        class="alert alert-primary"
-        role="alert"
+        class="flex-grow-1"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div><div
-    class="card card-plain"
-  >
-    <div
-      class="card card-plain"
-    >
-      <div
-        class="card-body"
-      >
-        <div
-          class="row text-center"
+        <h1
+          class="fs-4 fw-semibold mb-2"
+          id="fs-name"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Course ID:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="course-id"
-          >
-          </div>
-        </div>
+        </h1>
         <div
-          class="row text-center"
+          class="d-flex flex-wrap gap-3"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Session:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="fs-name"
-          >
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Opening time:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
+          <span
             id="opening-time"
           >
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Closing time:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
+            <strong>
+              Opening:
+            </strong>
+          </span>
+          <span
             id="closing-time"
           >
-          </div>
+            <strong>
+              Closing:
+            </strong>
+          </span>
         </div>
         <div
-          class="row text-center"
+          class="my-3"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Instructions:
-          </label>
           <div
-            class="col-md-10 text-md-start"
             id="instructions"
           />
         </div>
-        <div
-          class="row text-center d-flex align-items-center"
+        <details
+          class="d-inline-block mt-2"
         >
-          <label
-            class="col-md-2 text-md-end"
+          <summary
+            class="text-secondary"
           >
-            Group by:
-          </label>
+            Additional details
+          </summary>
           <div
-            class="col-md-10 text-md-start"
-            id="group-by"
+            class="d-flex flex-column gap-2 mt-2"
           >
-            <select
-              aria-label="Select group by view"
-              class="w-25 form-control form-select"
-              id="select-group-by"
-            >
-              <option
-                value="Question"
-              >
-                 Question 
-              </option>
-              <option
-                value="Recipient"
-              >
-                 Recipient 
-              </option>
-            </select>
           </div>
-        </div>
+        </details>
       </div>
     </div>
+  </div><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            10 questions
+          </span>
+          <span
+            class="badge rounded-pill bg-success"
+          >
+            9 saved
+          </span>
+          <span
+            class="badge rounded-pill bg-info text-dark"
+          >
+            1 not answered
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -982,37 +956,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-1"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  1.
+                </span>
+                <span
+                  id="question-brief-1"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 1: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1258,16 +1245,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-1"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 1
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -1283,37 +1269,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  3.
+                </span>
+                <span
+                  id="question-brief-3"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 3: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1508,16 +1507,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-3"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 3
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -1533,33 +1531,49 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header bg-primary cursor-pointer bg-info text-dark"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  2.
+                </span>
+                <span
+                  id="question-brief-2"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 2: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2"
+                />
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1644,37 +1658,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-4"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  4.
+                </span>
+                <span
+                  id="question-brief-4"
+                >
+                  MSQ question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 4: 
-              </b>
-              MSQ question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -1941,16 +1968,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-4"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 4
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -1966,37 +1992,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-5"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  5.
+                </span>
+                <span
+                  id="question-brief-5"
+                >
+                  numerical scale question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 5: 
-              </b>
-              numerical scale question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -2150,16 +2189,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-5"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 5
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -2175,37 +2213,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-6"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  6.
+                </span>
+                <span
+                  id="question-brief-6"
+                >
+                  constant sum question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 6: 
-              </b>
-              constant sum question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -2373,16 +2424,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-6"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 6
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -2398,37 +2448,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-7"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  7.
+                </span>
+                <span
+                  id="question-brief-7"
+                >
+                  contribution question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 7: 
-              </b>
-              contribution question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -2826,16 +2889,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-7"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 7
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -2851,37 +2913,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-8"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  8.
+                </span>
+                <span
+                  id="question-brief-8"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 8: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -3179,16 +3254,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-8"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 8
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -3204,37 +3278,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-9"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  9.
+                </span>
+                <span
+                  id="question-brief-9"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 9: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -3455,16 +3542,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-9"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 9
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -3480,37 +3566,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-10"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  10.
+                </span>
+                <span
+                  id="question-brief-10"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 10: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -3680,16 +3779,15 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   id="btn-submit-qn-10"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 10
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -3698,27 +3796,29 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </div>
       </tm-question-submission-form>
       <div
-        class="d-flex justify-content-center gap-2 flex-wrap"
+        class="border bg-body-tertiary px-3 py-3 mt-4 rounded"
       >
-        <div>
-          <button
-            class="btn btn-info"
-            id="btn-download-submission-receipt"
-            ngbtooltip="Download a receipt of your submission."
-            type="button"
-          >
-             Download Submission Receipt 
-          </button>
-        </div>
-        <div>
-          <button
-            class="btn btn-success"
-            id="btn-submit"
-            ngbtooltip="You can save your responses at any time and come back later to continue."
-            type="submit"
-          >
-             Submit Responses for All Questions 
-          </button>
+        <div
+          class="d-flex justify-content-center gap-3 flex-wrap"
+        >
+          <div>
+            <button
+              class="btn btn-info"
+              id="btn-download-submission-receipt"
+              type="button"
+            >
+               Download Submission Receipt 
+            </button>
+          </div>
+          <div>
+            <button
+              class="btn btn-success"
+              id="btn-submit"
+              type="button"
+            >
+               Submit All Responses 
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -3755,7 +3855,6 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading="false"
   isFeedbackSessionQuestionsLoading="false"
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
@@ -3782,175 +3881,148 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       You are submitting as 
+      <strong>
+      </strong>
+      . 
+    </div>
+    <div
+      class="text-secondary"
+    >
+      <a
+        href="#"
       >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><div
-    class="row mobile-invisible"
+    class="card border bg-body-secondary mb-3"
   >
     <div
-      class="col-12"
+      class="card-body"
     >
       <div
-        class="alert alert-primary"
-        role="alert"
+        class="flex-grow-1"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div><div
-    class="card card-plain"
-  >
-    <div
-      class="card card-plain"
-    >
-      <div
-        class="card-body"
-      >
-        <div
-          class="row text-center"
+        <h1
+          class="fs-4 fw-semibold mb-2"
+          id="fs-name"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Course ID:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="course-id"
-          >
-          </div>
-        </div>
+        </h1>
         <div
-          class="row text-center"
+          class="d-flex flex-wrap gap-3"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Session:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
-            id="fs-name"
-          >
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Opening time:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
+          <span
             id="opening-time"
           >
-          </div>
-        </div>
-        <div
-          class="row text-center"
-        >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Closing time:
-          </label>
-          <div
-            class="col-md-10 text-md-start"
+            <strong>
+              Opening:
+            </strong>
+          </span>
+          <span
             id="closing-time"
           >
-          </div>
+            <strong>
+              Closing:
+            </strong>
+          </span>
         </div>
         <div
-          class="row text-center"
+          class="my-3"
         >
-          <label
-            class="col-md-2 text-md-end"
-          >
-            Instructions:
-          </label>
           <div
-            class="col-md-10 text-md-start"
             id="instructions"
           />
         </div>
-        <div
-          class="row text-center d-flex align-items-center"
+        <details
+          class="d-inline-block mt-2"
         >
-          <label
-            class="col-md-2 text-md-end"
+          <summary
+            class="text-secondary"
           >
-            Group by:
-          </label>
+            Additional details
+          </summary>
           <div
-            class="col-md-10 text-md-start"
-            id="group-by"
+            class="d-flex flex-column gap-2 mt-2"
           >
-            <select
-              aria-label="Select group by view"
-              class="w-25 form-control form-select"
-              id="select-group-by"
-            >
-              <option
-                value="Question"
-              >
-                 Question 
-              </option>
-              <option
-                value="Recipient"
-              >
-                 Recipient 
-              </option>
-            </select>
           </div>
-        </div>
+        </details>
       </div>
     </div>
+  </div><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            10 questions
+          </span>
+          <span
+            class="badge rounded-pill bg-success"
+          >
+            9 saved
+          </span>
+          <span
+            class="badge rounded-pill bg-info text-dark"
+          >
+            1 not answered
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
   </div><tm-loading-retry>
     <div
       aria-hidden="true"
@@ -3964,37 +4036,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-1"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  1.
+                </span>
+                <span
+                  id="question-brief-1"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 1: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4245,17 +4330,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-1"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 1
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -4271,37 +4355,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-3"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  3.
+                </span>
+                <span
+                  id="question-brief-3"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 3: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4498,17 +4595,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-3"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 3
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -4524,33 +4620,49 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-2"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0"
+            class="card-header bg-primary cursor-pointer bg-info text-dark"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  2.
+                </span>
+                <span
+                  id="question-brief-2"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 2: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2"
+                />
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4635,37 +4747,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-4"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  4.
+                </span>
+                <span
+                  id="question-brief-4"
+                >
+                  MSQ question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 4: 
-              </b>
-              MSQ question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -4937,17 +5062,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-4"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 4
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -4963,37 +5087,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-5"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  5.
+                </span>
+                <span
+                  id="question-brief-5"
+                >
+                  numerical scale question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 5: 
-              </b>
-              numerical scale question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -5148,17 +5285,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-5"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 5
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -5174,37 +5310,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-6"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  6.
+                </span>
+                <span
+                  id="question-brief-6"
+                >
+                  constant sum question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 6: 
-              </b>
-              constant sum question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -5373,17 +5522,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-6"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 6
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -5399,37 +5547,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-7"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  7.
+                </span>
+                <span
+                  id="question-brief-7"
+                >
+                  contribution question
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 7: 
-              </b>
-              contribution question 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -5828,17 +5989,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-7"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 7
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -5854,37 +6014,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-8"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  8.
+                </span>
+                <span
+                  id="question-brief-8"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 8: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -6192,17 +6365,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-8"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 8
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -6218,37 +6390,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-9"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  9.
+                </span>
+                <span
+                  id="question-brief-9"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 9: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -6470,17 +6655,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-9"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 9
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -6496,37 +6680,50 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
           id="question-submission-form-qn-10"
         >
           <div
-            class="card-header bg-primary text-white question-header cursor-pointer border-0 bg-success"
+            class="card-header bg-primary cursor-pointer bg-success text-white"
           >
-            <div
-              class="collapse-caret"
-            >
-              <tm-panel-chevron>
-                <button
-                  aria-expanded="true"
-                  aria-label="Expand panel"
-                  class="chevron btn-course btn btn-primary btn-sm"
-                  type="button"
+            <div>
+              <h2
+                class="h6 fw-medium mb-0 d-flex"
+              >
+                <span
+                  class="me-2 flex-shrink-0"
                 >
-                  <i
-                    class="fas fa-chevron-up"
-                    style="color: white;"
-                  />
-                </button>
-              </tm-panel-chevron>
+                  10.
+                </span>
+                <span
+                  id="question-brief-10"
+                >
+                  question brief
+                </span>
+              </h2>
             </div>
-            <i
-              aria-hidden="true"
-              class="fas fa-check me-2"
-            />
-            <h2
-              class="question-details"
+            <div
+              class="ms-auto d-flex align-items-center gap-2"
             >
-              <b>
-                Question 10: 
-              </b>
-              question brief 
-            </h2>
+              <span
+                class="badge rounded-pill px-3 py-2 d-inline-flex align-items-center bg-transparent text-white"
+              >
+                <i
+                  aria-hidden="true"
+                  class="me-2 fas fa-check"
+                />
+                 Saved 
+              </span>
+            </div>
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
           </div>
           <div
             class="card-body collapse show"
@@ -6697,17 +6894,16 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
               class="row"
             >
               <div
-                class="col-12 text-center"
+                class="col-12 text-end"
               >
                 <button
                   class="btn btn-success"
                   disabled=""
                   id="btn-submit-qn-10"
-                  ngbtooltip="You can save your responses for this question at any time and come back later to continue."
                   type="submit"
                 >
                   <span>
-                    Submit Response for Question 10
+                    Submit Response
                   </span>
                 </button>
               </div>
@@ -6716,29 +6912,31 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
         </div>
       </tm-question-submission-form>
       <div
-        class="d-flex justify-content-center gap-2 flex-wrap"
+        class="border bg-body-tertiary px-3 py-3 mt-4 rounded"
       >
-        <div>
-          <button
-            class="btn btn-info"
-            disabled=""
-            id="btn-download-submission-receipt"
-            ngbtooltip="Download a receipt of your submission."
-            type="button"
-          >
-             Download Submission Receipt 
-          </button>
-        </div>
-        <div>
-          <button
-            class="btn btn-success"
-            disabled=""
-            id="btn-submit"
-            ngbtooltip="You can save your responses at any time and come back later to continue."
-            type="submit"
-          >
-             Submit Responses for All Questions 
-          </button>
+        <div
+          class="d-flex justify-content-center gap-3 flex-wrap"
+        >
+          <div>
+            <button
+              class="btn btn-info"
+              disabled=""
+              id="btn-download-submission-receipt"
+              type="button"
+            >
+               Download Submission Receipt 
+            </button>
+          </div>
+          <div>
+            <button
+              class="btn btn-success"
+              disabled=""
+              id="btn-submit"
+              type="button"
+            >
+               Submit All Responses 
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -6775,7 +6973,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -6802,65 +6999,27 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-              alice
-            </b>
-          </mark>
-          . If you wish to link your Google account (alice) with this user, 
-          <a
-            href="#"
-          >
-            click here
-          </a>
-          . 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+        alice
+      </strong>
+      . 
     </div>
-  </div><div
-    class="row mobile-invisible"
-  >
     <div
-      class="col-12"
+      class="text-secondary"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+       Link this submission to your account: 
+      <a
+        href="#"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
+        alice
+      </a>
+      . 
     </div>
   </div><tm-loading-spinner>
     <div
@@ -6876,7 +7035,65 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            0 questions
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
+  </div><tm-loading-retry>
     <div
       aria-hidden="true"
     />
@@ -6928,7 +7145,6 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   isDownloadingSubmissionReceipt="false"
   isFeedbackSessionLoading={[Function Boolean]}
   isFeedbackSessionQuestionsLoading={[Function Boolean]}
-  isModerationHintExpanded="false"
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
@@ -6955,65 +7171,26 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   ungroupableQuestionsSorted={[Function Array]}
 >
   <div
-    class="row"
+    class="alert alert-light border mb-3"
   >
     <div
-      class="col-12"
+      class="mb-1"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
-      >
-        <div>
-           You are submitting feedback as 
-          <mark>
-            <b>
-              alice
-            </b>
-          </mark>
-          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
-          <a
-            href="#"
-          >
-            log in using a Google account
-          </a>
-           (optional). 
-        </div>
-      </div>
+       You are submitting as 
+      <strong>
+        alice
+      </strong>
+      . 
     </div>
-  </div><div
-    class="row mobile-invisible"
-  >
     <div
-      class="col-12"
+      class="text-secondary"
     >
-      <div
-        class="alert alert-primary"
-        role="alert"
+      <a
+        href="#"
       >
-        <i
-          class="fas fa-exclamation-circle"
-        />
-         Notes: 
-        <ul>
-          <li>
-             You can use the 
-            <b>
-              Submit Response for Question _
-            </b>
-             buttons to submit one-response-at-a-time. 
-            <br />
-            Alternatively, you can submit all responses in one go using the 
-            <b>
-              Submit Responses for All Questions
-            </b>
-             button at the bottom of this page. 
-          </li>
-          <li>
-            You may edit your submission any number of times before the closing time of this session.
-          </li>
-        </ul>
-      </div>
+        Log in here
+      </a>
+       (optional) to link this submission to your account. 
     </div>
   </div><tm-loading-spinner>
     <div
@@ -7029,7 +7206,65 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-retry>
+  </tm-loading-spinner><div
+    class="border rounded bg-body-tertiary mb-3 px-3 py-3"
+  >
+    <div
+      class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2"
+    >
+      <div
+        class="d-flex flex-column gap-1"
+      >
+        <div
+          class="fw-semibold"
+        >
+          Submission status
+        </div>
+        <div
+          class="d-flex flex-wrap align-items-center gap-2"
+        >
+          <span
+            class="text-secondary small"
+          >
+            0 questions
+          </span>
+        </div>
+      </div>
+      <div
+        class="d-inline-flex align-items-center gap-2 flex-nowrap"
+      >
+        <label
+          class="form-label mb-0 text-secondary text-nowrap"
+          for="select-group-by"
+        >
+          Group by
+        </label>
+        <select
+          aria-label="Select group by view"
+          class="form-control form-select w-auto group-by-select"
+          id="select-group-by"
+        >
+          <option
+            value="Question"
+          >
+             Question 
+          </option>
+          <option
+            value="Recipient"
+          >
+             Recipient 
+          </option>
+        </select>
+      </div>
+    </div>
+  </div><div
+    class="my-3 text-secondary fw-semibold"
+  >
+    <i
+      class="fas fa-info-circle me-1"
+    />
+     You may edit and resubmit your responses any number of times before the session closes. 
+  </div><tm-loading-retry>
     <div
       aria-hidden="true"
     />

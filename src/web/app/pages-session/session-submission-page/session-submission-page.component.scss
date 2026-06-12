@@ -1,16 +1,3 @@
-.card-plain {
-  background-color: #eaeff5;
-  background-image: none;
-  border: 0;
-  box-shadow: 0 0 0 0;
-}
-
-label {
-  font-weight: bold;
-}
-
-@media (width <= 768px) {
-  .mobile-invisible {
-    display: none;
-  }
+.group-by-select {
+  min-width: 11rem;
 }

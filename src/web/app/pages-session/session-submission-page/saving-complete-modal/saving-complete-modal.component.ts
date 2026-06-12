@@ -18,6 +18,9 @@ export class SavingCompleteModalComponent {
   questions: QuestionSubmissionFormModel[] = [];
 
   @Input()
+  submittedQuestions: number[] = [];
+
+  @Input()
   notYetAnsweredQuestions: number[] = [];
 
   @Input()
@@ -25,5 +28,13 @@ export class SavingCompleteModalComponent {
 
   get hasFailToSaveQuestions(): boolean {
     return Object.keys(this.failToSaveQuestions).length !== 0;
+  }
+
+  get hasSubmittedQuestions(): boolean {
+    return this.submittedQuestions.length !== 0;
+  }
+
+  get hasNotYetAnsweredQuestions(): boolean {
+    return this.notYetAnsweredQuestions.length !== 0;
   }
 }

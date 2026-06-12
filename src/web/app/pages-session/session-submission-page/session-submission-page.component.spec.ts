@@ -13,6 +13,7 @@ import { FileSaveService } from '../../../services/file-save.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import {
   AuthInfo,
   FeedbackConstantSumRecipientsQuestionDetails,
@@ -57,6 +58,7 @@ import {
 import type { GiverCommentRowModel } from '../../components/comment-box/comment.model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
+import { SingleQuestionSaveErrorModalComponent } from './single-question-save-error-modal/single-question-save-error-modal.component';
 
 describe('SessionSubmissionPageComponent', () => {
   const testOpenFeedbackSession: FeedbackSession = {
@@ -246,8 +248,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
@@ -270,8 +270,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -293,8 +291,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -321,8 +317,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -346,8 +340,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -372,8 +364,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -395,8 +385,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -428,8 +416,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -451,8 +437,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
@@ -476,8 +460,6 @@ describe('SessionSubmissionPageComponent', () => {
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-    isTabExpanded: true,
-    isTabExpandedForRecipients: new Map<string, boolean>([['barry-harris-id', true]]),
   };
 
   const testInfo: AuthInfo = {
@@ -521,6 +503,7 @@ describe('SessionSubmissionPageComponent', () => {
   let feedbackSessionsService: FeedbackSessionsService;
   let feedbackResponsesService: FeedbackResponsesService;
   let simpleModalService: SimpleModalService;
+  let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
   let logService: LogService;
 
@@ -552,6 +535,7 @@ describe('SessionSubmissionPageComponent', () => {
     feedbackResponsesService = TestBed.inject(FeedbackResponsesService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     simpleModalService = TestBed.inject(SimpleModalService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
@@ -992,6 +976,7 @@ describe('SessionSubmissionPageComponent', () => {
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
     ]);
+    expect(mockModalRef.componentInstance.submittedQuestions).toEqual([testQuestionSubmissionForm1.questionNumber]);
     expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
     expect(logSpy).toHaveBeenCalledTimes(1);
@@ -1003,7 +988,6 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should submit empty question responses to delete saved responses', () => {
-    const mockModalRef = createMockNgbModalRef();
     const testQuestionSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
     testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
     testQuestionSubmissionForm.recipientSubmissionForms[0].responseDetails = {
@@ -1020,7 +1004,8 @@ describe('SessionSubmissionPageComponent', () => {
         requestId: '10',
       }),
     );
-    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
+    const modalSpy = vi.spyOn(ngbModal, 'open');
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
@@ -1038,6 +1023,10 @@ describe('SessionSubmissionPageComponent', () => {
         moderatedperson: '',
       },
     );
+    expect(toastSpy).toHaveBeenCalledWith(
+      `Response to question ${testQuestionSubmissionForm.questionNumber} submitted successfully.`,
+    );
+    expect(modalSpy).not.toHaveBeenCalled();
     expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].responseId).toBe('');
     expect(component.questionSubmissionForms[0].recipientSubmissionForms[0].status).toBe(ResponseSubmissionStatus.NEW);
   });
@@ -1097,15 +1086,29 @@ describe('SessionSubmissionPageComponent', () => {
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
     ]);
+    expect(mockModalRef.componentInstance.submittedQuestions).toEqual([testQuestionSubmissionForm1.questionNumber]);
     expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({
       [testQuestionSubmissionForm2.questionNumber]: 'Invalid responses provided. Please check question constraints.',
     });
     expect(component.questionSubmissionForms[1].recipientSubmissionForms[0].status).toBe(
-      ResponseSubmissionStatus.MODIFIED,
+      ResponseSubmissionStatus.ERROR,
     );
   });
 
-  it('should show one backend error modal when batch save fails', () => {
+  it('should show a single-question error modal when validation fails', () => {
+    const testQuestionSubmissionForm: QuestionSubmissionFormModel = structuredClone(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm.recipientSubmissionForms[0].status = ResponseSubmissionStatus.MODIFIED;
+    testQuestionSubmissionForm.recipientSubmissionForms[0].isValid = false;
+    component.questionSubmissionForms = [testQuestionSubmissionForm];
+
+    const ngbModalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
+
+    component.saveFeedbackResponses(component.questionSubmissionForms);
+
+    expect(ngbModalSpy).toHaveBeenCalledWith(SingleQuestionSaveErrorModalComponent);
+  });
+
+  it('should show a single-question error modal when backend save fails', () => {
     const testResponseDetails1 = structuredClone(testMcqRecipientSubmissionForm.responseDetails);
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = structuredClone(testMcqQuestionSubmissionForm);
     testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
@@ -1118,17 +1121,11 @@ describe('SessionSubmissionPageComponent', () => {
         },
       })),
     );
-    const simpleModalSpy = vi.spyOn(simpleModalService, 'openInformationModal');
-    const ngbModalSpy = vi.spyOn(ngbModal, 'open');
+    const ngbModalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
 
     component.saveFeedbackResponses(component.questionSubmissionForms);
 
-    expect(simpleModalSpy).toHaveBeenCalledWith(
-      'Saving Failed',
-      SimpleModalType.DANGER,
-      'An error occurred and your responses could not be saved. Error details: backend error',
-    );
-    expect(ngbModalSpy).toHaveBeenCalledTimes(1);
+    expect(ngbModalSpy).toHaveBeenCalledWith(SingleQuestionSaveErrorModalComponent);
   });
 
   it('should delete participant comment', () => {

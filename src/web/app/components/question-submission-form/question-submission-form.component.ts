@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, DoCheck, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
@@ -108,9 +108,9 @@ import { ComboboxOption, SearchableComboboxComponent } from '../searchable-combo
     NoRecipientsWarningComponent,
   ],
 })
-export class QuestionSubmissionFormComponent implements DoCheck {
-  private feedbackQuestionsService = inject(FeedbackQuestionsService);
-  private feedbackResponseService = inject(FeedbackResponsesService);
+export class QuestionSubmissionFormComponent {
+  private readonly feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private readonly feedbackResponseService = inject(FeedbackResponsesService);
 
   readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
   readonly ResponseDetailsTypeChecker: typeof ResponseDetailsTypeChecker;
@@ -121,17 +121,21 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   QuestionRecipientType!: typeof QuestionRecipientType;
   CommentRowMode!: typeof CommentRowMode;
   FeedbackVisibilityType!: typeof FeedbackVisibilityType;
-  isMCQDropDownEnabled = false;
   ResponseSubmissionStatus!: typeof ResponseSubmissionStatus;
 
   readonly feedbackVisibilityTypes = Object.values(FeedbackVisibilityType);
 
-  get isSaved(): boolean {
-    return this.model.recipientSubmissionForms.some((form) => form.status === ResponseSubmissionStatus.SAVED);
-  }
+  private _formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
   @Input()
-  formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
+  set formMode(value: QuestionSubmissionFormMode) {
+    this._formMode = value;
+    this.sortRecipientsIfReady();
+  }
+
+  get formMode(): QuestionSubmissionFormMode {
+    return this._formMode;
+  }
 
   @Input()
   isFormsDisabled = false;
@@ -142,10 +146,11 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isSavingResponses = false;
 
+  readonly isTabExpanded = signal(true);
+
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-    this.isEveryRecipientSorted = false;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       model.giverType,
       model.recipientType,
@@ -158,11 +163,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
     this.recipientLabelType = this.getSelectionLabelType(model.recipientType);
 
-    // Initialise the "isTabExpandedForRecipients" variable
-    // for a recipient when the recipients of the questions is not loaded.
-    this.model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-      this.model.isTabExpandedForRecipients.set(recipient.recipientIdentifier, true);
-    });
+    this.sortRecipientsIfReady();
   }
 
   @Input()
@@ -192,7 +193,6 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   private constsumRecipientQuesitonConstraint!: ConstsumRecipientsQuestionConstraintComponent;
 
   model: QuestionSubmissionFormModel = {
-    isTabExpanded: true,
     feedbackQuestionId: '',
 
     questionNumber: 0,
@@ -216,18 +216,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     showResponsesTo: [],
-
-    isTabExpandedForRecipients: new Map<string, boolean>(),
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
-  isSectionTeamShown = false;
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
-  isEveryRecipientSorted = false;
 
   constructor() {
     this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
@@ -258,33 +254,49 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     return false;
   }
 
-  ngDoCheck(): void {
-    if (this.model.recipientList.length > 0 && !this.isEveryRecipientSorted) {
-      this.sortRecipientsByName();
-    }
-  }
-
   toggleQuestionTab(): void {
-    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
-      this.model.isTabExpanded = !this.model.isTabExpanded;
-    } else {
-      this.model.isTabExpandedForRecipients.set(
-        this.recipientId,
-        !this.model.isTabExpandedForRecipients.get(this.recipientId)!,
-      );
-    }
-    this.formModelChange.emit(this.model);
+    this.isTabExpanded.update((isExpanded) => !isExpanded);
   }
 
-  shouldTabExpand(): boolean {
-    if (this.currentSelectedSessionView === this.allSessionViews.DEFAULT) {
-      return this.model.isTabExpanded;
+  getQuestionHeaderClass(): string {
+    switch (this.getResponseSubmissionStatus(this.recipientId)) {
+      case ResponseSubmissionStatus.ERROR:
+        return 'bg-danger text-white';
+      case ResponseSubmissionStatus.MODIFIED:
+        return 'bg-primary text-white';
+      case ResponseSubmissionStatus.NEW:
+        return 'bg-info text-dark';
+      case ResponseSubmissionStatus.SAVED:
+        return 'bg-success text-white';
     }
+  }
 
-    if (this.model.isTabExpandedForRecipients.get(this.recipientId) === undefined) {
-      this.model.isTabExpandedForRecipients.set(this.recipientId, true);
+  getResponseSubmissionStatusLabel(recipientId?: string): string {
+    switch (this.getResponseSubmissionStatus(recipientId)) {
+      case ResponseSubmissionStatus.ERROR:
+        return 'Error';
+      case ResponseSubmissionStatus.SAVED:
+        return 'Saved';
+      case ResponseSubmissionStatus.MODIFIED:
+        return 'Unsaved Changes';
+      case ResponseSubmissionStatus.NEW:
+      default:
+        return '';
     }
-    return this.model.isTabExpandedForRecipients.get(this.recipientId)!;
+  }
+
+  getResponseSubmissionStatusIconClass(recipientId?: string): string {
+    switch (this.getResponseSubmissionStatus(recipientId)) {
+      case ResponseSubmissionStatus.ERROR:
+        return 'fas fa-exclamation-triangle';
+      case ResponseSubmissionStatus.MODIFIED:
+        return 'fas fa-circle';
+      case ResponseSubmissionStatus.SAVED:
+        return 'fas fa-check';
+      case ResponseSubmissionStatus.NEW:
+      default:
+        return '';
+    }
   }
 
   private compareByName(firstRecipient: FeedbackResponseRecipient, secondRecipient: FeedbackResponseRecipient): number {
@@ -344,23 +356,30 @@ export class QuestionSubmissionFormComponent implements DoCheck {
         return firstRecipientIndex - secondRecipientIndex;
       },
     );
-    this.isEveryRecipientSorted = true;
   }
 
-  sortRecipientsByName(): void {
-    this.model.recipientList.sort(this.compareByName);
-    this.updateSubmissionFormIndexes();
+  private sortRecipientsIfReady(): void {
+    if (this.model.recipientList.length > 0) {
+      this.sortRecipients();
+    }
   }
 
-  private sortRecipientsBySectionTeam(): void {
-    if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
-      this.model.recipientList.sort((firstRecipient, secondRecipient) => {
-        return (
-          this.compareBySection(firstRecipient, secondRecipient) || this.compareByTeam(firstRecipient, secondRecipient)
-        );
-      });
-    } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
-      this.model.recipientList.sort(this.compareByTeam);
+  private sortRecipients(): void {
+    if (this.hasSectionTeam) {
+      if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_SECTION) {
+        this.model.recipientList.sort((firstRecipient, secondRecipient) => {
+          return (
+            this.compareBySection(firstRecipient, secondRecipient) ||
+            this.compareByTeam(firstRecipient, secondRecipient)
+          );
+        });
+      } else if (this.recipientLabelType === FeedbackRecipientLabelType.INCLUDE_TEAM) {
+        this.model.recipientList.sort(this.compareByTeam);
+      } else {
+        this.model.recipientList.sort(this.compareByName);
+      }
+    } else {
+      this.model.recipientList.sort(this.compareByName);
     }
     this.updateSubmissionFormIndexes();
   }
@@ -514,20 +533,20 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   getSelectionOptionLabel(recipient: FeedbackResponseRecipient): string {
-    if (!this.isSectionTeamShown) {
+    if (!this.hasSectionTeam) {
       return recipient.recipientName;
     }
 
     if (recipient.recipientSection && recipient.recipientTeam) {
-      return `${recipient.recipientSection} / ${recipient.recipientTeam} | ${recipient.recipientName}`;
+      return `${recipient.recipientName} (${recipient.recipientTeam} / ${recipient.recipientSection})`;
     }
 
     if (recipient.recipientSection) {
-      return `${recipient.recipientSection} | ${recipient.recipientName}`;
+      return `${recipient.recipientName} (${recipient.recipientSection})`;
     }
 
     if (recipient.recipientTeam) {
-      return `${recipient.recipientTeam} | ${recipient.recipientName}`;
+      return `${recipient.recipientName} (${recipient.recipientTeam})`;
     }
 
     return recipient.recipientName;
@@ -550,52 +569,32 @@ export class QuestionSubmissionFormComponent implements DoCheck {
       }));
   }
 
-  toggleSectionTeam(event: Event): void {
-    const checkbox: HTMLInputElement = event.target as HTMLInputElement;
-    if (checkbox.checked) {
-      this.isSectionTeamShown = true;
-      this.sortRecipientsBySectionTeam();
-    } else {
-      this.isSectionTeamShown = false;
-      this.sortRecipientsByName();
-    }
-  }
-
   /**
-   * Triggers adding a col-12 if MCQ Dropdown is enabled.
+   * Gets the aggregate submission status for this question.
+   *
+   * For questions with recipient specific responses, it returns the aggregate status for the recipient.
    */
-  refreshCssForDropdownMCQ(add: boolean): void {
-    this.isMCQDropDownEnabled = add;
-  }
+  getResponseSubmissionStatus(recipientId?: string): ResponseSubmissionStatus {
+    const relevantForms = recipientId
+      ? this.model.recipientSubmissionForms.filter((form) => form.recipientIdentifier === recipientId)
+      : this.model.recipientSubmissionForms;
 
-  /**
-   * Checks whether the response of this question has been saved for this recipient.
-   *
-   * For questions with recipient specific responses, it checks if:
-   * 1. The response is not the default empty response
-   * 2. The response has not been modified since last saved
-   * 3. The recipient identifier matches the given recipientId
-   *
-   * For questions without recipient specific responses, it checks if the response has been saved and not modified.
-   */
-  isSavedForRecipient(recipientId: string): boolean {
-    if (
-      [
-        FeedbackQuestionType.CONSTSUM_RECIPIENTS,
-        FeedbackQuestionType.CONTRIB,
-        FeedbackQuestionType.RANK_RECIPIENTS,
-      ].includes(this.model.questionType)
-    ) {
-      return this.isSaved;
+    if (relevantForms.length === 0) {
+      return ResponseSubmissionStatus.NEW;
     }
 
-    const recipientSpecificForms = this.model.recipientSubmissionForms.filter(
-      (form) => form.recipientIdentifier === recipientId,
-    );
-    if (recipientSpecificForms.length === 0) {
-      return false;
+    if (relevantForms.some((form) => form.status === ResponseSubmissionStatus.ERROR)) {
+      return ResponseSubmissionStatus.ERROR;
     }
 
-    return recipientSpecificForms.every((form) => form.status === ResponseSubmissionStatus.SAVED);
+    if (relevantForms.some((form) => form.status === ResponseSubmissionStatus.MODIFIED)) {
+      return ResponseSubmissionStatus.MODIFIED;
+    }
+
+    if (relevantForms.some((form) => form.status === ResponseSubmissionStatus.SAVED)) {
+      return ResponseSubmissionStatus.SAVED;
+    }
+
+    return ResponseSubmissionStatus.NEW;
   }
 }

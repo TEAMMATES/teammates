@@ -3,7 +3,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Data, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
@@ -61,6 +60,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { PageScrollService } from '../../../services/page-scroll.service';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SingleQuestionSaveErrorModalComponent } from './single-question-save-error-modal/single-question-save-error-modal.component';
 
 /**
  * Feedback session submission page.
@@ -74,7 +74,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
     FormsModule,
     LoadingRetryComponent,
     QuestionSubmissionFormComponent,
-    NgbTooltip,
     AjaxLoadingComponent,
     SafeHtmlPipe,
     KeyValuePipe,
@@ -132,7 +131,6 @@ export class SessionSubmissionPageComponent implements OnInit {
   isDownloadingSubmissionReceipt = false;
   isSubmissionFormsDisabled = false;
 
-  isModerationHintExpanded = false;
   moderatedQuestionId = '';
 
   isFeedbackSessionLoading = true;
@@ -367,7 +365,6 @@ export class SessionSubmissionPageComponent implements OnInit {
 
           this.logStudentAccess();
           this.handleSubmissionStatusBanner(feedbackSession);
-          this.showMobileSubmissionNote();
         }),
         switchMap(() =>
           forkJoin([this.loadCourseInfoData$(), this.loadPersonNameData$(), this.loadFeedbackQuestionsData$()]),
@@ -463,7 +460,6 @@ export class SessionSubmissionPageComponent implements OnInit {
     response.questions.forEach((questionData: SessionSubmissionQuestion) => {
       const feedbackQuestion: FeedbackQuestion = questionData.question;
       const model: QuestionSubmissionFormModel = {
-        isTabExpanded: true,
         feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
         questionNumber: feedbackQuestion.questionNumber,
@@ -491,8 +487,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         showGiverNameTo: feedbackQuestion.showGiverNameTo,
         showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
         showResponsesTo: feedbackQuestion.showResponsesTo,
-
-        isTabExpandedForRecipients: new Map<string, boolean>(),
       };
 
       this.questionSubmissionForms.push(model);
@@ -592,20 +586,6 @@ export class SessionSubmissionPageComponent implements OnInit {
         break;
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
       default:
-    }
-  }
-
-  private showMobileSubmissionNote(): void {
-    // Display note on submission on mobile device
-    const mobileDeviceWidth = 768;
-    if (
-      this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN &&
-      window.innerWidth < mobileDeviceWidth
-    ) {
-      const modalContent = `Note that you can use the Submit button to save responses already entered,
-              and continue to answer remaining questions after that.
-              You may also edit your submission any number of times before the closing time of this session.`;
-      this.simpleModalService.openInformationModal('Note On Submission', SimpleModalType.INFO, modalContent);
     }
   }
 
@@ -719,6 +699,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     const notYetAnsweredQuestions: Set<number> = new Set();
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const questionResponses: Record<string, FeedbackResponseRequest[]> = {};
+    const submittedQuestions: Set<number> = new Set();
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       const responses: FeedbackResponseRequest[] = [];
@@ -726,25 +707,26 @@ export class SessionSubmissionPageComponent implements OnInit {
 
       questionSubmissionFormModel.recipientSubmissionForms.forEach(
         (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+          const isEmptyResponse = this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
+            questionSubmissionFormModel.questionType,
+            recipientSubmissionFormModel.responseDetails,
+          );
+
           // Consider untouched questions to be valid
           // Untouched questions are those that are not filled in and are not saved before
           const isValid =
             recipientSubmissionFormModel.status === ResponseSubmissionStatus.NEW ||
             recipientSubmissionFormModel.isValid;
 
-          if (!isValid) {
+          if (!isValid || (!isEmptyResponse && recipientSubmissionFormModel.recipientIdentifier === '')) {
+            recipientSubmissionFormModel.status = ResponseSubmissionStatus.ERROR;
             failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
               'Invalid responses provided. Please check question constraints.';
             hasValidationErrorInQuestion = true;
             return;
           }
 
-          if (
-            !this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
-              questionSubmissionFormModel.questionType,
-              recipientSubmissionFormModel.responseDetails,
-            )
-          ) {
+          if (!isEmptyResponse) {
             // Only include non-empty responses in the request, empty responses will be deleted in the backend
             responses.push({
               responseId: recipientSubmissionFormModel.responseId,
@@ -759,6 +741,9 @@ export class SessionSubmissionPageComponent implements OnInit {
       const isQuestionFullyAnswered = responses.length > 0;
       if (!hasValidationErrorInQuestion) {
         questionResponses[questionSubmissionFormModel.feedbackQuestionId] = responses;
+        if (isQuestionFullyAnswered) {
+          submittedQuestions.add(questionSubmissionFormModel.questionNumber);
+        }
       }
 
       if (!isQuestionFullyAnswered) {
@@ -767,13 +752,31 @@ export class SessionSubmissionPageComponent implements OnInit {
     });
 
     if (Object.keys(questionResponses).length === 0) {
-      this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+      if (questionSubmissionForms.length === 1) {
+        const questionNumber = questionSubmissionForms[0].questionNumber;
+        if (Object.keys(failToSaveQuestions).length === 0) {
+          this.showSubmissionSuccessToast(questionSubmissionForms);
+        } else {
+          this.openSingleQuestionSaveErrorModal(
+            questionNumber,
+            failToSaveQuestions[questionNumber] ?? 'Invalid responses provided. Please check question constraints.',
+          );
+        }
+      } else {
+        this.openSavingCompleteModal(
+          questionSubmissionForms,
+          submittedQuestions,
+          notYetAnsweredQuestions,
+          failToSaveQuestions,
+        );
+      }
       return;
     }
 
     this.submitFeedbackResponses(
       questionResponses,
       questionSubmissionForms,
+      submittedQuestions,
       notYetAnsweredQuestions,
       failToSaveQuestions,
     );
@@ -782,6 +785,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   private submitFeedbackResponses(
     questionResponses: Record<string, FeedbackResponseRequest[]>,
     questionSubmissionForms: QuestionSubmissionFormModel[],
+    submittedQuestions: Set<number>,
     notYetAnsweredQuestions: Set<number>,
     failToSaveQuestions: Record<number, string>,
   ) {
@@ -837,11 +841,27 @@ export class SessionSubmissionPageComponent implements OnInit {
             );
           });
 
-          this.openSavingCompleteModal(questionSubmissionForms, notYetAnsweredQuestions, failToSaveQuestions);
+          if (questionSubmissionForms.length === 1 && Object.keys(failToSaveQuestions).length === 0) {
+            this.showSubmissionSuccessToast(questionSubmissionForms);
+          } else {
+            this.openSavingCompleteModal(
+              questionSubmissionForms,
+              submittedQuestions,
+              notYetAnsweredQuestions,
+              failToSaveQuestions,
+            );
+          }
           this.logStudentSubmission();
         },
         error: (resp: ErrorMessageOutput) => {
           const contextMessage = resp.error?.message ?? 'An unknown error occurred.';
+          if (questionSubmissionForms.length === 1) {
+            this.openSingleQuestionSaveErrorModal(
+              questionSubmissionForms[0].questionNumber,
+              `An error occurred and your response could not be saved. Error details: ${contextMessage}`,
+            );
+            return;
+          }
           this.simpleModalService.openInformationModal(
             'Saving Failed',
             SimpleModalType.DANGER,
@@ -851,15 +871,28 @@ export class SessionSubmissionPageComponent implements OnInit {
       });
   }
 
+  private showSubmissionSuccessToast(questionSubmissionForms: QuestionSubmissionFormModel[]): void {
+    const successMessage = `Response to question ${questionSubmissionForms[0].questionNumber} submitted successfully.`;
+    this.statusMessageService.showSuccessToast(successMessage);
+  }
+
   private openSavingCompleteModal(
     questionSubmissionForms: QuestionSubmissionFormModel[],
+    submittedQuestions: Set<number>,
     notYetAnsweredQuestions: Set<number>,
     failToSaveQuestions: Record<number, string>,
   ): void {
     const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
     modalRef.componentInstance.questions = questionSubmissionForms;
+    modalRef.componentInstance.submittedQuestions = Array.from(submittedQuestions.values());
     modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
     modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
+  }
+
+  private openSingleQuestionSaveErrorModal(questionNumber: number, errorMessage: string): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(SingleQuestionSaveErrorModalComponent);
+    modalRef.componentInstance.questionNumber = questionNumber;
+    modalRef.componentInstance.errorMessage = errorMessage;
   }
 
   downloadSubmissionReceipt(): void {
@@ -963,27 +996,6 @@ export class SessionSubmissionPageComponent implements OnInit {
     return userSessionEndingTime - Date.now() < Milliseconds.IN_FIFTEEN_MINUTES;
   }
 
-  /**
-   * Filter questions that we are submitting for intended recipient
-   * when grouped session view is toggled and save the responses after.
-   */
-  saveResponsesForSelectedRecipientQuestions(
-    recipientId: string,
-    questionSubmissionForms: QuestionSubmissionFormModel[],
-  ): void {
-    const questionsToRecipient = this.recipientQuestionMap.get(recipientId);
-    if (!questionsToRecipient) {
-      this.statusMessageService.showErrorToast('There was an issue saving your responses.');
-      return;
-    }
-    const recipientQSForms = questionSubmissionForms.filter(
-      (questionSubmissionFormModel: QuestionSubmissionFormModel) =>
-        questionsToRecipient.has(questionSubmissionFormModel.questionNumber),
-    );
-
-    this.saveFeedbackResponses(recipientQSForms);
-  }
-
   private addQuestionForRecipient(recipientId: string, questionId: number): void {
     if (this.recipientQuestionMap.has(recipientId)) {
       this.recipientQuestionMap.get(recipientId)!.add(questionId);
@@ -1006,6 +1018,41 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
   }
 
+  getSubmissionStatusSummary(): {
+    totalQuestions: number;
+    saved: number;
+    modified: number;
+    new: number;
+    error: number;
+  } {
+    const summary = {
+      totalQuestions: this.questionSubmissionForms.length,
+      saved: 0,
+      modified: 0,
+      new: 0,
+      error: 0,
+    };
+
+    this.questionSubmissionForms.forEach((questionSubmissionForm: QuestionSubmissionFormModel) => {
+      const status = this.getQuestionSubmissionStatus(questionSubmissionForm);
+      if (status === ResponseSubmissionStatus.SAVED) {
+        summary.saved += 1;
+      } else if (status === ResponseSubmissionStatus.MODIFIED) {
+        summary.modified += 1;
+      } else if (status === ResponseSubmissionStatus.ERROR) {
+        summary.error += 1;
+      } else {
+        summary.new += 1;
+      }
+    });
+
+    return summary;
+  }
+
+  pluralizeQuestionCount(count: number): string {
+    return `${count} question${count === 1 ? '' : 's'}`;
+  }
+
   /**
    * Gets recipient name in {@code FIXED_RECIPIENT} mode and in {@code GROUP_RECIPIENTS} view.
    */
@@ -1025,6 +1072,26 @@ export class SessionSubmissionPageComponent implements OnInit {
     );
 
     return recipient ? recipient.recipientName : 'Unknown';
+  }
+
+  private getQuestionSubmissionStatus(questionSubmissionForm: QuestionSubmissionFormModel): ResponseSubmissionStatus {
+    const recipientStatuses = questionSubmissionForm.recipientSubmissionForms.map(
+      (recipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel) => recipientSubmissionForm.status,
+    );
+
+    if (recipientStatuses.some((status: ResponseSubmissionStatus) => status === ResponseSubmissionStatus.ERROR)) {
+      return ResponseSubmissionStatus.ERROR;
+    }
+
+    if (recipientStatuses.some((status: ResponseSubmissionStatus) => status === ResponseSubmissionStatus.MODIFIED)) {
+      return ResponseSubmissionStatus.MODIFIED;
+    }
+
+    if (recipientStatuses.some((status: ResponseSubmissionStatus) => status === ResponseSubmissionStatus.SAVED)) {
+      return ResponseSubmissionStatus.SAVED;
+    }
+
+    return ResponseSubmissionStatus.NEW;
   }
 
   /**
