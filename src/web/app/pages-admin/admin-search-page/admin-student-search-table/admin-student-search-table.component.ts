@@ -1,29 +1,28 @@
-import { KeyValuePipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
-import { EmailGenerationService } from '../../../../services/email-generation.service';
-import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';
+import { StudentAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { UserService } from '../../../../services/user.service';
-import { Email, RegenerateKey } from '../../../../types/api-output';
+import { RegenerateKey } from '../../../../types/api-output';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
+import { AdminSessionLinksModalComponent } from '../admin-session-links-modal/admin-session-links-modal.component';
 
 @Component({
   selector: 'tm-admin-student-search-table',
   templateUrl: './admin-student-search-table.component.html',
-  imports: [NgClass, NgbTooltip, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe, NgbCollapse],
+  imports: [NgClass, NgbTooltip, AjaxLoadingComponent, SearchTermsHighlighterPipe],
 })
 export class AdminStudentSearchTableComponent implements OnChanges {
   private statusMessageService = inject(StatusMessageService);
   private simpleModalService = inject(SimpleModalService);
   private userService = inject(UserService);
-  private emailGenerationService = inject(EmailGenerationService);
+  private ngbModal = inject(NgbModal);
 
   @Input()
   students: StudentAccountSearchResult[] = [];
@@ -42,16 +41,11 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     }
   }
 
-  showAllStudentsLinks(): void {
-    for (const student of this.students) {
-      student.showLinks = true;
-    }
-  }
-
-  hideAllStudentsLinks(): void {
-    for (const student of this.students) {
-      student.showLinks = false;
-    }
+  openSessionLinksModal(student: StudentAccountSearchResult): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(AdminSessionLinksModalComponent, { size: 'xl' });
+    modalRef.componentInstance.userId = student.userId;
+    modalRef.componentInstance.userName = student.name;
+    modalRef.componentInstance.userTypeLabel = 'Student';
   }
 
   regenerateUserKey(student: StudentAccountSearchResult, index: number): void {
@@ -74,7 +68,6 @@ export class AdminStudentSearchTableComponent implements OnChanges {
         this.userService.regenerateUserKey(student.userId).subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
-            this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
             this.isRegeneratingStudentKeys[index] = false;
           },
           error: (response: ErrorMessageOutput) => {
@@ -85,48 +78,5 @@ export class AdminStudentSearchTableComponent implements OnChanges {
       },
       () => {},
     );
-  }
-
-  private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
-    const updateSessions = (sessions: FeedbackSessionsGroup): void => {
-      Object.keys(sessions).forEach((key: string): void => {
-        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
-      });
-    };
-
-    student.courseJoinLink = this.getUpdatedUrl(student.courseJoinLink, newKey);
-    updateSessions(student.awaitingSessions);
-    updateSessions(student.openSessions);
-    updateSessions(student.notOpenSessions);
-    updateSessions(student.publishedSessions);
-  }
-
-  private getUpdatedUrl(link: string, newVal: string): string {
-    const param = 'key';
-    const regex = new RegExp(`(${param}=)[^&]+`);
-
-    return link.replace(regex, `$1${newVal}`);
-  }
-
-  openCourseJoinEmail(userId: string): void {
-    this.emailGenerationService.getCourseJoinEmail(userId).subscribe({
-      next: (email: Email) => {
-        window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
-      },
-      error: (err: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(err.error.message);
-      },
-    });
-  }
-
-  openFeedbackSessionReminderEmail(userId: string, fsId: string): void {
-    this.emailGenerationService.getFeedbackSessionReminderEmail(userId, fsId).subscribe({
-      next: (email: Email) => {
-        window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
-      },
-      error: (err: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(err.error.message);
-      },
-    });
   }
 }

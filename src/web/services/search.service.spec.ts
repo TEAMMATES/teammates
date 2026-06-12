@@ -16,15 +16,10 @@ import {
   AccountRequest,
   AccountRequestStatus,
   Course,
-  FeedbackSessionView,
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
   Instructor,
   InstructorPermissionRole,
   InstructorPrivilege,
   JoinState,
-  ResponseVisibleSetting,
-  SessionVisibleSetting,
   Student,
 } from '../types/api-output';
 
@@ -94,47 +89,6 @@ describe('SearchService', () => {
     role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };
-
-  const mockSessions: FeedbackSessionView[] = [
-    {
-      feedbackSession: {
-        feedbackSessionId: '00000000-0000-4000-8000-000000000001',
-        courseId: 'cs1010-demo',
-        timeZone: 'Asia/Singapore',
-        feedbackSessionName: 'First team feedback session',
-        instructions: 'Provide feedback based on the questions below.',
-        submissionStartTimestamp: 1333295940000,
-        submissionEndTimestamp: 1333382340000,
-        submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
-        publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-        createdAtTimestamp: 1333324740000,
-        gracePeriod: 1,
-        sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
-        responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-        isClosingSoonEmailEnabled: false,
-        isPublishedEmailEnabled: false,
-      },
-    },
-    {
-      feedbackSession: {
-        feedbackSessionId: '00000000-0000-4000-8000-000000000002',
-        courseId: 'cs1010-demo',
-        timeZone: 'Asia/Singapore',
-        feedbackSessionName: 'Second team feedback session',
-        instructions: 'Provide feedback based on the questions below.',
-        submissionStartTimestamp: 1333295940000,
-        submissionEndTimestamp: 2122300740000,
-        submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-        publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-        createdAtTimestamp: 1333324740000,
-        gracePeriod: 1,
-        sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
-        responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-        isClosingSoonEmailEnabled: false,
-        isPublishedEmailEnabled: false,
-      },
-    },
-  ];
 
   const mockPrivilegeA: InstructorPrivilege = {
     privileges: {
@@ -258,12 +212,10 @@ describe('SearchService', () => {
       mockStudent,
       { instructors: [mockInstructorA] },
       mockCourse,
-      { feedbackSessions: mockSessions },
       [mockPrivilegeA],
     );
     expect(result.comments).toBe('Student record used for search service tests');
     expect(result.courseId).toBe('cs1010-demo');
-    expect(result.courseJoinLink).toBe(`${globalThis.location.origin}/web/join?key=student-key-001&entitytype=student`);
     expect(result.courseName).toBe('Introduction to Software Engineering');
     expect(result.email).toBe('alice.brown@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-00000000000a');
@@ -274,7 +226,6 @@ describe('SearchService', () => {
       mockStudent,
       { instructors: [mockInstructorC, mockInstructorB, mockInstructorA] },
       mockCourse,
-      { feedbackSessions: mockSessions },
       [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
     expect(result.profilePageLink).toBe(
@@ -288,7 +239,6 @@ describe('SearchService', () => {
       mockStudent,
       { instructors: [mockInstructorB, mockInstructorC] },
       mockCourse,
-      { feedbackSessions: mockSessions },
       [mockPrivilegeB, mockPrivilegeC],
     );
     expect(result.profilePageLink).toBe(
@@ -298,13 +248,8 @@ describe('SearchService', () => {
   });
 
   it('should join instructors accurately when calling as admin', () => {
-    const result: InstructorAccountSearchResult = service.joinAdminInstructor(mockInstructorA, mockCourse, {
-      feedbackSessions: mockSessions,
-    });
+    const result: InstructorAccountSearchResult = service.joinAdminInstructor(mockInstructorA, mockCourse);
     expect(result.courseId).toBe('cs1010-demo');
-    expect(result.courseJoinLink).toBe(
-      `${globalThis.location.origin}/web/join?key=instructor-key-001&entitytype=instructor`,
-    );
     expect(result.courseName).toBe('Introduction to Software Engineering');
     expect(result.email).toBe('lee.instructor@example.edu');
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-000000000001');

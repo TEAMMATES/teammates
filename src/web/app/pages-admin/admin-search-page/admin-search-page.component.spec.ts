@@ -5,22 +5,11 @@ import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 import {
-  FeedbackSessionsGroup,
   InstructorAccountSearchResult,
   SearchService,
   StudentAccountSearchResult,
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-
-const DEFAULT_SESSION_ID = '17681c09-f4e5-40c2-be77-eeccf0c221c2';
-const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
-  [DEFAULT_SESSION_ID]: {
-    name: 'sessionName',
-    feedbackSessionUrl: 'sessionUrl',
-    startTime: 'startTime',
-    endTime: 'endTime',
-  },
-};
 
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
@@ -106,13 +95,7 @@ describe('AdminSearchPageComponent', () => {
         courseName: 'courseName1',
         isCourseDeleted: false,
         institute: 'institute1',
-        courseJoinLink: 'courseJoinLink1',
         manageAccountLink: 'manageAccountLink1',
-        showLinks: true,
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
       {
         userId: '42aca1be-044d-48c8-a8c2-2bac0e287eb4',
@@ -122,13 +105,7 @@ describe('AdminSearchPageComponent', () => {
         courseName: 'courseName2',
         isCourseDeleted: false,
         institute: 'institute2',
-        courseJoinLink: 'courseJoinLink2',
         manageAccountLink: 'manageAccountLink2',
-        showLinks: true,
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
     ];
 
@@ -160,17 +137,11 @@ describe('AdminSearchPageComponent', () => {
         courseName: 'courseName1',
         isCourseDeleted: false,
         institute: 'institute1',
-        courseJoinLink: 'courseJoinLink1',
         manageAccountLink: 'manageAccountLink1',
-        showLinks: true,
         section: 'section1',
         team: 'team1',
         comments: 'comments1',
         profilePageLink: 'profilePageLink1',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
       {
         userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
@@ -180,17 +151,11 @@ describe('AdminSearchPageComponent', () => {
         courseName: 'courseName2',
         isCourseDeleted: false,
         institute: 'institute2',
-        courseJoinLink: 'courseJoinLink2',
         manageAccountLink: 'manageAccountLink2',
-        showLinks: true,
         section: 'section2',
         team: 'team2',
         comments: 'comments2',
         profilePageLink: 'profilePageLink2',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
     ];
 
