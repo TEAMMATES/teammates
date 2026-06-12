@@ -1050,6 +1050,10 @@ export class SessionSubmissionPageComponent implements OnInit {
     return summary;
   }
 
+  pluralizeQuestionCount(count: number): string {
+    return `${count} question${count === 1 ? '' : 's'}`;
+  }
+
   /**
    * Gets recipient name in {@code FIXED_RECIPIENT} mode and in {@code GROUP_RECIPIENTS} view.
    */
