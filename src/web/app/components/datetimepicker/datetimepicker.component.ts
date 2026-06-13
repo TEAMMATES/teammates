@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbCalendar, NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import moment from 'moment-timezone';
 import { DatePickerFormatter } from './datepicker-formatter';
 import { DateTimeService } from '../../../services/datetime.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { DateFormat, TimeFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
-
-/**
- * The datetimepicker always resolves midnight to 23:59 of the previous day.
- */
-const RESOLVE_MIDNIGHT = true;
+import { DateFormat, TimeFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 
 /**
  * Combined date and time picker.
+ *
+ * <p>The empty state is represented by an undefined timestamp. Any defined number is treated as a real
+ * instant.
  */
 @Component({
   selector: 'tm-datetimepicker',
@@ -57,7 +56,7 @@ export class DatetimepickerComponent implements OnChanges {
   timestampChange: EventEmitter<number> = new EventEmitter<number>();
 
   // Internal display state derived from the timestamp inputs.
-  date: DateFormat = getDefaultDateFormat();
+  date?: DateFormat;
   time: TimeFormat = getDefaultTimeFormat();
   minDate?: DateFormat;
   maxDate?: DateFormat;
@@ -65,21 +64,20 @@ export class DatetimepickerComponent implements OnChanges {
   maxTime?: TimeFormat;
 
   ngOnChanges(): void {
-    if (this.timestamp) {
-      const { date, time } = this.dateTimeService.getDateTimeAtTimezone(
-        this.timestamp,
-        this.effectiveTimeZone,
-        RESOLVE_MIDNIGHT,
-      );
+    if (this.timestamp == null) {
+      this.date = undefined;
+      this.time = getDefaultTimeFormat();
+    } else {
+      const { date, time } = this.toDisplayDateTime(this.timestamp);
       this.date = date;
       this.time = time;
     }
 
-    const min = this.toDateTime(this.minTimestamp);
+    const min = this.minTimestamp == null ? undefined : this.toDisplayDateTime(this.minTimestamp);
     this.minDate = min?.date;
     this.minTime = min?.time;
 
-    const max = this.toDateTime(this.maxTimestamp);
+    const max = this.maxTimestamp == null ? undefined : this.toDisplayDateTime(this.maxTimestamp);
     this.maxDate = max?.date;
     this.maxTime = max?.time;
   }
@@ -88,11 +86,20 @@ export class DatetimepickerComponent implements OnChanges {
     return this.timeZone || this.timezoneService.guessTimezone();
   }
 
-  private toDateTime(timestamp?: number): { date: DateFormat; time: TimeFormat } | undefined {
-    if (!timestamp) {
-      return undefined;
-    }
-    return this.dateTimeService.getDateTimeAtTimezone(timestamp, this.effectiveTimeZone, RESOLVE_MIDNIGHT);
+  /**
+   * Converts an instant into the date and time shown in the picker.
+   * A midnight instant is shown as 23:59 of the previous day.
+   */
+  private toDisplayDateTime(timestamp: number): { date: DateFormat; time: TimeFormat } {
+    return this.dateTimeService.getDateTimeAtTimezone(timestamp, this.effectiveTimeZone, true);
+  }
+
+  /**
+   * Converts the displayed date and time back into an instant.
+   * The inverse of {@link toDisplayDateTime}: a displayed 23:59 is resolved to the following midnight.
+   */
+  private fromDisplayDateTime(date: DateFormat, time: TimeFormat): number {
+    return this.timezoneService.resolveLocalDateTime(date, time, this.effectiveTimeZone, true);
   }
 
   changeDate(date: DateFormat): void {
@@ -113,12 +120,32 @@ export class DatetimepickerComponent implements OnChanges {
   }
 
   private emitTimestamp(): void {
-    if (!this.date) {
+    if (this.date == null) {
       return;
     }
-    this.timestampChange.emit(
-      this.timezoneService.resolveLocalDateTime(this.date, this.time, this.effectiveTimeZone, RESOLVE_MIDNIGHT),
-    );
+    this.timestampChange.emit(this.clampToRange(this.fromDisplayDateTime(this.date, this.time)));
+  }
+
+  /**
+   * Snaps a value that falls below the lower bound up to the earliest selectable time within range.
+   */
+  private clampToRange(timestamp: number): number {
+    if (this.minTimestamp != null && timestamp < this.minTimestamp) {
+      return this.ceilToSelectableTime(this.minTimestamp);
+    }
+    return timestamp;
+  }
+
+  /**
+   * Rounds a timestamp up to the next selectable time option (a whole hour). A time in the last hour of the
+   * day rounds up to the following midnight, which is displayed as 23:59.
+   */
+  private ceilToSelectableTime(timestamp: number): number {
+    const inst: moment.Moment = moment(timestamp).tz(this.effectiveTimeZone).second(0).millisecond(0);
+    if (inst.minute() > 0) {
+      inst.add(1, 'hour').minute(0);
+    }
+    return inst.valueOf();
   }
 
   /**
@@ -149,7 +176,7 @@ export class DatetimepickerComponent implements OnChanges {
    * maximum datetime.
    */
   isOptionDisabled(t: TimeFormat): boolean {
-    if (!this.date) {
+    if (this.date == null) {
       return false;
     }
     const date = this.toJsDate(this.date, t);

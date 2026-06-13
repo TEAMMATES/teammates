@@ -263,15 +263,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
 
-    const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp;
-    const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp;
+    const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp ?? 0;
+    const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp ?? 0;
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp;
+      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp ?? 0;
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp;
+      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp ?? 0;
     }
 
     this.feedbackSessionsService

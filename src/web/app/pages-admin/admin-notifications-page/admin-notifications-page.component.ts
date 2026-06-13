@@ -52,9 +52,6 @@ export class AdminNotificationsPageComponent implements OnInit {
   notificationEditFormModel: NotificationEditFormModel = {
     notificationId: '',
 
-    startTimestamp: 0,
-    endTimestamp: 0,
-
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
 
@@ -218,8 +215,8 @@ export class AdminNotificationsPageComponent implements OnInit {
         message: this.notificationEditFormModel.message,
         style: this.notificationEditFormModel.style,
         targetUser: this.notificationEditFormModel.targetUser,
-        startTimestamp: this.notificationEditFormModel.startTimestamp,
-        endTimestamp: this.notificationEditFormModel.endTimestamp,
+        startTimestamp: this.notificationEditFormModel.startTimestamp ?? 0,
+        endTimestamp: this.notificationEditFormModel.endTimestamp ?? 0,
       })
       .pipe(
         finalize(() => {
@@ -254,8 +251,8 @@ export class AdminNotificationsPageComponent implements OnInit {
           message: this.notificationEditFormModel.message,
           style: this.notificationEditFormModel.style,
           targetUser: this.notificationEditFormModel.targetUser,
-          startTimestamp: this.notificationEditFormModel.startTimestamp,
-          endTimestamp: this.notificationEditFormModel.endTimestamp,
+          startTimestamp: this.notificationEditFormModel.startTimestamp ?? 0,
+          endTimestamp: this.notificationEditFormModel.endTimestamp ?? 0,
         },
         this.notificationEditFormModel.notificationId,
       )

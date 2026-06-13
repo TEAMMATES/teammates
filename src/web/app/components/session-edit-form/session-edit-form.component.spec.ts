@@ -72,19 +72,6 @@ describe('SessionEditFormComponent', () => {
     );
   });
 
-  it('should clamp the submission opening timestamp to the earliest selectable time when it is too early', () => {
-    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
-
-    // A timestamp well before the earliest allowed opening time (2 hours before now).
-    component.triggerSubmissionOpeningTimestampChange(moment().tz('UTC').subtract(1, 'year').valueOf());
-
-    const emitted = modelChangeSpy.mock.calls[0][0]!;
-    expect(emitted.submissionStartTimestamp).toBeGreaterThanOrEqual(component.minTimestampForSubmissionStart - 2000);
-    // The clamped value is rounded to a selectable time (whole hour or 23:59).
-    const inst = moment(emitted.submissionStartTimestamp).tz('UTC');
-    expect(inst.minute() === 0 || (inst.hour() === 23 && inst.minute() === 59)).toBe(true);
-  });
-
   it('should return the minimum submission opening timestamp as 2 hours before now', () => {
     const expected = moment().tz('UTC').subtract(2, 'hours').second(0).millisecond(0).valueOf();
     expect(Math.abs(component.minTimestampForSubmissionStart - expected)).toBeLessThan(CLOSE_DELTA);

@@ -44,9 +44,6 @@ export class NotificationEditFormComponent {
   model: NotificationEditFormModel = {
     notificationId: '',
 
-    startTimestamp: 0,
-    endTimestamp: 0,
-
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
 

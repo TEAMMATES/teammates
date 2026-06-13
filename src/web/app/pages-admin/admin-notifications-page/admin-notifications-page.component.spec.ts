@@ -15,8 +15,8 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 
 const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
-  startTimestamp: 0,
-  endTimestamp: 0,
+  startTimestamp: Date.UTC(2020, 0, 1, 10, 0),
+  endTimestamp: Date.UTC(2020, 0, 2, 10, 0),
 
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,

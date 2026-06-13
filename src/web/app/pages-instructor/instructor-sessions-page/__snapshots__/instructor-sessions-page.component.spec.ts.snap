@@ -35,7 +35,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -361,7 +361,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -381,145 +381,121 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -564,7 +540,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -584,145 +560,121 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -920,145 +872,121 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H
@@ -1564,7 +1492,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -1890,7 +1818,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -1910,145 +1838,121 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -2093,7 +1997,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -2113,145 +2017,121 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -2449,145 +2329,121 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H
@@ -3093,7 +2949,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -3419,7 +3275,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -3439,145 +3295,121 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -3622,7 +3454,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -3642,145 +3474,121 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -3978,145 +3786,121 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H
@@ -4590,7 +4374,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -4929,7 +4713,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -4949,145 +4733,121 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -5132,7 +4892,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -5152,145 +4912,121 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -5488,145 +5224,121 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H
@@ -6136,7 +5848,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -6462,7 +6174,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -6482,145 +6194,121 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -6665,7 +6353,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -6685,145 +6373,121 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -7021,145 +6685,121 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H
@@ -7665,7 +7305,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -7991,7 +7631,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -8011,145 +7651,121 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -8194,7 +7810,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                           >
                             <input
                               aria-label="Date"
-                              class="form-control ng-untouched ng-pristine ng-invalid"
+                              class="form-control ng-untouched ng-pristine ng-valid"
                               ngbdatepicker=""
                               readonly=""
                               type="text"
@@ -8214,145 +7830,121 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -8550,145 +8142,121 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H
@@ -9194,7 +8762,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
@@ -9540,145 +9108,121 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -9743,145 +9287,121 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                             class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              disabled=""
                               value="1: Object"
                             >
                                01:00H 
                             </option>
                             <option
-                              disabled=""
                               value="2: Object"
                             >
                                02:00H 
                             </option>
                             <option
-                              disabled=""
                               value="3: Object"
                             >
                                03:00H 
                             </option>
                             <option
-                              disabled=""
                               value="4: Object"
                             >
                                04:00H 
                             </option>
                             <option
-                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
-                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
-                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
-                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
-                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
                             </option>
                             <option
-                              disabled=""
                               value="10: Object"
                             >
                                10:00H 
                             </option>
                             <option
-                              disabled=""
                               value="11: Object"
                             >
                                11:00H 
                             </option>
                             <option
-                              disabled=""
                               value="12: Object"
                             >
                                12:00H 
                             </option>
                             <option
-                              disabled=""
                               value="13: Object"
                             >
                                13:00H 
                             </option>
                             <option
-                              disabled=""
                               value="14: Object"
                             >
                                14:00H 
                             </option>
                             <option
-                              disabled=""
                               value="15: Object"
                             >
                                15:00H 
                             </option>
                             <option
-                              disabled=""
                               value="16: Object"
                             >
                                16:00H 
                             </option>
                             <option
-                              disabled=""
                               value="17: Object"
                             >
                                17:00H 
                             </option>
                             <option
-                              disabled=""
                               value="18: Object"
                             >
                                18:00H 
                             </option>
                             <option
-                              disabled=""
                               value="19: Object"
                             >
                                19:00H 
                             </option>
                             <option
-                              disabled=""
                               value="20: Object"
                             >
                                20:00H 
                             </option>
                             <option
-                              disabled=""
                               value="21: Object"
                             >
                                21:00H 
                             </option>
                             <option
-                              disabled=""
                               value="22: Object"
                             >
                                22:00H 
                             </option>
                             <option
-                              disabled=""
                               value="23: Object"
                             >
                                23:00H 
                             </option>
                             <option
-                              disabled=""
                               value="0: Object"
                             >
                               23:59H
@@ -10078,145 +9598,121 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                               disabled=""
                             >
                               <option
-                                disabled=""
                                 value="1: Object"
                               >
                                  01:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="2: Object"
                               >
                                  02:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="3: Object"
                               >
                                  03:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="4: Object"
                               >
                                  04:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="5: Object"
                               >
                                  05:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="6: Object"
                               >
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="11: Object"
                               >
                                  11:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="12: Object"
                               >
                                  12:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="13: Object"
                               >
                                  13:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="14: Object"
                               >
                                  14:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="15: Object"
                               >
                                  15:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="16: Object"
                               >
                                  16:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="17: Object"
                               >
                                  17:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="18: Object"
                               >
                                  18:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="19: Object"
                               >
                                  19:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="20: Object"
                               >
                                  20:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="21: Object"
                               >
                                  21:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="22: Object"
                               >
                                  22:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="23: Object"
                               >
                                  23:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="0: Object"
                               >
                                 23:59H

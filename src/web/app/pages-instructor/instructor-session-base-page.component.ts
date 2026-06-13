@@ -63,7 +63,7 @@ export abstract class InstructorSessionBasePageComponent {
   coursesOfModifiedSession: string[] = [];
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
-  private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  private publishUnpublishRetryAttempts!: number;
 
   sessionEditFormModel: SessionEditFormModel = {
     feedbackSessionId: '',
@@ -73,15 +73,11 @@ export abstract class InstructorSessionBasePageComponent {
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: 0,
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTimestamp: 0,
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -98,6 +94,10 @@ export abstract class InstructorSessionBasePageComponent {
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
+
+  constructor() {
+    this.publishUnpublishRetryAttempts = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  }
 
   /**
    * Copies a feedback session.
@@ -636,7 +636,11 @@ export abstract class InstructorSessionBasePageComponent {
 
   triggerModelChange(data: SessionEditFormModel): void {
     // Ensure the submission closing time is never earlier than the submission opening time.
-    if (data.submissionStartTimestamp > data.submissionEndTimestamp) {
+    if (
+      data.submissionStartTimestamp != null &&
+      data.submissionEndTimestamp != null &&
+      data.submissionStartTimestamp > data.submissionEndTimestamp
+    ) {
       this.sessionEditFormModel = {
         ...data,
         submissionEndTimestamp: data.submissionStartTimestamp,

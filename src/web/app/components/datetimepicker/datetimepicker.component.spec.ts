@@ -78,6 +78,37 @@ describe('DatetimepickerComponent', () => {
     expect(component.date).toEqual({ year: today.year, month: today.month, day: today.day });
   });
 
+  it('should clamp an emitted value below the lower bound up to the next selectable time', () => {
+    // Lower bound at 05:23; selecting an earlier time should snap up to the next whole hour (06:00).
+    component.minTimestamp = Date.UTC(2023, 9, 12, 5, 23, 0);
+    component.timestamp = Date.UTC(2023, 9, 12, 9, 0, 0);
+    component.ngOnChanges();
+    const emitSpy = vi.spyOn(component.timestampChange, 'emit');
+
+    component.changeTime({ hour: 4, minute: 0 });
+
+    expect(emitSpy).toHaveBeenCalledWith(Date.UTC(2023, 9, 12, 6, 0, 0));
+  });
+
+  it('should emit a value within the bounds unchanged', () => {
+    component.minTimestamp = Date.UTC(2023, 9, 12, 5, 0, 0);
+    component.maxTimestamp = Date.UTC(2023, 9, 12, 20, 0, 0);
+    component.timestamp = Date.UTC(2023, 9, 12, 9, 0, 0);
+    component.ngOnChanges();
+    const emitSpy = vi.spyOn(component.timestampChange, 'emit');
+
+    component.changeTime({ hour: 8, minute: 0 });
+
+    expect(emitSpy).toHaveBeenCalledWith(Date.UTC(2023, 9, 12, 8, 0, 0));
+  });
+
+  it('should render an empty picker when the timestamp is undefined', () => {
+    component.timestamp = undefined;
+    component.ngOnChanges();
+
+    expect(component.date).toBeUndefined();
+  });
+
   it('should disable time options outside the min/max bounds', () => {
     component.timestamp = Date.UTC(2023, 9, 12, 5, 0, 0);
     component.minTimestamp = Date.UTC(2023, 9, 12, 5, 0, 0);

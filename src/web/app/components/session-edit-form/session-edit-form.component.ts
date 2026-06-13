@@ -63,15 +63,11 @@ export class SessionEditFormComponent {
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: 0,
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTimestamp: 0,
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -147,34 +143,21 @@ export class SessionEditFormComponent {
   /**
    * Triggers the change of the model when the submission opening time changes.
    *
-   * <p>Clamps the value to the earliest allowed opening time and pulls the custom session visibility time
-   * back so that it never occurs after the submission opening time.
+   * <p>Pulls the custom session visibility time back so that it never occurs after the submission opening
+   * time. The picker guarantees the incoming value already satisfies the configured range.
    */
   triggerSubmissionOpeningTimestampChange(timestamp: number): void {
-    const earliest: number = this.minTimestampForSubmissionStart;
-    const submissionStartTimestamp: number =
-      timestamp < earliest ? this.roundUpToSelectableTime(earliest) : timestamp;
-
     const updatedModel: SessionEditFormModel = {
       ...this.model,
-      submissionStartTimestamp,
+      submissionStartTimestamp: timestamp,
     };
-    if (updatedModel.customSessionVisibleTimestamp > submissionStartTimestamp) {
-      updatedModel.customSessionVisibleTimestamp = submissionStartTimestamp;
+    if (
+      updatedModel.customSessionVisibleTimestamp != null &&
+      updatedModel.customSessionVisibleTimestamp > timestamp
+    ) {
+      updatedModel.customSessionVisibleTimestamp = timestamp;
     }
     this.modelChange.emit(updatedModel);
-  }
-
-  /**
-   * Rounds a timestamp up to the next selectable whole hour. A time in the last hour of the day rounds up to
-   * the following midnight, which the datetimepicker displays as 23:59.
-   */
-  private roundUpToSelectableTime(timestamp: number): number {
-    const inst: moment.Moment = moment(timestamp).tz(this.model.timeZone);
-    if (inst.minute() > 0) {
-      inst.add(1, 'hour').minute(0);
-    }
-    return inst.second(0).millisecond(0).valueOf();
   }
 
   /**
@@ -227,7 +210,7 @@ export class SessionEditFormComponent {
       .second(0)
       .millisecond(0)
       .valueOf();
-    return Math.max(this.model.submissionStartTimestamp, oneHourBeforeNow);
+    return Math.max(this.model.submissionStartTimestamp ?? oneHourBeforeNow, oneHourBeforeNow);
   }
 
   /**
@@ -244,7 +227,10 @@ export class SessionEditFormComponent {
    *
    * <p> The minimum session visible datetime is 30 days before the session opening datetime.
    */
-  get minTimestampForSessionVisible(): number {
+  get minTimestampForSessionVisible(): number | undefined {
+    if (this.model.submissionStartTimestamp == null) {
+      return undefined;
+    }
     return moment(this.model.submissionStartTimestamp).tz(this.model.timeZone).subtract(30, 'days').valueOf();
   }
 
@@ -253,12 +239,15 @@ export class SessionEditFormComponent {
    *
    * <p> The maximum session visible datetime is on the response visible datetime.
    */
-  get maxTimestampForSessionVisible(): number {
+  get maxTimestampForSessionVisible(): number | undefined {
     switch (this.model.responseVisibleSetting) {
       case ResponseVisibleSetting.LATER:
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartTimestamp;
       case ResponseVisibleSetting.CUSTOM:
+        if (this.model.submissionStartTimestamp == null || this.model.customResponseVisibleTimestamp == null) {
+          return this.model.submissionStartTimestamp;
+        }
         return Math.min(this.model.submissionStartTimestamp, this.model.customResponseVisibleTimestamp);
       default:
         return this.model.submissionStartTimestamp;
@@ -270,7 +259,7 @@ export class SessionEditFormComponent {
    *
    * <p> The minimum response visible datetime is on the session visible datetime.
    */
-  get minTimestampForResponseVisible(): number {
+  get minTimestampForResponseVisible(): number | undefined {
     switch (this.model.sessionVisibleSetting) {
       case SessionVisibleSetting.AT_OPEN:
         return this.model.submissionStartTimestamp;

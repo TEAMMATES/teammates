@@ -34,15 +34,16 @@ export interface SessionEditFormModel {
   feedbackSessionName: string;
   instructions: string;
 
-  submissionStartTimestamp: number;
-  submissionEndTimestamp: number;
+  // Timestamps are undefined until set (e.g. before defaults are populated, or while a CUSTOM time is unpicked).
+  submissionStartTimestamp?: number;
+  submissionEndTimestamp?: number;
   gracePeriod: number;
 
   sessionVisibleSetting: SessionVisibleSetting;
-  customSessionVisibleTimestamp: number;
+  customSessionVisibleTimestamp?: number;
 
   responseVisibleSetting: ResponseVisibleSetting;
-  customResponseVisibleTimestamp: number;
+  customResponseVisibleTimestamp?: number;
 
   hasVisibleSettingsPanelExpanded: boolean;
   hasEmailSettingsPanelExpanded: boolean;

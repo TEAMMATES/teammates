@@ -235,15 +235,15 @@ describe('InstructorSessionEditPageComponent', () => {
     feedbackSessionName: 'test session',
     instructions: 'Instructions',
 
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
+    submissionStartTimestamp: Date.UTC(2024, 0, 1, 2, 0),
+    submissionEndTimestamp: Date.UTC(2024, 0, 1, 4, 0),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTimestamp: 0,
+    customSessionVisibleTimestamp: Date.UTC(2024, 0, 1, 1, 0),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTimestamp: 0,
+    customResponseVisibleTimestamp: Date.UTC(2024, 0, 1, 5, 0),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

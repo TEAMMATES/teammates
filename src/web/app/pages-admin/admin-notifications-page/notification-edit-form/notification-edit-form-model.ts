@@ -22,8 +22,9 @@ export interface NotificationEditFormModel {
   // EDIT mode specific
   notificationId: string;
 
-  startTimestamp: number;
-  endTimestamp: number;
+  // Undefined until the timestamps are populated
+  startTimestamp?: number;
+  endTimestamp?: number;
 
   style: NotificationStyle;
   targetUser: NotificationTargetUser;
