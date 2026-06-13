@@ -41,6 +41,14 @@ export class AdminSessionLinksModalComponent implements OnInit {
   readonly submissionLinks = computed(() => this.sessionLinks()?.submissionLinks ?? []);
   readonly resultsLinks = computed(() => this.sessionLinks()?.resultsLinks ?? []);
 
+  private readonly submissionStatusClasses: Record<FeedbackSessionSubmissionStatus, string> = {
+    [FeedbackSessionSubmissionStatus.OPEN]: 'bg-success',
+    [FeedbackSessionSubmissionStatus.GRACE_PERIOD]: 'bg-success',
+    [FeedbackSessionSubmissionStatus.CLOSED]: 'bg-dark',
+    [FeedbackSessionSubmissionStatus.NOT_VISIBLE]: 'bg-secondary',
+    [FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN]: 'bg-secondary',
+  };
+
   ngOnInit(): void {
     this.userService.getSessionLinks(this.userId).subscribe({
       next: (sessionLinks: SessionLinks) => {
@@ -81,16 +89,7 @@ export class AdminSessionLinksModalComponent implements OnInit {
   }
 
   getSubmissionStatusClasses(status: FeedbackSessionSubmissionStatus): string {
-    switch (status) {
-      case FeedbackSessionSubmissionStatus.OPEN:
-      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-        return 'bg-success';
-      case FeedbackSessionSubmissionStatus.CLOSED:
-        return 'bg-dark';
-      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
-      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-        return 'bg-secondary';
-    }
+    return this.submissionStatusClasses[status];
   }
 
   private sortSessionLinks(sessionLinks: SessionLinks): SessionLinks {
