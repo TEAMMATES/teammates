@@ -145,7 +145,7 @@ export class SessionEditFormComponent {
   /**
    * Triggers the change of the model when the submission opening time changes.
    *
-   * <p>Pulls the custom session visibility time back so that it never occurs after the submission opening
+   * Pulls the custom session visibility time back so that it never occurs after the submission opening
    * time. The picker guarantees the incoming value already satisfies the configured range.
    */
   triggerSubmissionOpeningTimestampChange(timestamp: number): void {
@@ -162,7 +162,7 @@ export class SessionEditFormComponent {
   /**
    * Handles course Id change event.
    *
-   * <p>Used in ADD mode.
+   * Used in ADD mode.
    */
   courseIdChangeHandler(newCourseId: string): void {
     const course: Course | undefined = this.courseCandidates.find((c: Course) => c.courseId === newCourseId);
@@ -180,7 +180,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the minimum timestamp for a session to be opened.
    *
-   * <p> The minimum session opening datetime is 2 hours before now.
+   * The minimum session opening datetime is 2 hours before now.
    */
   get minTimestampForSubmissionStart(): number {
     return moment(this.nowMinute).tz(this.model.timeZone).subtract(2, 'hours').valueOf();
@@ -189,7 +189,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum timestamp for a session to be opened.
    *
-   * <p> The maximum session opening datetime is 23:59 of the day 12 months from now.
+   * The maximum session opening datetime is 23:59 of the day 12 months from now.
    */
   get maxTimestampForSubmissionStart(): number {
     return this.endOfDay(moment(this.nowMinute).tz(this.model.timeZone).add(12, 'months'));
@@ -198,7 +198,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the minimum timestamp for a session to be closed.
    *
-   * <p> The minimum session closing datetime is the session opening datetime or 1 hour before now, whichever
+   * The minimum session closing datetime is the session opening datetime or 1 hour before now, whichever
    * is later.
    */
   get minTimestampForSubmissionEnd(): number {
@@ -209,7 +209,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum timestamp for a session to be closed.
    *
-   * <p> The maximum session closing datetime is 23:59 of the day 12 months from now.
+   * The maximum session closing datetime is 23:59 of the day 12 months from now.
    */
   get maxTimestampForSubmissionEnd(): number {
     return this.endOfDay(moment(this.nowMinute).tz(this.model.timeZone).add(12, 'months'));
@@ -218,7 +218,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the minimum timestamp for a session to be visible based on the input model.
    *
-   * <p> The minimum session visible datetime is 30 days before the session opening datetime.
+   * The minimum session visible datetime is 30 days before the session opening datetime.
    */
   get minTimestampForSessionVisible(): number | undefined {
     if (this.model.submissionStartTimestamp == null) {
@@ -230,7 +230,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the maximum timestamp for a session to be visible based on the input model.
    *
-   * <p> The maximum session visible datetime is on the response visible datetime.
+   * The maximum session visible datetime is on the response visible datetime.
    */
   get maxTimestampForSessionVisible(): number | undefined {
     switch (this.model.responseVisibleSetting) {
@@ -250,7 +250,7 @@ export class SessionEditFormComponent {
   /**
    * Gets the minimum timestamp for responses to be visible based on the input model.
    *
-   * <p> The minimum response visible datetime is on the session visible datetime.
+   * The minimum response visible datetime is on the session visible datetime.
    */
   get minTimestampForResponseVisible(): number | undefined {
     switch (this.model.sessionVisibleSetting) {
