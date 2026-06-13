@@ -2,7 +2,12 @@
 
 exports[`RequestPageComponent > should render correctly after form is submitted 1`] = `
 <tm-request-page
-  submittedFormData={[Function Object]}
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
 >
   <div
     class="container-md"
@@ -13,75 +18,77 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
       Create Courses with TEAMMATES
     </h1>
     <div>
-      <p>
-        Your request has been submitted successfully.
-      </p>
-      <table
-        class="table table-bordered my-3"
-      >
-        <tbody>
-          <tr>
-            <th
-              class="col-3"
-              scope="row"
-            >
-              Full Name
-            </th>
-            <td>
-              Jane Smith
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Institution
-            </th>
-            <td>
-              University of Example
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Country or Region
-            </th>
-            <td>
-              Example Republic
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Email
-            </th>
-            <td>
-              js@exampleu.edu
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Comments
-            </th>
-            <td>
-              <span
-                class="empty-field-placeholder"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p>
-         An acknowledgement email has been sent to 
-        <strong>
-          js@exampleu.edu
-        </strong>
-        . We will process your request and notify you once course creation access has been granted. 
-      </p>
+      <div>
+        <p>
+          Your request has been submitted successfully.
+        </p>
+        <table
+          class="table table-bordered my-3"
+        >
+          <tbody>
+            <tr>
+              <th
+                class="col-3"
+                scope="row"
+              >
+                Full Name
+              </th>
+              <td>
+                Jane Smith
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+              >
+                Institution
+              </th>
+              <td>
+                University of Example
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+              >
+                Country or Region
+              </th>
+              <td>
+                Example Republic
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+              >
+                Email
+              </th>
+              <td>
+                js@exampleu.edu
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+              >
+                Comments
+              </th>
+              <td>
+                <span
+                  class="empty-field-placeholder"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+           An acknowledgement email has been sent to 
+          <strong>
+            js@exampleu.edu
+          </strong>
+          . We will process your request and notify you once course creation access has been granted. 
+        </p>
+      </div>
     </div>
   </div>
 </tm-request-page>
@@ -89,7 +96,12 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
 
 exports[`RequestPageComponent > should render correctly before submission 1`] = `
 <tm-request-page
-  submittedFormData="null"
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
 >
   <div
     class="container-md"
@@ -100,220 +112,309 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
       Create Courses with TEAMMATES
     </h1>
     <div>
-      <p>
-         To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
-      </p>
-      <p>
-        Students and instructors who have been added to existing courses do not need to submit this form.
-      </p>
-      <hr />
-      <tm-instructor-request-form>
-        <p
-          aria-hidden="true"
-        >
-           Questions marked with an asterisk 
-          <span
-            class="red-font"
-          >
-            *
-          </span>
-           are required.
+      <div>
+        <p>
+           To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
         </p>
-        <form
-          class="ng-untouched ng-pristine ng-invalid"
-          novalidate=""
-        >
-          <div
-            class="form-group required"
+        <p>
+          Students and instructors who have been added to existing courses do not need to submit this form.
+        </p>
+        <p>
+          Signed in as: 
+          <strong>
+            test@example.com
+          </strong>
+        </p>
+        <hr />
+        <tm-instructor-request-form>
+          <p
+            aria-hidden="true"
           >
-            <label
-              class="qn"
-              for="name"
-              id="name-label"
+             Questions marked with an asterisk 
+            <span
+              class="red-font"
             >
-               Full Name 
-            </label>
-            <p
-              class="help-block"
-            >
-               This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
-            </p>
-            <input
-              aria-invalid="true"
-              autocomplete="name"
-              class="form-control ng-untouched ng-pristine ng-invalid"
-              id="name"
-              required=""
-              type="text"
-            />
+              *
+            </span>
+             are required.
+          </p>
+          <form
+            class="ng-untouched ng-pristine ng-invalid"
+            novalidate=""
+          >
             <div
-              aria-describedby="name-label"
-              class="invalid-feedback"
-              role="alert"
+              class="form-group required"
             >
-              Please enter your name.
-            </div>
-          </div>
-          <br />
-          <div
-            class="form-group required"
-          >
-            <label
-              class="qn"
-              for="institution"
-              id="institution-label"
-            >
-               University / Institution 
-            </label>
-            <p
-              class="help-block"
-            >
-              Please give full name of the university/institution.
-            </p>
-            <input
-              aria-invalid="true"
-              autocomplete="organization"
-              class="form-control ng-untouched ng-pristine ng-invalid"
-              id="institution"
-              required=""
-              type="text"
-            />
-            <div
-              aria-describedby="institution-label"
-              class="invalid-feedback"
-              role="alert"
-            >
-               Please enter your institution name. 
-            </div>
-          </div>
-          <br />
-          <div
-            class="form-group required"
-          >
-            <label
-              class="qn"
-              for="country"
-              id="country-label"
-            >
-               Country or Region 
-            </label>
-            <p
-              class="help-block"
-            >
-              Which country or region is your university/institution based in?
-            </p>
-            <tm-searchable-combobox
-              class="ng-untouched ng-pristine ng-invalid"
-              inputid="country"
-              placeholder="Search for a country or region..."
-            >
-              <div
-                class="searchable-combobox position-relative w-100"
-                data-expanded="false"
-                filtermode="manual"
-                ngcombobox=""
+              <label
+                class="qn"
+                for="name"
+                id="name-label"
               >
-                <input
-                  aria-autocomplete="list"
-                  aria-disabled="false"
-                  aria-expanded="false"
-                  autocomplete="off"
-                  class="form-control w-100 searchable-combobox-input"
-                  id="country"
-                  ngcomboboxinput=""
-                  placeholder="Search for a country or region..."
-                  role="combobox"
-                  type="text"
-                />
-                <button
-                  aria-label="Open"
-                  class="searchable-combobox-toggle"
-                  tabindex="-1"
-                  type="button"
-                >
-                  <span
-                    aria-hidden="true"
-                    class="fa fa-chevron-down"
-                  />
-                </button>
+                 Full Name 
+              </label>
+              <p
+                class="help-block"
+              >
+                 This is the name that will be shown to your students. You may include salutation (Dr. Prof. etc.) 
+              </p>
+              <input
+                aria-invalid="true"
+                autocomplete="name"
+                class="form-control ng-untouched ng-pristine ng-invalid"
+                id="name"
+                required=""
+                type="text"
+              />
+              <div
+                aria-describedby="name-label"
+                class="invalid-feedback"
+                role="alert"
+              >
+                Please enter your name.
               </div>
-            </tm-searchable-combobox>
-          </div>
-          <br />
-          <div
-            class="form-group required"
-          >
-            <label
-              class="qn"
-              for="email"
-              id="email-label"
-            >
-               Official email address 
-            </label>
-            <p
-              class="help-block"
-            >
-               Please use the email address 
-              <b>
-                given to you by your school/university
-              </b>
-               (not your personal Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
-            </p>
-            <input
-              aria-invalid="true"
-              autocomplete="email"
-              class="form-control ng-untouched ng-pristine ng-invalid"
-              id="email"
-              required=""
-              type="email"
-            />
-            <div
-              aria-describedby="email-label"
-              class="invalid-feedback"
-              role="alert"
-            >
-              Please enter your email address.
             </div>
-          </div>
-          <br />
-          <div
-            class="form-group"
-          >
-            <label
-              class="qn"
-              for="comments"
-              id="comments-label"
+            <br />
+            <div
+              class="form-group required"
             >
-               Any other comments/queries 
-            </label>
-            <textarea
-              aria-invalid="false"
-              class="form-control ng-untouched ng-pristine ng-valid"
-              id="comments"
-            />
-          </div>
-          <br />
-          <a
-            aria-label="Cancel button"
-            class="btn btn-danger me-3"
-            href="/web/front/home"
-            tmrouterlink="/web/front/home"
-            type="button"
-          >
-             Cancel 
-          </a>
-          <button
-            aria-label="Submit form"
-            class="btn btn-primary"
-            id="submit-button"
-            type="submit"
-          >
-             Submit 
-          </button>
-        </form>
-      </tm-instructor-request-form>
-      <hr />
+              <label
+                class="qn"
+                for="institution"
+                id="institution-label"
+              >
+                 University / Institution 
+              </label>
+              <p
+                class="help-block"
+              >
+                Please give full name of the university/institution.
+              </p>
+              <input
+                aria-invalid="true"
+                autocomplete="organization"
+                class="form-control ng-untouched ng-pristine ng-invalid"
+                id="institution"
+                required=""
+                type="text"
+              />
+              <div
+                aria-describedby="institution-label"
+                class="invalid-feedback"
+                role="alert"
+              >
+                 Please enter your institution name. 
+              </div>
+            </div>
+            <br />
+            <div
+              class="form-group required"
+            >
+              <label
+                class="qn"
+                for="country"
+                id="country-label"
+              >
+                 Country or Region 
+              </label>
+              <p
+                class="help-block"
+              >
+                Which country or region is your university/institution based in?
+              </p>
+              <tm-searchable-combobox
+                class="ng-untouched ng-pristine ng-invalid"
+                inputid="country"
+                placeholder="Search for a country or region..."
+              >
+                <div
+                  class="searchable-combobox position-relative w-100"
+                  data-expanded="false"
+                  filtermode="manual"
+                  ngcombobox=""
+                >
+                  <input
+                    aria-autocomplete="list"
+                    aria-disabled="false"
+                    aria-expanded="false"
+                    autocomplete="off"
+                    class="form-control w-100 searchable-combobox-input"
+                    id="country"
+                    ngcomboboxinput=""
+                    placeholder="Search for a country or region..."
+                    role="combobox"
+                    type="text"
+                  />
+                  <button
+                    aria-label="Open"
+                    class="searchable-combobox-toggle"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    <span
+                      aria-hidden="true"
+                      class="fa fa-chevron-down"
+                    />
+                  </button>
+                </div>
+              </tm-searchable-combobox>
+            </div>
+            <br />
+            <div
+              class="form-group required"
+            >
+              <label
+                class="qn"
+                for="email"
+                id="email-label"
+              >
+                 Official email address 
+              </label>
+              <p
+                class="help-block"
+              >
+                 Please use the email address 
+                <b>
+                  given to you by your school/university
+                </b>
+                 (not your personal Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+              </p>
+              <input
+                aria-invalid="true"
+                autocomplete="email"
+                class="form-control ng-untouched ng-pristine ng-invalid"
+                id="email"
+                required=""
+                type="email"
+              />
+              <div
+                aria-describedby="email-label"
+                class="invalid-feedback"
+                role="alert"
+              >
+                Please enter your email address.
+              </div>
+            </div>
+            <br />
+            <div
+              class="form-group"
+            >
+              <label
+                class="qn"
+                for="comments"
+                id="comments-label"
+              >
+                 Any other comments/queries 
+              </label>
+              <textarea
+                aria-invalid="false"
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="comments"
+              />
+            </div>
+            <br />
+            <a
+              aria-label="Cancel button"
+              class="btn btn-danger me-3"
+              href="/web/front/home"
+              tmrouterlink="/web/front/home"
+              type="button"
+            >
+               Cancel 
+            </a>
+            <button
+              aria-label="Submit form"
+              class="btn btn-primary"
+              id="submit-button"
+              type="submit"
+            >
+               Submit 
+            </button>
+          </form>
+        </tm-instructor-request-form>
+        <hr />
+      </div>
     </div>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent > should render correctly when not signed in 1`] = `
+<tm-request-page
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
+>
+  <div
+    class="container-md"
+  >
+    <h1
+      class="color-orange"
+    >
+      Create Courses with TEAMMATES
+    </h1>
+    <div>
+      <div>
+        <p>
+           To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
+        </p>
+        <p>
+          Students and instructors who have been added to existing courses do not need to submit this form.
+        </p>
+        <hr />
+        <div
+          class="alert alert-warning"
+          role="alert"
+        >
+           You must be signed in to submit this form. 
+          <a
+            href="http://localhost:8080/login"
+          >
+            Sign in
+          </a>
+           to continue. 
+        </div>
+        <hr />
+      </div>
+    </div>
+  </div>
+</tm-request-page>
+`;
+
+exports[`RequestPageComponent > should render correctly while loading 1`] = `
+<tm-request-page
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
+>
+  <div
+    class="container-md"
+  >
+    <h1
+      class="color-orange"
+    >
+      Create Courses with TEAMMATES
+    </h1>
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
   </div>
 </tm-request-page>
 `;
