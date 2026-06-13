@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import teammates.test.ThreadHelper;
 
@@ -19,21 +17,6 @@ public class AdminHomePage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
 
-    @FindBy (id = "instructor-name")
-    private WebElement nameTextBox;
-
-    @FindBy (id = "instructor-email")
-    private WebElement emailTextBox;
-
-    @FindBy (id = "instructor-institution")
-    private WebElement institutionTextBox;
-
-    @FindBy (id = "add-instructor")
-    private WebElement submitButton;
-
-    @FindBy(id = "instructor-country")
-    private WebElement countryBox;
-
     public AdminHomePage(Browser browser) {
         super(browser);
     }
@@ -41,31 +24,6 @@ public class AdminHomePage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("Admin Home Page");
-    }
-
-    public void addInstructor(String name, String email, String institute, String country) {
-        if (name != null) {
-            fillTextBox(nameTextBox, name);
-        }
-        if (email != null) {
-            fillTextBox(emailTextBox, email);
-        }
-        if (institute != null) {
-            fillTextBox(institutionTextBox, institute);
-        }
-        if (country != null) {
-            selectCountry(country);
-        }
-
-        click(submitButton);
-    }
-
-    private void selectCountry(String countryName) {
-        click(countryBox);
-        countryBox.sendKeys(countryName);
-        By optionLocator = By.xpath(
-                "//*[@data-testid='searchable-combobox-option' and normalize-space()='" + countryName + "']");
-        click(waitFor(ExpectedConditions.elementToBeClickable(optionLocator)));
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {
