@@ -4,16 +4,17 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
 <tm-request-page
   submittedFormData={[Function Object]}
 >
-  <h1
-    class="color-orange"
+  <div
+    class="container-md"
   >
-    Create Courses with TEAMMATES
-  </h1><div
-    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
-  >
+    <h1
+      class="color-orange"
+    >
+      Create Courses with TEAMMATES
+    </h1>
     <div>
       <p>
-        Your request has been submitted successfully:
+        Your request has been submitted successfully.
       </p>
       <table
         class="table table-bordered my-3"
@@ -44,7 +45,7 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
             <th
               scope="row"
             >
-              Country
+              Country or Region
             </th>
             <td>
               Example Republic
@@ -75,18 +76,11 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
         </tbody>
       </table>
       <p>
-         We have sent an acknowledgement email to your email address 
-        <b>
+         An acknowledgement email has been sent to 
+        <strong>
           js@exampleu.edu
-        </b>
-        . Please check your email inbox or spam folder. If you do not receive the acknowledgement email within 1 hour, please 
-        <a
-          href="/web/front/contact"
-          tmrouterlink="/web/front/contact"
-        >
-          contact
-        </a>
-         us. 
+        </strong>
+        . We will process your request and notify you once course creation access has been granted. 
       </p>
     </div>
   </div>
@@ -97,13 +91,14 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
 <tm-request-page
   submittedFormData="null"
 >
-  <h1
-    class="color-orange"
+  <div
+    class="container-md"
   >
-    Create Courses with TEAMMATES
-  </h1><div
-    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
-  >
+    <h1
+      class="color-orange"
+    >
+      Create Courses with TEAMMATES
+    </h1>
     <div>
       <p>
          To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
