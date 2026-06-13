@@ -10,7 +10,7 @@ import { CountryService } from '../../../../services/country.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import {
   STUDENT_NAME_MAX_LENGTH,
-  INSTITUTION_NAME_MAX_LENGTH,
+  INSTITUTE_NAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
   NAME_REGEX,
   EMAIL_REGEX,
@@ -19,21 +19,13 @@ import {
   ComboboxOption,
   SearchableComboboxComponent,
 } from '../../../components/searchable-combobox/searchable-combobox.component';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 @Component({
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgxCaptchaModule,
-    NgbAlert,
-    TeammatesRouterDirective,
-    SearchableComboboxComponent,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, SearchableComboboxComponent],
 })
 export class InstructorRequestFormComponent {
   private readonly accountService = inject(AccountService);
@@ -56,29 +48,26 @@ export class InstructorRequestFormComponent {
   size: 'compact' | 'normal' = 'normal';
   lang = 'en';
 
-  arf = new FormGroup(
-    {
-      name: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
-        Validators.pattern(NAME_REGEX),
-      ]),
-      institution: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(INSTITUTION_NAME_MAX_LENGTH),
-        Validators.pattern(NAME_REGEX),
-      ]),
-      country: new FormControl('', { validators: [Validators.required], updateOn: 'change' }),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(EMAIL_REGEX),
-        Validators.maxLength(EMAIL_MAX_LENGTH),
-      ]),
-      comments: new FormControl(''),
-      recaptcha: new FormControl(''),
-    },
-    { updateOn: 'submit' },
-  );
+  arf = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
+      Validators.pattern(NAME_REGEX),
+    ]),
+    institution: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(INSTITUTE_NAME_MAX_LENGTH),
+      Validators.pattern(NAME_REGEX),
+    ]),
+    country: new FormControl('', { validators: [Validators.required], updateOn: 'change' }),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(EMAIL_REGEX),
+      Validators.maxLength(EMAIL_MAX_LENGTH),
+    ]),
+    comments: new FormControl(''),
+    recaptcha: new FormControl(''),
+  });
 
   // Create members for easier access of arf controls
   name = this.arf.controls.name;
@@ -95,7 +84,7 @@ export class InstructorRequestFormComponent {
 
   constructor() {
     this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
-    this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;
+    this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTE_NAME_MAX_LENGTH;
     this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
   }
 
@@ -108,15 +97,10 @@ export class InstructorRequestFormComponent {
   }
 
   getFieldValidationClasses(field: FormControl): string {
-    let str = '';
-    if (this.hasSubmitAttempt) {
-      if (field.invalid) {
-        str = 'is-invalid';
-      } else if (field.value !== '') {
-        str = 'is-valid';
-      }
-    }
-    return str;
+    if (!field.touched && !this.hasSubmitAttempt) return '';
+    if (field.invalid) return 'is-invalid';
+    if (field.value !== '') return 'is-valid';
+    return '';
   }
 
   /**

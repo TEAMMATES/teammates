@@ -26,10 +26,9 @@ public class RequestPageE2ETest extends BaseE2ETestCase {
         String comments = "arf-test-comments";
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ACCOUNT_REQUEST_PAGE);
-        RequestPage requestPage = getNewPageInstance(url, RequestPage.class);
+        RequestPage requestPage = loginAdminToPage(url, RequestPage.class);
 
         ______TS("verify submission with comments");
-        requestPage.clickAmInstructorButton();
         requestPage.fillForm(name, institution, country, email, comments);
         requestPage.clickSubmitFormButton();
         requestPage.verifySubmittedInfo(name, institution, country, email, comments);

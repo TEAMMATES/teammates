@@ -10,9 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class RequestPage extends AppPage {
 
-    @FindBy(id = "btn-am-instructor")
-    private WebElement amInstructorButton;
-
     @FindBy(id = "name")
     private WebElement nameBox;
 
@@ -37,12 +34,7 @@ public class RequestPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageTitle().contains("Request for an Instructor Account");
-    }
-
-    public void clickAmInstructorButton() {
-        click(amInstructorButton);
-        waitForPageToLoad();
+        return getPageTitle().contains("Create Courses with TEAMMATES");
     }
 
     public void fillForm(String name, String institution, String country, String email, String comments) {

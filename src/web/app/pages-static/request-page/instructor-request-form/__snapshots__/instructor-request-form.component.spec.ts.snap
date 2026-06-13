@@ -24,17 +24,7 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
   serverErrorMessage=""
   size={[Function String]}
 >
-  <p
-    aria-hidden="true"
-  >
-     Questions marked with an asterisk 
-    <span
-      class="red-font"
-    >
-      *
-    </span>
-     are required.
-  </p><form
+  <form
     class="ng-untouched ng-pristine ng-invalid"
     novalidate=""
   >
@@ -78,7 +68,7 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
         for="institution"
         id="institution-label"
       >
-         University/school/institution 
+         University / Institution 
       </label>
       <p
         class="help-block"
@@ -115,7 +105,7 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
       <p
         class="help-block"
       >
-        Which country or region is your university/institution based in?
+        The country or region where your university/institution is based.
       </p>
       <tm-searchable-combobox
         class="ng-untouched ng-pristine ng-invalid"
@@ -168,11 +158,11 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
       <p
         class="help-block"
       >
-         Please use the email address 
+         The email address 
         <b>
           given to you by your school/university
         </b>
-         (not your personal Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+        . This email address will be visible to students you enroll in TEAMMATES. 
       </p>
       <input
         aria-invalid="true"
@@ -208,15 +198,6 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
       />
     </div>
     <br />
-    <a
-      aria-label="Cancel button"
-      class="btn btn-danger me-3"
-      href="/web/front/home"
-      tmrouterlink="/web/front/home"
-      type="button"
-    >
-       Cancel 
-    </a>
     <button
       aria-label="Submit form"
       class="btn btn-primary"

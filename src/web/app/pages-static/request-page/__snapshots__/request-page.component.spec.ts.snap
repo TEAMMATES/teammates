@@ -2,128 +2,142 @@
 
 exports[`RequestPageComponent > should render correctly after form is submitted 1`] = `
 <tm-request-page
-  isDeclarationDone="false"
-  submittedFormData={[Function Object]}
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
 >
-  <h1
-    class="color-orange"
+  <div
+    class="row"
   >
-    Request for an Instructor Account
-  </h1><div
-    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
-  >
-    <div>
-      <p>
-        Your request has been submitted successfully:
-      </p>
-      <table
-        class="table table-bordered my-3"
+    <div
+      class="col-12 col-lg-8"
+    >
+      <h1
+        class="color-orange"
       >
-        <tbody>
-          <tr>
-            <th
-              class="col-3"
-              scope="row"
-            >
-              Full Name
-            </th>
-            <td>
-              Jane Smith
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Institution
-            </th>
-            <td>
-              University of Example
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Country
-            </th>
-            <td>
-              Example Republic
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Email
-            </th>
-            <td>
+        Create Courses with TEAMMATES
+      </h1>
+      <div>
+        <div>
+          <p>
+            Your request has been submitted successfully.
+          </p>
+          <table
+            class="table table-bordered my-3"
+          >
+            <tbody>
+              <tr>
+                <th
+                  class="col-3"
+                  scope="row"
+                >
+                  Full Name
+                </th>
+                <td>
+                  Jane Smith
+                </td>
+              </tr>
+              <tr>
+                <th
+                  scope="row"
+                >
+                  Institution
+                </th>
+                <td>
+                  University of Example
+                </td>
+              </tr>
+              <tr>
+                <th
+                  scope="row"
+                >
+                  Country or Region
+                </th>
+                <td>
+                  Example Republic
+                </td>
+              </tr>
+              <tr>
+                <th
+                  scope="row"
+                >
+                  Email
+                </th>
+                <td>
+                  js@exampleu.edu
+                </td>
+              </tr>
+              <tr>
+                <th
+                  scope="row"
+                >
+                  Comments
+                </th>
+                <td>
+                  <span
+                    class="empty-field-placeholder"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+             An acknowledgement email has been sent to 
+            <strong>
               js@exampleu.edu
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-            >
-              Comments
-            </th>
-            <td>
-              <span
-                class="empty-field-placeholder"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p>
-         We have sent an acknowledgement email to your email address 
-        <b>
-          js@exampleu.edu
-        </b>
-        . Please check your email inbox or spam folder. If you do not receive the acknowledgement email within 1 hour, please 
-        <a
-          href="/web/front/contact"
-          tmrouterlink="/web/front/contact"
-        >
-          contact
-        </a>
-         us. 
-      </p>
+            </strong>
+            . We will process your request and notify you once course creation access has been granted. 
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </tm-request-page>
 `;
 
-exports[`RequestPageComponent > should render correctly after instructor declaration is done 1`] = `
+exports[`RequestPageComponent > should render correctly before submission 1`] = `
 <tm-request-page
-  isDeclarationDone={[Function Boolean]}
-  submittedFormData="null"
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
 >
-  <h1
-    class="color-orange"
+  <div
+    class="row"
   >
-    Request for an Instructor Account
-  </h1><div
-    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
-  >
-    <div>
-      <p>
-         Request for an instructor account using this form if you are an instructor and want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students. 
-      </p>
-      <hr />
+    <div
+      class="col-12 col-lg-8"
+    >
+      <h1
+        class="color-orange"
+      >
+        Create Courses with TEAMMATES
+      </h1>
       <div>
-        <tm-instructor-request-form>
-          <p
-            aria-hidden="true"
-          >
-             Questions marked with an asterisk 
-            <span
-              class="red-font"
-            >
-              *
-            </span>
-             are required.
+        <div>
+          <p>
+             To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
           </p>
+          <p>
+            Students and instructors who have been added to existing courses do not need to submit this form.
+          </p>
+        </div>
+        <hr />
+        <div
+          class="alert alert-success"
+          role="alert"
+        >
+           Signed in as: 
+          <strong>
+            user@teammates.tmt
+          </strong>
+        </div>
+        <tm-instructor-request-form>
           <form
             class="ng-untouched ng-pristine ng-invalid"
             novalidate=""
@@ -168,7 +182,7 @@ exports[`RequestPageComponent > should render correctly after instructor declara
                 for="institution"
                 id="institution-label"
               >
-                 University/school/institution 
+                 University / Institution 
               </label>
               <p
                 class="help-block"
@@ -205,7 +219,7 @@ exports[`RequestPageComponent > should render correctly after instructor declara
               <p
                 class="help-block"
               >
-                Which country or region is your university/institution based in?
+                The country or region where your university/institution is based.
               </p>
               <tm-searchable-combobox
                 class="ng-untouched ng-pristine ng-invalid"
@@ -258,11 +272,11 @@ exports[`RequestPageComponent > should render correctly after instructor declara
               <p
                 class="help-block"
               >
-                 Please use the email address 
+                 The email address 
                 <b>
                   given to you by your school/university
                 </b>
-                 (not your personal Gmail/Hotmail address). Note that this email address will be visible to the students you enroll in TEAMMATES. 
+                . This email address will be visible to students you enroll in TEAMMATES. 
               </p>
               <input
                 aria-invalid="true"
@@ -298,15 +312,6 @@ exports[`RequestPageComponent > should render correctly after instructor declara
               />
             </div>
             <br />
-            <a
-              aria-label="Cancel button"
-              class="btn btn-danger me-3"
-              href="/web/front/home"
-              tmrouterlink="/web/front/home"
-              type="button"
-            >
-               Cancel 
-            </a>
             <button
               aria-label="Submit form"
               class="btn btn-primary"
@@ -317,55 +322,58 @@ exports[`RequestPageComponent > should render correctly after instructor declara
             </button>
           </form>
         </tm-instructor-request-form>
+        <hr />
       </div>
-      <hr />
     </div>
   </div>
 </tm-request-page>
 `;
 
-exports[`RequestPageComponent > should render correctly before instructor declaration is done 1`] = `
+exports[`RequestPageComponent > should render correctly when not signed in 1`] = `
 <tm-request-page
-  isDeclarationDone="false"
-  submittedFormData="null"
+  authInfo={[Function Function]}
+  authService={[Function _AuthService]}
+  backendUrl={[Function String]}
+  isLoading={[Function Function]}
+  loginUrl={[Function Function]}
+  submittedFormData={[Function Function]}
 >
-  <h1
-    class="color-orange"
+  <div
+    class="row"
   >
-    Request for an Instructor Account
-  </h1><div
-    class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
-  >
-    <div>
-      <p>
-         Request for an instructor account using this form if you are an instructor and want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students. 
-      </p>
-      <hr />
+    <div
+      class="col-12 col-lg-8"
+    >
+      <h1
+        class="color-orange"
+      >
+        Create Courses with TEAMMATES
+      </h1>
       <div>
-        <p>
-           Note: 
-          <b>
-            Students should not use this form to request for TEAMMATES accounts
-          </b>
-          , as students do not need accounts to use TEAMMATES. Instead, TEAMMATES will email students (who have been added to TEAMMATES by a course instructor) an access link when there is a TEAMMATES session available for them to access. 
-        </p>
-        <a
-          class="btn btn-secondary"
-          href="/web/front/home"
-          tmrouterlink="/web/front/home"
-          type="button"
+        <div>
+          <p>
+             To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
+          </p>
+          <p>
+            Students and instructors who have been added to existing courses do not need to submit this form.
+          </p>
+        </div>
+        <hr />
+        <div
+          class="alert alert-warning d-flex align-items-center justify-content-between"
+          role="alert"
         >
-          Back to home page
-        </a>
-        <button
-          class="btn btn-primary ms-3"
-          id="btn-am-instructor"
-          type="button"
-        >
-           I am an instructor 
-        </button>
+          <span>
+            You must be signed in to submit this form.
+          </span>
+          <a
+            class="btn btn-warning"
+            href="http://localhost:8080/login"
+          >
+            Sign in
+          </a>
+        </div>
       </div>
-      <hr />
     </div>
   </div>
 </tm-request-page>
