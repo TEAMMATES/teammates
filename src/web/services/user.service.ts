@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { RegenerateKey } from '../types/api-output';
+import { RegenerateKey, SessionLinks } from '../types/api-output';
 
 /**
  * Handles user-related logic provision.
@@ -21,5 +21,15 @@ export class UserService {
       userid: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.USER_KEY, paramsMap);
+  }
+
+  /**
+   * Retrieves all session links for a user.
+   */
+  getSessionLinks(userId: string): Observable<SessionLinks> {
+    const paramsMap: Record<string, string> = {
+      userid: userId,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_LINKS, paramsMap);
   }
 }

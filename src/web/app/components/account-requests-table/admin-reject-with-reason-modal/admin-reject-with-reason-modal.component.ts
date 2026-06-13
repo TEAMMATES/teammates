@@ -32,13 +32,7 @@ export class RejectWithReasonModalComponent implements OnInit {
     courseName: '',
     isCourseDeleted: false,
     institute: '',
-    courseJoinLink: '',
     manageAccountLink: '',
-    showLinks: false,
-    awaitingSessions: {},
-    openSessions: {},
-    notOpenSessions: {},
-    publishedSessions: {},
   };
 
   rejectionReasonBody: string =

@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { CourseService } from './course.service';
-import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
@@ -14,8 +13,6 @@ import {
   AccountRequestStatus,
   Course,
   CourseView,
-  FeedbackSession,
-  FeedbackSessions,
   Instructor,
   InstructorPermissionRole,
   InstructorPrivilege,
@@ -34,7 +31,6 @@ import { Intent } from '../types/api-request';
 export class SearchService {
   private instructorService = inject(InstructorService);
   private httpRequestService = inject(HttpRequestService);
-  private feedbackSessionService = inject(FeedbackSessionsService);
   private courseService = inject(CourseService);
   private linkService = inject(LinkService);
   private timezoneService = inject(TimezoneService);
@@ -73,7 +69,7 @@ export class SearchService {
       map((value: [Student[], Instructor[], AccountRequest[], DistinctFields]) => {
         return {
           students: this.createStudentAccountSearchResults(value[0], ...value[3]),
-          instructors: this.createInstructorAccountSearchResults(value[1], value[3][1], value[3][2]),
+          instructors: this.createInstructorAccountSearchResults(value[1], value[3][1]),
           accountRequests: this.createAccountRequestSearchResults(value[2]),
         };
       }),
@@ -106,7 +102,6 @@ export class SearchService {
     students: Student[],
     distinctInstructorsMap: DistinctInstructorsMap,
     distinctCoursesMap: DistinctCoursesMap,
-    distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap,
     distinctInstructorPrivilegesMap: DistinctInstructorPrivilegesMap,
   ): StudentAccountSearchResult[] {
     return students.map((student: Student) => {
@@ -115,7 +110,6 @@ export class SearchService {
         student,
         distinctInstructorsMap[courseId],
         distinctCoursesMap[courseId],
-        distinctFeedbackSessionsMap[courseId],
         distinctInstructorPrivilegesMap[courseId],
       );
     });
@@ -125,7 +119,6 @@ export class SearchService {
     student: Student,
     instructors: Instructors,
     course: Course,
-    feedbackSessions: FeedbackSessions,
     instructorPrivileges: InstructorPrivilege[],
   ): StudentAccountSearchResult {
     let studentResult: StudentAccountSearchResult = {
@@ -135,18 +128,12 @@ export class SearchService {
       comments: '',
       team: '',
       section: '',
-      awaitingSessions: {},
-      openSessions: {},
-      notOpenSessions: {},
-      publishedSessions: {},
       courseId: '',
       courseName: '',
       isCourseDeleted: false,
       institute: '',
       manageAccountLink: '',
       profilePageLink: '',
-      courseJoinLink: '',
-      showLinks: false,
     };
     const {
       userId,
@@ -182,13 +169,7 @@ export class SearchService {
       }
     }
 
-    // Generate feedback session urls
-    const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
-      this.classifyFeedbackSessions(feedbackSessions, student, false);
-    studentResult = { ...studentResult, awaitingSessions, openSessions, notOpenSessions, publishedSessions };
-
     // Generate links for students
-    studentResult.courseJoinLink = this.linkService.generateCourseJoinLink(student, 'student');
     studentResult.profilePageLink = this.linkService.generateProfilePageLink(student, masqueradeAccountId);
     studentResult.manageAccountLink = accountId
       ? this.linkService.generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE)
@@ -200,22 +181,13 @@ export class SearchService {
   createInstructorAccountSearchResults(
     instructors: Instructor[],
     distinctCoursesMap: DistinctCoursesMap,
-    distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap,
   ): InstructorAccountSearchResult[] {
     return instructors.map((instructor: Instructor) =>
-      this.joinAdminInstructor(
-        instructor,
-        distinctCoursesMap[instructor.courseId],
-        distinctFeedbackSessionsMap[instructor.courseId],
-      ),
+      this.joinAdminInstructor(instructor, distinctCoursesMap[instructor.courseId]),
     );
   }
 
-  joinAdminInstructor(
-    instructor: Instructor,
-    course: Course,
-    feedbackSessions: FeedbackSessions,
-  ): InstructorAccountSearchResult {
+  joinAdminInstructor(instructor: Instructor, course: Course): InstructorAccountSearchResult {
     let instructorResult: InstructorAccountSearchResult = {
       userId: '',
       email: '',
@@ -225,12 +197,6 @@ export class SearchService {
       isCourseDeleted: false,
       institute: '',
       manageAccountLink: '',
-      courseJoinLink: '',
-      showLinks: false,
-      awaitingSessions: {},
-      openSessions: {},
-      notOpenSessions: {},
-      publishedSessions: {},
     };
     const { userId, email, name, accountId = '', institute = '' }: Instructor = instructor;
     instructorResult = { ...instructorResult, userId, email, name, institute };
@@ -238,78 +204,12 @@ export class SearchService {
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
-    // Generate feedback session urls
-    const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
-      this.classifyFeedbackSessions(feedbackSessions, instructor, true);
-    instructorResult = { ...instructorResult, awaitingSessions, openSessions, notOpenSessions, publishedSessions };
-
     // Generate links for instructors
-    instructorResult.courseJoinLink = this.linkService.generateCourseJoinLink(instructor, 'instructor');
     instructorResult.manageAccountLink = accountId
       ? this.linkService.generateManageAccountLink(accountId, this.linkService.ADMIN_ACCOUNTS_PAGE)
       : '';
 
     return instructorResult;
-  }
-
-  classifyFeedbackSessions(
-    feedbackSessions: FeedbackSessions,
-    entity: Student | Instructor,
-    isInstructor: boolean,
-  ): StudentFeedbackSessions {
-    const feedbackSessionLinks: StudentFeedbackSessions = {
-      awaitingSessions: {},
-      openSessions: {},
-      notOpenSessions: {},
-      publishedSessions: {},
-    };
-    for (const feedbackSessionView of feedbackSessions.feedbackSessions) {
-      const feedbackSession = feedbackSessionView.feedbackSession;
-      if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
-        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionId] = {
-          ...this.formatProperties(feedbackSession),
-          name: feedbackSession.feedbackSessionName,
-          feedbackSessionUrl: this.linkService.generateSubmitUrl(
-            entity,
-            isInstructor,
-            feedbackSession.feedbackSessionId,
-          ),
-        };
-      } else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
-        feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionId] = {
-          ...this.formatProperties(feedbackSession),
-          name: feedbackSession.feedbackSessionName,
-          feedbackSessionUrl: this.linkService.generateSubmitUrl(
-            entity,
-            isInstructor,
-            feedbackSession.feedbackSessionId,
-          ),
-        };
-      } else {
-        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionId] = {
-          ...this.formatProperties(feedbackSession),
-          name: feedbackSession.feedbackSessionName,
-          feedbackSessionUrl: this.linkService.generateSubmitUrl(
-            entity,
-            isInstructor,
-            feedbackSession.feedbackSessionId,
-          ),
-        };
-      }
-
-      if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
-        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionId] = {
-          ...this.formatProperties(feedbackSession),
-          name: feedbackSession.feedbackSessionName,
-          feedbackSessionUrl: this.linkService.generateResultUrl(
-            entity,
-            isInstructor,
-            feedbackSession.feedbackSessionId,
-          ),
-        };
-      }
-    }
-    return feedbackSessionLinks;
   }
 
   createAccountRequestSearchResults(accountRequests: AccountRequest[]): AccountRequestSearchResult[] {
@@ -372,15 +272,11 @@ export class SearchService {
       ]),
     );
     if (distinctCourseIds.length === 0) {
-      return forkJoin([of({}), of({}), of({}), of({})]);
+      return forkJoin([of({}), of({}), of({})]);
     }
-    return forkJoin([
-      this.getDistinctInstructors(distinctCourseIds),
-      this.getDistinctCourses(distinctCourseIds),
-      this.getDistinctFeedbackSessions(distinctCourseIds),
-    ]).pipe(
-      mergeMap((value: [DistinctInstructorsMap, DistinctCoursesMap, DistinctFeedbackSessionsMap]) => {
-        return forkJoin([of(value[0]), of(value[1]), of(value[2]), this.getDistinctInstructorPrivileges(value[0])]);
+    return forkJoin([this.getDistinctInstructors(distinctCourseIds), this.getDistinctCourses(distinctCourseIds)]).pipe(
+      mergeMap((value: [DistinctInstructorsMap, DistinctCoursesMap]) => {
+        return forkJoin([of(value[0]), of(value[1]), this.getDistinctInstructorPrivileges(value[0])]);
       }),
     );
   }
@@ -442,33 +338,6 @@ export class SearchService {
     );
   }
 
-  private getDistinctFeedbackSessions(distinctCourseIds: string[]): Observable<DistinctFeedbackSessionsMap> {
-    return forkJoin(
-      distinctCourseIds.map((id: string) => this.feedbackSessionService.getFeedbackSessionsForStudent('admin', id)),
-    ).pipe(
-      map((feedbackSessionsArray: FeedbackSessions[]) => {
-        const distinctFeedbackSessionsMap: DistinctFeedbackSessionsMap = {};
-        feedbackSessionsArray.forEach((feedbackSessions: FeedbackSessions, index: number) => {
-          distinctFeedbackSessionsMap[distinctCourseIds[index]] = feedbackSessions;
-        });
-        return distinctFeedbackSessionsMap;
-      }),
-    );
-  }
-
-  private formatProperties(feedbackSession: FeedbackSession): { startTime: string; endTime: string } {
-    const startTime: string = this.formatTimestampAsString(
-      feedbackSession.submissionStartTimestamp,
-      feedbackSession.timeZone,
-    );
-    const endTime: string = this.formatTimestampAsString(
-      feedbackSession.submissionEndTimestamp,
-      feedbackSession.timeZone,
-    );
-
-    return { startTime, endTime };
-  }
-
   private formatTimestampAsString(timestamp: number, timezone: string): string {
     const dateFormatWithZoneInfo = 'ddd, DD MMM YYYY, hh:mm A Z';
 
@@ -520,13 +389,7 @@ export interface InstructorAccountSearchResult {
   courseName: string;
   isCourseDeleted: boolean;
   institute: string;
-  courseJoinLink: string;
   manageAccountLink: string;
-  showLinks: boolean;
-  awaitingSessions: FeedbackSessionsGroup;
-  openSessions: FeedbackSessionsGroup;
-  notOpenSessions: FeedbackSessionsGroup;
-  publishedSessions: FeedbackSessionsGroup;
 }
 
 /**
@@ -539,31 +402,8 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   profilePageLink: string;
 }
 
-/**
- * Feedback session information for search result.
- */
-export interface FeedbackSessionsGroup {
-  [id: string]: {
-    name: string;
-    startTime: string;
-    endTime: string;
-    feedbackSessionUrl: string;
-  };
-}
-
-interface StudentFeedbackSessions {
-  awaitingSessions: FeedbackSessionsGroup;
-  openSessions: FeedbackSessionsGroup;
-  notOpenSessions: FeedbackSessionsGroup;
-  publishedSessions: FeedbackSessionsGroup;
-}
-
 interface DistinctInstructorsMap {
   [courseId: string]: Instructors;
-}
-
-interface DistinctFeedbackSessionsMap {
-  [courseId: string]: FeedbackSessions;
 }
 
 interface DistinctCoursesMap {
@@ -574,9 +414,4 @@ interface DistinctInstructorPrivilegesMap {
   [courseId: string]: InstructorPrivilege[];
 }
 
-type DistinctFields = [
-  DistinctInstructorsMap,
-  DistinctCoursesMap,
-  DistinctFeedbackSessionsMap,
-  DistinctInstructorPrivilegesMap,
-];
+type DistinctFields = [DistinctInstructorsMap, DistinctCoursesMap, DistinctInstructorPrivilegesMap];

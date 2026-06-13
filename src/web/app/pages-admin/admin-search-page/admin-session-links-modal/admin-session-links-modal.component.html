@@ -1,0 +1,97 @@
+<div class="modal-header">
+  <h5 class="modal-title">Links for {{ userName }}</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  @if (isLoading()) {
+    <div class="d-flex justify-content-center py-4">
+      <tm-ajax-loading></tm-ajax-loading>
+    </div>
+  } @else if (sessionLinks(); as loadedSessionLinks) {
+    <div class="mb-4">
+      <div class="border rounded p-3">
+        <div class="fw-semibold">Course Join Link</div>
+        <div class="input-group">
+          <input class="form-control" [value]="loadedSessionLinks.courseJoinLink" readonly />
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-testid="copy-course-join-link-button"
+            (click)="copyLink(loadedSessionLinks.courseJoinLink)"
+          >
+            Copy
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <h6 class="mb-3">Submission links</h6>
+      @if (submissionLinks().length) {
+        <div class="d-flex flex-column gap-3">
+          @for (submissionLink of submissionLinks(); track submissionLink.feedbackSessionId) {
+            <div class="border rounded p-3" data-testid="submission-link-row">
+              <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                <div>
+                  <div class="fw-semibold">{{ submissionLink.name }}</div>
+                  <div class="text-muted small">{{ formatTimeRange(submissionLink) }}</div>
+                </div>
+                <span
+                  class="badge rounded-pill px-3 py-2"
+                  [ngClass]="getSubmissionStatusClasses(submissionLink.submissionStatus)"
+                >
+                  {{ submissionLink.submissionStatus | submissionStatusName }}
+                </span>
+              </div>
+              <div class="input-group">
+                <input class="form-control" [value]="submissionLink.url" readonly />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  data-testid="copy-submission-link-button"
+                  (click)="copyLink(submissionLink.url)"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="text-muted">No submission links found.</div>
+      }
+    </div>
+
+    <div>
+      <h6 class="mb-3">Results links</h6>
+      @if (resultsLinks().length) {
+        <div class="d-flex flex-column gap-3">
+          @for (resultsLink of resultsLinks(); track resultsLink.feedbackSessionId) {
+            <div class="border rounded p-3" data-testid="results-link-row">
+              <div class="fw-semibold">{{ resultsLink.name }}</div>
+              <div class="text-muted small mb-2">{{ formatTimeRange(resultsLink) }}</div>
+              <div class="input-group">
+                <input class="form-control" [value]="resultsLink.url" readonly />
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  data-testid="copy-results-link-button"
+                  (click)="copyLink(resultsLink.url)"
+                >
+                  Copy
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="text-muted">No results links found.</div>
+      }
+    </div>
+  }
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Close</button>
+</div>

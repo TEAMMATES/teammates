@@ -502,8 +502,23 @@ export interface ResponseOutput {
   instructorComments: ResponseInstructorComment[];
 }
 
+export interface SessionLinks extends ApiOutput {
+  courseJoinLink: string;
+  submissionLinks: SessionSubmissionLink[];
+  resultsLinks: SessionResultLink[];
+}
+
 export interface SessionLinksRecoveryResponse extends ApiOutput {
   message: string;
+}
+
+export interface SessionResultLink {
+  feedbackSessionId: string;
+  name: string;
+  submissionStartTimestamp: number;
+  submissionEndTimestamp: number;
+  timeZone: string;
+  url: string;
 }
 
 export interface SessionResults extends ApiOutput {
@@ -512,6 +527,16 @@ export interface SessionResults extends ApiOutput {
 
 export interface SessionSubmission extends ApiOutput {
   questions: SessionSubmissionQuestion[];
+}
+
+export interface SessionSubmissionLink {
+  feedbackSessionId: string;
+  name: string;
+  submissionStartTimestamp: number;
+  submissionEndTimestamp: number;
+  timeZone: string;
+  submissionStatus: FeedbackSessionSubmissionStatus;
+  url: string;
 }
 
 export interface SessionSubmissionQuestion extends ApiOutput {

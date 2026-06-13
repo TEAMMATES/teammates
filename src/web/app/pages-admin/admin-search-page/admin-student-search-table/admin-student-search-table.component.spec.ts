@@ -3,22 +3,13 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import { AdminStudentSearchTableComponent } from './admin-student-search-table.component';
-import { EmailGenerationService } from '../../../../services/email-generation.service';
-import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { StudentAccountSearchResult } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { UserService } from '../../../../services/user.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
-
-const DEFAULT_SESSION_ID = '17681c09-f4e5-40c2-be77-eeccf0c221c2';
-const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
-  [DEFAULT_SESSION_ID]: {
-    name: 'sessionName',
-    feedbackSessionUrl: 'sessionUrl',
-    startTime: 'startTime',
-    endTime: 'endTime',
-  },
-};
+import { AdminSessionLinksModalComponent } from '../admin-session-links-modal/admin-session-links-modal.component';
+import { AdminStudentSearchTableComponent } from './admin-student-search-table.component';
 
 const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
@@ -28,17 +19,11 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   courseName: 'courseName',
   isCourseDeleted: false,
   institute: 'institute',
-  courseJoinLink: 'courseJoinLink',
   manageAccountLink: 'manageAccountLink',
-  showLinks: false,
   section: 'section',
   team: 'team',
   comments: 'comments',
   profilePageLink: 'profilePageLink',
-  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
 };
 
 describe('AdminStudentSearchTableComponent', () => {
@@ -46,7 +31,7 @@ describe('AdminStudentSearchTableComponent', () => {
   let fixture: ComponentFixture<AdminStudentSearchTableComponent>;
   let userService: UserService;
   let statusMessageService: StatusMessageService;
-  let emailGenerationService: EmailGenerationService;
+  let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
   beforeEach(async () => {
@@ -58,7 +43,7 @@ describe('AdminStudentSearchTableComponent', () => {
     component = fixture.componentInstance;
     userService = TestBed.inject(UserService);
     statusMessageService = TestBed.inject(StatusMessageService);
-    emailGenerationService = TestBed.inject(EmailGenerationService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
@@ -67,175 +52,60 @@ describe('AdminStudentSearchTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with a deleted course', () => {
-    component.students = [
-      {
-        userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
-        name: 'student',
-        email: 'student@gmail.tmt',
-        courseId: 'deleted-course',
-        courseName: 'deleted',
-        isCourseDeleted: true,
-        institute: 'institute',
-        courseJoinLink: 'course-join-link',
-        manageAccountLink: 'manage-account-link',
-        showLinks: false,
-        section: 'section',
-        team: 'team',
-        comments: 'comments',
-        profilePageLink: 'profile-page-link',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      },
-    ];
-
+  it('should display deleted-course indicator', () => {
+    component.students = [{ ...DEFAULT_STUDENT_SEARCH_RESULT, isCourseDeleted: true }];
     fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
+
+    expect(fixture.debugElement.nativeElement.querySelector('.bin-icon')).not.toBeNull();
   });
 
-  it('should snap with an expanded student table', () => {
-    component.students = [
-      {
-        userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
-        name: 'Alice Betsy',
-        email: 'alice.b.tmms@gmail.tmt',
-        courseId: 'test-exa.demo',
-        courseName: 'demo',
-        isCourseDeleted: false,
-        institute: 'institute',
-        courseJoinLink: 'course-join-link',
-        manageAccountLink: 'manage-account-link',
-        showLinks: true,
-        section: 'section',
-        team: 'team',
-        comments: 'comments',
-        profilePageLink: 'profile-page-link',
-        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-        publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      },
-    ];
-
+  it('should open session links modal for a student', () => {
+    component.students = [DEFAULT_STUDENT_SEARCH_RESULT];
     fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
+
+    const modalRef = createMockNgbModalRef({
+      userId: '',
+      userName: '',
+    });
+    const openSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(modalRef);
+
+    const showLinksButton: HTMLButtonElement =
+      fixture.debugElement.nativeElement.querySelector('#show-student-links-0');
+    showLinksButton.click();
+
+    expect(openSpy).toHaveBeenCalledWith(AdminSessionLinksModalComponent, { size: 'xl' });
+    expect(modalRef.componentInstance.userId).toBe(DEFAULT_STUDENT_SEARCH_RESULT.userId);
+    expect(modalRef.componentInstance.userName).toBe(DEFAULT_STUDENT_SEARCH_RESULT.name);
   });
 
-  it('should show student links when expand all button clicked', () => {
-    const studentResult: StudentAccountSearchResult = DEFAULT_STUDENT_SEARCH_RESULT;
-    component.students = [studentResult];
+  it('should show success message if student registration key is regenerated', async () => {
+    component.students = [DEFAULT_STUDENT_SEARCH_RESULT];
     fixture.detectChanges();
 
-    const button: HTMLElement = fixture.debugElement.nativeElement.querySelector('#show-student-links');
-    button.click();
-    expect(component.students[0].showLinks).toEqual(true);
-  });
-
-  it('should show success message and update all keys if successfully regenerated student registration key', () => {
-    const studentResult: StudentAccountSearchResult = {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      courseJoinLink: 'courseJoinLink?key=oldKey',
-      awaitingSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'awaitingSession?key=oldKey',
-        },
-      },
-      openSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'openSession?key=oldKey',
-        },
-      },
-      notOpenSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'notOpenSession?key=oldKey',
-        },
-      },
-      publishedSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'publishedSession?key=oldKey',
-        },
-      },
-    };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
-
+    vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
         message: 'success',
         newRegistrationKey: 'newKey',
       }),
     );
+    const successSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('success');
-      });
-
-    const regenerateButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    const regenerateButton: HTMLButtonElement =
+      fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
+    await fixture.whenStable();
 
-    expect(spyStatusMessageService).toHaveBeenCalled();
-
-    expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
-    expect(studentResult.awaitingSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
-    expect(studentResult.openSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('openSession?key=newKey');
-    expect(studentResult.notOpenSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
-    expect(studentResult.publishedSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual(
-      'publishedSession?key=newKey',
-    );
+    expect(userService.regenerateUserKey).toHaveBeenCalledWith(DEFAULT_STUDENT_SEARCH_RESULT.userId);
+    expect(successSpy).toHaveBeenCalledWith('success');
+    expect(component.isRegeneratingStudentKeys[0]).toBe(false);
   });
 
-  it('should show error message if fail to regenerate registration key for student in a course', () => {
-    const studentResult: StudentAccountSearchResult = {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      courseJoinLink: 'courseJoinLink?key=oldKey',
-      awaitingSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'awaitingSession?key=oldKey',
-        },
-      },
-      openSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'openSession?key=oldKey',
-        },
-      },
-      notOpenSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'notOpenSession?key=oldKey',
-        },
-      },
-      publishedSessions: {
-        ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        [DEFAULT_SESSION_ID]: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
-          feedbackSessionUrl: 'publishedSession?key=oldKey',
-        },
-      },
-    };
-    component.students = [studentResult];
+  it('should show error message if student registration key regeneration fails', async () => {
+    component.students = [DEFAULT_STUDENT_SEARCH_RESULT];
     fixture.detectChanges();
 
-    vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef());
-
+    vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
     vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       throwError(() => ({
         error: {
@@ -243,97 +113,14 @@ describe('AdminStudentSearchTableComponent', () => {
         },
       })),
     );
+    const errorSpy = vi.spyOn(statusMessageService, 'showErrorToast');
 
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const regenerateButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    const regenerateButton: HTMLButtonElement =
+      fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
+    await fixture.whenStable();
 
-    expect(spyStatusMessageService).toHaveBeenCalled();
-  });
-
-  it('should show error message if fail to send course join email', () => {
-    const studentResult: StudentAccountSearchResult = {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      showLinks: true,
-    };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    vi.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(
-      throwError(() => ({
-        error: {
-          message: 'This is the error message.',
-        },
-      })),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const sendButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '[data-testid="send-course-join-button"]',
-    );
-    sendButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-  });
-
-  it('should show error message if fail to send session reminder email', () => {
-    const studentResult: StudentAccountSearchResult = {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      showLinks: true,
-    };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    vi.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(
-      throwError(() => ({
-        error: {
-          message: 'This is the error message.',
-        },
-      })),
-    );
-
-    const spyStatusMessageService = vi
-      .spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
-
-    const sendAwaitingSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '[data-testid="send-awaiting-session-reminder-button"]',
-    );
-    sendAwaitingSessionReminderButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-
-    const sendOpenSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '[data-testid="send-open-session-reminder-button"]',
-    );
-    sendOpenSessionReminderButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-
-    const sendNotOpenSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '[data-testid="send-not-open-session-reminder-button"]',
-    );
-    sendNotOpenSessionReminderButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
-
-    const sendPublishedSessionReminderButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
-      '[data-testid="send-published-session-reminder-button"]',
-    );
-    sendPublishedSessionReminderButton.click();
-
-    expect(spyStatusMessageService).toHaveBeenCalled();
+    expect(errorSpy).toHaveBeenCalledWith('This is the error message.');
+    expect(component.isRegeneratingStudentKeys[0]).toBe(false);
   });
 });

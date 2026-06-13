@@ -102,6 +102,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
         map(ResourceURIs.SESSION, GET, GetFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_LINKS, GET, GetSessionLinksAction.class);
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);

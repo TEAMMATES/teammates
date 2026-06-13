@@ -19,6 +19,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
@@ -1157,6 +1158,13 @@ public class Logic {
     public User regenerateUserRegistrationKey(UUID userId)
             throws EntityDoesNotExistException, UserUpdateException {
         return usersLogic.regenerateUserRegistrationKey(userId);
+    }
+
+    /**
+     * Gets all feedback session links for the user with {@code userId}.
+     */
+    public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
+        return feedbackSessionsLogic.getSessionLinks(userId);
     }
 
     /**
