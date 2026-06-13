@@ -62,7 +62,6 @@ describe('AdminInstructorSearchTableComponent', () => {
     const modalRef = createMockNgbModalRef({
       userId: '',
       userName: '',
-      userTypeLabel: '',
     });
     const openSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(modalRef);
 
@@ -73,7 +72,6 @@ describe('AdminInstructorSearchTableComponent', () => {
     expect(openSpy).toHaveBeenCalledWith(AdminSessionLinksModalComponent, { size: 'xl' });
     expect(modalRef.componentInstance.userId).toBe(DEFAULT_INSTRUCTOR_SEARCH_RESULT.userId);
     expect(modalRef.componentInstance.userName).toBe(DEFAULT_INSTRUCTOR_SEARCH_RESULT.name);
-    expect(modalRef.componentInstance.userTypeLabel).toBe('Instructor');
   });
 
   it('should show success message if instructor registration key is regenerated', async () => {

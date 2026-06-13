@@ -45,7 +45,6 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     const modalRef: NgbModalRef = this.ngbModal.open(AdminSessionLinksModalComponent, { size: 'xl' });
     modalRef.componentInstance.userId = student.userId;
     modalRef.componentInstance.userName = student.name;
-    modalRef.componentInstance.userTypeLabel = 'Student';
   }
 
   regenerateUserKey(student: StudentAccountSearchResult, index: number): void {

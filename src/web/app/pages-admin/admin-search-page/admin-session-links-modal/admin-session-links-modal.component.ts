@@ -36,9 +36,6 @@ export class AdminSessionLinksModalComponent implements OnInit {
   @Input()
   userName = '';
 
-  @Input()
-  userTypeLabel = '';
-
   readonly sessionLinks = signal<SessionLinks | null>(null);
   readonly isLoading = signal(true);
   readonly submissionLinks = computed(() => this.sessionLinks()?.submissionLinks ?? []);

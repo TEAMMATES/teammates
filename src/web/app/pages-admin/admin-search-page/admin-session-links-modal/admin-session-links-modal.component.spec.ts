@@ -129,7 +129,6 @@ describe('AdminSessionLinksModalComponent', () => {
     activeModal = TestBed.inject(NgbActiveModal);
     component.userId = '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4';
     component.userName = 'Student';
-    component.userTypeLabel = 'Student';
   });
 
   it('should create', () => {
