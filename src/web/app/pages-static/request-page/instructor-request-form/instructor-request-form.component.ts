@@ -69,7 +69,7 @@ export class InstructorRequestFormComponent {
       comments: new FormControl(''),
       recaptcha: new FormControl(''),
     },
-    { updateOn: 'submit' },
+    
   );
 
   // Create members for easier access of arf controls
@@ -100,15 +100,10 @@ export class InstructorRequestFormComponent {
   }
 
   getFieldValidationClasses(field: FormControl): string {
-    let str = '';
-    if (this.hasSubmitAttempt) {
-      if (field.invalid) {
-        str = 'is-invalid';
-      } else if (field.value !== '') {
-        str = 'is-valid';
-      }
-    }
-    return str;
+    if (!field.touched && !this.hasSubmitAttempt) return '';
+    if (field.invalid) return 'is-invalid';
+    if (field.value !== '') return 'is-valid';
+    return '';
   }
 
   /**

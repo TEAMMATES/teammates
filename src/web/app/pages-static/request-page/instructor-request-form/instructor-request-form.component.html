@@ -69,7 +69,7 @@
       [options]="countryOptions"
       [formControl]="country"
     />
-    @if (hasSubmitAttempt && country.errors?.['required']) {
+    @if ((country.touched || hasSubmitAttempt) && country.errors?.['required']) {
       <div role="alert" aria-describedby="country-label" class="invalid-feedback d-block">
         Please select your institution's country or region.
       </div>
