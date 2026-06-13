@@ -44,7 +44,9 @@ import { TemplateSession } from '../../../data/template-sessions';
   ],
 })
 export class SessionEditFormComponent {
-  private simpleModalService = inject(SimpleModalService);
+  private readonly simpleModalService = inject(SimpleModalService);
+
+  private readonly nowMinute: number = moment().second(0).millisecond(0).valueOf();
 
   // enum
   SessionEditFormMode!: typeof SessionEditFormMode;
@@ -181,8 +183,7 @@ export class SessionEditFormComponent {
    * <p> The minimum session opening datetime is 2 hours before now.
    */
   get minTimestampForSubmissionStart(): number {
-    // Truncated to the minute so the value is stable within a change-detection cycle.
-    return moment().tz(this.model.timeZone).subtract(2, 'hours').second(0).millisecond(0).valueOf();
+    return moment(this.nowMinute).tz(this.model.timeZone).subtract(2, 'hours').valueOf();
   }
 
   /**
@@ -191,7 +192,7 @@ export class SessionEditFormComponent {
    * <p> The maximum session opening datetime is 23:59 of the day 12 months from now.
    */
   get maxTimestampForSubmissionStart(): number {
-    return this.endOfDay(moment().tz(this.model.timeZone).add(12, 'months'));
+    return this.endOfDay(moment(this.nowMinute).tz(this.model.timeZone).add(12, 'months'));
   }
 
   /**
@@ -201,12 +202,7 @@ export class SessionEditFormComponent {
    * is later.
    */
   get minTimestampForSubmissionEnd(): number {
-    const oneHourBeforeNow: number = moment()
-      .tz(this.model.timeZone)
-      .subtract(1, 'hours')
-      .second(0)
-      .millisecond(0)
-      .valueOf();
+    const oneHourBeforeNow: number = moment(this.nowMinute).tz(this.model.timeZone).subtract(1, 'hours').valueOf();
     return Math.max(this.model.submissionStartTimestamp ?? oneHourBeforeNow, oneHourBeforeNow);
   }
 
@@ -216,7 +212,7 @@ export class SessionEditFormComponent {
    * <p> The maximum session closing datetime is 23:59 of the day 12 months from now.
    */
   get maxTimestampForSubmissionEnd(): number {
-    return this.endOfDay(moment().tz(this.model.timeZone).add(12, 'months'));
+    return this.endOfDay(moment(this.nowMinute).tz(this.model.timeZone).add(12, 'months'));
   }
 
   /**
