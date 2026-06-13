@@ -82,7 +82,7 @@ public class UserProvision {
 
         Account account = authContext.account();
 
-        UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId());
+        UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId(), account.getEmail());
         userInfo.isAdmin = authContext.isAdmin();
         userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(account.getGoogleId());
         userInfo.isStudent = usersLogic.isStudentInAnyCourse(account.getGoogleId());

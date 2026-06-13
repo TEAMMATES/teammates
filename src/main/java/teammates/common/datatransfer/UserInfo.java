@@ -4,8 +4,6 @@ import java.util.UUID;
 
 /**
  * Represents a user type.
- * <br> Contains user's Google ID and flags to indicate whether the user
- *  is an admin, instructor, student.
  */
 public class UserInfo {
 
@@ -18,6 +16,11 @@ public class UserInfo {
      * The user's account ID.
      */
     public UUID accountId;
+
+    /**
+     * The user's email address.
+     */
+    public String email;
 
     /**
      * Indicates whether the user has admin privilege.
@@ -39,9 +42,10 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    public UserInfo(String googleId, UUID accountId) {
+    public UserInfo(String googleId, UUID accountId, String email) {
         this.id = googleId;
         this.accountId = accountId;
+        this.email = email;
     }
 
     public String getId() {
@@ -50,6 +54,10 @@ public class UserInfo {
 
     public UUID getAccountId() {
         return accountId;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public boolean getIsAdmin() {
