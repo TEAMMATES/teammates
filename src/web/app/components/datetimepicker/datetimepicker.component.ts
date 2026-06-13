@@ -10,7 +10,7 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat } from '../../../types/dat
 /**
  * Combined date and time picker.
  *
- * <p>The empty state is represented by an undefined timestamp. Any defined number is treated as a real
+ * The empty state is represented by an undefined timestamp. Any defined number is treated as a real
  * instant.
  */
 @Component({
@@ -176,7 +176,7 @@ export class DatetimepickerComponent implements OnChanges {
   /**
    * Compares two TIMEs.
    *
-   * <p>Checks whether they are equal or not.
+   * Checks whether they are equal or not.
    */
   timeCompareFn(t1: TimeFormat, t2: TimeFormat): boolean {
     // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
@@ -186,7 +186,7 @@ export class DatetimepickerComponent implements OnChanges {
   /**
    * Checks whether the time option should be disabled given the selected date and the min/max bounds.
    *
-   * <p> The valid time option is greater or equal than the minimum datetime and smaller or equal than the
+   * The valid time option is greater or equal than the minimum datetime and smaller or equal than the
    * maximum datetime.
    */
   isOptionDisabled(t: TimeFormat): boolean {
@@ -224,7 +224,7 @@ export class DatetimepickerComponent implements OnChanges {
   /**
    * Formats number {@code i} and pads leading zeros if its digits are less than {@code n}.
    *
-   * <p>e.g. n = 2, i = 1 => "01"
+   * e.g. n = 2, i = 1 => "01"
    */
   addLeadingZeros(n: number, i: number): string {
     return ('0'.repeat(n) + i).slice(-n);
