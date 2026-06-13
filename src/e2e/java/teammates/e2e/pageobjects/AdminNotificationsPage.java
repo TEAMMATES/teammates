@@ -42,17 +42,11 @@ public class AdminNotificationsPage extends AppPage {
     @FindBy(id = "notification-message")
     private WebElement notificationMessageEditor;
 
-    @FindBy(id = "notification-start-date")
-    private WebElement startDateBox;
+    @FindBy(css = "#notification-start-datetime tm-datetimepicker")
+    private WebElement startDateTimePicker;
 
-    @FindBy(id = "notification-start-time")
-    private WebElement startTimeDropdown;
-
-    @FindBy(id = "notification-end-date")
-    private WebElement endDateBox;
-
-    @FindBy(id = "notification-end-time")
-    private WebElement endTimeDropdown;
+    @FindBy(css = "#notification-end-datetime tm-datetimepicker")
+    private WebElement endDateTimePicker;
 
     public AdminNotificationsPage(Browser browser) {
         super(browser);
@@ -142,16 +136,16 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     private void setNotificationStartDateTime(Instant startInstant) {
-        setDateTime(startDateBox, startTimeDropdown, startInstant);
+        setDateTime(startDateTimePicker, startInstant);
     }
 
     private void setNotificationEndDateTime(Instant endInstant) {
-        setDateTime(endDateBox, endTimeDropdown, endInstant);
+        setDateTime(endDateTimePicker, endInstant);
     }
 
-    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant) {
-        fillDatePicker(dateBox, startInstant, getTimezone());
-        selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getInputTimeString(startInstant));
+    private void setDateTime(WebElement dateTimePicker, Instant instant) {
+        fillDatePicker(dateTimePicker, instant, getTimezone());
+        selectDropdownOptionByText(dateTimePicker.findElement(By.tagName("select")), getInputTimeString(instant));
     }
 
     private String[] getNotificationTableDisplayDetails(Notification notification) {

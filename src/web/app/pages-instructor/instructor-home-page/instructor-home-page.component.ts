@@ -360,6 +360,13 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             };
             model.sessionsTableRowModels.push(m);
           });
+          const sortBy =
+            model.sessionsTableRowModelsSortBy === SortBy.NONE
+              ? this.initialSortBy
+              : model.sessionsTableRowModelsSortBy;
+          const sortOrder =
+            model.sessionsTableRowModelsSortBy === SortBy.NONE ? this.sortOrder : model.sessionsTableRowModelsSortOrder;
+          model.sessionsTableRowModels.sort(this.sortModelsBy(sortBy, sortOrder));
           model.hasPopulated = true;
           if (!model.isAjaxSuccess) {
             model.isAjaxSuccess = true;

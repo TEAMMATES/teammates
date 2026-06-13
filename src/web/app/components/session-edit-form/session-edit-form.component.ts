@@ -151,10 +151,7 @@ export class SessionEditFormComponent {
       ...this.model,
       submissionStartTimestamp: timestamp,
     };
-    if (
-      updatedModel.customSessionVisibleTimestamp != null &&
-      updatedModel.customSessionVisibleTimestamp > timestamp
-    ) {
+    if (updatedModel.customSessionVisibleTimestamp != null && updatedModel.customSessionVisibleTimestamp > timestamp) {
       updatedModel.customSessionVisibleTimestamp = timestamp;
     }
     this.modelChange.emit(updatedModel);
