@@ -125,6 +125,65 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
         </button>
       </div>
     </div>
-  </div>
+  </div><tm-account-request-table>
+    <div
+      class="card bg-light top-padded"
+    >
+      <div
+        class="card-header bg-primary text-white"
+      >
+        <strong>
+          Pending Account Requests
+        </strong>
+      </div>
+      <div
+        class="table-responsive"
+      >
+        <table
+          class="table table-striped data-table"
+          id="search-table-account-request"
+        >
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                Institute
+              </th>
+              <th>
+                Country
+              </th>
+              <th>
+                Created At
+              </th>
+              <th>
+                Comments
+              </th>
+              <th>
+                Options
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="text-center"
+                colspan="8"
+              >
+                No pending account requests
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </tm-account-request-table>
 </tm-admin-home-page>
 `;
