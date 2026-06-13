@@ -8,13 +8,7 @@ import teammates.ui.output.StudentData;
 /**
  * Get the information of the student associated with the request.
  */
-public class GetOwnStudentAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
+public class GetOwnStudentAction extends RegKeyAction {
     @Override
     void checkSpecificAccessControl() {
         // No specific access control required.

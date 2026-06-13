@@ -20,7 +20,7 @@ import teammates.ui.request.StudentUpdateRequest;
 /**
  * Action: Edits details of a student in a course.
  */
-public class UpdateStudentAction extends Action {
+public class UpdateStudentAction extends LoggedInAction {
     /** Message indicating that the student to be edited could not be found in the system. */
     public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist.";
 
@@ -41,11 +41,6 @@ public class UpdateStudentAction extends Action {
      * for the student is already being used by another student in the system.
      */
     public static final String ERROR_EMAIL_ALREADY_EXISTS = "Trying to update to an email that is already in use";
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {

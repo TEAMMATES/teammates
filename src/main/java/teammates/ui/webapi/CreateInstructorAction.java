@@ -19,13 +19,7 @@ import teammates.ui.request.InstructorCreateRequest;
 /**
  * Action: adds another instructor to a course that already exists.
  */
-public class CreateInstructorAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class CreateInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

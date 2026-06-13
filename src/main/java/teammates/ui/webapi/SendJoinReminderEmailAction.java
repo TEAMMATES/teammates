@@ -16,13 +16,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Send join reminder emails to register for a course.
  */
-public class SendJoinReminderEmailAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class SendJoinReminderEmailAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         User user = getUserToRemind();

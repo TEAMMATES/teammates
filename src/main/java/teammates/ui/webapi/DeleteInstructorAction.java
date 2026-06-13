@@ -11,13 +11,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Deletes an instructor from a course, unless it's the last instructor in the course.
  */
-public class DeleteInstructorAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class DeleteInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);

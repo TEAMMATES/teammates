@@ -21,12 +21,7 @@ import teammates.ui.output.FeedbackSessionLogsData;
 /**
  * Action: gets the feedback session logs of feedback sessions of a course.
  */
-public class GetFeedbackSessionLogsAction extends Action {
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetFeedbackSessionLogsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

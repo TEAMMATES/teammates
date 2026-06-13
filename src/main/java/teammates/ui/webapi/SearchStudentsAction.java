@@ -14,13 +14,7 @@ import teammates.ui.output.StudentsData;
 /**
  * Action for searching for students.
  */
-public class SearchStudentsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class SearchStudentsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         // Only instructors and admins can search for student

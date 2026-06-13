@@ -15,13 +15,7 @@ import teammates.ui.request.FeedbackSessionCreateRequest;
 /**
  * Create a feedback session.
  */
-public class CreateFeedbackSessionAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class CreateFeedbackSessionAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

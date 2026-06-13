@@ -19,13 +19,7 @@ import teammates.ui.request.DeadlineExtensionsUpdateRequest;
 /**
  * Updates the deadline extensions for a feedback session.
  */
-public class UpdateDeadlineExtensionsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class UpdateDeadlineExtensionsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

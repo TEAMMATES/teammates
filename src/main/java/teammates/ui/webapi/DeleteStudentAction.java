@@ -10,13 +10,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Action: deletes a student from a course.
  */
-public class DeleteStudentAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class DeleteStudentAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);

@@ -12,13 +12,7 @@ import teammates.ui.output.CourseSectionsData;
 /**
  * Gets the sections of a course.
  */
-public class GetCourseSectionsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetCourseSectionsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

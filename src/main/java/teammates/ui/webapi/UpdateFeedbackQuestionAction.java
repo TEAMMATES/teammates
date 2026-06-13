@@ -15,13 +15,7 @@ import teammates.ui.request.FeedbackQuestionUpdateRequest;
 /**
  * Updates a feedback question.
  */
-public class UpdateFeedbackQuestionAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class UpdateFeedbackQuestionAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);

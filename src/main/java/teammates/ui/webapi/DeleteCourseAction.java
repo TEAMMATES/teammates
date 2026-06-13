@@ -7,13 +7,7 @@ import teammates.ui.output.MessageOutput;
 /**
  * Delete a course.
  */
-public class DeleteCourseAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class DeleteCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

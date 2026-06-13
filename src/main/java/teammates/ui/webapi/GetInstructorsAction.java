@@ -16,13 +16,7 @@ import teammates.ui.request.Intent;
 /**
  * Get a list of instructors of a course.
  */
-public class GetInstructorsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetInstructorsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

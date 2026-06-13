@@ -21,12 +21,7 @@ import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 /**
  * Remind the student about the published result of a feedback session.
  */
-public class RemindFeedbackSessionResultAction extends Action {
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class RemindFeedbackSessionResultAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

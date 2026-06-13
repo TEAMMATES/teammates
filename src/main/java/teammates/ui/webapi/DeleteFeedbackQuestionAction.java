@@ -9,13 +9,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Deletes a feedback question.
  */
-public class DeleteFeedbackQuestionAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class DeleteFeedbackQuestionAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID questionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);

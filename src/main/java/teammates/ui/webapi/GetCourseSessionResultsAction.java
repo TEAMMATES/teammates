@@ -14,13 +14,7 @@ import teammates.ui.output.SessionResultsData;
 /**
  * Gets course-wide feedback session results including statistics where necessary.
  */
-public class GetCourseSessionResultsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetCourseSessionResultsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

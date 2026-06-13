@@ -15,13 +15,7 @@ import teammates.ui.request.FeedbackSessionUpdateRequest;
 /**
  * Updates a feedback session.
  */
-public class UpdateFeedbackSessionAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class UpdateFeedbackSessionAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

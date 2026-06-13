@@ -13,13 +13,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Deletes a feedback response comment.
  */
-public class DeleteResponseInstructorCommentAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class DeleteResponseInstructorCommentAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID responseInstructorCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);

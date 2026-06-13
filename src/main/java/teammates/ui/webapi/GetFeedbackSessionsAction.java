@@ -21,13 +21,7 @@ import teammates.ui.output.InstructorFeedbackSessionPermissionsData;
 /**
  * Get a list of feedback sessions.
  */
-public class GetFeedbackSessionsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetFeedbackSessionsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

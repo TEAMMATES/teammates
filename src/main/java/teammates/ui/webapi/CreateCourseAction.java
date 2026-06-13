@@ -18,13 +18,7 @@ import teammates.ui.request.CourseCreateRequest;
 /**
  * Create a new course for an instructor.
  */
-public class CreateCourseAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class CreateCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException, InvalidHttpRequestBodyException {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);

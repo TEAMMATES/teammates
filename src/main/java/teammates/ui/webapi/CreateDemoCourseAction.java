@@ -33,14 +33,9 @@ import teammates.ui.exception.UnexpectedServerException;
 /**
  * Creates a new demo course with a demo instructor and student.
  */
-public class CreateDemoCourseAction extends Action {
+public class CreateDemoCourseAction extends LoggedInAction {
 
     private static final Logger log = Logger.getLogger();
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
 
     @Override
     void checkSpecificAccessControl() {
