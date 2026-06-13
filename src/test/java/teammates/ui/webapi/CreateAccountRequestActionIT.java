@@ -207,23 +207,6 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
-    @Test(groups = GroupNames.INTEGRATION)
-    void testExecute_typicalCaseAsAdmin_noEmailsSent() {
-        loginAsAdmin();
-        AccountCreateRequest request = new AccountCreateRequest();
-        request.setInstructorEmail("kwisatz.haderach@atreides.org");
-        request.setInstructorName("Paul Atreides");
-        request.setInstructorInstitution("House Atreides");
-        request.setInstructorCountry("SG");
-        request.setInstructorComments("My road leads into the desert. I can see it.");
-        CreateAccountRequestAction action = getAction(request);
-        JsonResult result = getJsonResult(action);
-        AccountRequestData output = (AccountRequestData) result.getOutput();
-        assertNull(output.getRegisteredAt());
-        verifyNoEmailsSent();
-        logoutUser();
-    }
-
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {

@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./admin-home-page/admin-home-page.component').then((m) => m.AdminHomePageComponent),
     data: {
-      pageTitle: 'Add New Instructor',
+      pageTitle: 'Admin Home Page',
     },
   },
   {
