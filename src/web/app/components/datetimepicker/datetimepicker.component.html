@@ -1,0 +1,50 @@
+<div class="d-flex gap-2 align-items-start">
+  <div class="input-group flex-grow-1">
+    <ng-template #footer>
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-light m-1" type="button" (click)="selectTodayDate(dtp)">Today</button>
+      </div>
+    </ng-template>
+    <input
+      type="text"
+      class="form-control"
+      ngbDatepicker
+      readonly
+      [ngModel]="date"
+      (ngModelChange)="changeDate($event)"
+      aria-label="Date"
+      [maxDate]="maxDate!"
+      [minDate]="minDate!"
+      #dtp="ngbDatepicker"
+      [disabled]="isDisabled"
+      [footerTemplate]="footer"
+    />
+    <button
+      class="btn btn-light input-group-text"
+      aria-label="Change date"
+      (click)="dtp.toggle()"
+      type="button"
+      [disabled]="isDisabled"
+    >
+      <i class="fas fa-calendar-alt"></i>
+    </button>
+  </div>
+  <select
+    class="form-control form-select w-auto"
+    [ngModel]="time"
+    (ngModelChange)="changeTime($event)"
+    [disabled]="isDisabled"
+    [compareWith]="timeCompareFn"
+    aria-label="Select time"
+  >
+    @for (i of range(1, 24); track i) {
+      <option [ngValue]="{ hour: i, minute: 0 }" [disabled]="isOptionDisabled({ hour: i, minute: 0 })">
+        {{ addLeadingZeros(2, i) }}:00H
+      </option>
+    }
+    <option [ngValue]="{ hour: 23, minute: 59 }" [disabled]="isOptionDisabled({ hour: 23, minute: 59 })">23:59H</option>
+    @if (!isInFixedList(time)) {
+      <option [ngValue]="time">{{ addLeadingZeros(2, time.hour) }}:{{ addLeadingZeros(2, time.minute) }}H</option>
+    }
+  </select>
+</div>
