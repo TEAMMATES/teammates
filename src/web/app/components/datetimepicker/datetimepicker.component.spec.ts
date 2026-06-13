@@ -41,13 +41,6 @@ describe('DatetimepickerComponent', () => {
     expect(component.maxTime).toEqual({ hour: 9, minute: 0 });
   });
 
-  it('should render an empty picker when timestamp is undefined', () => {
-    component.timestamp = undefined;
-    component.ngOnChanges();
-
-    expect(component.date).toBeUndefined();
-  });
-
   it('should emit a timestamp when the date changes', () => {
     component.timestamp = timestamp;
     component.ngOnChanges();

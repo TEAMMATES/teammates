@@ -25,7 +25,6 @@ import {
   SessionVisibleSetting,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
-import { getDefaultDateFormat, getLatestTimeFormat } from '../../types/datetime-const';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
@@ -74,19 +73,15 @@ export abstract class InstructorSessionBasePageComponent {
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: getDefaultDateFormat(),
-    submissionEndTime: getLatestTimeFormat(),
-    submissionEndDate: getDefaultDateFormat(),
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: getLatestTimeFormat(),
-    customSessionVisibleDate: getDefaultDateFormat(),
+    customSessionVisibleTimestamp: 0,
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: getLatestTimeFormat(),
-    customResponseVisibleDate: getDefaultDateFormat(),
+    customResponseVisibleTimestamp: 0,
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -640,42 +635,11 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   triggerModelChange(data: SessionEditFormModel): void {
-    const { submissionStartDate, submissionEndDate, submissionStartTime, submissionEndTime } = data;
-
-    const startDate = new Date(submissionStartDate.year, submissionStartDate.month, submissionStartDate.day);
-    const endDate = new Date(submissionEndDate.year, submissionEndDate.month, submissionEndDate.day);
-
-    if (startDate > endDate) {
+    // Ensure the submission closing time is never earlier than the submission opening time.
+    if (data.submissionStartTimestamp > data.submissionEndTimestamp) {
       this.sessionEditFormModel = {
         ...data,
-        submissionEndDate: submissionStartDate,
-        submissionEndTime:
-          submissionStartTime.hour > submissionEndTime.hour ||
-          (submissionStartTime.hour === submissionEndTime.hour && submissionStartTime.minute > submissionEndTime.minute)
-            ? submissionStartTime
-            : submissionEndTime,
-      };
-    } else if (startDate.toISOString() === endDate.toISOString() && submissionStartTime.hour > submissionEndTime.hour) {
-      this.sessionEditFormModel = {
-        ...data,
-        submissionEndDate: submissionStartDate,
-        submissionEndTime: {
-          ...submissionStartTime,
-          hour: submissionStartTime.hour,
-        },
-      };
-    } else if (
-      startDate.toISOString() === endDate.toISOString() &&
-      submissionStartTime.hour === submissionEndTime.hour &&
-      submissionStartTime.minute > submissionEndTime.minute
-    ) {
-      this.sessionEditFormModel = {
-        ...data,
-        submissionEndDate: submissionStartDate,
-        submissionEndTime: {
-          ...submissionStartTime,
-          minute: submissionStartTime.minute,
-        },
+        submissionEndTimestamp: data.submissionStartTimestamp,
       };
     }
   }

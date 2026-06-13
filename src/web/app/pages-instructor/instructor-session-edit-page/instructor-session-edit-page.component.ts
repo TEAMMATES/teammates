@@ -7,7 +7,6 @@ import { FeedbackSessionTabModel } from './copy-questions-from-other-sessions-mo
 import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { CourseService } from '../../../services/course.service';
-import { DateTimeService } from '../../../services/datetime.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { CommonVisibilitySetting, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { StudentService } from '../../../services/student.service';
@@ -36,7 +35,6 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { DateFormat, TimeFormat, getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { AddingQuestionPanelComponent } from '../../components/adding-question-panel/adding-question-panel.component';
@@ -83,7 +81,6 @@ import {
   ],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
-  private readonly datetimeService = inject(DateTimeService);
   private readonly studentService = inject(StudentService);
   private readonly courseService = inject(CourseService);
   private readonly route = inject(ActivatedRoute);
@@ -310,19 +307,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
   getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable = false): SessionEditFormModel {
-    const submissionStart: { date: DateFormat; time: TimeFormat } = this.datetimeService.getDateTimeAtTimezone(
-      feedbackSession.submissionStartTimestamp,
-      feedbackSession.timeZone,
-      true,
-    );
-
-    const submissionEnd: { date: DateFormat; time: TimeFormat } = this.datetimeService.getDateTimeAtTimezone(
-      feedbackSession.submissionEndTimestamp,
-      feedbackSession.timeZone,
-      true,
-    );
-
-    const model: SessionEditFormModel = {
+    return {
       isEditable,
       feedbackSessionId: feedbackSession.feedbackSessionId,
       courseId: feedbackSession.courseId,
@@ -331,19 +316,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       feedbackSessionName: feedbackSession.feedbackSessionName,
       instructions: feedbackSession.instructions,
 
-      submissionStartTime: submissionStart.time,
-      submissionStartDate: submissionStart.date,
-      submissionEndTime: submissionEnd.time,
-      submissionEndDate: submissionEnd.date,
+      submissionStartTimestamp: feedbackSession.submissionStartTimestamp,
+      submissionEndTimestamp: feedbackSession.submissionEndTimestamp,
       gracePeriod: feedbackSession.gracePeriod,
 
       sessionVisibleSetting: feedbackSession.sessionVisibleSetting,
-      customSessionVisibleTime: getLatestTimeFormat(),
-      customSessionVisibleDate: getDefaultDateFormat(),
+      customSessionVisibleTimestamp:
+        feedbackSession.customSessionVisibleTimestamp ?? feedbackSession.submissionStartTimestamp,
 
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
-      customResponseVisibleTime: getLatestTimeFormat(),
-      customResponseVisibleDate: getDefaultDateFormat(),
+      customResponseVisibleTimestamp:
+        feedbackSession.customResponseVisibleTimestamp ?? feedbackSession.submissionStartTimestamp,
 
       submissionStatus: feedbackSession.submissionStatus,
       publishStatus: feedbackSession.publishStatus,
@@ -362,28 +345,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       hasEmailSettingsPanelExpanded:
         !feedbackSession.isClosingSoonEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
     };
-
-    if (feedbackSession.customSessionVisibleTimestamp) {
-      const customSessionVisible: { date: DateFormat; time: TimeFormat } = this.datetimeService.getDateTimeAtTimezone(
-        feedbackSession.customSessionVisibleTimestamp,
-        feedbackSession.timeZone,
-        true,
-      );
-      model.customSessionVisibleTime = customSessionVisible.time;
-      model.customSessionVisibleDate = customSessionVisible.date;
-    }
-
-    if (feedbackSession.customResponseVisibleTimestamp) {
-      const customResponseVisible: { date: DateFormat; time: TimeFormat } = this.datetimeService.getDateTimeAtTimezone(
-        feedbackSession.customResponseVisibleTimestamp,
-        feedbackSession.timeZone,
-        true,
-      );
-      model.customResponseVisibleTime = customResponseVisible.time;
-      model.customResponseVisibleDate = customResponseVisible.date;
-    }
-
-    return model;
   }
 
   /**
@@ -392,35 +353,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   editExistingSessionHandler(): void {
     this.feedbackSessionModelBeforeEditing = structuredClone(this.sessionEditFormModel);
 
-    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
-      this.sessionEditFormModel.submissionStartDate,
-      this.sessionEditFormModel.submissionStartTime,
-      this.sessionEditFormModel.timeZone,
-      true,
-    );
-    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
-      this.sessionEditFormModel.submissionEndDate,
-      this.sessionEditFormModel.submissionEndTime,
-      this.sessionEditFormModel.timeZone,
-      true,
-    );
+    const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp;
+    const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp;
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.customSessionVisibleDate,
-        this.sessionEditFormModel.customSessionVisibleTime,
-        this.sessionEditFormModel.timeZone,
-        true,
-      );
+      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp;
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.customResponseVisibleDate,
-        this.sessionEditFormModel.customResponseVisibleTime,
-        this.sessionEditFormModel.timeZone,
-        true,
-      );
+      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp;
     }
 
     this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {

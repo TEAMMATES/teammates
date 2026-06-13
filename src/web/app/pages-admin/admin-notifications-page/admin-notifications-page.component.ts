@@ -15,7 +15,6 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import { TimezoneService } from '../../../services/timezone.service';
 import { MessageOutput, Notification, Notifications } from '../../../types/api-output';
 import { NotificationStyle, NotificationTargetUser } from '../../../types/api-request';
-import { getDefaultDateFormat, getDefaultTimeFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -53,10 +52,8 @@ export class AdminNotificationsPageComponent implements OnInit {
   notificationEditFormModel: NotificationEditFormModel = {
     notificationId: '',
 
-    startTime: getDefaultTimeFormat(),
-    startDate: getDefaultDateFormat(),
-    endTime: getDefaultTimeFormat(),
-    endDate: getDefaultDateFormat(),
+    startTimestamp: 0,
+    endTimestamp: 0,
 
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
@@ -90,26 +87,14 @@ export class AdminNotificationsPageComponent implements OnInit {
   initNotificationEditFormModel(): void {
     this.isNotificationEditFormExpanded = false;
 
-    const nearFuture: moment.Moment = moment().add(1, 'hours');
-    const tomorrow: moment.Moment = moment().add(1, 'days');
+    // Start at the top of the next hour; end at the end of tomorrow (the following midnight, displayed as 23:59).
+    const start: number = moment().add(1, 'hour').minute(0).second(0).millisecond(0).valueOf();
+    const end: number = moment().add(2, 'days').startOf('day').valueOf();
     this.notificationEditFormModel = {
       notificationId: '',
 
-      startTime: {
-        minute: nearFuture.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
-        hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
-      },
-      startDate: {
-        year: nearFuture.year(),
-        month: nearFuture.month() + 1, // moment return 0-11 for month
-        day: nearFuture.date(),
-      },
-      endTime: getLatestTimeFormat(),
-      endDate: {
-        year: tomorrow.year(),
-        month: tomorrow.month() + 1, // moment return 0-11 for month
-        day: tomorrow.date(),
-      },
+      startTimestamp: start,
+      endTimestamp: end,
 
       style: NotificationStyle.SUCCESS,
       targetUser: NotificationTargetUser.GENERAL,
@@ -201,29 +186,11 @@ export class AdminNotificationsPageComponent implements OnInit {
    * The actual function to load data into edit form.
    */
   loadNotificationEditForm(notification: Notification): void {
-    const startTime = moment(notification.startTimestamp);
-    const endTime = moment(notification.endTimestamp);
     this.notificationEditFormModel = {
       notificationId: notification.notificationId,
 
-      startTime: {
-        minute: startTime.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
-        hour: startTime.hour() === 0 ? 23 : startTime.hour(),
-      },
-      startDate: {
-        year: startTime.year(),
-        month: startTime.month() + 1, // moment return 0-11 for month
-        day: startTime.date(),
-      },
-      endTime: {
-        minute: endTime.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
-        hour: endTime.hour() === 0 ? 23 : endTime.hour(),
-      },
-      endDate: {
-        year: endTime.year(),
-        month: endTime.month() + 1, // moment return 0-11 for month
-        day: endTime.date(),
-      },
+      startTimestamp: notification.startTimestamp,
+      endTimestamp: notification.endTimestamp,
 
       style: notification.style,
       targetUser: notification.targetUser,
@@ -245,24 +212,14 @@ export class AdminNotificationsPageComponent implements OnInit {
   addNewNotificationHandler(): void {
     this.notificationEditFormModel.isSaving = true;
 
-    // Timezone is not specified here so it will be guessed from browser's request.
-    const startTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.startDate,
-      this.notificationEditFormModel.startTime,
-    );
-    const endTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.endDate,
-      this.notificationEditFormModel.endTime,
-    );
-
     this.notificationService
       .createNotification({
         title: this.notificationEditFormModel.title,
         message: this.notificationEditFormModel.message,
         style: this.notificationEditFormModel.style,
         targetUser: this.notificationEditFormModel.targetUser,
-        startTimestamp: startTime,
-        endTimestamp: endTime,
+        startTimestamp: this.notificationEditFormModel.startTimestamp,
+        endTimestamp: this.notificationEditFormModel.endTimestamp,
       })
       .pipe(
         finalize(() => {
@@ -290,16 +247,6 @@ export class AdminNotificationsPageComponent implements OnInit {
   editExistingNotificationHandler(): void {
     this.notificationEditFormModel.isSaving = true;
 
-    // Timezone is not specified here so it will be guessed from browser's request.
-    const startTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.startDate,
-      this.notificationEditFormModel.startTime,
-    );
-    const endTime = this.timezoneService.resolveLocalDateTime(
-      this.notificationEditFormModel.endDate,
-      this.notificationEditFormModel.endTime,
-    );
-
     this.notificationService
       .updateNotification(
         {
@@ -307,8 +254,8 @@ export class AdminNotificationsPageComponent implements OnInit {
           message: this.notificationEditFormModel.message,
           style: this.notificationEditFormModel.style,
           targetUser: this.notificationEditFormModel.targetUser,
-          startTimestamp: startTime,
-          endTimestamp: endTime,
+          startTimestamp: this.notificationEditFormModel.startTimestamp,
+          endTimestamp: this.notificationEditFormModel.endTimestamp,
         },
         this.notificationEditFormModel.notificationId,
       )

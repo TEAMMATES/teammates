@@ -130,20 +130,12 @@
                 </label>
               </div>
             </div>
-            <div class="row text-center align-items-center">
-              <div id="notification-start-date" class="col-md-7 col-xs-center">
-                <tm-datepicker
-                  (dateChangeCallback)="triggerModelChange('startDate', $event)"
-                  [date]="model.startDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-5">
-                <tm-timepicker
-                  id="notification-start-time"
-                  [time]="model.startTime"
-                  (timeChange)="triggerModelChange('startTime', $event)"
-                ></tm-timepicker>
-              </div>
+            <div id="notification-start-datetime" class="row text-center align-items-center">
+              <tm-datetimepicker
+                [timestamp]="model.startTimestamp"
+                [timeZone]="guessTimezone"
+                (timestampChange)="triggerModelChange('startTimestamp', $event)"
+              ></tm-datetimepicker>
             </div>
           </div>
           <div class="col-md-6 border-left-gray">
@@ -157,21 +149,13 @@
                 </label>
               </div>
             </div>
-            <div class="row align-items-center">
-              <div id="notification-end-date" class="col-md-7 col-xs-center">
-                <tm-datepicker
-                  (dateChangeCallback)="triggerModelChange('endDate', $event)"
-                  [minDate]="model.startDate"
-                  [date]="model.endDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-5">
-                <tm-timepicker
-                  id="notification-end-time"
-                  [time]="model.endTime"
-                  (timeChange)="triggerModelChange('endTime', $event)"
-                ></tm-timepicker>
-              </div>
+            <div id="notification-end-datetime" class="row align-items-center">
+              <tm-datetimepicker
+                [timestamp]="model.endTimestamp"
+                [minTimestamp]="model.startTimestamp"
+                [timeZone]="guessTimezone"
+                (timestampChange)="triggerModelChange('endTimestamp', $event)"
+              ></tm-datetimepicker>
             </div>
           </div>
         </div>

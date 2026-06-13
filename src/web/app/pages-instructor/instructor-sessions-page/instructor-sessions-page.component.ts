@@ -244,28 +244,17 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       this.sessionEditFormModel.templateSessionName = this.templateSessions[0].name;
     }
 
-    // set opening time to near future
-    const nearFuture: moment.Moment = moment().tz(this.sessionEditFormModel.timeZone).add(1, 'hours');
-    this.sessionEditFormModel.submissionStartDate = {
-      year: nearFuture.year(),
-      month: nearFuture.month() + 1, // moment return 0-11 for month
-      day: nearFuture.date(),
-    };
-    this.sessionEditFormModel.submissionStartTime = {
-      minute: nearFuture.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
-      hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
-    };
-    // set the closing time to tomorrow
-    const tomorrow: moment.Moment = moment().tz(this.sessionEditFormModel.timeZone).add(1, 'days');
-    this.sessionEditFormModel.submissionEndDate = {
-      year: tomorrow.year(),
-      month: tomorrow.month() + 1, // moment return 0-11 for month
-      day: tomorrow.date(),
-    };
-    this.sessionEditFormModel.submissionEndTime = {
-      minute: 59,
-      hour: 23,
-    };
+    const timeZone: string = this.sessionEditFormModel.timeZone;
+    // Submission opens at the top of the next hour.
+    this.sessionEditFormModel.submissionStartTimestamp = moment()
+      .tz(timeZone)
+      .add(1, 'hour')
+      .minute(0)
+      .second(0)
+      .millisecond(0)
+      .valueOf();
+    // Submission closes at the end of tomorrow (represented as the following midnight, i.e. 23:59 displayed).
+    this.sessionEditFormModel.submissionEndTimestamp = moment().tz(timeZone).add(2, 'days').startOf('day').valueOf();
   }
 
   /**
@@ -274,35 +263,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
 
-    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
-      this.sessionEditFormModel.submissionStartDate,
-      this.sessionEditFormModel.submissionStartTime,
-      this.sessionEditFormModel.timeZone,
-      true,
-    );
-    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
-      this.sessionEditFormModel.submissionEndDate,
-      this.sessionEditFormModel.submissionEndTime,
-      this.sessionEditFormModel.timeZone,
-      true,
-    );
+    const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp;
+    const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp;
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.customSessionVisibleDate,
-        this.sessionEditFormModel.customSessionVisibleTime,
-        this.sessionEditFormModel.timeZone,
-        true,
-      );
+      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp;
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.customResponseVisibleDate,
-        this.sessionEditFormModel.customResponseVisibleTime,
-        this.sessionEditFormModel.timeZone,
-        true,
-      );
+      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp;
     }
 
     this.feedbackSessionsService

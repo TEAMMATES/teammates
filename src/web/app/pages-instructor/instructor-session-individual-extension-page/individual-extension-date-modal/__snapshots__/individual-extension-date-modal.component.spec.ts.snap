@@ -2,7 +2,6 @@
 
 exports[`IndividualExtensionDateModalComponent > should snap with the extend by radio option 1`] = `
 <tm-individual-extension-date-modal
-  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
@@ -12,8 +11,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
-  extendToDatePicker={[Function Object]}
-  extendToTimePicker={[Function Object]}
+  extendToTimestamp="0"
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -21,7 +19,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   radioOption={[Function Number]}
   simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -152,7 +149,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
 
 exports[`IndividualExtensionDateModalComponent > should snap with the extend by radio option with customize 1`] = `
 <tm-individual-extension-date-modal
-  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
@@ -162,8 +158,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
-  extendToDatePicker={[Function Object]}
-  extendToTimePicker={[Function Object]}
+  extendToTimestamp="0"
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -171,7 +166,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
   radioOption={[Function Number]}
   simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -347,7 +341,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend by 
 
 exports[`IndividualExtensionDateModalComponent > should snap with the extend to radio option with timepicker 1`] = `
 <tm-individual-extension-date-modal
-  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
@@ -357,8 +350,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
-  extendToDatePicker={[Function Object]}
-  extendToTimePicker={[Function Object]}
+  extendToTimestamp={[Function Number]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -366,7 +358,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
   radioOption={[Function Number]}
   simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -427,14 +418,14 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
       <div
         id="submission-start-date"
       >
-        <div
-          class="input-group"
+        <tm-datetimepicker
+          id="submission-end-datetime"
         >
-          <tm-datepicker
-            id="submission-end-date"
+          <div
+            class="d-flex gap-2 align-items-start"
           >
             <div
-              class="input-group"
+              class="input-group flex-grow-1"
             >
               <input
                 aria-label="Date"
@@ -453,146 +444,138 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
                 />
               </button>
             </div>
-          </tm-datepicker>
-          <div
-            class="col-md-5"
-          >
-            <tm-timepicker
-              id="submission-end-time"
+            <select
+              aria-label="Select time"
+              class="form-control form-select w-auto ng-untouched ng-pristine ng-valid"
             >
-              <select
-                aria-label="Select time"
-                class="form-control form-select ng-untouched ng-pristine ng-valid"
+              <option
+                value="1: Object"
               >
-                <option
-                  value="1: Object"
-                >
-                   01:00H 
-                </option>
-                <option
-                  value="2: Object"
-                >
-                   02:00H 
-                </option>
-                <option
-                  value="3: Object"
-                >
-                   03:00H 
-                </option>
-                <option
-                  value="4: Object"
-                >
-                   04:00H 
-                </option>
-                <option
-                  value="5: Object"
-                >
-                   05:00H 
-                </option>
-                <option
-                  value="6: Object"
-                >
-                   06:00H 
-                </option>
-                <option
-                  value="7: Object"
-                >
-                   07:00H 
-                </option>
-                <option
-                  value="8: Object"
-                >
-                   08:00H 
-                </option>
-                <option
-                  value="9: Object"
-                >
-                   09:00H 
-                </option>
-                <option
-                  value="10: Object"
-                >
-                   10:00H 
-                </option>
-                <option
-                  value="11: Object"
-                >
-                   11:00H 
-                </option>
-                <option
-                  value="12: Object"
-                >
-                   12:00H 
-                </option>
-                <option
-                  value="13: Object"
-                >
-                   13:00H 
-                </option>
-                <option
-                  value="14: Object"
-                >
-                   14:00H 
-                </option>
-                <option
-                  value="15: Object"
-                >
-                   15:00H 
-                </option>
-                <option
-                  value="16: Object"
-                >
-                   16:00H 
-                </option>
-                <option
-                  value="17: Object"
-                >
-                   17:00H 
-                </option>
-                <option
-                  value="18: Object"
-                >
-                   18:00H 
-                </option>
-                <option
-                  value="19: Object"
-                >
-                   19:00H 
-                </option>
-                <option
-                  value="20: Object"
-                >
-                   20:00H 
-                </option>
-                <option
-                  value="21: Object"
-                >
-                   21:00H 
-                </option>
-                <option
-                  value="22: Object"
-                >
-                   22:00H 
-                </option>
-                <option
-                  value="23: Object"
-                >
-                   23:00H 
-                </option>
-                <option
-                  value="0: Object"
-                >
-                  23:59H
-                </option>
-                <option
-                  value="24: Object"
-                >
-                  10:30H
-                </option>
-              </select>
-            </tm-timepicker>
+                 01:00H 
+              </option>
+              <option
+                value="2: Object"
+              >
+                 02:00H 
+              </option>
+              <option
+                value="3: Object"
+              >
+                 03:00H 
+              </option>
+              <option
+                value="4: Object"
+              >
+                 04:00H 
+              </option>
+              <option
+                value="5: Object"
+              >
+                 05:00H 
+              </option>
+              <option
+                value="6: Object"
+              >
+                 06:00H 
+              </option>
+              <option
+                value="7: Object"
+              >
+                 07:00H 
+              </option>
+              <option
+                value="8: Object"
+              >
+                 08:00H 
+              </option>
+              <option
+                value="9: Object"
+              >
+                 09:00H 
+              </option>
+              <option
+                value="10: Object"
+              >
+                 10:00H 
+              </option>
+              <option
+                value="11: Object"
+              >
+                 11:00H 
+              </option>
+              <option
+                value="12: Object"
+              >
+                 12:00H 
+              </option>
+              <option
+                value="13: Object"
+              >
+                 13:00H 
+              </option>
+              <option
+                value="14: Object"
+              >
+                 14:00H 
+              </option>
+              <option
+                value="15: Object"
+              >
+                 15:00H 
+              </option>
+              <option
+                value="16: Object"
+              >
+                 16:00H 
+              </option>
+              <option
+                value="17: Object"
+              >
+                 17:00H 
+              </option>
+              <option
+                value="18: Object"
+              >
+                 18:00H 
+              </option>
+              <option
+                value="19: Object"
+              >
+                 19:00H 
+              </option>
+              <option
+                value="20: Object"
+              >
+                 20:00H 
+              </option>
+              <option
+                value="21: Object"
+              >
+                 21:00H 
+              </option>
+              <option
+                value="22: Object"
+              >
+                 22:00H 
+              </option>
+              <option
+                value="23: Object"
+              >
+                 23:00H 
+              </option>
+              <option
+                value="0: Object"
+              >
+                23:59H
+              </option>
+              <option
+                value="24: Object"
+              >
+                18:30H
+              </option>
+            </select>
           </div>
-        </div>
+        </tm-datetimepicker>
       </div>
     </div>
     <br />
@@ -617,7 +600,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
 
 exports[`IndividualExtensionDateModalComponent > should snap with the extended students 1`] = `
 <tm-individual-extension-date-modal
-  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
@@ -627,8 +609,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
-  extendToDatePicker={[Function Object]}
-  extendToTimePicker={[Function Object]}
+  extendToTimestamp="0"
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -636,7 +617,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
   radioOption={[Function Number]}
   simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -768,7 +748,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
 
 exports[`IndividualExtensionDateModalComponent > should snap with the warning modal 1`] = `
 <tm-individual-extension-date-modal
-  DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
   MAX_EPOCH_TIME_IN_MILLISECONDS={[Function Number]}
   RadioOptions={[Function Object]}
@@ -778,8 +757,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
-  extendToDatePicker={[Function Object]}
-  extendToTimePicker={[Function Object]}
+  extendToTimestamp="0"
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
   numInstructors={[Function Number]}
@@ -787,7 +765,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
   radioOption={[Function Number]}
   simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
