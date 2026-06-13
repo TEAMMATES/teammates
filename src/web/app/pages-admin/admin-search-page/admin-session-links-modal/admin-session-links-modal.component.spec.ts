@@ -170,11 +170,11 @@ describe('AdminSessionLinksModalComponent', () => {
     ).map((element: Element) => element.textContent?.trim());
 
     expect(submissionLinkNames).toEqual([
-      'Grace Period Session',
       'Open Session Earlier Deadline',
       'Open Session Later Deadline',
-      'Visible Not Open Session',
+      'Grace Period Session',
       'Not Visible Session',
+      'Visible Not Open Session',
       'Closed Session Newer',
       'Closed Session Older',
     ]);

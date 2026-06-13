@@ -49,6 +49,14 @@ export class AdminSessionLinksModalComponent implements OnInit {
     [FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN]: 'bg-secondary',
   };
 
+  private readonly submissionStatusOrder: Record<FeedbackSessionSubmissionStatus, number> = {
+    [FeedbackSessionSubmissionStatus.OPEN]: 0,
+    [FeedbackSessionSubmissionStatus.GRACE_PERIOD]: 0,
+    [FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN]: 1,
+    [FeedbackSessionSubmissionStatus.NOT_VISIBLE]: 1,
+    [FeedbackSessionSubmissionStatus.CLOSED]: 2,
+  };
+
   ngOnInit(): void {
     this.userService.getSessionLinks(this.userId).subscribe({
       next: (sessionLinks: SessionLinks) => {
@@ -106,72 +114,57 @@ export class AdminSessionLinksModalComponent implements OnInit {
   }
 
   private compareSubmissionLinks(firstLink: SessionSubmissionLink, secondLink: SessionSubmissionLink): number {
-    const submissionStatusOrder: Record<FeedbackSessionSubmissionStatus, number> = {
-      [FeedbackSessionSubmissionStatus.GRACE_PERIOD]: 0,
-      [FeedbackSessionSubmissionStatus.OPEN]: 1,
-      [FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN]: 2,
-      [FeedbackSessionSubmissionStatus.NOT_VISIBLE]: 3,
-      [FeedbackSessionSubmissionStatus.CLOSED]: 4,
-    };
-
     const statusDifference =
-      submissionStatusOrder[firstLink.submissionStatus] - submissionStatusOrder[secondLink.submissionStatus];
+      this.submissionStatusOrder[firstLink.submissionStatus] - this.submissionStatusOrder[secondLink.submissionStatus];
     if (statusDifference !== 0) {
       return statusDifference;
     }
 
     if (firstLink.submissionStatus === FeedbackSessionSubmissionStatus.CLOSED) {
-      return this.compareDescending(
-        firstLink.submissionEndTimestamp,
-        secondLink.submissionEndTimestamp,
-        firstLink.name,
-        secondLink.name,
-      );
+      return this.compareByEndTimeDescending(firstLink, secondLink);
     }
 
-    if (
-      [FeedbackSessionSubmissionStatus.OPEN, FeedbackSessionSubmissionStatus.GRACE_PERIOD].includes(
-        firstLink.submissionStatus,
-      )
-    ) {
-      return this.compareAscending(
-        firstLink.submissionEndTimestamp,
-        secondLink.submissionEndTimestamp,
-        firstLink.name,
-        secondLink.name,
-      );
+    if (this.isCurrentlySubmittable(firstLink.submissionStatus)) {
+      return this.compareByEndTimeAscending(firstLink, secondLink);
     }
 
-    return this.compareAscending(
-      firstLink.submissionStartTimestamp,
-      secondLink.submissionStartTimestamp,
-      firstLink.name,
-      secondLink.name,
-    );
+    return this.compareByStartTimeAscending(firstLink, secondLink);
   }
 
   private compareResultLinks(firstLink: SessionResultLink, secondLink: SessionResultLink): number {
-    return this.compareDescending(
-      firstLink.submissionEndTimestamp,
-      secondLink.submissionEndTimestamp,
-      firstLink.name,
-      secondLink.name,
-    );
+    return this.compareByEndTimeDescending(firstLink, secondLink);
   }
 
-  private compareAscending(firstValue: number, secondValue: number, firstName: string, secondName: string): number {
-    if (firstValue !== secondValue) {
-      return firstValue - secondValue;
-    }
-
-    return firstName.localeCompare(secondName);
+  private isCurrentlySubmittable(status: FeedbackSessionSubmissionStatus): boolean {
+    return status === FeedbackSessionSubmissionStatus.OPEN || status === FeedbackSessionSubmissionStatus.GRACE_PERIOD;
   }
 
-  private compareDescending(firstValue: number, secondValue: number, firstName: string, secondName: string): number {
-    if (firstValue !== secondValue) {
-      return secondValue - firstValue;
-    }
+  private compareByStartTimeAscending(
+    firstLink: SessionSubmissionLink | SessionResultLink,
+    secondLink: SessionSubmissionLink | SessionResultLink,
+  ): number {
+    return this.compareAscending(firstLink.submissionStartTimestamp, secondLink.submissionStartTimestamp);
+  }
 
-    return firstName.localeCompare(secondName);
+  private compareByEndTimeAscending(
+    firstLink: SessionSubmissionLink | SessionResultLink,
+    secondLink: SessionSubmissionLink | SessionResultLink,
+  ): number {
+    return this.compareAscending(firstLink.submissionEndTimestamp, secondLink.submissionEndTimestamp);
+  }
+
+  private compareByEndTimeDescending(
+    firstLink: SessionSubmissionLink | SessionResultLink,
+    secondLink: SessionSubmissionLink | SessionResultLink,
+  ): number {
+    return this.compareDescending(firstLink.submissionEndTimestamp, secondLink.submissionEndTimestamp);
+  }
+
+  private compareAscending(firstValue: number, secondValue: number): number {
+    return firstValue - secondValue;
+  }
+
+  private compareDescending(firstValue: number, secondValue: number): number {
+    return secondValue - firstValue;
   }
 }
