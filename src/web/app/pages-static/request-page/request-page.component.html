@@ -1,8 +1,8 @@
 <h1 class="color-orange">Create Courses with TEAMMATES</h1>
-<div class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+<div class="container-md">
   @if (submittedFormData) {
     <div>
-      <p>Your request has been submitted successfully:</p>
+      <p>Your request has been submitted successfully.</p>
       <table class="table table-bordered my-3">
         <tbody>
           <tr>
@@ -14,7 +14,7 @@
             <td>{{ submittedFormData.institution }}</td>
           </tr>
           <tr>
-            <th scope="row">Country</th>
+            <th scope="row">Country or Region</th>
             <td>{{ submittedFormData.country }}</td>
           </tr>
           <tr>
@@ -33,9 +33,9 @@
         </tbody>
       </table>
       <p>
-        We have sent an acknowledgement email to your email address <b>{{ submittedFormData.email }}</b
-        >. Please check your email inbox or spam folder. If you do not receive the acknowledgement email within 1 hour,
-        please <a tmRouterLink="/web/front/contact">contact</a> us.
+        An acknowledgement email has been sent to
+        <strong>{{ submittedFormData.email }}</strong
+        >. We will process your request and notify you once course creation access has been granted.
       </p>
     </div>
   } @else {
