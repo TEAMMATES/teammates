@@ -1,73 +1,69 @@
-<div class="container-md">
-  <h1 class="color-orange">Create Courses with TEAMMATES</h1>
-  <div *tmIsLoading="isLoading()">
-    @if (submittedFormData(); as formData) {
-      <div>
-        <p>Your request has been submitted successfully.</p>
-        <table class="table table-bordered my-3">
-          <tbody>
-            <tr>
-              <th scope="row" class="col-3">Full Name</th>
-              <td>{{ formData.name }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Institution</th>
-              <td>{{ formData.institution }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Country or Region</th>
-              <td>{{ formData.country }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Email</th>
-              <td>{{ formData.email }}</td>
-            </tr>
-            <tr>
-              <th scope="row">Comments</th>
-              <td>
-                {{ formData.comments }}
-                @if (!formData.comments) {
-                  <span class="empty-field-placeholder"></span>
-                }
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          An acknowledgement email has been sent to
-          <strong>{{ formData.email }}</strong
-          >. We will process your request and notify you once course creation access has been granted.
-        </p>
-      </div>
-    } @else {
-      <div>
-        <p>
-          To create courses, we first need to verify your affiliation with the institution you represent. Once verified,
-          you'll be able to create courses in TEAMMATES.
-        </p>
-        <p>Students and instructors who have been added to existing courses do not need to submit this form.</p>
-      </div>
-      @if (authInfo()?.user; as user) {
+<div class="row">
+  <div class="col-12 col-lg-8">
+    <h1 class="color-orange">Create Courses with TEAMMATES</h1>
+    <div *tmIsLoading="isLoading()">
+      @if (submittedFormData(); as formData) {
+        <div>
+          <p>Your request has been submitted successfully.</p>
+          <table class="table table-bordered my-3">
+            <tbody>
+              <tr>
+                <th scope="row" class="col-3">Full Name</th>
+                <td>{{ formData.name }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Institution</th>
+                <td>{{ formData.institution }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Country or Region</th>
+                <td>{{ formData.country }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Email</th>
+                <td>{{ formData.email }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Comments</th>
+                <td>
+                  {{ formData.comments }}
+                  @if (!formData.comments) {
+                    <span class="empty-field-placeholder"></span>
+                  }
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            An acknowledgement email has been sent to
+            <strong>{{ formData.email }}</strong
+            >. We will process your request and notify you once course creation access has been granted.
+          </p>
+        </div>
+      } @else {
         <div>
           <p>
-            Signed in as: <strong>{{ user.id }}</strong>
+            To create courses, we first need to verify your affiliation with the institution you represent. Once
+            verified, you'll be able to create courses in TEAMMATES.
           </p>
-          <hr />
+          <p>Students and instructors who have been added to existing courses do not need to submit this form.</p>
+        </div>
+        <hr />
+        @if (authInfo()?.user; as user) {
+          <div class="alert alert-success" role="alert">
+            Signed in as: <strong>{{ user.id }}</strong>
+          </div>
           <tm-instructor-request-form
             (requestSubmissionEvent)="onRequestSubmitted($event)"
           ></tm-instructor-request-form>
           <hr />
-        </div>
-      } @else {
-        <div>
-          <hr />
-          <div class="alert alert-warning" role="alert">
-            You must be signed in to submit this form.
-            <a [href]="loginUrl()">Sign in</a> to continue.
+        } @else {
+          <div class="alert alert-warning d-flex align-items-center justify-content-between" role="alert">
+            <span>You must be signed in to submit this form.</span>
+            <a [href]="loginUrl()" class="btn btn-warning">Sign in</a>
           </div>
-          <hr />
-        </div>
+        }
       }
-    }
+    </div>
   </div>
 </div>

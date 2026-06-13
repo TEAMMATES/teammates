@@ -19,21 +19,13 @@ import {
   ComboboxOption,
   SearchableComboboxComponent,
 } from '../../../components/searchable-combobox/searchable-combobox.component';
-import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 @Component({
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgxCaptchaModule,
-    NgbAlert,
-    TeammatesRouterDirective,
-    SearchableComboboxComponent,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, SearchableComboboxComponent],
 })
 export class InstructorRequestFormComponent {
   private readonly accountService = inject(AccountService);

@@ -1,7 +1,3 @@
-<p aria-hidden="true">
-  <!-- aria-hidden as screen readers use inputs' required attribute instead (and cannot see the asterisks) -->
-  Questions marked with an asterisk <span class="red-font">*</span> are required.
-</p>
 <form (ngSubmit)="onSubmit()" [formGroup]="arf">
   <div class="form-group {{ checkIsFieldRequired(name) ? 'required' : '' }}">
     <label for="name" id="name-label" class="qn"> Full Name </label>
@@ -66,7 +62,7 @@
   <br />
   <div class="form-group {{ checkIsFieldRequired(country) ? 'required' : '' }}">
     <label for="country" id="country-label" class="qn"> Country or Region </label>
-    <p class="help-block">Which country or region is your university/institution based in?</p>
+    <p class="help-block">The country or region is your university/institution based in.</p>
     <tm-searchable-combobox
       inputId="country"
       placeholder="Search for a country or region..."
@@ -83,9 +79,8 @@
   <div class="form-group {{ checkIsFieldRequired(email) ? 'required' : '' }}">
     <label for="email" id="email-label" class="qn"> Official email address </label>
     <p class="help-block">
-      Please use the email address <b>given to you by your school/university</b>
-      (not your personal Gmail/Hotmail address). Note that this email address will be visible to the students you enroll
-      in TEAMMATES.
+      The email address <b>given to you by your school/university</b>. This email address will be visible to students
+      you enroll in TEAMMATES.
     </p>
     <input
       class="form-control {{ getFieldValidationClasses(email) }}"
@@ -150,7 +145,6 @@
       <strong>Error submitting request:</strong> {{ serverErrorMessage }}
     </ngb-alert>
   }
-  <a type="button" class="btn btn-danger me-3" tmRouterLink="/web/front/home" aria-label="Cancel button"> Cancel </a>
   <button type="submit" class="btn btn-primary" id="submit-button" aria-label="Submit form" [disabled]="!canSubmit">
     {{ isLoading ? 'Submitting...' : 'Submit' }}
   </button>
