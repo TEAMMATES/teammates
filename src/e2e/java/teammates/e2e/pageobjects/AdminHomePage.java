@@ -40,7 +40,7 @@ public class AdminHomePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Add New Instructor</h1>");
+        return getPageSource().contains("Admin Home Page");
     }
 
     public void addInstructor(String name, String email, String institute, String country) {
