@@ -512,7 +512,7 @@ export interface SessionLinksRecoveryResponse extends ApiOutput {
   message: string;
 }
 
-export interface SessionResultLink extends ApiOutput {
+export interface SessionResultLink {
   feedbackSessionId: string;
   name: string;
   submissionStartTimestamp: number;
@@ -529,7 +529,7 @@ export interface SessionSubmission extends ApiOutput {
   questions: SessionSubmissionQuestion[];
 }
 
-export interface SessionSubmissionLink extends ApiOutput {
+export interface SessionSubmissionLink {
   feedbackSessionId: string;
   name: string;
   submissionStartTimestamp: number;
