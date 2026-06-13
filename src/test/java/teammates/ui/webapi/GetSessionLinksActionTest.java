@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
+import teammates.common.datatransfer.SessionResultLink;
+import teammates.common.datatransfer.SessionSubmissionLink;
 import teammates.common.util.Const;
 import teammates.common.util.LinksUtil;
 import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
-import teammates.ui.output.FeedbackSessionSubmissionStatus;
 import teammates.ui.output.SessionLinksData;
-import teammates.ui.output.SessionResultLinkData;
-import teammates.ui.output.SessionSubmissionLinkData;
 
 /**
  * Tests for {@link GetSessionLinksAction}.
@@ -44,20 +44,20 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
         assertEquals(4, result.getSubmissionLinks().size());
         assertEquals(1, result.getResultsLinks().size());
 
-        Map<UUID, SessionSubmissionLinkData> submissionLinksById = result.getSubmissionLinks().stream()
-                .collect(Collectors.toMap(SessionSubmissionLinkData::getFeedbackSessionId, Function.identity()));
+        Map<UUID, SessionSubmissionLink> submissionLinksById = result.getSubmissionLinks().stream()
+                .collect(Collectors.toMap(SessionSubmissionLink::feedbackSessionId, Function.identity()));
         assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN,
-                submissionLinksById.get(awaitingSession.id()).getSubmissionStatus());
+                submissionLinksById.get(awaitingSession.id()).submissionStatus());
         assertEquals(FeedbackSessionSubmissionStatus.OPEN,
-                submissionLinksById.get(openSession.id()).getSubmissionStatus());
+                submissionLinksById.get(openSession.id()).submissionStatus());
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED,
-                submissionLinksById.get(closedSession.id()).getSubmissionStatus());
+                submissionLinksById.get(closedSession.id()).submissionStatus());
         assertEquals(LinksUtil.getStudentSessionSubmitUrl(openSession.id(), student.regKey()),
-                submissionLinksById.get(openSession.id()).getUrl());
+                submissionLinksById.get(openSession.id()).url());
 
-        SessionResultLinkData resultsLink = result.getResultsLinks().get(0);
-        assertEquals(publishedSession.id(), resultsLink.getFeedbackSessionId());
-        assertEquals(LinksUtil.getStudentSessionResultsUrl(publishedSession.id(), student.regKey()), resultsLink.getUrl());
+        SessionResultLink resultsLink = result.getResultsLinks().get(0);
+        assertEquals(publishedSession.id(), resultsLink.feedbackSessionId());
+        assertEquals(LinksUtil.getStudentSessionResultsUrl(publishedSession.id(), student.regKey()), resultsLink.url());
     }
 
     @Test(groups = GroupNames.ACTION)
@@ -73,13 +73,13 @@ public class GetSessionLinksActionTest extends BaseActionTest<GetSessionLinksAct
 
         assertEquals(LinksUtil.getInstructorCourseJoinUrl(instructor.regKey()), result.getCourseJoinLink());
         assertTrue(result.getSubmissionLinks().stream().anyMatch(
-                link -> openSession.id().equals(link.getFeedbackSessionId())
+                link -> openSession.id().equals(link.feedbackSessionId())
                         && LinksUtil.getInstructorSessionSubmitUrl(openSession.id(),
-                                instructor.regKey()).equals(link.getUrl())));
+                                instructor.regKey()).equals(link.url())));
         assertTrue(result.getResultsLinks().stream().anyMatch(
-                link -> publishedSession.id().equals(link.getFeedbackSessionId())
+                link -> publishedSession.id().equals(link.feedbackSessionId())
                         && LinksUtil.getInstructorSessionResultsUrl(publishedSession.id(), instructor.regKey())
-                                .equals(link.getUrl())));
+                                .equals(link.url())));
     }
 
     @Test(groups = GroupNames.ACTION)

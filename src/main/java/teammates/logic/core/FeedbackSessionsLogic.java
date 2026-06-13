@@ -11,6 +11,10 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
+import teammates.common.datatransfer.SessionLinksBundle;
+import teammates.common.datatransfer.SessionResultLink;
+import teammates.common.datatransfer.SessionSubmissionLink;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
@@ -33,10 +37,6 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
-import teammates.ui.output.FeedbackSessionSubmissionStatus;
-import teammates.ui.output.SessionLinksData;
-import teammates.ui.output.SessionResultLinkData;
-import teammates.ui.output.SessionSubmissionLinkData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
@@ -110,18 +110,18 @@ public final class FeedbackSessionsLogic {
     /**
      * Gets all feedback session links for the user with {@code userId}.
      */
-    public SessionLinksData getSessionLinks(UUID userId) throws EntityDoesNotExistException {
+    public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
         User user = usersLogic.getUser(userId);
         if (user == null) {
             throw new EntityDoesNotExistException(String.format("User with id %s not found.", userId));
         }
 
-        List<SessionSubmissionLinkData> submissionLinks = new ArrayList<>();
-        List<SessionResultLinkData> resultsLinks = new ArrayList<>();
+        List<SessionSubmissionLink> submissionLinks = new ArrayList<>();
+        List<SessionResultLink> resultsLinks = new ArrayList<>();
         String regKey = user.getRegKey();
 
         for (FeedbackSession feedbackSession : getFeedbackSessionsForCourse(user.getCourseId())) {
-            submissionLinks.add(new SessionSubmissionLinkData(
+            submissionLinks.add(new SessionSubmissionLink(
                     feedbackSession.getId(),
                     feedbackSession.getName(),
                     feedbackSession.getStartTime().toEpochMilli(),
@@ -131,7 +131,7 @@ public final class FeedbackSessionsLogic {
                     getSubmissionUrl(user.getUserType(), feedbackSession.getId(), regKey)));
 
             if (feedbackSession.isPublished()) {
-                resultsLinks.add(new SessionResultLinkData(
+                resultsLinks.add(new SessionResultLink(
                         feedbackSession.getId(),
                         feedbackSession.getName(),
                         feedbackSession.getStartTime().toEpochMilli(),
@@ -141,7 +141,7 @@ public final class FeedbackSessionsLogic {
             }
         }
 
-        return new SessionLinksData(getCourseJoinUrl(user.getUserType(), regKey), submissionLinks, resultsLinks);
+        return new SessionLinksBundle(getCourseJoinUrl(user.getUserType(), regKey), submissionLinks, resultsLinks);
     }
 
     /**

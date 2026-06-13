@@ -1,4 +1,4 @@
-package teammates.ui.output;
+package teammates.common.datatransfer;
 
 /**
  * The submission status of a feedback session.
