@@ -309,17 +309,7 @@ export abstract class InstructorSessionBasePageComponent {
           strB = '';
       }
 
-      const primaryResult = this.tableComparatorService.compare(by, order, strA, strB);
-      if (primaryResult !== 0 || by === SortBy.SESSION_NAME) {
-        return primaryResult;
-      }
-      // Tie-breaker: session name ascending.
-      return this.tableComparatorService.compare(
-        SortBy.SESSION_NAME,
-        SortOrder.ASC,
-        a.feedbackSession.feedbackSessionName,
-        b.feedbackSession.feedbackSessionName,
-      );
+      return this.tableComparatorService.compare(by, order, strA, strB);
     };
   }
 
