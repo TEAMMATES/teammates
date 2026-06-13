@@ -150,6 +150,7 @@ describe('IndividualExtensionDateModalComponent', () => {
   });
 
   it('should snap with the extend to radio option with timepicker', () => {
+    component.feedbackSessionTimeZone = 'UTC';
     component.radioOption = RadioOptions.EXTEND_TO;
     component.extendToTimestamp = Date.UTC(2022, 9, 10, 10, 30);
     fixture.detectChanges();

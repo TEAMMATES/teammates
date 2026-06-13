@@ -352,7 +352,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
   extendByDeadlineOptions={[Function Map]}
   extendToTimestamp={[Function Number]}
   feedbackSessionEndingTimestamp="0"
-  feedbackSessionTimeZone=""
+  feedbackSessionTimeZone={[Function String]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
@@ -595,7 +595,7 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extend to 
               <option
                 value="24: Object"
               >
-                18:30H
+                10:30H
               </option>
             </select>
           </div>
