@@ -28,9 +28,14 @@ export class RequestPageComponent implements OnInit {
 
   ngOnInit(): void {
     const nextUrl = globalThis.location.pathname;
-    this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
-      this.authInfo.set(auth);
-      this.isLoading.set(false);
+    this.authService.getAuthUser(nextUrl).subscribe({
+      next: (auth: AuthInfo) => {
+        this.authInfo.set(auth);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
     });
   }
 

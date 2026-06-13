@@ -134,7 +134,7 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
         >
            Signed in as: 
           <strong>
-            test@example.com
+            user@teammates.tmt
           </strong>
         </div>
         <tm-instructor-request-form>
@@ -219,7 +219,7 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
               <p
                 class="help-block"
               >
-                The country or region is your university/institution based in.
+                The country or region where your university/institution is based.
               </p>
               <tm-searchable-combobox
                 class="ng-untouched ng-pristine ng-invalid"

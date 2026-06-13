@@ -468,6 +468,7 @@ describe('SessionSubmissionPageComponent', () => {
     user: {
       id: 'user-id',
       accountId: 'account-id',
+      email: 'user@teammates.tmt',
       isAdmin: false,
       isInstructor: false,
       isStudent: true,

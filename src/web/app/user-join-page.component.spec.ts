@@ -180,6 +180,7 @@ describe('UserJoinPageComponent', () => {
         loginUrl: '/login',
         user: {
           id: 'user',
+          email: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
@@ -210,6 +211,7 @@ describe('UserJoinPageComponent', () => {
         loginUrl: '/login',
         user: {
           id: 'user',
+          email: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
@@ -319,6 +321,7 @@ describe('UserJoinPageComponent creating account', () => {
         loginUrl: '/login',
         user: {
           id: 'user',
+          email: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
@@ -349,6 +352,7 @@ describe('UserJoinPageComponent creating account', () => {
         loginUrl: '/login',
         user: {
           id: 'user',
+          email: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,

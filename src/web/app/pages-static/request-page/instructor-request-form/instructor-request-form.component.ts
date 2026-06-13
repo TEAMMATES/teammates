@@ -48,29 +48,26 @@ export class InstructorRequestFormComponent {
   size: 'compact' | 'normal' = 'normal';
   lang = 'en';
 
-  arf = new FormGroup(
-    {
-      name: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
-        Validators.pattern(NAME_REGEX),
-      ]),
-      institution: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(INSTITUTE_NAME_MAX_LENGTH),
-        Validators.pattern(NAME_REGEX),
-      ]),
-      country: new FormControl('', { validators: [Validators.required], updateOn: 'change' }),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(EMAIL_REGEX),
-        Validators.maxLength(EMAIL_MAX_LENGTH),
-      ]),
-      comments: new FormControl(''),
-      recaptcha: new FormControl(''),
-    },
-    
-  );
+  arf = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
+      Validators.pattern(NAME_REGEX),
+    ]),
+    institution: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(INSTITUTE_NAME_MAX_LENGTH),
+      Validators.pattern(NAME_REGEX),
+    ]),
+    country: new FormControl('', { validators: [Validators.required], updateOn: 'change' }),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(EMAIL_REGEX),
+      Validators.maxLength(EMAIL_MAX_LENGTH),
+    ]),
+    comments: new FormControl(''),
+    recaptcha: new FormControl(''),
+  });
 
   // Create members for easier access of arf controls
   name = this.arf.controls.name;

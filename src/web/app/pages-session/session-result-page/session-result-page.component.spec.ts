@@ -57,6 +57,7 @@ describe('SessionResultPageComponent', () => {
     masquerade: false,
     user: {
       id: 'user-id',
+      email: 'user@teammates.tmt',
       isAdmin: false,
       isInstructor: true,
       isStudent: false,
