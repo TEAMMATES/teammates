@@ -78,7 +78,7 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
         for="institution"
         id="institution-label"
       >
-         University/school/institution 
+         University / Institution 
       </label>
       <p
         class="help-block"

@@ -7,7 +7,7 @@ exports[`RequestPageComponent > should render correctly after form is submitted 
   <h1
     class="color-orange"
   >
-    Request for an Instructor Account
+    Create Courses with TEAMMATES
   </h1><div
     class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
   >
@@ -100,13 +100,16 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
   <h1
     class="color-orange"
   >
-    Request for an Instructor Account
+    Create Courses with TEAMMATES
   </h1><div
     class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
   >
     <div>
       <p>
-         Request for an instructor account using this form if you are an instructor and want to use TEAMMATES to manage peer evaluations and/or other feedback paths of your students. 
+         To create courses, we first need to verify your affiliation with the institution you represent. Once verified, you'll be able to create courses in TEAMMATES. 
+      </p>
+      <p>
+        Students and instructors who have been added to existing courses do not need to submit this form.
       </p>
       <hr />
       <tm-instructor-request-form>
@@ -165,7 +168,7 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
               for="institution"
               id="institution-label"
             >
-               University/school/institution 
+               University / Institution 
             </label>
             <p
               class="help-block"

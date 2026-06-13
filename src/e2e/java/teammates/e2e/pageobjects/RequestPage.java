@@ -34,7 +34,7 @@ public class RequestPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageTitle().contains("Request for an Instructor Account");
+        return getPageTitle().contains("Create Courses with TEAMMATES");
     }
 
     public void fillForm(String name, String institution, String country, String email, String comments) {

@@ -10,7 +10,7 @@ import { CountryService } from '../../../../services/country.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
 import {
   STUDENT_NAME_MAX_LENGTH,
-  INSTITUTION_NAME_MAX_LENGTH,
+  INSTITUTE_NAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
   NAME_REGEX,
   EMAIL_REGEX,
@@ -65,7 +65,7 @@ export class InstructorRequestFormComponent {
       ]),
       institution: new FormControl('', [
         Validators.required,
-        Validators.maxLength(INSTITUTION_NAME_MAX_LENGTH),
+        Validators.maxLength(INSTITUTE_NAME_MAX_LENGTH),
         Validators.pattern(NAME_REGEX),
       ]),
       country: new FormControl('', { validators: [Validators.required], updateOn: 'change' }),
@@ -95,7 +95,7 @@ export class InstructorRequestFormComponent {
 
   constructor() {
     this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
-    this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;
+    this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTE_NAME_MAX_LENGTH;
     this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
   }
 
