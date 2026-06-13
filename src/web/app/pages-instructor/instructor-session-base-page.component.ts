@@ -645,6 +645,8 @@ export abstract class InstructorSessionBasePageComponent {
         ...data,
         submissionEndTimestamp: data.submissionStartTimestamp,
       };
+    } else {
+      this.sessionEditFormModel = data;
     }
   }
 }

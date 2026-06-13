@@ -90,6 +90,18 @@ describe('DatetimepickerComponent', () => {
     expect(emitSpy).toHaveBeenCalledWith(Date.UTC(2023, 9, 12, 6, 0, 0));
   });
 
+  it('should clamp an emitted value above the upper bound down to the previous selectable time', () => {
+    // Upper bound at 10:45; selecting a later time should snap down to the current whole hour (10:00).
+    component.maxTimestamp = Date.UTC(2023, 9, 12, 10, 45, 0);
+    component.timestamp = Date.UTC(2023, 9, 12, 9, 0, 0);
+    component.ngOnChanges();
+    const emitSpy = vi.spyOn(component.timestampChange, 'emit');
+
+    component.changeTime({ hour: 11, minute: 0 });
+
+    expect(emitSpy).toHaveBeenCalledWith(Date.UTC(2023, 9, 12, 10, 0, 0));
+  });
+
   it('should emit a value within the bounds unchanged', () => {
     component.minTimestamp = Date.UTC(2023, 9, 12, 5, 0, 0);
     component.maxTimestamp = Date.UTC(2023, 9, 12, 20, 0, 0);

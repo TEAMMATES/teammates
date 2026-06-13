@@ -127,11 +127,14 @@ export class DatetimepickerComponent implements OnChanges {
   }
 
   /**
-   * Snaps a value that falls below the lower bound up to the earliest selectable time within range.
+   * Snaps a value outside the allowed range to the nearest selectable boundary.
    */
   private clampToRange(timestamp: number): number {
     if (this.minTimestamp != null && timestamp < this.minTimestamp) {
       return this.ceilToSelectableTime(this.minTimestamp);
+    }
+    if (this.maxTimestamp != null && timestamp > this.maxTimestamp) {
+      return this.floorToSelectableTime(this.maxTimestamp);
     }
     return timestamp;
   }
@@ -144,6 +147,17 @@ export class DatetimepickerComponent implements OnChanges {
     const inst: moment.Moment = moment(timestamp).tz(this.effectiveTimeZone).second(0).millisecond(0);
     if (inst.minute() > 0) {
       inst.add(1, 'hour').minute(0);
+    }
+    return inst.valueOf();
+  }
+
+  /**
+   * Rounds a timestamp down to the previous selectable time option (a whole hour).
+   */
+  private floorToSelectableTime(timestamp: number): number {
+    const inst: moment.Moment = moment(timestamp).tz(this.effectiveTimeZone).second(0).millisecond(0);
+    if (inst.minute() > 0) {
+      inst.minute(0);
     }
     return inst.valueOf();
   }

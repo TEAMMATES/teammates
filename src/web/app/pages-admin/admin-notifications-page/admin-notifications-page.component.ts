@@ -215,8 +215,8 @@ export class AdminNotificationsPageComponent implements OnInit {
         message: this.notificationEditFormModel.message,
         style: this.notificationEditFormModel.style,
         targetUser: this.notificationEditFormModel.targetUser,
-        startTimestamp: this.notificationEditFormModel.startTimestamp ?? 0,
-        endTimestamp: this.notificationEditFormModel.endTimestamp ?? 0,
+        startTimestamp: this.notificationEditFormModel.startTimestamp!,
+        endTimestamp: this.notificationEditFormModel.endTimestamp!,
       })
       .pipe(
         finalize(() => {
@@ -251,8 +251,8 @@ export class AdminNotificationsPageComponent implements OnInit {
           message: this.notificationEditFormModel.message,
           style: this.notificationEditFormModel.style,
           targetUser: this.notificationEditFormModel.targetUser,
-          startTimestamp: this.notificationEditFormModel.startTimestamp ?? 0,
-          endTimestamp: this.notificationEditFormModel.endTimestamp ?? 0,
+          startTimestamp: this.notificationEditFormModel.startTimestamp!,
+          endTimestamp: this.notificationEditFormModel.endTimestamp!,
         },
         this.notificationEditFormModel.notificationId,
       )

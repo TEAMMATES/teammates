@@ -353,15 +353,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   editExistingSessionHandler(): void {
     this.feedbackSessionModelBeforeEditing = structuredClone(this.sessionEditFormModel);
 
-    const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp ?? 0;
-    const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp ?? 0;
+    const submissionStartTime: number = this.sessionEditFormModel.submissionStartTimestamp!;
+    const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp!;
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp ?? 0;
+      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp!;
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp ?? 0;
+      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp!;
     }
 
     this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
