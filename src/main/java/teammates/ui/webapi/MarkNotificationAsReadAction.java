@@ -16,13 +16,7 @@ import teammates.ui.request.MarkNotificationAsReadRequest;
 /**
  * Action: Marks a notification as read in account entity.
  */
-public class MarkNotificationAsReadAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class MarkNotificationAsReadAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         // Any user can create a read status for notification.

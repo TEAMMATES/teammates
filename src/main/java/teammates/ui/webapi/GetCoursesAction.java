@@ -19,13 +19,7 @@ import teammates.ui.output.InstructorCoursePermissionsData;
  * Gets all courses for the instructor, and filtered by active and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
-public class GetCoursesAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetCoursesAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         // No additional access control needed as both students and instructors can access this action

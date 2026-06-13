@@ -15,13 +15,7 @@ import teammates.ui.output.StudentsData;
 /**
  * Get a list of students.
  */
-public class GetStudentsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetStudentsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

@@ -10,12 +10,7 @@ import teammates.ui.output.ReadNotificationsData;
 /**
  * Action: Gets read notifications from account entity.
  */
-public class GetReadNotificationsAction extends Action {
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetReadNotificationsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         // Any user can get the read notifications for their account.

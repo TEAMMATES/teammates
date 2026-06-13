@@ -12,13 +12,7 @@ import teammates.ui.output.FeedbackSessionData;
 /**
  * Restore a feedback session from the recycle bin.
  */
-public class RestoreFeedbackSessionAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class RestoreFeedbackSessionAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

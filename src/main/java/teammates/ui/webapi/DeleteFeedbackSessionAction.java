@@ -8,13 +8,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Delete a feedback session.
  */
-public class DeleteFeedbackSessionAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class DeleteFeedbackSessionAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

@@ -12,13 +12,7 @@ import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 /**
  * Get a set of givers that has given at least one response in the feedback session.
  */
-public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetFeedbackSessionSubmittedGiverSetAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

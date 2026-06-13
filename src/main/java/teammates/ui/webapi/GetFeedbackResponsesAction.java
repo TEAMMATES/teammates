@@ -19,12 +19,6 @@ import teammates.ui.request.Intent;
  * Get all responses given by the user for a question.
  */
 public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);

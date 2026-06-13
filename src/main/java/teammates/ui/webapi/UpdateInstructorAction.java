@@ -15,13 +15,7 @@ import teammates.ui.request.InstructorUpdateRequest;
 /**
  * Edits an instructor in a course.
  */
-public class UpdateInstructorAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class UpdateInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
         Instructor instructorToEdit = getInstructorToEditFromRequestBody();

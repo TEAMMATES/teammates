@@ -14,13 +14,7 @@ import teammates.ui.request.CourseUpdateRequest;
 /**
  * Updates a course.
  */
-public class UpdateCourseAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class UpdateCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

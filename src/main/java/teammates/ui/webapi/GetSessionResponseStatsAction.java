@@ -11,13 +11,7 @@ import teammates.ui.output.FeedbackSessionStatsData;
 /**
  * Action: gets the response stats (submitted / total) of a feedback session.
  */
-public class GetSessionResponseStatsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetSessionResponseStatsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

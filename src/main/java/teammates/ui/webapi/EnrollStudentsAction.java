@@ -23,13 +23,7 @@ import teammates.ui.request.StudentsEnrollRequest;
  *
  * <p>Return all students who are successfully enrolled.
  */
-public class EnrollStudentsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class EnrollStudentsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

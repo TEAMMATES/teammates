@@ -32,11 +32,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     private static final Logger log = Logger.getLogger();
 
     @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
-    @Override
     void checkSpecificAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);

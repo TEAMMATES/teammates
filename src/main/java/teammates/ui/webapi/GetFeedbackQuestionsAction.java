@@ -23,12 +23,6 @@ import teammates.ui.request.Intent;
  * Get a list of feedback questions for a feedback session.
  */
 public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

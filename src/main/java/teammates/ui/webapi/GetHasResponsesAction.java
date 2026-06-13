@@ -16,13 +16,7 @@ import teammates.ui.output.HasResponsesData;
 /**
  * Checks whether a course or question has responses.
  */
-public class GetHasResponsesAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetHasResponsesAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
 

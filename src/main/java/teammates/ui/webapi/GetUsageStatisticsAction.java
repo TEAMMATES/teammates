@@ -13,13 +13,7 @@ import teammates.ui.output.UsageStatisticsRangeData;
  *
  * <p>Statistics are calculated on-the-fly by counting entities created in hourly buckets.
  */
-public class GetUsageStatisticsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetUsageStatisticsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!requestContext.isMaintainer() && !requestContext.isAdmin()) {

@@ -11,13 +11,7 @@ import teammates.ui.output.InstructorData;
 /**
  * Get the information of an instructor by user ID.
  */
-public class GetInstructorAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

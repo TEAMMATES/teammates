@@ -8,13 +8,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * Action: Restores a course from Recycle Bin.
  */
-public class RestoreCourseAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class RestoreCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
