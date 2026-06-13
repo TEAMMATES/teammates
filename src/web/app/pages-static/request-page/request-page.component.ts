@@ -13,12 +13,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [TeammatesRouterDirective, InstructorRequestFormComponent],
 })
 export class RequestPageComponent {
-  isDeclarationDone = false;
   submittedFormData: InstructorRequestFormModel | null = null;
-
-  onDeclarationButtonClicked(): void {
-    this.isDeclarationDone = true;
-  }
 
   onRequestSubmitted(data: InstructorRequestFormModel): void {
     this.submittedFormData = data;

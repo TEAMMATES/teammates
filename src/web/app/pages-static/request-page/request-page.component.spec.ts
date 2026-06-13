@@ -22,15 +22,7 @@ describe('RequestPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render correctly before instructor declaration is done', () => {
-    component.isDeclarationDone = false;
-    component.submittedFormData = null;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should render correctly after instructor declaration is done', () => {
-    component.isDeclarationDone = true;
+  it('should render correctly before submission', () => {
     component.submittedFormData = null;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
