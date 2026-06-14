@@ -17,15 +17,19 @@ if (result.error) {
 const exitCode = typeof result.status === 'number' ? result.status : 1;
 
 if (exitCode !== 0) {
-  console.error('');
-  console.error('Prettier found formatting issues.');
-  console.error('');
-  console.error('To automatically fix them, run:');
-  console.error('');
-  console.error('  npm run format');
-  console.error('');
-  console.error('Then rerun your previous command.');
-  console.error('');
+  console.error(
+    [
+      '',
+      'Prettier found formatting issues.',
+      '',
+      'To fix this automatically, run:',
+      '',
+      '    npm run format',
+      '',
+      'Then rerun your previous command.',
+      '',
+    ].join('\n'),
+  );
 }
 
 process.exit(exitCode);
