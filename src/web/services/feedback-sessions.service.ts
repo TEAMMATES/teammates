@@ -8,6 +8,7 @@ import { InstructorSessionResultSectionType } from '../app/pages-instructor/inst
 import { TemplateSession, templateSessions } from '../data/template-sessions';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  DeadlineExtension,
   DeadlineExtensions,
   FeedbackSession,
   FeedbackSessionView,
@@ -127,6 +128,24 @@ export class FeedbackSessionsService {
       fsid: feedbackSessionId,
     };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
+  }
+
+  /**
+   * Gets the deadline extension for a specific user in a feedback session by calling API.
+   */
+  getDeadlineExtension(queryParams: {
+    feedbackSessionId: string;
+    userId: string;
+    key?: string;
+  }): Observable<DeadlineExtension> {
+    const paramMap: Record<string, string> = {
+      fsid: queryParams.feedbackSessionId,
+      userid: queryParams.userId,
+    };
+    if (queryParams.key) {
+      paramMap['key'] = queryParams.key;
+    }
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
   }
 
   /**

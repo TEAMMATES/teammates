@@ -227,9 +227,8 @@ abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
     void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession, User user)
             throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        Instant deadlineExtension = logic.getDeadlineForUser(feedbackSession, user);
-        if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpenedGivenExtendedDeadline(deadlineExtension)
-                || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
+        Instant deadline = logic.getDeadlineForUser(feedbackSession, user);
+        if (StringHelper.isEmpty(moderatedPerson) && !feedbackSession.isOpenedGivenExtendedDeadline(deadline)) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
         }
     }

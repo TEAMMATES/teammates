@@ -46,6 +46,7 @@ interface StudentSession {
   isWaitingToOpen: boolean;
   isPublished: boolean;
   isSubmitted: boolean;
+  userDeadlineExtension?: number;
 }
 
 /**
@@ -170,7 +171,7 @@ export class StudentHomePageComponent implements OnInit {
     courseRef.feedbackSessions = [];
     this.feedbackSessionsService.getFeedbackSessionsForStudent('student', courseId).subscribe({
       next: (fss: FeedbackSessions) => {
-        const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
+        const sortedFss: FeedbackSessionView[] = this.sortFeedbackSessions(fss);
 
         this.feedbackSessionsService
           .hasResponsesForAllFeedbackSessionsInCourse(courseId, 'student')
@@ -189,8 +190,9 @@ export class StudentHomePageComponent implements OnInit {
 
               const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
               const isAllSessionsPresent: boolean =
-                sortedFss.filter((fs: FeedbackSession) => sessionsReturned.has(fs.feedbackSessionName)).length ===
-                sortedFss.length;
+                sortedFss.filter((fsView: FeedbackSessionView) =>
+                  sessionsReturned.has(fsView.feedbackSession.feedbackSessionName),
+                ).length === sortedFss.length;
 
               if (!isAllSessionsPresent) {
                 this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
@@ -198,10 +200,16 @@ export class StudentHomePageComponent implements OnInit {
                 return;
               }
 
-              for (const fs of sortedFss) {
-                const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-                const isWaitingToOpen: boolean =
-                  fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+              for (const fsView of sortedFss) {
+                const fs = fsView.feedbackSession;
+                const userDeadlineExtension = fsView.userDeadlineExtension;
+                const hasActiveExtension = DeadlineExtensionHelper.hasUserOngoingExtension(fs, userDeadlineExtension);
+                const rawStatus = fs.submissionStatus;
+                const isOpened: boolean =
+                  rawStatus === FeedbackSessionSubmissionStatus.OPEN ||
+                  rawStatus === FeedbackSessionSubmissionStatus.GRACE_PERIOD ||
+                  (rawStatus === FeedbackSessionSubmissionStatus.CLOSED && hasActiveExtension);
+                const isWaitingToOpen: boolean = rawStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
                 const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
 
                 const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
@@ -211,6 +219,7 @@ export class StudentHomePageComponent implements OnInit {
                   isPublished,
                   isSubmitted,
                   session: fs,
+                  userDeadlineExtension,
                 });
               }
 
@@ -236,8 +245,14 @@ export class StudentHomePageComponent implements OnInit {
    */
   getSubmissionStatusTooltip(session: StudentSession): string {
     let msg = '';
-    const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
-    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasUserOngoingExtension(session.session);
+    const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(
+      session.session,
+      session.userDeadlineExtension,
+    );
+    const hasOngoingStudentExtension = DeadlineExtensionHelper.hasUserOngoingExtension(
+      session.session,
+      session.userDeadlineExtension,
+    );
 
     if (session.isWaitingToOpen) {
       msg += this.studentFeedbackSessionStatusAwaiting;
@@ -261,7 +276,7 @@ export class StudentHomePageComponent implements OnInit {
    * Gets the status for the submission.
    */
   getSubmissionStatus(session: StudentSession): string {
-    const hasStudentExtension = this.hasStudentExtension(session.session);
+    const hasStudentExtension = this.hasStudentExtension(session.session, session.userDeadlineExtension);
     return sessionSubmissionStatusDisplay(
       session.isOpened,
       session.isWaitingToOpen,
@@ -273,13 +288,16 @@ export class StudentHomePageComponent implements OnInit {
   /**
    * Get the formatted date of the student's session end time.
    */
-  getSubmissionEndDate({ session }: StudentSession): string {
-    const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(session);
+  getSubmissionEndDate({ session, userDeadlineExtension }: StudentSession): string {
+    const submissionEndDate = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(
+      session,
+      userDeadlineExtension,
+    );
     return this.dateFormatService.formatDateDetailed(submissionEndDate, session.timeZone);
   }
 
-  getSubmissionEndDateTooltip({ session }: StudentSession): string {
-    const hasStudentExtension = this.hasStudentExtension(session);
+  getSubmissionEndDateTooltip({ session, userDeadlineExtension }: StudentSession): string {
+    const hasStudentExtension = this.hasStudentExtension(session, userDeadlineExtension);
     if (!hasStudentExtension) {
       return '';
     }
@@ -290,8 +308,8 @@ export class StudentHomePageComponent implements OnInit {
     );
   }
 
-  hasStudentExtension(session: FeedbackSession): boolean {
-    return DeadlineExtensionHelper.hasUserExtension(session);
+  hasStudentExtension(session: FeedbackSession, userDeadlineExtension?: number): boolean {
+    return DeadlineExtensionHelper.hasUserExtension(session, userDeadlineExtension);
   }
 
   /**
@@ -307,18 +325,18 @@ export class StudentHomePageComponent implements OnInit {
   /**
    * Sorts the feedback sessions based on creation and end timestamp.
    */
-  sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
-    return fss.feedbackSessions
-      .map((fsView: FeedbackSessionView) => ({ ...fsView.feedbackSession }))
-      .sort((a: FeedbackSession, b: FeedbackSession) => {
-        if (a.createdAtTimestamp > b.createdAtTimestamp) {
-          return 1;
-        }
-        if (a.createdAtTimestamp === b.createdAtTimestamp) {
-          return a.submissionEndTimestamp > b.submissionEndTimestamp ? 1 : -1;
-        }
-        return -1;
-      });
+  sortFeedbackSessions(fss: FeedbackSessions): FeedbackSessionView[] {
+    return fss.feedbackSessions.slice().sort((a: FeedbackSessionView, b: FeedbackSessionView) => {
+      const fsA = a.feedbackSession;
+      const fsB = b.feedbackSession;
+      if (fsA.createdAtTimestamp > fsB.createdAtTimestamp) {
+        return 1;
+      }
+      if (fsA.createdAtTimestamp === fsB.createdAtTimestamp) {
+        return fsA.submissionEndTimestamp > fsB.submissionEndTimestamp ? 1 : -1;
+      }
+      return -1;
+    });
   }
 
   sortCoursesBy(by: SortBy): void {

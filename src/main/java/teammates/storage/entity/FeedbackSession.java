@@ -482,30 +482,13 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Checks if the feedback session is opened given the extendedDeadline and grace period.
+     * Checks if the feedback session is accessible for submission given the user's effective deadline.
+     * Grace period applies only to the session's regular end time, not to personal deadline extensions.
      */
     public boolean isOpenedGivenExtendedDeadline(Instant extendedDeadline) {
         Instant now = Instant.now();
         return (now.isAfter(startTime) || now.equals(startTime))
-                && (now.isBefore(extendedDeadline.plus(gracePeriod)) || now.isBefore(endTime.plus(gracePeriod)));
-    }
-
-    /**
-     * Checks if the feedback session is closed given the extendedDeadline and grace period.
-     * This occurs only when it is after the extended deadline or end time plus grace period.
-     */
-    public boolean isClosedGivenExtendedDeadline(Instant extendedDeadline) {
-        Instant now = Instant.now();
-        return !isOpenedGivenExtendedDeadline(extendedDeadline)
-                && now.isAfter(endTime.plus(gracePeriod)) && now.isAfter(extendedDeadline.plus(gracePeriod));
-    }
-
-    /**
-     * Checks if the feedback session is during the grace period given the extendedDeadline.
-     */
-    public boolean isInGracePeriodGivenExtendedDeadline(Instant extendedDeadline) {
-        Instant now = Instant.now();
-        return now.isAfter(endTime) && now.isAfter(extendedDeadline) && !isClosedGivenExtendedDeadline(extendedDeadline);
+                && (now.isBefore(extendedDeadline) || now.isBefore(endTime.plus(gracePeriod)));
     }
 
     /**

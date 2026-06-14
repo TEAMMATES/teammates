@@ -7,6 +7,7 @@ import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
@@ -14,8 +15,10 @@ import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
+  CourseView,
   FeedbackConstantSumRecipientsQuestionDetails,
   FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionQuestionDetails,
@@ -47,6 +50,7 @@ import {
   ResponseVisibleSetting,
   SessionSubmission,
   SessionVisibleSetting,
+  Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
@@ -497,6 +501,32 @@ describe('SessionSubmissionPageComponent', () => {
     previewAs: '',
   };
 
+  const testStudent: Student = {
+    userId: '00000000-0000-4000-8000-000000000099',
+    name: 'Test Student',
+    email: 'student@test.com',
+    courseId: 'CS1231',
+    teamId: 'team-id',
+    teamName: 'Team 1',
+    sectionId: 'section-id',
+    sectionName: 'Section A',
+    institute: 'Test Institute',
+    courseName: 'Test Course',
+  };
+
+  const testCourseView: CourseView = {
+    course: {
+      courseId: 'CS1231',
+      courseName: 'Test Course',
+      timeZone: 'Asia/Singapore',
+      institute: 'Test Institute',
+      country: 'Singapore',
+      instituteId: 'inst-id',
+      creationTimestamp: 0,
+      deletionTimestamp: 0,
+    },
+  };
+
   let component: SessionSubmissionPageComponent;
   let fixture: ComponentFixture<SessionSubmissionPageComponent>;
   let authService: AuthService;
@@ -507,6 +537,8 @@ describe('SessionSubmissionPageComponent', () => {
   let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
   let logService: LogService;
+  let studentService: StudentService;
+  let courseService: CourseService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -539,7 +571,19 @@ describe('SessionSubmissionPageComponent', () => {
     statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
     logService = TestBed.inject(LogService);
+    studentService = TestBed.inject(StudentService);
+    courseService = TestBed.inject(CourseService);
     component = fixture.componentInstance;
+
+    // Default stubs for all service calls in the loadFeedbackSession pipeline.
+    // Individual tests can override these with their own spies.
+    vi.spyOn(studentService, 'getOwnStudent').mockReturnValue(of(testStudent));
+    vi.spyOn(courseService, 'getCourseAsStudent').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getSessionSubmissionData').mockReturnValue(of({ questions: [] }));
+    vi.spyOn(feedbackSessionsService, 'getDeadlineExtension').mockReturnValue(
+      throwError(() => ({ status: 404, error: { message: 'Not found' } })),
+    );
+
     fixture.detectChanges();
   });
 
