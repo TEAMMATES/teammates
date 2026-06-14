@@ -73,11 +73,15 @@ export abstract class InstructorSessionBasePageComponent {
     feedbackSessionName: '',
     instructions: '',
 
+    submissionStartTimestamp: Date.now(),
+    submissionEndTimestamp: Date.now(),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTimestamp: Date.now(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTimestamp: Date.now(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -637,11 +641,7 @@ export abstract class InstructorSessionBasePageComponent {
 
   triggerModelChange(data: SessionEditFormModel): void {
     // Ensure the submission closing time is never earlier than the submission opening time.
-    if (
-      data.submissionStartTimestamp != null &&
-      data.submissionEndTimestamp != null &&
-      data.submissionStartTimestamp > data.submissionEndTimestamp
-    ) {
+    if (data.submissionStartTimestamp > data.submissionEndTimestamp) {
       this.sessionEditFormModel = {
         ...data,
         submissionEndTimestamp: data.submissionStartTimestamp,

@@ -65,11 +65,15 @@ export class SessionEditFormComponent {
     feedbackSessionName: '',
     instructions: '',
 
+    submissionStartTimestamp: Date.now(),
+    submissionEndTimestamp: Date.now(),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTimestamp: Date.now(),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTimestamp: Date.now(),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -153,7 +157,7 @@ export class SessionEditFormComponent {
       ...this.model,
       submissionStartTimestamp: timestamp,
     };
-    if (updatedModel.customSessionVisibleTimestamp != null && updatedModel.customSessionVisibleTimestamp > timestamp) {
+    if (updatedModel.customSessionVisibleTimestamp > timestamp) {
       updatedModel.customSessionVisibleTimestamp = timestamp;
     }
     this.modelChange.emit(updatedModel);
@@ -203,7 +207,7 @@ export class SessionEditFormComponent {
    */
   get minTimestampForSubmissionEnd(): number {
     const oneHourBeforeNow: number = moment(this.nowMinute).tz(this.model.timeZone).subtract(1, 'hours').valueOf();
-    return Math.max(this.model.submissionStartTimestamp ?? oneHourBeforeNow, oneHourBeforeNow);
+    return Math.max(this.model.submissionStartTimestamp, oneHourBeforeNow);
   }
 
   /**
@@ -220,10 +224,7 @@ export class SessionEditFormComponent {
    *
    * The minimum session visible datetime is 30 days before the session opening datetime.
    */
-  get minTimestampForSessionVisible(): number | undefined {
-    if (this.model.submissionStartTimestamp == null) {
-      return undefined;
-    }
+  get minTimestampForSessionVisible(): number {
     return moment(this.model.submissionStartTimestamp).tz(this.model.timeZone).subtract(30, 'days').valueOf();
   }
 
@@ -232,15 +233,9 @@ export class SessionEditFormComponent {
    *
    * The maximum session visible datetime is on the response visible datetime.
    */
-  get maxTimestampForSessionVisible(): number | undefined {
+  get maxTimestampForSessionVisible(): number {
     switch (this.model.responseVisibleSetting) {
-      case ResponseVisibleSetting.LATER:
-      case ResponseVisibleSetting.AT_VISIBLE:
-        return this.model.submissionStartTimestamp;
       case ResponseVisibleSetting.CUSTOM:
-        if (this.model.submissionStartTimestamp == null || this.model.customResponseVisibleTimestamp == null) {
-          return this.model.submissionStartTimestamp;
-        }
         return Math.min(this.model.submissionStartTimestamp, this.model.customResponseVisibleTimestamp);
       default:
         return this.model.submissionStartTimestamp;
@@ -252,7 +247,7 @@ export class SessionEditFormComponent {
    *
    * The minimum response visible datetime is on the session visible datetime.
    */
-  get minTimestampForResponseVisible(): number | undefined {
+  get minTimestampForResponseVisible(): number {
     switch (this.model.sessionVisibleSetting) {
       case SessionVisibleSetting.AT_OPEN:
         return this.model.submissionStartTimestamp;
