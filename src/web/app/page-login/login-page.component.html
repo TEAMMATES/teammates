@@ -1,0 +1,12 @@
+<div *tmIsLoading="isLoadingLoginMethods">
+  <div class="container py-5">
+    <div class="card mx-auto shadow-sm rounded-4">
+      <div class="card-body p-5">
+        <tm-login-method-buttons-list
+          [nextUrl]="nextUrl"
+          [supportedLoginMethods]="loginMethods"
+        ></tm-login-method-buttons-list>
+      </div>
+    </div>
+  </div>
+</div>

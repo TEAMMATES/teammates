@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.login-method-button {
+  min-height: 50px;
+}
+
+.login-method-button-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+
+  svg {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.login-method-button-text {
+  min-width: 0;
+}

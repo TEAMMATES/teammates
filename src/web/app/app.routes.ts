@@ -111,6 +111,16 @@ const routes: Routes = [
         canActivateChild: [RoleGuard],
       },
       {
+        path: 'login',
+        component: PageComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./page-login/login-page.component').then((m) => m.LoginPageComponent),
+          },
+        ],
+      },
+      {
         path: '**',
         pathMatch: 'full',
         redirectTo: 'front',

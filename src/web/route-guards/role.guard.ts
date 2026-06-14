@@ -2,7 +2,6 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { AuthService } from '../services/auth.service';
 import { inject, Injectable } from '@angular/core';
 import { AuthInfo } from '../types/api-output';
-import { environment } from '../environments/environment';
 import { map } from 'rxjs/operators';
 
 export enum UserRole {
@@ -21,7 +20,6 @@ export enum UserRole {
 })
 export class RoleGuard implements CanActivate, CanActivateChild {
   private authService = inject(AuthService);
-  private backendUrl: string = environment.backendUrl;
   private router = inject(Router);
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -30,7 +28,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     return this.authService.getAuthUser(state.url).pipe(
       map((authInfo: AuthInfo) => {
         if (!authInfo.user) {
-          return this.redirectToLogin(authInfo, this.backendUrl);
+          return this.redirectToLogin(state.url);
         }
 
         // Authenticated user without role requirement.
@@ -66,11 +64,16 @@ export class RoleGuard implements CanActivate, CanActivateChild {
     );
   }
 
-  private redirectToLogin(authInfo: AuthInfo, backendUrl: string) {
-    globalThis.location.href = `${backendUrl}${authInfo.loginUrl}`;
-    return false;
+  /**
+   * Redirects to the login page.
+   */
+  private redirectToLogin(nextUrl: string) {
+    return this.router.parseUrl(`/web/login?nextUrl=${encodeURIComponent(nextUrl)}`);
   }
 
+  /**
+   * Redirects to the unauthorized page.
+   */
   private redirectToUnauthorized(expectedRole: UserRole) {
     return this.router.parseUrl(`/web/unauthorized?role=${expectedRole}`);
   }

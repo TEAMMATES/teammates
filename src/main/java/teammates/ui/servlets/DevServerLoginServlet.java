@@ -10,6 +10,11 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.FileHelper;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
+import teammates.ui.loginmethodhandlers.AuthState;
+import teammates.ui.output.LoginMethod;
 
 /**
  * Servlet that handles dev server login.
@@ -19,7 +24,7 @@ public class DevServerLoginServlet extends AuthServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            resp.sendError(HttpStatus.SC_FORBIDDEN);
             return;
         }
 
@@ -32,24 +37,37 @@ public class DevServerLoginServlet extends AuthServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (!Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpStatus.SC_FORBIDDEN);
+            resp.sendError(HttpStatus.SC_FORBIDDEN);
             return;
         }
+
+        AuthState state = JsonUtils.fromJson(req.getParameter("state"), AuthState.class);
 
         String email = req.getParameter("email");
         if (email == null) {
             return;
         }
 
-        String nextUrl = req.getParameter("nextUrl");
+        String nextUrl = state.getNextUrl();
         if (nextUrl == null) {
             nextUrl = "/";
         }
 
+        LoginMethod method = state.getMethod();
+        if (method == null) {
+            return;
+        }
+
         email = getEncodedQueryParam(email);
-        nextUrl = getEncodedQueryParam(getSanitizedRedirectUrl(nextUrl));
-        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&nextUrl=" + nextUrl);
+        state = new AuthState(nextUrl, state.getSessionId(), method);
+        String redirectUrl = resp.encodeRedirectURL(
+                "/oauth2callback?email=" + email
+                + "&state=" + getEncodedQueryParam(StringHelper.encrypt(JsonUtils.toJson(state))));
         resp.sendRedirect(redirectUrl);
+    }
+
+    private String getEncodedQueryParam(String param) {
+        return UrlHelper.encodeQueryParam(param);
     }
 
 }

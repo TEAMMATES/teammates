@@ -1,0 +1,15 @@
+<button
+  type="button"
+  class="btn btn-outline-dark border-2 w-100 fw-semibold position-relative login-method-button"
+  (click)="login()"
+>
+  <span
+    class="login-method-button-icon position-absolute top-50 start-0 translate-middle-y ms-3 d-inline-flex align-items-center justify-content-center"
+  >
+    <ng-content select="[login-button-icon]"></ng-content>
+  </span>
+
+  <span class="login-method-button-text d-block text-center text-truncate px-5">
+    <ng-content select="[login-button-text]"></ng-content>
+  </span>
+</button>

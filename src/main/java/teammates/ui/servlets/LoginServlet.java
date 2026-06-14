@@ -7,17 +7,16 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
-
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
+import teammates.common.util.UrlHelper;
 import teammates.logic.core.AccountsLogic;
+import teammates.ui.loginmethodhandlers.LoginMethodHandler;
+import teammates.ui.output.LoginMethod;
 
 /**
  * Servlet that handles login.
@@ -35,7 +34,7 @@ public class LoginServlet extends AuthServlet {
             nextUrl = "/";
         }
 
-        nextUrl = getSanitizedRedirectUrl(nextUrl);
+        nextUrl = UrlHelper.getSanitizedRedirectUrl(nextUrl);
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
@@ -44,21 +43,17 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        if (Config.isDevServerLoginEnabled()) {
-            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
-            String redirectUrl = resp.encodeRedirectURL("/devServerLogin?nextUrl=" + getEncodedQueryParam(nextUrl));
-            resp.sendRedirect(redirectUrl);
+        LoginMethod loginMethod = getLoginMethodFromLoginRequest(req, resp);
+        if (loginMethod == null) {
             return;
         }
 
-        AuthState state = new AuthState(nextUrl, req.getSession().getId());
-        GoogleAuthorizationCodeRequestUrl authorizationUrl = getGoogleAuthorizationFlow().newAuthorizationUrl();
-        authorizationUrl.setRedirectUri(getRedirectUri(req));
-        authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
-
-        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
-
-        resp.sendRedirect(authorizationUrl.build());
+        LoginMethodHandler handler = getLoginMethodHandler(loginMethod);
+        if (handler == null) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Unsupported login method: " + loginMethod);
+            return;
+        }
+        handler.handleLogin(req, resp, nextUrl);
     }
 
     private boolean isLoginNeeded(HttpServletRequest req) {
@@ -78,6 +73,33 @@ public class LoginServlet extends AuthServlet {
             log.warning("Failed to verify account from cookie", e);
             return true;
         }
+    }
+
+    /**
+     * Gets the login method from the login request.
+     *
+     * @return the login method, or null if the login method is invalid or not supported.
+     */
+    private LoginMethod getLoginMethodFromLoginRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String method = req.getParameter("method");
+        if (method == null) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing login method");
+            return null;
+        }
+
+        LoginMethod loginMethod;
+        try {
+            loginMethod = LoginMethod.fromString(method);
+        } catch (IllegalArgumentException e) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid login method: " + method);
+            return null;
+        }
+
+        if (!Config.isSupportedLoginMethod(loginMethod)) {
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Valid but unsupported login method: " + method);
+            return null;
+        }
+        return loginMethod;
     }
 
 }

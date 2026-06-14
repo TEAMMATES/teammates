@@ -389,6 +389,13 @@ public final class Config {
     }
 
     /**
+     * Checks if the given login method is supported based on {@code app.login.methods}.
+     */
+    public static boolean isSupportedLoginMethod(LoginMethod method) {
+        return LOGIN_METHODS.contains(method);
+    }
+
+    /**
      * Whether sending email to TEAMMATES test/demo domains is allowed (development only); see
      * {@link #EMAIL_ALLOW_SENDING_TO_TEST_DOMAIN}.
      */
