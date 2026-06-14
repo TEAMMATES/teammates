@@ -4,7 +4,7 @@ import { AccountService } from '../../services/account.service';
 import { CourseService } from '../../services/course.service';
 import { NavigationService } from '../../services/navigation.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { AccountRequest } from '../../types/api-output';
+import { AccountRequest, AccountRequestStatus } from '../../types/api-output';
 import { ErrorMessageOutput } from '../error-message-output';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
 import { AuthService } from '../../services/auth.service';
@@ -44,6 +44,11 @@ export class InstructorWelcomePageComponent implements OnInit {
       next: (accountRequest: AccountRequest) => {
         if (accountRequest.registeredAt) {
           this.navigationService.navigateByURL('/web/instructor/home');
+          return;
+        }
+        if (accountRequest.status !== AccountRequestStatus.APPROVED) {
+          this.isInvalidLink.set(true);
+          this.isLoading.set(false);
           return;
         }
         this.accountRequest.set(accountRequest);

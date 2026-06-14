@@ -92,6 +92,30 @@ describe('InstructorWelcomePageComponent', () => {
     expect(component.accountRequest()).toEqual(mockAccountRequest);
   });
 
+  it('should show invalid link if account request status is pending', async () => {
+    await setup();
+    const pendingRequest: AccountRequest = { ...mockAccountRequest, status: AccountRequestStatus.PENDING };
+    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(pendingRequest));
+
+    fixture.detectChanges();
+
+    expect(component.isInvalidLink()).toBe(true);
+    expect(component.isLoading()).toBe(false);
+    expect(component.accountRequest()).toBeNull();
+  });
+
+  it('should show invalid link if account request status is rejected', async () => {
+    await setup();
+    const rejectedRequest: AccountRequest = { ...mockAccountRequest, status: AccountRequestStatus.REJECTED };
+    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(rejectedRequest));
+
+    fixture.detectChanges();
+
+    expect(component.isInvalidLink()).toBe(true);
+    expect(component.isLoading()).toBe(false);
+    expect(component.accountRequest()).toBeNull();
+  });
+
   it('should redirect to instructor home if account request is already registered', async () => {
     await setup();
     const registeredRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 2000000 };
