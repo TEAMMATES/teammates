@@ -26,8 +26,6 @@ public class InstructorData implements ApiOutput {
     @Nullable
     private InstructorPermissionRole role;
     private JoinState joinState;
-    @Nullable
-    private String key;
     private String institute;
     private String courseName;
 
@@ -104,14 +102,6 @@ public class InstructorData implements ApiOutput {
         this.joinState = joinState;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     public String getInstitute() {
         return institute;
     }
@@ -132,14 +122,4 @@ public class InstructorData implements ApiOutput {
         return accountId;
     }
 
-    /**
-     * Adds additional attributes only for search result for admin.
-     *
-     * @param key Registration key
-     * @param accountId The accountId of the instructor
-     */
-    public void addAdditionalInformationForAdminSearch(String key, UUID accountId) {
-        setKey(key);
-        setAccountId(accountId);
-    }
 }

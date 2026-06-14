@@ -26,7 +26,6 @@ const DEFAULT_ACCOUNT: Account = {
       name: 'Alice',
       role: undefined,
       joinState: JoinState.JOINED,
-      key: '',
       institute: 'NUS',
     },
   ],
