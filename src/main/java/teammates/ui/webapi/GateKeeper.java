@@ -7,10 +7,10 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -131,7 +131,7 @@ final class GateKeeper {
     /**
      * Verifies that the user can view the specified account request.
      *
-     * Admins can view all account requests. Non-admins can only view account requests that they own.
+     * <p>Admins can view all account requests. Non-admins can only view account requests that they own.
      */
     void verifyCanViewAccountRequest(RequestContext requestContext, UUID accountRequestId)
             throws UnauthorizedAccessException {
