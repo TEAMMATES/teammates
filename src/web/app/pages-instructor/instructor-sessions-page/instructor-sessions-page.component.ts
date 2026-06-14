@@ -255,6 +255,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       .valueOf();
     // Submission closes at the end of tomorrow (represented as the following midnight, i.e. 23:59 displayed).
     this.sessionEditFormModel.submissionEndTimestamp = moment().tz(timeZone).add(2, 'days').startOf('day').valueOf();
+
+    this.sessionEditFormModel.customSessionVisibleTimestamp = this.sessionEditFormModel.submissionStartTimestamp;
+    this.sessionEditFormModel.customResponseVisibleTimestamp = this.sessionEditFormModel.submissionEndTimestamp;
   }
 
   /**
@@ -267,11 +270,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp!;
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp!;
+      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp ?? submissionStartTime;
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp!;
+      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp ?? submissionEndTime;
     }
 
     this.feedbackSessionsService

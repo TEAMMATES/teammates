@@ -357,11 +357,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const submissionEndTime: number = this.sessionEditFormModel.submissionEndTimestamp!;
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp!;
+      sessionVisibleTime = this.sessionEditFormModel.customSessionVisibleTimestamp ?? submissionStartTime;
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp!;
+      responseVisibleTime = this.sessionEditFormModel.customResponseVisibleTimestamp ?? submissionEndTime;
     }
 
     this.deleteDeadlineExtensionsHandler(submissionEndTime).subscribe((isUpdateSession) => {
