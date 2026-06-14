@@ -55,7 +55,6 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Lee Wong',
-    key: 'instructor-key-001',
     role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
   };
@@ -70,7 +69,6 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Brown Taylor',
-    key: 'instructor-key-002',
     role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };
@@ -85,7 +83,6 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Chen Lim',
-    key: 'instructor-key-003',
     role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };

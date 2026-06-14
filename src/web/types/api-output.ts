@@ -347,7 +347,6 @@ export interface Instructor extends ApiOutput {
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;
   joinState: JoinState;
-  key?: string;
 }
 
 export interface InstructorCoursePermissions extends ApiOutput {

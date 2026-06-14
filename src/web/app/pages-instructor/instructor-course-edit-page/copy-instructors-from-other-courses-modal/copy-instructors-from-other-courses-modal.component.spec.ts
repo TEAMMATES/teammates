@@ -21,7 +21,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     name: 'Instructor Cat',
     role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
-    key: 'ujg2l5hj5l7jrfo28fyosfklh2892',
   };
 
   const testInstructor2: Instructor = {
@@ -35,7 +34,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     name: 'Instructor Dog',
     role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
-    key: '1343jbcl3iru2yct0897goji',
   };
 
   const testInstructor3: Instructor = {
@@ -49,7 +47,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     name: 'King',
     role: InstructorPermissionRole.MANAGER,
     joinState: JoinState.NOT_JOINED,
-    key: 'pjkjbnc523iosdk2389nfbfib2',
   };
 
   const testInstructor4: Instructor = {
@@ -63,7 +60,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     name: 'Nothing',
     role: InstructorPermissionRole.TUTOR,
     joinState: JoinState.JOINED,
-    key: 'qdnjvbi47t928cjqnk1o8ry2o',
   };
 
   const testInstructorCandidate1: InstructorToCopyCandidateModel = {

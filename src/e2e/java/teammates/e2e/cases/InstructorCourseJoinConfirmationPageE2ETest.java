@@ -38,10 +38,8 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
                 + "entered the URL incorrectly or the URL may correspond to a/an instructor that does not exist.");
 
         ______TS("Click join link: valid key");
-        String courseId = testData.courses.get("ICJoinConf.CS1101").getId();
-        String instructorEmail = newInstructor.getEmail();
         joinLink = createFrontendUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(getKeyForInstructor(courseId, instructorEmail))
+                .withRegistrationKey(newInstructor.getRegKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 

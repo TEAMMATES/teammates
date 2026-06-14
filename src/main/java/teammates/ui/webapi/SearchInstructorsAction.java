@@ -22,10 +22,6 @@ public class SearchInstructorsAction extends AdminOnlyAction {
 
         for (Instructor instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
-            instructorData.addAdditionalInformationForAdminSearch(
-                    instructor.getRegKey(),
-                    instructor.getAccountId());
-
             instructorDataList.add(instructorData);
         }
 
