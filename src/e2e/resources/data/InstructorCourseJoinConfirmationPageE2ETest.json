@@ -22,13 +22,15 @@
       "name": "Teammates Test 2",
       "email": "icjoinconf.instr2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
+      "status": "PENDING",
       "registeredAt": "1970-02-14T00:00:00Z"
     },
     "ICJoinConf.newinstr": {
       "id": "00000000-0000-4000-8000-000000000201",
       "name": "Teammates Test 3",
       "email": "icjoinconf.newinstr@gmail.tmt",
-      "instituteId": "00000000-0000-4000-9000-000000000001"
+      "instituteId": "00000000-0000-4000-9000-000000000001",
+      "status": "PENDING"
     }
   },
   "courses": {
