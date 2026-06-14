@@ -48,7 +48,7 @@ public class AccountRequest extends BaseEntity {
     @JoinColumn(name = "instituteId", nullable = false)
     private Institute institute;
 
-    @Column(name = "instituteId", nullable = false, insertable = false, updatable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     private UUID instituteId;
 
     @Enumerated(EnumType.STRING)
