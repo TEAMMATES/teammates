@@ -405,16 +405,19 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -503,11 +506,6 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -600,16 +598,19 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -688,11 +689,6 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -912,25 +908,21 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -1018,11 +1010,6 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -1160,16 +1147,19 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -1248,11 +1238,6 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -1896,16 +1881,19 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -1994,11 +1982,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -2091,16 +2074,19 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -2179,11 +2165,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -2403,25 +2384,21 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -2509,11 +2486,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -2651,16 +2623,19 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -2739,11 +2714,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -3387,16 +3357,19 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -3485,11 +3458,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -3582,16 +3550,19 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -3670,11 +3641,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -3894,25 +3860,21 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -4000,11 +3962,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -4142,16 +4099,19 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -4230,11 +4190,6 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -4859,16 +4814,19 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -4957,11 +4915,6 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -5054,16 +5007,19 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -5142,11 +5098,6 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -5366,25 +5317,21 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -5472,11 +5419,6 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -5614,16 +5556,19 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -5702,11 +5647,6 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -6354,16 +6294,19 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -6452,11 +6395,6 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -6549,16 +6487,19 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -6637,11 +6578,6 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -6861,25 +6797,21 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -6967,11 +6899,6 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -7109,16 +7036,19 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -7197,11 +7127,6 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -7845,16 +7770,19 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -7943,11 +7871,6 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -8040,16 +7963,19 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -8128,11 +8054,6 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -8352,25 +8273,21 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -8458,11 +8375,6 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -8600,16 +8512,19 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -8688,11 +8603,6 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -9336,16 +9246,19 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                                04:00H 
                             </option>
                             <option
+                              disabled=""
                               value="5: Object"
                             >
                                05:00H 
                             </option>
                             <option
+                              disabled=""
                               value="6: Object"
                             >
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
@@ -9434,11 +9347,6 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -9531,16 +9439,19 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                                06:00H 
                             </option>
                             <option
+                              disabled=""
                               value="7: Object"
                             >
                                07:00H 
                             </option>
                             <option
+                              disabled=""
                               value="8: Object"
                             >
                                08:00H 
                             </option>
                             <option
+                              disabled=""
                               value="9: Object"
                             >
                                09:00H 
@@ -9619,11 +9530,6 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                               value="0: Object"
                             >
                               23:59H
-                            </option>
-                            <option
-                              value="24: Object"
-                            >
-                              06:45H
                             </option>
                           </select>
                         </div>
@@ -9842,25 +9748,21 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                                  06:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
                               </option>
                               <option
-                                disabled=""
                                 value="10: Object"
                               >
                                  10:00H 
@@ -9948,11 +9850,6 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>
@@ -10089,16 +9986,19 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                                  06:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="7: Object"
                               >
                                  07:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="8: Object"
                               >
                                  08:00H 
                               </option>
                               <option
+                                disabled=""
                                 value="9: Object"
                               >
                                  09:00H 
@@ -10177,11 +10077,6 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                                 value="0: Object"
                               >
                                 23:59H
-                              </option>
-                              <option
-                                value="24: Object"
-                              >
-                                06:45H
                               </option>
                             </select>
                           </div>

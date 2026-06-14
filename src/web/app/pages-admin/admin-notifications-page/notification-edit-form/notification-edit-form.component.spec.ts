@@ -33,6 +33,9 @@ describe('NotificationEditFormComponent', () => {
   let simpleModalService: SimpleModalService;
 
   beforeEach(async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(Date.UTC(2020, 0, 1, 10, 0)));
+
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
@@ -44,6 +47,10 @@ describe('NotificationEditFormComponent', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     moment.tz.setDefault('SGT');
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
