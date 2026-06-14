@@ -231,6 +231,7 @@ public class BaseTestCase {
         AccountRequest accountRequest = new AccountRequest("valid@test.com", "Test Name",
                 AccountRequestStatus.PENDING, "");
         getTypicalInstitute().addAccountRequest(accountRequest);
+        getTypicalAccount().addAccountRequest(accountRequest);
         return accountRequest;
     }
 

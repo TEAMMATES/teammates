@@ -137,13 +137,6 @@ public final class DataBundleLogic {
             institutesMap.put(placeholderId, institute);
         }
 
-        for (AccountRequest accountRequest : accountRequests) {
-            UUID placeholderId = accountRequest.getId();
-            accountRequest.setId(generateId(placeholderId, seed));
-            accountRequest.generateNewRegistrationKey();
-            accountRequest.setInstitute(institutesMap.get(accountRequest.getInstituteId()));
-        }
-
         for (Course course : courses) {
             coursesMap.put(course.getId(), course);
             course.setInstitute(institutesMap.get(course.getInstituteId()));
@@ -169,6 +162,17 @@ public final class DataBundleLogic {
             UUID placeholderId = account.getId();
             account.setId(generateId(placeholderId, seed));
             accountsMap.put(placeholderId, account);
+        }
+
+        for (AccountRequest accountRequest : accountRequests) {
+            UUID placeholderId = accountRequest.getId();
+            accountRequest.setId(generateId(placeholderId, seed));
+            accountRequest.generateNewRegistrationKey();
+            accountRequest.setInstitute(institutesMap.get(accountRequest.getInstituteId()));
+            if (accountRequest.getAccountId() != null) {
+                Account account = accountsMap.get(accountRequest.getAccountId());
+                accountRequest.setAccount(account);
+            }
         }
 
         for (Instructor instructor : instructors) {
@@ -444,9 +448,9 @@ public final class DataBundleLogic {
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
         persistEntities(institutes);
-        persistEntities(accountRequests);
         persistEntities(notifications);
         persistEntities(accounts);
+        persistEntities(accountRequests);
         persistEntities(courses);
         persistEntities(sections);
         persistEntities(teams);

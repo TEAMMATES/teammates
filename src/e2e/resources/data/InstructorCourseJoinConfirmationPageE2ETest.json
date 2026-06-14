@@ -14,6 +14,22 @@
       "email": "icjoinconf.instr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ICJoinConf.instr"
+    },
+    "ICJoinConf.instr.CS1101": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "googleId": "tm.e2e.ICJoinConf.instr2",
+      "name": "Teammates Test 2",
+      "email": "icjoinconf.instr2@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "icjoinconf.instr2"
+    },
+    "ICJoinConf.newinstr": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "googleId": "tm.e2e.ICJoinConf.newinstr",
+      "name": "Teammates Test 3",
+      "email": "icjoinconf.newinstr@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "icjoinconf.newinstr"
     }
   },
   "accountRequests": {
@@ -23,14 +39,16 @@
       "email": "icjoinconf.instr2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
       "status": "PENDING",
-      "registeredAt": "1970-02-14T00:00:00Z"
+      "registeredAt": "1970-02-14T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000101"
     },
     "ICJoinConf.newinstr": {
       "id": "00000000-0000-4000-8000-000000000201",
       "name": "Teammates Test 3",
       "email": "icjoinconf.newinstr@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
-      "status": "PENDING"
+      "status": "PENDING",
+      "accountId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "courses": {

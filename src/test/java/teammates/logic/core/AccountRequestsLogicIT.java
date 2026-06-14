@@ -8,7 +8,9 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.Provider;
 import teammates.common.util.HibernateUtil;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
@@ -33,9 +35,13 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
         AccountRequest expectedAccountRequest =
                 new AccountRequest("test@gmail.com", "name", AccountRequestStatus.PENDING, "comments");
         new Institute("institute", "SG").addAccountRequest(expectedAccountRequest);
+        Account account = new Account("test-google-id", Provider.TEAMMATES_DEV,
+                UUID.randomUUID().toString(), "tenant-id", "name", "test@gmail.com");
+        account.addAccountRequest(expectedAccountRequest);
         UUID id = expectedAccountRequest.getId();
         inTransaction(() -> {
             HibernateUtil.persist(expectedAccountRequest.getInstitute());
+            HibernateUtil.persist(account);
             return accountRequestsLogic.createAccountRequest(expectedAccountRequest);
         });
         AccountRequest actualAccountRequest = inTransaction(() -> accountRequestsLogic.getAccountRequest(id));
