@@ -234,11 +234,15 @@ final class GateKeeper {
     /**
      * Verifies that the user can access the specified feedback session.
      *
-     * <p>The user must be a course member (student or instructor). Instructors with CAN_VIEW_SESSION
+     * <p>The user must be a course member (student or instructor) or admin. Instructors with CAN_VIEW_SESSION
      * privilege may access regardless of session visibility; all others require the session to be visible.
      */
     void verifyFeedbackSessionAccessible(RequestContext requestContext, UUID feedbackSessionId)
             throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
         FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         verifyNotNull(feedbackSession, "feedback session");
         String courseId = feedbackSession.getCourseId();
