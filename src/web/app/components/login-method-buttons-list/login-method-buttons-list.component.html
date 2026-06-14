@@ -1,0 +1,10 @@
+<div class="login-method-buttons d-flex flex-column gap-3 mx-auto">
+  <h1 class="h2 fw-bold mb-3">Sign in</h1>
+  @if (isSupported(LoginMethod.GOOGLE)) {
+    <tm-google-login-button></tm-google-login-button>
+  }
+
+  @if (isSupported(LoginMethod.DEV_SERVER)) {
+    <tm-dev-server-login-button></tm-dev-server-login-button>
+  }
+</div>

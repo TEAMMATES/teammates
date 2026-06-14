@@ -5,29 +5,22 @@ import { finalize } from 'rxjs';
 import { StatusMessageService } from '../../services/status-message.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
-import { DevServerLoginButtonComponent } from '../components/login-method-buttons/dev-server-login-button/dev-server-login-button.component';
-import { GoogleLoginButtonComponent } from '../components/login-method-buttons/google-login-button/google-login-button.component';
+import { LoginMethodButtonsListComponent } from '../components/login-method-buttons-list/login-method-buttons-list.component';
 
 @Component({
   selector: 'tm-login-page',
   styleUrls: ['./login-page.component.scss'],
   templateUrl: './login-page.component.html',
-  imports: [LoadingSpinnerDirective, GoogleLoginButtonComponent, DevServerLoginButtonComponent],
+  imports: [LoadingSpinnerDirective, LoginMethodButtonsListComponent],
 })
 export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly route = inject(ActivatedRoute);
 
-  protected readonly LoginMethod!: typeof LoginMethod;
-
   isLoadingLoginMethods = true;
   loginMethods: Set<LoginMethod> = new Set();
   nextUrl = '';
-
-  constructor() {
-    this.LoginMethod = LoginMethod;
-  }
 
   ngOnInit(): void {
     this.isLoadingLoginMethods = true;

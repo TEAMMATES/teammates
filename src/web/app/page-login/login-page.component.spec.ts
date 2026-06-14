@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPageComponent } from './login-page.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { of, Subject } from 'rxjs';
-import { Config, LoginMethod } from '../../types/api-output';
+import { Config } from '../../types/api-output';
 import { ConfigService } from '../../services/config.service';
 
 describe('LoginPageComponent', () => {
@@ -37,16 +37,6 @@ describe('LoginPageComponent', () => {
     component.ngOnInit();
     queryParams$.next(mockQueryParams);
     expect(component.nextUrl).toBe(mockQueryParams.nextUrl);
-  });
-
-  it('should return true for supported login method', () => {
-    component.loginMethods.add(LoginMethod.GOOGLE);
-    expect(component.isSupported(LoginMethod.GOOGLE)).toBeTruthy();
-  });
-
-  it('should return false for unsupported login method', () => {
-    component.loginMethods.delete(LoginMethod.GOOGLE);
-    expect(component.isSupported(LoginMethod.GOOGLE)).toBeFalsy();
   });
 });
 

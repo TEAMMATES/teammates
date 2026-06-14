@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { LoginMethod } from '../../../../types/api-output';
 import { environment } from '../../../../environments/environment';
+import { LOGIN_METHOD_BUTTON_CONTEXT, LoginMethodButtonContext } from '../login-method-button-context';
 
 /**
  * Base component for login method buttons that handles shared logic.
@@ -11,9 +12,9 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './login-method-button-base.component.html',
 })
 export class LoginMethodButtonBaseComponent {
-  @Input() nextUrl = '/';
   @Input({ required: true }) loginMethod!: LoginMethod;
 
+  private readonly loginMethodButtonContext: LoginMethodButtonContext = inject(LOGIN_METHOD_BUTTON_CONTEXT);
   private readonly backendLoginUrl = environment.backendUrl + '/login';
 
   login(): void {
@@ -23,7 +24,7 @@ export class LoginMethodButtonBaseComponent {
 
   private getCompleteLoginUrl(): string {
     const url = new URL(this.backendLoginUrl, globalThis.location.origin);
-    url.searchParams.set('nextUrl', this.nextUrl);
+    url.searchParams.set('nextUrl', this.loginMethodButtonContext.nextUrl ?? '/');
     url.searchParams.set('method', this.loginMethod);
     return url.toString();
   }
