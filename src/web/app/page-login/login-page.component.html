@@ -5,11 +5,11 @@
         <div class="d-flex flex-column align-items-center gap-3">
           <h1 class="h2 fw-bold mb-3">Sign In</h1>
           @if (isSupported(LoginMethod.GOOGLE)) {
-            <tm-google-login-button [backendLoginUrl]="backendLoginUrl"></tm-google-login-button>
+            <tm-google-login-button [nextUrl]="nextUrl"></tm-google-login-button>
           }
 
           @if (isSupported(LoginMethod.DEV_SERVER)) {
-            <tm-dev-server-login-button [backendLoginUrl]="backendLoginUrl"></tm-dev-server-login-button>
+            <tm-dev-server-login-button [nextUrl]="nextUrl"></tm-dev-server-login-button>
           }
         </div>
       </div>

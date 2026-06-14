@@ -4,11 +4,10 @@ import { LoginMethod } from '../../../../types/api-output';
 
 @Component({
   selector: 'tm-dev-server-login-button',
-  styleUrls: ['./dev-server-login-button.component.scss'],
   templateUrl: './dev-server-login-button.component.html',
   imports: [LoginMethodButtonBaseComponent],
 })
 export class DevServerLoginButtonComponent {
-  @Input() backendLoginUrl = '';
+  @Input() nextUrl = '';
   protected readonly method = LoginMethod.DEV_SERVER;
 }

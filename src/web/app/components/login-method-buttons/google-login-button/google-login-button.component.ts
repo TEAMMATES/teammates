@@ -8,6 +8,6 @@ import { LoginMethod } from '../../../../types/api-output';
   imports: [LoginMethodButtonBaseComponent],
 })
 export class GoogleLoginButtonComponent {
-  @Input() backendLoginUrl = '';
+  @Input() nextUrl = '';
   protected readonly method = LoginMethod.GOOGLE;
 }

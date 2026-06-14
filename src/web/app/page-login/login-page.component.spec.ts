@@ -33,10 +33,10 @@ describe('LoginPageComponent', () => {
   });
 
   it('should extract query params', () => {
-    const mockQueryParams = { redirect: 'http://url/login?nextUrl=something' };
+    const mockQueryParams = { nextUrl: 'http://url/login?nextUrl=something' };
     component.ngOnInit();
     queryParams$.next(mockQueryParams);
-    expect(component.backendLoginUrl).toBe(mockQueryParams.redirect);
+    expect(component.nextUrl).toBe(mockQueryParams.nextUrl);
   });
 
   it('should return true for supported login method', () => {

@@ -23,7 +23,7 @@ export class LoginPageComponent implements OnInit {
 
   isLoadingLoginMethods = true;
   loginMethods: Set<LoginMethod> = new Set();
-  backendLoginUrl = '';
+  nextUrl = '';
 
   constructor() {
     this.LoginMethod = LoginMethod;
@@ -54,9 +54,9 @@ export class LoginPageComponent implements OnInit {
       });
 
     this.route.queryParams.subscribe((params) => {
-      const redirectUrl = params['redirect'];
-      if (redirectUrl) {
-        this.backendLoginUrl = redirectUrl;
+      const nextUrl = params['nextUrl'];
+      if (nextUrl) {
+        this.nextUrl = nextUrl;
       }
     });
   }
