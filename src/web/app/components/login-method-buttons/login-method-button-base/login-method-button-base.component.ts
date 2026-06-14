@@ -24,7 +24,7 @@ export class LoginMethodButtonBaseComponent {
 
   private getCompleteLoginUrl(): string {
     const url = new URL(this.backendLoginUrl, globalThis.location.origin);
-    url.searchParams.set('nextUrl', this.loginMethodButtonContext.nextUrl ?? '/');
+    url.searchParams.set('nextUrl', this.loginMethodButtonContext.nextUrl || '/');
     url.searchParams.set('method', this.loginMethod);
     return url.toString();
   }

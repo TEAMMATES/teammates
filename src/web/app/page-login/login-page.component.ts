@@ -5,13 +5,20 @@ import { finalize } from 'rxjs';
 import { StatusMessageService } from '../../services/status-message.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
+import { DevServerLoginButtonComponent } from '../components/login-method-buttons/dev-server-login-button/dev-server-login-button.component';
+import { GoogleLoginButtonComponent } from '../components/login-method-buttons/google-login-button/google-login-button.component';
 import { LoginMethodButtonsListComponent } from '../components/login-method-buttons-list/login-method-buttons-list.component';
 
 @Component({
   selector: 'tm-login-page',
   styleUrls: ['./login-page.component.scss'],
   templateUrl: './login-page.component.html',
-  imports: [LoadingSpinnerDirective, LoginMethodButtonsListComponent],
+  imports: [
+    LoadingSpinnerDirective,
+    GoogleLoginButtonComponent,
+    DevServerLoginButtonComponent,
+    LoginMethodButtonsListComponent,
+  ],
 })
 export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
@@ -20,7 +27,7 @@ export class LoginPageComponent implements OnInit {
 
   isLoadingLoginMethods = true;
   loginMethods: Set<LoginMethod> = new Set();
-  nextUrl = '';
+  nextUrl = '/';
 
   ngOnInit(): void {
     this.isLoadingLoginMethods = true;
@@ -52,9 +59,5 @@ export class LoginPageComponent implements OnInit {
         this.nextUrl = nextUrl;
       }
     });
-  }
-
-  isSupported(loginMethod: LoginMethod): boolean {
-    return this.loginMethods.has(loginMethod);
   }
 }
