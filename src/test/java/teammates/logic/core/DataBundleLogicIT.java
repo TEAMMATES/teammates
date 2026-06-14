@@ -64,7 +64,6 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
                 AccountRequestStatus.REGISTERED, "These are some comments.");
         expectedAccountRequest.setId(actualAccountRequest.getId());
         expectedAccountRequest.setRegisteredAt(Instant.parse("2015-02-14T00:00:00Z"));
-        expectedAccountRequest.setRegistrationKey(actualAccountRequest.getRegistrationKey());
         assertEquals(expectedAccountRequest, actualAccountRequest);
 
         ______TS("verify accounts deserialized correctly");

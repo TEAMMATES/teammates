@@ -137,10 +137,11 @@ public class LinksUtilTest extends BaseTestCase {
     }
 
     @Test
-    public void getAccountRequestJoinUrl_accountRequest_returnsAbsoluteUrlWithIsCreatingAccountFlag() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE
-                + "?iscreatingaccount=true&key=" + SAMPLE_REG_KEY;
-        assertEquals(expected, LinksUtil.getAccountRequestJoinUrl(SAMPLE_REG_KEY));
+    public void getInstructorWelcomeUrl_accountRequest_returnsAbsoluteUrlWithAccountRequestId() {
+        UUID sampleAccountRequestId = UUID.fromString("33333333-3333-3333-3333-333333333333");
+        String expected = TEST_BASE_URL + Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE
+                + "?accountRequestId=" + sampleAccountRequestId;
+        assertEquals(expected, LinksUtil.getInstructorWelcomeUrl(sampleAccountRequestId));
     }
 
     // -------------------------------------------------------------------------

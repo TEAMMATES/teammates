@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
@@ -28,6 +29,7 @@ import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.exception.UnexpectedServerException;
 
 /**
@@ -38,13 +40,14 @@ public class CreateDemoCourseAction extends LoggedInAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    void checkSpecificAccessControl() {
-        // Any user can create a demo course as long as the registration key is valid.
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
+        gateKeeper.verifyCanViewAccountRequest(requestContext, id);
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
         String timezone = getRequestParamValue(Const.ParamsNames.TIMEZONE);
 
         if (timezone == null || !FieldValidator.getInvalidityInfoForTimeZone(timezone).isEmpty()) {
@@ -52,15 +55,14 @@ public class CreateDemoCourseAction extends LoggedInAction {
             timezone = Const.DEFAULT_TIME_ZONE;
         }
 
-        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(registrationKey);
+        AccountRequest accountRequest = logic.getAccountRequest(id);
 
         if (accountRequest == null) {
-            throw new EntityNotFoundException("Account request with registration key "
-                    + registrationKey + " could not be found");
+            throw new EntityNotFoundException("Account request with id " + id + " could not be found");
         }
 
         if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
+            throw new InvalidOperationException("Account request with id " + id + " has already been registered.");
         }
 
         String instructorEmail = accountRequest.getEmail();

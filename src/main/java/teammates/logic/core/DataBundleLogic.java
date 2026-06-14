@@ -167,7 +167,6 @@ public final class DataBundleLogic {
         for (AccountRequest accountRequest : accountRequests) {
             UUID placeholderId = accountRequest.getId();
             accountRequest.setId(generateId(placeholderId, seed));
-            accountRequest.generateNewRegistrationKey();
             accountRequest.setInstitute(institutesMap.get(accountRequest.getInstituteId()));
             if (accountRequest.getAccountId() != null) {
                 Account account = accountsMap.get(accountRequest.getAccountId());

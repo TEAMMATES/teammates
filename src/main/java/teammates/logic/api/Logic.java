@@ -236,15 +236,6 @@ public class Logic {
     }
 
     /**
-     * Gets the account request with the associated {@code regkey}.
-     *
-     * @return account request with the associated {@code regkey}.
-     */
-    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
-        return accountRequestLogic.getAccountRequestByRegistrationKey(regkey);
-    }
-
-    /**
      * Updates the given account request.
      *
      * @return the updated account request.

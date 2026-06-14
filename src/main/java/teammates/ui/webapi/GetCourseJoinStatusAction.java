@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.JoinStatus;
@@ -18,32 +17,13 @@ public class GetCourseJoinStatusAction extends LoggedInAction {
     @Override
     public JsonResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-        String isCreatingAccount = getRequestParamValue(Const.ParamsNames.IS_CREATING_ACCOUNT);
-
-        return getJoinStatus(regkey, "true".equals(isCreatingAccount));
-    }
-
-    private JsonResult getJoinStatus(String regkey, boolean isCreatingAccount) {
-        if (isCreatingAccount) {
-            AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(regkey);
-
-            if (accountRequest == null) {
-                throw new EntityNotFoundException("No account request with given registration key: " + regkey);
-            }
-
-            return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
-        }
 
         User user = logic.getUserByRegistrationKey(regkey);
         if (user == null) {
             throw new EntityNotFoundException("No user with given registration key: " + regkey);
         }
 
-        return getJoinStatusResult(user.isRegistered());
-    }
-
-    private JsonResult getJoinStatusResult(boolean hasJoined) {
-        JoinStatus result = new JoinStatus(hasJoined);
+        JoinStatus result = new JoinStatus(user.isRegistered());
         return new JsonResult(result);
     }
 }

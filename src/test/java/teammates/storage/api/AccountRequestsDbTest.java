@@ -80,20 +80,6 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getAccountRequestByRegistrationKey_accountRequestExists_returnsAccountRequest() {
-        var accountRequest = given.accountRequest("account-request",
-                ar -> ar.registrationKey("registration-key"));
-        given.accountRequest("another-account-request", ar -> ar.registrationKey("another-registration-key"));
-        persistGivenData(given);
-
-        AccountRequest actual = inTransaction(
-                () -> accountRequestsDb.getAccountRequestByRegistrationKey("registration-key"));
-
-        assertNotNull(actual);
-        assertEquals(accountRequest.id(), actual.getId());
-    }
-
-    @Test(groups = GroupNames.DB)
     public void removeAccountRequest_accountRequestExists_accountRequestIsRemoved() {
         var accountRequest = given.accountRequest("account-request");
         persistGivenData(given);
@@ -126,7 +112,6 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
                 AccountRequestStatus.PENDING,
                 "");
         accountRequest.setId(accountRequestId);
-        accountRequest.setRegistrationKey("registration-key:" + accountRequestId);
         return accountRequest;
     }
 }

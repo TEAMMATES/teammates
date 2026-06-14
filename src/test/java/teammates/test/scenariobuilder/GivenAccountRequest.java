@@ -97,14 +97,6 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
     }
 
     /**
-     * Sets the registration key for the account request.
-     */
-    public GivenAccountRequest registrationKey(String registrationKey) {
-        entity.setRegistrationKey(registrationKey);
-        return this;
-    }
-
-    /**
      * Sets the time when the account request was registered.
      */
     public GivenAccountRequest registeredAt(Instant registeredAt) {
@@ -137,7 +129,6 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
                 AccountRequestStatus.PENDING,
                 "");
         accountRequest.setId(accountRequestId);
-        accountRequest.setRegistrationKey("registration-key:" + accountRequestId);
         return accountRequest;
     }
 }
