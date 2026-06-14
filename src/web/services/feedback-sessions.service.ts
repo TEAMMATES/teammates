@@ -133,11 +133,18 @@ export class FeedbackSessionsService {
   /**
    * Gets the deadline extension for a specific user in a feedback session by calling API.
    */
-  getDeadlineExtension(queryParams: { feedbackSessionId: string; userId: string }): Observable<DeadlineExtension> {
+  getDeadlineExtension(queryParams: {
+    feedbackSessionId: string;
+    userId: string;
+    key?: string;
+  }): Observable<DeadlineExtension> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
       userid: queryParams.userId,
     };
+    if (queryParams.key) {
+      paramMap['key'] = queryParams.key;
+    }
     return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
   }
 

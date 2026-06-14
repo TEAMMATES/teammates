@@ -284,7 +284,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   /**
    * Loads the name of the person involved in the submission.
    */
-  private loadPersonNameData$(): Observable<Student | Instructor | null> {
+  private loadUserData$(): Observable<Student | Instructor | null> {
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAsPerson) {
@@ -347,23 +347,20 @@ export class SessionSubmissionPageComponent implements OnInit {
   loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
-    const sessionRequest$ = this.feedbackSessionsService.getFeedbackSession({
-      feedbackSessionId: this.feedbackSessionId,
-      intent: this.intent,
-      key: this.regKey,
-      moderatedPerson: this.moderatedPerson,
-      previewAs: this.previewAsPerson,
-    });
-    const deadlineExtension$ = this.loggedInUser
-      ? this.feedbackSessionsService
-          .getDeadlineExtension({ feedbackSessionId: this.feedbackSessionId, userId: this.loggedInUser })
-          .pipe(catchError(() => of(null)))
-      : of(null);
+    let cachedFeedbackSession: FeedbackSession;
 
-    forkJoin({ feedbackSessionView: sessionRequest$, deadlineExtension: deadlineExtension$ })
+    this.feedbackSessionsService
+      .getFeedbackSession({
+        feedbackSessionId: this.feedbackSessionId,
+        intent: this.intent,
+        key: this.regKey,
+        moderatedPerson: this.moderatedPerson,
+        previewAs: this.previewAsPerson,
+      })
       .pipe(
-        tap(({ feedbackSessionView, deadlineExtension }) => {
+        tap((feedbackSessionView) => {
           const feedbackSession = feedbackSessionView.feedbackSession;
+          cachedFeedbackSession = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
           this.courseId = feedbackSession.courseId;
           this.feedbackSessionName = feedbackSession.feedbackSessionName;
@@ -374,15 +371,36 @@ export class SessionSubmissionPageComponent implements OnInit {
             TIME_FORMAT,
           );
           this.feedbackSessionTimezone = feedbackSession.timeZone;
+        }),
+        switchMap(() =>
+          forkJoin({
+            courseInfo: this.loadCourseInfoData$(),
+            userData: this.loadUserData$(),
+            feedbackQuestions: this.loadFeedbackQuestionsData$(),
+          }),
+        ),
+        switchMap(({ userData }) => {
+          if (!userData?.userId) {
+            return of(null);
+          }
+          return this.feedbackSessionsService
+            .getDeadlineExtension({
+              feedbackSessionId: this.feedbackSessionId,
+              userId: userData.userId,
+              key: this.regKey || undefined,
+            })
+            .pipe(catchError(() => of(null)));
+        }),
+        tap((deadlineExtension) => {
           this.userDeadlineExtension = deadlineExtension?.userDeadlineExtension;
           this.formattedSessionClosingTime = this.getFormattedSessionClosingTime(
-            feedbackSession,
+            cachedFeedbackSession,
             TIME_FORMAT,
             this.userDeadlineExtension,
           );
 
           // Override CLOSED status if user has an active deadline extension
-          let effectiveStatus = feedbackSession.submissionStatus;
+          let effectiveStatus = cachedFeedbackSession.submissionStatus;
           if (
             effectiveStatus === FeedbackSessionSubmissionStatus.CLOSED &&
             this.userDeadlineExtension !== undefined &&
@@ -391,13 +409,8 @@ export class SessionSubmissionPageComponent implements OnInit {
             effectiveStatus = FeedbackSessionSubmissionStatus.OPEN;
           }
           this.feedbackSessionSubmissionStatus = effectiveStatus;
-
-          this.logStudentAccess();
-          this.handleSubmissionStatusBanner({ ...feedbackSession, submissionStatus: effectiveStatus });
+          this.handleSubmissionStatusBanner({ ...cachedFeedbackSession, submissionStatus: effectiveStatus });
         }),
-        switchMap(() =>
-          forkJoin([this.loadCourseInfoData$(), this.loadPersonNameData$(), this.loadFeedbackQuestionsData$()]),
-        ),
         finalize(() => {
           this.isFeedbackSessionLoading = false;
         }),
