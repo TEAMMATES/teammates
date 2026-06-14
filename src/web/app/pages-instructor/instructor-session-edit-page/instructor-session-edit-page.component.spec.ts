@@ -15,7 +15,6 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
@@ -44,7 +43,6 @@ import {
   Students,
   Courses,
 } from '../../../types/api-output';
-import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { ExtensionConfirmModalComponent } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
@@ -237,19 +235,15 @@ describe('InstructorSessionEditPageComponent', () => {
     feedbackSessionName: 'test session',
     instructions: 'Instructions',
 
-    submissionStartTime: getLatestTimeFormat(),
-    submissionStartDate: getDefaultDateFormat(),
-    submissionEndTime: getLatestTimeFormat(),
-    submissionEndDate: getDefaultDateFormat(),
+    submissionStartTimestamp: Date.UTC(2024, 0, 1, 2, 0),
+    submissionEndTimestamp: Date.UTC(2024, 0, 1, 4, 0),
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: getLatestTimeFormat(),
-    customSessionVisibleDate: getDefaultDateFormat(),
+    customSessionVisibleTimestamp: Date.UTC(2024, 0, 1, 1, 0),
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: getLatestTimeFormat(),
-    customResponseVisibleDate: getDefaultDateFormat(),
+    customResponseVisibleTimestamp: Date.UTC(2024, 0, 1, 5, 0),
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
@@ -290,10 +284,12 @@ describe('InstructorSessionEditPageComponent', () => {
   let navigationService: NavigationService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
-  let timeZoneService: TimezoneService;
   let ngbModal: NgbModal;
 
   beforeEach(async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2020, 0, 1, 10, 0)));
+
     await TestBed.configureTestingModule({
       providers: [
         FormatDateDetailPipe,
@@ -313,10 +309,13 @@ describe('InstructorSessionEditPageComponent', () => {
     navigationService = TestBed.inject(NavigationService);
     statusMessageService = TestBed.inject(StatusMessageService);
     simpleModalService = TestBed.inject(SimpleModalService);
-    timeZoneService = TestBed.inject(TimezoneService);
     ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
@@ -753,10 +752,12 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should open danger modal if session end time updates end time after any extensions deadline', () => {
     vi.spyOn(ngbModal, 'open');
-    vi.spyOn(timeZoneService, 'resolveLocalDateTime').mockReturnValue(testFeedbackSession.submissionEndTimestamp);
     const validateSpy = vi.spyOn(InstructorSessionEditPageComponent.prototype, 'deleteDeadlineExtensionsHandler');
     component.userDeadlines = userDeadlines;
-    component.sessionEditFormModel = sessionEditFormModel;
+    component.sessionEditFormModel = {
+      ...sessionEditFormModel,
+      submissionEndTimestamp: testFeedbackSession.submissionEndTimestamp,
+    };
     component.editExistingSessionHandler();
     expect(validateSpy).toHaveBeenCalledWith(testFeedbackSession.submissionEndTimestamp);
     expect(ngbModal.open).toHaveBeenCalledWith(ExtensionConfirmModalComponent);

@@ -232,6 +232,7 @@ describe('InstructorHomePageComponent', () => {
 
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
     component.courseTabModels = activeCourseTabModels;
+    component.initialSortBy = SortBy.COURSE_NAME;
     component.loadFeedbackSessions(0);
     fixture.detectChanges();
 

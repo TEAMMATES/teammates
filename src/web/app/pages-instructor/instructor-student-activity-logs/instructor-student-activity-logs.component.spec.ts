@@ -20,7 +20,6 @@ import {
   SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
-import { Milliseconds } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { ColumnData } from '../../components/sortable-table/sortable-table.component';
 
@@ -173,10 +172,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
   it('should disable search button while loading', () => {
     component.course = testCourse1;
     component.formModel = {
-      logsDateFrom: { year: 1997, month: 9, day: 11 },
-      logsTimeFrom: { hour: 23, minute: 59 },
-      logsDateTo: { year: 1998, month: 9, day: 11 },
-      logsTimeTo: { hour: 15, minute: 0 },
+      logsStartTimestamp: Date.UTC(1997, 8, 11, 23, 59),
+      logsEndTimestamp: Date.UTC(1998, 8, 11, 15, 0),
       selectedUserId: 'doe-john',
       logTypes: [FeedbackSessionLogType.SUBMISSION, FeedbackSessionLogType.ACCESS],
       selectedSessionId: '',
@@ -237,7 +234,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(component.isLoading).toBe(false);
   });
 
-  it('should search for logs using feedback course timezone when search button is clicked', () => {
+  it('should search for logs using the selected timestamps when search button is clicked', () => {
     const logSpy = vi.spyOn(logService, 'searchFeedbackSessionLog').mockReturnValue(
       of({
         feedbackSessionLogs: {
@@ -245,14 +242,12 @@ describe('InstructorStudentActivityLogsComponent', () => {
         },
       }),
     );
-    const timeSpy = vi.spyOn(timezoneService, 'resolveLocalDateTime');
-    const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
+    const searchFrom: number = Date.UTC(2020, 11, 31, 0, 0);
+    const searchUntil: number = Date.UTC(2021, 0, 1, 0, 0);
     component.formModel = {
-      logsDateFrom: { year: 2020, month: 12, day: 30 },
-      logsTimeFrom: { hour: 23, minute: 59 },
-      logsDateTo: { year: 2020, month: 12, day: 31 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsStartTimestamp: searchFrom,
+      logsEndTimestamp: searchUntil,
       selectedUserId: testStudent.userId,
       logTypes: [FeedbackSessionLogType.SUBMISSION],
       selectedSessionId: '',
@@ -267,18 +262,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
     fixture.debugElement.nativeElement.querySelector('#search-button').click();
 
-    expect(timeSpy).toHaveBeenCalledTimes(2);
-    expect(timeSpy).toHaveBeenCalledWith(
-      component.formModel.logsDateFrom,
-      component.formModel.logsTimeFrom,
-      testCourse1.timeZone,
-      true,
-    );
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith({
       courseId: testCourse1.courseId,
-      searchFrom: new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
-      searchUntil: new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
+      searchFrom,
+      searchUntil,
       logTypes: [FeedbackSessionLogType.SUBMISSION],
       userId: testStudent.userId,
       sessionId: '',
@@ -302,10 +290,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
     );
 
     component.formModel = {
-      logsDateFrom: { year: 2020, month: 12, day: 30 },
-      logsTimeFrom: { hour: 23, minute: 59 },
-      logsDateTo: { year: 2020, month: 12, day: 31 },
-      logsTimeTo: { hour: 23, minute: 59 },
+      logsStartTimestamp: Date.UTC(2020, 11, 31, 0, 0),
+      logsEndTimestamp: Date.UTC(2021, 0, 1, 0, 0),
       selectedUserId: '',
       logTypes: [FeedbackSessionLogType.SUBMISSION],
       selectedSessionId: '',

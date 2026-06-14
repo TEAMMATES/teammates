@@ -141,6 +141,9 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   beforeEach(async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2020, 0, 1, 10, 0)));
+
     await TestBed.configureTestingModule({
       providers: [NgbModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
@@ -152,6 +155,10 @@ describe('InstructorSessionsPageComponent', () => {
     sessionService = TestBed.inject(FeedbackSessionsService);
     ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {

@@ -275,29 +275,15 @@
                 </label>
               </div>
             </div>
-            <div class="row text-center align-items-center">
-              <div id="submission-start-date" class="col-md-7 col-xs-center">
-                <tm-datepicker
-                  [isDisabled]="!model.isEditable"
-                  (dateChangeCallback)="triggerSubmissionOpeningDateModelChange('submissionStartDate', $event)"
-                  [minDate]="minDateForSubmissionStart"
-                  [maxDate]="maxDateForSubmissionStart"
-                  [date]="model.submissionStartDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-5">
-                <tm-timepicker
-                  id="submission-start-time"
-                  [isDisabled]="!model.isEditable"
-                  (timeChange)="triggerSubmissionOpeningTimeModelChange('submissionStartTime', $event)"
-                  [minDate]="minDateForSubmissionStart"
-                  [maxDate]="maxDateForSubmissionStart"
-                  [date]="model.submissionStartDate"
-                  [minTime]="minTimeForSubmissionStart"
-                  [maxTime]="maxTimeForSubmissionStart"
-                  [time]="model.submissionStartTime"
-                ></tm-timepicker>
-              </div>
+            <div id="submission-start-datetime" class="row text-center align-items-center">
+              <tm-datetimepicker
+                [isDisabled]="!model.isEditable"
+                [timestamp]="model.submissionStartTimestamp"
+                [minTimestamp]="minTimestampForSubmissionStart"
+                [maxTimestamp]="maxTimestampForSubmissionStart"
+                [timeZone]="model.timeZone"
+                (timestampChange)="triggerSubmissionOpeningTimestampChange($event)"
+              ></tm-datetimepicker>
             </div>
           </div>
           <div class="col-md-4 border-left-gray">
@@ -308,29 +294,15 @@
                 </label>
               </div>
             </div>
-            <div class="row align-items-center">
-              <div id="submission-end-date" class="col-md-7 col-xs-center">
-                <tm-datepicker
-                  [isDisabled]="!model.isEditable"
-                  (dateChangeCallback)="triggerModelChange('submissionEndDate', $event)"
-                  [minDate]="minDateForSubmissionEnd"
-                  [maxDate]="maxDateForSubmissionEnd"
-                  [date]="model.submissionEndDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-5">
-                <tm-timepicker
-                  id="submission-end-time"
-                  [isDisabled]="!model.isEditable"
-                  (timeChange)="triggerModelChange('submissionEndTime', $event)"
-                  [minDate]="minDateForSubmissionEnd"
-                  [maxDate]="maxDateForSubmissionEnd"
-                  [date]="model.submissionEndDate"
-                  [minTime]="minTimeForSubmissionEnd"
-                  [maxTime]="maxTimeForSubmissionEnd"
-                  [time]="model.submissionEndTime"
-                ></tm-timepicker>
-              </div>
+            <div id="submission-end-datetime" class="row align-items-center">
+              <tm-datetimepicker
+                [isDisabled]="!model.isEditable"
+                [timestamp]="model.submissionEndTimestamp"
+                [minTimestamp]="minTimestampForSubmissionEnd"
+                [maxTimestamp]="maxTimestampForSubmissionEnd"
+                [timeZone]="model.timeZone"
+                (timestampChange)="triggerModelChange('submissionEndTimestamp', $event)"
+              ></tm-datetimepicker>
             </div>
           </div>
           <div class="col-md-4 border-left-gray">
@@ -436,27 +408,15 @@
                   </label>
                 </div>
               </div>
-              <div id="session-visibility-date" class="col-md-6">
-                <tm-datepicker
+              <div id="session-visibility-datetime" class="col-md-10">
+                <tm-datetimepicker
                   [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"
-                  (dateChangeCallback)="triggerModelChange('customSessionVisibleDate', $event)"
-                  [minDate]="minDateForSessionVisible"
-                  [maxDate]="maxDateForSessionVisible"
-                  [date]="model.customSessionVisibleDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-4">
-                <tm-timepicker
-                  id="session-visibility-time"
-                  [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"
-                  (timeChange)="triggerModelChange('customSessionVisibleTime', $event)"
-                  [minDate]="minDateForSessionVisible"
-                  [maxDate]="maxDateForSessionVisible"
-                  [date]="model.customSessionVisibleDate"
-                  [minTime]="minTimeForSessionVisible"
-                  [maxTime]="maxTimeForSessionVisible"
-                  [time]="model.customSessionVisibleTime"
-                ></tm-timepicker>
+                  [timestamp]="model.customSessionVisibleTimestamp"
+                  [minTimestamp]="minTimestampForSessionVisible"
+                  [maxTimestamp]="maxTimestampForSessionVisible"
+                  [timeZone]="model.timeZone"
+                  (timestampChange)="triggerModelChange('customSessionVisibleTimestamp', $event)"
+                ></tm-datetimepicker>
               </div>
             </div>
             <div class="row mt-md-1 ms-md-3">
@@ -505,24 +465,14 @@
                   </label>
                 </div>
               </div>
-              <div id="response-visibility-date" class="col-md-6">
-                <tm-datepicker
+              <div id="response-visibility-datetime" class="col-md-10">
+                <tm-datetimepicker
                   [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"
-                  (dateChangeCallback)="triggerModelChange('customResponseVisibleDate', $event)"
-                  [minDate]="minDateForResponseVisible"
-                  [date]="model.customResponseVisibleDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-4">
-                <tm-timepicker
-                  id="response-visibility-time"
-                  [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"
-                  (timeChange)="triggerModelChange('customResponseVisibleTime', $event)"
-                  [minDate]="minDateForResponseVisible"
-                  [date]="model.customResponseVisibleDate"
-                  [minTime]="minTimeForResponseVisible"
-                  [time]="model.customResponseVisibleTime"
-                ></tm-timepicker>
+                  [timestamp]="model.customResponseVisibleTimestamp"
+                  [minTimestamp]="minTimestampForResponseVisible"
+                  [timeZone]="model.timeZone"
+                  (timestampChange)="triggerModelChange('customResponseVisibleTimestamp', $event)"
+                ></tm-datetimepicker>
               </div>
             </div>
             <div class="row mt-md-2 ms-md-1">

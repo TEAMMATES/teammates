@@ -1,5 +1,4 @@
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-output';
-import { DateFormat, TimeFormat } from '../../../../types/datetime-const';
 
 /**
  * The mode of operation for notification edit form.
@@ -23,10 +22,8 @@ export interface NotificationEditFormModel {
   // EDIT mode specific
   notificationId: string;
 
-  startTime: TimeFormat;
-  startDate: DateFormat;
-  endTime: TimeFormat;
-  endDate: DateFormat;
+  startTimestamp: number;
+  endTimestamp: number;
 
   style: NotificationStyle;
   targetUser: NotificationTargetUser;

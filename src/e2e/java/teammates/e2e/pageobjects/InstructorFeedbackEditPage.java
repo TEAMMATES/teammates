@@ -71,17 +71,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsEditor;
 
-    @FindBy(id = "submission-start-date")
-    private WebElement startDateBox;
+    @FindBy(css = "#submission-start-datetime tm-datetimepicker")
+    private WebElement startDateTimePicker;
 
-    @FindBy(id = "submission-start-time")
-    private WebElement startTimeDropdown;
-
-    @FindBy(id = "submission-end-date")
-    private WebElement endDateBox;
-
-    @FindBy(id = "submission-end-time")
-    private WebElement endTimeDropdown;
+    @FindBy(css = "#submission-end-datetime tm-datetimepicker")
+    private WebElement endDateTimePicker;
 
     @FindBy(id = "grace-period")
     private WebElement gracePeriodDropdown;
@@ -98,11 +92,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "session-visibility-custom")
     private WebElement customSessionVisibleTimeButton;
 
-    @FindBy(id = "session-visibility-date")
-    private WebElement sessionVisibilityDateBox;
-
-    @FindBy(id = "session-visibility-time")
-    private WebElement sessionVisibilityTimeDropdown;
+    @FindBy(css = "#session-visibility-datetime tm-datetimepicker")
+    private WebElement sessionVisibilityDateTimePicker;
 
     @FindBy(id = "session-visibility-at-open")
     private WebElement openSessionVisibleTimeButton;
@@ -110,11 +101,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "response-visibility-custom")
     private WebElement customResponseVisibleTimeButton;
 
-    @FindBy(id = "response-visibility-date")
-    private WebElement responseVisibilityDateBox;
-
-    @FindBy(id = "response-visibility-time")
-    private WebElement responseVisibilityTimeDropdown;
+    @FindBy(css = "#response-visibility-datetime tm-datetimepicker")
+    private WebElement responseVisibilityDateTimePicker;
 
     @FindBy(id = "response-visibility-immediately")
     private WebElement immediateResponseVisibleTimeButton;
@@ -823,36 +811,35 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getStartDate() {
-        return startDateBox.findElement(By.tagName("input")).getAttribute("value");
+        return startDateTimePicker.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getStartTime() {
-        return getSelectedDropdownOptionText(startTimeDropdown.findElement(By.tagName("select")));
+        return getSelectedDropdownOptionText(startDateTimePicker.findElement(By.tagName("select")));
     }
 
     private String getEndDate() {
-        return endDateBox.findElement(By.tagName("input")).getAttribute("value");
+        return endDateTimePicker.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getEndTime() {
-        return getSelectedDropdownOptionText(endTimeDropdown.findElement(By.tagName("select")));
+        return getSelectedDropdownOptionText(endDateTimePicker.findElement(By.tagName("select")));
     }
 
     private String getSessionVisibilityDate() {
-        return sessionVisibilityDateBox.findElement(By.tagName("input")).getAttribute("value");
+        return sessionVisibilityDateTimePicker.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getSessionVisibilityTime() {
-        return getSelectedDropdownOptionText(sessionVisibilityTimeDropdown.findElement(By.tagName("select")));
+        return getSelectedDropdownOptionText(sessionVisibilityDateTimePicker.findElement(By.tagName("select")));
     }
 
     private String getResponseVisibilityDate() {
-        return responseVisibilityDateBox.findElement(By.tagName("input"))
-                .getAttribute("value");
+        return responseVisibilityDateTimePicker.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getResponseVisibilityTime() {
-        return getSelectedDropdownOptionText(responseVisibilityTimeDropdown.findElement(By.tagName("select")));
+        return getSelectedDropdownOptionText(responseVisibilityDateTimePicker.findElement(By.tagName("select")));
     }
 
     private String getGracePeriod() {
@@ -884,25 +871,24 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setSessionStartDateTime(Instant startInstant, String timeZone) {
-        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateTimePicker, startInstant, timeZone);
     }
 
     private void setSessionEndDateTime(Instant endInstant, String timeZone) {
-        setDateTime(endDateBox, endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateTimePicker, endInstant, timeZone);
     }
 
     private void setVisibilityDateTime(Instant startInstant, String timeZone) {
-        setDateTime(sessionVisibilityDateBox, sessionVisibilityTimeDropdown, startInstant, timeZone);
+        setDateTime(sessionVisibilityDateTimePicker, startInstant, timeZone);
     }
 
     private void setResponseDateTime(Instant endInstant, String timeZone) {
-        setDateTime(responseVisibilityDateBox, responseVisibilityTimeDropdown, endInstant, timeZone);
+        setDateTime(responseVisibilityDateTimePicker, endInstant, timeZone);
     }
 
-    private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, String timeZone) {
-        fillDatePicker(dateBox, startInstant, timeZone);
-
-        selectDropdownOptionByText(timeBox.findElement(By.tagName("select")), getTimeString(startInstant, timeZone));
+    private void setDateTime(WebElement dateTimePicker, Instant instant, String timeZone) {
+        fillDatePicker(dateTimePicker, instant, timeZone);
+        selectDropdownOptionByText(dateTimePicker.findElement(By.tagName("select")), getTimeString(instant, timeZone));
     }
 
     private void selectGracePeriod(long gracePeriodMinutes) {

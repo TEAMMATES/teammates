@@ -8,16 +8,13 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { NotificationStyle, NotificationTargetUser } from '../../../../types/api-output';
-import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
 const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
 
-  startTime: getDefaultTimeFormat(),
-  startDate: getDefaultDateFormat(),
-  endTime: getDefaultTimeFormat(),
-  endDate: getDefaultDateFormat(),
+  startTimestamp: Date.UTC(2020, 0, 1, 10, 0),
+  endTimestamp: Date.UTC(2020, 0, 2, 10, 0),
 
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
@@ -36,6 +33,9 @@ describe('NotificationEditFormComponent', () => {
   let simpleModalService: SimpleModalService;
 
   beforeEach(async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2020, 0, 1, 10, 0)));
+
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
@@ -47,6 +47,10 @@ describe('NotificationEditFormComponent', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     moment.tz.setDefault('SGT');
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
@@ -65,7 +69,7 @@ describe('NotificationEditFormComponent', () => {
 
   it('should snap with notification that has been shown to users', () => {
     const shownModel = { ...testNotificationEditModel };
-    shownModel.startDate = { year: 2000, month: 1, day: 1 };
+    shownModel.startTimestamp = Date.UTC(2000, 0, 1, 0, 0);
     component.model = shownModel;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -86,13 +90,13 @@ describe('NotificationEditFormComponent', () => {
     component.triggerModelChange('title', testStr);
     component.triggerModelChange('message', testStr);
     component.triggerModelChange('targetUser', NotificationTargetUser.GENERAL);
-    component.triggerModelChange('endDate', { year: 1, month: 0, day: 0 });
+    component.triggerModelChange('endTimestamp', Date.UTC(2024, 0, 1, 0, 0));
 
     const model: NotificationEditFormModel = component.model;
     expect(model.title).toBe(testStr);
     expect(model.message).toBe(testStr);
     expect(model.targetUser).toBe(NotificationTargetUser.GENERAL);
-    expect(model.endDate.year).toBe(1);
+    expect(model.endTimestamp).toBe(Date.UTC(2024, 0, 1, 0, 0));
   });
 
   it('should display warning when discarding edit to current notification', async () => {
