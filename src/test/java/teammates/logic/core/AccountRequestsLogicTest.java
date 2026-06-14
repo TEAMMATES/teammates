@@ -34,7 +34,8 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         accountRequestsDb = mock(AccountRequestsDb.class);
-        accountRequestsLogic.initLogicDependencies(accountRequestsDb, mock(InstitutesLogic.class));
+        accountRequestsLogic.initLogicDependencies(accountRequestsDb, mock(AccountsLogic.class),
+                mock(InstitutesLogic.class));
     }
 
     @Test

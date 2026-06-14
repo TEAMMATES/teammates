@@ -64,13 +64,8 @@ describe('InstructorRequestFormComponent', () => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     vi.clearAllMocks();
-  });
-
-  it('should have empty captcha key', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should create', () => {

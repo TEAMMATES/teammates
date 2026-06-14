@@ -7,8 +7,6 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
   STUDENT_NAME_MAX_LENGTH={[Function Number]}
   accountService={[Function Object]}
   arf={[Function FormGroup]}
-  captchaResponse="undefined"
-  captchaSiteKey=""
   comments={[Function FormControl]}
   country={[Function FormControl]}
   countryOptions={[Function Array]}
@@ -16,13 +14,10 @@ exports[`InstructorRequestFormComponent > should render correctly 1`] = `
   email={[Function FormControl]}
   hasSubmitAttempt="false"
   institution={[Function FormControl]}
-  isCaptchaSuccessful="false"
   isLoading="false"
-  lang={[Function String]}
   name={[Function FormControl]}
   requestSubmissionEvent={[Function EventEmitter_]}
   serverErrorMessage=""
-  size={[Function String]}
 >
   <form
     class="ng-untouched ng-pristine ng-invalid"

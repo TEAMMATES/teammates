@@ -37,7 +37,8 @@
       "instituteId": "00000000-0000-4000-9000-000000000002",
       "status": "REGISTERED",
       "comments": "These are some comments.",
-      "registeredAt": "2015-02-14T00:00:00Z"
+      "registeredAt": "2015-02-14T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "courses": {

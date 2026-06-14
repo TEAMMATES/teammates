@@ -4,9 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.UUID;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -20,6 +24,13 @@ import teammates.ui.request.AccountCreateRequest;
  * SUT: {@link CreateAccountRequestAction}.
  */
 public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequestAction> {
+    private DataBundle typicalBundle;
+
+    @BeforeMethod(alwaysRun = true)
+    protected void setUp() {
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
+        loginAsInstructor(typicalBundle.accounts.get("instructor1").getGoogleId());
+    }
 
     @Override
     String getActionUri() {
@@ -173,9 +184,11 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
 
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
+        UUID accountId = typicalBundle.accounts.get("instructor1").getId();
         AccountRequest existingAccountRequest = inTransaction(() -> logic.createAccountRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
-                "House Atreides", "SG", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it."));
+                "House Atreides", "SG", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it.",
+                accountId));
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");
@@ -210,6 +223,6 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() throws Exception {
-        verifyAccessibleWithoutLogin();
+        verifyAnyLoggedInUserCanAccess();
     }
 }

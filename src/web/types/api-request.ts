@@ -7,7 +7,6 @@ export interface AccountCreateRequest extends BasicRequest {
   instructorInstitution: string;
   instructorCountry: string;
   instructorComments?: string;
-  captchaResponse?: string;
 }
 
 export interface AccountRequestRejectionRequest extends BasicRequest {

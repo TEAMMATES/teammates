@@ -116,25 +116,6 @@
     ></textarea>
   </div>
   <br />
-  @if (captchaSiteKey !== '') {
-    <div class="form-group">
-      <ngx-recaptcha2
-        #captchaElem
-        [siteKey]="captchaSiteKey"
-        (success)="handleCaptchaSuccess($event)"
-        [useGlobalDomain]="false"
-        [size]="size"
-        [hl]="lang"
-        formControlName="recaptcha"
-        class="{{ !isCaptchaSuccessful ? ' is-invalid' : '' }}"
-      >
-      </ngx-recaptcha2>
-      @if (!isCaptchaSuccessful && hasSubmitAttempt) {
-        <div role="alert" class="invalid-feedback">Please complete the CAPTCHA verification.</div>
-      }
-      <br />
-    </div>
-  }
   @if (hasSubmitAttempt && arf.invalid) {
     <ngb-alert type="danger" [dismissible]="false" class="error-box">
       <strong>There was a problem with your submission.</strong> Please check and fix the errors above and submit again.
