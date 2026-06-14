@@ -17,7 +17,7 @@
     },
     "ICJoinConf.instr.CS1101": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "googleId": "icjoinconf.instr2",
+      "googleId": "tm.e2e.ICJoinConf.instr2",
       "name": "Teammates Test 2",
       "email": "icjoinconf.instr2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
@@ -25,7 +25,7 @@
     },
     "ICJoinConf.newinstr": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "googleId": "icjoinconf.newinstr",
+      "googleId": "tm.e2e.ICJoinConf.newinstr",
       "name": "Teammates Test 3",
       "email": "icjoinconf.newinstr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
