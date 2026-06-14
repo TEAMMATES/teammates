@@ -53,6 +53,14 @@ public class AccountRequest extends BaseEntity {
     @Column(nullable = false, insertable = false, updatable = false)
     private UUID instituteId;
 
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "accountId", nullable = false)
+    private Account account;
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID accountId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AccountRequestStatus status;
@@ -156,6 +164,22 @@ public class AccountRequest extends BaseEntity {
         return this.instituteId;
     }
 
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /**
+     * Sets the account associated with this account request.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+        this.accountId = account == null ? null : account.getId();
+    }
+
+    public UUID getAccountId() {
+        return this.accountId;
+    }
+
     public AccountRequestStatus getStatus() {
         return this.status;
     }
@@ -209,7 +233,7 @@ public class AccountRequest extends BaseEntity {
     @Override
     public String toString() {
         return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", instituteId=" + instituteId
+                + email + ", instituteId=" + instituteId + ", accountId=" + accountId
                 + ", status=" + status + ", comments=" + comments
                 + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }

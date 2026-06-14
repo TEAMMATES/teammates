@@ -64,6 +64,9 @@ public class Account extends BaseEntity {
     @OneToMany(mappedBy = "account")
     private Set<Student> students = new HashSet<>();
 
+    @OneToMany(mappedBy = "account")
+    private Set<AccountRequest> accountRequests = new HashSet<>();
+
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -159,6 +162,18 @@ public class Account extends BaseEntity {
 
     public Set<Student> getStudents() {
         return students;
+    }
+
+    /**
+     * Add an account request to this account.
+     */
+    public void addAccountRequest(AccountRequest accountRequest) {
+        accountRequests.add(accountRequest);
+        accountRequest.setAccount(this);
+    }
+
+    public Set<AccountRequest> getAccountRequests() {
+        return accountRequests;
     }
 
     public Instant getUpdatedAt() {
