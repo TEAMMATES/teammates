@@ -98,7 +98,7 @@ public class FeedbackSessionData implements ApiOutput {
         if (!feedbackSession.isVisible()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
         } else if (feedbackSession.isVisible() && !feedbackSession.isOpened()
-                && !feedbackSession.isClosed()) {
+                && !feedbackSession.isClosed() && !feedbackSession.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
         } else if (feedbackSession.isInGracePeriod()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
