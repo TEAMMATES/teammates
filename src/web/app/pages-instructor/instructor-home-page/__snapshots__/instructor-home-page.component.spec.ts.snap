@@ -30,7 +30,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -109,7 +109,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -188,7 +188,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -334,7 +334,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -926,7 +926,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -1675,7 +1675,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -1961,7 +1961,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
@@ -2247,7 +2247,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
   progressBarService={[Function _ProgressBarService]}
-  publishUnpublishRetryAttempts="undefined"
+  publishUnpublishRetryAttempts={[Function Number]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"

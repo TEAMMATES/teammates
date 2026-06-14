@@ -1,35 +1,28 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { DateTimeService } from '../../../../services/datetime.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
-import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/datetime-const';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
-import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
-import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
 import { RichTextEditorComponent } from '../../../components/rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
 import { NotificationStyleDescriptionPipe } from '../../../components/teammates-common/notification-style-description.pipe';
-import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 
 @Component({
   selector: 'tm-notification-edit-form',
   templateUrl: './notification-edit-form.component.html',
   styleUrls: ['./notification-edit-form.component.scss'],
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   imports: [
     NgbTooltip,
     FormsModule,
     NgClass,
     RichTextEditorComponent,
-    DatepickerComponent,
-    TimepickerComponent,
+    DatetimepickerComponent,
     AjaxLoadingComponent,
     KeyValuePipe,
     NotificationStyleDescriptionPipe,
@@ -38,7 +31,6 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
 })
 export class NotificationEditFormComponent {
   private simpleModalService = inject(SimpleModalService);
-  private dateTimeService = inject(DateTimeService);
   NotificationEditFormMode!: typeof NotificationEditFormMode;
   NotificationStyle!: typeof NotificationStyle;
   NotificationTargetUser!: typeof NotificationTargetUser;
@@ -52,10 +44,8 @@ export class NotificationEditFormComponent {
   model: NotificationEditFormModel = {
     notificationId: '',
 
-    startTime: getDefaultTimeFormat(),
-    startDate: getDefaultDateFormat(),
-    endTime: getDefaultTimeFormat(),
-    endDate: getDefaultDateFormat(),
+    startTimestamp: Date.now(),
+    endTimestamp: Date.now(),
 
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
@@ -135,12 +125,6 @@ export class NotificationEditFormComponent {
    * Checks if notification is active.
    */
   isNotificationActive(): boolean {
-    const { startDate, startTime } = this.model;
-    if (!startDate || !startTime) {
-      return false;
-    }
-    const startTimestamp = this.dateTimeService.convertDateFormatAndTimeFormatToDate(startDate, startTime).getTime();
-    const now = Date.now();
-    return now > startTimestamp;
+    return Date.now() > this.model.startTimestamp;
   }
 }

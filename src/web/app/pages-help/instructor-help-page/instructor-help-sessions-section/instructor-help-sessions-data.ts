@@ -44,19 +44,15 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
   feedbackSessionName: 'Feedback for Project',
   instructions: 'This is where you type the instructions for the session',
 
-  submissionStartTime: { hour: 10, minute: 0 },
-  submissionStartDate: { year: 2020, month: 3, day: 13 },
-  submissionEndTime: { hour: 12, minute: 0 },
-  submissionEndDate: { year: 2020, month: 3, day: 13 },
+  submissionStartTimestamp: Date.UTC(2020, 2, 13, 10, 0),
+  submissionEndTimestamp: Date.UTC(2020, 2, 13, 12, 0),
   gracePeriod: 0,
 
   sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-  customSessionVisibleTime: { hour: 9, minute: 0 },
-  customSessionVisibleDate: { year: 2020, month: 3, day: 13 },
+  customSessionVisibleTimestamp: Date.UTC(2020, 2, 13, 9, 0),
 
   responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-  customResponseVisibleTime: { hour: 13, minute: 0 },
-  customResponseVisibleDate: { year: 2020, month: 3, day: 13 },
+  customResponseVisibleTimestamp: Date.UTC(2020, 2, 13, 13, 0),
 
   submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,

@@ -10,16 +10,13 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { Notification, NotificationStyle, NotificationTargetUser } from '../../../types/api-output';
-import { getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
-  startTime: getDefaultTimeFormat(),
-  startDate: getDefaultDateFormat(),
-  endTime: getDefaultTimeFormat(),
-  endDate: getDefaultDateFormat(),
+  startTimestamp: Date.UTC(2020, 0, 1, 10, 0),
+  endTimestamp: Date.UTC(2020, 0, 2, 10, 0),
 
   style: NotificationStyle.SUCCESS,
   targetUser: NotificationTargetUser.INSTRUCTOR,
