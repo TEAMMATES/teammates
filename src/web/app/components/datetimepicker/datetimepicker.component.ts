@@ -179,8 +179,11 @@ export class DatetimepickerComponent implements OnChanges {
    * Checks whether they are equal or not.
    */
   timeCompareFn(t1: TimeFormat, t2: TimeFormat): boolean {
-    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-    return t1 && t2 && t1.hour === t2.hour && t1.minute === t2.minute;
+    if (!t1 || !t2) {
+      return false;
+    }
+
+    return t1.hour === t2.hour && t1.minute === t2.minute;
   }
 
   /**
