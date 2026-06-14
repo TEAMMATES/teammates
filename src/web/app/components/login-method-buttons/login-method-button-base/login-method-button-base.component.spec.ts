@@ -50,7 +50,7 @@ describe('LoginMethodButtonBaseComponent', () => {
 
     component.loginMethod = LoginMethod.DEV_SERVER;
 
-    const expectedUrl = environment.backendUrl + '/login?nextUrl=&method=devserver';
+    const expectedUrl = environment.backendUrl + '/login?nextUrl=%2F&method=devserver';
 
     const completeLoginUrlSpy = vi.spyOn(
       component as unknown as { getCompleteLoginUrl: () => string },
