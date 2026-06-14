@@ -12,6 +12,9 @@ import {
   QuestionRecipientType,
 } from '../../types/api-output';
 
+const student3UserId = '09f330c2-8b2d-4dd4-a8e5-6ec511418ff2';
+const student4UserId = 'e4589528-3337-451a-9b47-3f851f834775';
+
 const feedbackSessionResultsContribResultsRestrictedSections: SessionResults = {
   questions: [
     {
@@ -36,33 +39,11 @@ const feedbackSessionResultsContribResultsRestrictedSections: SessionResults = {
       },
       questionStatistics: `{
   "results": {
-    "student3InCourseWithSections@gmail.tmt": {
+    "${student3UserId}": {
       "claimed": 100,
       "perceived": -9999,
       "claimedOthers": {},
       "perceivedOthers": []
-    },
-    "student1InCourseWithSections@gmail.tmt": {
-      "claimed": -999,
-      "perceived": -9999,
-      "claimedOthers": {},
-      "perceivedOthers": [
-        -9999
-      ]
-    },
-    "student4InCourseWithSections@gmail.tmt": {
-      "claimed": -999,
-      "perceived": -9999,
-      "claimedOthers": {},
-      "perceivedOthers": []
-    },
-    "student2InCourseWithSections@gmail.tmt": {
-      "claimed": -999,
-      "perceived": -9999,
-      "claimedOthers": {},
-      "perceivedOthers": [
-        -9999
-      ]
     }
   }
 }`,
@@ -71,11 +52,13 @@ const feedbackSessionResultsContribResultsRestrictedSections: SessionResults = {
           isMissingResponse: false,
           responseId: `agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGD8M%student3InCourseWithSections@gmail.tmt%student3InCourseWithSections@gmail.tmt`,
           giver: `student3 In Course With Sections`,
-          userIdForModeration: `09f330c2-8b2d-4dd4-a8e5-6ec511418ff2`,
+          userIdForModeration: student3UserId,
+          giverUserId: student3UserId,
           giverTeam: `Team 2`,
           giverEmail: `student3InCourseWithSections@gmail.tmt`,
           giverSection: `Section 2`,
           recipient: `student3 In Course With Sections`,
+          recipientUserId: student3UserId,
           recipientTeam: `Team 2`,
           recipientEmail: `student3InCourseWithSections@gmail.tmt`,
           recipientSection: `Section 2`,
@@ -89,11 +72,13 @@ const feedbackSessionResultsContribResultsRestrictedSections: SessionResults = {
           isMissingResponse: true,
           responseId: `agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGD8M%student4InCourseWithSections@gmail.tmt%student4InCourseWithSections@gmail.tmt`,
           giver: `student4 In Course With Sections`,
-          userIdForModeration: `e4589528-3337-451a-9b47-3f851f834775`,
+          userIdForModeration: student4UserId,
+          giverUserId: student4UserId,
           giverTeam: `Team 3`,
           giverEmail: `student4InCourseWithSections@gmail.tmt`,
           giverSection: `Section 3`,
           recipient: `student4 In Course With Sections`,
+          recipientUserId: student4UserId,
           recipientTeam: `Team 3`,
           recipientEmail: `student4InCourseWithSections@gmail.tmt`,
           recipientSection: `Section 3`,

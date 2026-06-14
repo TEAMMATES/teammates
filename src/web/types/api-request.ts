@@ -5,6 +5,7 @@ export interface AccountCreateRequest extends BasicRequest {
   instructorEmail: string;
   instructorName: string;
   instructorInstitution: string;
+  instructorCountry: string;
   instructorComments?: string;
   captchaResponse?: string;
 }
@@ -18,6 +19,7 @@ export interface AccountRequestUpdateRequest extends BasicRequest {
   name: string;
   email: string;
   institute: string;
+  country: string;
   status: AccountRequestStatus;
   comments?: string;
 }
@@ -32,7 +34,7 @@ export interface CourseBasicRequest extends BasicRequest {
 
 export interface CourseCreateRequest extends CourseBasicRequest {
   courseId: string;
-  institute: string;
+  instituteId: string;
 }
 
 export interface CourseUpdateRequest extends CourseBasicRequest {
@@ -304,12 +306,12 @@ export enum EmailType {
   INSTRUCTOR_COURSE_LINKS_REGENERATED = "INSTRUCTOR_COURSE_LINKS_REGENERATED",
   NEW_INSTRUCTOR_ACCOUNT = "NEW_INSTRUCTOR_ACCOUNT",
   STUDENT_COURSE_JOIN = "STUDENT_COURSE_JOIN",
-  STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET",
+  STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT = "STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT",
   NEW_ACCOUNT_REQUEST_ADMIN_ALERT = "NEW_ACCOUNT_REQUEST_ADMIN_ALERT",
   NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT = "NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT",
   ACCOUNT_REQUEST_REJECTION = "ACCOUNT_REQUEST_REJECTION",
   INSTRUCTOR_COURSE_JOIN = "INSTRUCTOR_COURSE_JOIN",
-  INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET = "INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET",
+  INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT = "INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT",
   USER_COURSE_REGISTER = "USER_COURSE_REGISTER",
   SESSION_LINKS_RECOVERY = "SESSION_LINKS_RECOVERY",
   LOGIN = "LOGIN",

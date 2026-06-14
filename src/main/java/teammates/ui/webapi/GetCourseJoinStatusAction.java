@@ -9,13 +9,7 @@ import teammates.ui.output.JoinStatus;
 /**
  * Get the join status of a course.
  */
-public class GetCourseJoinStatusAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetCourseJoinStatusAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() {
         // Any user can use a join link as long as its parameters are valid

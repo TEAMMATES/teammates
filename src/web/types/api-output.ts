@@ -15,6 +15,7 @@ export interface AccountRequest extends ApiOutput {
   email: string;
   name: string;
   institute: string;
+  country: string;
   registrationKey: string;
   status: AccountRequestStatus;
   comments?: string;
@@ -24,10 +25,6 @@ export interface AccountRequest extends ApiOutput {
 
 export interface AccountRequests extends ApiOutput {
   accountRequests: AccountRequest[];
-}
-
-export interface ActionClasses extends ApiOutput {
-  actionClasses: string[];
 }
 
 export interface ApiOutput {
@@ -59,6 +56,8 @@ export interface Course extends ApiOutput {
   courseName: string;
   timeZone: string;
   institute: string;
+  country: string;
+  instituteId: string;
   creationTimestamp: number;
   deletionTimestamp: number;
 }
@@ -345,7 +344,6 @@ export interface Instructor extends ApiOutput {
   institute: string;
   courseName: string;
   accountId?: string;
-  googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;
@@ -486,12 +484,16 @@ export interface ResponseOutput {
   responseId: string;
   giver: string;
   userIdForModeration?: string;
+  giverUserId?: string;
+  giverTeamId?: string;
   giverTeam: string;
   giverEmail?: string;
   giverSectionId?: string;
   giverSection: string;
   recipient: string;
+  recipientUserId?: string;
   recipientSectionId?: string;
+  recipientTeamId?: string;
   recipientTeam: string;
   recipientEmail?: string;
   recipientSection: string;
@@ -500,8 +502,23 @@ export interface ResponseOutput {
   instructorComments: ResponseInstructorComment[];
 }
 
+export interface SessionLinks extends ApiOutput {
+  courseJoinLink: string;
+  submissionLinks: SessionSubmissionLink[];
+  resultsLinks: SessionResultLink[];
+}
+
 export interface SessionLinksRecoveryResponse extends ApiOutput {
   message: string;
+}
+
+export interface SessionResultLink {
+  feedbackSessionId: string;
+  name: string;
+  submissionStartTimestamp: number;
+  submissionEndTimestamp: number;
+  timeZone: string;
+  url: string;
 }
 
 export interface SessionResults extends ApiOutput {
@@ -510,6 +527,16 @@ export interface SessionResults extends ApiOutput {
 
 export interface SessionSubmission extends ApiOutput {
   questions: SessionSubmissionQuestion[];
+}
+
+export interface SessionSubmissionLink {
+  feedbackSessionId: string;
+  name: string;
+  submissionStartTimestamp: number;
+  submissionEndTimestamp: number;
+  timeZone: string;
+  submissionStatus: FeedbackSessionSubmissionStatus;
+  url: string;
 }
 
 export interface SessionSubmissionQuestion extends ApiOutput {
@@ -530,7 +557,6 @@ export interface Student extends ApiOutput {
   institute: string;
   courseName: string;
   accountId?: string;
-  googleId?: string;
   comments?: string;
   key?: string;
   joinState?: JoinState;
@@ -546,16 +572,12 @@ export interface TimeZones extends ApiOutput {
 }
 
 export interface UsageStatistics extends ApiOutput {
-  usageStatisticsId: string;
   startTime: number;
-  timePeriod: number;
   numResponses: number;
   numCourses: number;
   numStudents: number;
   numInstructors: number;
   numAccountRequests: number;
-  numEmails: number;
-  numSubmissions: number;
 }
 
 export interface UsageStatisticsRange extends ApiOutput {
@@ -572,6 +594,7 @@ export interface User extends ApiOutput {
 export interface UserInfo {
   id: string;
   accountId: string;
+  email: string;
   isAdmin: boolean;
   isInstructor: boolean;
   isStudent: boolean;

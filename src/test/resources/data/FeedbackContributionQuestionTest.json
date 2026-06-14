@@ -1,4 +1,26 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "TEAMMATES Test Institute 1",
+      "country": "SG"
+    },
+    "institute2": {
+      "id": "00000000-0000-4000-9000-000000000002",
+      "name": "TEAMMATES Test Institute 7",
+      "country": "SG"
+    },
+    "institute3": {
+      "id": "00000000-0000-4000-9000-000000000003",
+      "name": "TEAMMATES Test Institute 5",
+      "country": "SG"
+    },
+    "institute4": {
+      "id": "00000000-0000-4000-9000-000000000004",
+      "name": "inst<script> alert('hi!'); </script>",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -115,21 +137,21 @@
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2012-04-01T23:58:00Z"
     },
     "typicalCourse2": {
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
       "timeZone": "Asia/Singapore",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2012-04-01T23:59:00Z"
     },
     "typicalCourse3": {
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "deletedAt": "2012-04-12T23:58:00Z",
       "createdAt": "2012-04-02T23:58:00Z"
     },
@@ -137,45 +159,45 @@
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2012-04-02T23:58:00Z"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     },
     "sampleCourse": {
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 7"
+      "instituteId": "00000000-0000-4000-9000-000000000002"
     },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 5"
+      "instituteId": "00000000-0000-4000-9000-000000000003"
     },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     },
     "testingInstructorsDisplayedCourse": {
       "id": "idOfTestingInstructorsDisplayedCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2012-04-01T23:58:00Z"
     },
     "testingSanitizationCourse": {
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "timeZone": "Africa/Johannesburg",
-      "institute": "inst<script> alert('hi!'); </script>",
+      "instituteId": "00000000-0000-4000-9000-000000000004",
       "createdAt": "2012-04-01T23:58:00Z"
     }
   },

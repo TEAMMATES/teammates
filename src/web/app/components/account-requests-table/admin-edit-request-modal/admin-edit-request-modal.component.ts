@@ -1,16 +1,31 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
+import { CountryService } from '../../../../services/country.service';
+import {
+  ComboboxOption,
+  SearchableComboboxComponent,
+} from '../../../components/searchable-combobox/searchable-combobox.component';
 
 /**
- * Modal to select reject account requests with reason.
+ * Modal to edit account requests.
  */
 @Component({
   selector: 'tm-edit-request-modal',
   templateUrl: './admin-edit-request-modal.component.html',
+  imports: [ReactiveFormsModule, SearchableComboboxComponent],
 })
-export class EditRequestModalComponent {
+export class EditRequestModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
+  private readonly countryService = inject(CountryService);
+
+  readonly countryOptions: ComboboxOption<string>[] = this.countryService.getCountryOptions().map((o) => ({
+    value: o.code,
+    label: o.name,
+  }));
+
+  country = new FormControl('');
 
   @Input()
   accountRequestName = '';
@@ -19,7 +34,13 @@ export class EditRequestModalComponent {
   @Input()
   accountRequestInstitution = '';
   @Input()
+  accountRequestCountry = '';
+  @Input()
   accountRequestComments = '';
+
+  ngOnInit(): void {
+    this.country.setValue(this.accountRequestCountry);
+  }
 
   /**
    * Fires the edit event.
@@ -29,6 +50,7 @@ export class EditRequestModalComponent {
       accountRequestName: this.accountRequestName,
       accountRequestEmail: this.accountRequestEmail,
       accountRequestInstitution: this.accountRequestInstitution,
+      accountRequestCountry: this.country.value ?? '',
       accountRequestComment: this.accountRequestComments,
     };
 

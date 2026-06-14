@@ -19,17 +19,16 @@ public class CreateAccountRequestAction extends PublicAction {
             throws InvalidHttpRequestBodyException, InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-        if (!requestContext.isAdmin()) {
-            String userCaptchaResponse = createRequest.getCaptchaResponse();
-            if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-                throw new InvalidHttpRequestBodyException("Something went wrong with "
-                        + "the reCAPTCHA verification. Please try again.");
-            }
+        String userCaptchaResponse = createRequest.getCaptchaResponse();
+        if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
+            throw new InvalidHttpRequestBodyException("Something went wrong with "
+                    + "the reCAPTCHA verification. Please try again.");
         }
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        String instructorCountry = createRequest.getInstructorCountry().trim();
         String comments = createRequest.getInstructorComments();
         if (comments != null) {
             comments = comments.trim();
@@ -38,20 +37,18 @@ public class CreateAccountRequestAction extends PublicAction {
 
         try {
             accountRequest = logic.createAccountRequest(instructorName, instructorEmail,
-                    instructorInstitution, AccountRequestStatus.PENDING, comments);
+                    instructorInstitution, instructorCountry, AccountRequestStatus.PENDING, comments);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
 
         assert accountRequest != null;
 
-        if (!requestContext.isAdmin()) {
-            EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-            EmailWrapper userAcknowledgementEmail = emailGenerator
-                    .generateNewAccountRequestAcknowledgementEmail(accountRequest);
-            emailSender.sendEmail(adminAlertEmail);
-            emailSender.sendEmail(userAcknowledgementEmail);
-        }
+        EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        EmailWrapper userAcknowledgementEmail = emailGenerator
+                .generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        emailSender.sendEmail(adminAlertEmail);
+        emailSender.sendEmail(userAcknowledgementEmail);
 
         AccountRequestData output = new AccountRequestData(accountRequest);
         return new JsonResult(output);

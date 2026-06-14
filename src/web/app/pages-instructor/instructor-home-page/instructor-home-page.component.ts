@@ -205,7 +205,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         courseName: result.newCourseName,
         timeZone: result.newTimeZone,
         courseId: result.newCourseId,
-        institute: result.newCourseInstitute,
+        instituteId: result.newCourseInstituteId,
       })
       .subscribe({
         next: () => {

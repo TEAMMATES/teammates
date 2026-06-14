@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.InstructorCoursePrivilege;
 import teammates.storage.entity.InstructorSectionPrivilege;
@@ -48,9 +50,8 @@ public final class DataBundleLogic {
     private static final DataBundleLogic instance = new DataBundleLogic();
 
     private AccountsLogic accountsLogic;
-    private AccountRequestsLogic accountRequestsLogic;
-    private CoursesLogic coursesLogic;
     private NotificationsLogic notificationsLogic;
+    private InstitutesLogic institutesLogic;
 
     private DataBundleLogic() {
         // prevent initialization
@@ -60,16 +61,15 @@ public final class DataBundleLogic {
         return instance;
     }
 
-    void initLogicDependencies(AccountsLogic accountsLogic, AccountRequestsLogic accountRequestsLogic,
-            CoursesLogic coursesLogic, NotificationsLogic notificationsLogic) {
+    void initLogicDependencies(AccountsLogic accountsLogic,
+            NotificationsLogic notificationsLogic, InstitutesLogic institutesLogic) {
         this.accountsLogic = accountsLogic;
-        this.accountRequestsLogic = accountRequestsLogic;
-        this.coursesLogic = coursesLogic;
         this.notificationsLogic = notificationsLogic;
+        this.institutesLogic = institutesLogic;
     }
 
     /**
-     * Deserialize JSON into a data bundle.
+     * Deserialize JSON into a data bundle, replacing entity IDs with random UUIDs.
      *
      * <p>NOTE: apart from for Course, ids used in the jsonString may be any valid UUID
      * and are used only to link entities together. They will be replaced by a random
@@ -82,8 +82,24 @@ public final class DataBundleLogic {
      * @return newly created DataBundle
      */
     public static DataBundle deserializeDataBundle(String jsonString) {
+        return deserializeDataBundle(jsonString, null);
+    }
+
+    /**
+     * Deserialize JSON into a data bundle with deterministic IDs derived from the seed.
+     *
+     * <p>When {@code seed} is provided, entity IDs are generated deterministically
+     * using {@code UUID.nameUUIDFromBytes(seed + ":" + placeholderId)}. This ensures
+     * IDs are stable across test runs and do not collide between test cases.</p>
+     *
+     * @param jsonString containing entities to persist at once to the database.
+     * @param seed unique name that must not be shared with other tests.
+     * @return newly created DataBundle
+     */
+    public static DataBundle deserializeDataBundle(String jsonString, String seed) {
         DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
+        Collection<Institute> institutes = dataBundle.institutes.values();
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
@@ -101,6 +117,7 @@ public final class DataBundleLogic {
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
         // Mapping of IDs or placeholder IDs to actual entity
+        Map<UUID, Institute> institutesMap = new HashMap<>();
         Map<String, Course> coursesMap = new HashMap<>();
         Map<UUID, Section> sectionsMap = new HashMap<>();
         Map<UUID, Team> teamsMap = new HashMap<>();
@@ -114,18 +131,27 @@ public final class DataBundleLogic {
         // Replace any placeholder IDs with newly generated UUIDs
         // Store mapping of placeholder ID to actual entity to keep track of
         // associations between entities
+        for (Institute institute : institutes) {
+            UUID placeholderId = institute.getId();
+            institute.setId(generateId(placeholderId, seed));
+            institutesMap.put(placeholderId, institute);
+        }
+
         for (AccountRequest accountRequest : accountRequests) {
-            accountRequest.setId(UUID.randomUUID());
+            UUID placeholderId = accountRequest.getId();
+            accountRequest.setId(generateId(placeholderId, seed));
             accountRequest.generateNewRegistrationKey();
+            accountRequest.setInstitute(institutesMap.get(accountRequest.getInstituteId()));
         }
 
         for (Course course : courses) {
             coursesMap.put(course.getId(), course);
+            course.setInstitute(institutesMap.get(course.getInstituteId()));
         }
 
         for (Section section : sections) {
             UUID placeholderId = section.getId();
-            section.setId(UUID.randomUUID());
+            section.setId(generateId(placeholderId, seed));
             sectionsMap.put(placeholderId, section);
             Course course = coursesMap.get(section.getCourseId());
             course.addSection(section);
@@ -133,7 +159,7 @@ public final class DataBundleLogic {
 
         for (Team team : teams) {
             UUID placeholderId = team.getId();
-            team.setId(UUID.randomUUID());
+            team.setId(generateId(placeholderId, seed));
             teamsMap.put(placeholderId, team);
             Section section = sectionsMap.get(team.getSectionId());
             section.addTeam(team);
@@ -141,13 +167,13 @@ public final class DataBundleLogic {
 
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
-            account.setId(UUID.randomUUID());
+            account.setId(generateId(placeholderId, seed));
             accountsMap.put(placeholderId, account);
         }
 
         for (Instructor instructor : instructors) {
             UUID placeholderId = instructor.getId();
-            instructor.setId(UUID.randomUUID());
+            instructor.setId(generateId(placeholderId, seed));
             usersMap.put(placeholderId, instructor);
             Course course = coursesMap.get(instructor.getCourseId());
             instructor.setCourse(course);
@@ -160,7 +186,7 @@ public final class DataBundleLogic {
 
         for (FeedbackSession session : sessions) {
             UUID placeholderId = session.getId();
-            session.setId(UUID.randomUUID());
+            session.setId(generateId(placeholderId, seed));
             sessionsMap.put(placeholderId, session);
             Course course = coursesMap.get(session.getCourseId());
             session.setCourse(course);
@@ -173,7 +199,7 @@ public final class DataBundleLogic {
 
         for (FeedbackQuestion question : questions) {
             UUID placeholderId = question.getId();
-            question.setId(UUID.randomUUID());
+            question.setId(generateId(placeholderId, seed));
             questionMap.put(placeholderId, question);
             FeedbackSession fs = sessionsMap.get(question.getSessionId());
             fs.addFeedbackQuestion(question);
@@ -181,7 +207,7 @@ public final class DataBundleLogic {
 
         for (FeedbackResponse response : responses) {
             UUID placeholderId = response.getId();
-            response.setId(UUID.randomUUID());
+            response.setId(generateId(placeholderId, seed));
             responseMap.put(placeholderId, response);
             FeedbackQuestion fq = questionMap.get(response.getQuestionId());
             fq.addFeedbackResponse(response);
@@ -189,7 +215,7 @@ public final class DataBundleLogic {
 
         for (Student student : students) {
             UUID placeholderId = student.getId();
-            student.setId(UUID.randomUUID());
+            student.setId(generateId(placeholderId, seed));
             usersMap.put(placeholderId, student);
             Course course = coursesMap.get(student.getCourseId());
             student.setCourse(course);
@@ -229,7 +255,8 @@ public final class DataBundleLogic {
         }
 
         for (FeedbackSessionLog log : sessionLogs) {
-            log.setId(UUID.randomUUID());
+            UUID placeholderId = log.getId();
+            log.setId(generateId(placeholderId, seed));
             FeedbackSession fs = sessionsMap.get(log.getSessionId());
             log.setFeedbackSession(fs);
             User user = usersMap.get(log.getUserId());
@@ -238,12 +265,13 @@ public final class DataBundleLogic {
 
         for (Notification notification : notifications) {
             UUID placeholderId = notification.getId();
-            notification.setId(UUID.randomUUID());
+            notification.setId(generateId(placeholderId, seed));
             notificationsMap.put(placeholderId, notification);
         }
 
         for (ReadNotification readNotification : readNotifications) {
-            readNotification.setId(UUID.randomUUID());
+            UUID placeholderId = readNotification.getId();
+            readNotification.setId(generateId(placeholderId, seed));
             Account account = accountsMap.get(readNotification.getAccountId());
             account.addReadNotification(readNotification);
             Notification notification = notificationsMap.get(readNotification.getNotificationId());
@@ -251,7 +279,8 @@ public final class DataBundleLogic {
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {
-            deadlineExtension.setId(UUID.randomUUID());
+            UUID placeholderId = deadlineExtension.getId();
+            deadlineExtension.setId(generateId(placeholderId, seed));
             FeedbackSession session = sessionsMap.get(deadlineExtension.getSessionId());
             session.addDeadlineExtension(deadlineExtension);
             User user = usersMap.get(deadlineExtension.getUserId());
@@ -259,7 +288,8 @@ public final class DataBundleLogic {
         }
 
         for (ResponseInstructorComment responseComment : responseComments) {
-            responseComment.setId(UUID.randomUUID());
+            UUID placeholderId = responseComment.getId();
+            responseComment.setId(generateId(placeholderId, seed));
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
             fr.addResponseInstructorComment(responseComment);
 
@@ -377,6 +407,14 @@ public final class DataBundleLogic {
         return dataBundle;
     }
 
+    private static UUID generateId(UUID placeholderId, String seed) {
+        assert placeholderId != null : "placeholderId must be defined";
+        if (seed == null) {
+            return UUID.randomUUID();
+        }
+        return UUID.nameUUIDFromBytes((seed + ":" + placeholderId).getBytes(StandardCharsets.UTF_8));
+    }
+
     /**
      * Persists data in the given {@link DataBundle} to the database.
      *
@@ -388,6 +426,7 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Null data bundle");
         }
 
+        Collection<Institute> institutes = dataBundle.institutes.values();
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
         Collection<Course> courses = dataBundle.courses.values();
@@ -404,6 +443,7 @@ public final class DataBundleLogic {
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
+        persistEntities(institutes);
         persistEntities(accountRequests);
         persistEntities(notifications);
         persistEntities(accounts);
@@ -432,20 +472,14 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Data bundle is null");
         }
 
-        dataBundle.courses.values().forEach(course ->
-                coursesLogic.deleteCourse(course.getId())
-        );
-        dataBundle.readNotifications.values().forEach(readNotification ->
-                notificationsLogic.deleteReadNotification(readNotification.getId())
+        dataBundle.institutes.values().forEach(institute ->
+                institutesLogic.deleteInstitute(institute.getId())
         );
         dataBundle.notifications.values().forEach(notification ->
                 notificationsLogic.deleteNotification(notification.getId())
         );
         dataBundle.accounts.values().forEach(account ->
-                accountsLogic.deleteAccount(account.getGoogleId())
-        );
-        dataBundle.accountRequests.values().forEach(accountRequest ->
-                accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
+                accountsLogic.deleteAccount(account.getId())
         );
     }
 

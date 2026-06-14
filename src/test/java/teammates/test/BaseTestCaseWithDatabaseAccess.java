@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 import org.junit.jupiter.api.function.Executable;
@@ -56,13 +55,9 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     }
 
     @BeforeMethod(alwaysRun = true)
-    protected void setUpMethod(Method method) {
+    protected void setUpMethod() {
         LogicStarter.initializeDependencies();
-        given = new GivenData(getTestMethodName(method));
-    }
-
-    private String getTestMethodName(Method method) {
-        return method.getDeclaringClass().getSimpleName() + "." + method.getName();
+        given = new GivenData(currentTestName);
     }
 
     private static void runLiquibaseMigrations(String jdbcUrl, String username, String password) throws Exception {
@@ -159,6 +154,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 feedback_responses,
                 feedback_session_logs,
                 feedback_sessions,
+                institutes,
                 instructors,
                 notifications,
                 read_notifications,
@@ -166,7 +162,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
                 sections,
                 students,
                 teams,
-                usage_statistics,
                 users
             RESTART IDENTITY CASCADE
             """)

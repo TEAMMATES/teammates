@@ -2,9 +2,6 @@ package teammates.e2e.cases;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
@@ -16,7 +13,6 @@ import teammates.common.util.StringHelperExtension;
 import teammates.e2e.pageobjects.AdminSearchPage;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
@@ -47,22 +43,11 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         String studentDetails = getExpectedStudentDetails(student);
         String studentManageAccountLink = getExpectedStudentManageAccountLink(student);
-        String studentHomePageLink = getExpectedStudentHomePageLink(student);
-        int numExpandedRows = getExpectedNumExpandedRows(student);
-        searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink,
-                studentHomePageLink);
-        searchPage.verifyStudentExpandedLinks(student, numExpandedRows);
-
-        ______TS("Typical case: Reset student google id");
-        searchPage.resetStudentGoogleId(student);
-        student.setGoogleId(null);
-        searchPage.verifyStudentRowContentAfterReset(student, course);
+        searchPage.verifyStudentRowContent(student, course, studentDetails, studentManageAccountLink);
 
         ______TS("Typical case: Regenerate registration key for a course student");
-        searchPage.clickExpandStudentLinks();
-        String originalJoinLink = searchPage.getStudentJoinLink(student);
         searchPage.regenerateStudentKey(student);
-        searchPage.verifyRegenerateStudentKey(student, originalJoinLink);
+        searchPage.verifyRegenerateStudentKey();
         searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");
@@ -71,20 +56,11 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         String instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
-        String instructorHomePageLink = getExpectedInstructorHomePageLink(instructor);
-        searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink,
-                instructorHomePageLink);
-        searchPage.verifyInstructorExpandedLinks(instructor);
-
-        ______TS("Typical case: Reset instructor google id");
-        searchPage.resetInstructorGoogleId(instructor);
-        searchPage.verifyInstructorRowContentAfterReset(instructor, course);
+        searchPage.verifyInstructorRowContent(instructor, course, instructorManageAccountLink);
 
         ______TS("Typical case: Regenerate registration key for an instructor");
-        searchPage.clickExpandInstructorLinks();
-        originalJoinLink = searchPage.getInstructorJoinLink(instructor);
         searchPage.regenerateInstructorKey(instructor);
-        searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
+        searchPage.verifyRegenerateInstructorKey();
 
         ______TS("Typical case: Search for account request by email");
         searchPage.clearSearchBox();
@@ -99,12 +75,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchContent = "Course1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyStudentRowContentAfterReset(student, course);
-        searchPage.verifyInstructorRowContentAfterReset(instructor, course);
         searchPage.verifyAccountRequestRowContent(accountRequest);
-
-        ______TS("Typical case: Expand and collapse links");
-        searchPage.verifyLinkExpansionButtons(student, instructor, accountRequest);
 
         ______TS("Typical case: Delete account request successful");
         accountRequest = testData.accountRequests.get("unregisteredInstructor1");
@@ -123,7 +94,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.clickEditAccountRequestButton(accountRequest);
         searchPage.fillInEditModalFields("Different name", accountRequest.getEmail(),
-                accountRequest.getInstitute(), "New comment");
+                accountRequest.getInstitute().getName(), "New comment");
         searchPage.clickSaveEditAccountRequestButton();
         accountRequest.setName("Different name");
         accountRequest.setComments("New comment");
@@ -145,7 +116,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.clickEditAccountRequestButton(accountRequest);
         searchPage.fillInEditModalFields(accountRequest.getName(), "invalid",
-                accountRequest.getInstitute(), "New comment");
+                accountRequest.getInstitute().getName(), "New comment");
         searchPage.closeToastsIfPresent();
         searchPage.clickSaveEditAccountRequestButton();
         String formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
@@ -159,7 +130,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
         searchPage.clickEditAccountRequestButton(accountRequest);
-        searchPage.fillInEditModalFields(name, accountRequest.getEmail(), accountRequest.getInstitute(), "New comment");
+        searchPage.fillInEditModalFields(name, accountRequest.getEmail(),
+                accountRequest.getInstitute().getName(), "New comment");
         searchPage.clickSaveEditAccountRequestButton();
         formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
                 + "The value of a/an %s should be no longer than %d characters. It should not be empty.",
@@ -216,39 +188,11 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 student.getTeamName());
     }
 
-    private String getExpectedStudentHomePageLink(Student student) {
-        UUID accountId = student.isRegistered() ? student.getAccountId() : null;
-        return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withMasqueradeAccount(accountId)
-                .toAbsoluteString()
-                : "";
-    }
-
     private String getExpectedStudentManageAccountLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withAccountId(student.getAccountId())
                 .toAbsoluteString()
                 : "";
-    }
-
-    private int getExpectedNumExpandedRows(Student student) {
-        int expectedNumExpandedRows = 2;
-        for (FeedbackSession sessions : testData.feedbackSessions.values()) {
-            if (sessions.getCourse().equals(student.getCourse())) {
-                expectedNumExpandedRows += 1;
-                if (sessions.getResultsVisibleFromTime().isBefore(Instant.now())) {
-                    expectedNumExpandedRows += 1;
-                }
-            }
-        }
-        return expectedNumExpandedRows;
-    }
-
-    private String getExpectedInstructorHomePageLink(Instructor instructor) {
-        UUID accountId = instructor.isRegistered() ? instructor.getAccountId() : null;
-        return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withMasqueradeAccount(accountId)
-                .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(Instructor instructor) {

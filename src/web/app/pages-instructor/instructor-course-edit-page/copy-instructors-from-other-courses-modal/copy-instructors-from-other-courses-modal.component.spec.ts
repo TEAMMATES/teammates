@@ -11,7 +11,6 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 
 describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   const testInstructor1: Instructor = {
-    googleId: 'googleIdOfIns1',
     courseId: 'FAN0001',
     courseName: 'Test Course',
     institute: 'Test Institute',
@@ -26,7 +25,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   };
 
   const testInstructor2: Instructor = {
-    googleId: 'googleIdOfIns2',
     courseId: 'FAN0001',
     courseName: 'Test Course',
     institute: 'Test Institute',
@@ -41,7 +39,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   };
 
   const testInstructor3: Instructor = {
-    googleId: 'googleIdOfIns3',
     courseId: 'FAN0002',
     courseName: 'Test Course',
     institute: 'Test Institute',
@@ -56,7 +53,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   };
 
   const testInstructor4: Instructor = {
-    googleId: 'googleIdOfIns4',
     courseId: 'FAN0002',
     courseName: 'Test Course',
     institute: 'Test Institute',
@@ -207,8 +203,8 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     expect(component.courses[0].hasInstructorsLoaded).toBeTruthy();
     expect(component.courses[0].hasLoadingFailed).toBeFalsy();
     expect(component.courses[0].instructorCandidates.length).toBe(2);
-    expect(component.courses[0].instructorCandidates[0].instructor.googleId).toBe(testInstructor1.googleId);
-    expect(component.courses[0].instructorCandidates[1].instructor.googleId).toBe(testInstructor2.googleId);
+    expect(component.courses[0].instructorCandidates[0].instructor.userId).toBe(testInstructor1.userId);
+    expect(component.courses[0].instructorCandidates[1].instructor.userId).toBe(testInstructor2.userId);
   });
 
   it('should not allow copying when no instructors are selected', () => {

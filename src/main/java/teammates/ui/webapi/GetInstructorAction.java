@@ -1,89 +1,36 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorData;
-import teammates.ui.request.Intent;
 
 /**
- * Get the information of an instructor inside a course.
+ * Get the information of an instructor by user ID.
  */
-public class GetInstructorAction extends BasicFeedbackSubmissionAction {
-
-    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
+public class GetInstructorAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        switch (intent) {
-        case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseForSubmission(courseId, true);
-            if (instructor == null) {
-                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
-            }
-            break;
-        case INSTRUCTOR_RESULT:
-            instructor = getInstructorOfCourseForResult(courseId);
-            if (instructor == null) {
-                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
-            }
-            break;
-        case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(requestContext);
-            break;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        if (requestContext.isAdmin()) {
+            return;
         }
+
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        gateKeeper.verifyInstructorInSameCourseAsInstructor(requestContext, userId);
     }
 
     @Override
     public JsonResult execute() {
-        String intentString = getNonNullRequestParamValue(Const.ParamsNames.INTENT);
-        Intent intent;
-        try {
-            intent = Intent.valueOf(intentString);
-        } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException("Invalid intent: " + intentString, e);
-        }
-
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Instructor instructor;
-
-        switch (intent) {
-        case INSTRUCTOR_SUBMISSION:
-            instructor = getInstructorOfCourseForSubmission(courseId, true);
-            break;
-        case INSTRUCTOR_RESULT:
-            instructor = getInstructorOfCourseForResult(courseId);
-            break;
-        case FULL_DETAIL:
-            instructor = getInstructorFromRequest(courseId);
-            break;
-        default:
-            throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
-
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Instructor instructor = logic.getInstructor(userId);
         if (instructor == null) {
-            throw new EntityNotFoundException("Instructor could not be found for this course");
+            throw new EntityNotFoundException("Instructor does not exist.");
         }
 
-        InstructorData instructorData = new InstructorData(instructor);
-        if (intent == Intent.FULL_DETAIL) {
-            instructorData.setGoogleId(instructor.getGoogleId());
-        }
-
-        return new JsonResult(instructorData);
+        return new JsonResult(new InstructorData(instructor));
     }
 
 }

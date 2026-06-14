@@ -1,4 +1,16 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "Ficuni School of Computing",
+      "country": "SG"
+    },
+    "institute2": {
+      "id": "00000000-0000-4000-9000-000000000002",
+      "name": "Ficuni School of Design and Environment",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -246,7 +258,7 @@
       "id": "00000000-0000-4000-8000-000000002001",
       "name": "Alice",
       "email": "alice@teammates.tmt",
-      "institute": "Ficuni School of Computing",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-06-15T09:00:00Z",
       "status": "REGISTERED",
       "registeredAt": "2024-07-01T10:30:00Z"
@@ -255,7 +267,7 @@
       "id": "00000000-0000-4000-8000-000000002002",
       "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
-      "institute": "Ficuni School of Computing",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-08-01T08:00:00Z",
       "status": "REGISTERED",
       "registeredAt": "2024-08-10T14:00:00Z",
@@ -265,7 +277,7 @@
       "id": "00000000-0000-4000-8000-000000002003",
       "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
-      "institute": "Ficuni School of Computing",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-07-20T11:00:00Z",
       "status": "REGISTERED",
       "registeredAt": "2024-08-01T09:00:00Z"
@@ -274,7 +286,7 @@
       "id": "00000000-0000-4000-8000-000000002004",
       "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
-      "institute": "Ficuni School of Computing",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-09-01T10:00:00Z",
       "status": "REGISTERED",
       "registeredAt": "2024-09-05T16:00:00Z"
@@ -283,7 +295,7 @@
       "id": "00000000-0000-4000-8000-000000002005",
       "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
-      "institute": "Ficuni School of Design and Environment",
+      "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2025-01-10T08:00:00Z",
       "status": "APPROVED",
       "comments": "New faculty hire, starting Spring 2025"
@@ -292,7 +304,7 @@
       "id": "00000000-0000-4000-8000-000000002006",
       "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
-      "institute": "Ficuni School of Design and Environment",
+      "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2024-10-15T12:00:00Z",
       "status": "REGISTERED",
       "registeredAt": "2024-11-01T08:30:00Z"
@@ -302,21 +314,21 @@
     "course1": {
       "id": "CS1101S",
       "name": "Programming Methodology",
-      "institute": "Ficuni School of Computing",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Asia/Singapore",
       "createdAt": "2026-01-10T08:00:00Z"
     },
     "course2": {
       "id": "CS2103T",
       "name": "Software Engineering",
-      "institute": "Ficuni School of Computing",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Asia/Singapore",
       "createdAt": "2026-01-12T09:00:00Z"
     },
     "course3": {
       "id": "CS2040DE",
       "name": "Data Structures and Algorithms",
-      "institute": "Ficuni School of Design and Environment",
+      "instituteId": "00000000-0000-4000-9000-000000000002",
       "timeZone": "America/New_York",
       "createdAt": "2026-01-15T12:00:00Z"
     }

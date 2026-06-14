@@ -1,13 +1,11 @@
 package teammates.e2e.pageobjects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import teammates.test.ThreadHelper;
 
@@ -19,56 +17,13 @@ public class AdminHomePage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
 
-    @FindBy(id = "instructor-details-single-line")
-    private WebElement detailsSingleLineTextBox;
-
-    @FindBy (id = "instructor-name")
-    private WebElement nameTextBox;
-
-    @FindBy (id = "instructor-email")
-    private WebElement emailTextBox;
-
-    @FindBy (id = "instructor-institution")
-    private WebElement institutionTextBox;
-
-    @FindBy (id = "add-instructor")
-    private WebElement submitButton;
-
-    @FindBy (id = "add-instructor-single-line")
-    private WebElement submitButtonDetailsSingleLineForm;
-
     public AdminHomePage(Browser browser) {
         super(browser);
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Add New Instructor</h1>");
-    }
-
-    public void addInstructor(String name, String email, String institute) {
-        if (name != null) {
-            fillTextBox(nameTextBox, name);
-        }
-        if (email != null) {
-            fillTextBox(emailTextBox, email);
-        }
-        if (institute != null) {
-            fillTextBox(institutionTextBox, institute);
-        }
-
-        click(submitButton);
-    }
-
-    public void addInstructor(String instructorDetails) {
-        if (instructorDetails != null) {
-            fillTextBox(detailsSingleLineTextBox, instructorDetails);
-        }
-        click(submitButtonDetailsSingleLineForm);
-    }
-
-    public void verifyMultipleInstructorDetails(String expectedInstructorDetails) {
-        assertEquals(expectedInstructorDetails, detailsSingleLineTextBox.getAttribute("value"));
+        return getPageSource().contains("Admin Home Page");
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {

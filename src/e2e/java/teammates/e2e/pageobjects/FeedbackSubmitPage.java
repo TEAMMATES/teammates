@@ -49,6 +49,10 @@ import teammates.storage.entity.FeedbackSession;
  */
 public class FeedbackSubmitPage extends AppPage {
 
+    private static final By RECIPIENT_COMBOBOX_SELECTOR = By.cssSelector("[id^='recipient-dropdown-qn-']");
+    private static final By SEARCHABLE_COMBOBOX_OPTION_SELECTOR =
+            By.cssSelector("[data-testid='searchable-combobox-option']");
+
     public FeedbackSubmitPage(Browser browser) {
         super(browser);
     }
@@ -58,17 +62,17 @@ public class FeedbackSubmitPage extends AppPage {
         if (isElementPresent(By.className("modal-content"))) {
             waitForConfirmationModalAndClickOk();
         }
-        return getPageTitle().contains("Submit Feedback");
+        return isElementPresent(By.id("fs-name"));
     }
 
     public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
-        assertEquals(getCourseId(), feedbackSession.getCourseId());
-        assertEquals(getCourseName(), course.getName());
-        assertEquals(getCourseInstitute(), course.getInstitute());
         assertEquals(getFeedbackSessionName(), feedbackSession.getName());
         assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), course.getTimeZone());
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), course.getTimeZone());
         assertEquals(getInstructions(), feedbackSession.getInstructions());
+        expandAdditionalDetails();
+        assertEquals(getCourseName(), "Course: " + course.getName());
+        assertEquals(getCourseInstitute(), "Institute: " + course.getInstitute().getName());
     }
 
     public void verifyNumQuestions(int expected) {
@@ -84,14 +88,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyLimitedRecipients(int qnNumber, int numRecipients, List<String> recipientNames) {
-        List<WebElement> recipientDropdowns = getQuestionForm(qnNumber)
-                .findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
-        assertEquals(numRecipients, recipientDropdowns.size());
-        List<WebElement> recipients = recipientDropdowns.get(0).findElements(By.tagName("option"));
-        assertEquals(recipientNames.size(), recipients.size() - 1);
+        List<WebElement> recipientComboboxes = getQuestionForm(qnNumber).findElements(RECIPIENT_COMBOBOX_SELECTOR);
+        assertEquals(numRecipients, recipientComboboxes.size());
+        List<WebElement> recipients = getRecipientComboboxOptions(recipientComboboxes.get(0));
+        assertEquals(recipientNames.size(), recipients.size());
         Collections.sort(recipientNames);
         for (int i = 0; i < recipientNames.size(); i++) {
-            assertEquals(recipientNames.get(i), recipients.get(i + 1).getText());
+            assertEquals(recipientNames.get(i), recipients.get(i).getText().split(" \\(")[0]);
         }
     }
 
@@ -114,14 +117,12 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
         click(getSubmitAllQuestionsButton());
-        waitForPageToLoad();
-        StringBuilder expectedSb = new StringBuilder();
+        WebElement modal = waitForElementPresence(By.className("modal-content"));
+        assertTrue(modal.getText().contains("Submission summary"));
+        WebElement notAnsweredSection = modal.findElement(By.id("not-yet-answered-questions-section"));
         for (int unansweredQuestion : unansweredQuestions) {
-            expectedSb.append(unansweredQuestion).append(", ");
+            assertTrue(notAnsweredSection.getText().contains("Q" + unansweredQuestion));
         }
-        String expectedString = expectedSb.toString().substring(0, expectedSb.length() - 2) + ".";
-        String warningString = waitForElementPresence(By.id("not-answered-questions")).getText();
-        assertEquals(warningString.split(": ")[1], expectedString);
         waitForConfirmationModalAndClickOk();
     }
 
@@ -587,10 +588,6 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    private String getCourseId() {
-        return browser.driver.findElement(By.id("course-id")).getText();
-    }
-
     private String getCourseName() {
         return browser.driver.findElement(By.id("course-name")).getText();
     }
@@ -604,15 +601,19 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getOpeningTime() {
-        return browser.driver.findElement(By.id("opening-time")).getText();
+        return browser.driver.findElement(By.id("opening-time")).getText().split(": ")[1];
     }
 
     private String getClosingTime() {
-        return browser.driver.findElement(By.id("closing-time")).getText();
+        return browser.driver.findElement(By.id("closing-time")).getText().split(": ")[1];
     }
 
     private String getInstructions() {
         return browser.driver.findElement(By.id("instructions")).getAttribute("innerHTML");
+    }
+
+    private void expandAdditionalDetails() {
+        click(By.cssSelector("summary"));
     }
 
     private void assertDateEquals(String actual, Instant instant, String timeZone) {
@@ -647,8 +648,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getQuestionBrief(int qnNumber) {
-        String questionDetails = getQuestionForm(qnNumber).findElement(By.className("question-details")).getText();
-        return questionDetails.split(": ")[1];
+        return getQuestionForm(qnNumber).findElement(By.id("question-brief-" + qnNumber)).getText();
     }
 
     private void verifyVisibilityList(int qnNumber, FeedbackQuestion feedbackQuestion) {
@@ -742,7 +742,8 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void clickSubmitQuestionButton(int qnNumber) {
         WebElement submitQnButton = waitForElementPresence(By.id("btn-submit-qn-" + qnNumber));
-        clickAndConfirm(submitQnButton);
+        click(submitQnButton);
+        verifyStatusMessage("Response to question " + qnNumber + " submitted successfully.");
     }
 
     public void clickSubmitAllQuestionsButton() {
@@ -776,32 +777,70 @@ public class FeedbackSubmitPage extends AppPage {
         }
         WebElement questionForm = getQuestionForm(qnNumber);
 
-        List<WebElement> recipientDropdowns =
-                questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+        List<WebElement> recipientDropdowns = questionForm.findElements(RECIPIENT_COMBOBOX_SELECTOR);
 
         if (recipientDropdowns.isEmpty()) {
             // For questions with fixed recipients.
             int limit = 20; // we are not likely to set test data exceeding this number
             for (int i = 0; i < limit; i++) {
                 if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
-                        .getText().contains(recipient)) {
+                        .getText().startsWith(recipient)) {
                     return i;
                 }
             }
         } else {
             // Flexible recipient questions have dropdowns to select recipients.
             for (int i = 0; i < recipientDropdowns.size(); i++) {
-                String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
+                String dropdownText = getSelectedRecipientComboboxOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {
-                    selectDropdownOptionByText(recipientDropdowns.get(i), recipient);
+                    selectRecipientComboboxOptionByText(recipientDropdowns.get(i), recipient);
                     return i;
-                } else if (dropdownText.equals(recipient)) {
+                } else if (dropdownText.startsWith(recipient)) {
                     return i;
                 }
             }
         }
 
         return -1;
+    }
+
+    private String getSelectedRecipientComboboxOptionText(WebElement recipientCombobox) {
+        return recipientCombobox.getAttribute("value");
+    }
+
+    private void selectRecipientComboboxOptionByText(WebElement recipientCombobox, String text) {
+        scrollElementToCenterAndClick(recipientCombobox);
+        recipientCombobox.clear();
+        if (!text.isEmpty()) {
+            recipientCombobox.sendKeys(text);
+        }
+
+        List<WebElement> options = waitForRecipientComboboxOptions(recipientCombobox);
+        for (WebElement option : options) {
+            if (option.getText().startsWith(text)) {
+                click(option);
+                return;
+            }
+        }
+
+        fail("Combobox option not found: " + text);
+    }
+
+    private List<WebElement> getRecipientComboboxOptions(WebElement recipientCombobox) {
+        scrollElementToCenterAndClick(recipientCombobox);
+        return waitForRecipientComboboxOptions(recipientCombobox);
+    }
+
+    private List<WebElement> waitForRecipientComboboxOptions(WebElement recipientCombobox) {
+        WebElement searchableCombobox = recipientCombobox.findElement(By.xpath("./ancestor::tm-searchable-combobox"));
+        return waitFor(driver -> {
+            try {
+                List<WebElement> options = searchableCombobox.findElements(SEARCHABLE_COMBOBOX_OPTION_SELECTOR);
+                return options.isEmpty() ? null : options;
+            } catch (StaleElementReferenceException e) {
+                return null;
+            }
+        });
     }
 
     private WebElement getTextResponseEditor(int qnNumber, String recipient) {

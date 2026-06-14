@@ -16,12 +16,6 @@ import teammates.ui.output.AccountData;
  */
 public class AdminAccountsPage extends AppPage {
 
-    @FindBy(id = "account-google-id")
-    private WebElement accountId;
-
-    @FindBy(id = "account-name")
-    private WebElement accountName;
-
     @FindBy(id = "account-email")
     private WebElement accountEmail;
 
@@ -44,8 +38,6 @@ public class AdminAccountsPage extends AppPage {
     }
 
     public void verifyAccountDetails(AccountData account) {
-        assertEquals(account.getGoogleId(), accountId.getText());
-        assertEquals(account.getName(), accountName.getText());
         assertEquals(account.getEmail(), accountEmail.getText());
     }
 
@@ -89,6 +81,7 @@ public class AdminAccountsPage extends AppPage {
 
     public void clickDeleteAccount() {
         click(deleteAccountButton);
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
     }
 

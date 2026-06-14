@@ -11,13 +11,7 @@ import teammates.ui.output.InstructorPrivilegeData;
 /**
  * Get the instructor privilege.
  */
-public class GetInstructorPrivilegeAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetInstructorPrivilegeAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

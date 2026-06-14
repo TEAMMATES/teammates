@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 import teammates.test.GroupNames;
 
 /**
@@ -45,10 +46,15 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistAccountRequest_accountRequestIsNew_accountRequestIsPersisted() {
+        var institute = given.institute("institute");
+        persistGivenData(given);
         var accountRequestId = given.uuid("account-request");
         AccountRequest accountRequest = buildDefaultAccountRequest(accountRequestId);
 
-        AccountRequest actual = inTransaction(() -> accountRequestsDb.persistAccountRequest(accountRequest));
+        AccountRequest actual = inTransaction(() -> {
+            getEntity(Institute.class, institute.id()).addAccountRequest(accountRequest);
+            return accountRequestsDb.persistAccountRequest(accountRequest);
+        });
 
         assertEquals(accountRequestId, actual.getId());
         verifyPresentInDatabase(AccountRequest.class, accountRequestId);
@@ -95,11 +101,25 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
         verifyAbsentInDatabase(AccountRequest.class, accountRequest.id());
     }
 
+    @Test(groups = GroupNames.DB)
+    public void getCreatedAtTimestampsForTimeRange_accountRequestsExist_returnsTimestampsInRange() {
+        given.accountRequest("account-request-1");
+        given.accountRequest("account-request-2");
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> accountRequestsDb.getCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(2, actual.size());
+    }
+
     private static AccountRequest buildDefaultAccountRequest(UUID accountRequestId) {
         AccountRequest accountRequest = new AccountRequest(
                 "account-request@example.com",
                 "Account Request",
-                "TEAMMATES Test Institute",
                 AccountRequestStatus.PENDING,
                 "");
         accountRequest.setId(accountRequestId);

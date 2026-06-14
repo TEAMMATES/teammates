@@ -3,14 +3,12 @@ package teammates.e2e.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Page Object Model for account request form page.
  */
 public class RequestPage extends AppPage {
-
-    @FindBy(id = "btn-am-instructor")
-    private WebElement amInstructorButton;
 
     @FindBy(id = "name")
     private WebElement nameBox;
@@ -36,20 +34,23 @@ public class RequestPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageTitle().contains("Request for an Instructor Account");
-    }
-
-    public void clickAmInstructorButton() {
-        click(amInstructorButton);
-        waitForPageToLoad();
+        return getPageTitle().contains("Create Courses with TEAMMATES");
     }
 
     public void fillForm(String name, String institution, String country, String email, String comments) {
         fillTextBox(nameBox, name);
         fillTextBox(institutionBox, institution);
-        fillTextBox(countryBox, country);
+        selectCountry(country);
         fillTextBox(emailBox, email);
         fillTextBox(commentsBox, comments);
+    }
+
+    private void selectCountry(String countryName) {
+        click(countryBox);
+        countryBox.sendKeys(countryName);
+        By optionLocator = By.xpath(
+                "//*[@data-testid='searchable-combobox-option' and normalize-space()='" + countryName + "']");
+        click(waitFor(ExpectedConditions.elementToBeClickable(optionLocator)));
     }
 
     public void clickSubmitFormButton() {

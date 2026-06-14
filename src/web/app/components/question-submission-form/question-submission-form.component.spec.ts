@@ -1,8 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,
@@ -15,31 +13,15 @@ import { QuestionSubmissionFormComponent } from './question-submission-form.comp
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import testEventEmission from '../../../test-helpers/test-event-emitter';
 import {
-  FeedbackConstantSumOptionsQuestionDetails,
-  FeedbackConstantSumOptionsResponseDetails,
-  FeedbackConstantSumRecipientsResponseDetails,
-  FeedbackContributionResponseDetails,
-  FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails,
-  FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackNumericalScaleQuestionDetails,
-  FeedbackNumericalScaleResponseDetails,
   FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails,
-  FeedbackRankRecipientsResponseDetails,
-  FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
-  FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   QuestionGiverType,
   QuestionRecipientType,
+  FeedbackNumericalScaleQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
+  FeedbackTextResponseDetails,
 } from '../../../types/api-output';
-import { DEFAULT_TEXT_RESPONSE_DETAILS } from '../../../types/default-question-structs';
-import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
-import { SessionView } from '../../pages-session/session-submission-page/session-view.enum';
 
 const formResponse1: FeedbackResponseRecipientSubmissionFormModel = {
   responseId: 'response-id-1',
@@ -108,23 +90,11 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
   showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
-
-  isTabExpanded: true,
-  isTabExpandedForRecipients: new Map<string, boolean>([
-    ['rogers-alan-id', true],
-    ['buck-arthur-id', true],
-    ['harris-barry-id', true],
-    ['hans-charlie-id', true],
-  ]),
 };
 
 describe('QuestionSubmissionFormComponent', () => {
   let component: QuestionSubmissionFormComponent;
   let fixture: ComponentFixture<QuestionSubmissionFormComponent>;
-
-  const getShowSectionTeamCheckBox = (): DebugElement => {
-    return fixture.debugElement.query(By.css('.form-check input[type="checkbox"]'));
-  };
 
   const feedbackResponseRecipientBuilder = createBuilder<FeedbackResponseRecipient>({
     recipientIdentifier: 'testIdentifier',
@@ -140,107 +110,6 @@ describe('QuestionSubmissionFormComponent', () => {
     recipientIdentifier: 'testIdentifier',
     status: ResponseSubmissionStatus.SAVED,
     isValid: true,
-  });
-
-  const feedbackResponseTextDetailsBuilder = createBuilder<FeedbackTextResponseDetails>({
-    questionType: FeedbackQuestionType.TEXT,
-    answer: '',
-  });
-
-  const feedbackMcqQuestionDetailsBuilder = createBuilder<FeedbackMcqQuestionDetails>({
-    questionType: FeedbackQuestionType.MCQ,
-    questionText: '',
-    hasAssignedWeights: false,
-    mcqWeights: [],
-    mcqOtherWeight: 0,
-    mcqChoices: [],
-    otherEnabled: false,
-    questionDropdownEnabled: false,
-    generateOptionsFor: QuestionRecipientType.TEAMS,
-  });
-
-  const feedbackResponseMcqDetailsBuilder = createBuilder<FeedbackMcqResponseDetails>({
-    questionType: FeedbackQuestionType.MCQ,
-    answer: '',
-    isOther: false,
-    otherFieldContent: '',
-  });
-
-  const feedbackMsqQuestionDetailsBuilder = createBuilder<FeedbackMsqQuestionDetails>({
-    questionType: FeedbackQuestionType.MSQ,
-    questionText: '',
-    msqChoices: [],
-    otherEnabled: false,
-    hasAssignedWeights: false,
-    msqWeights: [],
-    msqOtherWeight: 0,
-    generateOptionsFor: QuestionRecipientType.TEAMS,
-    maxSelectableChoices: 1,
-    minSelectableChoices: 0,
-  });
-
-  const feedbackMsqResponseDetailsBuilder = createBuilder<FeedbackMsqResponseDetails>({
-    questionType: FeedbackQuestionType.MSQ,
-    answers: [],
-    isOther: false,
-    otherFieldContent: '',
-  });
-
-  const feedbackNumericalScaleQuestionDetailsBuilder = createBuilder<FeedbackNumericalScaleQuestionDetails>({
-    questionType: FeedbackQuestionType.NUMSCALE,
-    questionText: '',
-    minScale: 0,
-    maxScale: 1,
-    step: 0.5,
-  });
-
-  const feedbackNumericalScaleResponseDetailsBuilder = createBuilder<FeedbackNumericalScaleResponseDetails>({
-    questionType: FeedbackQuestionType.NUMSCALE,
-    answer: 0,
-  });
-
-  const feedbackConstantSumQuestionDetailsBuilder = createBuilder<FeedbackConstantSumOptionsQuestionDetails>({
-    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    questionText: '',
-    constSumOptions: [],
-    pointsPerOption: false,
-    forceUnevenDistribution: false,
-    distributePointsFor: '',
-    points: 0,
-  });
-
-  const feedbackConstantSumResponseDetailsBuilder = createBuilder<FeedbackConstantSumOptionsResponseDetails>({
-    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    answers: [],
-  });
-
-  const feedbackRubricQuestionDetailsBuilder = createBuilder<FeedbackRubricQuestionDetails>({
-    questionType: FeedbackQuestionType.RUBRIC,
-    questionText: '',
-    hasAssignedWeights: false,
-    rubricWeightsForEachCell: [],
-    rubricChoices: [],
-    rubricSubQuestions: [],
-    rubricDescriptions: [],
-  });
-
-  const feedbackRubricResponseDetailsBuilder = createBuilder<FeedbackRubricResponseDetails>({
-    questionType: FeedbackQuestionType.RUBRIC,
-    answer: [],
-  });
-
-  const feedbackRankOptionsQuestionDetailsBuilder = createBuilder<FeedbackRankOptionsQuestionDetails>({
-    questionType: FeedbackQuestionType.RANK_OPTIONS,
-    questionText: '',
-    options: [],
-    minOptionsToBeRanked: 0,
-    maxOptionsToBeRanked: 1,
-    areDuplicatesAllowed: false,
-  });
-
-  const feedbackRankOptionsResponseDetailsBuilder = createBuilder<FeedbackRankOptionsResponseDetails>({
-    questionType: FeedbackQuestionType.RANK_OPTIONS,
-    answers: [],
   });
 
   beforeEach(async () => {
@@ -264,14 +133,6 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(component.model).toBe(model);
   });
 
-  it('should arrange recipients according to alphabetical order of name after ngDoCheck (Sorted recipient list)', () => {
-    const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
-    component.formModel = model;
-    component.ngDoCheck();
-
-    expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
-  });
-
   it('should arrange recipients according to alphabetical order of name after ngDoCheck (Unsorted recipient list)', () => {
     const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
 
@@ -284,51 +145,182 @@ describe('QuestionSubmissionFormComponent', () => {
     ];
 
     component.formModel = model;
-    component.ngDoCheck();
 
     expect(model.recipientSubmissionForms).toEqual([formResponse3, formResponse4, formResponse2, formResponse1]);
   });
 
-  it('sets isSaved to true if some response has changed', () => {
+  it('should arrange recipients by section and team when section/team labels are shown', () => {
+    const model: QuestionSubmissionFormModel = structuredClone(testNumscaleQuestionSubmissionForm);
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    model.recipientList = [
+      {
+        recipientName: 'Alan Rogers',
+        recipientIdentifier: 'rogers-alan-id',
+        recipientSection: 'Section C',
+        recipientTeam: 'Team B',
+      },
+      {
+        recipientName: 'Arthur Buck',
+        recipientIdentifier: 'buck-arthur-id',
+        recipientSection: 'Section A',
+        recipientTeam: 'Team C',
+      },
+      {
+        recipientName: 'Barry Harris',
+        recipientIdentifier: 'harris-barry-id',
+        recipientSection: 'Section A',
+        recipientTeam: 'Team A',
+      },
+      {
+        recipientName: 'Charlie Hans',
+        recipientIdentifier: 'hans-charlie-id',
+        recipientSection: 'Section B',
+        recipientTeam: 'Team A',
+      },
+    ];
+    component.formModel = model;
+
+    expect(model.recipientList.map((recipient) => recipient.recipientIdentifier)).toEqual([
+      'harris-barry-id',
+      'buck-arthur-id',
+      'hans-charlie-id',
+      'rogers-alan-id',
+    ]);
+    expect(model.recipientSubmissionForms.map((form) => form.recipientIdentifier)).toEqual([
+      'harris-barry-id',
+      'buck-arthur-id',
+      'hans-charlie-id',
+      'rogers-alan-id',
+    ]);
+  });
+
+  it('getResponseSubmissionStatus: returns ERROR when any response is ERROR', () => {
     component.model.recipientSubmissionForms.push(
-      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
       { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.ERROR },
     );
 
-    fixture.detectChanges();
-
-    expect(component.isSaved).toBeTruthy();
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.ERROR);
   });
 
-  it('sets isSaved to false if no response has changed and all responses are empty', () => {
+  it('getResponseSubmissionStatus: returns MODIFIED when there is no ERROR and at least one MODIFIED', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.MODIFIED },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+    );
+
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.MODIFIED);
+  });
+
+  it('getResponseSubmissionStatus: returns SAVED when there is no ERROR or MODIFIED and at least one SAVED', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.SAVED },
+    );
+
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.SAVED);
+  });
+
+  it('getResponseSubmissionStatus: returns NEW when all responses are NEW', () => {
+    component.model.recipientSubmissionForms.push(
+      { ...recipientSubmissionFormBuilder.build(), status: ResponseSubmissionStatus.NEW },
+      {
+        ...recipientSubmissionFormBuilder.recipientIdentifier('other-id').status(ResponseSubmissionStatus.NEW).build(),
+      },
+    );
+
+    expect(component.getResponseSubmissionStatus()).toBe(ResponseSubmissionStatus.NEW);
+  });
+
+  it('getResponseSubmissionStatus: filters by recipientId before computing the status', () => {
     component.model.recipientSubmissionForms.push(
       {
-        recipientIdentifier: '',
-        responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
-        responseId: '',
-        status: ResponseSubmissionStatus.NEW,
-        isValid: true,
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-a')
+          .status(ResponseSubmissionStatus.ERROR)
+          .build(),
       },
       {
-        recipientIdentifier: '',
-        responseDetails: DEFAULT_TEXT_RESPONSE_DETAILS(),
-        responseId: '',
-        status: ResponseSubmissionStatus.NEW,
-        isValid: true,
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-b')
+          .status(ResponseSubmissionStatus.SAVED)
+          .build(),
       },
     );
 
-    fixture.detectChanges();
-
-    expect(component.isSaved).toBeFalsy();
+    expect(component.getResponseSubmissionStatus('recipient-b')).toBe(ResponseSubmissionStatus.SAVED);
+    expect(component.getResponseSubmissionStatus('recipient-c')).toBe(ResponseSubmissionStatus.NEW);
   });
 
-  it('sets isSaved to true if no response has changed and at least one response is not empty', () => {
-    component.model.recipientSubmissionForms = [formResponse1, formResponse2];
+  it('getResponseSubmissionStatusLabel: maps statuses to user-facing labels', () => {
+    component.model.recipientSubmissionForms.push(
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-a')
+          .status(ResponseSubmissionStatus.NEW)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-b')
+          .status(ResponseSubmissionStatus.MODIFIED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-c')
+          .status(ResponseSubmissionStatus.SAVED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-d')
+          .status(ResponseSubmissionStatus.ERROR)
+          .build(),
+      },
+    );
 
-    fixture.detectChanges();
+    expect(component.getResponseSubmissionStatusLabel('recipient-a')).toBe('');
+    expect(component.getResponseSubmissionStatusLabel('recipient-b')).toBe('Unsaved Changes');
+    expect(component.getResponseSubmissionStatusLabel('recipient-c')).toBe('Saved');
+    expect(component.getResponseSubmissionStatusLabel('recipient-d')).toBe('Error');
+  });
 
-    expect(component.isSaved).toBeTruthy();
+  it('getResponseSubmissionStatusIconClass: maps statuses to icons', () => {
+    component.model.recipientSubmissionForms.push(
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-a')
+          .status(ResponseSubmissionStatus.NEW)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-b')
+          .status(ResponseSubmissionStatus.MODIFIED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-c')
+          .status(ResponseSubmissionStatus.SAVED)
+          .build(),
+      },
+      {
+        ...recipientSubmissionFormBuilder
+          .recipientIdentifier('recipient-d')
+          .status(ResponseSubmissionStatus.ERROR)
+          .build(),
+      },
+    );
+
+    expect(component.getResponseSubmissionStatusIconClass('recipient-a')).toBe('');
+    expect(component.getResponseSubmissionStatusIconClass('recipient-b')).toBe('fas fa-circle');
+    expect(component.getResponseSubmissionStatusIconClass('recipient-c')).toBe('fas fa-check');
+    expect(component.getResponseSubmissionStatusIconClass('recipient-d')).toBe('fas fa-exclamation-triangle');
   });
 
   it('hasSectionTeam: should return false if QuestionSubmissionFormMode is not FLEXIBLE_RECIPIENT', () => {
@@ -373,69 +365,6 @@ describe('QuestionSubmissionFormComponent', () => {
 
       fixture.detectChanges();
       expect(component.hasSectionTeam).toBeTruthy();
-    },
-  );
-
-  it('toggleQuestionTab: should toggle isTabExpanded if currentSelectedSessionView is DEFAULT', () => {
-    component.currentSelectedSessionView = SessionView.DEFAULT;
-    component.model.isTabExpanded = true;
-    let emittedModel: QuestionSubmissionFormModel | undefined;
-    testEventEmission(component.formModelChange, (value) => {
-      emittedModel = value;
-    });
-
-    component.toggleQuestionTab();
-
-    expect(component.model.isTabExpanded).toBeFalsy();
-    expect(emittedModel).toStrictEqual(component.model);
-  });
-
-  it(
-    'toggleQuestionTab: should toggle isTabExpanded for only the recipientId in isTabExpandedForRecipients' +
-      'if currentSelectedSessionView is not DEFAULT',
-    () => {
-      component.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
-      component.model.isTabExpanded = true;
-      component.recipientId = 'test-id';
-      const otherRecipientId = 'test-other-id';
-
-      let emittedModel: QuestionSubmissionFormModel | undefined;
-      testEventEmission(component.formModelChange, (value) => {
-        emittedModel = value;
-      });
-
-      component.toggleQuestionTab();
-
-      expect(component.model.isTabExpanded).toBeTruthy();
-      expect(component.model.isTabExpandedForRecipients.get(component.recipientId)).toBeTruthy();
-      expect(component.model.isTabExpandedForRecipients.get(otherRecipientId)).toBeFalsy();
-      expect(emittedModel).toStrictEqual(component.model);
-    },
-  );
-
-  it(
-    'shouldTabExpand: should set recipientId in isTabExpandedForRecipients to true if its undefined' +
-      'and currentSelectedSessionView is not DEFAULT',
-    () => {
-      component.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
-      const recipientId = 'test-id';
-      component.recipientId = recipientId;
-
-      expect(component.shouldTabExpand()).toBeTruthy();
-      expect(component.model.isTabExpandedForRecipients.get(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'shouldTabExpand: should return isTabExpandedForRecipients for recipientId if' +
-      'currentSelectedSessionView is not DEFAULT',
-    () => {
-      component.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
-      const recipientId = 'test-id';
-      component.recipientId = recipientId;
-      component.model.isTabExpandedForRecipients.set(recipientId, false);
-
-      expect(component.shouldTabExpand()).toBeFalsy();
     },
   );
 
@@ -537,685 +466,92 @@ describe('QuestionSubmissionFormComponent', () => {
     expect(emittedModel).toStrictEqual(component.model);
   });
 
-  it('getSelectionOptionLabel: should return recipient name if isSectionTeamShown is false', () => {
-    component.isSectionTeamShown = false;
-
+  it('getSelectionOptionLabel: should return recipient name when section/team labels are not shown', () => {
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
 
     expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name');
   });
 
   it('getSelectionOptionLabel: should return recipientSection and recipientTeam if both are defined', () => {
-    component.isSectionTeamShown = true;
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
     feedbackResponseRecipient.recipientSection = 'test-section';
     feedbackResponseRecipient.recipientTeam = 'test-team';
 
-    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-section / test-team | test-name');
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-team / test-section)');
   });
 
   it('getSelectionOptionLabel: should return only recipientSection if recipientTeam is undefined', () => {
-    component.isSectionTeamShown = true;
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
     feedbackResponseRecipient.recipientSection = 'test-section';
 
-    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-section | test-name');
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-section)');
   });
 
   it('getSelectionOptionLabel: should return only recipientTeam if recipientSection is undefined', () => {
-    component.isSectionTeamShown = true;
+    component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_TEAM;
 
     const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
     feedbackResponseRecipient.recipientTeam = 'test-team';
 
-    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-team | test-name');
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name (test-team)');
   });
 
-  it(
-    'getSelectionOptionLabel: should return recipientName if' + 'both recipientSection and recipientTeam are undefined',
-    () => {
-      component.isSectionTeamShown = true;
-
-      const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
-
-      expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name');
-    },
-  );
-
-  it(
-    'toggleSectionTeam: should set isSectionTeamShown to true and sort recipients by' +
-      'Section and Team if FeedbackRecipientLabelType is INCLUDE_SECTION',
-    () => {
-      component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-      component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
-      component.isSectionTeamShown = false;
-
-      const recipient1 = feedbackResponseRecipientBuilder.recipientName('A').build();
-      recipient1.recipientSection = 'Section A';
-      recipient1.recipientTeam = 'Team B';
-      const recipient2 = feedbackResponseRecipientBuilder.recipientName('B').build();
-      recipient2.recipientSection = 'Section C';
-      recipient2.recipientTeam = 'Team A';
-      const recipient3 = feedbackResponseRecipientBuilder.recipientName('C').build();
-      recipient3.recipientSection = 'Section B';
-      recipient3.recipientTeam = 'Team A';
-      component.model.recipientList = [recipient1, recipient2, recipient3];
-
-      fixture.detectChanges();
-
-      const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
-
-      getShowSectionTeamCheckBox().nativeElement.click();
-
-      expect(toggleSectionTeamSpy).toHaveBeenCalled();
-      expect(component.isSectionTeamShown).toBeTruthy();
-      expect(component.model.recipientList).toStrictEqual([recipient1, recipient3, recipient2]);
-    },
-  );
-
-  it(
-    'toggleSectionTeam: should set isSectionTeamShown to true and sort recipients by' +
-      'Team if FeedbackRecipientLabelType is INCLUDE_TEAM',
-    () => {
-      component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-      component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_TEAM;
-      component.isSectionTeamShown = false;
-
-      const recipient1 = feedbackResponseRecipientBuilder.recipientName('A').build();
-      recipient1.recipientTeam = 'Team B';
-      const recipient2 = feedbackResponseRecipientBuilder.recipientName('B').build();
-      recipient2.recipientTeam = 'Team A';
-      const recipient3 = feedbackResponseRecipientBuilder.recipientName('C').build();
-      recipient3.recipientTeam = 'Team A';
-      component.model.recipientList = [recipient1, recipient2, recipient3];
-
-      fixture.detectChanges();
-
-      const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
-
-      getShowSectionTeamCheckBox().nativeElement.click();
-
-      expect(toggleSectionTeamSpy).toHaveBeenCalled();
-      expect(component.isSectionTeamShown).toBeTruthy();
-      expect(component.model.recipientList).toStrictEqual([recipient2, recipient3, recipient1]);
-    },
-  );
-
-  it('toggleSectionTeam: should set isSectionTeamShown to false and sort recipients by name if toggled', () => {
+  it('getSelectionOptionLabel: should return recipientName if both recipientSection and recipientTeam are undefined', () => {
     component.formMode = QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT;
-    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_TEAM;
-    component.isSectionTeamShown = true;
+    component.recipientLabelType = FeedbackRecipientLabelType.INCLUDE_SECTION;
 
-    const recipient1 = feedbackResponseRecipientBuilder.recipientName('B').build();
-    recipient1.recipientTeam = 'Team A';
-    const recipient2 = feedbackResponseRecipientBuilder.recipientName('C').build();
-    recipient2.recipientTeam = 'Team B';
-    const recipient3 = feedbackResponseRecipientBuilder.recipientName('A').build();
-    recipient3.recipientTeam = 'Team C';
-    component.model.recipientList = [recipient1, recipient2, recipient3];
+    const feedbackResponseRecipient = feedbackResponseRecipientBuilder.recipientName('test-name').build();
 
-    fixture.detectChanges();
-
-    const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
-
-    getShowSectionTeamCheckBox().nativeElement.click();
-    getShowSectionTeamCheckBox().nativeElement.click();
-
-    expect(toggleSectionTeamSpy).toHaveBeenCalled();
-    expect(component.isSectionTeamShown).toBeFalsy();
-    expect(component.model.recipientList).toStrictEqual([recipient3, recipient1, recipient2]);
+    expect(component.getSelectionOptionLabel(feedbackResponseRecipient)).toBe('test-name');
   });
 
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty string' +
-      'for recipient in FeedbackQuestionType.TEXT',
-    () => {
-      component.model.questionType = FeedbackQuestionType.TEXT;
+  it('getRecipientComboboxOptions: should include unselected recipients and the current recipient', () => {
+    const selectedRecipient = feedbackResponseRecipientBuilder
+      .recipientIdentifier('selected-recipient-id')
+      .recipientName('Selected Recipient')
+      .build();
+    const availableRecipient = feedbackResponseRecipientBuilder
+      .recipientIdentifier('available-recipient-id')
+      .recipientName('Available Recipient')
+      .build();
+    const currentRecipient = feedbackResponseRecipientBuilder
+      .recipientIdentifier('current-recipient-id')
+      .recipientName('Current Recipient')
+      .build();
+    const currentSubmissionForm = recipientSubmissionFormBuilder
+      .recipientIdentifier(currentRecipient.recipientIdentifier)
+      .build();
+    component.model.recipientList = [selectedRecipient, availableRecipient, currentRecipient];
+    component.model.recipientSubmissionForms = [
+      recipientSubmissionFormBuilder.recipientIdentifier(selectedRecipient.recipientIdentifier).build(),
+      currentSubmissionForm,
+    ];
 
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackResponseTextDetailsBuilder.answer('').build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackResponseTextDetailsBuilder.answer('some answer').build())
-          .build(),
-      ];
+    const options = component.getRecipientComboboxOptions(currentSubmissionForm);
 
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answer is not empty string' +
-      'for recipient  FeedbackQuestionType.TEXT',
-    () => {
-      component.model.questionType = FeedbackQuestionType.TEXT;
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackResponseTextDetailsBuilder.answer('some answer').build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackResponseTextDetailsBuilder.answer('').build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty string' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.TEXT',
-    () => {
-      component.model.questionType = FeedbackQuestionType.TEXT;
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackResponseTextDetailsBuilder.answer('').build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty string' +
-      'for recipient in FeedbackQuestionType.MCQ',
-    () => {
-      component.model.questionType = FeedbackQuestionType.MCQ;
-      component.model.questionDetails = feedbackMcqQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackResponseMcqDetailsBuilder.answer('').build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackResponseMcqDetailsBuilder.answer('some answer').build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answer is not empty string' +
-      'for recipient  FeedbackQuestionType.MCQ',
-    () => {
-      component.model.questionType = FeedbackQuestionType.MCQ;
-      component.model.questionDetails = feedbackMcqQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackResponseMcqDetailsBuilder.answer('some answer').build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackResponseMcqDetailsBuilder.answer('').build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty string' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.MCQ',
-    () => {
-      component.model.questionType = FeedbackQuestionType.MCQ;
-      component.model.questionDetails = feedbackMcqQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackResponseMcqDetailsBuilder.answer('').build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answers is empty array' +
-      'for recipient in FeedbackQuestionType.MSQ',
-    () => {
-      component.model.questionType = FeedbackQuestionType.MSQ;
-      component.model.questionDetails = feedbackMsqQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackMsqResponseDetailsBuilder.answers([]).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackMsqResponseDetailsBuilder.answers(['some answer']).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answers is not empty arrray' +
-      'for recipient  FeedbackQuestionType.MSQ',
-    () => {
-      component.model.questionType = FeedbackQuestionType.MSQ;
-      component.model.questionDetails = feedbackMsqQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackMsqResponseDetailsBuilder.answers(['some answer']).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackMsqResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty array' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.MSQ',
-    () => {
-      component.model.questionType = FeedbackQuestionType.MSQ;
-      component.model.questionDetails = feedbackMsqQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackMsqResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answers is NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED' +
-      'for recipient in FeedbackQuestionType.NUM_SCALE',
-    () => {
-      component.model.questionType = FeedbackQuestionType.NUMSCALE;
-      component.model.questionDetails = feedbackNumericalScaleQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(
-            feedbackNumericalScaleResponseDetailsBuilder.answer(NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED).build(),
-          )
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackNumericalScaleResponseDetailsBuilder.answer(1).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answers is not NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED' +
-      'for recipient  FeedbackQuestionType.NUM_SCALE',
-    () => {
-      component.model.questionType = FeedbackQuestionType.NUMSCALE;
-      component.model.questionDetails = feedbackNumericalScaleQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackNumericalScaleResponseDetailsBuilder.answer(1).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(
-            feedbackNumericalScaleResponseDetailsBuilder.answer(NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED).build(),
-          )
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.NUM_SCALE',
-    () => {
-      component.model.questionType = FeedbackQuestionType.NUMSCALE;
-      component.model.questionDetails = feedbackNumericalScaleQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(
-            feedbackNumericalScaleResponseDetailsBuilder.answer(NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED).build(),
-          )
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answers is empty array' +
-      'for recipient in FeedbackQuestionType.CONSTSUM_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
-      component.model.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([]).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([1]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answers is not empty array' +
-      'for recipient  FeedbackQuestionType.CONSTSUM_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
-      component.model.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([1]).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty array' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.CONSTSUM_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
-      component.model.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackConstantSumResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answers is empty array' +
-      'for recipient in FeedbackQuestionType.CONSTSUM_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.RUBRIC;
-      component.model.questionDetails = feedbackRubricQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackRubricResponseDetailsBuilder.answer([]).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackRubricResponseDetailsBuilder.answer([1]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answers is not empty array' +
-      'for recipient  FeedbackQuestionType.RUBRIC',
-    () => {
-      component.model.questionType = FeedbackQuestionType.RUBRIC;
-      component.model.questionDetails = feedbackRubricQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackRubricResponseDetailsBuilder.answer([1]).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackRubricResponseDetailsBuilder.answer([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty array' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.RANK_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.RANK_OPTIONS;
-      component.model.questionDetails = feedbackRankOptionsQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns true if responseDetails.answers is not empty array' +
-      'for recipient  FeedbackQuestionType.RANK_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.RANK_OPTIONS;
-      component.model.questionDetails = feedbackRankOptionsQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.SAVED)
-          .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([1]).build())
-          .build(),
-        recipientSubmissionFormBuilder
-          .recipientIdentifier('someid')
-          .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeTruthy();
-    },
-  );
-
-  it(
-    'isSavedForRecipient: returns false if responseDetails.answer is empty array' +
-      'and hasResponseChangedForRecipients for recipient is false in FeedbackQuestionType.RANK_OPTIONS',
-    () => {
-      component.model.questionType = FeedbackQuestionType.RANK_OPTIONS;
-      component.model.questionDetails = feedbackRankOptionsQuestionDetailsBuilder.build();
-
-      const recipientId = 'recipient-id';
-      component.model.recipientSubmissionForms = [
-        recipientSubmissionFormBuilder
-          .recipientIdentifier(recipientId)
-          .status(ResponseSubmissionStatus.NEW)
-          .responseDetails(feedbackRankOptionsResponseDetailsBuilder.answers([]).build())
-          .build(),
-      ];
-
-      fixture.detectChanges();
-      expect(component.isSavedForRecipient(recipientId)).toBeFalsy();
-    },
-  );
-
-  it('isSavedForRecipient: returns false if isSaved is false for FeedbackQuestionType.CONSTSUM_RECIPIENTS', () => {
-    component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
-    expect(component.isSaved).toBeFalsy();
-
-    fixture.detectChanges();
-    expect(component.isSavedForRecipient('recipientId')).toBeFalsy();
+    expect(options.map((option) => option.value)).toEqual([
+      availableRecipient.recipientIdentifier,
+      currentRecipient.recipientIdentifier,
+    ]);
+    expect(options.map((option) => option.label)).toEqual([
+      availableRecipient.recipientName,
+      currentRecipient.recipientName,
+    ]);
   });
 
-  it('isSavedForRecipient: returns false if isSaved is false for FeedbackQuestionType.CONTRIB', () => {
-    component.model.questionType = FeedbackQuestionType.CONTRIB;
-    expect(component.isSaved).toBeFalsy();
+  it('getResponseSubmissionStatus: returns NEW when the filtered recipient has no responses', () => {
+    component.model.recipientSubmissionForms = [
+      recipientSubmissionFormBuilder.recipientIdentifier('recipient-a').status(ResponseSubmissionStatus.SAVED).build(),
+      recipientSubmissionFormBuilder.recipientIdentifier('recipient-b').status(ResponseSubmissionStatus.NEW).build(),
+    ];
 
-    fixture.detectChanges();
-    expect(component.isSavedForRecipient('recipientId')).toBeFalsy();
-  });
-
-  it('isSavedForRecipient: returns false if isSaved is false for FeedbackQuestionType.RANK_RECIPIENTS', () => {
-    component.model.questionType = FeedbackQuestionType.RANK_RECIPIENTS;
-    expect(component.isSaved).toBeFalsy();
-
-    fixture.detectChanges();
-    expect(component.isSavedForRecipient('recipientId')).toBeFalsy();
-  });
-
-  it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.CONSTSUM_RECIPIENTS', () => {
-    const form: FeedbackResponseRecipientSubmissionFormModel = {
-      responseId: 'response-id',
-      recipientIdentifier: 'harris-barry-id',
-      responseDetails: {
-        answers: [1],
-      } as FeedbackConstantSumRecipientsResponseDetails,
-      status: ResponseSubmissionStatus.SAVED,
-      isValid: true,
-    };
-    component.model.questionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
-    component.model.recipientSubmissionForms = [form];
-
-    fixture.detectChanges();
-    expect(component.isSaved).toBeTruthy();
-    expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
-  });
-
-  it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.CONTRIB', () => {
-    const form: FeedbackResponseRecipientSubmissionFormModel = {
-      responseId: 'response-id',
-      recipientIdentifier: 'harris-barry-id',
-      responseDetails: {} as FeedbackContributionResponseDetails,
-      status: ResponseSubmissionStatus.SAVED,
-      isValid: true,
-    };
-
-    component.model.questionType = FeedbackQuestionType.CONTRIB;
-    component.model.recipientSubmissionForms = [form];
-
-    fixture.detectChanges();
-    expect(component.isSaved).toBeTruthy();
-    expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
-  });
-
-  it('isSavedForRecipient: returns true if isSaved is true for FeedbackQuestionType.RANK_RECIPIENTS', () => {
-    const form: FeedbackResponseRecipientSubmissionFormModel = {
-      responseId: 'response-id',
-      recipientIdentifier: 'harris-barry-id',
-      responseDetails: {} as FeedbackRankRecipientsResponseDetails,
-      status: ResponseSubmissionStatus.SAVED,
-      isValid: true,
-    };
-
-    component.model.questionType = FeedbackQuestionType.RANK_RECIPIENTS;
-    component.model.recipientSubmissionForms = [form];
-
-    fixture.detectChanges();
-    expect(component.isSaved).toBeTruthy();
-    expect(component.isSavedForRecipient('recipientId')).toBeTruthy();
+    expect(component.getResponseSubmissionStatus('recipient-c')).toBe(ResponseSubmissionStatus.NEW);
   });
 });

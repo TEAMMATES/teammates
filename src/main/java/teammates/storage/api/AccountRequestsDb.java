@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -7,6 +8,7 @@ import java.util.UUID;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -14,6 +16,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 
 /**
  * Generates CRUD operations for AccountRequest.
@@ -112,11 +115,12 @@ public final class AccountRequestsDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
         Root<AccountRequest> root = cr.from(AccountRequest.class);
+        Join<AccountRequest, Institute> instituteJoin = root.join("institute");
 
         Predicate searchPredicate = cb.or(
                 cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(root.get("email")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(root.get("institute")), wildcardQuery, escapeChar),
+                cb.like(cb.lower(instituteJoin.get("name")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(cb.coalesce(root.get("comments"), "")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(cb.coalesce(root.get("status").as(String.class), "")), wildcardQuery, escapeChar));
 
@@ -127,5 +131,18 @@ public final class AccountRequestsDb {
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
         return query.getResultList();
+    }
+
+    /**
+     * Gets createdAt timestamps of account requests created within the given time range.
+     */
+    public List<Instant> getCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
+        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        cr.select(root.get("createdAt")).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 }

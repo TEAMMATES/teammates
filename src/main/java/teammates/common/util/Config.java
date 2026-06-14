@@ -438,7 +438,8 @@ public final class Config {
      */
     public static boolean isUsingSmtp() {
         boolean isSecurityProtocolValid = "ssl".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
-                || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL);
+                || "starttls".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL)
+                || "none".equalsIgnoreCase(SMTP_SECURITY_PROTOCOL);
         boolean isSmtpAuthValid = "true".equalsIgnoreCase(SMTP_AUTH) || "false".equalsIgnoreCase(SMTP_AUTH);
         boolean isAuthEnabled = "true".equalsIgnoreCase(SMTP_AUTH);
         boolean isCredentialValid = !StringHelper.isEmpty(SMTP_USERNAME) && !StringHelper.isEmpty(SMTP_PASSWORD);

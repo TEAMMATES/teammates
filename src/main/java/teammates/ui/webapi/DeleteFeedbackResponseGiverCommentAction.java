@@ -19,12 +19,6 @@ import teammates.ui.request.Intent;
  * Deletes the giver comment for a feedback response.
  */
 public class DeleteFeedbackResponseGiverCommentAction extends BasicFeedbackSubmissionAction {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);

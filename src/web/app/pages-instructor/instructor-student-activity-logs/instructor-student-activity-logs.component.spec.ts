@@ -45,6 +45,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
     courseId: 'CS9999',
     courseName: 'CS9999',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,

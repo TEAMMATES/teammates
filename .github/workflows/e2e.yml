@@ -52,4 +52,4 @@ jobs:
           ./gradlew serverRun &
           ./wait-for-server.sh
       - name: Start Tests
-        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests
+        run: ./gradlew e2eTests

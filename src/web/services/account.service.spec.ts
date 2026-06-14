@@ -41,6 +41,7 @@ describe('AccountService', () => {
     const testRequest: AccountCreateRequest = {
       instructorEmail: 'testEmail',
       instructorInstitution: 'testInstitution',
+      instructorCountry: 'SG',
       instructorName: 'testName',
     };
     service.createAccountRequest(testRequest);
@@ -63,12 +64,12 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
   });
 
-  it('should execute PUT on account/reset endpoint', () => {
-    service.resetAccount('testUserId');
+  it('should execute PUT on account/unlink endpoint', () => {
+    service.unlinkAccount('testUserId');
     const paramMap: Record<string, string> = {
       userid: 'testUserId',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_RESET, paramMap);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   });
 
   it('should execute POST on account request approval endpoint', () => {
@@ -108,6 +109,7 @@ describe('AccountService', () => {
       name: 'name',
       email: 'email@email.com',
       institute: 'institute',
+      country: 'SG',
       status: AccountRequestStatus.PENDING,
       comments: 'comments',
     };

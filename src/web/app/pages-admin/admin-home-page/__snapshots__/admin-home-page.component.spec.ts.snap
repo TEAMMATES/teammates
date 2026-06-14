@@ -5,120 +5,68 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
   accountReqs={[Function Array]}
   accountService={[Function _AccountService]}
   dateFormatService={[Function _DateFormatService]}
-  instructorDetails=""
-  instructorEmail=""
-  instructorInstitution=""
-  instructorName=""
-  isAddingMultipleInstructors="false"
-  isAddingSingleInstructor="false"
   statusMessageService={[Function _StatusMessageService]}
   timezoneService={[Function _TimezoneService]}
 >
-  <div
-    class="card bg-light top-padded"
-  >
+  <tm-account-request-table>
     <div
-      class="card-body"
+      class="card bg-light top-padded"
     >
-      <div>
-        <strong>
-          Adding Multiple Instructors
-        </strong>
-        <p
-          class="text-muted"
-        >
-          <i
-            class="fas fa-exclamation-circle"
-          />
-           Add Instructor Details in the format: Name | Email | Institution 
-        </p>
-        <textarea
-          aria-label="Add multiple instructors"
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-details-single-line"
-        />
-      </div>
       <div
-        class="top-padded"
+        class="card-header bg-primary text-white"
       >
-        <button
-          class="btn btn-primary"
-          id="add-instructor-single-line"
-        >
-           Add Instructors 
-        </button>
-      </div>
-    </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
-    <div
-      class="card-body"
-    >
-      <div>
         <strong>
-          Adding a Single Instructor
+          Pending Account Requests
         </strong>
       </div>
       <div
-        class="top-padded"
+        class="table-responsive"
       >
-        <label
-          for="instructor-name"
+        <table
+          class="table table-striped data-table"
+          id="search-table-account-request"
         >
-          <strong>
-            Name:
-          </strong>
-        </label>
-        <input
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-name"
-          type="text"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <label
-          for="instructor-email"
-        >
-          <strong>
-            Email:
-          </strong>
-        </label>
-        <input
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-email"
-          type="text"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <label
-          for="instructor-institution"
-        >
-          <strong>
-            Institution:
-          </strong>
-        </label>
-        <input
-          class="form-control ng-untouched ng-pristine ng-valid"
-          id="instructor-institution"
-          type="text"
-        />
-      </div>
-      <div
-        class="top-padded"
-      >
-        <button
-          class="btn btn-primary"
-          id="add-instructor"
-        >
-           Add Instructor 
-        </button>
+          <thead>
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Status
+              </th>
+              <th>
+                Institute
+              </th>
+              <th>
+                Country
+              </th>
+              <th>
+                Created At
+              </th>
+              <th>
+                Comments
+              </th>
+              <th>
+                Options
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td
+                class="text-center"
+                colspan="8"
+              >
+                No pending account requests
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
+  </tm-account-request-table>
 </tm-admin-home-page>
 `;

@@ -42,6 +42,8 @@ const studentCourseA: StudentCourse = {
     courseName: 'Discrete Structures',
     timeZone: 'Asia/Singapore',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 1549095330000,
     deletionTimestamp: 0,
   },
@@ -105,6 +107,8 @@ const studentCourseB: StudentCourse = {
     courseName: 'Forensic Science',
     timeZone: 'Asia/Singapore',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
   },
@@ -168,6 +172,8 @@ const studentCourseC: StudentCourse = {
     courseName: 'Calculus for Computing',
     timeZone: 'Asia/Singapore',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
   },
@@ -232,6 +238,8 @@ const studentCourses: Courses = {
         courseId: 'CS1231',
         courseName: 'Discrete Structures',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         timeZone: 'Asia/Singapore',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
@@ -497,6 +505,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000,
         deletionTimestamp: 0,
       },
@@ -547,6 +557,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -597,6 +609,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -646,6 +660,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -695,6 +711,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -744,6 +762,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Thematic Systems I',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -760,6 +780,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Thematic Systems II',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -791,6 +813,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -871,6 +895,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Discrete Structures',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -986,6 +1012,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Thematic Systems',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -1008,6 +1036,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Thematic Systems I',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -1024,6 +1054,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Thematic Systems II',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },
@@ -1047,6 +1079,8 @@ describe('StudentHomePageComponent', () => {
         courseName: 'Software Engineering',
         timeZone: 'Asia/Singapore',
         institute: 'Test Institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
         deletionTimestamp: 0,
       },

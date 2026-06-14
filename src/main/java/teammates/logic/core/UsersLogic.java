@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -575,6 +576,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all students of a team by team ID.
+     */
+    public List<Student> getStudentsForTeam(UUID teamId, String courseId) {
+        List<Student> studentReturnList = usersDb.getStudentsForTeam(teamId, courseId);
+        sortByName(studentReturnList);
+
+        return studentReturnList;
+    }
+
+    /**
      * Gets a student by associated {@code regkey}.
      */
     public Student getStudentByRegistrationKey(String regKey) {
@@ -1011,11 +1022,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the account associated with the user.
+     * Unlinks the account associated with the user profile without deleting
+     * either entity, allowing the profile to be linked to a different account.
      */
-    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
-        assert userId != null;
-
+    public User unlinkAccount(UUID userId) throws EntityDoesNotExistException {
         User user = getUser(userId);
 
         if (user == null) {
@@ -1050,5 +1060,19 @@ public final class UsersLogic {
         if (!user.isValid()) {
             throw new InvalidParametersException(user.getInvalidityInfo());
         }
+    }
+
+    /**
+     * Gets createdAt timestamps of students created within the given time range.
+     */
+    public List<Instant> getStudentCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return usersDb.getStudentCreatedAtTimestampsForTimeRange(startTime, endTime);
+    }
+
+    /**
+     * Gets createdAt timestamps of instructors created within the given time range.
+     */
+    public List<Instant> getInstructorCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return usersDb.getInstructorCreatedAtTimestampsForTimeRange(startTime, endTime);
     }
 }

@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "TEAMMATES Test Institute 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -22,14 +29,14 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     },
     "typicalCourse3": {
@@ -37,14 +44,14 @@
       "deletedAt": "2012-04-12T23:58:00Z",
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     },
     "typicalCourse4": {
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     },
     "typicalCourse5": {
@@ -52,7 +59,7 @@
       "deletedAt": "2012-04-12T23:58:00Z",
       "id": "idOfTypicalCourse5",
       "name": "Typical Course 5",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     }
   },

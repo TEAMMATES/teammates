@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -11,7 +12,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -302,16 +302,13 @@ public final class UsersDb {
         CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
         Root<Instructor> instructorRoot = cr.from(Instructor.class);
         Join<Instructor, Course> coursesJoin = instructorRoot.join("course");
-        Join<Instructor, Account> accountsJoin = instructorRoot.join("account", JoinType.LEFT);
 
         Predicate searchPredicate = cb.or(
                 cb.like(cb.lower(instructorRoot.get("name")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instructorRoot.get("email")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(instructorRoot.get("courseId")), wildcardQuery, escapeChar),
                 cb.like(cb.lower(coursesJoin.get("name")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(accountsJoin.get("googleId"), "")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar),
-                cb.like(cb.lower(instructorRoot.get("role").as(String.class)), wildcardQuery, escapeChar));
+                cb.like(cb.lower(cb.coalesce(instructorRoot.get("displayName"), "")), wildcardQuery, escapeChar));
 
         cr.select(instructorRoot)
                 .where(searchPredicate)
@@ -613,6 +610,24 @@ public final class UsersDb {
     }
 
     /**
+     * Gets all students of a team of a course by team ID.
+     */
+    public List<Student> getStudentsForTeam(UUID teamId, String courseId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Course> courseJoin = studentRoot.join("course");
+        Join<Student, Team> teamsJoin = studentRoot.join("team");
+
+        cr.select(studentRoot)
+                .where(cb.and(
+                        cb.equal(courseJoin.get("id"), courseId),
+                        cb.equal(teamsJoin.get("id"), teamId)));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Gets the section with the specified {@code sectionName} and {@code courseId}.
      *
      * @deprecated unused in production code
@@ -637,6 +652,32 @@ public final class UsersDb {
      */
     public Team getTeam(UUID teamId) {
         return HibernateUtil.get(Team.class, teamId);
+    }
+
+    /**
+     * Gets createdAt timestamps of students created within the given time range.
+     */
+    public List<Instant> getStudentCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
+        Root<Student> root = cr.from(Student.class);
+        cr.select(root.get("createdAt")).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets createdAt timestamps of instructors created within the given time range.
+     */
+    public List<Instant> getInstructorCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
+        Root<Instructor> root = cr.from(Instructor.class);
+        cr.select(root.get("createdAt")).where(cb.and(
+                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
+                cb.lessThan(root.get("createdAt"), endTime)));
+        return HibernateUtil.createQuery(cr).getResultList();
     }
 
 }

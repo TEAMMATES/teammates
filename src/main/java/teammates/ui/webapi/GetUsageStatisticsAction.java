@@ -1,27 +1,19 @@
 package teammates.ui.webapi;
 
-import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.entity.UsageStatistics;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.UsageStatisticsRangeData;
 
 /**
  * Gets usage statistics for a specified time period.
+ *
+ * <p>Statistics are calculated on-the-fly by counting entities created in hourly buckets.
  */
-public class GetUsageStatisticsAction extends Action {
-
-    private static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(184L); // covering six whole months
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetUsageStatisticsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!requestContext.isMaintainer() && !requestContext.isAdmin()) {
@@ -46,24 +38,14 @@ public class GetUsageStatisticsAction extends Action {
             throw new InvalidHttpParameterException("Invalid endTime parameter", e);
         }
 
-        if (startTime >= endTime) {
-            throw new InvalidHttpParameterException("The end time should be after the start time.");
+        Instant rangeStart = Instant.ofEpochMilli(startTime);
+        Instant rangeEnd = Instant.ofEpochMilli(endTime);
+
+        try {
+            return new JsonResult(new UsageStatisticsRangeData(logic.getUsageStatistics(rangeStart, rangeEnd)));
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpParameterException(e);
         }
-
-        if (endTime > Instant.now().toEpochMilli()) {
-            throw new InvalidHttpParameterException("The end time must not exceed the current time.");
-        }
-
-        if (endTime - startTime > MAX_SEARCH_WINDOW.toMillis()) {
-            throw new InvalidHttpParameterException("The search window must not exceed "
-                    + MAX_SEARCH_WINDOW.toDays() + " full days.");
-        }
-
-        List<UsageStatistics> usageStatisticsInRange =
-                logic.getUsageStatisticsForTimeRange(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
-
-        UsageStatisticsRangeData output = new UsageStatisticsRangeData(usageStatisticsInRange);
-        return new JsonResult(output);
     }
 
 }

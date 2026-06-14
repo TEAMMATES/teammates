@@ -31,7 +31,8 @@
             <th>Name</th>
             <th>Email</th>
             <th>Status</th>
-            <th>Institute, Country</th>
+            <th>Institute</th>
+            <th>Country</th>
             <th>Created At</th>
             <th>Registered At</th>
             <th>Comments</th>
@@ -61,6 +62,7 @@
               <td [innerHtml]="accountRequest.email | highlighter: searchString : true"></td>
               <td [innerHtml]="accountRequest.status | highlighter: searchString : true"></td>
               <td [innerHtml]="accountRequest.institute | highlighter: searchString : true"></td>
+              <td>{{ accountRequest.country | countryName }}</td>
               <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
               <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
               <td>

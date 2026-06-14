@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
@@ -17,24 +18,18 @@ import teammates.ui.request.CourseCreateRequest;
 /**
  * Create a new course for an instructor.
  */
-public class CreateCourseAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class CreateCourseAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException, InvalidHttpRequestBodyException {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
-        String institute = courseCreateRequest.getInstitute().trim();
+        UUID instituteId = courseCreateRequest.getInstituteId();
         List<Instructor> existingInstructors = logic.getInstructorsByAccountId(requestContext.getAccount().getId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerRole)
                 .map(instructor -> logic.getCourse(instructor.getCourseId()))
                 .filter(Objects::nonNull)
-                .anyMatch(course -> institute.equals(course.getInstitute()));
+                .anyMatch(course -> instituteId.equals(course.getInstituteId()));
 
         if (!canCreateCourse) {
             throw new UnauthorizedAccessException("You are not allowed to create a course under this institute. "

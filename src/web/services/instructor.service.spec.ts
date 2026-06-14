@@ -29,7 +29,6 @@ const defaultUpdateRequestBody: InstructorUpdateRequest = {
 const defaultInstructors: Instructors = {
   instructors: [
     {
-      googleId: '',
       courseId: 'CS3281',
       courseName: 'Test Course',
       institute: 'Test Institute',
@@ -42,7 +41,6 @@ const defaultInstructors: Instructors = {
       joinState: JoinState.JOINED,
     },
     {
-      googleId: '',
       courseId: 'CS3282',
       courseName: 'Test Course',
       institute: 'Test Institute',
@@ -83,6 +81,26 @@ describe('InstructorService', () => {
       courseid: 'CS3281',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTORS, paramMap);
+  });
+
+  it('should execute GET when getting an instructor by user id', () => {
+    const paramMap: Record<string, string> = {
+      userid: '00000000-0000-4000-8000-000000000001',
+    };
+
+    service.getInstructor({ userId: paramMap['userid'] });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
+  });
+
+  it('should execute GET when getting the current instructor for a course', () => {
+    const paramMap: Record<string, string> = {
+      courseid: 'CS3281',
+    };
+
+    service.getOwnInstructor({ courseId: paramMap['courseid'] });
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.OWN_INSTRUCTOR, paramMap);
   });
 
   it('should execute POST when creating an instructor for a course', () => {

@@ -1,22 +1,28 @@
 package teammates.logic.core;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
-import teammates.storage.api.UsageStatisticsDb;
-import teammates.storage.entity.UsageStatistics;
+import teammates.common.exception.InvalidParametersException;
+import teammates.ui.output.UsageStatisticsData;
 
 /**
- * Handles operations related to system usage statistics objects.
- *
- * @see UsageStatistics
- * @see teammates.storage.api.UsageStatisticsDb
+ * Handles operations related to usage statistics.
  */
 public final class UsageStatisticsLogic {
 
+    static final int BUCKET_SIZE_MINUTES = 60;
+    static final Duration MAX_SEARCH_WINDOW = Duration.ofDays(184L);
+
     private static final UsageStatisticsLogic instance = new UsageStatisticsLogic();
 
-    private UsageStatisticsDb usageStatisticsDb;
+    private FeedbackResponsesLogic feedbackResponsesLogic;
+    private CoursesLogic coursesLogic;
+    private UsersLogic usersLogic;
+    private AccountRequestsLogic accountRequestsLogic;
 
     private UsageStatisticsLogic() {
         // prevent initialization
@@ -26,47 +32,64 @@ public final class UsageStatisticsLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsageStatisticsDb usageStatisticsDb) {
-        this.usageStatisticsDb = usageStatisticsDb;
-    }
-
     /**
-     * Gets the list of statistics objects between start time and end time.
+     * Initialise dependencies for {@code UsageStatisticsLogic} object.
      */
-    public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        assert startTime != null;
-        assert endTime != null;
-        assert startTime.isBefore(endTime);
-
-        return usageStatisticsDb.getUsageStatisticsForTimeRange(startTime, endTime);
+    public void initLogicDependencies(FeedbackResponsesLogic feedbackResponsesLogic,
+            CoursesLogic coursesLogic, UsersLogic usersLogic,
+            AccountRequestsLogic accountRequestsLogic) {
+        this.feedbackResponsesLogic = feedbackResponsesLogic;
+        this.coursesLogic = coursesLogic;
+        this.usersLogic = usersLogic;
+        this.accountRequestsLogic = accountRequestsLogic;
     }
 
     /**
-     * Calculates the usage statistics of created entities for the given time range.
-     */
-    public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        assert startTime != null;
-        assert endTime != null;
-        assert startTime.isBefore(endTime);
-
-        int numResponses = 0; //feedbackResponsesLogic.getNumFeedbackResponsesByTimeRange(startTime, endTime);
-        int numCourses = 0; //coursesLogic.getNumCoursesByTimeRange(startTime, endTime);
-        int numStudents = 0; //studentsLogic.getNumStudentsByTimeRange(startTime, endTime);
-        int numInstructors = 0; //instructorsLogic.getNumInstructorsByTimeRange(startTime, endTime);
-        int numAccountRequests = 0; //accountRequestsLogic.getNumAccountRequestsByTimeRange(startTime, endTime);
-
-        return new UsageStatistics(
-                startTime, 1, numResponses, numCourses,
-                numStudents, numInstructors, numAccountRequests, 0, 0);
-    }
-
-    /**
-     * Creates a usage statistics object.
+     * Calculates usage statistics for the given time range by counting entities
+     * created in hourly buckets.
      *
-     * @return the created usage statistics object
+     * @throws InvalidParametersException if the time range is invalid
      */
-    public UsageStatistics createUsageStatistics(UsageStatistics usageStatistics) {
-        return usageStatisticsDb.persistUsageStatistics(usageStatistics);
+    public List<UsageStatisticsData> getUsageStatistics(Instant startTime, Instant endTime)
+            throws InvalidParametersException {
+        if (!startTime.isBefore(endTime)) {
+            throw new InvalidParametersException("The end time should be after the start time.");
+        }
+        if (endTime.toEpochMilli() - startTime.toEpochMilli() > MAX_SEARCH_WINDOW.toMillis()) {
+            throw new InvalidParametersException("The search window must not exceed "
+                    + MAX_SEARCH_WINDOW.toDays() + " full days.");
+        }
+        List<Instant> responseTimes =
+                feedbackResponsesLogic.getFeedbackResponseCreatedAtTimestampsForTimeRange(startTime, endTime);
+        List<Instant> courseTimes =
+                coursesLogic.getCourseCreatedAtTimestampsForTimeRange(startTime, endTime);
+        List<Instant> studentTimes =
+                usersLogic.getStudentCreatedAtTimestampsForTimeRange(startTime, endTime);
+        List<Instant> instructorTimes =
+                usersLogic.getInstructorCreatedAtTimestampsForTimeRange(startTime, endTime);
+        List<Instant> accountRequestTimes =
+                accountRequestsLogic.getAccountRequestCreatedAtTimestampsForTimeRange(startTime, endTime);
+
+        List<UsageStatisticsData> stats = new ArrayList<>();
+        Instant bucketStart = startTime;
+        while (bucketStart.isBefore(endTime)) {
+            Instant bucketEnd = bucketStart.plus(BUCKET_SIZE_MINUTES, ChronoUnit.MINUTES);
+            stats.add(new UsageStatisticsData(
+                    bucketStart.toEpochMilli(),
+                    countInBucket(responseTimes, bucketStart, bucketEnd),
+                    countInBucket(courseTimes, bucketStart, bucketEnd),
+                    countInBucket(studentTimes, bucketStart, bucketEnd),
+                    countInBucket(instructorTimes, bucketStart, bucketEnd),
+                    countInBucket(accountRequestTimes, bucketStart, bucketEnd)));
+            bucketStart = bucketEnd;
+        }
+        return stats;
+    }
+
+    private static int countInBucket(List<Instant> timestamps, Instant bucketStart, Instant bucketEnd) {
+        return (int) timestamps.stream()
+                .filter(t -> !t.isBefore(bucketStart) && t.isBefore(bucketEnd))
+                .count();
     }
 
 }

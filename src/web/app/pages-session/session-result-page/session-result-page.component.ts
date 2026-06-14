@@ -244,16 +244,14 @@ export class SessionResultPageComponent implements OnInit {
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
         if (this.previewAsPerson) {
-          this.studentService
-            .getStudent({ courseId: this.courseId, userId: this.previewAsPerson })
-            .subscribe((student: Student) => {
-              this.studentId = student.userId;
-              this.personName = student.name;
-              this.personEmail = student.email;
-            });
+          this.studentService.getStudent({ userId: this.previewAsPerson }).subscribe((student: Student) => {
+            this.studentId = student.userId;
+            this.personName = student.name;
+            this.personEmail = student.email;
+          });
         } else {
           this.studentService
-            .getStudent({ courseId: this.courseId, regKey: this.regKey })
+            .getOwnStudent({ courseId: this.courseId, regKey: this.regKey })
             .subscribe((student: Student) => {
               this.studentId = student.userId;
               this.personName = student.name;
@@ -262,17 +260,13 @@ export class SessionResultPageComponent implements OnInit {
         }
         break;
       case Intent.INSTRUCTOR_RESULT:
-        this.instructorService
-          .getInstructor({
-            courseId: this.courseId,
-            intent: this.intent,
-            key: this.regKey,
-            previewAs: this.previewAsPerson,
-          })
-          .subscribe((instructor: Instructor) => {
-            this.personName = instructor.name;
-            this.personEmail = instructor.email;
-          });
+        (this.previewAsPerson
+          ? this.instructorService.getInstructor({ userId: this.previewAsPerson })
+          : this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.regKey })
+        ).subscribe((instructor: Instructor) => {
+          this.personName = instructor.name;
+          this.personEmail = instructor.email;
+        });
         break;
       default:
     }

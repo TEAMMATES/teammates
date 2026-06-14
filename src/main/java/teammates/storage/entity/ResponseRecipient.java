@@ -133,6 +133,20 @@ public class ResponseRecipient {
     }
 
     /**
+     * Gets the team ID of the recipient: the team's own ID for team recipients, the student's team ID for
+     * student recipients, or {@code null} otherwise.
+     */
+    public UUID getTeamId() {
+        if (recipientType == ResponseRecipientType.TEAM) {
+            return getRecipientTeamId();
+        }
+        if (recipientUser instanceof Student student) {
+            return student.getTeamId();
+        }
+        return null;
+    }
+
+    /**
      * Gets the section ID of the recipient.
      */
     public UUID getSectionId() {

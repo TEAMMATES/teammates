@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -188,18 +190,18 @@ public class UsersDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void getStudentsForTeam_studentsExist_returnsStudentsInMatchingCourseAndTeam() {
         var course = given.course("course");
-        var team = given.team("team", t -> t.course(course.alias()).name("Team Name"));
-        var anotherTeam = given.team("another-team", t -> t.course(course.alias()).name("Another Team Name"));
+        var team = given.team("team", t -> t.course(course.alias()));
+        var anotherTeam = given.team("another-team", t -> t.course(course.alias()));
         var anotherCourse = given.course("another-course");
         var anotherCourseTeam = given.team("another-course-team",
-                t -> t.course(anotherCourse.alias()).name("Team Name"));
+                t -> t.course(anotherCourse.alias()));
         var student = given.student("student", s -> s.course(course.alias()).team(team.alias()));
         given.student("another-team-student", s -> s.course(course.alias()).team(anotherTeam.alias()));
         given.student("another-course-student",
                 s -> s.course(anotherCourse.alias()).team(anotherCourseTeam.alias()));
         persistGivenData(given);
 
-        List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam("Team Name", course.id()));
+        List<Student> actual = inTransaction(() -> usersDb.getStudentsForTeam(team.id(), course.id()));
 
         assertEquals(List.of(student.id()), actual.stream().map(Student::getId).toList());
     }
@@ -218,6 +220,38 @@ public class UsersDbTest extends BaseDbTestcase {
         verifyAbsentInDatabase(Student.class, student1.id());
         verifyAbsentInDatabase(Student.class, student2.id());
         verifyPresentInDatabase(Student.class, anotherCourseStudent.id());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getStudentCreatedAtTimestampsForTimeRange_studentsExist_returnsTimestampsInRange() {
+        given.student("student-1");
+        given.student("student-2");
+        given.instructor("instructor-1");
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> usersDb.getStudentCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(2, actual.size());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getInstructorCreatedAtTimestampsForTimeRange_instructorsExist_returnsTimestampsInRange() {
+        given.instructor("instructor-1");
+        given.instructor("instructor-2");
+        given.student("student-1");
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> usersDb.getInstructorCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(2, actual.size());
     }
 
     // TODO: add tests for search related methods in UsersDb

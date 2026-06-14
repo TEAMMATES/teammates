@@ -47,6 +47,8 @@ public final class FieldValidator {
     public static final String INSTITUTE_NAME_FIELD_NAME = "institute name";
     public static final int INSTITUTE_NAME_MAX_LENGTH = 128;
 
+    public static final String COUNTRY_FIELD_NAME = "country";
+
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
@@ -242,6 +244,15 @@ public final class FieldValidator {
      */
     public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
 
+    /**
+     * An ISO 3166-1 alpha-2 country code: exactly two uppercase letters.
+     */
+    public static final String REGEX_COUNTRY = "^[A-Z]{2}$";
+
+    public static final String COUNTRY_ERROR_MESSAGE =
+            "The provided ${fieldName} is not acceptable to TEAMMATES as it is not a valid "
+                    + "ISO 3166-1 alpha-2 country code.";
+
     private FieldValidator() {
         // utility class
         // Intentional private constructor to prevent instantiation.
@@ -421,6 +432,24 @@ public final class FieldValidator {
     public static String getInvalidityInfoForInstituteName(String instituteName) {
         return getValidityInfoForAllowedName(INSTITUTE_NAME_FIELD_NAME, INSTITUTE_NAME_MAX_LENGTH,
                                              instituteName);
+    }
+
+    /**
+     * Checks if {@code country} is a non-null ISO 3166-1 alpha-2 country code (exactly two uppercase letters).
+     * @return An explanation of why the {@code country} is not acceptable.
+     *         Returns an empty string if the {@code country} is acceptable.
+     */
+    public static String getInvalidityInfoForCountry(String country) {
+        String nonNullError = getValidityInfoForNonNullField(COUNTRY_FIELD_NAME, country);
+        if (!nonNullError.isEmpty()) {
+            return nonNullError;
+        }
+
+        if (!StringHelper.isMatching(country, REGEX_COUNTRY)) {
+            return COUNTRY_ERROR_MESSAGE.replace("${fieldName}", COUNTRY_FIELD_NAME);
+        }
+
+        return "";
     }
 
     /**

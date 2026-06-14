@@ -10,12 +10,7 @@ import teammates.ui.output.CourseData;
 /**
  * Move a course to the recycle bin.
  */
-public class BinCourseAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
+public class BinCourseAction extends LoggedInAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {

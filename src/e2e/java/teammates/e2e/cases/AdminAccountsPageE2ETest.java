@@ -54,18 +54,10 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(student);
 
         ______TS("action: delete account entirely");
-        Student student2 = testData.students.get("AAccounts.instr2-student-CS2104");
-        Student student3 = testData.students.get("AAccounts.instr2-student-CS1101");
-        verifyPresentInDatabase(student2);
-        verifyPresentInDatabase(student3);
 
         accountsPage.clickDeleteAccount();
         accountsPage.verifyStatusMessage("Account is successfully deleted.");
 
         assertNull(getAccount(accountId));
-
-        // student entities should be deleted
-        verifyAbsentInDatabase(student2);
-        verifyAbsentInDatabase(student3);
     }
 }

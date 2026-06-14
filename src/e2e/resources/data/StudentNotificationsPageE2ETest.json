@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "StudentNotificationsPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "SNotifs.student": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -15,7 +22,7 @@
       "id": "tm.e2e.SNotifs.course1",
       "name": "Typical Course 1",
       "timeZone": "Africa/Johannesburg",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     }
   },
   "sections": {

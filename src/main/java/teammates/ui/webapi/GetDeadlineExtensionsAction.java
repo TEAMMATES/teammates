@@ -13,13 +13,7 @@ import teammates.ui.output.DeadlineExtensionsData;
 /**
  * Gets the deadline extensions for a feedback session.
  */
-public class GetDeadlineExtensionsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetDeadlineExtensionsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

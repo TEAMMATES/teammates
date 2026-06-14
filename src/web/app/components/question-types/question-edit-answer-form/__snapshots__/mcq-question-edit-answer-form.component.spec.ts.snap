@@ -2,7 +2,6 @@
 
 exports[`McqQuestionEditAnswerFormComponent > should snap when questionDropdownEnabled is updated 1`] = `
 <tm-mcq-question-edit-answer-form
-  cssRefresh={[Function EventEmitter_]}
   id=""
   inputTextBoxOther="undefined"
   isDisabled="false"
@@ -34,7 +33,6 @@ exports[`McqQuestionEditAnswerFormComponent > should snap when questionDropdownE
 
 exports[`McqQuestionEditAnswerFormComponent > should snap with default view 1`] = `
 <tm-mcq-question-edit-answer-form
-  cssRefresh={[Function EventEmitter_]}
   id=""
   inputTextBoxOther="undefined"
   isDisabled="false"

@@ -1,20 +1,6 @@
 <div class="card bg-light top-padded">
   <div class="card-header bg-info">
     <strong>Instructors Found</strong>
-    <div class="card-header-btn-toolbar">
-      <button
-        id="show-instructor-links"
-        class="btn btn-light btn-sm"
-        style="margin-right: 10px"
-        type="button"
-        (click)="showAllInstructorsLinks()"
-      >
-        Expand All
-      </button>
-      <button id="hide-instructor-links" class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">
-        Collapse All
-      </button>
-    </div>
   </div>
   <div class="table-responsive">
     <table id="search-table-instructor" class="table table-striped data-table">
@@ -22,14 +8,14 @@
         <tr>
           <th>Course</th>
           <th>Name</th>
-          <th>Google ID</th>
+          <th>Email</th>
           <th>Institute</th>
           <th>Options</th>
         </tr>
       </thead>
       <tbody>
         @for (instructor of instructors; track instructor; let i = $index) {
-          <tr (click)="instructor.showLinks = !instructor.showLinks">
+          <tr>
             <td class="text-break">
               <span
                 class="ngb-tooltip-class"
@@ -43,31 +29,9 @@
                   [ngbTooltip]="'This course is in the recycle bin.'"
                 ></i>
               }
-              <br />
-              <div class="col-sm-1">
-                @if (!instructor.showLinks) {
-                  <button class="btn" aria-label="Expand">
-                    <i class="fas fa-chevron-circle-down" style="color: blue"></i>
-                  </button>
-                }
-                @if (instructor.showLinks) {
-                  <button class="btn" aria-label="Collapse">
-                    <i class="fas fa-chevron-circle-up" style="color: blue"></i>
-                  </button>
-                }
-              </div>
             </td>
             <td [innerHtml]="instructor.name | highlighter: searchString : true"></td>
-            <td>
-              <a
-                href="{{ instructor.homePageLink }}"
-                (click)="$event.stopPropagation()"
-                target="_blank"
-                rel="noopener noreferrer"
-                [innerHtml]="instructor.googleId | highlighter: searchString : true"
-              >
-              </a>
-            </td>
+            <td [innerHtml]="instructor.email | highlighter: searchString : true"></td>
             <td [innerHtml]="instructor.institute | highlighter: searchString : true"></td>
             <td>
               @if (instructor.manageAccountLink) {
@@ -79,76 +43,30 @@
                 >
                   <i class="fas fa-info-circle"></i> Manage this account
                 </a>
+                <br />
               }
-              <br />
-              @if (instructor.googleId) {
-                <a
-                  id="reset-instructor-id-{{ i }}"
-                  href="javascript:;"
-                  (click)="resetInstructorGoogleId(instructor, $event)"
-                >
-                  <i class="fas fa-sync"></i> Reset Google ID
-                </a>
-              }
+              <button
+                id="show-instructor-links-{{ i }}"
+                data-testid="show-instructor-links-button"
+                type="button"
+                class="btn btn-primary btn-sm mb-2"
+                (click)="openSessionLinksModal(instructor)"
+              >
+                Show links
+              </button>
               <br />
               <button
                 id="regenerate-instructor-key-{{ i }}"
                 data-testid="regenerate-instructor-key"
                 class="btn btn-danger"
                 [disabled]="isRegeneratingInstructorKeys[i]"
-                (click)="instructor.showLinks = !instructor.showLinks; regenerateUserKey(instructor, i)"
+                (click)="regenerateUserKey(instructor, i)"
               >
                 @if (isRegeneratingInstructorKeys[i]) {
                   <tm-ajax-loading></tm-ajax-loading>
                 }
                 Regenerate key
               </button>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="5">
-              <ul class="list-group" [ngbCollapse]="!instructor.showLinks">
-                <li class="list-group-item list-group-item-success has-success">
-                  <strong>Email</strong>
-                  <input [value]="instructor.email" disabled class="form-control" />
-                </li>
-                <li class="list-group-item list-group-item-info">
-                  <strong>Course Join Link</strong>
-                  <input [value]="instructor.courseJoinLink" disabled class="form-control" />
-                </li>
-                @for (awaitingFs of instructor.awaitingSessions | keyvalue; track awaitingFs) {
-                  <li class="list-group-item list-group-item-light">
-                    <strong>{{
-                      awaitingFs.value.name + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime
-                    }}</strong>
-                    <input [value]="awaitingFs.value.feedbackSessionUrl" disabled class="form-control" />
-                  </li>
-                }
-                @for (openFs of instructor.openSessions | keyvalue; track openFs) {
-                  <li class="list-group-item list-group-item-warning">
-                    <strong>{{
-                      openFs.value.name + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime
-                    }}</strong>
-                    <input [value]="openFs.value.feedbackSessionUrl" disabled class="form-control" />
-                  </li>
-                }
-                @for (notOpenFs of instructor.notOpenSessions | keyvalue; track notOpenFs) {
-                  <li class="list-group-item list-group-item-danger">
-                    <strong>{{
-                      notOpenFs.value.name + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime
-                    }}</strong>
-                    <input [value]="notOpenFs.value.feedbackSessionUrl" disabled class="form-control" />
-                  </li>
-                }
-                @for (publishedFs of instructor.publishedSessions | keyvalue; track publishedFs) {
-                  <li class="list-group-item list-group-item-success">
-                    <strong>{{
-                      publishedFs.value.name + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime
-                    }}</strong>
-                    <input [value]="publishedFs.value.feedbackSessionUrl" disabled class="form-control" />
-                  </li>
-                }
-              </ul>
             </td>
           </tr>
         }

@@ -12,6 +12,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { CountryNamePipe } from '../../pipes/country-name.pipe';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
@@ -22,7 +23,7 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
   selector: 'tm-account-request-table',
   templateUrl: './account-request-table.component.html',
   styleUrls: ['./account-request-table.component.scss'],
-  imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
+  imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, CountryNamePipe],
 })
 export class AccountRequestTableComponent {
   private readonly statusMessageService = inject(StatusMessageService);
@@ -40,7 +41,8 @@ export class AccountRequestTableComponent {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
-    modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
+    modalRef.componentInstance.accountRequestInstitution = accountRequest.institute;
+    modalRef.componentInstance.accountRequestCountry = accountRequest.country;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
     modalRef.result.then(
@@ -50,6 +52,7 @@ export class AccountRequestTableComponent {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
+            country: res.accountRequestCountry,
             status: accountRequest.status,
             comments: res.accountRequestComment,
           })
@@ -58,7 +61,8 @@ export class AccountRequestTableComponent {
               accountRequest.comments = resp.comments ?? '';
               accountRequest.name = resp.name;
               accountRequest.email = resp.email;
-              accountRequest.instituteAndCountry = resp.institute;
+              accountRequest.institute = resp.institute;
+              accountRequest.country = resp.country;
               this.statusMessageService.showSuccessToast('Account request was successfully updated.');
             },
             error: (resp: ErrorMessageOutput) => {
@@ -90,7 +94,7 @@ export class AccountRequestTableComponent {
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.instituteAndCountry}</strong>?`;
+        <strong>${accountRequest.institute}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Delete account request for <strong>${accountRequest.name}</strong>?`,
       SimpleModalType.DANGER,

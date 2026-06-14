@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -35,6 +36,7 @@ import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
@@ -49,12 +51,14 @@ public class CoursesLogicTest extends BaseTestCase {
 
     private CoursesDb coursesDb;
     private UsersLogic usersLogic;
+    private InstitutesLogic institutesLogic;
 
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
         usersLogic = mock(UsersLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, usersLogic);
+        institutesLogic = mock(InstitutesLogic.class);
+        coursesLogic.initLogicDependencies(coursesDb, usersLogic, institutesLogic);
     }
 
     @Test
@@ -151,11 +155,15 @@ public class CoursesLogicTest extends BaseTestCase {
         courseCreator.setName("Course Creator");
         courseCreator.setEmail("course-creator@email.tmt");
         CourseCreateRequest request = new CourseCreateRequest();
+        UUID instituteId = UUID.randomUUID();
+        Institute institute = new Institute("Institute", "SG");
+        institute.setId(instituteId);
         request.setCourseId(" course-id ");
         request.setCourseName("Course Name");
         request.setTimeZone(Const.DEFAULT_TIME_ZONE);
-        request.setInstitute("Institute");
+        request.setInstituteId(instituteId);
 
+        when(institutesLogic.getInstitute(instituteId)).thenReturn(institute);
         when(coursesDb.persistCourse(any(Course.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Course createdCourse = coursesLogic.createCourseAndInstructor(courseCreator, request);
@@ -163,7 +171,7 @@ public class CoursesLogicTest extends BaseTestCase {
         assertEquals("course-id", createdCourse.getId());
         assertEquals("Course Name", createdCourse.getName());
         assertEquals(Const.DEFAULT_TIME_ZONE, createdCourse.getTimeZone());
-        assertEquals("Institute", createdCourse.getInstitute());
+        assertEquals("Institute", createdCourse.getInstitute().getName());
         verify(usersLogic, times(1)).createInstructor(
                 eq(createdCourse),
                 eq("Course Creator"),
@@ -181,7 +189,7 @@ public class CoursesLogicTest extends BaseTestCase {
         request.setCourseId("course-id");
         request.setCourseName("Course Name");
         request.setTimeZone("Invalid/Zone");
-        request.setInstitute("Institute");
+        request.setInstituteId(UUID.randomUUID());
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.createCourseAndInstructor(getTypicalAccount(), request));

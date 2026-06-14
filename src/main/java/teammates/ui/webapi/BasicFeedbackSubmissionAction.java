@@ -16,7 +16,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 /**
  * The basic action for feedback submission.
  */
-abstract class BasicFeedbackSubmissionAction extends Action {
+abstract class BasicFeedbackSubmissionAction extends RegKeyAction {
     /**
      * Checks whether instructors can see the question.
      */

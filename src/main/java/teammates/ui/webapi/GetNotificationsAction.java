@@ -13,13 +13,7 @@ import teammates.ui.output.NotificationsData;
 /**
  * Action: Gets a list of notifications.
  */
-public class GetNotificationsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetNotificationsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {

@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "StudentCourseJoinConfirmationPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "SCJoinConf.instr": {
       "googleId": "tm.e2e.SCJoinConf.instr",
@@ -23,13 +30,13 @@
       "id": "tm.e2e.SCJoinConf.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     },
     "SCJoinConf.CS1101": {
       "id": "tm.e2e.SCJoinConf.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC",
-      "institute": "TEAMMATES Test Institute 1"
+      "instituteId": "00000000-0000-4000-9000-000000000001"
     }
   },
   "sections": {
@@ -69,6 +76,7 @@
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "SCJoinConf.instr.CS1101": {
+      "id": "00000000-0000-4000-8000-000000000502",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
       "role": "COOWNER",

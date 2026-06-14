@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
@@ -35,15 +35,8 @@ export class McqQuestionEditAnswerFormComponent
 
   isMcqOptionSelected: boolean[] = [];
 
-  @Output()
-  cssRefresh: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   ngOnInit(): void {
     this.valueSelected = this.responseDetails.answer;
-  }
-
-  updateParentCss(refresh: boolean): void {
-    this.cssRefresh.emit(refresh);
   }
 
   // sync the internal status with the input data

@@ -4,15 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.exception.ConstraintViolationException;
+import jakarta.persistence.EntityExistsException;
+
 import org.testng.annotations.Test;
 
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.GroupNames;
@@ -45,9 +49,14 @@ public class CoursesDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistCourse_courseIsNew_courseIsPersisted() {
+        var institute = given.institute("institute");
+        persistGivenData(given);
         Course course = buildDefaultCourse("new-course");
 
-        Course actual = inTransaction(() -> coursesDb.persistCourse(course));
+        Course actual = inTransaction(() -> {
+            getEntity(Institute.class, institute.id()).addCourse(course);
+            return coursesDb.persistCourse(course);
+        });
 
         assertEquals(course.getId(), actual.getId());
         verifyPresentInDatabase(Course.class, course.getId());
@@ -55,11 +64,15 @@ public class CoursesDbTest extends BaseDbTestcase {
 
     @Test(groups = GroupNames.DB)
     public void persistCourse_courseIdExists_throwsException() {
-        var existingCourse = given.course("existing-course");
+        var institute = given.institute("institute");
+        var existingCourse = given.course("existing-course", c -> c.institute(institute.alias()));
         persistGivenData(given);
         Course course = buildDefaultCourse(existingCourse.id());
 
-        assertThrowsInTransaction(ConstraintViolationException.class, () -> coursesDb.persistCourse(course));
+        assertThrowsInTransaction(EntityExistsException.class, () -> {
+            getEntity(Institute.class, institute.id()).addCourse(course);
+            coursesDb.persistCourse(course);
+        });
     }
 
     @Test(groups = GroupNames.DB)
@@ -164,8 +177,23 @@ public class CoursesDbTest extends BaseDbTestcase {
         assertEquals(Set.of(team1.id(), team2.id()), actual.stream().map(Team::getId).collect(Collectors.toSet()));
     }
 
+    @Test(groups = GroupNames.DB)
+    public void getCreatedAtTimestampsForTimeRange_excludesSoftDeletedCourses() {
+        given.course("active-course");
+        given.course("deleted-course", c -> c.softDeleted());
+        persistGivenData(given);
+
+        Instant start = Instant.now().minus(1, ChronoUnit.HOURS);
+        Instant end = Instant.now().plus(1, ChronoUnit.HOURS);
+
+        List<Instant> actual = inTransaction(
+                () -> coursesDb.getCreatedAtTimestampsForTimeRange(start, end));
+
+        assertEquals(1, actual.size());
+    }
+
     private static Course buildDefaultCourse(String courseId) {
-        return new Course(courseId, "Course Name", "UTC", "Institute");
+        return new Course(courseId, "Course Name", "UTC");
     }
 
     private static Team buildDefaultTeam(Section section, UUID teamId) {

@@ -16,8 +16,6 @@ public class InstructorData implements ApiOutput {
     private final UUID userId;
     @Nullable
     private UUID accountId;
-    @Nullable
-    private String googleId;
     private final String courseId;
     private final String email;
     @Nullable
@@ -54,20 +52,12 @@ public class InstructorData implements ApiOutput {
         this.displayedToStudentsAs = instructor.getDisplayName();
         this.name = instructor.getName();
         this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
-        this.institute = instructor.getCourse().getInstitute();
+        this.institute = instructor.getCourse().getInstitute().getName();
         this.courseName = instructor.getCourse().getName();
     }
 
     public UUID getUserId() {
         return userId;
-    }
-
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
     }
 
     public String getCourseId() {
@@ -146,12 +136,10 @@ public class InstructorData implements ApiOutput {
      * Adds additional attributes only for search result for admin.
      *
      * @param key Registration key
-     * @param googleId The googleId of the instructor
      * @param accountId The accountId of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String googleId, UUID accountId) {
+    public void addAdditionalInformationForAdminSearch(String key, UUID accountId) {
         setKey(key);
-        setGoogleId(googleId);
         setAccountId(accountId);
     }
 }

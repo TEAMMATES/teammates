@@ -12,13 +12,7 @@ import teammates.ui.output.TimeZonesData;
 /**
  * Action: get supported time zones.
  */
-public class GetTimeZonesAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetTimeZonesAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!requestContext.isMaintainer() && !requestContext.isAdmin()) {

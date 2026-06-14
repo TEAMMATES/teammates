@@ -24,6 +24,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.InstructorCoursePrivilege;
 import teammates.storage.entity.InstructorSectionPrivilege;
@@ -34,7 +35,6 @@ import teammates.storage.entity.ResponseInstructorComment;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.storage.entity.questions.FeedbackConstantSumOptionsQuestion;
 import teammates.storage.entity.questions.FeedbackConstantSumRecipientsQuestion;
@@ -71,7 +71,6 @@ public final class HibernateUtil {
             User.class,
             Instructor.class,
             Student.class,
-            UsageStatistics.class,
             Section.class,
             Team.class,
             FeedbackQuestion.class,
@@ -99,6 +98,7 @@ public final class HibernateUtil {
             FeedbackTextResponse.class,
             ResponseInstructorComment.class,
             FeedbackSessionLog.class,
+            Institute.class,
             InstructorCoursePrivilege.class,
             InstructorSectionPrivilege.class,
             InstructorSessionPrivilege.class);

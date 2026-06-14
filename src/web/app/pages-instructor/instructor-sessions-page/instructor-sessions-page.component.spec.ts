@@ -42,6 +42,8 @@ describe('InstructorSessionsPageComponent', () => {
     courseId: 'CS1231',
     courseName: 'Discrete Structures',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
     deletionTimestamp: 0,
     timeZone: 'Asia/Singapore',
@@ -51,6 +53,8 @@ describe('InstructorSessionsPageComponent', () => {
     courseId: 'CS3281',
     courseName: 'Thematic Systems I',
     institute: 'Test Institute',
+    country: 'SG',
+    instituteId: 'test-institute-id',
     creationTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
     deletionTimestamp: 0,
     timeZone: 'Asia/Singapore',

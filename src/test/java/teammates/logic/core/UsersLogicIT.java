@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -44,6 +45,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     protected void setUp() {
         inTransaction(() -> {
             Course typicalCourse = getTypicalCourse();
+            HibernateUtil.persist(typicalCourse.getInstitute());
             course = coursesLogic.createCourse(
                     typicalCourse.getId(), typicalCourse.getName(), typicalCourse.getTimeZone(),
                     typicalCourse.getInstitute());
@@ -59,19 +61,19 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test(groups = GroupNames.INTEGRATION)
-    public void testResetAccount_instructor() {
+    public void testUnlinkAccount_instructor() {
         String googleId = account.getGoogleId();
 
-        ______TS("failure: reset instructor that does not exist");
+        ______TS("failure: unlink instructor that does not exist");
         assertThrowsInTransaction(EntityDoesNotExistException.class,
-                () -> usersLogic.resetAccount(UUID.randomUUID()));
+                () -> usersLogic.unlinkAccount(UUID.randomUUID()));
 
-        ______TS("success: reset instructor that exists");
+        ______TS("success: unlink instructor that exists");
         Instructor instructor = inTransaction(() -> usersLogic.createInstructor(
                 course, "instructor-name", "valid@teammates.tmt",
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR,
                 InstructorPermissionRole.COOWNER, account));
-        User resetUser = inTransaction(() -> usersLogic.resetAccount(instructor.getId()));
+        User resetUser = inTransaction(() -> usersLogic.unlinkAccount(instructor.getId()));
         instructor.setAccount(null);
 
         assertEquals(instructor, resetUser);
@@ -80,26 +82,26 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test(groups = GroupNames.INTEGRATION)
-    public void testResetAccount_student() {
+    public void testUnlinkAccount_student() {
         String email = "email@gmail.tmt";
         String googleId = account.getGoogleId();
 
-        ______TS("failure: reset student that does not exist");
+        ______TS("failure: unlink student that does not exist");
         UUID missingStudentId = UUID.randomUUID();
         assertThrowsInTransaction(EntityDoesNotExistException.class,
-                () -> usersLogic.resetAccount(missingStudentId));
+                () -> usersLogic.unlinkAccount(missingStudentId));
 
-        ______TS("success: reset student that exists");
+        ______TS("success: unlink student that exists");
         Student student = inTransaction(() -> {
             Student createdStudent = usersLogic.createStudent(course, team, "name", email, "comments");
             createdStudent.setAccount(account);
             return createdStudent;
         });
 
-        User resetUser = inTransaction(() -> usersLogic.resetAccount(student.getId()));
+        User unlinkedtUser = inTransaction(() -> usersLogic.unlinkAccount(student.getId()));
         student.setAccount(null);
 
-        assertEquals(student, resetUser);
+        assertEquals(student, unlinkedtUser);
         assertNull(student.getAccount());
         assertEquals(account, inTransaction(() -> accountsLogic.getAccountForGoogleId(googleId)));
     }

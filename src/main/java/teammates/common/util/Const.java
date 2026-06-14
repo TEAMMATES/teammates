@@ -150,9 +150,7 @@ public final class Const {
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
 
-        public static final String SECTION_NAME = "sectionname";
-
-        public static final String TEAM_NAME = "teamname";
+        public static final String TEAM_ID = "teamid";
 
         public static final String ERROR = "error";
 
@@ -299,7 +297,7 @@ public final class Const {
         public static final String AUTH = URI_PREFIX + "/auth";
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
         public static final String ACCOUNT = URI_PREFIX + "/account";
-        public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
+        public static final String ACCOUNT_UNLINK = URI_PREFIX + "/account/unlink";
         public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
         public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
         public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";
@@ -313,11 +311,13 @@ public final class Const {
         public static final String COURSES = URI_PREFIX + "/courses";
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
+        public static final String OWN_INSTRUCTOR = URI_PREFIX + "/me/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
         public static final String COURSE_SESSION_RESULTS = URI_PREFIX + "/session/results/course";
         public static final String USER_SESSION_RESULTS = URI_PREFIX + "/session/results/user";
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
+        public static final String OWN_STUDENT = URI_PREFIX + "/me/student";
         public static final String USER_KEY = URI_PREFIX + "/user/key";
         public static final String NOTIFICATION = URI_PREFIX + "/notification";
         public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
@@ -325,6 +325,7 @@ public final class Const {
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
         public static final String SESSION_DEADLINE_EXTENSIONS = URI_PREFIX + "/session/deadlineextensions";
+        public static final String SESSION_LINKS = URI_PREFIX + "/session/links";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";
         public static final String SESSION_REMIND_SUBMISSION = URI_PREFIX + "/session/remind/submission";
         public static final String SESSION_REMIND_RESULT = URI_PREFIX + "/session/remind/result";
@@ -347,7 +348,6 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
-        public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
         public static final String CONFIG = URI_PREFIX + "/config";
     }
@@ -368,8 +368,6 @@ public final class Const {
                 URI_PREFIX + "/feedbackSessionClosingSoonReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
                 URI_PREFIX + "/feedbackSessionPublishedReminders";
-        public static final String AUTOMATED_USAGE_STATISTICS_COLLECTION =
-                URI_PREFIX + "/calculateUsageStatistics";
         public static final String AUTOMATED_FEEDBACK_SESSION_LOGS_CLEANUP =
                 URI_PREFIX + "/cleanupFeedbackSessionLogs";
     }

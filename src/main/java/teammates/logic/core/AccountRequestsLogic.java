@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -7,6 +8,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 
 /**
  * Handles operations related to account requests.
@@ -19,6 +21,7 @@ public final class AccountRequestsLogic {
     private static final AccountRequestsLogic instance = new AccountRequestsLogic();
 
     private AccountRequestsDb accountRequestDb;
+    private InstitutesLogic institutesLogic;
 
     private AccountRequestsLogic() {
         // prevent notification
@@ -31,8 +34,9 @@ public final class AccountRequestsLogic {
     /**
      * Initialise dependencies for {@code AccountRequestLogic} object.
      */
-    public void initLogicDependencies(AccountRequestsDb accountRequestDb) {
+    public void initLogicDependencies(AccountRequestsDb accountRequestDb, InstitutesLogic institutesLogic) {
         this.accountRequestDb = accountRequestDb;
+        this.institutesLogic = institutesLogic;
     }
 
     /**
@@ -44,11 +48,14 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Creates an account request.
+     * Creates an account request, resolving (or creating) the shared institute for the given
+     * {@code instituteName} and {@code country}.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
-        AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
+    public AccountRequest createAccountRequest(String name, String email, String instituteName, String country,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
+        Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
+        AccountRequest toCreate = new AccountRequest(email, name, status, comments);
+        institute.addAccountRequest(toCreate);
 
         return createAccountRequest(toCreate);
     }
@@ -111,5 +118,12 @@ public final class AccountRequestsLogic {
         if (!accountRequest.isValid()) {
             throw new InvalidParametersException(accountRequest.getInvalidityInfo());
         }
+    }
+
+    /**
+     * Gets createdAt timestamps of account requests created within the given time range.
+     */
+    public List<Instant> getAccountRequestCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return accountRequestDb.getCreatedAtTimestampsForTimeRange(startTime, endTime);
     }
 }

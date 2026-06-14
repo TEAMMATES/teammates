@@ -922,6 +922,9 @@ describe('Question Statistics Utility Functions', () => {
   });
 
   describe('calculateContributionQuestionStatistics', () => {
+    const bobUserId = 'bob-user-id';
+    const charlieUserId = 'charlie-user-id';
+
     it('should return empty stats when statistics string is empty', () => {
       const responses: Response<FeedbackContributionResponseDetails>[] = [];
       const statistics = '';
@@ -933,9 +936,9 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToTeamName).toEqual({});
-      expect(stats.emailToName).toEqual({});
-      expect(stats.emailToDiff).toEqual({});
+      expect(stats.userIdToTeamName).toEqual({});
+      expect(stats.userIdToName).toEqual({});
+      expect(stats.userIdToDiff).toEqual({});
       expect(stats.questionOverallStatistics?.results).toEqual({});
     });
 
@@ -948,9 +951,9 @@ describe('Question Statistics Utility Functions', () => {
         false,
       );
 
-      expect(statsWithNull.emailToTeamName).toEqual({});
-      expect(statsWithNull.emailToName).toEqual({});
-      expect(statsWithNull.emailToDiff).toEqual({});
+      expect(statsWithNull.userIdToTeamName).toEqual({});
+      expect(statsWithNull.userIdToName).toEqual({});
+      expect(statsWithNull.userIdToDiff).toEqual({});
     });
 
     it('should calculate statistics correctly for student view', () => {
@@ -983,8 +986,8 @@ describe('Question Statistics Utility Functions', () => {
         'peer2@example.com': 55,
       });
       expect(stats.questionStatisticsForStudent?.claimedOthersValues).toEqual([55, 20]);
-      expect(stats.emailToTeamName).toEqual({});
-      expect(stats.emailToName).toEqual({});
+      expect(stats.userIdToTeamName).toEqual({});
+      expect(stats.userIdToName).toEqual({});
     });
 
     it('should calculate statistics correctly for instructor view with positive differences', () => {
@@ -995,6 +998,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'bob@example.com',
           recipientSection: '',
@@ -1009,6 +1013,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'charlie@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'bob@example.com',
           recipientSection: '',
@@ -1020,7 +1025,7 @@ describe('Question Statistics Utility Functions', () => {
       ];
       const statistics = JSON.stringify({
         results: {
-          'bob@example.com': {
+          [bobUserId]: {
             claimed: 20,
             perceived: 35,
             claimedOthers: {},
@@ -1036,17 +1041,20 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToTeamName).toEqual({
-        'bob@example.com': 'Team B',
+      expect(stats.userIdToTeamName).toEqual({
+        [bobUserId]: 'Team B',
       });
-      expect(stats.emailToName).toEqual({
-        'bob@example.com': 'Bob',
+      expect(stats.userIdToName).toEqual({
+        [bobUserId]: 'Bob',
       });
-      expect(stats.emailToDiff).toEqual({
-        'bob@example.com': 15, // 35 - 20
+      expect(stats.userIdToDiff).toEqual({
+        [bobUserId]: 15,
+      });
+      expect(stats.userIdToEmail).toEqual({
+        [bobUserId]: 'bob@example.com',
       });
       expect(stats.questionOverallStatistics?.results).toEqual({
-        'bob@example.com': {
+        [bobUserId]: {
           claimed: 20,
           perceived: 35,
           claimedOthers: {},
@@ -1063,6 +1071,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'bob@example.com',
           recipientSection: '',
@@ -1074,7 +1083,7 @@ describe('Question Statistics Utility Functions', () => {
       ];
       const statistics = JSON.stringify({
         results: {
-          'bob@example.com': {
+          [bobUserId]: {
             claimed: -1,
             perceived: 35,
             claimedOthers: {},
@@ -1090,7 +1099,7 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToDiff['bob@example.com']).toBe(CONTRIBUTION_POINT_NOT_SUBMITTED); // CONTRIBUTION_POINT_NOT_SUBMITTED
+      expect(stats.userIdToDiff[bobUserId]).toBe(CONTRIBUTION_POINT_NOT_SUBMITTED);
     });
 
     it('should calculate statistics correctly for instructor view with negative perceived values', () => {
@@ -1101,6 +1110,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'bob@example.com',
           recipientSection: '',
@@ -1112,7 +1122,7 @@ describe('Question Statistics Utility Functions', () => {
       ];
       const statistics = JSON.stringify({
         results: {
-          'bob@example.com': {
+          [bobUserId]: {
             claimed: 25,
             perceived: -1,
             claimedOthers: {},
@@ -1128,7 +1138,7 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToDiff['bob@example.com']).toBe(CONTRIBUTION_POINT_NOT_SUBMITTED);
+      expect(stats.userIdToDiff[bobUserId]).toBe(CONTRIBUTION_POINT_NOT_SUBMITTED);
     });
 
     it('should handle responses without recipientEmail for instructor view', () => {
@@ -1139,6 +1149,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team B',
           recipientEmail: undefined,
           recipientSection: '',
@@ -1159,9 +1170,14 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToTeamName).toEqual({});
-      expect(stats.emailToName).toEqual({});
-      expect(stats.emailToDiff).toEqual({});
+      expect(stats.userIdToTeamName).toEqual({
+        [bobUserId]: 'Team B',
+      });
+      expect(stats.userIdToName).toEqual({
+        [bobUserId]: 'Bob',
+      });
+      expect(stats.userIdToEmail).toEqual({});
+      expect(stats.userIdToDiff).toEqual({});
     });
 
     it('should calculate statistics correctly for multiple recipients in instructor view', () => {
@@ -1172,6 +1188,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'bob@example.com',
           recipientSection: '',
@@ -1186,6 +1203,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Charlie',
+          recipientUserId: charlieUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'charlie@example.com',
           recipientSection: '',
@@ -1197,13 +1215,13 @@ describe('Question Statistics Utility Functions', () => {
       ];
       const statistics = JSON.stringify({
         results: {
-          'bob@example.com': {
+          [bobUserId]: {
             claimed: 20,
             perceived: 35,
             claimedOthers: {},
             perceivedOthers: [],
           },
-          'charlie@example.com': {
+          [charlieUserId]: {
             claimed: 30,
             perceived: 40,
             claimedOthers: {},
@@ -1219,17 +1237,17 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToTeamName).toEqual({
-        'bob@example.com': 'Team B',
-        'charlie@example.com': 'Team B',
+      expect(stats.userIdToTeamName).toEqual({
+        [bobUserId]: 'Team B',
+        [charlieUserId]: 'Team B',
       });
-      expect(stats.emailToName).toEqual({
-        'bob@example.com': 'Bob',
-        'charlie@example.com': 'Charlie',
+      expect(stats.userIdToName).toEqual({
+        [bobUserId]: 'Bob',
+        [charlieUserId]: 'Charlie',
       });
-      expect(stats.emailToDiff).toEqual({
-        'bob@example.com': 15, // 35 - 20
-        'charlie@example.com': 10, // 40 - 30
+      expect(stats.userIdToDiff).toEqual({
+        [bobUserId]: 15,
+        [charlieUserId]: 10,
       });
     });
 
@@ -1271,6 +1289,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Bob',
+          recipientUserId: bobUserId,
           recipientTeam: 'Team A',
           recipientEmail: 'bob@example.com',
           recipientSection: '',
@@ -1285,6 +1304,7 @@ describe('Question Statistics Utility Functions', () => {
           giverEmail: 'alice@example.com',
           giverSection: '',
           recipient: 'Charlie',
+          recipientUserId: charlieUserId,
           recipientTeam: 'Team B',
           recipientEmail: 'charlie@example.com',
           recipientSection: '',
@@ -1296,13 +1316,13 @@ describe('Question Statistics Utility Functions', () => {
       ];
       const statistics = JSON.stringify({
         results: {
-          'bob@example.com': {
+          [bobUserId]: {
             claimed: 20,
             perceived: 35,
             claimedOthers: {},
             perceivedOthers: [],
           },
-          'charlie@example.com': {
+          [charlieUserId]: {
             claimed: 30,
             perceived: 40,
             claimedOthers: {},
@@ -1318,10 +1338,10 @@ describe('Question Statistics Utility Functions', () => {
         isStudent,
       );
 
-      expect(stats.emailToTeamName['bob@example.com']).toBe('Team A');
-      expect(stats.emailToTeamName['charlie@example.com']).toBe('Team B');
-      expect(stats.emailToName['bob@example.com']).toBe('Bob');
-      expect(stats.emailToName['charlie@example.com']).toBe('Charlie');
+      expect(stats.userIdToTeamName[bobUserId]).toBe('Team A');
+      expect(stats.userIdToTeamName[charlieUserId]).toBe('Team B');
+      expect(stats.userIdToName[bobUserId]).toBe('Bob');
+      expect(stats.userIdToName[charlieUserId]).toBe('Charlie');
     });
   });
 });

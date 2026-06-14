@@ -1,4 +1,11 @@
 {
+  "institutes": {
+    "institute1": {
+      "id": "00000000-0000-4000-9000-000000000001",
+      "name": "InstructorCourseStudentDetailsEditPageE2ETest 1",
+      "country": "SG"
+    }
+  },
   "accounts": {
     "ICSDetEdit.instr": {
       "id": "00000000-0000-4000-8000-000000000001",
@@ -8,10 +15,10 @@
       "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ICSDetEdit.instr"
     },
-    "Jos\u00e9 G\u00f3mez": {
+    "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.ICSDetEdit.jose.tmms",
-      "name": "Jos\u00e9 G\u00f3mez",
+      "name": "José Gómez",
       "email": "icsdetedit.jose.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "tm.e2e.ICSDetEdit.jose.tmms"
@@ -22,7 +29,7 @@
     "ICSDetEdit.CS2104": {
       "id": "tm.e2e.ICSDetEdit.CS2104",
       "name": "Programming Language Concepts",
-      "institute": "TEAMMATES Test Institute 1",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
       "timeZone": "UTC"
     }
   },
@@ -68,8 +75,8 @@
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "email": "icsdetedit.jose.tmms@gmail.tmt",
-      "name": "Jos\u00e9 G\u00f3mez",
-      "comments": "This student's name is Jos\u00e9 G\u00f3mez",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
       "accountId": "00000000-0000-4000-8000-000000000002",
       "teamId": "00000000-0000-4000-8000-000000000301"
     },

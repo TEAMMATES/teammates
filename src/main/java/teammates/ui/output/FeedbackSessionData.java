@@ -7,6 +7,7 @@ import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import teammates.common.datatransfer.FeedbackSessionSubmissionStatus;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 

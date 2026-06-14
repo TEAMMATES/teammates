@@ -18,13 +18,7 @@ import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 /**
  * Updates a feedback response comment.
  */
-public class UpdateResponseInstructorCommentAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class UpdateResponseInstructorCommentAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID responseInstructorCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);

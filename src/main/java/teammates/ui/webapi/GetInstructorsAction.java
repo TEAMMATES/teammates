@@ -16,13 +16,7 @@ import teammates.ui.request.Intent;
 /**
  * Get a list of instructors of a course.
  */
-public class GetInstructorsAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
+public class GetInstructorsAction extends LoggedInAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {
@@ -69,7 +63,7 @@ public class GetInstructorsAction extends Action {
 
             // hide information
             data.getInstructors().forEach(i -> {
-                i.setGoogleId(null);
+                i.setAccountId(null);
                 i.setJoinState(null);
                 i.setIsDisplayedToStudents(null);
                 i.setRole(null);
@@ -84,7 +78,6 @@ public class GetInstructorsAction extends Action {
 
                 for (Instructor instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
-                    instructorData.setGoogleId(instructor.getGoogleId());
                     if (requestContext.isAdmin()) {
                         instructorData.setKey(instructor.getRegKey());
                     }

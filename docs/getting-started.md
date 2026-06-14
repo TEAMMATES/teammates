@@ -141,11 +141,13 @@ The frontend will be available at `http://localhost:4200`.
 
 To test TEAMMATES locally, you will need an instructor and a student account.
 
-1. Visit [/web/admin/home](http://localhost:4200/web/admin/home) and log in as admin (`app_admin@gmail.com`).
-2. Add an instructor account.
-3. Use the admin search feature at [/web/admin/search](http://localhost:4200/web/admin/search) to find the account request, expand the row, and retrieve the account registration link.
-4. Use the registration link to activate the account.
-5. You now have access to all TEAMMATES features.
+1. Configure `app.admins` property in `build.properties`. The default value is `app_admin@gmail.com`.
+2. Visit [/web/front/request](http://localhost:4200/web/front/request) and submit the form.
+3. Visit [/web/admin/home](http://localhost:4200/web/admin/home) and sign in as admin.
+4. Approve the pending account request.
+5. Use the admin search feature at [/web/admin/search](http://localhost:4200/web/admin/search) to find the account request, expand the row, and retrieve the account registration link.
+6. Use the registration link to activate the account.
+7. You now have access to all TEAMMATES features.
 
 ## Step 5: Next Steps
 

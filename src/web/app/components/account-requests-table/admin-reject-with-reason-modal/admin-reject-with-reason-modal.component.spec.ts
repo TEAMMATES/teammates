@@ -4,46 +4,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import { of } from 'rxjs';
 import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal.component';
-import {
-  FeedbackSessionsGroup,
-  InstructorAccountSearchResult,
-  SearchService,
-} from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
-import { createBuilder } from '../../../../test-helpers/generic-builder';
-
-const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
-  sessionName: {
-    name: 'session name',
-    feedbackSessionUrl: 'sessionUrl',
-    startTime: 'startTime',
-    endTime: 'endTime',
-  },
-};
-
-const instructorAccountSearchResultBuilder = createBuilder<InstructorAccountSearchResult>({
-  userId: '62064eae-36e8-4d4c-ab1c-7c7970efc303',
-  name: 'name',
-  email: 'email',
-  googleId: 'googleId',
-  courseId: 'courseId',
-  courseName: 'courseName',
-  isCourseDeleted: false,
-  institute: 'institute',
-  courseJoinLink: 'courseJoinLink',
-  homePageLink: 'homePageLink',
-  manageAccountLink: 'manageAccountLink',
-  showLinks: false,
-  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-});
 
 describe('RejectWithReasonModal', () => {
-  let searchService: SearchService;
   let statusMessageService: StatusMessageService;
   let fixture: ComponentFixture<RejectWithReasonModalComponent>;
   let component: RejectWithReasonModalComponent;
@@ -55,7 +19,6 @@ describe('RejectWithReasonModal', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(RejectWithReasonModalComponent);
-    searchService = TestBed.inject(SearchService);
     statusMessageService = TestBed.inject(StatusMessageService);
     fixture.detectChanges();
     component = fixture.componentInstance;
@@ -68,40 +31,6 @@ describe('RejectWithReasonModal', () => {
   it('should show empty title and body', () => {
     expect(fixture).toMatchSnapshot();
   });
-
-  it('replaceGoogleId: should set the googleId to an empty string if no instructor accounts are found', () => {
-    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
-      of({
-        students: [],
-        instructors: [],
-        accountRequests: [],
-      }),
-    );
-
-    component.replaceGoogleId();
-
-    expect(component.existingAccount.googleId).toEqual('');
-  });
-
-  it(
-    'replaceGoogleId: should set the googleId to the instructor accounts googleId ' +
-      'if an instructor account is found',
-    () => {
-      const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
-
-      vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
-        of({
-          students: [],
-          instructors: [testInstructor],
-          accountRequests: [],
-        }),
-      );
-
-      component.replaceGoogleId();
-
-      expect(component.existingAccount.googleId).toEqual('instructorGoogleId');
-    },
-  );
 
   it('reject: should show error message when title is empty upon submitting', () => {
     component.rejectionReasonTitle = '';

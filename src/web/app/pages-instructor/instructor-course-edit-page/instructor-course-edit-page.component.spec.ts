@@ -17,6 +17,8 @@ const testCourse: Course = {
   courseId: 'exampleId',
   courseName: 'Example Course',
   institute: 'Test Institute',
+  country: 'SG',
+  instituteId: 'test-institute-id',
   timeZone: 'UTC (UTC)',
   creationTimestamp: 0,
   deletionTimestamp: 1000,
@@ -41,7 +43,7 @@ const testInstructor3 = instructorBuilder
   .build();
 
 const emptyInstructorPanel: InstructorEditPanel = {
-  googleId: '',
+  id: '',
   courseId: '',
   email: '',
   isDisplayedToStudents: true,
@@ -137,6 +139,8 @@ describe('InstructorCourseEditPageComponent', () => {
         courseName: 'Example Course Changed',
         timeZone: 'UTC (UTC)',
         institute: 'Test institute',
+        country: 'SG',
+        instituteId: 'test-institute-id',
         creationTimestamp: 0,
         deletionTimestamp: 1000,
       }),

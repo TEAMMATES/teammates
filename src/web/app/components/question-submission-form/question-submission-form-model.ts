@@ -48,10 +48,6 @@ export interface QuestionSubmissionFormModel {
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
-
-  isTabExpandedForRecipients: Map<string, boolean>;
-
-  isTabExpanded: boolean;
 }
 
 /**
@@ -86,6 +82,7 @@ export enum ResponseSubmissionStatus {
   NEW,
   SAVED,
   MODIFIED,
+  ERROR,
 }
 
 export enum FeedbackRecipientLabelType {

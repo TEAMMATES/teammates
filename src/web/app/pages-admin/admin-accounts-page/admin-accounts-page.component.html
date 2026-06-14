@@ -1,16 +1,17 @@
 <div *tmIsLoading="isLoadingAccountInfo">
-  @if (accountInfo.googleId) {
-    <div class="card bg-light" style="margin-top: 30px">
-      <div class="card-body row" style="padding: 25px 40px">
-        <label class="col-sm-2 control-label">Google ID:</label>
-        <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
-        <label class="col-sm-2 control-label">Name:</label>
-        <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
-        <label class="col-sm-2 control-label">Email:</label>
-        <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
-        <div class="text-center" style="margin-top: 20px">
+  @if (accountInfo.accountId) {
+    <div class="card bg-light">
+      <div class="card-body p-4">
+        <div class="row">
+          <strong class="col-sm-2">Email:</strong>
+          <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
+        </div>
+        <div class="mt-3 d-flex justify-content-center gap-2">
           <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
             <i class="fas fa-trash-alt"></i> Delete Account
+          </button>
+          <button id="btn-masquerade-account" class="btn btn-sm btn-primary" (click)="masqueradeAsUser()">
+            <i class="fas fa-user-secret"></i> Masquerade as User
           </button>
         </div>
       </div>
@@ -41,6 +42,9 @@
               <td class="text-break">[{{ instructor.courseId }}] {{ instructor.courseName }}</td>
               <td class="text-break">{{ instructor.institute }}</td>
               <td>
+                <button class="btn btn-sm btn-warning me-2" (click)="unlinkInstructorAccount(instructor)">
+                  <i class="fas fa-unlink"></i> Unlink Account
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(instructor)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
@@ -81,6 +85,9 @@
               <td class="text-break">[{{ student.courseId }}] {{ student.courseName }}</td>
               <td class="text-break">{{ student.institute }}</td>
               <td>
+                <button class="btn btn-sm btn-warning me-2" (click)="unlinkStudentAccount(student)">
+                  <i class="fas fa-unlink"></i> Unlink Account
+                </button>
                 <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(student)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>

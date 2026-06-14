@@ -58,23 +58,17 @@
   <div class="card-body text-center" [ngClass]="{ 'fill-plain': editMode === EditMode.ADD }">
     @if (editMode === EditMode.EDIT && currInstructorCoursePrivilege?.canModifyInstructor) {
       <div class="row form-group">
-        <label for="google-id-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label"> Google ID: </label>
-        @if (instructor.joinState === JoinState.JOINED) {
-          <div class="col-sm-9">
-            <input
-              id="google-id-instructor-{{ instructorIndex + 1 }}"
-              class="form-control"
-              maxlength="254"
-              [ngModel]="instructor.googleId"
-              disabled
-            />
-          </div>
-        }
-        @if (instructor.joinState === JoinState.NOT_JOINED) {
-          <span class="text-danger col-sm-9 text-start margin-bottom-label">
-            Not available. Instructor is yet to join this course.
-          </span>
-        }
+        <label for="join-state-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label">
+          Join State:
+        </label>
+        <div class="col-sm-9">
+          <input
+            id="join-state-instructor-{{ instructorIndex + 1 }}"
+            class="form-control"
+            [value]="instructor.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join'"
+            disabled
+          />
+        </div>
       </div>
     }
     <div class="row form-group">

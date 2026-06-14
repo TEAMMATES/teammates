@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Institute;
 
 /**
  * Builder for AccountRequest entities used in test scenarios.
@@ -32,10 +33,11 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
     }
 
     /**
-     * Sets the institute for the account request.
+     * Sets the institute for the account request, referenced by its alias.
      */
-    public GivenAccountRequest institute(String institute) {
-        entity.setInstitute(institute);
+    public GivenAccountRequest institute(String instituteAlias) {
+        Institute institute = given.getOrCreate(instituteAlias, given.dataBundle.institutes, given::institute);
+        institute.addAccountRequest(entity);
         return this;
     }
 
@@ -109,14 +111,15 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
 
     @Override
     void ensureConsistent() {
-        // No mandatory relationships
+        if (entity.getInstituteId() == null) {
+            this.institute("default");
+        }
     }
 
     private AccountRequest defaultAccountRequest(UUID accountRequestId) {
         AccountRequest accountRequest = new AccountRequest(
                 accountRequestId + "@teammates.tmt",
                 "name:" + accountRequestId,
-                "Institute " + accountRequestId,
                 AccountRequestStatus.PENDING,
                 "");
         accountRequest.setId(accountRequestId);

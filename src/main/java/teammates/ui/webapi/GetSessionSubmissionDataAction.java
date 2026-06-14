@@ -24,12 +24,6 @@ import teammates.ui.request.Intent;
  * Get all feedback session submission data needed by the submission page.
  */
 public class GetSessionSubmissionDataAction extends BasicFeedbackSubmissionAction {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

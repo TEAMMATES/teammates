@@ -1,48 +1,30 @@
 package teammates.ui.output;
 
-import java.util.UUID;
-
-import teammates.storage.entity.UsageStatistics;
-
 /**
- * The API output format of {@link UsageStatistics}.
+ * The API output format for usage statistics for a single time bucket.
  */
 public class UsageStatisticsData implements ApiOutput {
 
-    private final UUID usageStatisticsId;
     private final long startTime;
-    private final int timePeriod;
     private final int numResponses;
     private final int numCourses;
     private final int numStudents;
     private final int numInstructors;
     private final int numAccountRequests;
-    private final int numEmails;
-    private final int numSubmissions;
 
-    public UsageStatisticsData(UsageStatistics usageStatistics) {
-        this.usageStatisticsId = usageStatistics.getId();
-        this.startTime = usageStatistics.getStartTime().toEpochMilli();
-        this.timePeriod = usageStatistics.getTimePeriod();
-        this.numResponses = usageStatistics.getNumResponses();
-        this.numCourses = usageStatistics.getNumCourses();
-        this.numStudents = usageStatistics.getNumStudents();
-        this.numInstructors = usageStatistics.getNumInstructors();
-        this.numAccountRequests = usageStatistics.getNumAccountRequests();
-        this.numEmails = usageStatistics.getNumEmails();
-        this.numSubmissions = usageStatistics.getNumSubmissions();
-    }
-
-    public UUID getUsageStatisticsId() {
-        return usageStatisticsId;
+    public UsageStatisticsData(
+            long startTime, int numResponses, int numCourses,
+            int numStudents, int numInstructors, int numAccountRequests) {
+        this.startTime = startTime;
+        this.numResponses = numResponses;
+        this.numCourses = numCourses;
+        this.numStudents = numStudents;
+        this.numInstructors = numInstructors;
+        this.numAccountRequests = numAccountRequests;
     }
 
     public long getStartTime() {
         return startTime;
-    }
-
-    public int getTimePeriod() {
-        return timePeriod;
     }
 
     public int getNumResponses() {
@@ -63,14 +45,6 @@ public class UsageStatisticsData implements ApiOutput {
 
     public int getNumAccountRequests() {
         return numAccountRequests;
-    }
-
-    public int getNumEmails() {
-        return numEmails;
-    }
-
-    public int getNumSubmissions() {
-        return numSubmissions;
     }
 
 }

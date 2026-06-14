@@ -23,27 +23,24 @@ import teammates.storage.entity.Student;
 public class AdminSearchPage extends AppPage {
     private static final int STUDENT_COL_DETAILS = 1;
     private static final int STUDENT_COL_NAME = 2;
-    private static final int STUDENT_COL_GOOGLE_ID = 3;
+    private static final int STUDENT_COL_EMAIL = 3;
     private static final int STUDENT_COL_INSTITUTE = 4;
     private static final int STUDENT_COL_COMMENTS = 5;
     private static final int STUDENT_COL_OPTIONS = 6;
 
     private static final int INSTRUCTOR_COL_COURSE_ID = 1;
     private static final int INSTRUCTOR_COL_NAME = 2;
-    private static final int INSTRUCTOR_COL_GOOGLE_ID = 3;
+    private static final int INSTRUCTOR_COL_EMAIL = 3;
     private static final int INSTRUCTOR_COL_INSTITUTE = 4;
     private static final int INSTRUCTOR_COL_OPTIONS = 5;
 
     private static final int ACCOUNT_REQUEST_COL_NAME = 1;
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
-    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 5;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 6;
+    private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
+    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
 
-    private static final String EXPANDED_ROWS_HEADER_EMAIL = "Email";
-    private static final String EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK = "Course Join Link";
     private static final String EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK = "Account Registration Link";
-    private static final String LINK_TEXT_RESET_GOOGLE_ID = "Reset Google ID";
 
     @FindBy(id = "search-box")
     private WebElement inputBox;
@@ -100,12 +97,9 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void verifyRegenerateStudentKey(Student student, String originalJoinLink) {
+    public void verifyRegenerateStudentKey() {
         verifyStatusMessage("User's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
-
-        String regeneratedJoinLink = getStudentJoinLink(student);
-        assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
     public void regenerateInstructorKey(Instructor instructor) {
@@ -117,28 +111,8 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad(true);
     }
 
-    public void clickExpandStudentLinks() {
-        click(expandStudentLinksButton);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickExpandInstructorLinks() {
-        click(expandInstructorLinksButton);
-        waitUntilAnimationFinish();
-    }
-
     public void clickExpandAccountRequestLinks() {
         click(expandAccountRequestLinksButton);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickCollapseStudentLinks() {
-        click(collapseStudentLinksButton);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickCollapseInstructorLinks() {
-        click(collapseInstructorLinksButton);
         waitUntilAnimationFinish();
     }
 
@@ -176,12 +150,8 @@ public class AdminSearchPage extends AppPage {
         return getColumnText(studentRow, STUDENT_COL_NAME);
     }
 
-    public String getStudentGoogleId(WebElement studentRow) {
-        return getColumnText(studentRow, STUDENT_COL_GOOGLE_ID);
-    }
-
-    public String getStudentHomeLink(WebElement studentRow) {
-        return getColumnLink(studentRow, STUDENT_COL_GOOGLE_ID);
+    public String getStudentEmail(WebElement studentRow) {
+        return getColumnText(studentRow, STUDENT_COL_EMAIL);
     }
 
     public String getStudentInstitute(WebElement studentRow) {
@@ -194,28 +164,6 @@ public class AdminSearchPage extends AppPage {
 
     public String getStudentManageAccountLink(WebElement studentRow) {
         return getColumnLink(studentRow, STUDENT_COL_OPTIONS);
-    }
-
-    public String getStudentEmail(WebElement studentRow) {
-        return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_EMAIL);
-    }
-
-    public String getStudentJoinLink(WebElement studentRow) {
-        return getExpandedRowInputValue(studentRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
-    }
-
-    public String getStudentJoinLink(Student student) {
-        WebElement studentRow = getStudentRow(student);
-        return getStudentJoinLink(studentRow);
-    }
-
-    public void resetStudentGoogleId(Student student) {
-        WebElement studentRow = getStudentRow(student);
-        WebElement link = studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
-        link.click();
-
-        waitForConfirmationModalAndClickOk();
-        waitForElementStaleness(link);
     }
 
     public WebElement getInstructorRow(Instructor instructor) {
@@ -241,12 +189,8 @@ public class AdminSearchPage extends AppPage {
         return getColumnText(instructorRow, INSTRUCTOR_COL_NAME);
     }
 
-    public String getInstructorGoogleId(WebElement instructorRow) {
-        return getColumnText(instructorRow, INSTRUCTOR_COL_GOOGLE_ID);
-    }
-
-    public String getInstructorHomePageLink(WebElement instructorRow) {
-        return getColumnLink(instructorRow, INSTRUCTOR_COL_GOOGLE_ID);
+    public String getInstructorEmail(WebElement instructorRow) {
+        return getColumnText(instructorRow, INSTRUCTOR_COL_EMAIL);
     }
 
     public String getInstructorInstitute(WebElement instructorRow) {
@@ -257,31 +201,9 @@ public class AdminSearchPage extends AppPage {
         return getColumnLink(instructorRow, INSTRUCTOR_COL_OPTIONS);
     }
 
-    public String getInstructorEmail(WebElement instructorRow) {
-        return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_EMAIL);
-    }
-
-    public String getInstructorJoinLink(WebElement instructorRow) {
-        return getExpandedRowInputValue(instructorRow, EXPANDED_ROWS_HEADER_COURSE_JOIN_LINK);
-    }
-
-    public String getInstructorJoinLink(Instructor instructor) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        return getInstructorJoinLink(instructorRow);
-    }
-
-    public void resetInstructorGoogleId(Instructor instructor) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        WebElement link = instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
-        link.click();
-
-        waitForConfirmationModalAndClickOk();
-        waitForElementStaleness(link);
-    }
-
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
-        String institute = accountRequest.getInstitute();
+        String institute = accountRequest.getInstitute().getName();
         List<WebElement> rows = browser.driver.findElements(
                 By.cssSelector("tm-admin-account-request-search-table tbody tr"));
         for (WebElement row : rows) {
@@ -445,16 +367,6 @@ public class AdminSearchPage extends AppPage {
         waitForConfirmationModalAndClickOk();
     }
 
-    public void clickResetAccountRequestButton(AccountRequest accountRequest) {
-        WebElement accountRequestRow = getAccountRequestRow(accountRequest);
-        WebElement resetButton = accountRequestRow.findElement(By.cssSelector("[id^='reset-account-request-']"));
-        scrollElementToCenter(resetButton);
-        waitForElementToBeClickable(resetButton);
-        resetButton.click();
-        waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
-    }
-
     public int getNumExpandedRows(WebElement row) {
         String xpath = "following-sibling::tr[1]/td/ul/li";
         return (int) row.findElements(By.xpath(xpath))
@@ -487,108 +399,47 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyStudentRowContent(Student student, Course course,
-                                        String expectedDetails, String expectedManageAccountLink,
-                                        String expectedHomePageLink) {
+                                        String expectedDetails, String expectedManageAccountLink) {
         WebElement studentRow = getStudentRow(student);
         String actualDetails = getStudentDetails(studentRow);
         String actualName = getStudentName(studentRow);
-        String actualGoogleId = getStudentGoogleId(studentRow);
-        String actualHomepageLink = getStudentHomeLink(studentRow);
+        String actualEmail = getStudentEmail(studentRow);
         String actualInstitute = getStudentInstitute(studentRow);
         String actualComment = getStudentComments(studentRow);
         String actualManageAccountLink = getStudentManageAccountLink(studentRow);
 
         String expectedName = student.getName();
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.getGoogleId());
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedEmail = StringHelper.convertToEmptyStringIfNull(student.getEmail());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
         assertEquals(expectedDetails, actualDetails);
         assertEquals(expectedName, actualName);
-        assertEquals(expectedGoogleId, actualGoogleId);
+        assertEquals(expectedEmail, actualEmail);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedComment, actualComment);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
-        assertEquals(expectedHomePageLink, actualHomepageLink);
-    }
-
-    public void verifyStudentRowContentAfterReset(Student student, Course course) {
-        WebElement studentRow = getStudentRow(student);
-        String actualName = getStudentName(studentRow);
-        String actualInstitute = getStudentInstitute(studentRow);
-        String actualComment = getStudentComments(studentRow);
-
-        String expectedName = student.getName();
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
-        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
-
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedInstitute, actualInstitute);
-        assertEquals(expectedComment, actualComment);
-    }
-
-    public void verifyStudentExpandedLinks(Student student, int expectedNumExpandedRows) {
-        clickExpandStudentLinks();
-        WebElement studentRow = getStudentRow(student);
-        String actualEmail = getStudentEmail(studentRow);
-        String actualJoinLink = getStudentJoinLink(studentRow);
-        int actualNumExpandedRows = getNumExpandedRows(studentRow);
-
-        String expectedEmail = student.getEmail();
-
-        assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
-        assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
     }
 
     public void verifyInstructorRowContent(Instructor instructor, Course course,
-                                           String expectedManageAccountLink, String expectedHomePageLink) {
+                                           String expectedManageAccountLink) {
         WebElement instructorRow = getInstructorRow(instructor);
         String actualCourseId = getInstructorCourseId(instructorRow);
         String actualName = getInstructorName(instructorRow);
-        String actualGoogleId = getInstructorGoogleId(instructorRow);
-        String actualHomePageLink = getInstructorHomePageLink(instructorRow);
+        String actualEmail = getInstructorEmail(instructorRow);
         String actualInstitute = getInstructorInstitute(instructorRow);
         String actualManageAccountLink = getInstructorManageAccountLink(instructorRow);
 
         String expectedCourseId = instructor.getCourseId();
         String expectedName = instructor.getName();
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
+        String expectedEmail = StringHelper.convertToEmptyStringIfNull(instructor.getEmail());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute().getName());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);
-        assertEquals(expectedGoogleId, actualGoogleId);
-        assertEquals(expectedHomePageLink, actualHomePageLink);
+        assertEquals(expectedEmail, actualEmail);
         assertEquals(expectedInstitute, actualInstitute);
         assertEquals(expectedManageAccountLink, actualManageAccountLink);
-    }
-
-    public void verifyInstructorRowContentAfterReset(Instructor instructor, Course course) {
-        WebElement instructorRow = getInstructorRow(instructor);
-        String actualCourseId = getInstructorCourseId(instructorRow);
-        String actualName = getInstructorName(instructorRow);
-        String actualInstitute = getInstructorInstitute(instructorRow);
-
-        String expectedCourseId = instructor.getCourseId();
-        String expectedName = instructor.getName();
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
-
-        assertEquals(expectedCourseId, actualCourseId);
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedInstitute, actualInstitute);
-    }
-
-    public void verifyInstructorExpandedLinks(Instructor instructor) {
-        clickExpandInstructorLinks();
-        WebElement instructorRow = getInstructorRow(instructor);
-        String actualEmail = getInstructorEmail(instructorRow);
-        String actualJoinLink = getInstructorJoinLink(instructorRow);
-
-        String expectedEmail = instructor.getEmail();
-
-        assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
     }
 
     public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
@@ -601,7 +452,7 @@ public class AdminSearchPage extends AppPage {
 
         assertEquals(accountRequest.getName(), actualName);
         assertEquals(accountRequest.getEmail(), actualEmail);
-        assertEquals(accountRequest.getInstitute(), actualInstitute);
+        assertEquals(accountRequest.getInstitute().getName(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
         if (accountRequest.getRegisteredAt() == null) {
             assertEquals("Not Registered Yet", actualRegisteredAt);
@@ -618,48 +469,26 @@ public class AdminSearchPage extends AppPage {
         assertFalse(actualRegistrationLink.isBlank());
     }
 
-    public void verifyLinkExpansionButtons(Student student,
-                                           Instructor instructor, AccountRequest accountRequest) {
-        WebElement studentRow = getStudentRow(student);
-        WebElement instructorRow = getInstructorRow(instructor);
+    public void verifyLinkExpansionButtons(AccountRequest accountRequest) {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
 
-        clickExpandStudentLinks();
-        clickExpandInstructorLinks();
         clickExpandAccountRequestLinks();
-        int numExpandedStudentRows = getNumExpandedRows(studentRow);
-        int numExpandedInstructorRows = getNumExpandedRows(instructorRow);
+
         int numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedStudentRows, 0);
-        assertNotEquals(numExpandedInstructorRows, 0);
         assertNotEquals(numExpandedAccountRequestRows, 0);
 
-        clickCollapseInstructorLinks();
-        numExpandedStudentRows = getNumExpandedRows(studentRow);
-        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedStudentRows, 0);
-        assertEquals(numExpandedInstructorRows, 0);
         assertNotEquals(numExpandedAccountRequestRows, 0);
 
-        clickExpandInstructorLinks();
-        clickCollapseStudentLinks();
         clickCollapseAccountRequestLinks();
         waitUntilAnimationFinish();
 
-        numExpandedStudentRows = getNumExpandedRows(studentRow);
-        numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertEquals(numExpandedStudentRows, 0);
-        assertNotEquals(numExpandedInstructorRows, 0);
         assertEquals(numExpandedAccountRequestRows, 0);
     }
 
-    public void verifyRegenerateInstructorKey(Instructor instructor, String originalJoinLink) {
+    public void verifyRegenerateInstructorKey() {
         verifyStatusMessage("User's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
-
-        String regeneratedJoinLink = getInstructorJoinLink(instructor);
-        assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 }

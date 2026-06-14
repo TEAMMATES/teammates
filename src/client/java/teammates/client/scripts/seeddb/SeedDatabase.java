@@ -25,6 +25,7 @@ import teammates.logic.api.Logic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.test.FileHelper;
 
@@ -53,7 +54,7 @@ public final class SeedDatabase {
             "TRUNCATE TABLE account_requests, accounts, courses, deadline_extensions, "
                     + "feedback_questions, feedback_response_comments, feedback_responses, "
                     + "feedback_session_logs, feedback_sessions, instructors, notifications, "
-                    + "read_notifications, sections, students, teams, usage_statistics, users "
+                    + "read_notifications, sections, students, teams,  users, institutes "
                     + "RESTART IDENTITY CASCADE";
 
     private SeedDatabase() {
@@ -162,19 +163,21 @@ public final class SeedDatabase {
 
         for (Instructor inst : uniqueByEmailInstructors.values()) {
             Course instCourse = courseById.get(inst.getCourseId());
-            String institute = instCourse != null ? instCourse.getInstitute() : "";
+            Institute institute = instCourse != null ? instCourse.getInstitute() : null;
             String courseId = demoCourseId(inst.getEmail());
             String json = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
                     "teammates.demo.instructor.student@demo.course", inst.getEmail().replace("@", "+student@"),
                     "teammates.demo.instructor@demo.course", inst.getEmail(),
                     "Demo_Instructor", inst.getName(),
                     "demo.course", courseId,
-                    "demo.institute", institute,
                     "demo.timezone", "UTC",
                     "demo.date1", d1, "demo.date2", d2, "demo.date3", d3,
                     "demo.date4", d4, "demo.date5", d5);
 
             DataBundle demoBundle = DataBundleLogic.deserializeDataBundle(json);
+            for (Course demoCourse : demoBundle.courses.values()) {
+                demoCourse.setInstitute(institute);
+            }
             logic.persistDataBundle(demoBundle);
 
             List<Instructor> instructors = logic.getInstructorsByCourse(courseId);

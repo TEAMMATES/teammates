@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.RequestContext;
+import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
@@ -103,6 +104,27 @@ final class GateKeeper {
             throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to instructor ["
                     + instructor.getEmail() + "]");
         }
+    }
+
+    /**
+     * Verifies that the user has instructor privileges in the same course as the specified instructor.
+     */
+    void verifyInstructorInSameCourseAsInstructor(RequestContext requestContext, UUID userId)
+            throws UnauthorizedAccessException {
+        Instructor instructor = logic.getInstructor(userId);
+        verifyNotNull(instructor, "instructor");
+        verifyInstructorInCourse(requestContext, instructor.getCourseId());
+    }
+
+    /**
+     * Verifies that the user has instructor privileges to view the specified student.
+     */
+    void verifyInstructorCanViewStudent(RequestContext requestContext, UUID userId)
+            throws UnauthorizedAccessException {
+        Student student = logic.getStudent(userId);
+        verifyNotNull(student, "student");
+        verifyInstructorHasPrivilegeForSection(requestContext, student.getCourseId(), student.getSectionId(),
+                Const.InstructorPermissions.CAN_VIEW_STUDENT);
     }
 
     /**

@@ -19,6 +19,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
+import teammates.common.datatransfer.SessionLinksBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.SessionSubmissionBundle;
 import teammates.common.datatransfer.SubmittedGiverSetBundle;
@@ -43,6 +44,7 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstitutesLogic;
 import teammates.logic.core.InstructorPermissionsLogic;
 import teammates.logic.core.NotificationsLogic;
 import teammates.logic.core.ResponseInstructorCommentsLogic;
@@ -56,6 +58,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
@@ -65,9 +68,9 @@ import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.UsageStatisticsData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
@@ -93,6 +96,7 @@ public class Logic {
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
@@ -209,10 +213,17 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, AccountRequestStatus status,
-            String comments) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(String name, String email, String institute, String country,
+            AccountRequestStatus status, String comments) throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute, status, comments);
+        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments);
+    }
+
+    /**
+     * Returns the shared institute matching {@code name} and {@code country}, creating it if needed.
+     */
+    public Institute getOrCreateInstitute(String name, String country) throws InvalidParametersException {
+        return institutesLogic.getOrCreateInstitute(name, country);
     }
 
     /**
@@ -294,19 +305,12 @@ public class Logic {
     }
 
     /**
-     * Deletes account and all users by googleId.
+     * Deletes account associated with the {@code accountId}.
      *
-     * <ul>
-     * <li>Fails silently if no such account.</li>
-     * </ul>
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * All parameters are non-null.
+     * <p>Fails silently if the account doesn't exist.</p>
      */
-    public void deleteAccountCascade(String googleId) {
-        accountsLogic.deleteAccountCascade(googleId);
+    public void deleteAccount(UUID accountId) {
+        accountsLogic.deleteAccount(accountId);
     }
 
     /**
@@ -723,24 +727,13 @@ public class Logic {
     }
 
     /**
-     * Get usage statistics within a time range.
+     * Calculates usage statistics for the given time range, bucketed by hour.
+     *
+     * @throws InvalidParametersException if the time range is invalid
      */
-    public List<UsageStatistics> getUsageStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        return usageStatisticsLogic.getUsageStatisticsForTimeRange(startTime, endTime);
-    }
-
-    /**
-     * Calculate usage statistics within a time range.
-     */
-    public UsageStatistics calculateEntitiesStatisticsForTimeRange(Instant startTime, Instant endTime) {
-        return usageStatisticsLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
-    }
-
-    /**
-     * Create usage statistics within a time range.
-     */
-    public void createUsageStatistics(UsageStatistics attributes) {
-        usageStatisticsLogic.createUsageStatistics(attributes);
+    public List<UsageStatisticsData> getUsageStatistics(Instant startTime, Instant endTime)
+            throws InvalidParametersException {
+        return usageStatisticsLogic.getUsageStatistics(startTime, endTime);
     }
 
     /**
@@ -1043,6 +1036,13 @@ public class Logic {
     }
 
     /**
+     * Gets students by associated {@code teamId} and {@code courseId}.
+     */
+    public List<Student> getStudentsByTeamId(UUID teamId, String courseId) {
+        return usersLogic.getStudentsForTeam(teamId, courseId);
+    }
+
+    /**
      * Returns the default section.
      * If it does not exist, create and return it.
      */
@@ -1140,13 +1140,11 @@ public class Logic {
     }
 
     /**
-     * Resets the account associated with the user.
-     *
-     * @return the user whose account was reset.
-     * @throws EntityDoesNotExistException If user cannot be found with given id.
+     * Unlinks the account associated with the user profile without deleting
+     * either entity, allowing the profile to be linked to a different account.
      */
-    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
-        return usersLogic.resetAccount(userId);
+    public User unlinkAccount(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.unlinkAccount(userId);
     }
 
     /**
@@ -1160,6 +1158,13 @@ public class Logic {
     public User regenerateUserRegistrationKey(UUID userId)
             throws EntityDoesNotExistException, UserUpdateException {
         return usersLogic.regenerateUserRegistrationKey(userId);
+    }
+
+    /**
+     * Gets all feedback session links for the user with {@code userId}.
+     */
+    public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
+        return feedbackSessionsLogic.getSessionLinks(userId);
     }
 
     /**

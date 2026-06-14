@@ -19,12 +19,6 @@ import teammates.ui.request.Intent;
  * Gets user-scoped feedback session results for instructor/student result views.
  */
 public class GetUserSessionResultsAction extends BasicFeedbackSubmissionAction {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.REG_KEY;
-    }
-
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);

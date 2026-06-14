@@ -10,6 +10,7 @@ import {
   CourseEditFormModel,
   DEFAULT_COURSE_FORM_MODEL,
   CourseAddFormModel,
+  InstituteOption,
 } from './course-edit-form-model';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -120,7 +121,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
     return this.addModel ? this.addModel.isCopying : false;
   }
 
-  get institutes(): string[] {
+  get institutes(): InstituteOption[] {
     return this.addModel ? this.addModel.institutes : [];
   }
 

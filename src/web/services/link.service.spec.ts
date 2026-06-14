@@ -21,7 +21,6 @@ describe('Link Service', () => {
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',
     name: 'Alice Brown',
-    googleId: 'alice.brown.sample',
     comments: 'Student record used for link generation tests',
     key: 'student-key-001',
     joinState: JoinState.JOINED,
@@ -32,7 +31,6 @@ describe('Link Service', () => {
   };
 
   const mockInstructor: Instructor = {
-    googleId: 'instructor.lee@example.edu',
     courseId: 'cs1010-demo',
     courseName: 'Introduction to Software Engineering',
     institute: 'National University of Singapore',

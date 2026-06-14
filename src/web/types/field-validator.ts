@@ -36,6 +36,11 @@ export const TEAM_NAME_MAX_LENGTH: number = ApiConst.TEAM_NAME_MAX_LENGTH;
 export const EMAIL_MAX_LENGTH: number = ApiConst.EMAIL_MAX_LENGTH;
 
 /**
+ * Max length for institution name.
+ */
+export const INSTITUTE_NAME_MAX_LENGTH = ApiConst.INSTITUTE_NAME_MAX_LENGTH;
+
+/**
  * Regex used to verify emails in the back-end.
  */
 export const EMAIL_REGEX: string = ApiStringConst.EMAIL_REGEX;
@@ -55,13 +60,3 @@ export const NAME_REGEX = '^[a-zA-Z0-9][^|%]*$';
  * as the country is added to the end of the combined institute string.
  */
 export const COUNTRY_REGEX = '^[^|%]*$';
-
-/**
- * Max length for institution name in account request. (to be combined with country)
- */
-export const INSTITUTION_NAME_MAX_LENGTH = 86;
-
-/**
- * Max length for country in account request. (to be combined with institution name)
- */
-export const COUNTRY_NAME_MAX_LENGTH = 40;

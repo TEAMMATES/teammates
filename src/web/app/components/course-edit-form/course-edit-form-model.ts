@@ -24,6 +24,14 @@ export interface Timezone {
 }
 
 /**
+ * An institute option for the course institute dropdown.
+ */
+export interface InstituteOption {
+  id: string;
+  name: string;
+}
+
+/**
  * The form model of course form.
  */
 export interface CourseFormModel {
@@ -37,7 +45,7 @@ export interface CourseFormModel {
  * The form model of course edit form in ADD mode.
  */
 export interface CourseAddFormModel extends CourseFormModel {
-  institutes: string[];
+  institutes: InstituteOption[];
   activeCourses: Course[];
   allCourses: Course[];
 
@@ -58,6 +66,8 @@ const DefaultCourse: Course = {
   courseName: '',
   courseId: '',
   institute: '',
+  country: '',
+  instituteId: '',
   timeZone: 'UTC',
   creationTimestamp: 0,
   deletionTimestamp: 0,

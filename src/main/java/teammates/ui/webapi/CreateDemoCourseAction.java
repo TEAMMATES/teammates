@@ -21,6 +21,8 @@ import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
@@ -31,14 +33,9 @@ import teammates.ui.exception.UnexpectedServerException;
 /**
  * Creates a new demo course with a demo instructor and student.
  */
-public class CreateDemoCourseAction extends Action {
+public class CreateDemoCourseAction extends LoggedInAction {
 
     private static final Logger log = Logger.getLogger();
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
 
     @Override
     void checkSpecificAccessControl() {
@@ -68,11 +65,11 @@ public class CreateDemoCourseAction extends Action {
 
         String instructorEmail = accountRequest.getEmail();
         String instructorName = accountRequest.getName();
-        String instructorInstitution = accountRequest.getInstitute();
+        Institute institute = accountRequest.getInstitute();
         DataBundle dataBundle;
 
         try {
-            dataBundle = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
+            dataBundle = importDemoData(instructorEmail, instructorName, institute, timezone);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", e);
@@ -131,7 +128,7 @@ public class CreateDemoCourseAction extends Action {
      * @return the DataBundle with the demo course
      */
     private DataBundle importDemoData(String instructorEmail, String instructorName,
-            String instructorInstitute, String timezone) throws InvalidParametersException {
+            Institute institute, String timezone) throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
@@ -157,8 +154,6 @@ public class CreateDemoCourseAction extends Action {
                 "Demo_Instructor", instructorName,
                 // replace course
                 "demo.course", courseId,
-                // replace institute
-                "demo.institute", instructorInstitute,
                 // replace timezone
                 "demo.timezone", timezone,
                 // replace dates
@@ -173,6 +168,11 @@ public class CreateDemoCourseAction extends Action {
         }
 
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
+
+        // The demo course is created under the institute associated with the account request.
+        for (Course course : dataBundle.courses.values()) {
+            institute.addCourse(course);
+        }
 
         return logic.persistDataBundle(dataBundle);
     }

@@ -36,4 +36,15 @@ describe('UserService', () => {
 
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.USER_KEY, paramMap);
   });
+
+  it('should execute GET when retrieving session links for a user', () => {
+    const paramMap: Record<string, string> = {
+      userid: 'user-id',
+    };
+    vi.spyOn(spyHttpRequestService, 'get');
+
+    service.getSessionLinks(paramMap['userid']);
+
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_LINKS, paramMap);
+  });
 });

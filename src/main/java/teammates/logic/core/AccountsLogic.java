@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -129,34 +128,14 @@ public final class AccountsLogic {
     }
 
     /**
-     * Deletes account associated with the {@code googleId}.
+     * Deletes account associated with the {@code accountId}.
      *
      * <p>Fails silently if the account doesn't exist.</p>
      */
-    public void deleteAccount(String googleId) {
-        Account account = getAccountForGoogleId(googleId);
+    public void deleteAccount(UUID accountId) {
+        Account account = getAccount(accountId);
         if (account == null) {
             return;
-        }
-
-        accountsDb.removeAccount(account);
-    }
-
-    /**
-     * Deletes account and all users associated with the {@code googleId}.
-     *
-     * <p>Fails silently if the account doesn't exist.</p>
-     */
-    public void deleteAccountCascade(String googleId) {
-        Account account = getAccountForGoogleId(googleId);
-        if (account == null) {
-            return;
-        }
-
-        List<User> usersToDelete = usersLogic.getAllUsersByGoogleId(googleId);
-
-        for (User user : usersToDelete) {
-            usersLogic.deleteUser(user);
         }
 
         accountsDb.removeAccount(account);

@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
@@ -33,6 +34,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseGiver;
@@ -41,13 +43,18 @@ import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.storage.entity.UsageStatistics;
 
 /**
  * Base class for all test cases.
  */
 @SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class BaseTestCase {
+
+    /**
+     * Test case name in the format of ClassName.methodName, e.g. {@code MyTestClass.testMyFunction}.
+     * For e2e tests, this is set to the class name of the test case, e.g. {@code MyE2ETestCase}.
+     */
+    protected String currentTestName;
 
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
@@ -64,6 +71,7 @@ public class BaseTestCase {
 
     @BeforeClass(alwaysRun = true)
     public void printTestClassHeader() {
+        currentTestName = getClass().getSimpleName();
         System.out.println("[============================="
                 + getClass().getCanonicalName()
                 + "=============================]");
@@ -72,6 +80,11 @@ public class BaseTestCase {
     @AfterClass(alwaysRun = true)
     public void printTestClassFooter() {
         System.out.println(getClass().getCanonicalName() + " completed");
+    }
+
+    @BeforeMethod(alwaysRun = true)
+    public void beforeMethod(Method method) {
+        currentTestName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
     }
 
     protected String getTestDataFolder() {
@@ -86,7 +99,7 @@ public class BaseTestCase {
         try {
             String pathToJsonFile = getTestDataFolder() + jsonFileName;
             String jsonString = FileHelper.readFile(pathToJsonFile);
-            return DataBundleLogic.deserializeDataBundle(jsonString);
+            return DataBundleLogic.deserializeDataBundle(jsonString, currentTestName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -127,8 +140,14 @@ public class BaseTestCase {
                 false, Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, role);
     }
 
+    protected Institute getTypicalInstitute() {
+        return new Institute("teammates", "SG");
+    }
+
     protected Course getTypicalCourse() {
-        return new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "teammates");
+        Course course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE);
+        getTypicalInstitute().addCourse(course);
+        return course;
     }
 
     protected Student getTypicalStudent() {
@@ -209,12 +228,10 @@ public class BaseTestCase {
     }
 
     protected AccountRequest getTypicalAccountRequest() {
-        return new AccountRequest("valid@test.com", "Test Name", "TEAMMATES Test Institute 1, Test Country",
+        AccountRequest accountRequest = new AccountRequest("valid@test.com", "Test Name",
                 AccountRequestStatus.PENDING, "");
-    }
-
-    protected UsageStatistics getTypicalUsageStatistics(Instant startTime) {
-        return new UsageStatistics(startTime, 60, 2, 2, 2, 2, 2, 0, 0);
+        getTypicalInstitute().addAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     /**

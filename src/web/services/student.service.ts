@@ -24,38 +24,44 @@ export class StudentService {
 
   /**
    * Get a list of students of a course by calling API.
-   * If teamName is provided, only students in that team will be returned.
+   * If teamId is provided, only students in that team will be returned.
    * Otherwise, all students in the course will be returned.
    */
-  getStudentsFromCourse(queryParams: { courseId: string; teamName?: string }): Observable<Students> {
+  getStudentsFromCourse(queryParams: { courseId: string; teamId?: string }): Observable<Students> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
 
-    if (queryParams.teamName) {
-      paramsMap['teamname'] = queryParams.teamName;
+    if (queryParams.teamId) {
+      paramsMap['teamid'] = queryParams.teamId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
 
   /**
-   * Gets student of a course by calling API.
-   *
-   * If both userId and regKey are not provided, get the student of current logged-in user.
-   *
+   * Gets a student by user ID by calling API.
    */
-  getStudent(queryParams: { courseId: string; userId?: string; regKey?: string }): Observable<Student> {
+  getStudent(queryParams: { userId: string }): Observable<Student> {
+    const paramsMap: { [key: string]: string } = {
+      userid: queryParams.userId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
+  }
+
+  /**
+   * Gets the student associated with the current request by calling API.
+   */
+  getOwnStudent(queryParams: { courseId: string; regKey?: string }): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
-    if (queryParams.userId) {
-      paramsMap['userid'] = queryParams.userId;
-    }
     if (queryParams.regKey) {
       paramsMap['key'] = queryParams.regKey;
     }
-    return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
+
+    return this.httpRequestService.get(ResourceEndpoints.OWN_STUDENT, paramsMap);
   }
 
   /**
@@ -92,17 +98,6 @@ export class StudentService {
       courseid: courseId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENTS, paramsMap, requestBody);
-  }
-
-  /**
-   * Gets all students in a course and team as a student by calling API.
-   */
-  getStudentsFromCourseAndTeam(courseId: string, teamName: string): Observable<Students> {
-    const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      teamname: teamName,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
   }
 
   /**

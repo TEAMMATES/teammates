@@ -48,6 +48,7 @@ describe('RejectWithReasonModal', () => {
       accountRequestName: 'John Doe',
       accountRequestEmail: 'johndoe@email.com',
       accountRequestInstitution: 'NUS',
+      accountRequestCountry: '',
       accountRequestComment: 'Comments',
     });
   });
