@@ -7,7 +7,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DateFormat, TimeFormat } from '../../../types/datetime-const';
 
 /**
  * The mode of operation for session edit form.
@@ -35,19 +34,15 @@ export interface SessionEditFormModel {
   feedbackSessionName: string;
   instructions: string;
 
-  submissionStartTime: TimeFormat;
-  submissionStartDate: DateFormat;
-  submissionEndTime: TimeFormat;
-  submissionEndDate: DateFormat;
+  submissionStartTimestamp: number;
+  submissionEndTimestamp: number;
   gracePeriod: number;
 
   sessionVisibleSetting: SessionVisibleSetting;
-  customSessionVisibleTime: TimeFormat;
-  customSessionVisibleDate: DateFormat;
+  customSessionVisibleTimestamp: number;
 
   responseVisibleSetting: ResponseVisibleSetting;
-  customResponseVisibleTime: TimeFormat;
-  customResponseVisibleDate: DateFormat;
+  customResponseVisibleTimestamp: number;
 
   hasVisibleSettingsPanelExpanded: boolean;
   hasEmailSettingsPanelExpanded: boolean;

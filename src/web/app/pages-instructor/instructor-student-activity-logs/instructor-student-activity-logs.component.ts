@@ -2,7 +2,7 @@ import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import moment from 'moment-timezone';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -21,16 +21,8 @@ import {
   FeedbackSessionView,
   Student,
 } from '../../../types/api-output';
-import {
-  getDefaultDateFormat,
-  getDefaultTimeFormat,
-  getLatestTimeFormat,
-  DateFormat,
-  TimeFormat,
-  Milliseconds,
-} from '../../../types/datetime-const';
 import { SortBy } from '../../../types/sort-properties';
-import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
+import { DatetimepickerComponent } from '../../components/datetimepicker/datetimepicker.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import {
@@ -38,17 +30,14 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../components/sortable-table/sortable-table.component';
-import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
  * Model for searching of logs
  */
 interface SearchLogsFormModel {
-  logsDateFrom: DateFormat;
-  logsDateTo: DateFormat;
-  logsTimeFrom: TimeFormat;
-  logsTimeTo: TimeFormat;
+  logsStartTimestamp: number;
+  logsEndTimestamp: number;
   logTypes: FeedbackSessionLogType[];
   selectedSessionId: string;
   selectedUserId: string;
@@ -77,13 +66,11 @@ interface FeedbackSessionLogModel {
 @Component({
   selector: 'tm-instructor-student-activity-logs',
   templateUrl: './instructor-student-activity-logs.component.html',
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   styleUrls: ['./instructor-student-activity-logs.component.scss'],
   imports: [
     LoadingSpinnerDirective,
     FormsModule,
-    NgbInputDatepicker,
-    TimepickerComponent,
+    DatetimepickerComponent,
     NgClass,
     PanelChevronComponent,
     SortableTableComponent,
@@ -111,10 +98,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   SortBy!: typeof SortBy;
 
   formModel: SearchLogsFormModel = {
-    logsDateFrom: getDefaultDateFormat(),
-    logsTimeFrom: getDefaultTimeFormat(),
-    logsDateTo: getDefaultDateFormat(),
-    logsTimeTo: getDefaultTimeFormat(),
+    logsStartTimestamp: 0,
+    logsEndTimestamp: 0,
     logTypes: [FeedbackSessionLogType.ACCESS, FeedbackSessionLogType.SUBMISSION],
     selectedUserId: '',
     selectedSessionId: '',
@@ -131,8 +116,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     creationTimestamp: 0,
     deletionTimestamp: 0,
   };
-  dateToday: DateFormat = getDefaultDateFormat();
-  earliestSearchDate: DateFormat = getDefaultDateFormat();
+  earliestSearchTimestamp = 0;
+  latestSearchTimestamp = 0;
   studentLogsMap: Map<string, FeedbackSessionLog[]> = new Map();
   students: Student[] = [];
   feedbackSessions: Map<string, FeedbackSession> = new Map();
@@ -146,38 +131,26 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
       const courseId = queryParams['courseid'];
-      this.loadControlPanel();
       this.loadData(courseId);
     });
   }
 
   /**
-   * Loads the control panel based on the given course ID.
+   * Initialises the search range bounds and default values in the course's timezone.
    */
   loadControlPanel(): void {
-    const today: Date = new Date();
-    this.dateToday.year = today.getFullYear();
-    this.dateToday.month = today.getMonth() + 1;
-    this.dateToday.day = today.getDate();
+    const now: moment.Moment = moment.tz(this.course.timeZone || this.timezoneService.guessTimezone());
 
-    const earliestSearchDate: Date = new Date(
-      Date.now() - this.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD * Milliseconds.IN_ONE_DAY,
-    );
-    this.earliestSearchDate.year = earliestSearchDate.getFullYear();
-    this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
-    this.earliestSearchDate.day = earliestSearchDate.getDate();
+    this.earliestSearchTimestamp = now
+      .clone()
+      .subtract(this.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD, 'days')
+      .startOf('day')
+      .valueOf();
+    this.latestSearchTimestamp = now.clone().add(1, 'day').startOf('day').valueOf();
 
-    const fromDate: Date = new Date();
-    fromDate.setDate(today.getDate() - 1);
-
-    this.formModel.logsDateFrom = {
-      year: fromDate.getFullYear(),
-      month: fromDate.getMonth() + 1,
-      day: fromDate.getDate(),
-    };
-    this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = getLatestTimeFormat();
-    this.formModel.logsTimeTo = getLatestTimeFormat();
+    // The default search window spans from the start of the day to the end of the day.
+    this.formModel.logsStartTimestamp = now.clone().startOf('day').valueOf();
+    this.formModel.logsEndTimestamp = now.clone().add(1, 'day').startOf('day').valueOf();
   }
 
   /**
@@ -193,25 +166,11 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.searchResults = [];
     this.isLoading = true;
 
-    const timeZone: string = this.course.timeZone;
-    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-      this.formModel.logsDateFrom,
-      this.formModel.logsTimeFrom,
-      timeZone,
-      true,
-    );
-    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-      this.formModel.logsDateTo,
-      this.formModel.logsTimeTo,
-      timeZone,
-      true,
-    );
-
     this.logsService
       .searchFeedbackSessionLog({
         courseId: this.course.courseId,
-        searchFrom,
-        searchUntil,
+        searchFrom: this.formModel.logsStartTimestamp,
+        searchUntil: this.formModel.logsEndTimestamp,
         logTypes: this.formModel.logTypes,
         userId: this.formModel.selectedUserId,
         sessionId: this.formModel.selectedSessionId,
@@ -288,6 +247,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       .subscribe({
         next: ({ course, feedbackSessions, students }) => {
           this.course = course.course;
+          this.loadControlPanel();
           this.feedbackSessions = new Map(
             feedbackSessions.feedbackSessions.map((fsView: FeedbackSessionView) => [
               fsView.feedbackSession.feedbackSessionId,

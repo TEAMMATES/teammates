@@ -1,22 +1,12 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import moment from 'moment-timezone';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { TimezoneService } from '../../../../services/timezone.service';
-import {
-  DateFormat,
-  TimeFormat,
-  getDefaultDateFormat,
-  getLatestTimeFormat,
-  Hours,
-  Milliseconds,
-} from '../../../../types/datetime-const';
-import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { Hours, Milliseconds } from '../../../../types/datetime-const';
+import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
-import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 import { DateFormatService } from '../../../../services/date-format.service';
 
 export enum RadioOptions {
@@ -24,22 +14,16 @@ export enum RadioOptions {
   EXTEND_BY = 2,
 }
 
-enum DateTime {
-  DATE,
-  TIME,
-}
-
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
-  imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
+  imports: [FormsModule, DatetimepickerComponent, KeyValuePipe],
   providers: [FormatDateDetailPipe],
 })
-export class IndividualExtensionDateModalComponent {
+export class IndividualExtensionDateModalComponent implements OnInit {
   activeModal = inject(NgbActiveModal);
   private simpleModalService = inject(SimpleModalService);
   private dateFormatService = inject(DateFormatService);
-  private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
   numStudents = 0;
@@ -58,7 +42,6 @@ export class IndividualExtensionDateModalComponent {
 
   RadioOptions!: typeof RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
-  DateTime!: typeof DateTime;
 
   extendByDeadlineKey = '';
   extendByDeadlineOptions: Map<string, number> = new Map([
@@ -72,14 +55,16 @@ export class IndividualExtensionDateModalComponent {
 
   MAX_EPOCH_TIME_IN_DAYS = 100000000;
   MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * Milliseconds.IN_ONE_DAY;
-  extendToDatePicker: DateFormat = getDefaultDateFormat();
-  extendToTimePicker: TimeFormat = getLatestTimeFormat();
+  extendToTimestamp = 0;
 
   sortMapByOriginalOrder = (): number => 0;
 
   constructor() {
     this.RadioOptions = RadioOptions;
-    this.DateTime = DateTime;
+  }
+
+  ngOnInit(): void {
+    this.extendToTimestamp = this.feedbackSessionEndingTimestamp;
   }
 
   onConfirm(): void {
@@ -105,24 +90,8 @@ export class IndividualExtensionDateModalComponent {
       );
   }
 
-  onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {
-    if (field === DateTime.DATE) {
-      this.extendToDatePicker = data as DateFormat;
-    } else if (field === DateTime.TIME) {
-      this.extendToTimePicker = data as TimeFormat;
-    }
-  }
-
-  getDateFormat(timestamp: number): DateFormat {
-    let momentInstance: moment.Moment = moment(timestamp);
-    if (momentInstance.hour() === 0 && momentInstance.minute() === 0) {
-      momentInstance = momentInstance.subtract(1, 'minute'); // formats midnight to 23:59
-    }
-    return {
-      year: momentInstance.year(),
-      month: momentInstance.month() + 1, // moment return 0-11 for month
-      day: momentInstance.date(),
-    };
+  onChangeDateTime(timestamp: number): void {
+    this.extendToTimestamp = timestamp;
   }
 
   getExtensionTimestamp(): number {
@@ -143,12 +112,7 @@ export class IndividualExtensionDateModalComponent {
       }
     }
     if (this.isRadioExtendTo()) {
-      return this.timeZoneService.resolveLocalDateTime(
-        this.extendToDatePicker,
-        this.extendToTimePicker,
-        this.feedbackSessionTimeZone,
-        true,
-      );
+      return this.extendToTimestamp;
     }
     return this.feedbackSessionEndingTimestamp;
   }

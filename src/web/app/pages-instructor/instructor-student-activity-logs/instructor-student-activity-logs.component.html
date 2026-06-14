@@ -55,52 +55,26 @@
     </div>
     <div class="row form-group">
       <div class="col-6">
-        <label for="logs-from-datepicker" class="fw-bold">Search period from</label>
-        <div class="input-group">
-          <div id="logs-from-datepicker" class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              ngbDatepicker
-              readonly
-              [minDate]="earliestSearchDate"
-              [maxDate]="formModel.logsDateTo"
-              [(ngModel)]="formModel.logsDateFrom"
-              #logsFromDp="ngbDatepicker"
-              aria-label="Date to search from"
-            />
-            <button class="btn btn-light" aria-label="Change date" (click)="logsFromDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
-          <tm-timepicker id="logs-from-timepicker" [(time)]="formModel.logsTimeFrom"></tm-timepicker>
-        </div>
+        <label class="fw-bold">Search period from</label>
+        <tm-datetimepicker
+          id="logs-from-datetimepicker"
+          [timestamp]="formModel.logsStartTimestamp"
+          [minTimestamp]="earliestSearchTimestamp"
+          [maxTimestamp]="formModel.logsEndTimestamp"
+          [timeZone]="course.timeZone"
+          (timestampChange)="triggerModelChange('logsStartTimestamp', $event)"
+        ></tm-datetimepicker>
       </div>
       <div class="col-6">
-        <label for="logs-to-datepicker" class="fw-bold">Search period until</label>
-        <div class="input-group">
-          <div id="logs-to-datepicker" class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              ngbDatepicker
-              readonly
-              [minDate]="formModel.logsDateFrom"
-              [maxDate]="dateToday"
-              [(ngModel)]="formModel.logsDateTo"
-              #logsToDp="ngbDatepicker"
-              aria-label="Date to search until"
-            />
-            <button class="btn btn-light" aria-label="Change date" (click)="logsToDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
-          <tm-timepicker
-            id="logs-to-timepicker"
-            [(time)]="formModel.logsTimeTo"
-            aria-label="Search period until time"
-          ></tm-timepicker>
-        </div>
+        <label class="fw-bold">Search period until</label>
+        <tm-datetimepicker
+          id="logs-to-datetimepicker"
+          [timestamp]="formModel.logsEndTimestamp"
+          [minTimestamp]="formModel.logsStartTimestamp"
+          [maxTimestamp]="latestSearchTimestamp"
+          [timeZone]="course.timeZone"
+          (timestampChange)="triggerModelChange('logsEndTimestamp', $event)"
+        ></tm-datetimepicker>
       </div>
       <div class="col-12">
         <div class="form-check" style="margin-top: 30px">
