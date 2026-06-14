@@ -33,7 +33,7 @@ describe('NotificationEditFormComponent', () => {
   let simpleModalService: SimpleModalService;
 
   beforeEach(async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(new Date(Date.UTC(2020, 0, 1, 10, 0)));
 
     await TestBed.configureTestingModule({

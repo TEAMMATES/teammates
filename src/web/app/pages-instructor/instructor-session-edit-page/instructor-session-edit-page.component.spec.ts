@@ -287,6 +287,9 @@ describe('InstructorSessionEditPageComponent', () => {
   let ngbModal: NgbModal;
 
   beforeEach(async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(Date.UTC(2020, 0, 1, 10, 0)));
+
     await TestBed.configureTestingModule({
       providers: [
         FormatDateDetailPipe,
@@ -309,6 +312,10 @@ describe('InstructorSessionEditPageComponent', () => {
     ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
