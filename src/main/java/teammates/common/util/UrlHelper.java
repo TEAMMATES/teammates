@@ -20,7 +20,7 @@ public final class UrlHelper {
     }
 
     /**
-     * Sanitize the given URL to prevent HTTP response splitting.
+     * Sanitizes the given URL to prevent HTTP response splitting.
      */
     public static String getSanitizedRedirectUrl(String url) {
         return url.replace("\r\n", "");

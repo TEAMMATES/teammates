@@ -1,0 +1,17 @@
+<button type="button" class="gsi-material-button" (click)="login()">
+  <div class="gsi-material-button-state"></div>
+
+  <div class="gsi-material-button-content-wrapper">
+    <div class="gsi-material-button-icon">
+      <ng-content select="[login-button-icon]"></ng-content>
+    </div>
+
+    <span class="gsi-material-button-contents">
+      <ng-content select="[login-button-text]"></ng-content>
+    </span>
+
+    <span style="display: none">
+      <ng-content select="[login-button-hidden-text]"></ng-content>
+    </span>
+  </div>
+</button>

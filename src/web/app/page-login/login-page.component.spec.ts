@@ -48,20 +48,6 @@ describe('LoginPageComponent', () => {
     component.loginMethods.delete(LoginMethod.GOOGLE);
     expect(component.isSupported(LoginMethod.GOOGLE)).toBeFalsy();
   });
-
-  it('should return a correct login URL on login', () => {
-    const loginMethod = LoginMethod.GOOGLE;
-    const redirectUrl = 'http://url/login?nextUrl=something';
-    component.backendLoginUrl = redirectUrl;
-    const completeLoginUrlSpy = vi.spyOn(
-      component as unknown as { getCompleteLoginUrl: (loginMethod: LoginMethod) => string },
-      'getCompleteLoginUrl',
-    );
-    component.login(loginMethod);
-
-    const expectedUrl = `${redirectUrl}&method=${loginMethod}`;
-    expect(completeLoginUrlSpy).toHaveReturnedWith(expectedUrl);
-  });
 });
 
 describe('LoginPageComponent snapshot', () => {

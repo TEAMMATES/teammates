@@ -5,12 +5,14 @@ import { finalize } from 'rxjs';
 import { StatusMessageService } from '../../services/status-message.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
+import { DevServerLoginButtonComponent } from '../components/login-method-buttons/dev-server-login-button/dev-server-login-button.component';
+import { GoogleLoginButtonComponent } from '../components/login-method-buttons/google-login-button/google-login-button.component';
 
 @Component({
   selector: 'tm-login-page',
   styleUrls: ['./login-page.component.scss'],
   templateUrl: './login-page.component.html',
-  imports: [LoadingSpinnerDirective],
+  imports: [LoadingSpinnerDirective, GoogleLoginButtonComponent, DevServerLoginButtonComponent],
 })
 export class LoginPageComponent implements OnInit {
   private readonly configService = inject(ConfigService);
@@ -61,16 +63,5 @@ export class LoginPageComponent implements OnInit {
 
   isSupported(loginMethod: LoginMethod): boolean {
     return this.loginMethods.has(loginMethod);
-  }
-
-  login(loginMethod: LoginMethod): void {
-    const loginUrl = this.getCompleteLoginUrl(loginMethod);
-    globalThis.location.href = loginUrl;
-  }
-
-  private getCompleteLoginUrl(loginMethod: LoginMethod): string {
-    const url = new URL(this.backendLoginUrl, globalThis.location.origin);
-    url.searchParams.set('method', loginMethod);
-    return url.toString();
   }
 }
