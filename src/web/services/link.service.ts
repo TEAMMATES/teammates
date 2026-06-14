@@ -40,19 +40,18 @@ export class LinkService {
   }
 
   /**
-   * Generates account registration link for instructor.
+   * Generates instructor welcome link for an account request.
    */
-  generateAccountRegistrationLink(registrationKey: string): string {
-    const frontendUrl: string = window.location.origin;
+  generateAccountRegistrationLink(accountRequestId: string): string {
+    const frontendUrl: string = globalThis.location.origin;
     const params: {
       [key: string]: string;
     } = {
-      iscreatingaccount: 'true',
-      key: registrationKey,
+      accountRequestId,
     };
 
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
+    return `${frontendUrl}${this.URI_PREFIX}/instructor-welcome${encodedParams}`;
   }
 
   /**

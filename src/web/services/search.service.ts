@@ -233,7 +233,6 @@ export class SearchService {
 
     const {
       accountRequestId,
-      registrationKey,
       createdAt,
       registeredAt,
       name,
@@ -249,7 +248,7 @@ export class SearchService {
     accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
     accountRequestResult.comments = comments ?? '';
 
-    const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
+    const registrationLink: string = this.linkService.generateAccountRegistrationLink(accountRequestId);
     accountRequestResult = {
       ...accountRequestResult,
       accountRequestId,

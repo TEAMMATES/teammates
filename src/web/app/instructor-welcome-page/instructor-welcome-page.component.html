@@ -1,0 +1,33 @@
+<div *tmIsLoading="isLoading()">
+  @if (isInvalidLink()) {
+    <div class="card bg-light mx-auto" style="max-width: 800px">
+      <div class="card-header bg-warning">
+        <h1 class="mb-0 h3">Invalid Link</h1>
+      </div>
+      <div class="card-body">This link is invalid. Please check the link in your email and try again.</div>
+    </div>
+  }
+  @if (accountRequest()) {
+    <div class="card bg-light mx-auto" style="max-width: 800px">
+      <div class="card-header bg-primary text-white">
+        <h1 class="mb-0 h3">Welcome to TEAMMATES!</h1>
+      </div>
+      <div class="card-body">
+        <p>You're all set and ready to start using TEAMMATES.</p>
+        <p>
+          We'll create a demo course for you so you can explore the platform and try out its features before setting up
+          your own courses.
+        </p>
+        <div class="text-center" style="margin-top: 20px">
+          <button id="btn-get-started" class="btn btn-success" [disabled]="isCreatingCourse()" (click)="getStarted()">
+            @if (isCreatingCourse()) {
+              Setting up your account...
+            } @else {
+              Get Started
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

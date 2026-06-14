@@ -122,11 +122,7 @@ describe('CourseService', () => {
     const paramMap: { [key: string]: string } = {
       key: regKey,
     };
-    service.getJoinCourseStatus(regKey, false);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
-
-    paramMap['iscreatingaccount'] = 'true';
-    service.getJoinCourseStatus(regKey, true);
+    service.getJoinCourseStatus(regKey);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 
@@ -163,22 +159,13 @@ describe('CourseService', () => {
   });
 
   it('should execute POST on demo course endpoint with timezone string', () => {
-    const testKey = 'testKey';
+    const testId = 'test-id';
     const testTimezone = 'UTC';
     const paramMap: Record<string, string> = {
-      key: testKey,
+      id: testId,
       timezone: testTimezone,
     };
-    service.createDemoCourse(testKey, testTimezone);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.DEMO_COURSE, paramMap);
-  });
-
-  it('should execute POST on demo course endpoint with empty timezone string', () => {
-    const testKey = 'testKey';
-    const paramMap: Record<string, string> = {
-      key: testKey,
-    };
-    service.createDemoCourse(testKey, '');
+    service.createDemoCourse({ accountRequestId: testId, timezone: testTimezone });
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.DEMO_COURSE, paramMap);
   });
 });

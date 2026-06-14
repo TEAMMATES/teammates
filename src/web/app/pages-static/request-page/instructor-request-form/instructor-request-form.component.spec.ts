@@ -31,7 +31,6 @@ describe('InstructorRequestFormComponent', () => {
     name: typicalModel.name,
     institute: typicalModel.institution,
     country: typicalModel.country,
-    registrationKey: 'registration-key',
     status: AccountRequestStatus.PENDING,
     createdAt: 0,
   };

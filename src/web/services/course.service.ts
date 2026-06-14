@@ -124,14 +124,10 @@ export class CourseService {
   /**
    * Get the status of whether the entity has joined the course by calling API.
    */
-  getJoinCourseStatus(regKey: string, isCreatingAccount: boolean): Observable<JoinStatus> {
+  getJoinCourseStatus(regKey: string): Observable<JoinStatus> {
     const paramMap: Record<string, string> = {
       key: regKey,
     };
-
-    if (isCreatingAccount) {
-      paramMap['iscreatingaccount'] = 'true';
-    }
 
     return this.httpRequestService.get(ResourceEndpoints.JOIN, paramMap);
   }
@@ -193,11 +189,9 @@ export class CourseService {
   /**
    * Creates a demo course.
    */
-  createDemoCourse(key: string, timezone: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { key };
-    if (timezone) {
-      paramMap['timezone'] = timezone;
-    }
+  createDemoCourse(queryParams: {accountRequestId: string, timezone: string}): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = { id: queryParams.accountRequestId, timezone: queryParams.timezone };
+
     return this.httpRequestService.post(ResourceEndpoints.DEMO_COURSE, paramMap);
   }
 }
