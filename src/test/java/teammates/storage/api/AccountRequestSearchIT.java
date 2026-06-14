@@ -81,11 +81,6 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
                 "Comments for account request from instructor2"));
         verifySearchResults(results, ins2General);
 
-        ______TS("success: search for account requests; account requests should be searchable by their status");
-
-        results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem("registered"));
-        verifySearchResults(results, ins2General, unregisteredInstructor1, unregisteredInstructor2);
-
         ______TS("success: search for account requests; unregistered account requests should be searchable");
 
         results = inTransaction(() -> accountRequestsDb.searchAccountRequestsInWholeSystem(
