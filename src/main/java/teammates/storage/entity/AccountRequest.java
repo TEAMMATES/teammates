@@ -39,8 +39,10 @@ public class AccountRequest extends BaseEntity {
 
     private String registrationKey;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String email;
 
     @ManyToOne
@@ -48,10 +50,11 @@ public class AccountRequest extends BaseEntity {
     @JoinColumn(name = "instituteId", nullable = false)
     private Institute institute;
 
-    @Column(name = "instituteId", nullable = false, insertable = false, updatable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     private UUID instituteId;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private AccountRequestStatus status;
 
     @Column(columnDefinition = "TEXT")
