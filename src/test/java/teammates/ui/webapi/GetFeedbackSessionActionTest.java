@@ -74,6 +74,39 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     }
 
     @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionAction_studentAccessesNotVisibleSession_throwsUnauthorizedAccessException() {
+        var account = given.account("account");
+        var course = given.course("course");
+        given.student("student", s -> s.course(course.alias()).account(account.alias()));
+        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).notVisible());
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
+                .withCookie(getAuthCookie(account.id()));
+
+        assertActionThrows(UnauthorizedAccessException.class, request);
+    }
+
+    @Test(groups = GroupNames.ACTION)
+    public void getFeedbackSessionAction_instructorWithViewPrivilegeAccessesNotVisibleSession_returnsFullData() {
+        var account = given.account("account");
+        var course = given.course("course");
+        given.instructor("instructor", i -> i.course(course.alias()).account(account.alias()).coOwner());
+        var fs = given.feedbackSession("fs", f -> f.course(course.alias()).notVisible());
+        persistGivenData(given);
+
+        RequestContext request = new RequestContext()
+                .withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, fs.id().toString())
+                .withCookie(getAuthCookie(account.id()));
+
+        FeedbackSessionViewData result = execute(request);
+
+        assertNotNull(result);
+        assertNotNull(result.getInstructorPermissions());
+    }
+
+    @Test(groups = GroupNames.ACTION)
     public void getFeedbackSessionAction_userNotInCourse_throwsUnauthorizedAccessException() {
         var account = given.account("account");
         var otherCourse = given.course("other-course");

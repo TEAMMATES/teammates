@@ -486,11 +486,8 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const getFeedbackSessionArgs = {
-    feedbackSessionId: '00000000-0000-4000-8000-000000000001',
-    intent: Intent.STUDENT_SUBMISSION,
+    feedbackSessionId: testQueryParams.fsid,
     key: testQueryParams.key,
-    moderatedPerson: '',
-    previewAs: '',
   };
 
   const getSessionSubmissionDataArgs = {

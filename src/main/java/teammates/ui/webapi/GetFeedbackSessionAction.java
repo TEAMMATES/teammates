@@ -19,11 +19,7 @@ public class GetFeedbackSessionAction extends RegKeyAction {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        gateKeeper.verifyUserInCourse(requestContext, feedbackSession.getCourseId());
+        gateKeeper.verifyFeedbackSessionAccessible(requestContext, feedbackSessionId);
     }
 
     @Override
@@ -33,11 +29,10 @@ public class GetFeedbackSessionAction extends RegKeyAction {
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
-        String courseId = feedbackSession.getCourseId();
 
-        User user = getUserFromRequest(courseId);
         FeedbackSessionViewData response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession));
 
+        User user = getUserFromRequest(feedbackSession.getCourseId());
         if (user instanceof Instructor instructor) {
             response.setInstructorPermissions(getPermissions(feedbackSession, instructor));
             boolean canViewSession =

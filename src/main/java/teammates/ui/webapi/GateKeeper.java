@@ -232,6 +232,35 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the user can access the specified feedback session.
+     *
+     * <p>The user must be a course member (student or instructor). Instructors with CAN_VIEW_SESSION
+     * privilege may access regardless of session visibility; all others require the session to be visible.
+     */
+    void verifyFeedbackSessionAccessible(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        String courseId = feedbackSession.getCourseId();
+
+        verifyUserInCourse(requestContext, courseId);
+
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        if (instructor != null) {
+            boolean canViewSession = logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION)
+                    || !logic.getSectionsWithInstructorPermission(instructor,
+                            Const.InstructorPermissions.CAN_VIEW_SESSION).isEmpty();
+            if (canViewSession) {
+                return;
+            }
+        }
+
+        if (!feedbackSession.isVisible()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+        }
+    }
+
+    /**
      * Verifies the instructor has the privileges specified by privilegeNames for the course
      * of the specified feedback session.
      */
