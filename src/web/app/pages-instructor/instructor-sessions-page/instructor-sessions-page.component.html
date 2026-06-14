@@ -64,12 +64,6 @@
         (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
         (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
         (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(sessionsTableRowModels[$event])"
-        (sendRemindersToAllNonSubmittersEvent)="
-          sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], true)
-        "
-        (sendRemindersToSelectedNonSubmittersEvent)="
-          sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event], false)
-        "
       ></tm-sessions-table>
     </div>
   </div>

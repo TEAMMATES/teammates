@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
+import { filter, take } from 'rxjs/operators';
 import { MasqueradeModeService } from './masquerade-mode.service';
 import { StatusMessageService } from './status-message.service';
 
@@ -72,5 +73,30 @@ export class NavigationService {
     this.navigateByURLWithParamEncoding(url, params).then(() => {
       this.statusMessageService.showSuccessToast(message);
     });
+  }
+
+  /**
+   * Navigates to the previous page in the browser history.
+   */
+  navigateBack(): void {
+    this.location.back();
+  }
+
+  /**
+   * Navigates to the previous page in the browser history and shows a success message afterwards.
+   *
+   * The message is shown only after the navigation completes so that it is not cleared by the
+   * navigation itself.
+   */
+  navigateBackWithSuccessMessage(message: string): void {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        take(1),
+      )
+      .subscribe(() => {
+        this.statusMessageService.showSuccessToast(message);
+      });
+    this.location.back();
   }
 }

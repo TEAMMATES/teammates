@@ -157,18 +157,26 @@
       </div>
     </button>
     <div ngbDropdownMenu>
-      <button
+      <a
         class="btn-remind-all-{{ idx }} btn dropdown-item clickable"
-        (click)="sendRemindersToAllNonSubmitters(); setRowClicked()"
+        tmRouterLink="/web/instructor/sessions/send-reminders"
+        [queryParams]="{
+          fsid: fsId,
+          preselectnonsubmitters: true,
+        }"
       >
         Remind all non-submitters
-      </button>
-      <button
+      </a>
+      <a
         class="btn-remind-selected-{{ idx }} btn dropdown-item clickable"
-        (click)="sendRemindersToSelectedNonSubmitters(); setRowClicked()"
+        tmRouterLink="/web/instructor/sessions/send-reminders"
+        [queryParams]="{
+          fsid: fsId,
+          preselectnonsubmitters: false,
+        }"
       >
         Select non-submitters to remind
-      </button>
+      </a>
     </div>
   </div>
 </div>

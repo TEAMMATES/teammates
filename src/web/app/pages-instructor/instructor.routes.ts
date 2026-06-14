@@ -100,6 +100,16 @@ const routes: Routes = [
         },
       },
       {
+        path: 'send-reminders',
+        loadComponent: () =>
+          import('./instructor-session-send-reminders-page/instructor-session-send-reminders-page.component').then(
+            (m) => m.InstructorSessionSendRemindersPageComponent,
+          ),
+        data: {
+          pageTitle: 'Send Reminders',
+        },
+      },
+      {
         path: 'edit',
         loadComponent: () =>
           import('./instructor-session-edit-page/instructor-session-edit-page.component').then(

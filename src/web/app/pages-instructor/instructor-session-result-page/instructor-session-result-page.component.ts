@@ -57,7 +57,6 @@ import { CommentsToCommentTableModelPipe } from '../../components/comment-box/co
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PreviewSessionResultPanelComponent } from '../../components/preview-session-result-panel/preview-session-result-panel.component';
-import { ReminderResponseModel } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
@@ -726,28 +725,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
     for (const sectionId of Object.keys(this.sectionsModel)) {
       this.sectionsModel[sectionId].isTabExpanded = false;
     }
-  }
-
-  /**
-   * Handles the sending of reminders to students.
-   */
-  sendReminderToStudents(reminderResponse: ReminderResponseModel): void {
-    this.feedbackSessionsService
-      .remindFeedbackSessionSubmissionForRespondents(this.session.feedbackSessionId, {
-        usersToRemind: reminderResponse.respondentsToSend.map((m) => m.id),
-        isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
-      })
-      .subscribe({
-        next: () => {
-          this.statusMessageService.showSuccessToast(
-            'Reminder e-mails have been sent out to those students and instructors. ' +
-              'Please allow up to 1 hour for all the notification emails to be sent out.',
-          );
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
   }
 
   /**

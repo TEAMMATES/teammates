@@ -16,15 +16,19 @@
         } @else {
           <button type="button" class="btn btn-secondary btn-sm button" disabled>Extend Deadline for All</button>
         }
-        <button
-          id="btn-remind-all"
-          class="btn btn-secondary btn-sm button"
-          type="button"
-          (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation()"
-          [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN"
-        >
-          Remind All
-        </button>
+        @if (session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN && !isDisplayOnly) {
+          <a
+            tmRouterLink="/web/instructor/sessions/send-reminders"
+            [queryParams]="{
+              fsid: session.feedbackSessionId,
+              preselectnonsubmitters: true,
+            }"
+          >
+            <button id="btn-remind-all" type="button" class="btn btn-secondary btn-sm button">Remind All</button>
+          </a>
+        } @else {
+          <button id="btn-remind-all" type="button" class="btn btn-secondary btn-sm button" disabled>Remind All</button>
+        }
       </div>
     </div>
     <div class="chevron-collapse">
