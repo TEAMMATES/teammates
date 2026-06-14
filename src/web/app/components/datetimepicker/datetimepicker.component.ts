@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbCalendar, NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import moment from 'moment-timezone';
 import { DatePickerFormatter } from './datepicker-formatter';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -23,7 +23,6 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat } from '../../../types/dat
 export class DatetimepickerComponent implements OnChanges {
   private readonly dateTimeService = inject(DateTimeService);
   private readonly timezoneService = inject(TimezoneService);
-  private readonly calendar = inject(NgbCalendar);
 
   /**
    * The selected value as a UNIX millisecond timestamp. Undefined renders an empty picker.
@@ -113,8 +112,9 @@ export class DatetimepickerComponent implements OnChanges {
   }
 
   selectTodayDate(dp: NgbInputDatepicker): void {
-    const today = this.calendar.getToday();
-    this.date = { year: today.year, month: today.month, day: today.day };
+    const m = moment().tz(this.effectiveTimeZone);
+    const today: DateFormat = { year: m.year(), month: m.month() + 1, day: m.date() };
+    this.date = today;
     dp.navigateTo(today);
     this.emitTimestamp();
   }
@@ -193,25 +193,17 @@ export class DatetimepickerComponent implements OnChanges {
     if (this.date == null) {
       return false;
     }
-    const date = this.toJsDate(this.date, t);
+    const candidate = this.fromDisplayDateTime(this.date, t);
 
-    if (this.minDate && this.minTime) {
-      if (date < this.toJsDate(this.minDate, this.minTime)) {
-        return true;
-      }
+    if (this.minTimestamp != null && candidate < this.minTimestamp) {
+      return true;
     }
 
-    if (this.maxDate && this.maxTime) {
-      if (date > this.toJsDate(this.maxDate, this.maxTime)) {
-        return true;
-      }
+    if (this.maxTimestamp != null && candidate > this.maxTimestamp) {
+      return true;
     }
 
     return false;
-  }
-
-  private toJsDate(date: DateFormat, time: TimeFormat): Date {
-    return new Date(date.year, date.month - 1, date.day, time.hour, time.minute);
   }
 
   /**

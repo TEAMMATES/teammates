@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import moment from 'moment-timezone';
 import { DatetimepickerComponent } from './datetimepicker.component';
 import { DateFormat, TimeFormat } from '../../../types/datetime-const';
 
@@ -67,7 +68,8 @@ describe('DatetimepickerComponent', () => {
     component.timestamp = timestamp;
     component.ngOnChanges();
     const datepicker = fixture.debugElement.query(By.directive(NgbInputDatepicker)).injector.get(NgbInputDatepicker);
-    const today = TestBed.inject(NgbCalendar).getToday();
+    const m = moment().tz('UTC');
+    const today: DateFormat = { year: m.year(), month: m.month() + 1, day: m.date() };
     const navigateSpy = vi.spyOn(datepicker, 'navigateTo');
     const emitSpy = vi.spyOn(component.timestampChange, 'emit');
 
@@ -75,7 +77,7 @@ describe('DatetimepickerComponent', () => {
 
     expect(navigateSpy).toHaveBeenCalledWith(today);
     expect(emitSpy).toHaveBeenCalled();
-    expect(component.date).toEqual({ year: today.year, month: today.month, day: today.day });
+    expect(component.date).toEqual(today);
   });
 
   it('should clamp an emitted value below the lower bound up to the next selectable time', () => {
