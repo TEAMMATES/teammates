@@ -5,12 +5,19 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.AccountRequestData;
 
 /**
  * Gets account request information.
  */
-public class GetAccountRequestAction extends AdminOnlyAction {
+public class GetAccountRequestAction extends LoggedInAction {
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
+        gateKeeper.verifyCanViewAccountRequest(requestContext, id);
+    }
 
     @Override
     public JsonResult execute() {

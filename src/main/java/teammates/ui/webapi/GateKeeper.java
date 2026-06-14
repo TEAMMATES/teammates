@@ -10,6 +10,7 @@ import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -125,6 +126,26 @@ final class GateKeeper {
         verifyNotNull(student, "student");
         verifyInstructorHasPrivilegeForSection(requestContext, student.getCourseId(), student.getSectionId(),
                 Const.InstructorPermissions.CAN_VIEW_STUDENT);
+    }
+
+    /**
+     * Verifies that the user can view the specified account request.
+     *
+     * Admins can view all account requests. Non-admins can only view account requests that they own.
+     */
+    void verifyCanViewAccountRequest(RequestContext requestContext, UUID accountRequestId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
+        verifyNotNull(accountRequest, "account request");
+
+        if (requestContext.getAccount() == null
+                || !requestContext.getAccount().getId().equals(accountRequest.getAccountId())) {
+            throw new UnauthorizedAccessException("Account request [" + accountRequestId + "] is not accessible to user");
+        }
     }
 
     /**
