@@ -182,7 +182,6 @@ describe('AccountRequestTableComponent', () => {
       name: 'name',
       institute: 'institute',
       country: '',
-      registrationKey: '',
       status: AccountRequestStatus.PENDING,
       createdAt: 0,
       comments: 'comment',
@@ -212,7 +211,6 @@ describe('AccountRequestTableComponent', () => {
       name: 'name',
       institute: 'institute',
       country: '',
-      registrationKey: '',
       status: AccountRequestStatus.REJECTED,
       createdAt: 0,
     };
@@ -338,7 +336,7 @@ describe('AccountRequestTableComponent', () => {
       email: 'new email',
       institute: 'new institute',
       country: '',
-      registrationKey: 'registration key',
+
       name: 'new name',
       createdAt: 1,
       status: AccountRequestStatus.PENDING,
@@ -370,7 +368,7 @@ describe('AccountRequestTableComponent', () => {
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
       country: '',
-      registrationKey: 'registration key',
+
       name: component.accountRequests[0].name,
       createdAt: 1,
       status: AccountRequestStatus.APPROVED,
@@ -397,7 +395,7 @@ describe('AccountRequestTableComponent', () => {
       email: component.accountRequests[0].email,
       institute: component.accountRequests[0].institute,
       country: '',
-      registrationKey: 'registration key',
+
       name: component.accountRequests[0].name,
       createdAt: 1,
       status: AccountRequestStatus.REJECTED,

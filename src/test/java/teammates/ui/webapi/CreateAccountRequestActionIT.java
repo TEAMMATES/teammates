@@ -137,7 +137,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
         AccountRequest accountRequest =
-                inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
+                inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute().getName());
@@ -168,7 +168,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertNull(output.getComments());
         assertNull(output.getRegisteredAt());
         AccountRequest accountRequest =
-                inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
+                inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute().getName());
@@ -204,9 +204,9 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getRegisteredAt());
-        assertNotEquals(output.getRegistrationKey(), existingAccountRequest.getRegistrationKey());
+        assertNotEquals(output.getAccountRequestId(), existingAccountRequest.getId());
         AccountRequest accountRequest =
-                inTransaction(() -> logic.getAccountRequestByRegistrationKey(output.getRegistrationKey()));
+                inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
         assertEquals("Paul Atreides", accountRequest.getName());
         assertEquals("House Atreides", accountRequest.getInstitute().getName());

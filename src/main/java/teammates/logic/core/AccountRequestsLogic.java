@@ -83,13 +83,6 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Gets account request associated with the {@code regkey}.
-     */
-    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
-        return accountRequestDb.getAccountRequestByRegistrationKey(regkey);
-    }
-
-    /**
      * Gets all pending account requests.
      */
     public List<AccountRequest> getPendingAccountRequests() {

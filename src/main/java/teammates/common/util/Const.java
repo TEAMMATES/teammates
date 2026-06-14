@@ -284,6 +284,8 @@ public final class Const {
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
 
         public static final String ACCOUNT_REQUEST_PAGE = FRONT_PAGE + "/request";
+
+        public static final String INSTRUCTOR_WELCOME_PAGE = URI_PREFIX + "/instructor-welcome";
     }
 
     /**

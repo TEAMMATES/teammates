@@ -7,14 +7,12 @@ exports[`UserJoinPageComponent > should snap if user is not logged in and has a 
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
-  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  timezoneService={[Function _TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
@@ -49,14 +47,12 @@ exports[`UserJoinPageComponent > should snap with default fields 1`] = `
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
-  isCreatingAccount="false"
   isLoading={[Function Boolean]}
   key={[Function String]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  timezoneService={[Function _TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
@@ -85,14 +81,12 @@ exports[`UserJoinPageComponent > should snap with invalid course join link 1`] =
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
-  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  timezoneService={[Function _TimezoneService]}
   userId={[Function String]}
   validUrl="false"
 >
@@ -127,14 +121,12 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined={[Function Boolean]}
-  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  timezoneService={[Function _TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >
@@ -169,14 +161,12 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
   courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
-  isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  timezoneService={[Function _TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >
@@ -217,7 +207,7 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
             class="btn btn-success"
             id="btn-confirm"
           >
-             Register for course 
+            Register for course
           </button>
         </div>
       </div>

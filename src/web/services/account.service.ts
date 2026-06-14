@@ -77,6 +77,14 @@ export class AccountService {
   }
 
   /**
+   * Gets an account request by calling API.
+   */
+  getAccountRequest(id: string): Observable<AccountRequest> {
+    const paramMap: Record<string, string> = { id };
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+  }
+
+  /**
    * Gets an account by calling API.
    */
   getAccount(accountId: string): Observable<Account> {

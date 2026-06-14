@@ -60,7 +60,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
+        assertNotNull(response.getAccountRequests().get(0).getAccountRequestId());
 
         ______TS("Search via Institute");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute().getName() };
@@ -71,7 +71,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
+        assertNotNull(response.getAccountRequests().get(0).getAccountRequestId());
 
         ______TS("Search via Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getName() };
@@ -82,14 +82,14 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
+        assertNotNull(response.getAccountRequests().get(0).getAccountRequestId());
 
         ______TS("Search Duplicate Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "Instructor" };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
-        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
+        assertNotNull(response.getAccountRequests().get(0).getAccountRequestId());
         assertEquals(11, response.getAccountRequests().size());
 
         ______TS("Search result with 0 matches");

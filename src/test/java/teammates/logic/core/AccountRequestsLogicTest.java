@@ -109,28 +109,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetAccountRequestByRegistrationKey_typicalRequest_success() {
-        AccountRequest ar = getTypicalAccountRequest();
-        String regkey = "regkey";
-        ar.setRegistrationKey(regkey);
-        when(accountRequestsDb.getAccountRequestByRegistrationKey(regkey)).thenReturn(ar);
-        AccountRequest actualAr =
-                accountRequestsLogic.getAccountRequestByRegistrationKey(ar.getRegistrationKey());
-
-        assertEquals(ar, actualAr);
-        verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(regkey);
-    }
-
-    @Test
-    public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() {
-        String nonexistentRegkey = "not_exist";
-        when(accountRequestsDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
-
-        assertNull(accountRequestsLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
-        verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(nonexistentRegkey);
-    }
-
-    @Test
     public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
         UUID id = UUID.randomUUID();
         when(accountRequestsDb.getAccountRequest(id)).thenReturn(null);

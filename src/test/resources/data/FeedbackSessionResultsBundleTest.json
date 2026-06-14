@@ -139,7 +139,7 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "2010-02-14T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
@@ -148,7 +148,7 @@
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "2015-02-14T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000000002"
     },
@@ -157,7 +157,7 @@
       "name": "Instructor 3 of CourseNoRegister",
       "email": "instr3@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002001"
@@ -167,7 +167,7 @@
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002002"
@@ -177,7 +177,7 @@
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002003"
@@ -187,7 +187,7 @@
       "name": "Instructor 1 of Course 2",
       "email": "instr1@course2.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002004"
@@ -197,7 +197,7 @@
       "name": "Instructor 2 of Course 2",
       "email": "instr2@course2.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002005"
@@ -207,7 +207,7 @@
       "name": "Instructor 1 of Course 3",
       "email": "instr1@course3.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002006"
@@ -217,7 +217,7 @@
       "name": "Instructor 2 of Course 3",
       "email": "instr2@course3.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
       "createdAt": "2011-01-01T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000002007"

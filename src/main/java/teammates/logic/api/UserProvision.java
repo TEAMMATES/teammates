@@ -84,8 +84,8 @@ public class UserProvision {
 
         UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId(), account.getEmail());
         userInfo.isAdmin = authContext.isAdmin();
-        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(account.getGoogleId());
-        userInfo.isStudent = usersLogic.isStudentInAnyCourse(account.getGoogleId());
+        userInfo.isInstructor = !usersLogic.getInstructorsByAccountId(account.getId()).isEmpty();
+        userInfo.isStudent = !usersLogic.getStudentsByAccountId(account.getId()).isEmpty();
         userInfo.isMaintainer = authContext.isMaintainer();
         return userInfo;
     }

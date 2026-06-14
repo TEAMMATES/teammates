@@ -30,6 +30,21 @@ const routes: Routes = [
         canActivateChild: [RoleGuard],
       },
       {
+        path: 'instructor-welcome',
+        component: PageComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./instructor-welcome-page/instructor-welcome-page.component').then(
+                (m) => m.InstructorWelcomePageComponent,
+              ),
+          },
+        ],
+        canActivate: [RoleGuard],
+        canActivateChild: [RoleGuard],
+      },
+      {
         path: 'sessions',
         component: PageComponent,
         children: [

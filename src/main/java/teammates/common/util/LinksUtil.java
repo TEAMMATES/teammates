@@ -140,12 +140,11 @@ public final class LinksUtil {
     }
 
     /**
-     * Returns the absolute URL for an account request to create an account using the given registration key.
+     * Returns the absolute URL for the instructor welcome page for the given account request.
      */
-    public static String getAccountRequestJoinUrl(String regKey) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withIsCreatingAccount("true")
-                .withRegistrationKey(regKey)
+    public static String getInstructorWelcomeUrl(UUID accountRequestId) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE)
+                .withParam("accountRequestId", accountRequestId.toString())
                 .toAbsoluteString();
     }
 

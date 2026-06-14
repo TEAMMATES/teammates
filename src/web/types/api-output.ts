@@ -16,7 +16,6 @@ export interface AccountRequest extends ApiOutput {
   name: string;
   institute: string;
   country: string;
-  registrationKey: string;
   status: AccountRequestStatus;
   comments?: string;
   registeredAt?: number;
