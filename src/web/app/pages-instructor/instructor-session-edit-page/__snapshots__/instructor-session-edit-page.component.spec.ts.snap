@@ -3784,7 +3784,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                           <option
                             value="24: Object"
                           >
-                            06:40H
+                            06:45H
                           </option>
                         </select>
                       </div>
@@ -3970,7 +3970,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                           <option
                             value="24: Object"
                           >
-                            06:40H
+                            06:45H
                           </option>
                         </select>
                       </div>
@@ -4300,7 +4300,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -4528,7 +4528,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>

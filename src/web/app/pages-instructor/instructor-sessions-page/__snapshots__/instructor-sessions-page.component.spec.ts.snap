@@ -507,7 +507,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -692,7 +692,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -1022,7 +1022,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -1252,7 +1252,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -1998,7 +1998,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -2183,7 +2183,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -2513,7 +2513,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -2743,7 +2743,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -3489,7 +3489,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -3674,7 +3674,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -4004,7 +4004,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -4234,7 +4234,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -4961,7 +4961,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -5146,7 +5146,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -5476,7 +5476,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -5706,7 +5706,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -6456,7 +6456,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -6641,7 +6641,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -6971,7 +6971,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -7201,7 +7201,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -7947,7 +7947,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -8132,7 +8132,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -8462,7 +8462,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -8692,7 +8692,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -9438,7 +9438,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -9623,7 +9623,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                             <option
                               value="24: Object"
                             >
-                              06:40H
+                              06:45H
                             </option>
                           </select>
                         </div>
@@ -9952,7 +9952,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>
@@ -10181,7 +10181,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                               <option
                                 value="24: Object"
                               >
-                                06:40H
+                                06:45H
                               </option>
                             </select>
                           </div>

@@ -44,6 +44,9 @@ export class NotificationEditFormComponent {
   model: NotificationEditFormModel = {
     notificationId: '',
 
+    startTimestamp: Date.now(),
+    endTimestamp: Date.now(),
+
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
 
@@ -122,9 +125,6 @@ export class NotificationEditFormComponent {
    * Checks if notification is active.
    */
   isNotificationActive(): boolean {
-    if (!this.model.startTimestamp) {
-      return false;
-    }
     return Date.now() > this.model.startTimestamp;
   }
 }

@@ -52,6 +52,9 @@ export class AdminNotificationsPageComponent implements OnInit {
   notificationEditFormModel: NotificationEditFormModel = {
     notificationId: '',
 
+    startTimestamp: Date.now(),
+    endTimestamp: Date.now(),
+
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
 
@@ -215,8 +218,8 @@ export class AdminNotificationsPageComponent implements OnInit {
         message: this.notificationEditFormModel.message,
         style: this.notificationEditFormModel.style,
         targetUser: this.notificationEditFormModel.targetUser,
-        startTimestamp: this.notificationEditFormModel.startTimestamp!,
-        endTimestamp: this.notificationEditFormModel.endTimestamp!,
+        startTimestamp: this.notificationEditFormModel.startTimestamp,
+        endTimestamp: this.notificationEditFormModel.endTimestamp,
       })
       .pipe(
         finalize(() => {
