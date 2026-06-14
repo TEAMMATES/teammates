@@ -35,15 +35,15 @@ public class GetFeedbackSessionAction extends RegKeyAction {
         User user = getUserFromRequest(feedbackSession.getCourseId());
         if (user instanceof Instructor instructor) {
             response.setInstructorPermissions(getPermissions(feedbackSession, instructor));
-            boolean canViewSession =
-                    logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION)
-                    || logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getId(),
-                            Const.InstructorPermissions.CAN_VIEW_SESSION);
-            if (!canViewSession) {
-                response.getFeedbackSession().hideInformation();
-            }
-        } else {
-            // Student
+        }
+
+        boolean canViewFullDetails = requestContext.isAdmin()
+                || user instanceof Instructor instructor
+                        && (logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION)
+                                || logic.hasInstructorPermissionsForSectionInAnySection(instructor,
+                                        feedbackSession.getId(), Const.InstructorPermissions.CAN_VIEW_SESSION));
+
+        if (!canViewFullDetails) {
             response.getFeedbackSession().hideInformation();
         }
 
@@ -52,16 +52,16 @@ public class GetFeedbackSessionAction extends RegKeyAction {
 
     private InstructorFeedbackSessionPermissionsData getPermissions(FeedbackSession feedbackSession,
             Instructor instructor) {
-        boolean canModifySession =
-                logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        boolean canModifySession = logic.hasInstructorPermissions(instructor,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
         boolean canSubmitSession = logic.hasInstructorPermissions(instructor,
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION)
                 || logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getId(),
-                Const.InstructorPermissions.CAN_SUBMIT_SESSION);
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION);
         boolean canViewSession = logic.hasInstructorPermissions(instructor,
                 Const.InstructorPermissions.CAN_VIEW_SESSION)
                 || logic.hasInstructorPermissionsForSectionInAnySection(instructor, feedbackSession.getId(),
-                Const.InstructorPermissions.CAN_VIEW_SESSION);
+                        Const.InstructorPermissions.CAN_VIEW_SESSION);
         return new InstructorFeedbackSessionPermissionsData(
                 canModifySession,
                 canSubmitSession,
