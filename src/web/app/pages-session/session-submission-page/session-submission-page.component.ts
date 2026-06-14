@@ -122,6 +122,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   feedbackSessionInstructions = '';
   feedbackSessionTimezone = '';
   feedbackSessionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.OPEN;
+  userDeadlineExtension: number | undefined = undefined;
 
   intent: Intent = Intent.STUDENT_SUBMISSION;
 
@@ -346,16 +347,22 @@ export class SessionSubmissionPageComponent implements OnInit {
   loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
     this.isFeedbackSessionLoading = true;
     const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
-    this.feedbackSessionsService
-      .getFeedbackSession({
-        feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
-        key: this.regKey,
-        moderatedPerson: this.moderatedPerson,
-        previewAs: this.previewAsPerson,
-      })
+    const sessionRequest$ = this.feedbackSessionsService.getFeedbackSession({
+      feedbackSessionId: this.feedbackSessionId,
+      intent: this.intent,
+      key: this.regKey,
+      moderatedPerson: this.moderatedPerson,
+      previewAs: this.previewAsPerson,
+    });
+    const deadlineExtension$ = this.loggedInUser
+      ? this.feedbackSessionsService
+          .getDeadlineExtension({ feedbackSessionId: this.feedbackSessionId, userId: this.loggedInUser })
+          .pipe(catchError(() => of(null)))
+      : of(null);
+
+    forkJoin({ feedbackSessionView: sessionRequest$, deadlineExtension: deadlineExtension$ })
       .pipe(
-        tap((feedbackSessionView) => {
+        tap(({ feedbackSessionView, deadlineExtension }) => {
           const feedbackSession = feedbackSessionView.feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
           this.courseId = feedbackSession.courseId;
@@ -366,12 +373,27 @@ export class SessionSubmissionPageComponent implements OnInit {
             feedbackSession.timeZone,
             TIME_FORMAT,
           );
-          this.formattedSessionClosingTime = this.getFormattedSessionClosingTime(feedbackSession, TIME_FORMAT);
-          this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
           this.feedbackSessionTimezone = feedbackSession.timeZone;
+          this.userDeadlineExtension = deadlineExtension?.userDeadlineExtension;
+          this.formattedSessionClosingTime = this.getFormattedSessionClosingTime(
+            feedbackSession,
+            TIME_FORMAT,
+            this.userDeadlineExtension,
+          );
+
+          // Override CLOSED status if user has an active deadline extension
+          let effectiveStatus = feedbackSession.submissionStatus;
+          if (
+            effectiveStatus === FeedbackSessionSubmissionStatus.CLOSED &&
+            this.userDeadlineExtension !== undefined &&
+            this.userDeadlineExtension > Date.now()
+          ) {
+            effectiveStatus = FeedbackSessionSubmissionStatus.OPEN;
+          }
+          this.feedbackSessionSubmissionStatus = effectiveStatus;
 
           this.logStudentAccess();
-          this.handleSubmissionStatusBanner(feedbackSession);
+          this.handleSubmissionStatusBanner({ ...feedbackSession, submissionStatus: effectiveStatus });
         }),
         switchMap(() =>
           forkJoin([this.loadCourseInfoData$(), this.loadPersonNameData$(), this.loadFeedbackQuestionsData$()]),
@@ -985,21 +1007,31 @@ export class SessionSubmissionPageComponent implements OnInit {
     }
   }
 
-  private getFormattedSessionClosingTime(feedbackSession: FeedbackSession, TIME_FORMAT: string): string {
-    const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(feedbackSession);
+  private getFormattedSessionClosingTime(
+    feedbackSession: FeedbackSession,
+    TIME_FORMAT: string,
+    userDeadlineExtension?: number,
+  ): string {
+    const userSessionEndingTime = DeadlineExtensionHelper.getUserFeedbackSessionEndingTimestamp(
+      feedbackSession,
+      userDeadlineExtension,
+    );
     let formattedString = this.timezoneService.formatToString(
       userSessionEndingTime,
       feedbackSession.timeZone,
       TIME_FORMAT,
     );
-    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession)) {
+    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession, userDeadlineExtension)) {
       formattedString += ' (Extension given)';
     }
     return formattedString;
   }
 
   private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
-    const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession);
+    const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(
+      feedbackSession,
+      this.userDeadlineExtension,
+    );
     return userSessionEndingTime - Date.now() < Milliseconds.IN_FIFTEEN_MINUTES;
   }
 

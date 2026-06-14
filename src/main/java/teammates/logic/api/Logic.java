@@ -449,6 +449,13 @@ public class Logic {
     }
 
     /**
+     * Gets the deadline extension for a specific user in a feedback session, or null if none exists.
+     */
+    public DeadlineExtension getDeadlineExtension(UUID feedbackSessionId, UUID userId) {
+        return deadlineExtensionsLogic.getDeadlineExtension(feedbackSessionId, userId);
+    }
+
+    /**
      * Creates a deadline extension.
      *
      * @return created deadline extension

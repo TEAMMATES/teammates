@@ -326,6 +326,7 @@ public final class Const {
         public static final String NOTIFICATION_READ = URI_PREFIX + "/notification/read";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
         public static final String SESSION = URI_PREFIX + "/session";
+        public static final String SESSION_DEADLINE_EXTENSION = URI_PREFIX + "/session/deadlineextension";
         public static final String SESSION_DEADLINE_EXTENSIONS = URI_PREFIX + "/session/deadlineextensions";
         public static final String SESSION_LINKS = URI_PREFIX + "/session/links";
         public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";

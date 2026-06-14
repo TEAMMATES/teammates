@@ -79,6 +79,12 @@ export interface CourseView extends ApiOutput {
   instructorPermissions?: InstructorCoursePermissions;
 }
 
+export interface DeadlineExtension extends ApiOutput {
+  feedbackSessionId: string;
+  userId: string;
+  userDeadlineExtension: number;
+}
+
 export interface DeadlineExtensions extends ApiOutput {
   userDeadlines: { [index: string]: number };
 }
@@ -274,7 +280,6 @@ export interface FeedbackSession extends ApiOutput {
   submissionStartTimestamp: number;
   submissionEndTimestamp: number;
   deletedAtTimestamp?: number;
-  submissionEndWithExtensionTimestamp?: number;
   sessionVisibleFromTimestamp?: number;
   resultVisibleFromTimestamp?: number;
   gracePeriod: number;
@@ -319,6 +324,7 @@ export interface FeedbackSessionSubmittedGiverSet extends ApiOutput {
 export interface FeedbackSessionView extends ApiOutput {
   feedbackSession: FeedbackSession;
   instructorPermissions?: InstructorFeedbackSessionPermissions;
+  userDeadlineExtension?: number;
 }
 
 export interface FeedbackTextQuestionDetails extends FeedbackQuestionDetails {

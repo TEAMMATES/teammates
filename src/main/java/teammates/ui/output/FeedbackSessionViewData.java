@@ -12,6 +12,8 @@ public class FeedbackSessionViewData implements ApiOutput {
     private final FeedbackSessionData feedbackSession;
     @Nullable
     private InstructorFeedbackSessionPermissionsData instructorPermissions;
+    @Nullable
+    private Long userDeadlineExtension;
 
     public FeedbackSessionViewData(FeedbackSessionData feedbackSession) {
         this.feedbackSession = feedbackSession;
@@ -34,5 +36,13 @@ public class FeedbackSessionViewData implements ApiOutput {
 
     public void setInstructorPermissions(InstructorFeedbackSessionPermissionsData instructorPermissions) {
         this.instructorPermissions = instructorPermissions;
+    }
+
+    public Long getUserDeadlineExtension() {
+        return userDeadlineExtension;
+    }
+
+    public void setUserDeadlineExtension(Long userDeadlineExtension) {
+        this.userDeadlineExtension = userDeadlineExtension;
     }
 }

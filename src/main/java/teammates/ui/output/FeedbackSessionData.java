@@ -26,8 +26,6 @@ public class FeedbackSessionData implements ApiOutput {
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
     @Nullable
-    private Long submissionEndWithExtensionTimestamp;
-    @Nullable
     private Long sessionVisibleFromTimestamp;
     @Nullable
     private Long resultVisibleFromTimestamp;
@@ -68,17 +66,13 @@ public class FeedbackSessionData implements ApiOutput {
     public FeedbackSessionData(FeedbackSession feedbackSession) {
         assert feedbackSession != null;
         assert feedbackSession.getCourse() != null;
-        String timeZone = feedbackSession.getCourse().getTimeZone();
         this.feedbackSessionId = feedbackSession.getId();
         this.courseId = feedbackSession.getCourseId();
-        this.timeZone = timeZone;
+        this.timeZone = feedbackSession.getCourse().getTimeZone();
         this.feedbackSessionName = feedbackSession.getName();
         this.instructions = feedbackSession.getInstructions();
         this.submissionStartTimestamp = feedbackSession.getStartTime().toEpochMilli();
         this.submissionEndTimestamp = feedbackSession.getEndTime().toEpochMilli();
-        // If no deadline extension time is provided, then the end time with extension is assumed to be
-        // just the end time.
-        this.submissionEndWithExtensionTimestamp = feedbackSession.getEndTime().toEpochMilli();
         this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
 
         Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
@@ -131,28 +125,6 @@ public class FeedbackSessionData implements ApiOutput {
         }
     }
 
-    /**
-     * Constructs FeedbackSessionData for a given user deadline.
-     */
-    public FeedbackSessionData(FeedbackSession feedbackSession, Instant extendedDeadline) {
-        this(feedbackSession);
-
-        this.submissionEndWithExtensionTimestamp = extendedDeadline.toEpochMilli();
-
-        if (!feedbackSession.isVisible()) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
-        } else if (feedbackSession.isVisible() && !feedbackSession.isOpenedGivenExtendedDeadline(extendedDeadline)
-                && !feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-        } else if (feedbackSession.isInGracePeriodGivenExtendedDeadline(extendedDeadline)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.GRACE_PERIOD;
-        } else if (feedbackSession.isOpenedGivenExtendedDeadline(extendedDeadline)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.OPEN;
-        } else if (feedbackSession.isClosedGivenExtendedDeadline(extendedDeadline)) {
-            this.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-        }
-    }
-
     public UUID getFeedbackSessionId() {
         return feedbackSessionId;
     }
@@ -179,10 +151,6 @@ public class FeedbackSessionData implements ApiOutput {
 
     public long getSubmissionEndTimestamp() {
         return submissionEndTimestamp;
-    }
-
-    public long getSubmissionEndWithExtensionTimestamp() {
-        return submissionEndWithExtensionTimestamp;
     }
 
     public Long getSessionVisibleFromTimestamp() {
@@ -285,7 +253,10 @@ public class FeedbackSessionData implements ApiOutput {
      * Hides some attributes to students and instructors.
      */
     public void hideInformation() {
-        hideInformationForStudentAndInstructor();
+        setClosingSoonEmailEnabled(null);
+        setPublishedEmailEnabled(null);
+        setGracePeriod(null);
+        setCreatedAtTimestamp(0);
         hideSessionVisibilityTimestamps();
     }
 
@@ -296,15 +267,5 @@ public class FeedbackSessionData implements ApiOutput {
         setCustomSessionVisibleTimestamp(null);
         setResponseVisibleSetting(null);
         setCustomResponseVisibleTimestamp(null);
-    }
-
-    /**
-     * Hide some attributes to students and instructors.
-     */
-    public void hideInformationForStudentAndInstructor() {
-        setClosingSoonEmailEnabled(null);
-        setPublishedEmailEnabled(null);
-        setGracePeriod(null);
-        setCreatedAtTimestamp(0);
     }
 }

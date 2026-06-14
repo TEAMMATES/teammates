@@ -205,4 +205,15 @@ describe('FeedbackSessionsService', () => {
     service.hasResponsesForAllFeedbackSessionsInCourse(courseId, 'instructor');
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);
   });
+
+  it('should execute GET to get deadline extension for a user in a feedback session', () => {
+    const feedbackSessionId = 'test-session-id';
+    const userId = 'test-user-id';
+    const paramMap: { [key: string]: string } = {
+      fsid: feedbackSessionId,
+      userid: userId,
+    };
+    service.getDeadlineExtension({ feedbackSessionId, userId });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
+  });
 });
