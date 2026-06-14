@@ -1,17 +1,15 @@
-<button type="button" class="gsi-material-button" (click)="login()">
-  <div class="gsi-material-button-state"></div>
+<button
+  type="button"
+  class="btn btn-outline-dark border-2 w-100 fw-semibold position-relative login-method-button"
+  (click)="login()"
+>
+  <span
+    class="login-method-button-icon position-absolute top-50 start-0 translate-middle-y ms-3 d-inline-flex align-items-center justify-content-center"
+  >
+    <ng-content select="[login-button-icon]"></ng-content>
+  </span>
 
-  <div class="gsi-material-button-content-wrapper">
-    <div class="gsi-material-button-icon">
-      <ng-content select="[login-button-icon]"></ng-content>
-    </div>
-
-    <span class="gsi-material-button-contents">
-      <ng-content select="[login-button-text]"></ng-content>
-    </span>
-
-    <span style="display: none">
-      <ng-content select="[login-button-hidden-text]"></ng-content>
-    </span>
-  </div>
+  <span class="login-method-button-text d-block text-center text-truncate px-5">
+    <ng-content select="[login-button-text]"></ng-content>
+  </span>
 </button>

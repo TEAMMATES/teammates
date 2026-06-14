@@ -2,7 +2,7 @@
   <div class="container py-5">
     <div class="card mx-auto shadow-sm rounded-4">
       <div class="card-body p-5">
-        <div class="d-flex flex-column align-items-center gap-3">
+        <div class="login-method-buttons d-flex flex-column gap-3 mx-auto">
           <h1 class="h2 fw-bold mb-3">Sign In</h1>
           @if (isSupported(LoginMethod.GOOGLE)) {
             <tm-google-login-button [nextUrl]="nextUrl"></tm-google-login-button>
