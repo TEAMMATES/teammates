@@ -403,7 +403,6 @@ export abstract class InstructorSessionBasePageComponent {
         this.feedbackSessionsService
           .getFeedbackSession({
             feedbackSessionId,
-            intent: Intent.FULL_DETAIL,
           })
           .pipe(
             switchMap((feedbackSessionView: FeedbackSessionView) =>

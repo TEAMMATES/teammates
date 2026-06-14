@@ -275,6 +275,24 @@ public abstract class Action {
     }
 
     /**
+     * Gets the user information from the request context.
+     *
+     * <p>If the user is both an instructor and a student in the course,
+     * the instructor information will be returned.
+     */
+    User getUserFromRequest(String courseId) {
+        User regKeyUser = requestContext.getRegKeyUser();
+        if (regKeyUser != null) {
+            return regKeyUser;
+        }
+        Instructor instructor = getInstructorFromRequest(courseId);
+        if (instructor != null) {
+            return instructor;
+        }
+        return getStudentFromRequest(courseId);
+    }
+
+    /**
      * Gets the minimum access control level required to access the resource.
      */
     abstract AuthType getMinAuthLevel();

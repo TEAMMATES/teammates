@@ -95,6 +95,22 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the user is a member (student or instructor) of the specified course.
+     */
+    void verifyUserInCourse(RequestContext requestContext, String courseId)
+            throws UnauthorizedAccessException {
+        Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
+        if (student != null && student.getCourseId().equals(courseId)) {
+            return;
+        }
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        if (instructor != null && instructor.getCourseId().equals(courseId)) {
+            return;
+        }
+        throw new UnauthorizedAccessException("User is not a member of course [" + courseId + "]");
+    }
+
+    /**
      * Verifies that the user has instructor privileges in the specified course.
      */
     void verifyInstructorInCourse(RequestContext requestContext, String courseId)

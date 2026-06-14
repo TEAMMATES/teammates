@@ -193,7 +193,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .subscribe({
         next: (feedbackSessionView: FeedbackSessionView) => {

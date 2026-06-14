@@ -140,7 +140,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackSessionView: FeedbackSessionView) => {
