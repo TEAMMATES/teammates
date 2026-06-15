@@ -20,8 +20,4 @@ public enum AccountRequestStatus {
      */
     APPROVED,
 
-    /**
-     * The account request has been approved by the admin and the instructor has created an account.
-     */
-    REGISTERED
 }

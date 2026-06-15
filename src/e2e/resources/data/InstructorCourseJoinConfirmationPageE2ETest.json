@@ -38,8 +38,8 @@
       "name": "Teammates Test 2",
       "email": "icjoinconf.instr2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
-      "status": "REGISTERED",
-      "registeredAt": "1970-02-14T00:00:00Z",
+      "status": "APPROVED",
+      "createdDemoCourseAt": "1970-02-14T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000000101"
     },
     "ICJoinConf.newinstr": {

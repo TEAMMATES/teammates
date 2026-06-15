@@ -44,7 +44,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
                 Country
               </th>
               <th>
-                Created At
+                Submitted At
               </th>
               <th>
                 Comments

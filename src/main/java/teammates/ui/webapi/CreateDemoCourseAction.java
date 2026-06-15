@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -61,8 +60,8 @@ public class CreateDemoCourseAction extends LoggedInAction {
             throw new EntityNotFoundException("Account request with id " + id + " could not be found");
         }
 
-        if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("Account request with id " + id + " has already been registered.");
+        if (accountRequest.getCreatedDemoCourseAt() != null) {
+            throw new InvalidOperationException("Account request with id " + id + " has already created a demo course.");
         }
 
         String instructorEmail = accountRequest.getEmail();
@@ -97,7 +96,7 @@ public class CreateDemoCourseAction extends LoggedInAction {
         }
 
         try {
-            setAccountRequestAsRegistered(accountRequest);
+            markDemoCourseCreated(accountRequest);
         } catch (InvalidParametersException e) {
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
@@ -107,15 +106,9 @@ public class CreateDemoCourseAction extends LoggedInAction {
         return new JsonResult("Demo course successfully created", HttpStatus.SC_OK);
     }
 
-    /**
-     * Abstracts the logic of updating an account request to be registered.
-     *
-     * @return the updated account request
-     */
-    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest)
+    private AccountRequest markDemoCourseCreated(AccountRequest accountRequest)
             throws InvalidParametersException {
-        accountRequest.setStatus(AccountRequestStatus.REGISTERED);
-        accountRequest.setRegisteredAt(Instant.now());
+        accountRequest.setCreatedDemoCourseAt(Instant.now());
         logic.updateAccountRequest(accountRequest);
         return accountRequest;
     }

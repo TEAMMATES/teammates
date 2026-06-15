@@ -144,12 +144,12 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     void testExecute_invalidStatus_throwsInvalidOperationException() {
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "registered@email.com",
-                "institute", "SG", AccountRequestStatus.REGISTERED, "comments", accountId));
+                "institute", "SG", AccountRequestStatus.APPROVED, "comments", accountId));
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals("Account request with id " + accountRequest.getId()
-                + " is already approved or registered.", ipe.getMessage());
+                + " is already approved.", ipe.getMessage());
         verifyNoEmailsSent();
     }
 

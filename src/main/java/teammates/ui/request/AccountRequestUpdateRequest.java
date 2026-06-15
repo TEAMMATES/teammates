@@ -44,9 +44,8 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         validateTrue(status != null, "status cannot be null");
         validateTrue(status == AccountRequestStatus.APPROVED
                 || status == AccountRequestStatus.REJECTED
-                || status == AccountRequestStatus.PENDING
-                || status == AccountRequestStatus.REGISTERED,
-                "status must be one of the following: APPROVED, REJECTED, PENDING, REGISTERED");
+                || status == AccountRequestStatus.PENDING,
+                "status must be one of the following: APPROVED, REJECTED, PENDING");
     }
 
     public String getName() {

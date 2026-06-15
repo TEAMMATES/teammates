@@ -224,7 +224,7 @@ export class SearchService {
       institute: '',
       country: '',
       createdAtText: '',
-      registeredAtText: '',
+      createdDemoCourseAtText: '',
       registrationLink: '',
       showLinks: false,
       status: AccountRequestStatus.PENDING,
@@ -234,7 +234,7 @@ export class SearchService {
     const {
       accountRequestId,
       createdAt,
-      registeredAt,
+      createdDemoCourseAt,
       name,
       institute,
       country,
@@ -245,7 +245,9 @@ export class SearchService {
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
-    accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
+    accountRequestResult.createdDemoCourseAtText = createdDemoCourseAt
+      ? this.formatTimestampAsString(createdDemoCourseAt, timezone)
+      : null;
     accountRequestResult.comments = comments ?? '';
 
     const registrationLink: string = this.linkService.generateAccountRegistrationLink(accountRequestId);
@@ -371,7 +373,7 @@ export interface AccountRequestSearchResult {
   institute: string;
   country: string;
   createdAtText: string;
-  registeredAtText: string | null;
+  createdDemoCourseAtText: string | null;
   registrationLink: string;
   showLinks: boolean;
   comments: string;

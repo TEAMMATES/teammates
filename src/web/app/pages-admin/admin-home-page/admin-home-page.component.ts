@@ -40,8 +40,8 @@ export class AdminHomePageComponent implements OnInit {
         institute: request.institute,
         country: request.country,
         createdAtText: this.dateFormatService.formatDateDetailed(request.createdAt, timezone),
-        registeredAtText: request.registeredAt
-          ? this.dateFormatService.formatDateDetailed(request.registeredAt, timezone)
+        createdDemoCourseAtText: request.createdDemoCourseAt
+          ? this.dateFormatService.formatDateDetailed(request.createdDemoCourseAt, timezone)
           : '',
         comments: request.comments ?? '',
         registrationLink: '',

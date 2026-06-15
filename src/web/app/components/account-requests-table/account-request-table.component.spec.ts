@@ -32,7 +32,7 @@ describe('AccountRequestTableComponent', () => {
     registrationLink: '',
     status: AccountRequestStatus.PENDING,
     comments: '',
-    registeredAtText: '',
+    createdDemoCourseAtText: '',
     createdAtText: '',
     showLinks: false,
   });

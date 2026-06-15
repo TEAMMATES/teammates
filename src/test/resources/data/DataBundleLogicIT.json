@@ -35,9 +35,9 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "REGISTERED",
+      "status": "APPROVED",
       "comments": "These are some comments.",
-      "registeredAt": "2015-02-14T00:00:00Z",
+      "createdDemoCourseAt": "2015-02-14T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },

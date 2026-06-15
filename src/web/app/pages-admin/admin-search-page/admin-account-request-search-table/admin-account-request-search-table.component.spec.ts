@@ -32,7 +32,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
     registrationLink: '',
     status: AccountRequestStatus.PENDING,
     comments: '',
-    registeredAtText: '',
+    createdDemoCourseAtText: '',
     createdAtText: '',
     showLinks: false,
   });
@@ -110,7 +110,7 @@ describe('AdminAccountRequestSearchTableComponent', () => {
 
     const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
     registeredAccountRequestResult.accountRequestId = 'registered-id';
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
+    registeredAccountRequestResult.status = AccountRequestStatus.APPROVED;
     registeredAccountRequestResult.registrationLink = 'registrationLink';
 
     const accountRequestResults: AccountRequestSearchResult[] = [

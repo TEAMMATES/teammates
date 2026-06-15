@@ -82,13 +82,6 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
     }
 
     /**
-     * Marks the account request as registered.
-     */
-    public GivenAccountRequest registered() {
-        return status(AccountRequestStatus.REGISTERED);
-    }
-
-    /**
      * Sets the comments for the account request.
      */
     public GivenAccountRequest comments(String comments) {
@@ -97,10 +90,10 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
     }
 
     /**
-     * Sets the time when the account request was registered.
+     * Sets the time when the demo course was created for the account request.
      */
-    public GivenAccountRequest registeredAt(Instant registeredAt) {
-        entity.setRegisteredAt(registeredAt);
+    public GivenAccountRequest createdDemoCourseAt(Instant createdDemoCourseAt) {
+        entity.setCreatedDemoCourseAt(createdDemoCourseAt);
         return this;
     }
 

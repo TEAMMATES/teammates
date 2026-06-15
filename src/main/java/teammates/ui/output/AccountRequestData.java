@@ -22,13 +22,13 @@ public class AccountRequestData implements ApiOutput {
     @Nullable
     private final String comments;
     @Nullable
-    private final Long registeredAt;
+    private final Long createdDemoCourseAt;
     private final long createdAt;
 
     @JsonCreator
     private AccountRequestData(UUID accountRequestId, String email, String name, String institute, String country,
                                 AccountRequestStatus status, String comments,
-                                Long registeredAt, long createdAt) {
+                                Long createdDemoCourseAt, long createdAt) {
         this.accountRequestId = accountRequestId;
         this.email = email;
         this.name = name;
@@ -36,7 +36,7 @@ public class AccountRequestData implements ApiOutput {
         this.country = country;
         this.status = status;
         this.comments = comments;
-        this.registeredAt = registeredAt;
+        this.createdDemoCourseAt = createdDemoCourseAt;
         this.createdAt = createdAt;
     }
 
@@ -50,10 +50,10 @@ public class AccountRequestData implements ApiOutput {
         this.comments = accountRequest.getComments();
         this.createdAt = accountRequest.getCreatedAt().toEpochMilli();
 
-        if (accountRequest.getRegisteredAt() == null) {
-            this.registeredAt = null;
+        if (accountRequest.getCreatedDemoCourseAt() == null) {
+            this.createdDemoCourseAt = null;
         } else {
-            this.registeredAt = accountRequest.getRegisteredAt().toEpochMilli();
+            this.createdDemoCourseAt = accountRequest.getCreatedDemoCourseAt().toEpochMilli();
         }
     }
 
@@ -85,8 +85,8 @@ public class AccountRequestData implements ApiOutput {
         return comments;
     }
 
-    public Long getRegisteredAt() {
-        return registeredAt;
+    public Long getCreatedDemoCourseAt() {
+        return createdDemoCourseAt;
     }
 
     public long getCreatedAt() {

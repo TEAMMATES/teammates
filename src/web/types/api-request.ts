@@ -276,7 +276,6 @@ export enum AccountRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-  REGISTERED = "REGISTERED",
 }
 
 export enum CommentVisibilityType {

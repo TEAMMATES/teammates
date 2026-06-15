@@ -135,7 +135,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("House Atreides", output.getInstitute());
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
-        assertNull(output.getRegisteredAt());
+        assertNull(output.getCreatedDemoCourseAt());
         AccountRequest accountRequest =
                 inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
@@ -143,7 +143,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("House Atreides", accountRequest.getInstitute().getName());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
-        assertNull(accountRequest.getRegisteredAt());
+        assertNull(accountRequest.getCreatedDemoCourseAt());
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
@@ -166,7 +166,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("House Atreides", output.getInstitute());
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertNull(output.getComments());
-        assertNull(output.getRegisteredAt());
+        assertNull(output.getCreatedDemoCourseAt());
         AccountRequest accountRequest =
                 inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
         assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
@@ -174,7 +174,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("House Atreides", accountRequest.getInstitute().getName());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertNull(accountRequest.getComments());
-        assertNull(accountRequest.getRegisteredAt());
+        assertNull(accountRequest.getCreatedDemoCourseAt());
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
@@ -203,7 +203,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("House Atreides", output.getInstitute());
         assertEquals(AccountRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
-        assertNull(output.getRegisteredAt());
+        assertNull(output.getCreatedDemoCourseAt());
         assertNotEquals(output.getAccountRequestId(), existingAccountRequest.getId());
         AccountRequest accountRequest =
                 inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
@@ -212,7 +212,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         assertEquals("House Atreides", accountRequest.getInstitute().getName());
         assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
-        assertNull(accountRequest.getRegisteredAt());
+        assertNull(accountRequest.getCreatedDemoCourseAt());
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);

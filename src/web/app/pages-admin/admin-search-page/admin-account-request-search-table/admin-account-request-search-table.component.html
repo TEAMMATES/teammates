@@ -33,8 +33,8 @@
             <th>Status</th>
             <th>Institute</th>
             <th>Country</th>
-            <th>Created At</th>
-            <th>Registered At</th>
+            <th>Submitted At</th>
+            <th>Demo Course Created At</th>
             <th>Comments</th>
             <th>Options</th>
           </tr>
@@ -64,7 +64,7 @@
               <td [innerHtml]="accountRequest.institute | highlighter: searchString : true"></td>
               <td>{{ accountRequest.country | countryName }}</td>
               <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
-              <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
+              <td id="timestamp-box">{{ accountRequest.createdDemoCourseAtText || 'Not Created Yet' }}</td>
               <td>
                 <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter: searchString : true"></div>
               </td>
@@ -84,7 +84,8 @@
                   <div
                     class="ngb-tooltip-class"
                     [ngbTooltip]="
-                      accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'
+                      accountRequest.createdDemoCourseAtText &&
+                      'Account requests of registered instructors cannot be deleted'
                     "
                     placement="top"
                   >
@@ -113,10 +114,7 @@
                     id="approve-account-request-{{ i }}"
                     class="btn btn-success"
                     [disabled]="
-                      !accountRequest.status ||
-                      accountRequest.status === 'APPROVED' ||
-                      accountRequest.status === 'REGISTERED' ||
-                      isApprovingAccountRequest[i]
+                      !accountRequest.status || accountRequest.status === 'APPROVED' || isApprovingAccountRequest[i]
                     "
                     (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"
                   >
@@ -132,7 +130,6 @@
                       class="btn btn-warning"
                       [disabled]="
                         !accountRequest.status ||
-                        accountRequest.status === 'REGISTERED' ||
                         accountRequest.status === 'APPROVED' ||
                         accountRequest.status === 'REJECTED' ||
                         isRejectingAccountRequest[i]
