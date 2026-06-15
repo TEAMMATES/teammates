@@ -24,7 +24,7 @@ export enum StatisticsType {
   NUM_COURSES,
   NUM_STUDENTS,
   NUM_INSTRUCTORS,
-  NUM_ACCOUNT_REQUESTS,
+  NUM_ACCOUNT_VERIFICATION_REQUESTS,
 }
 
 export enum AggregationType {
@@ -176,7 +176,7 @@ export class UsageStatisticsPageComponent implements OnInit {
           value = statisticsObj.numInstructors;
           this.itemName = 'instructors';
           break;
-        case StatisticsType.NUM_ACCOUNT_REQUESTS:
+        case StatisticsType.NUM_ACCOUNT_VERIFICATION_REQUESTS:
           value = statisticsObj.numAccountVerificationRequests;
           this.itemName = 'account verification requests';
           break;

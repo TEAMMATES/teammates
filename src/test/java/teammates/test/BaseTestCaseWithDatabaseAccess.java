@@ -146,7 +146,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
     private void clearDatabase() {
         HibernateUtil.createNativeMutationQuery("""
             TRUNCATE TABLE
-                account_requests,
+                account_verification_requests,
                 accounts,
                 courses,
                 deadline_extensions,
