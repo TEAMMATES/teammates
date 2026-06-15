@@ -854,7 +854,8 @@ public final class EmailGenerator {
     /**
      * Generates the email to alert the admin of the new {@code accountVerificationRequest}.
      */
-    public EmailWrapper generateNewAccountVerificationRequestAdminAlertEmail(AccountVerificationRequest accountVerificationRequest) {
+    public EmailWrapper generateNewAccountVerificationRequestAdminAlertEmail(
+            AccountVerificationRequest accountVerificationRequest) {
         String name = accountVerificationRequest.getName();
         String institute = accountVerificationRequest.getInstitute().getName();
         String emailAddress = accountVerificationRequest.getEmail();
@@ -870,7 +871,8 @@ public final class EmailGenerator {
                 "${comments}", comments,
                 "${adminAccountVerificationRequestsPageUrl}", adminAccountVerificationRequestsPageUrl,
         };
-        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT, templateKeyValuePairs);
+        String content = Templates.populateTemplate(
+                EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
         email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT);
         email.setSubjectFromType();
@@ -881,7 +883,8 @@ public final class EmailGenerator {
     /**
      * Generates the acknowledgement email to be sent to the person who submitted {@code accountVerificationRequest}.
      */
-    public EmailWrapper generateNewAccountVerificationRequestAcknowledgementEmail(AccountVerificationRequest accountVerificationRequest) {
+    public EmailWrapper generateNewAccountVerificationRequestAcknowledgementEmail(
+            AccountVerificationRequest accountVerificationRequest) {
         String name = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getName());
         String institute = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getInstitute().getName());
         String emailAddress = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getEmail());
@@ -908,7 +911,8 @@ public final class EmailGenerator {
     /**
      * Generates the email to be sent to instructor when their account verification request has been rejected by admin.
      */
-    public EmailWrapper generateAccountVerificationRequestRejectionEmail(AccountVerificationRequest accountVerificationRequest, String title, String content) {
+    public EmailWrapper generateAccountVerificationRequestRejectionEmail(
+            AccountVerificationRequest accountVerificationRequest, String title, String content) {
         EmailWrapper email = getEmptyEmailAddressedToEmail(accountVerificationRequest.getEmail());
         email.setType(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION);
         email.setBcc(Config.SUPPORT_EMAIL);

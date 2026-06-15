@@ -49,8 +49,9 @@ public class UpdateAccountVerificationRequestActionIT extends BaseActionIT<Updat
     public void testExecute() throws Exception {
         ______TS("edit fields of an account verification request");
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "email@email.com",
-                "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                "name", "email@email.com", "institute", "SG",
+                AccountVerificationRequestStatus.PENDING, "comments", accountId));
         UUID id = accountVerificationRequest.getId();
         String name = "newName";
         String email = "newemail@email.com";

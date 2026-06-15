@@ -26,14 +26,16 @@ public class AccountVerificationRequestsLogicIT extends BaseTestCaseWithDatabase
     @Test(groups = GroupNames.INTEGRATION)
     public void testGetAccountVerificationRequest_nonExistentAccountVerificationRequest_returnsNull() {
         UUID id = UUID.randomUUID();
-        AccountVerificationRequest actualAccountVerificationRequest = inTransaction(() -> accountVerificationRequestsLogic.getAccountVerificationRequest(id));
+        AccountVerificationRequest actualAccountVerificationRequest =
+                inTransaction(() -> accountVerificationRequestsLogic.getAccountVerificationRequest(id));
         assertNull(actualAccountVerificationRequest);
     }
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testGetAccountVerificationRequest_existingAccountVerificationRequest_getsSuccessfully() {
         AccountVerificationRequest expectedAccountVerificationRequest =
-                new AccountVerificationRequest("test@gmail.com", "name", AccountVerificationRequestStatus.PENDING, "comments");
+                new AccountVerificationRequest("test@gmail.com", "name",
+                        AccountVerificationRequestStatus.PENDING, "comments");
         new Institute("institute", "SG").addAccountVerificationRequest(expectedAccountVerificationRequest);
         Account account = new Account("test-google-id", Provider.TEAMMATES_DEV,
                 UUID.randomUUID().toString(), "tenant-id", "name", "test@gmail.com");
@@ -44,7 +46,8 @@ public class AccountVerificationRequestsLogicIT extends BaseTestCaseWithDatabase
             HibernateUtil.persist(account);
             return accountVerificationRequestsLogic.createAccountVerificationRequest(expectedAccountVerificationRequest);
         });
-        AccountVerificationRequest actualAccountVerificationRequest = inTransaction(() -> accountVerificationRequestsLogic.getAccountVerificationRequest(id));
+        AccountVerificationRequest actualAccountVerificationRequest =
+                inTransaction(() -> accountVerificationRequestsLogic.getAccountVerificationRequest(id));
         assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
     }
 }

@@ -185,10 +185,11 @@ public class CreateAccountVerificationRequestActionIT extends BaseActionIT<Creat
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_accountVerificationRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountVerificationRequest existingAccountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("Paul Atreides",
-                "kwisatz.haderach@atreides.org",
-                "House Atreides", "SG", AccountVerificationRequestStatus.PENDING, "My road leads into the desert. I can see it.",
-                accountId));
+        AccountVerificationRequest existingAccountVerificationRequest = inTransaction(
+                () -> logic.createAccountVerificationRequest("Paul Atreides",
+                        "kwisatz.haderach@atreides.org", "House Atreides", "SG",
+                        AccountVerificationRequestStatus.PENDING,
+                        "My road leads into the desert. I can see it.", accountId));
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
         request.setInstructorName("Paul Atreides");

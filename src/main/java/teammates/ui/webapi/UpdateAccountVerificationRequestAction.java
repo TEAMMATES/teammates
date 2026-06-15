@@ -20,10 +20,12 @@ public class UpdateAccountVerificationRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountVerificationRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
 
-        AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
+        AccountVerificationRequest accountVerificationRequest =
+                logic.getAccountVerificationRequest(accountVerificationRequestId);
 
         if (accountVerificationRequest == null) {
-            String errorMessage = String.format("Account verification request with id = %s not found", accountVerificationRequestId.toString());
+            String errorMessage = String.format(
+                    "Account verification request with id = %s not found", accountVerificationRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
@@ -32,7 +34,8 @@ public class UpdateAccountVerificationRequestAction extends AdminOnlyAction {
 
         try {
             Institute institute = logic.getOrCreateInstitute(
-                    accountVerificationRequestUpdateRequest.getInstitute(), accountVerificationRequestUpdateRequest.getCountry());
+                    accountVerificationRequestUpdateRequest.getInstitute(),
+                    accountVerificationRequestUpdateRequest.getCountry());
             accountVerificationRequest.setName(accountVerificationRequestUpdateRequest.getName());
             accountVerificationRequest.setEmail(accountVerificationRequestUpdateRequest.getEmail());
             accountVerificationRequest.setInstitute(institute);

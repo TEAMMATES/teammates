@@ -21,16 +21,19 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountVerificationRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
 
-        AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
+        AccountVerificationRequest accountVerificationRequest =
+                logic.getAccountVerificationRequest(accountVerificationRequestId);
 
         if (accountVerificationRequest == null) {
-            String errorMessage = String.format("Account verification request with id = %s not found", accountVerificationRequestId.toString());
+            String errorMessage = String.format(
+                    "Account verification request with id = %s not found", accountVerificationRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
         if (accountVerificationRequest.getStatus() != AccountVerificationRequestStatus.PENDING) {
             throw new InvalidOperationException(
-                    "Account verification request with id " + accountVerificationRequestId + " is not in pending state and cannot be rejected.");
+                    "Account verification request with id " + accountVerificationRequestId
+                            + " is not in pending state and cannot be rejected.");
         }
 
         AccountVerificationRequestRejectionRequest accountVerificationRequestRejectionRequest =
@@ -42,8 +45,10 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
             accountVerificationRequest = logic.updateAccountVerificationRequest(accountVerificationRequest);
             if (accountVerificationRequestRejectionRequest.checkHasReason()
                     && initialStatus != AccountVerificationRequestStatus.REJECTED) {
-                EmailWrapper email = emailGenerator.generateAccountVerificationRequestRejectionEmail(accountVerificationRequest,
-                        accountVerificationRequestRejectionRequest.getReasonTitle(), accountVerificationRequestRejectionRequest.getReasonBody());
+                EmailWrapper email = emailGenerator.generateAccountVerificationRequestRejectionEmail(
+                        accountVerificationRequest,
+                        accountVerificationRequestRejectionRequest.getReasonTitle(),
+                        accountVerificationRequestRejectionRequest.getReasonBody());
                 emailSender.sendEmail(email);
             }
         } catch (InvalidParametersException e) {

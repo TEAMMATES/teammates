@@ -68,7 +68,8 @@ public final class UsageStatisticsLogic {
         List<Instant> instructorTimes =
                 usersLogic.getInstructorCreatedAtTimestampsForTimeRange(startTime, endTime);
         List<Instant> accountVerificationRequestTimes =
-                accountVerificationRequestsLogic.getAccountVerificationRequestCreatedAtTimestampsForTimeRange(startTime, endTime);
+                accountVerificationRequestsLogic
+                        .getAccountVerificationRequestCreatedAtTimestampsForTimeRange(startTime, endTime);
 
         List<UsageStatisticsData> stats = new ArrayList<>();
         Instant bucketStart = startTime;

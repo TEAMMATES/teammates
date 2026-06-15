@@ -60,10 +60,12 @@ public class SearchAccountVerificationRequestsActionIT extends BaseActionIT<Sear
                 .filter(i -> i.getName().equals(accountVerificationRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getAccountVerificationRequests().get(0).getAccountVerificationRequestId());
+        assertNotNull(response.getAccountVerificationRequests().get(0)
+                .getAccountVerificationRequestId());
 
         ______TS("Search via Institute");
-        submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountVerificationRequest.getInstitute().getName() };
+        submissionParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, accountVerificationRequest.getInstitute().getName() };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountVerificationRequestsData) result.getOutput();
@@ -71,7 +73,8 @@ public class SearchAccountVerificationRequestsActionIT extends BaseActionIT<Sear
                 .filter(i -> i.getName().equals(accountVerificationRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getAccountVerificationRequests().get(0).getAccountVerificationRequestId());
+        assertNotNull(response.getAccountVerificationRequests().get(0)
+                .getAccountVerificationRequestId());
 
         ______TS("Search via Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountVerificationRequest.getName() };
@@ -82,14 +85,16 @@ public class SearchAccountVerificationRequestsActionIT extends BaseActionIT<Sear
                 .filter(i -> i.getName().equals(accountVerificationRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getAccountVerificationRequests().get(0).getAccountVerificationRequestId());
+        assertNotNull(response.getAccountVerificationRequests().get(0)
+                .getAccountVerificationRequestId());
 
         ______TS("Search Duplicate Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "Instructor" };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountVerificationRequestsData) result.getOutput();
-        assertNotNull(response.getAccountVerificationRequests().get(0).getAccountVerificationRequestId());
+        assertNotNull(response.getAccountVerificationRequests().get(0)
+                .getAccountVerificationRequestId());
         assertEquals(11, response.getAccountVerificationRequests().size());
 
         ______TS("Search result with 0 matches");

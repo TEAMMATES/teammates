@@ -46,7 +46,8 @@ public class CreateAccountVerificationRequestAction extends LoggedInAction {
 
         assert accountVerificationRequest != null;
 
-        EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
+        EmailWrapper adminAlertEmail = emailGenerator
+                .generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
         EmailWrapper userAcknowledgementEmail = emailGenerator
                 .generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
         emailSender.sendEmail(adminAlertEmail);

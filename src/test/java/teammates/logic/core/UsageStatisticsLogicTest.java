@@ -42,7 +42,8 @@ public class UsageStatisticsLogicTest extends BaseLogicTestcase {
         int totalStudents = result.stream().mapToInt(UsageStatisticsData::getNumStudents).sum();
         int totalResponses = result.stream().mapToInt(UsageStatisticsData::getNumResponses).sum();
         int totalInstructors = result.stream().mapToInt(UsageStatisticsData::getNumInstructors).sum();
-        int totalAccountVerificationRequests = result.stream().mapToInt(UsageStatisticsData::getNumAccountVerificationRequests).sum();
+        int totalAccountVerificationRequests =
+                result.stream().mapToInt(UsageStatisticsData::getNumAccountVerificationRequests).sum();
         assertEquals(dataBundle.courses.size(), totalCourses);
         assertEquals(dataBundle.students.size(), totalStudents);
         assertEquals(dataBundle.feedbackResponses.size(), totalResponses);

@@ -46,7 +46,8 @@ public final class AccountVerificationRequestsLogic {
     /**
      * Creates an account verification request.
      */
-    public AccountVerificationRequest createAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
+    public AccountVerificationRequest createAccountVerificationRequest(
+            AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
         validateAccountVerificationRequest(accountVerificationRequest);
         return accountVerificationRequestDb.persistAccountVerificationRequest(accountVerificationRequest);
     }
@@ -55,7 +56,8 @@ public final class AccountVerificationRequestsLogic {
      * Creates an account verification request, resolving (or creating) the shared institute for the given
      * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
      */
-    public AccountVerificationRequest createAccountVerificationRequest(String name, String email, String instituteName, String country,
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String instituteName, String country,
             AccountVerificationRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
         Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
         Account account = accountsLogic.getAccount(accountId);
@@ -112,7 +114,8 @@ public final class AccountVerificationRequestsLogic {
         return accountVerificationRequestDb.searchAccountVerificationRequestsInWholeSystem(queryString);
     }
 
-    private void validateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
+    private void validateAccountVerificationRequest(
+            AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
         if (!accountVerificationRequest.isValid()) {
             throw new InvalidParametersException(accountVerificationRequest.getInvalidityInfo());
         }

@@ -20,7 +20,8 @@ public class DeleteAccountVerificationRequestAction extends AdminOnlyAction {
         if (toDelete != null && toDelete.getCreatedDemoCourseAt() != null) {
             // TODO: remove this check
             // instructor is already registered and cannot be deleted
-            throw new InvalidOperationException("Account verification request of a registered instructor cannot be deleted.");
+            throw new InvalidOperationException(
+                    "Account verification request of a registered instructor cannot be deleted.");
         }
 
         logic.deleteAccountVerificationRequest(id);

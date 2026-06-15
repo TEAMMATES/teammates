@@ -50,9 +50,11 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_pendingRequest_approvesSuccessfully() {
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "pending@email.com",
-                "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.getId().toString()};
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                "name", "pending@email.com", "institute", "SG",
+                AccountVerificationRequestStatus.PENDING, "comments", accountId));
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID,
+                accountVerificationRequest.getId().toString()};
 
         ApproveAccountVerificationRequestAction action = getAction(params);
         JsonResult result = getJsonResult(action);
@@ -70,9 +72,11 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_rejectedRequest_approvesSuccessfully() {
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "rejected@email.com",
-                "institute", "SG", AccountVerificationRequestStatus.REJECTED, "comments", accountId));
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.getId().toString()};
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                "name", "rejected@email.com", "institute", "SG",
+                AccountVerificationRequestStatus.REJECTED, "comments", accountId));
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID,
+                accountVerificationRequest.getId().toString()};
 
         ApproveAccountVerificationRequestAction action = getAction(params);
         JsonResult result = getJsonResult(action);
@@ -92,9 +96,11 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
                 existingAccount.getEmail(), existingAccount.getGoogleId()));
 
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", existingAccount.getEmail(),
-                "anotherInstitute", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.getId().toString()};
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                "name", existingAccount.getEmail(), "anotherInstitute", "SG",
+                AccountVerificationRequestStatus.PENDING, "comments", accountId));
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID,
+                accountVerificationRequest.getId().toString()};
 
         ApproveAccountVerificationRequestAction action = getAction(params);
         JsonResult result = getJsonResult(action);
@@ -110,9 +116,11 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
         inTransaction(() -> logic.createAccountVerificationRequest("name", "same@email.com",
                 "instituteA", "SG", AccountVerificationRequestStatus.APPROVED, "comments", accountId));
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "same@email.com",
-                "instituteB", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.getId().toString()};
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                "name", "same@email.com", "instituteB", "SG",
+                AccountVerificationRequestStatus.PENDING, "comments", accountId));
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID,
+                accountVerificationRequest.getId().toString()};
 
         ApproveAccountVerificationRequestAction action = getAction(params);
         JsonResult result = getJsonResult(action);
@@ -143,9 +151,11 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
     @Test(groups = GroupNames.INTEGRATION)
     void testExecute_invalidStatus_throwsInvalidOperationException() {
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "registered@email.com",
-                "institute", "SG", AccountVerificationRequestStatus.APPROVED, "comments", accountId));
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.getId().toString()};
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                "name", "registered@email.com", "institute", "SG",
+                AccountVerificationRequestStatus.APPROVED, "comments", accountId));
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID,
+                accountVerificationRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals("Account verification request with id " + accountVerificationRequest.getId()

@@ -70,15 +70,18 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
 
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withReasonTitleAndBody_shouldRejectWithEmail() {
-        AccountVerificationRequest bundleAccountVerificationRequest = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest bundleAccountVerificationRequest =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         UUID accountId = typicalBundle.accounts.get("unregisteredInstructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(bundleAccountVerificationRequest.getName(),
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                bundleAccountVerificationRequest.getName(),
                 bundleAccountVerificationRequest.getEmail(), bundleAccountVerificationRequest.getInstitute().getName(),
                 bundleAccountVerificationRequest.getInstitute().getCountry(),
                 AccountVerificationRequestStatus.PENDING, bundleAccountVerificationRequest.getComments(), accountId));
         UUID id = accountVerificationRequest.getId();
 
-        AccountVerificationRequestRejectionRequest requestBody = new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
+        AccountVerificationRequestRejectionRequest requestBody =
+                new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         RejectAccountVerificationRequestAction action = getAction(requestBody, params);
@@ -104,9 +107,11 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
 
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withoutReasonTitleAndBody_shouldRejectWithoutEmail() {
-        AccountVerificationRequest bundleAccountVerificationRequest = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest bundleAccountVerificationRequest =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         UUID accountId = typicalBundle.accounts.get("unregisteredInstructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(bundleAccountVerificationRequest.getName(),
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                bundleAccountVerificationRequest.getName(),
                 bundleAccountVerificationRequest.getEmail(), bundleAccountVerificationRequest.getInstitute().getName(),
                 bundleAccountVerificationRequest.getInstitute().getCountry(),
                 AccountVerificationRequestStatus.PENDING, bundleAccountVerificationRequest.getComments(), accountId));
@@ -132,15 +137,18 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
 
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withReasonBodyButNoTitle_shouldThrow() {
-        AccountVerificationRequest bundleAccountVerificationRequest = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest bundleAccountVerificationRequest =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         UUID accountId = typicalBundle.accounts.get("unregisteredInstructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(bundleAccountVerificationRequest.getName(),
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                bundleAccountVerificationRequest.getName(),
                 bundleAccountVerificationRequest.getEmail(), bundleAccountVerificationRequest.getInstitute().getName(),
                 bundleAccountVerificationRequest.getInstitute().getCountry(),
                 AccountVerificationRequestStatus.PENDING, bundleAccountVerificationRequest.getComments(), accountId));
         UUID id = accountVerificationRequest.getId();
 
-        AccountVerificationRequestRejectionRequest requestBody = new AccountVerificationRequestRejectionRequest(null, TYPICAL_BODY);
+        AccountVerificationRequestRejectionRequest requestBody =
+                new AccountVerificationRequestRejectionRequest(null, TYPICAL_BODY);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -151,15 +159,18 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
 
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_withReasonTitleButNoBody_shouldThrow() {
-        AccountVerificationRequest bundleAccountVerificationRequest = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest bundleAccountVerificationRequest =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         UUID accountId = typicalBundle.accounts.get("unregisteredInstructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(bundleAccountVerificationRequest.getName(),
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                bundleAccountVerificationRequest.getName(),
                 bundleAccountVerificationRequest.getEmail(), bundleAccountVerificationRequest.getInstitute().getName(),
                 bundleAccountVerificationRequest.getInstitute().getCountry(),
                 AccountVerificationRequestStatus.PENDING, bundleAccountVerificationRequest.getComments(), accountId));
         UUID id = accountVerificationRequest.getId();
 
-        AccountVerificationRequestRejectionRequest requestBody = new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, null);
+        AccountVerificationRequestRejectionRequest requestBody =
+                new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, null);
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
@@ -170,9 +181,11 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
 
     @Test(groups = GroupNames.INTEGRATION)
     protected void testExecute_alreadyRejected_shouldThrow() {
-        AccountVerificationRequest bundleAccountVerificationRequest = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest bundleAccountVerificationRequest =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         UUID accountId = typicalBundle.accounts.get("unregisteredInstructor1").getId();
-        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(bundleAccountVerificationRequest.getName(),
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest(
+                bundleAccountVerificationRequest.getName(),
                 bundleAccountVerificationRequest.getEmail(), bundleAccountVerificationRequest.getInstitute().getName(),
                 bundleAccountVerificationRequest.getInstitute().getCountry(),
                 AccountVerificationRequestStatus.REJECTED, bundleAccountVerificationRequest.getComments(), accountId));
@@ -180,7 +193,8 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        assertEquals("Account verification request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
+        assertEquals("Account verification request with id " + id
+                + " is not in pending state and cannot be rejected.", ioe.getMessage());
 
         verifyNoEmailsSent();
     }

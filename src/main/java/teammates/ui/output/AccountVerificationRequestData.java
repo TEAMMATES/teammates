@@ -26,7 +26,8 @@ public class AccountVerificationRequestData implements ApiOutput {
     private final long createdAt;
 
     @JsonCreator
-    private AccountVerificationRequestData(UUID accountVerificationRequestId, String email, String name, String institute, String country,
+    private AccountVerificationRequestData(UUID accountVerificationRequestId, String email, String name,
+                                String institute, String country,
                                 AccountVerificationRequestStatus status, String comments,
                                 Long createdDemoCourseAt, long createdAt) {
         this.accountVerificationRequestId = accountVerificationRequestId;

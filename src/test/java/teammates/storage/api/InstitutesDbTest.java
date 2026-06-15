@@ -53,7 +53,8 @@ public class InstitutesDbTest extends BaseDbTestcase {
     public void removeInstitute_instituteHasCoursesAndAccountVerificationRequests_cascadeDeletes() {
         InstituteRef institute = given.institute("institute");
         CourseRef course = given.course("course", c -> c.institute(institute.alias()));
-        AccountVerificationRequestRef accountVerificationRequest = given.accountVerificationRequest("account-request", a -> a.institute(institute.alias()));
+        AccountVerificationRequestRef accountVerificationRequest = given.accountVerificationRequest(
+                "account-request", a -> a.institute(institute.alias()));
         // An unrelated institute and course that must survive the deletion.
         InstituteRef otherInstitute = given.institute("other-institute");
         CourseRef otherCourse = given.course("other-course", c -> c.institute(otherInstitute.alias()));

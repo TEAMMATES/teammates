@@ -12,13 +12,15 @@ import teammates.ui.output.AccountVerificationRequestData;
 /**
  * Tests for {@link GetAccountVerificationRequestAction}.
  */
-public class GetAccountVerificationRequestActionTest extends BaseActionTest<GetAccountVerificationRequestAction, AccountVerificationRequestData> {
+public class GetAccountVerificationRequestActionTest
+        extends BaseActionTest<GetAccountVerificationRequestAction, AccountVerificationRequestData> {
 
     @Test(groups = GroupNames.ACTION)
     public void getAccountVerificationRequestAction_owner_returnsAccountVerificationRequestData() {
         var account = given.account("account");
         var institute = given.institute("institute", i -> i.name("Test Institute").country("SG"));
-        var accountVerificationRequest = given.accountVerificationRequest("account-request", ar -> ar.account(account.alias())
+        var accountVerificationRequest = given.accountVerificationRequest("account-request",
+                ar -> ar.account(account.alias())
                 .institute(institute.alias())
                 .name("Request Owner")
                 .email("owner@test.tmt"));
@@ -40,7 +42,8 @@ public class GetAccountVerificationRequestActionTest extends BaseActionTest<GetA
     public void getAccountVerificationRequestAction_adminBypass_returnsAccountVerificationRequestData() {
         var adminAccount = given.account("admin-account", a -> a.admin());
         var ownerAccount = given.account("owner-account");
-        var accountVerificationRequest = given.accountVerificationRequest("account-request", ar -> ar.account(ownerAccount.alias()));
+        var accountVerificationRequest = given.accountVerificationRequest("account-request",
+                ar -> ar.account(ownerAccount.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -56,7 +59,8 @@ public class GetAccountVerificationRequestActionTest extends BaseActionTest<GetA
     public void getAccountVerificationRequestAction_differentLoggedInUser_throwsUnauthorizedAccessException() {
         var ownerAccount = given.account("owner-account");
         var otherAccount = given.account("other-account");
-        var accountVerificationRequest = given.accountVerificationRequest("account-request", ar -> ar.account(ownerAccount.alias()));
+        var accountVerificationRequest = given.accountVerificationRequest("account-request",
+                ar -> ar.account(ownerAccount.alias()));
         persistGivenData(given);
 
         RequestContext request = new RequestContext()

@@ -48,7 +48,8 @@ public final class AccountVerificationRequestsDb {
     /**
      * Persists an AccountVerificationRequest in the database.
      */
-    public AccountVerificationRequest persistAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
+    public AccountVerificationRequest persistAccountVerificationRequest(
+            AccountVerificationRequest accountVerificationRequest) {
         HibernateUtil.persist(accountVerificationRequest);
         return accountVerificationRequest;
     }

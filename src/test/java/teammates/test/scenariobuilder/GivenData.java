@@ -140,8 +140,10 @@ public final class GivenData {
     /**
      * Creates an account verification request and applies the provided options to customize it.
      */
-    public AccountVerificationRequestRef accountVerificationRequest(String alias, Consumer<GivenAccountVerificationRequest> options) {
-        GivenAccountVerificationRequest accountVerificationRequestData = new GivenAccountVerificationRequest(this, uuid(alias));
+    public AccountVerificationRequestRef accountVerificationRequest(
+            String alias, Consumer<GivenAccountVerificationRequest> options) {
+        GivenAccountVerificationRequest accountVerificationRequestData =
+                new GivenAccountVerificationRequest(this, uuid(alias));
         options.accept(accountVerificationRequestData);
         AccountVerificationRequest accountVerificationRequest = accountVerificationRequestData.build();
         registerEntity(alias, accountVerificationRequest, dataBundle.accountVerificationRequests);

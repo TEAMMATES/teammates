@@ -28,7 +28,8 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
         var accountVerificationRequest = given.accountVerificationRequest("account-request");
         persistGivenData(given);
 
-        AccountVerificationRequest actual = inTransaction(() -> accountVerificationRequestsDb.getAccountVerificationRequest(accountVerificationRequest.id()));
+        AccountVerificationRequest actual = inTransaction(
+                () -> accountVerificationRequestsDb.getAccountVerificationRequest(accountVerificationRequest.id()));
 
         assertNotNull(actual);
         assertEquals(accountVerificationRequest.id(), actual.getId());
@@ -40,7 +41,8 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
         persistGivenData(given);
 
         AccountVerificationRequest actual = inTransaction(
-                () -> accountVerificationRequestsDb.getAccountVerificationRequest(given.uuid("non-existent-account-request")));
+                () -> accountVerificationRequestsDb.getAccountVerificationRequest(
+                        given.uuid("non-existent-account-request")));
 
         assertNull(actual);
     }
@@ -51,7 +53,8 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
         var account = given.account("account");
         persistGivenData(given);
         var accountVerificationRequestId = given.uuid("account-request");
-        AccountVerificationRequest accountVerificationRequest = buildDefaultAccountVerificationRequest(accountVerificationRequestId);
+        AccountVerificationRequest accountVerificationRequest =
+                buildDefaultAccountVerificationRequest(accountVerificationRequestId);
 
         AccountVerificationRequest actual = inTransaction(() -> {
             getEntity(Institute.class, institute.id()).addAccountVerificationRequest(accountVerificationRequest);
@@ -64,7 +67,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getPendingAccountVerificationRequests_accountVerificationRequestsExist_returnsOnlyPendingRequestsInCreatedAtOrder() {
+    public void getPendingAccountVerificationRequests_accountVerificationRequestsExist_returnsOnlyPending() {
         Instant now = Instant.now();
         var olderPendingRequest = given.accountVerificationRequest("older-pending-request",
                 ar -> ar.pending().createdAt(now.minus(2, ChronoUnit.HOURS)));
@@ -73,7 +76,8 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
         given.accountVerificationRequest("approved-request", ar -> ar.approved());
         persistGivenData(given);
 
-        List<AccountVerificationRequest> actual = inTransaction(accountVerificationRequestsDb::getPendingAccountVerificationRequests);
+        List<AccountVerificationRequest> actual =
+                inTransaction(accountVerificationRequestsDb::getPendingAccountVerificationRequests);
 
         assertEquals(List.of(newerPendingRequest.id(), olderPendingRequest.id()),
                 actual.stream().map(AccountVerificationRequest::getId).toList());

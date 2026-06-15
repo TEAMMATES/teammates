@@ -16,7 +16,8 @@ import teammates.ui.output.AccountVerificationRequestsData;
 public class GetAccountVerificationRequestsAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
-        String accountVerificationRequestStatus = getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_STATUS);
+        String accountVerificationRequestStatus =
+                getNonNullRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_STATUS);
         String pending = AccountVerificationRequestStatus.PENDING.name(); // 'PENDING'
         if (!pending.equalsIgnoreCase(accountVerificationRequestStatus)) {
             throw new InvalidHttpParameterException("Only 'pending' is allowed for account verification request status.");

@@ -61,7 +61,8 @@ public class CreateDemoCourseAction extends LoggedInAction {
         }
 
         if (accountVerificationRequest.getCreatedDemoCourseAt() != null) {
-            throw new InvalidOperationException("Account verification request with id " + id + " has already created a demo course.");
+            throw new InvalidOperationException(
+                    "Account verification request with id " + id + " has already created a demo course.");
         }
 
         String instructorEmail = accountVerificationRequest.getEmail();

@@ -39,85 +39,109 @@ public class AccountVerificationRequestSearchIT extends BaseTestCaseWithDatabase
         AccountVerificationRequest ins1InCourse3 = typicalBundle.accountVerificationRequests.get("instructor1OfCourse3");
         AccountVerificationRequest ins2InCourse3 = typicalBundle.accountVerificationRequests.get("instructor2OfCourse3");
         AccountVerificationRequest insInUnregCourse = typicalBundle.accountVerificationRequests.get("instructor3");
-        AccountVerificationRequest unregisteredInstructor1 = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
-        AccountVerificationRequest unregisteredInstructor2 = typicalBundle.accountVerificationRequests.get("unregisteredInstructor2");
+        AccountVerificationRequest unregisteredInstructor1 =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest unregisteredInstructor2 =
+                typicalBundle.accountVerificationRequests.get("unregisteredInstructor2");
 
         ______TS("success: search for account verification requests; query string does not match anyone");
 
         List<AccountVerificationRequest> results =
-                inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("non-existent"));
+                inTransaction(() -> accountVerificationRequestsDb
+                        .searchAccountVerificationRequestsInWholeSystem("non-existent"));
         verifySearchResults(results);
 
         ______TS("success: search for account verification requests; empty query string does not match anyone");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem(""));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem(""));
         verifySearchResults(results);
 
         ______TS("success: search for account verification requests; query string should be case-insensitive");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("InStRuCtOr 2"));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("InStRuCtOr 2"));
         verifySearchResults(results, ins2General, ins2InCourse1, ins2InCourse2, ins2InCourse3, unregisteredInstructor2);
 
-        ______TS("success: search for account verification requests; account verification requests should be searchable by their name");
+        ______TS("success: search for account verification requests; "
+                + "account verification requests should be searchable by their name");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem(
-                "Instructor 3 of CourseNoRegister"));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("Instructor 3 of CourseNoRegister"));
         verifySearchResults(results, insInUnregCourse);
 
-        ______TS("success: search for account verification requests; account verification requests should be searchable by their email");
+        ______TS("success: search for account verification requests; "
+                + "account verification requests should be searchable by their email");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("instr2@course2.tmt"));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("instr2@course2.tmt"));
         verifySearchResults(results, ins2InCourse2);
 
-        ______TS("success: search for account verification requests; account verification requests should be searchable by their institute");
+        ______TS("success: search for account verification requests; "
+                + "account verification requests should be searchable by their institute");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem(
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem(
                 "TEAMMATES Test Institute 2"));
         verifySearchResults(results, unregisteredInstructor2);
 
-        ______TS("success: search for account verification requests; account verification requests should be searchable by their comments");
+        ______TS("success: search for account verification requests; "
+                + "account verification requests should be searchable by their comments");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem(
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem(
                 "Comments for account verification request from instructor2"));
         verifySearchResults(results, ins2General);
 
-        ______TS("success: search for account verification requests; unregistered account verification requests should be searchable");
+        ______TS("success: search for account verification requests; "
+                + "unregistered account verification requests should be searchable");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem(
-                "unregisteredinstructor1@gmail.tmt"));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("unregisteredinstructor1@gmail.tmt"));
         verifySearchResults(results, unregisteredInstructor1);
 
-        ______TS("success: search for account verification requests; deleted account verification requests no longer searchable");
+        ______TS("success: search for account verification requests; "
+                + "deleted account verification requests no longer searchable");
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse1, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountVerificationRequestsDb.removeAccountVerificationRequest(ins1InCourse1));
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
+        inTransaction(() -> accountVerificationRequestsDb
+                .removeAccountVerificationRequest(ins1InCourse1));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse2, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountVerificationRequestsDb.removeAccountVerificationRequest(ins1InCourse2));
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
+        inTransaction(() -> accountVerificationRequestsDb
+                .removeAccountVerificationRequest(ins1InCourse2));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, ins1InCourse3, unregisteredInstructor1);
 
-        inTransaction(() -> accountVerificationRequestsDb.removeAccountVerificationRequest(ins1InCourse3));
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
+        inTransaction(() -> accountVerificationRequestsDb
+                .removeAccountVerificationRequest(ins1InCourse3));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("Instructor 1"));
         verifySearchResults(results, ins1General, unregisteredInstructor1);
     }
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testSearchAccountVerificationRequestsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
-        List<AccountVerificationRequest> results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("_"));
+        List<AccountVerificationRequest> results =
+                inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("_"));
         verifySearchResults(results);
 
-        results = inTransaction(() -> accountVerificationRequestsDb.searchAccountVerificationRequestsInWholeSystem("%"));
+        results = inTransaction(() -> accountVerificationRequestsDb
+                .searchAccountVerificationRequestsInWholeSystem("%"));
         verifySearchResults(results);
     }
 
     /**
      * Verifies that search results match expected output.
      */
-    private static void verifySearchResults(List<AccountVerificationRequest> actual, AccountVerificationRequest... expected) {
+    private static void verifySearchResults(
+            List<AccountVerificationRequest> actual, AccountVerificationRequest... expected) {
         assertEquals(expected.length, actual.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }

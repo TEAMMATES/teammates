@@ -54,7 +54,7 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "show-instructor-links")
     private WebElement expandInstructorLinksButton;
 
-    @FindBy(id = "show-account-request-links")
+    @FindBy(id = "show-account-verification-request-links")
     private WebElement expandAccountVerificationRequestLinksButton;
 
     @FindBy(id = "hide-student-links")
@@ -63,7 +63,7 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "hide-instructor-links")
     private WebElement collapseInstructorLinksButton;
 
-    @FindBy(id = "hide-account-request-links")
+    @FindBy(id = "hide-account-verification-request-links")
     private WebElement collapseAccountVerificationRequestLinksButton;
 
     public AdminSearchPage(Browser browser) {
@@ -205,7 +205,7 @@ public class AdminSearchPage extends AppPage {
         String email = accountVerificationRequest.getEmail();
         String institute = accountVerificationRequest.getInstitute().getName();
         List<WebElement> rows = browser.driver.findElements(
-                By.cssSelector("tm-admin-account-request-search-table tbody tr"));
+                By.cssSelector("tm-admin-account-verification-request-search-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (columns.size() >= ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE
@@ -245,7 +245,8 @@ public class AdminSearchPage extends AppPage {
 
     public void clickDeleteAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
         WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
-        WebElement deleteButton = accountVerificationRequestRow.findElement(By.cssSelector("[id^='delete-account-request-']"));
+        WebElement deleteButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='delete-account-verification-request-']"));
         scrollElementToCenter(deleteButton);
         waitForElementToBeClickable(deleteButton);
         deleteButton.click();
@@ -255,8 +256,9 @@ public class AdminSearchPage extends AppPage {
 
     public void clickApproveAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
         WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
-        waitForElementPresence(By.cssSelector("[id^='approve-account-request-']"));
-        WebElement approveButton = accountVerificationRequestRow.findElement(By.cssSelector("[id^='approve-account-request-']"));
+        waitForElementPresence(By.cssSelector("[id^='approve-account-verification-request-']"));
+        WebElement approveButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='approve-account-verification-request-']"));
         waitForElementToBeClickable(approveButton);
         approveButton.click();
         waitForPageToLoad();
@@ -264,7 +266,8 @@ public class AdminSearchPage extends AppPage {
 
     public void clickRejectAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
         WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
-        WebElement rejectButton = accountVerificationRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+        WebElement rejectButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='reject-account-verification-request-']"));
         scrollElementToCenter(rejectButton);
         waitForElementToBeClickable(rejectButton);
         rejectButton.click();
@@ -275,9 +278,12 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
     }
 
-    public void clickRejectAccountVerificationRequestWithReasonButton(AccountVerificationRequest accountVerificationRequest) {
-        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
-        WebElement rejectButton = accountVerificationRequestRow.findElement(By.cssSelector("[id^='reject-account-request-']"));
+    public void clickRejectAccountVerificationRequestWithReasonButton(
+                AccountVerificationRequest accountVerificationRequest) {
+        WebElement accountVerificationRequestRow =
+                getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement rejectButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='reject-account-verification-request-']"));
         scrollElementToCenter(rejectButton);
         waitForElementToBeClickable(rejectButton);
         rejectButton.click();
@@ -318,8 +324,10 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void clickEditAccountVerificationRequestButton(AccountVerificationRequest accountVerificationRequest) {
-        WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
-        WebElement editButton = accountVerificationRequestRow.findElement(By.cssSelector("[id^='edit-account-request-']"));
+        WebElement accountVerificationRequestRow =
+                getAccountVerificationRequestRow(accountVerificationRequest);
+        WebElement editButton =
+                accountVerificationRequestRow.findElement(By.cssSelector("[id^='edit-account-verification-request-']"));
         scrollElementToCenter(editButton);
         waitForElementToBeClickable(editButton);
         editButton.click();
@@ -354,9 +362,11 @@ public class AdminSearchPage extends AppPage {
         saveButton.click();
     }
 
-    public void clickViewAccountVerificationRequestAndVerifyCommentsButton(AccountVerificationRequest accountVerificationRequest, String comments) {
+    public void clickViewAccountVerificationRequestAndVerifyCommentsButton(
+            AccountVerificationRequest accountVerificationRequest, String comments) {
         WebElement accountVerificationRequestRow = getAccountVerificationRequestRow(accountVerificationRequest);
-        WebElement viewCommentsButton = accountVerificationRequestRow.findElement(By.cssSelector("[id^='view-account-request-']"));
+        WebElement viewCommentsButton = accountVerificationRequestRow.findElement(
+                By.cssSelector("[id^='view-account-verification-request-']"));
         scrollElementToCenter(viewCommentsButton);
         waitForElementToBeClickable(viewCommentsButton);
         viewCommentsButton.click();

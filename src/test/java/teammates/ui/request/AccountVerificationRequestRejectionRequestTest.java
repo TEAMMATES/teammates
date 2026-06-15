@@ -30,25 +30,29 @@ public class AccountVerificationRequestRejectionRequestTest extends BaseTestCase
 
     @Test
     public void testValidate_withNonNullBodyAndNonNullTitle_shouldPass() throws Exception {
-        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
+        AccountVerificationRequestRejectionRequest request =
+                new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         request.validate();
     }
 
     @Test
     public void testValidate_withNullBodyAndNullTitle_shouldPass() throws Exception {
-        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(null, null);
+        AccountVerificationRequestRejectionRequest request =
+                new AccountVerificationRequestRejectionRequest(null, null);
         request.validate();
     }
 
     @Test
     public void testValidate_withNonNullBodyAndNullTitle_shouldFail() {
-        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(null, TYPICAL_BODY);
+        AccountVerificationRequestRejectionRequest request =
+                new AccountVerificationRequestRejectionRequest(null, TYPICAL_BODY);
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 
     @Test
     public void testValidate_withNullBodyAndNonNullTitle_shouldFail() {
-        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, null);
+        AccountVerificationRequestRejectionRequest request =
+                new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, null);
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 }

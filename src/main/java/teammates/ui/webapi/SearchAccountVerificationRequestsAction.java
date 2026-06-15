@@ -17,7 +17,8 @@ public class SearchAccountVerificationRequestsAction extends AdminOnlyAction {
     public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
 
-        List<AccountVerificationRequest> accountVerificationRequests = logic.searchAccountVerificationRequestsInWholeSystem(searchKey);
+        List<AccountVerificationRequest> accountVerificationRequests =
+                logic.searchAccountVerificationRequestsInWholeSystem(searchKey);
 
         List<AccountVerificationRequestData> accountVerificationRequestDataList = accountVerificationRequests.stream()
                 .map(AccountVerificationRequestData::new)

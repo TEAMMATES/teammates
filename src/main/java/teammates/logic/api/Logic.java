@@ -213,10 +213,13 @@ public class Logic {
      *                                      invalid.
      * @throws EntityAlreadyExistsException if the account verification request already exists.
      */
-    public AccountVerificationRequest createAccountVerificationRequest(String name, String email, String institute, String country,
-            AccountVerificationRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String institute, String country,
+            AccountVerificationRequestStatus status, String comments, UUID accountId)
+            throws InvalidParametersException {
 
-        return accountVerificationRequestLogic.createAccountVerificationRequest(name, email, institute, country, status, comments, accountId);
+        return accountVerificationRequestLogic.createAccountVerificationRequest(
+                name, email, institute, country, status, comments, accountId);
     }
 
     /**
