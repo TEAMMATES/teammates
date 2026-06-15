@@ -287,6 +287,17 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies the logged-in user has privilege to modify the specified instructor.
+     */
+    void verifyCanModifyInstructor(RequestContext requestContext, UUID instructorId)
+            throws UnauthorizedAccessException {
+        Instructor instructor = logic.getInstructor(instructorId);
+        verifyNotNull(instructor, "instructor");
+        verifyInstructorHasPrivilege(requestContext, instructor.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+    }
+
+    /**
      * Verifies the instructor for the specified course has the privileges specified by privilegeNames.
      */
     void verifyInstructorHasPrivilege(RequestContext requestContext, String courseId, String... privilegeNames)

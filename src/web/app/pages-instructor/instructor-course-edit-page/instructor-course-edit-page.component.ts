@@ -419,7 +419,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel.isSavingInstructorEdit = true;
     const reqBody: InstructorUpdateRequest = {
-      id: panelDetail.originalInstructor.userId,
       name: panelDetail.editPanel.name,
       email:
         panelDetail.originalInstructor.joinState === JoinState.JOINED
@@ -435,10 +434,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     this.instructorService
-      .updateInstructor({
-        courseId: panelDetail.originalInstructor.courseId,
-        requestBody: reqBody,
-      })
+      .updateInstructor({ instructorId: panelDetail.originalInstructor.userId }, reqBody)
       .pipe(
         finalize(() => {
           panelDetail.editPanel.isSavingInstructorEdit = false;
@@ -557,7 +553,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     };
 
     this.instructorService
-      .createInstructor({ courseId: this.courseId, requestBody: reqBody })
+      .createInstructor({ courseId: this.courseId }, reqBody)
       .pipe(
         finalize(() => {
           this.isSavingNewInstructor = false;
@@ -762,16 +758,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
     of(...instructors)
       .pipe(
         concatMap((instructor: Instructor) => {
-          return this.instructorService.createInstructor({
-            courseId: this.courseId,
-            requestBody: {
+          return this.instructorService.createInstructor(
+            { courseId: this.courseId },
+            {
               name: instructor.name,
               email: instructor.email,
               role: instructor.role!,
               displayName: instructor.displayedToStudentsAs,
               isDisplayedToStudent: instructor.isDisplayedToStudents!,
             },
-          });
+          );
         }),
         // always close the modal after it enters the last step no matter adding succeeds or fails
         finalize(() => {

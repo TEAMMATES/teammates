@@ -925,9 +925,9 @@ public class Logic {
      * @throws EntityDoesNotExistException if the instructor does not exist in the
      *                                     database
      */
-    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest)
+    public Instructor updateInstructorCascade(UUID id, InstructorUpdateRequest instructorRequest)
             throws InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        return usersLogic.updateInstructorCascade(instructorRequest);
+        return usersLogic.updateInstructorCascade(id, instructorRequest);
     }
 
     /**
@@ -1163,18 +1163,6 @@ public class Logic {
      */
     public SessionLinksBundle getSessionLinks(UUID userId) throws EntityDoesNotExistException {
         return feedbackSessionsLogic.getSessionLinks(userId);
-    }
-
-    /**
-     * Updates the instructor being edited to ensure validity of instructors for the
-     * course.
-     * * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see UsersLogic#updateToEnsureValidityOfInstructorsForTheCourse(Instructor)
-     */
-    public void updateToEnsureValidityOfInstructorsForTheCourse(Instructor instructorToEdit) {
-        usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(instructorToEdit);
     }
 
     /**
