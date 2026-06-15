@@ -12,7 +12,8 @@ import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
 
 /**
- * Handles operations related to account verifications.
+ * Handles operations related to account verifications, including account
+ * verification requests and determining if an account is verified for a particular institute.
  *
  * @see AccountVerificationRequest
  * @see AccountVerificationRequestsDb
