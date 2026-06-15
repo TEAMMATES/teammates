@@ -27,6 +27,7 @@ import com.google.api.client.util.store.MemoryDataStoreFactory;
 import teammates.common.datatransfer.Provider;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
+import teammates.common.util.HttpResponseHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -133,11 +134,13 @@ public class GoogleLoginHandler implements LoginMethodHandler {
      * Returns the redirect URI for the given HTTP servlet request.
      */
     private String getRedirectUri(HttpServletRequest req) {
+        String requestUrl = req.getRequestURL().toString();
         if (Config.isDevServerLoginEnabled()) {
-            // Fixed to http since localhost does not support https.
-            return "http://localhost:8080/oauth2callback";
+            requestUrl = requestUrl.replaceFirst("^https://", "http://");
+        } else {
+            requestUrl = requestUrl.replaceFirst("^http://", "https://");
         }
-        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
+        GenericUrl url = new GenericUrl(requestUrl);
         url.setRawPath("/oauth2callback");
         url.set("ngsw-bypass", "true");
         return url.build();
@@ -157,9 +160,7 @@ public class GoogleLoginHandler implements LoginMethodHandler {
      */
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
             throws IOException {
-        resp.setStatus(status);
-        resp.getWriter().print(message);
-
-        log.request(req, status, message);
+        HttpResponseHelper.logAndPrintError(req, resp, status, message);
     }
+
 }
