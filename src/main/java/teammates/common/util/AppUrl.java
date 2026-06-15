@@ -129,7 +129,7 @@ public class AppUrl {
     }
 
     public AppUrl withPreviewAs(String previewAs) {
-        return withParam(Const.ParamsNames.PREVIEWAS, previewAs);
+        return withParam("previewAs", previewAs);
     }
 
     @Override
