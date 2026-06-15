@@ -1,4 +1,4 @@
-import { Course } from '../../../types/api-output';
+import { Course, Institute } from '../../../types/api-output';
 
 /**
  * The mode of operation for question edit form.
@@ -24,14 +24,6 @@ export interface Timezone {
 }
 
 /**
- * An institute option for the course institute dropdown.
- */
-export interface InstituteOption {
-  id: string;
-  name: string;
-}
-
-/**
  * The form model of course form.
  */
 export interface CourseFormModel {
@@ -45,7 +37,7 @@ export interface CourseFormModel {
  * The form model of course edit form in ADD mode.
  */
 export interface CourseAddFormModel extends CourseFormModel {
-  institutes: InstituteOption[];
+  institutes: Institute[];
   activeCourses: Course[];
   allCourses: Course[];
 

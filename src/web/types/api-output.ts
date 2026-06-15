@@ -341,6 +341,16 @@ export interface HasResponses extends ApiOutput {
   hasResponsesBySession?: { [index: string]: boolean };
 }
 
+export interface Institute extends ApiOutput {
+  id: string;
+  name: string;
+  country: string;
+}
+
+export interface Institutes extends ApiOutput {
+  institutes: Institute[];
+}
+
 export interface Instructor extends ApiOutput {
   userId: string;
   courseId: string;

@@ -58,6 +58,7 @@ public final class ActionFactory {
         map(ResourceURIs.DEMO_COURSE, POST, CreateDemoCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionsAction.class);
+        map(ResourceURIs.INSTITUTES, GET, GetInstitutesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.OWN_INSTRUCTOR, GET, GetOwnInstructorAction.class);

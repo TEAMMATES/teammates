@@ -130,6 +130,16 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Returns the institutes for which the given account has an approved account verification request.
+     */
+    public List<Institute> getApprovedInstitutesForAccount(UUID accountId) {
+        return accountVerificationRequestDb.getApprovedRequestsByAccountId(accountId)
+                .stream()
+                .map(AccountVerificationRequest::getInstitute)
+                .toList();
+    }
+
+    /**
      * Gets createdAt timestamps of account verification requests created within the given time range.
      */
     public List<Instant> getAccountVerificationRequestCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {

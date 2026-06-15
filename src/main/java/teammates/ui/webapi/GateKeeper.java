@@ -352,6 +352,19 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the current user is an admin or is accessing their own account.
+     */
+    void verifyAdminOrOwnAccount(RequestContext requestContext, UUID accountId) throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+        if (requestContext.getAccount() != null && requestContext.getAccount().getId().equals(accountId)) {
+            return;
+        }
+        throw new UnauthorizedAccessException("Not authorized to access account [" + accountId + "]");
+    }
+
+    /**
      * Verifies that the account has an approved account verification request for the given institute.
      */
     void verifyAccountVerifiedForInstitute(RequestContext requestContext, UUID instituteId)

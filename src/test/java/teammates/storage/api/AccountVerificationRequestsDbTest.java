@@ -95,6 +95,81 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
+    public void getApprovedRequestsByAccountId_approvedAndOtherStatuses_returnsOnlyApproved() {
+        var account = given.account("account");
+        var approvedRequest = given.accountVerificationRequest("approved-request",
+                ar -> ar.account(account.alias()).approved());
+        given.accountVerificationRequest("pending-request",
+                ar -> ar.account(account.alias()).pending());
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual = inTransaction(
+                () -> accountVerificationRequestsDb.getApprovedRequestsByAccountId(account.id()));
+
+        assertEquals(1, actual.size());
+        assertEquals(approvedRequest.id(), actual.get(0).getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void getApprovedRequestsByAccountId_noApprovedRequests_returnsEmpty() {
+        var account = given.account("account");
+        given.accountVerificationRequest("pending-request",
+                ar -> ar.account(account.alias()).pending());
+        persistGivenData(given);
+
+        List<AccountVerificationRequest> actual = inTransaction(
+                () -> accountVerificationRequestsDb.getApprovedRequestsByAccountId(account.id()));
+
+        assertEquals(0, actual.size());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void hasApprovedRequestForAccountAndInstitute_approvedRequestExists_returnsTrue() {
+        var account = given.account("account");
+        var institute = given.institute("institute");
+        given.accountVerificationRequest("approved-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).approved());
+        persistGivenData(given);
+
+        boolean actual = inTransaction(
+                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
+                        account.id(), institute.id()));
+
+        assertEquals(true, actual);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void hasApprovedRequestForAccountAndInstitute_pendingRequestExists_returnsFalse() {
+        var account = given.account("account");
+        var institute = given.institute("institute");
+        given.accountVerificationRequest("pending-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).pending());
+        persistGivenData(given);
+
+        boolean actual = inTransaction(
+                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
+                        account.id(), institute.id()));
+
+        assertEquals(false, actual);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void hasApprovedRequestForAccountAndInstitute_differentInstitute_returnsFalse() {
+        var account = given.account("account");
+        var institute = given.institute("institute");
+        var otherInstitute = given.institute("other-institute");
+        given.accountVerificationRequest("approved-request",
+                ar -> ar.account(account.alias()).institute(institute.alias()).approved());
+        persistGivenData(given);
+
+        boolean actual = inTransaction(
+                () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
+                        account.id(), otherInstitute.id()));
+
+        assertEquals(false, actual);
+    }
+
+    @Test(groups = GroupNames.DB)
     public void getCreatedAtTimestampsForTimeRange_accountVerificationRequestsExist_returnsTimestampsInRange() {
         given.accountVerificationRequest("account-request-1");
         given.accountVerificationRequest("account-request-2");

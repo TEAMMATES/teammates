@@ -122,6 +122,18 @@ public final class AccountVerificationRequestsDb {
     }
 
     /**
+     * Gets all approved account verification requests for the given account.
+     */
+    public List<AccountVerificationRequest> getApprovedRequestsByAccountId(UUID accountId) {
+        String jpql = "SELECT r FROM AccountVerificationRequest r"
+                + " WHERE r.accountId = :accountId AND r.status = :status";
+        TypedQuery<AccountVerificationRequest> query = HibernateUtil.createQuery(jpql, AccountVerificationRequest.class);
+        query.setParameter("accountId", accountId);
+        query.setParameter("status", AccountVerificationRequestStatus.APPROVED);
+        return query.getResultList();
+    }
+
+    /**
      * Returns true if there is an approved account verification request for the given account and institute.
      */
     public boolean hasApprovedRequestForAccountAndInstitute(UUID accountId, UUID instituteId) {
