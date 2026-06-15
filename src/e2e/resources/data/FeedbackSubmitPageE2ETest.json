@@ -13,7 +13,7 @@
       "name": "Teammates Test",
       "email": "fsubmit.instr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.instr"
+      "subject": "fsubmit.instr@gmail.tmt"
     },
     "FSubmit.instr2": {
       "id": "00000000-0000-4000-8000-000000000002",
@@ -21,7 +21,7 @@
       "name": "Teammates Test2",
       "email": "fsubmit.instr2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.instr2"
+      "subject": "fsubmit.instr2@gmail.tmt"
     },
     "FSubmit.alice.b": {
       "id": "00000000-0000-4000-8000-000000000003",
@@ -29,7 +29,7 @@
       "name": "Alice Betsy",
       "email": "fsubmit.alice.b@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.alice.b"
+      "subject": "fsubmit.alice.b@gmail.tmt"
     },
     "FSubmit.benny.c": {
       "id": "00000000-0000-4000-8000-000000000004",
@@ -37,7 +37,7 @@
       "name": "Benny Charles",
       "email": "fsubmit.benny.c@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.benny.c"
+      "subject": "fsubmit.benny.c@gmail.tmt"
     },
     "FSubmit.charlie.d": {
       "id": "00000000-0000-4000-8000-000000000005",
@@ -45,7 +45,7 @@
       "name": "Charlie Davis",
       "email": "fsubmit.charlie.d@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.charlie.d"
+      "subject": "fsubmit.charlie.d@gmail.tmt"
     },
     "FSubmit.danny.e": {
       "id": "00000000-0000-4000-8000-000000000006",
@@ -53,7 +53,7 @@
       "name": "Danny Engrid",
       "email": "fsubmit.danny.e@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.danny.e"
+      "subject": "fsubmit.danny.e@gmail.tmt"
     },
     "FSubmit.emily.f": {
       "id": "00000000-0000-4000-8000-000000000007",
@@ -61,7 +61,7 @@
       "name": "Emily",
       "email": "fsubmit.emily.f@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FSubmit.emily.f"
+      "subject": "fsubmit.emily.f@gmail.tmt"
     }
   },
   "courses": {

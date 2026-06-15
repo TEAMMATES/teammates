@@ -25,7 +25,7 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
         AppUrl resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withFeedbackSessionId(testData.feedbackSessions.get("Open Session").getId());
         InstructorFeedbackResultsPage resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class,
-                testData.instructors.get("IFRep.instr.CS2104").getGoogleId());
+                testData.instructors.get("IFRep.instr.CS2104").getEmail());
 
         Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
         formatViolations(results);

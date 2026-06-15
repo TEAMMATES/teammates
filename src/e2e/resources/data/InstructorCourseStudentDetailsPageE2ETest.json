@@ -13,7 +13,7 @@
       "name": "Teammates Test",
       "email": "icsdet.instr@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICSDet.instr"
+      "subject": "icsdet.instr@gmail.tmt"
     },
     "José Gómez": {
       "id": "00000000-0000-4000-8000-000000000002",
@@ -21,7 +21,7 @@
       "name": "José Gómez",
       "email": "icsdet.jose.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ICSDet.jose.tmms"
+      "subject": "icsdet.jose.tmms@gmail.tmt"
     }
   },
   "accountVerificationRequests": {},

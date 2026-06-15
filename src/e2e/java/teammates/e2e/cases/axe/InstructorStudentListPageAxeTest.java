@@ -24,7 +24,7 @@ public class InstructorStudentListPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl listPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
         InstructorStudentListPage listPage = loginToPage(listPageUrl, InstructorStudentListPage.class,
-                testData.instructors.get("instructorOfCourse1").getGoogleId());
+                testData.instructors.get("instructorOfCourse1").getEmail());
 
         Results results = getAxeBuilder().analyze(listPage.getBrowser().getDriver());
         formatViolations(results);

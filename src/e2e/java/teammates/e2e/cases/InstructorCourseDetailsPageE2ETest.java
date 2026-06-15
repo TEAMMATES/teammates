@@ -42,7 +42,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseDetailsPage detailsPage =
-                loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class, instructor1.getGoogleId());
+                loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class, instructor1.getEmail());
 
         ______TS("verify loaded details");
         List<Instructor> instructors = Arrays.asList(instructor1, testData.instructors.get("ICDet.instr2"));
