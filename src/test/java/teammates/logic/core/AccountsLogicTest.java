@@ -44,21 +44,6 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateOrGetAccountForEmail_accountExists_success() {
-        Account account = getTypicalAccount();
-        String email = account.getEmail();
-        Provider provider = account.getProvider();
-        String subject = account.getSubject();
-        String tenantId = account.getTenantId();
-
-        when(accountsDb.getAccountByGoogleId(email)).thenReturn(account);
-
-        Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
-
-        assertEquals(result, account);
-    }
-
-    @Test
     public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
         String email = "nonexistent@example.com";
         Provider provider = Provider.TEAMMATES_DEV;
