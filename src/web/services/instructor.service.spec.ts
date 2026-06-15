@@ -103,7 +103,7 @@ describe('InstructorService', () => {
   });
 
   it('should execute POST when creating an instructor for a course', () => {
-    service.createInstructor({ courseId: 'CS3281', requestBody: defaultRequestBody });
+    service.createInstructor({ courseId: 'CS3281' }, defaultRequestBody);
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
@@ -111,7 +111,7 @@ describe('InstructorService', () => {
   });
 
   it('should execute PUT when updating an instructor for a course', () => {
-    service.updateInstructor({ instructorId: '00000000-0000-4000-8000-000000000001', requestBody: defaultUpdateRequestBody });
+    service.updateInstructor({ instructorId: '00000000-0000-4000-8000-000000000001' }, defaultUpdateRequestBody);
     const paramMap: Record<string, string> = {
       userid: '00000000-0000-4000-8000-000000000001',
     };

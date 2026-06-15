@@ -232,15 +232,15 @@ describe('InstructorCourseEditPageComponent', () => {
 
   it('should add instructor details', () => {
     vi.spyOn(instructorService, 'createInstructor').mockImplementation(
-      (params: { courseId: string; requestBody: InstructorCreateRequest }) =>
+      (params: { courseId: string }, requestBody: InstructorCreateRequest) =>
         of({
           courseId: params.courseId,
           courseName: 'example course',
           institute: 'example institute',
           userId: 'example-user-id',
-          email: params.requestBody.email,
+          email: requestBody.email,
           joinState: JoinState.NOT_JOINED,
-          name: params.requestBody.name,
+          name: requestBody.name,
         }),
     );
 
