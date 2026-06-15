@@ -227,7 +227,6 @@ public class Account extends BaseEntity {
     @Override
     public String toString() {
         return "Account [id=" + id + ", googleId=" + googleId + ", name=" + name + ", email=" + email
-                + ", readNotifications=" + readNotifications + ", createdAt=" + getCreatedAt()
-                + ",updatedAt=" + updatedAt + "]";
+                + ", createdAt=" + getCreatedAt() + ",updatedAt=" + updatedAt + "]";
     }
 }
