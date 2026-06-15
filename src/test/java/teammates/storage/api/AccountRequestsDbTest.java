@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Institute;
 import teammates.test.GroupNames;
@@ -47,12 +48,14 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
     @Test(groups = GroupNames.DB)
     public void persistAccountRequest_accountRequestIsNew_accountRequestIsPersisted() {
         var institute = given.institute("institute");
+        var account = given.account("account");
         persistGivenData(given);
         var accountRequestId = given.uuid("account-request");
         AccountRequest accountRequest = buildDefaultAccountRequest(accountRequestId);
 
         AccountRequest actual = inTransaction(() -> {
             getEntity(Institute.class, institute.id()).addAccountRequest(accountRequest);
+            getEntity(Account.class, account.id()).addAccountRequest(accountRequest);
             return accountRequestsDb.persistAccountRequest(accountRequest);
         });
 
@@ -74,20 +77,6 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
 
         assertEquals(List.of(newerPendingRequest.id(), olderPendingRequest.id()),
                 actual.stream().map(AccountRequest::getId).toList());
-    }
-
-    @Test(groups = GroupNames.DB)
-    public void getAccountRequestByRegistrationKey_accountRequestExists_returnsAccountRequest() {
-        var accountRequest = given.accountRequest("account-request",
-                ar -> ar.registrationKey("registration-key"));
-        given.accountRequest("another-account-request", ar -> ar.registrationKey("another-registration-key"));
-        persistGivenData(given);
-
-        AccountRequest actual = inTransaction(
-                () -> accountRequestsDb.getAccountRequestByRegistrationKey("registration-key"));
-
-        assertNotNull(actual);
-        assertEquals(accountRequest.id(), actual.getId());
     }
 
     @Test(groups = GroupNames.DB)
@@ -123,7 +112,6 @@ public class AccountRequestsDbTest extends BaseDbTestcase {
                 AccountRequestStatus.PENDING,
                 "");
         accountRequest.setId(accountRequestId);
-        accountRequest.setRegistrationKey("registration-key:" + accountRequestId);
         return accountRequest;
     }
 }

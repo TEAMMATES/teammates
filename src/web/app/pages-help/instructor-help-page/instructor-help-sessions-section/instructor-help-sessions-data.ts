@@ -176,7 +176,6 @@ export const EXAMPLE_INSTRUCTORS: Instructor[] = [
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Bob Ruth',
-    key: 'instructor-key',
     role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
     institute: 'NUS',

@@ -48,8 +48,9 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
+        UUID accountId = typicalBundle.accounts.get("instructor1").getId();
         AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
-                "institute", "SG", AccountRequestStatus.PENDING, "comments"));
+                "institute", "SG", AccountRequestStatus.PENDING, "comments", accountId));
         UUID id = accountRequest.getId();
         String name = "newName";
         String email = "newemail@email.com";
@@ -96,7 +97,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ______TS("invalid email");
         accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
-                "institute", "SG", AccountRequestStatus.PENDING, "comments"));
+                "institute", "SG", AccountRequestStatus.PENDING, "comments", accountId));
         id = accountRequest.getId();
         email = "newemail";
         status = accountRequest.getStatus();

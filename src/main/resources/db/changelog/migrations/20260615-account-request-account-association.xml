@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260615-account-request-account-association-1">
+        <delete tableName="account_requests"/>
+        <addColumn tableName="account_requests">
+            <column name="account_id" type="UUID"/>
+        </addColumn>
+        <addForeignKeyConstraint
+            baseColumnNames="account_id"
+            baseTableName="account_requests"
+            constraintName="FK_account_requests_account_id"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="accounts"
+            validate="true"/>
+        <addNotNullConstraint tableName="account_requests" columnName="account_id" columnDataType="UUID"/>
+        <rollback>
+            <dropNotNullConstraint tableName="account_requests" columnName="account_id" columnDataType="UUID"/>
+            <dropForeignKeyConstraint baseTableName="account_requests" constraintName="FK_account_requests_account_id"/>
+            <dropColumn tableName="account_requests" columnName="account_id"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

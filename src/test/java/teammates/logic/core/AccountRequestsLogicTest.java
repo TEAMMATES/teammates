@@ -34,7 +34,8 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         accountRequestsDb = mock(AccountRequestsDb.class);
-        accountRequestsLogic.initLogicDependencies(accountRequestsDb, mock(InstitutesLogic.class));
+        accountRequestsLogic.initLogicDependencies(accountRequestsDb, mock(AccountsLogic.class),
+                mock(InstitutesLogic.class));
     }
 
     @Test
@@ -105,28 +106,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         accountRequestsLogic.deleteAccountRequest(nonexistentUuid);
 
         verify(accountRequestsDb, times(1)).removeAccountRequest(nullable(AccountRequest.class));
-    }
-
-    @Test
-    public void testGetAccountRequestByRegistrationKey_typicalRequest_success() {
-        AccountRequest ar = getTypicalAccountRequest();
-        String regkey = "regkey";
-        ar.setRegistrationKey(regkey);
-        when(accountRequestsDb.getAccountRequestByRegistrationKey(regkey)).thenReturn(ar);
-        AccountRequest actualAr =
-                accountRequestsLogic.getAccountRequestByRegistrationKey(ar.getRegistrationKey());
-
-        assertEquals(ar, actualAr);
-        verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(regkey);
-    }
-
-    @Test
-    public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() {
-        String nonexistentRegkey = "not_exist";
-        when(accountRequestsDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
-
-        assertNull(accountRequestsLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
-        verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(nonexistentRegkey);
     }
 
     @Test

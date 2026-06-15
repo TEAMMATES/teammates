@@ -88,7 +88,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getInstructors().get(0).getKey());
         assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
@@ -103,7 +102,6 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        assertNotNull(response.getInstructors().get(0).getKey());
         assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 

@@ -214,9 +214,9 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the account request already exists.
      */
     public AccountRequest createAccountRequest(String name, String email, String institute, String country,
-            AccountRequestStatus status, String comments) throws InvalidParametersException {
+            AccountRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments);
+        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments, accountId);
     }
 
     /**
@@ -233,15 +233,6 @@ public class Logic {
      */
     public AccountRequest getAccountRequest(UUID id) {
         return accountRequestLogic.getAccountRequest(id);
-    }
-
-    /**
-     * Gets the account request with the associated {@code regkey}.
-     *
-     * @return account request with the associated {@code regkey}.
-     */
-    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
-        return accountRequestLogic.getAccountRequestByRegistrationKey(regkey);
     }
 
     /**
@@ -455,6 +446,13 @@ public class Logic {
      */
     public DeadlineExtension getDeadlineExtension(UUID id) {
         return deadlineExtensionsLogic.getDeadlineExtension(id);
+    }
+
+    /**
+     * Gets the deadline extension for a specific user in a feedback session, or null if none exists.
+     */
+    public DeadlineExtension getDeadlineExtension(UUID feedbackSessionId, UUID userId) {
+        return deadlineExtensionsLogic.getDeadlineExtension(feedbackSessionId, userId);
     }
 
     /**

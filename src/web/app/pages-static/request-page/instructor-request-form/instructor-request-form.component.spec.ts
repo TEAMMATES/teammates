@@ -31,7 +31,6 @@ describe('InstructorRequestFormComponent', () => {
     name: typicalModel.name,
     institute: typicalModel.institution,
     country: typicalModel.country,
-    registrationKey: 'registration-key',
     status: AccountRequestStatus.PENDING,
     createdAt: 0,
   };
@@ -64,13 +63,8 @@ describe('InstructorRequestFormComponent', () => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     vi.clearAllMocks();
-  });
-
-  it('should have empty captcha key', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should create', () => {

@@ -7,10 +7,12 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -125,6 +127,62 @@ final class GateKeeper {
         verifyNotNull(student, "student");
         verifyInstructorHasPrivilegeForSection(requestContext, student.getCourseId(), student.getSectionId(),
                 Const.InstructorPermissions.CAN_VIEW_STUDENT);
+    }
+
+    /**
+     * Verifies that the user can view the deadline extension for the given user in the given feedback session.
+     *
+     * <p>Admins, the user themselves (via regkey or account), and instructors with CAN_MODIFY_SESSION
+     * are allowed to access.
+     */
+    void verifyCanViewDeadlineExtension(RequestContext requestContext, UUID feedbackSessionId, UUID userId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        User regKeyUser = requestContext.getRegKeyUser();
+        if (regKeyUser != null && regKeyUser.getId().equals(userId)) {
+            return;
+        }
+
+        if (requestContext.getAccount() != null) {
+            User targetUser = logic.getUser(userId);
+            if (targetUser != null && requestContext.getAccount().getId().equals(targetUser.getAccountId())) {
+                return;
+            }
+
+            FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+            verifyNotNull(feedbackSession, "feedback session");
+            Instructor instructor = requestContext.getInstructorForCourse(feedbackSession.getCourseId(),
+                    authLogic::getInstructorFromAuthContext);
+            if (instructor != null && logic.hasInstructorPermissions(instructor,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION)) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("Not authorized to view this deadline extension.");
+    }
+
+    /**
+     * Verifies that the user can view the specified account request.
+     *
+     * <p>Admins can view all account requests. Non-admins can only view account requests that they own.
+     */
+    void verifyCanViewAccountRequest(RequestContext requestContext, UUID accountRequestId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
+        verifyNotNull(accountRequest, "account request");
+
+        if (requestContext.getAccount() == null
+                || !requestContext.getAccount().getId().equals(accountRequest.getAccountId())) {
+            throw new UnauthorizedAccessException("Account request [" + accountRequestId + "] is not accessible to user");
+        }
     }
 
     /**

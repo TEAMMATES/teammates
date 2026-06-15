@@ -76,19 +76,6 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Get AccountRequest by {@code registrationKey} from database.
-     */
-    public AccountRequest getAccountRequestByRegistrationKey(String registrationKey) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
-        cr.select(root).where(cb.equal(root.get("registrationKey"), registrationKey));
-
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
-        return query.getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Removes an AccountRequest.
      */
     public void removeAccountRequest(AccountRequest accountRequest) {

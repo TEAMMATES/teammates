@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Institute;
 
@@ -38,6 +39,16 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
     public GivenAccountRequest institute(String instituteAlias) {
         Institute institute = given.getOrCreate(instituteAlias, given.dataBundle.institutes, given::institute);
         institute.addAccountRequest(entity);
+        return this;
+    }
+
+    /**
+     * Sets the account for the account request.
+     */
+    public GivenAccountRequest account(String accountAlias) {
+        assert entity.getAccount() == null : "Account has already been set for this account request";
+        Account account = given.getOrCreate(accountAlias, given.dataBundle.accounts, given::account);
+        account.addAccountRequest(entity);
         return this;
     }
 
@@ -86,14 +97,6 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
     }
 
     /**
-     * Sets the registration key for the account request.
-     */
-    public GivenAccountRequest registrationKey(String registrationKey) {
-        entity.setRegistrationKey(registrationKey);
-        return this;
-    }
-
-    /**
      * Sets the time when the account request was registered.
      */
     public GivenAccountRequest registeredAt(Instant registeredAt) {
@@ -114,6 +117,9 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
         if (entity.getInstituteId() == null) {
             this.institute("default");
         }
+        if (entity.getAccountId() == null) {
+            this.account("default");
+        }
     }
 
     private AccountRequest defaultAccountRequest(UUID accountRequestId) {
@@ -123,7 +129,6 @@ public final class GivenAccountRequest extends GivenBase<AccountRequest> {
                 AccountRequestStatus.PENDING,
                 "");
         accountRequest.setId(accountRequestId);
-        accountRequest.setRegistrationKey("registration-key:" + accountRequestId);
         return accountRequest;
     }
 }

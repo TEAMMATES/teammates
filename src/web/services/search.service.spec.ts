@@ -55,7 +55,6 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Lee Wong',
-    key: 'instructor-key-001',
     role: InstructorPermissionRole.COOWNER,
     joinState: JoinState.JOINED,
   };
@@ -70,7 +69,6 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Brown Taylor',
-    key: 'instructor-key-002',
     role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };
@@ -85,7 +83,6 @@ describe('SearchService', () => {
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
     name: 'Chen Lim',
-    key: 'instructor-key-003',
     role: InstructorPermissionRole.CUSTOM,
     joinState: JoinState.JOINED,
   };
@@ -154,7 +151,6 @@ describe('SearchService', () => {
 
   const mockAccountRequest: AccountRequest = {
     accountRequestId: '132efa02-b208-4195-a262-a8eae25ceb95',
-    registrationKey: 'registration-key-001',
     createdAt: 1585487897502,
     name: 'Jordan Tan',
     institute: 'National University of Singapore',
@@ -271,7 +267,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
     expect(result.registeredAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
     expect(result.registrationLink).toBe(
-      `${globalThis.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
+      `${globalThis.location.origin}/web/instructor-welcome?accountRequestId=132efa02-b208-4195-a262-a8eae25ceb95`,
     );
   });
 
@@ -285,7 +281,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
     expect(result.registeredAtText).toBe(null);
     expect(result.registrationLink).toBe(
-      `${globalThis.location.origin}/web/join?iscreatingaccount=true&key=registration-key-001`,
+      `${globalThis.location.origin}/web/instructor-welcome?accountRequestId=132efa02-b208-4195-a262-a8eae25ceb95`,
     );
   });
 });

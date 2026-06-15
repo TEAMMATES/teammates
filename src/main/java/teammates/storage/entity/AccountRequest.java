@@ -1,6 +1,5 @@
 package teammates.storage.entity;
 
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -23,21 +21,15 @@ import org.hibernate.annotations.UpdateTimestamp;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 /**
  * Entity for AccountRequests.
  */
 @Entity
-@Table(name = "AccountRequests",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "Unique registration key", columnNames = "registrationKey"),
-        })
+@Table(name = "AccountRequests")
 public class AccountRequest extends BaseEntity {
     @Id
     private UUID id;
-
-    private String registrationKey;
 
     @Column(nullable = false)
     private String name;
@@ -52,6 +44,14 @@ public class AccountRequest extends BaseEntity {
 
     @Column(nullable = false, insertable = false, updatable = false)
     private UUID instituteId;
+
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "accountId", nullable = false)
+    private Account account;
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID accountId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -75,7 +75,6 @@ public class AccountRequest extends BaseEntity {
         this.setName(name);
         this.setStatus(status);
         this.setComments(comments);
-        this.generateNewRegistrationKey();
         this.setCreatedAt(Instant.now());
         this.setRegisteredAt(null);
     }
@@ -90,38 +89,12 @@ public class AccountRequest extends BaseEntity {
         return errors;
     }
 
-    /**
-     * Generates a new registration key for the account request.
-     */
-    public void generateNewRegistrationKey() {
-        this.setRegistrationKey(generateRegistrationKey());
-    }
-
-    /**
-     * Generate unique registration key for the account request.
-     * The key contains random elements to avoid being guessed.
-     */
-    private String generateRegistrationKey() {
-        String uniqueId = String.valueOf(getId());
-        SecureRandom prng = new SecureRandom();
-
-        return StringHelper.encrypt(uniqueId + prng.nextInt());
-    }
-
     public UUID getId() {
         return this.id;
     }
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getRegistrationKey() {
-        return this.registrationKey;
-    }
-
-    public void setRegistrationKey(String registrationKey) {
-        this.registrationKey = registrationKey;
     }
 
     public String getName() {
@@ -154,6 +127,22 @@ public class AccountRequest extends BaseEntity {
 
     public UUID getInstituteId() {
         return this.instituteId;
+    }
+
+    public Account getAccount() {
+        return this.account;
+    }
+
+    /**
+     * Sets the account associated with this account request.
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+        this.accountId = account == null ? null : account.getId();
+    }
+
+    public UUID getAccountId() {
+        return this.accountId;
     }
 
     public AccountRequestStatus getStatus() {
@@ -208,8 +197,8 @@ public class AccountRequest extends BaseEntity {
 
     @Override
     public String toString() {
-        return "AccountRequest [id=" + id + ", registrationKey=" + registrationKey + ", name=" + name + ", email="
-                + email + ", instituteId=" + instituteId
+        return "AccountRequest [id=" + id + ", name=" + name + ", email="
+                + email + ", instituteId=" + instituteId + ", accountId=" + accountId
                 + ", status=" + status + ", comments=" + comments
                 + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }

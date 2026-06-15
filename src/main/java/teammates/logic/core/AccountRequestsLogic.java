@@ -7,6 +7,7 @@ import java.util.UUID;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Institute;
 
@@ -21,6 +22,7 @@ public final class AccountRequestsLogic {
     private static final AccountRequestsLogic instance = new AccountRequestsLogic();
 
     private AccountRequestsDb accountRequestDb;
+    private AccountsLogic accountsLogic;
     private InstitutesLogic institutesLogic;
 
     private AccountRequestsLogic() {
@@ -34,8 +36,10 @@ public final class AccountRequestsLogic {
     /**
      * Initialise dependencies for {@code AccountRequestLogic} object.
      */
-    public void initLogicDependencies(AccountRequestsDb accountRequestDb, InstitutesLogic institutesLogic) {
+    public void initLogicDependencies(AccountRequestsDb accountRequestDb,
+            AccountsLogic accountsLogic, InstitutesLogic institutesLogic) {
         this.accountRequestDb = accountRequestDb;
+        this.accountsLogic = accountsLogic;
         this.institutesLogic = institutesLogic;
     }
 
@@ -49,13 +53,15 @@ public final class AccountRequestsLogic {
 
     /**
      * Creates an account request, resolving (or creating) the shared institute for the given
-     * {@code instituteName} and {@code country}.
+     * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
      */
     public AccountRequest createAccountRequest(String name, String email, String instituteName, String country,
-            AccountRequestStatus status, String comments) throws InvalidParametersException {
+            AccountRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
         Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
+        Account account = accountsLogic.getAccount(accountId);
         AccountRequest toCreate = new AccountRequest(email, name, status, comments);
         institute.addAccountRequest(toCreate);
+        account.addAccountRequest(toCreate);
 
         return createAccountRequest(toCreate);
     }
@@ -74,13 +80,6 @@ public final class AccountRequestsLogic {
             throws InvalidParametersException {
         validateAccountRequest(accountRequest);
         return accountRequest;
-    }
-
-    /**
-     * Gets account request associated with the {@code regkey}.
-     */
-    public AccountRequest getAccountRequestByRegistrationKey(String regkey) {
-        return accountRequestDb.getAccountRequestByRegistrationKey(regkey);
     }
 
     /**

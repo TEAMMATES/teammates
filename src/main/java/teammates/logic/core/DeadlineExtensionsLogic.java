@@ -70,6 +70,13 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
+     * Gets the deadline extension for a specific user in a feedback session, or null if none exists.
+     */
+    public DeadlineExtension getDeadlineExtension(UUID feedbackSessionId, UUID userId) {
+        return deadlineExtensionsDb.getDeadlineExtension(userId, feedbackSessionId);
+    }
+
+    /**
      * Get extended deadline end time for this session and user if it exists, otherwise get the deadline of the session.
      */
     public Instant getDeadlineForUser(FeedbackSession session, User user) {

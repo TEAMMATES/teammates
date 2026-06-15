@@ -63,19 +63,18 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
 
         ______TS("Null parameters");
 
-        String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
+        String[] nullParams = new String[] { Const.ParamsNames.ACCOUNT_REQUEST_ID, null, };
         InvalidHttpParameterException ex = verifyHttpParameterFailure(nullParams);
-        assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
+        assertEquals("The [id] HTTP parameter is null.", ex.getMessage());
 
         verifyNoTasksAdded();
 
         ______TS("Normal case with valid timezone");
         String timezone = "Asia/Singapore";
         final UUID firstAccReqId = accReq.getId();
-        AccountRequest accountRequest = inTransaction(() -> logic.getAccountRequest(firstAccReqId));
 
         String[] params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, firstAccReqId.toString(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
         CreateDemoCourseAction a = getAction(params);
@@ -116,10 +115,9 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         timezone = "InvalidTimezone";
 
         final UUID secondAccReqId = accReq.getId();
-        accountRequest = inTransaction(() -> logic.getAccountRequest(secondAccReqId));
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, secondAccReqId.toString(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
 
@@ -142,13 +140,13 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
-        ______TS("Error: registration key already used");
+        ______TS("Error: account request already registered");
         verifyInvalidOperation(params);
         verifyNoTasksAdded();
 
         ______TS("Error: account request not found");
 
-        params = new String[] { Const.ParamsNames.REGKEY, "unknownregkey", };
+        params = new String[] { Const.ParamsNames.ACCOUNT_REQUEST_ID, "00000000-0000-0000-0000-000000000000", };
         verifyEntityNotFound(params);
         verifyNoTasksAdded();
     }
@@ -156,7 +154,14 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() {
-        verifyAnyLoggedInUserCanAccess();
+        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        String[] params = new String[] {
+                Const.ParamsNames.ACCOUNT_REQUEST_ID, accReq.getId().toString(),
+        };
+        verifyInaccessibleWithoutLogin(params);
+        Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
+        loginAsUnregistered(instructor1.getGoogleId());
+        verifyCanAccess(params);
     }
 
     @Test(groups = GroupNames.INTEGRATION)

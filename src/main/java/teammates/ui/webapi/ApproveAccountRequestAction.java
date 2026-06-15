@@ -40,7 +40,7 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             accountRequest = logic.updateAccountRequest(accountRequest);
             EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                     accountRequest.getEmail(), accountRequest.getName(),
-                    LinksUtil.getAccountRequestJoinUrl(accountRequest.getRegistrationKey()));
+                    LinksUtil.getInstructorWelcomeUrl(accountRequest.getId()));
             emailSender.sendEmail(email);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);

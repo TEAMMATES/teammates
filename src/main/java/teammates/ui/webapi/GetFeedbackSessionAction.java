@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import teammates.common.util.Const;
@@ -70,30 +69,20 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         FeedbackSessionViewData response;
 
         switch (intent) {
-        case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseForSubmission(courseId, true);
-            Instant studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
-            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession, studentDeadline));
-            response.getFeedbackSession().hideInformation();
-            break;
-        case STUDENT_RESULT:
-            student = getStudentOfCourseForResult(courseId);
-            studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
-            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession, studentDeadline));
+        case STUDENT_SUBMISSION, STUDENT_RESULT:
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession));
             response.getFeedbackSession().hideInformation();
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorSubmission = getInstructorOfCourseForSubmission(courseId, true);
-            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession,
-                    logic.getDeadlineForUser(feedbackSession, instructorSubmission)));
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession));
             response.getFeedbackSession().hideInformation();
             response.setInstructorPermissions(getPermissions(feedbackSession, instructorSubmission));
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructorResult = getInstructorOfCourseForResult(courseId);
-            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession,
-                    logic.getDeadlineForUser(feedbackSession, instructorResult)));
-            response.getFeedbackSession().hideInformationForStudentAndInstructor();
+            response = new FeedbackSessionViewData(new FeedbackSessionData(feedbackSession));
+            response.getFeedbackSession().hideInformation();
             response.setInstructorPermissions(getPermissions(feedbackSession, instructorResult));
             break;
         case FULL_DETAIL:

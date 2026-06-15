@@ -53,6 +53,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -226,6 +227,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -396,6 +398,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -566,6 +569,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -799,6 +803,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -3879,6 +3884,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -6997,6 +7003,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -7169,6 +7176,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"

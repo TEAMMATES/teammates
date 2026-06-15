@@ -445,13 +445,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Returns true if the user associated with the googleId is an instructor in any course in the system.
-     */
-    public boolean isInstructorInAnyCourse(String googleId) {
-        return !usersDb.getAllInstructorsByGoogleId(googleId).isEmpty();
-    }
-
-    /**
      * Gets student associated with {@code id}.
      *
      * @param id Id of Student.
@@ -501,13 +494,6 @@ public final class UsersLogic {
      */
     public List<Student> getAllStudentsForEmail(String email) {
         return usersDb.getAllStudentsForEmail(email);
-    }
-
-    /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getAllStudentsByGoogleId(String googleId) {
-        return usersDb.getAllStudentsByGoogleId(googleId);
     }
 
     /**
@@ -653,14 +639,6 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getStudentsByGoogleId(googleId);
-    }
-
-    /**
-     * Returns true if the user associated with the googleId is a student in any
-     * course in the system.
-     */
-    public boolean isStudentInAnyCourse(String googleId) {
-        return !usersDb.getAllStudentsByGoogleId(googleId).isEmpty();
     }
 
     /**

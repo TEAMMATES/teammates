@@ -88,6 +88,7 @@ export enum ResourceEndpoints {
   USER_KEY = "/webapi/user/key",
   SESSIONS_ONGOING = "/webapi/sessions/ongoing",
   SESSION = "/webapi/session",
+  SESSION_DEADLINE_EXTENSION = "/webapi/session/deadlineextension",
   SESSION_DEADLINE_EXTENSIONS = "/webapi/session/deadlineextensions",
   SESSION_LINKS = "/webapi/session/links",
   SESSION_LOGS = "/webapi/logs/session",

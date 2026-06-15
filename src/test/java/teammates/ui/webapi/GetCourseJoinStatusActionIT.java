@@ -6,9 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.storage.entity.AccountRequest;
 import teammates.test.GroupNames;
 import teammates.ui.output.JoinStatus;
 
@@ -16,11 +14,10 @@ import teammates.ui.output.JoinStatus;
  * SUT: {@link GetCourseJoinStatusAction}.
  */
 public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatusAction> {
-    private DataBundle typicalBundle;
 
     @BeforeMethod(alwaysRun = true)
     protected void setUp() {
-        typicalBundle = persistDataBundle(getTypicalDataBundle());
+        persistDataBundle(getTypicalDataBundle());
     }
 
     @Override
@@ -42,9 +39,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(
-                Const.ParamsNames.IS_CREATING_ACCOUNT, "true"
-        );
 
         ______TS("Normal case: student is already registered");
         String registeredStudentKey = inTransaction(() ->
@@ -120,46 +114,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         verifyEntityNotFound(params);
 
-        ______TS("Normal case: account request not used, instructor has not joined course");
-
-        AccountRequest unregisteredInstructor1AccountRequest = typicalBundle.accountRequests.get("unregisteredInstructor1");
-        String accountRequestNotUsedKey = unregisteredInstructor1AccountRequest.getRegistrationKey();
-
-        params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequestNotUsedKey,
-                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
-        };
-
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        output = (JoinStatus) result.getOutput();
-        assertFalse(output.getHasJoined());
-
-        ______TS("Normal case: account request already used, instructor has joined course");
-
-        AccountRequest instructor1AccountRequest = typicalBundle.accountRequests.get("instructor1");
-        String accountRequestUsedKey = instructor1AccountRequest.getRegistrationKey();
-
-        params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequestUsedKey,
-                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
-        };
-
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        output = (JoinStatus) result.getOutput();
-        assertTrue(output.getHasJoined());
-
-        ______TS("Failure case: account request regkey is not valid");
-
-        params = new String[] {
-                Const.ParamsNames.REGKEY, "invalid-registration-key",
-                Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
-        };
-
-        verifyEntityNotFound(params);
     }
 
     @Test(groups = GroupNames.INTEGRATION)

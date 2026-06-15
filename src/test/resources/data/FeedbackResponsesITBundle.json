@@ -101,6 +101,62 @@
       "email": "student4@teammates.tmt",
       "provider": "TEAMMATES_DEV",
       "subject": "idOfStudent4Course1"
+    },
+    "instructor3": {
+      "id": "00000000-0000-4000-8000-000000002001",
+      "googleId": "instructor3",
+      "name": "Instructor 3 of CourseNoRegister",
+      "email": "instr3@teammates.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor3"
+    },
+    "instructor1OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000002002",
+      "googleId": "instructor1OfCourse1",
+      "name": "Instructor 1 of Course 1",
+      "email": "instr1@course1.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor1OfCourse1"
+    },
+    "instructor2OfCourse1": {
+      "id": "00000000-0000-4000-8000-000000002003",
+      "googleId": "instructor2OfCourse1",
+      "name": "Instructor 2 of Course 1",
+      "email": "instr2@course1.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor2OfCourse1"
+    },
+    "instructor1OfCourse2": {
+      "id": "00000000-0000-4000-8000-000000002004",
+      "googleId": "instructor1OfCourse2",
+      "name": "Instructor 1 of Course 2",
+      "email": "instr1@course2.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor1OfCourse2"
+    },
+    "instructor2OfCourse2": {
+      "id": "00000000-0000-4000-8000-000000002005",
+      "googleId": "instructor2OfCourse2",
+      "name": "Instructor 2 of Course 2",
+      "email": "instr2@course2.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor2OfCourse2"
+    },
+    "instructor1OfCourse3": {
+      "id": "00000000-0000-4000-8000-000000002006",
+      "googleId": "instructor1OfCourse3",
+      "name": "Instructor 1 of Course 3",
+      "email": "instr1@course3.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor1OfCourse3"
+    },
+    "instructor2OfCourse3": {
+      "id": "00000000-0000-4000-8000-000000002007",
+      "googleId": "instructor2OfCourse3",
+      "name": "Instructor 2 of Course 3",
+      "email": "instr2@course3.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "instructor2OfCourse3"
     }
   },
   "accountRequests": {
@@ -109,79 +165,88 @@
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
-      "registeredAt": "2010-02-14T00:00:00Z"
+      "status": "REGISTERED",
+      "registeredAt": "2010-02-14T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000102",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
-      "registeredAt": "2015-02-14T00:00:00Z"
+      "status": "REGISTERED",
+      "registeredAt": "2015-02-14T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "instructor3": {
       "id": "00000000-0000-4000-8000-000000002001",
       "name": "Instructor 3 of CourseNoRegister",
       "email": "instr3@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002001"
     },
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000002002",
       "name": "Instructor 1 of Course 1",
       "email": "instr1@course1.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002002"
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000002003",
       "name": "Instructor 2 of Course 1",
       "email": "instr2@course1.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002003"
     },
     "instructor1OfCourse2": {
       "id": "00000000-0000-4000-8000-000000002004",
       "name": "Instructor 1 of Course 2",
       "email": "instr1@course2.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002004"
     },
     "instructor2OfCourse2": {
       "id": "00000000-0000-4000-8000-000000002005",
       "name": "Instructor 2 of Course 2",
       "email": "instr2@course2.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002005"
     },
     "instructor1OfCourse3": {
       "id": "00000000-0000-4000-8000-000000002006",
       "name": "Instructor 1 of Course 3",
       "email": "instr1@course3.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002006"
     },
     "instructor2OfCourse3": {
       "id": "00000000-0000-4000-8000-000000002007",
       "name": "Instructor 2 of Course 3",
       "email": "instr2@course3.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
-      "status": "PENDING",
+      "status": "REGISTERED",
       "registeredAt": "1970-02-14T00:00:00Z",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002007"
     },
     "unregisteredInstructor1": {
       "id": "00000000-0000-4000-8000-000000002008",
@@ -189,7 +254,8 @@
       "email": "unregisteredinstructor1@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
       "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002008"
     },
     "unregisteredInstructor2": {
       "id": "00000000-0000-4000-8000-000000002009",
@@ -197,7 +263,8 @@
       "email": "unregisteredinstructor2@gmail.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000004",
       "status": "PENDING",
-      "createdAt": "2011-01-01T00:00:00Z"
+      "createdAt": "2011-01-01T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000002009"
     }
   },
   "courses": {

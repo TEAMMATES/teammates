@@ -37,6 +37,14 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
+  it('should execute GET on account request endpoint', () => {
+    service.getAccountRequest(id);
+    const paramMap: Record<string, string> = {
+      id,
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+  });
+
   it('should execute POST on account request endpoint', () => {
     const testRequest: AccountCreateRequest = {
       instructorEmail: 'testEmail',
