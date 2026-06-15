@@ -50,12 +50,11 @@ public class AccountsLogicTest extends BaseTestCase {
         String subject = "nonexistentSubject";
         String tenantId = "nonexistentTenantId";
 
-        when(accountsDb.getAccountByGoogleId(email)).thenReturn(null);
-        when(accountsDb.persistAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(accountsDb.upsertAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
 
         Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
 
-        verify(accountsDb, times(1)).persistAccount(result);
+        verify(accountsDb, times(1)).upsertAccount(result);
         assertNotNull(result);
         assertEquals(result.getEmail(), email);
     }

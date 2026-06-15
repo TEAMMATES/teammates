@@ -88,15 +88,11 @@ public final class AccountsLogic {
         Objects.requireNonNull(email);
 
         String googleId = email;
-        Account account = getAccountForAuthIdentity(provider, subject, tenantId);
-        if (account != null) {
-            return account;
-        }
+        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
 
         try {
-            return createAccount(provider, subject, tenantId, email, googleId);
-        } catch (EntityAlreadyExistsException e) {
-            throw new IllegalStateException("Failed to create existing account for email: " + email, e);
+            validateAccount(account);
+            return accountsDb.upsertAccount(account);
         } catch (InvalidParametersException e) {
             throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
         }

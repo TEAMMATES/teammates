@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.MutationQuery;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import teammates.storage.entity.Account;
@@ -198,6 +199,14 @@ public final class HibernateUtil {
      */
     public static MutationQuery createNativeMutationQuery(String sqlStatement) {
         return getCurrentSession().createNativeMutationQuery(sqlStatement);
+    }
+
+    /**
+     * Returns a typed native query for the given SQL statement string.
+     * @see Session#createNativeQuery(String, Class)
+     */
+    public static <T> NativeQuery<T> createNativeQuery(String sqlStatement, Class<T> resultClass) {
+        return getCurrentSession().createNativeQuery(sqlStatement, resultClass);
     }
 
     public static void setSessionFactory(SessionFactory sessionFactory) {

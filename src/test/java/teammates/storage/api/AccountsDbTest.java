@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -78,6 +79,42 @@ public class AccountsDbTest extends BaseDbTestcase {
 
         assertNotNull(actual);
         assertEquals(accountWithNullTenant.id(), actual.getId());
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void upsertAccount_accountDoesNotExist_accountIsInserted() {
+        var accountId = given.uuid("account");
+        Account account = buildDefaultAccount(accountId);
+
+        Account actual = inTransaction(() -> accountsDb.upsertAccount(account));
+
+        assertEquals(accountId, actual.getId());
+        verifyPresentInDatabase(Account.class, accountId);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void upsertAccount_accountExists_returnsExistingAccount() {
+        var existingAccount = given.account("account", a -> a
+                .googleId("original-google-id")
+                .email("original@example.com")
+                .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", null));
+        persistGivenData(given);
+
+        Account updatedAccount = new Account(
+                "should-not-update-google-id",
+                Provider.TEAMMATES_DEV,
+                "shared-subject",
+                null,
+                "Should Not Update Name",
+                "should-not-update@example.com");
+
+        Account actual = inTransaction(() -> accountsDb.upsertAccount(updatedAccount));
+
+        assertEquals(existingAccount.id(), actual.getId());
+        assertEquals("original-google-id", actual.getGoogleId());
+        assertEquals("original@example.com", actual.getEmail());
+        assertNotEquals("Should Not Update Name", actual.getName());
+        assertEquals(Account.NO_TENANT, actual.getTenantId());
     }
 
     @Test(groups = GroupNames.DB)
