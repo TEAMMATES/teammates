@@ -39,7 +39,7 @@ export class UserJoinPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
-      this.entityType = queryParams['entitytype'];
+      this.entityType = queryParams['entityType'];
       this.key = queryParams['key'];
 
       const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;

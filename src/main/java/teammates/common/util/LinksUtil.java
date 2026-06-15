@@ -144,7 +144,7 @@ public final class LinksUtil {
      */
     public static String getInstructorWelcomeUrl(UUID accountVerificationRequestId) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE)
-                .withPathSegment(accountVerificationRequestId.toString())
+                .withAccountVerificationRequestId(accountVerificationRequestId)
                 .toAbsoluteString();
     }
 

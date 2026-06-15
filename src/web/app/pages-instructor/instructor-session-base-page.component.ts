@@ -438,18 +438,15 @@ export abstract class InstructorSessionBasePageComponent {
             modifiedTimestampsModal,
             {
               onClosed: () =>
-                this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                  fsid: createdSession.feedbackSessionId,
-                }),
+                this.navigationService.navigateByURL(
+                  `/web/instructor/sessions/${createdSession.feedbackSessionId}/edit`,
+                ),
             },
           );
         } else {
           this.navigationService.navigateWithSuccessMessage(
-            '/web/instructor/sessions/edit',
+            `/web/instructor/sessions/${createdSession.feedbackSessionId}/edit`,
             'The feedback session has been copied. Please modify settings/questions as necessary.',
-            {
-              fsid: createdSession.feedbackSessionId,
-            },
           );
         }
       },
@@ -487,9 +484,9 @@ export abstract class InstructorSessionBasePageComponent {
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/submission', {
-      fsid: model.feedbackSession.feedbackSessionId,
-    });
+    this.navigationService.navigateByURL(
+      `/web/instructor/sessions/${model.feedbackSession.feedbackSessionId}/submission`,
+    );
   }
 
   /**

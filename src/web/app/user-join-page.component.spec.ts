@@ -29,7 +29,7 @@ describe('UserJoinPageComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             queryParams: of({
-              entitytype: 'student',
+              entityType: 'student',
               key: 'key',
             }),
           },

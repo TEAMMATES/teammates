@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { InstructorWelcomePageComponent } from './instructor-welcome-page.component';
 import { AccountService } from '../../services/account.service';
@@ -20,16 +20,6 @@ const mockAccountVerificationRequest: AccountVerificationRequest = {
   createdAt: 1000000,
 };
 
-function createActivatedRoute(accountVerificationRequestId: string | null) {
-  return {
-    snapshot: {
-      paramMap: {
-        get: (key: string) => (key === 'accountVerificationRequestId' ? accountVerificationRequestId : null),
-      },
-    },
-  };
-}
-
 describe('InstructorWelcomePageComponent', () => {
   let component: InstructorWelcomePageComponent;
   let fixture: ComponentFixture<InstructorWelcomePageComponent>;
@@ -40,19 +30,14 @@ describe('InstructorWelcomePageComponent', () => {
 
   async function setup(accountVerificationRequestId: string | null = 'test-id-123') {
     await TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        {
-          provide: ActivatedRoute,
-          useValue: createActivatedRoute(accountVerificationRequestId),
-        },
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InstructorWelcomePageComponent);
     component = fixture.componentInstance;
+    if (accountVerificationRequestId !== null) {
+      component.accountVerificationRequestId = accountVerificationRequestId;
+    }
     accountService = TestBed.inject(AccountService);
     courseService = TestBed.inject(CourseService);
     navService = TestBed.inject(NavigationService);

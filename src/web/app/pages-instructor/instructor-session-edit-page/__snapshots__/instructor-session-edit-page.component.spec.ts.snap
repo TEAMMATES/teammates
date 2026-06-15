@@ -11,6 +11,7 @@ exports[`InstructorSessionEditPageComponent > should snap with default fields 1`
   courseName=""
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
+  editingMode=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -38,7 +39,6 @@ exports[`InstructorSessionEditPageComponent > should snap with default fields 1`
   progressBarService={[Function _ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -106,6 +106,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
   courseName={[Function String]}
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
+  editingMode=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -133,7 +134,6 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
   progressBarService={[Function _ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -826,8 +826,7 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?fsid=ee47e471-fbd8-478e-a350-51152802215b&preselectnonsubmitters=false"
-                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                      href="/web/instructor/sessions/ee47e471-fbd8-478e-a350-51152802215b/individual-extension?preselectNonSubmitters=false"
                     >
                        Individual Deadline Extensions 
                       <i
@@ -3359,6 +3358,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
   courseName=""
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
+  editingMode=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -3386,7 +3386,6 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
   progressBarService={[Function _ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   questionEditFormModels={[Function Array]}
-  route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -4044,8 +4043,7 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?fsid=&preselectnonsubmitters=false"
-                      tmrouterlink="/web/instructor/sessions/individual-extension"
+                      href="/web/instructor/sessions//individual-extension?preselectNonSubmitters=false"
                     >
                        Individual Deadline Extensions 
                       <i

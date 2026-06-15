@@ -8,15 +8,14 @@ exports[`InstructorStudentRecordsPageComponent > should snap when student result
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   isStudentResultsLoading={[Function Boolean]}
-  route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
   studentEmail=""
-  studentId={[Function String]}
   studentName={[Function String]}
   studentService={[Function _StudentService]}
   studentTeam=""
   tableComparatorService={[Function _TableComparatorService]}
+  userId={[Function String]}
 >
   <h1
     id="records-header"
@@ -60,15 +59,14 @@ exports[`InstructorStudentRecordsPageComponent > should snap with default fields
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   isStudentResultsLoading={[Function Boolean]}
-  route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
   studentEmail=""
-  studentId={[Function String]}
   studentName=""
   studentService={[Function _StudentService]}
   studentTeam=""
   tableComparatorService={[Function _TableComparatorService]}
+  userId={[Function String]}
 >
   <h1
     id="records-header"
@@ -112,15 +110,14 @@ exports[`InstructorStudentRecordsPageComponent > should snap with populated fiel
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   isStudentResultsLoading="false"
-  route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
   studentEmail=""
-  studentId={[Function String]}
   studentName={[Function String]}
   studentService={[Function _StudentService]}
   studentTeam=""
   tableComparatorService={[Function _TableComparatorService]}
+  userId={[Function String]}
 >
   <h1
     id="records-header"

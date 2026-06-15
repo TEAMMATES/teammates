@@ -138,7 +138,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createFrontendUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.TEAMMATES_FRONTEND_URL + relativeUrl);
+        return AppUrl.fromParts(TestProperties.TEAMMATES_FRONTEND_URL, relativeUrl);
     }
 
     /**

@@ -6622,10 +6622,9 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                   >
                     <a
                       class="btn btn-light btn-sm custom-button-active"
-                      href="/web/instructor/courses/enroll?courseid=CS3281"
+                      href="/web/instructor/courses/CS3281/enroll"
                       id="btn-enroll-0"
                       ngbtooltip="Enroll student into the course"
-                      tmrouterlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
@@ -6647,15 +6646,13 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                       >
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/details?courseid=CS3281"
-                          tmrouterlink="/web/instructor/courses/details"
+                          href="/web/instructor/courses/CS3281/details"
                         >
                            View 
                         </a>
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/edit?courseid=CS3281"
-                          tmrouterlink="/web/instructor/courses/edit"
+                          href="/web/instructor/courses/CS3281/edit"
                         >
                            Edit 
                         </a>
@@ -6748,15 +6745,13 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                       >
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/details?courseid=CS3282"
-                          tmrouterlink="/web/instructor/courses/details"
+                          href="/web/instructor/courses/CS3282/details"
                         >
                            View 
                         </a>
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/edit?courseid=CS3282"
-                          tmrouterlink="/web/instructor/courses/edit"
+                          href="/web/instructor/courses/CS3282/edit"
                         >
                            Edit 
                         </a>
@@ -13635,10 +13630,9 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                   >
                     <a
                       class="btn btn-light btn-sm custom-button-active"
-                      href="/web/instructor/courses/enroll?courseid=CS3281"
+                      href="/web/instructor/courses/CS3281/enroll"
                       id="btn-enroll-0"
                       ngbtooltip="Enroll student into the course"
-                      tmrouterlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
@@ -13660,15 +13654,13 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                       >
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/details?courseid=CS3281"
-                          tmrouterlink="/web/instructor/courses/details"
+                          href="/web/instructor/courses/CS3281/details"
                         >
                            View 
                         </a>
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/edit?courseid=CS3281"
-                          tmrouterlink="/web/instructor/courses/edit"
+                          href="/web/instructor/courses/CS3281/edit"
                         >
                            Edit 
                         </a>
@@ -13761,15 +13753,13 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                       >
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/details?courseid=CS3282"
-                          tmrouterlink="/web/instructor/courses/details"
+                          href="/web/instructor/courses/CS3282/details"
                         >
                            View 
                         </a>
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/edit?courseid=CS3282"
-                          tmrouterlink="/web/instructor/courses/edit"
+                          href="/web/instructor/courses/CS3282/edit"
                         >
                            Edit 
                         </a>
@@ -20682,10 +20672,9 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                   >
                     <a
                       class="btn btn-light btn-sm custom-button-active"
-                      href="/web/instructor/courses/enroll?courseid=CS3281"
+                      href="/web/instructor/courses/CS3281/enroll"
                       id="btn-enroll-0"
                       ngbtooltip="Enroll student into the course"
-                      tmrouterlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
@@ -20707,15 +20696,13 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                       >
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/details?courseid=CS3281"
-                          tmrouterlink="/web/instructor/courses/details"
+                          href="/web/instructor/courses/CS3281/details"
                         >
                            View 
                         </a>
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/edit?courseid=CS3281"
-                          tmrouterlink="/web/instructor/courses/edit"
+                          href="/web/instructor/courses/CS3281/edit"
                         >
                            Edit 
                         </a>
@@ -20825,15 +20812,13 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                       >
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/details?courseid=CS3282"
-                          tmrouterlink="/web/instructor/courses/details"
+                          href="/web/instructor/courses/CS3282/details"
                         >
                            View 
                         </a>
                         <a
                           class="btn btn-primary btn-sm dropdown-item clickable"
-                          href="/web/instructor/courses/edit?courseid=CS3282"
-                          tmrouterlink="/web/instructor/courses/edit"
+                          href="/web/instructor/courses/CS3282/edit"
                         >
                            Edit 
                         </a>

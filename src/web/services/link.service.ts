@@ -17,9 +17,9 @@ export class LinkService {
   STUDENT_HOME_PAGE = '/student/home';
   INSTRUCTOR_HOME_PAGE = '/instructor/home';
   ADMIN_ACCOUNTS_PAGE = '/admin/accounts';
-  INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses/student/details';
-  SESSIONS_SUBMISSION_PAGE = '/sessions/submission';
-  SESSIONS_RESULT_PAGE = '/sessions/result';
+  INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses';
+  SESSIONS_SUBMISSION_PAGE = '/sessions/{feedbackSessionId}/submission';
+  SESSIONS_RESULT_PAGE = '/sessions/{feedbackSessionId}/result';
 
   /**
    * Generates instructor welcome link.
@@ -45,34 +45,19 @@ export class LinkService {
   /**
    * Generates manage account link.
    */
-  generateManageAccountLink(accountId: string, accountsPage: string): string {
-    const params: {
-      [key: string]: string;
-    } = {
-      accountid: accountId,
-    };
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${accountsPage}${encodedParams}`;
+  generateManageAccountLink(accountId: string, _accountsPage: string): string {
+    return `${this.URI_PREFIX}${this.ADMIN_ACCOUNTS_PAGE}/${accountId}`;
   }
 
   /**
    * Generates student profile page link.
    */
   generateProfilePageLink(student: Student, instructorAccountId: string): string {
-    const { courseId: courseid, userId: userid }: Student = student;
-    const params: {
-      [key: string]: string;
-    } = {
-      courseid,
-      userid,
-      masqueradeaccountid: instructorAccountId,
-    };
-
+    const { courseId, userId } = student;
+    const params: { [key: string]: string } = { masqueradeaccountid: instructorAccountId };
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}${encodedParams}`;
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}/${courseId}/students/${userId}/details${encodedParams}`;
   }
 
   /**

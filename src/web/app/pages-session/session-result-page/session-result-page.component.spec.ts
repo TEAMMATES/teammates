@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
@@ -103,30 +103,12 @@ describe('SessionResultPageComponent', () => {
   const testQueryParams: Record<string, string> = {
     fsid: 'test-session-id',
     key: 'reg-key',
-    previewas: '',
+    previewAs: '',
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of(testQueryParams),
-            data: {
-              intent: Intent.STUDENT_RESULT,
-              pipe: () => {
-                return {
-                  subscribe: (fn: (value: unknown) => void) => fn(testQueryParams),
-                };
-              },
-            },
-          },
-        },
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionResultPageComponent);
@@ -136,6 +118,10 @@ describe('SessionResultPageComponent', () => {
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
     logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
+    component.feedbackSessionId = testQueryParams['fsid'];
+    component.key = testQueryParams['key'];
+    component.previewAs = testQueryParams['previewAs'];
+    component.intent = Intent.STUDENT_RESULT;
     // Set both loading flags to false initially for testing purposes only
     component.isCourseLoading = false;
     component.isFeedbackSessionDetailsLoading = false;
@@ -178,7 +164,7 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should snap with user that is logged in and using session link', () => {
-    component.regKey = 'session-link-key';
+    component.key = 'session-link-key';
     component.loggedInUser = 'alice';
     component.personName = 'alice';
     fixture.detectChanges();
@@ -186,7 +172,7 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should snap with user that is not logged in and using session link', () => {
-    component.regKey = 'session-link-key';
+    component.key = 'session-link-key';
     component.loggedInUser = '';
     component.personName = 'alice';
     fixture.detectChanges();
@@ -218,8 +204,8 @@ describe('SessionResultPageComponent', () => {
 
   it('should snap when previewing results', () => {
     component.intent = Intent.STUDENT_RESULT;
-    component.regKey = '';
-    component.previewAsPerson = 'alice2@tmt.tmt';
+    component.key = '';
+    component.previewAs = 'alice2@tmt.tmt';
     component.personName = 'Alice2';
     component.personEmail = 'alice2@tmt.tmt';
     component.session = testFeedbackSession;
@@ -234,7 +220,7 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(component.feedbackSessionId).toEqual('test-session-id');
-    expect(component.regKey).toEqual('reg-key');
+    expect(component.key).toEqual('reg-key');
     expect(component.loggedInUser).toEqual('user-id');
   });
 
@@ -246,14 +232,12 @@ describe('SessionResultPageComponent', () => {
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateByURLWithParamEncoding').mockResolvedValue(true);
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/result', {
-      fsid: 'test-session-id',
-    });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/test-session-id/result');
   });
 
   it('should load info and create log', () => {
@@ -343,7 +327,7 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate to join course when user click on join course link', () => {
-    component.regKey = 'reg-key';
+    component.key = 'reg-key';
     component.loggedInUser = 'user';
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
@@ -353,7 +337,7 @@ describe('SessionResultPageComponent', () => {
     btn.click();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: 'reg-key' });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entityType: 'student', key: 'reg-key' });
   });
 
   it('should load session results and hydrate questions', () => {
@@ -400,7 +384,7 @@ describe('SessionResultPageComponent', () => {
       feedbackSessionId: testQueryParams['fsid'],
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams['key'],
-      previewAs: testQueryParams['previewas'],
+      previewAs: testQueryParams['previewAs'],
     });
     expect(component.questions.length).toEqual(1);
     expect(component.questions[0]).toEqual(testFeedbackQuestionModel);

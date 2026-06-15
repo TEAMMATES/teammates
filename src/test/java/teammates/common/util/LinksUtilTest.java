@@ -30,7 +30,7 @@ public class LinksUtilTest extends BaseTestCase {
     void setUp() {
         mockConfig = mockStatic(Config.class, Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS));
         mockConfig.when(() -> Config.getFrontEndAppUrl(Mockito.anyString()))
-                .thenAnswer(inv -> new AppUrl(TEST_BASE_URL + inv.getArgument(0, String.class)));
+                .thenAnswer(inv -> AppUrl.fromParts(TEST_BASE_URL, inv.getArgument(0, String.class)));
     }
 
     @AfterMethod
@@ -44,43 +44,41 @@ public class LinksUtilTest extends BaseTestCase {
 
     @Test
     public void getStudentSessionSubmitUrl_studentUser_returnsCorrectAbsoluteUrl() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.SESSION_SUBMISSION_PAGE
-                + "?fsid=" + SAMPLE_SESSION_ID + "&key=" + SAMPLE_REG_KEY;
+        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/submission"
+                + "?key=" + SAMPLE_REG_KEY;
         assertEquals(expected, LinksUtil.getStudentSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
     }
 
     @Test
     public void getInstructorSessionSubmitUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.SESSION_SUBMISSION_PAGE
-                + "?fsid=" + SAMPLE_SESSION_ID + "&key=" + SAMPLE_REG_KEY + "&entitytype=instructor";
+        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/submission"
+                + "?key=" + SAMPLE_REG_KEY + "&entityType=instructor";
         assertEquals(expected, LinksUtil.getInstructorSessionSubmitUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
     }
 
     @Test
     public void getStudentSessionResultsUrl_studentUser_returnsCorrectAbsoluteUrl() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.SESSION_RESULTS_PAGE
-                + "?fsid=" + SAMPLE_SESSION_ID + "&key=" + SAMPLE_REG_KEY;
+        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/result"
+                + "?key=" + SAMPLE_REG_KEY;
         assertEquals(expected, LinksUtil.getStudentSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
     }
 
     @Test
     public void getInstructorSessionResultsUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.SESSION_RESULTS_PAGE
-                + "?fsid=" + SAMPLE_SESSION_ID + "&key=" + SAMPLE_REG_KEY + "&entitytype=instructor";
+        String expected = TEST_BASE_URL + "/web/sessions/" + SAMPLE_SESSION_ID + "/result"
+                + "?key=" + SAMPLE_REG_KEY + "&entityType=instructor";
         assertEquals(expected, LinksUtil.getInstructorSessionResultsUrl(SAMPLE_SESSION_ID, SAMPLE_REG_KEY));
     }
 
     @Test
     public void getInstructorSessionEditUrl_validSessionId_returnsCorrectAbsoluteUrl() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE
-                + "?fsid=" + SAMPLE_SESSION_ID;
+        String expected = TEST_BASE_URL + "/web/instructor/sessions/" + SAMPLE_SESSION_ID + "/edit";
         assertEquals(expected, LinksUtil.getInstructorSessionEditUrl(SAMPLE_SESSION_ID));
     }
 
     @Test
     public void getInstructorSessionReportUrl_validSessionId_returnsCorrectAbsoluteUrl() {
-        String expected = TEST_BASE_URL + Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE
-                + "?fsid=" + SAMPLE_SESSION_ID;
+        String expected = TEST_BASE_URL + "/web/instructor/sessions/" + SAMPLE_SESSION_ID + "/report";
         assertEquals(expected, LinksUtil.getInstructorSessionReportUrl(SAMPLE_SESSION_ID));
     }
 
@@ -125,22 +123,21 @@ public class LinksUtilTest extends BaseTestCase {
     @Test
     public void getStudentCourseJoinUrl_studentUser_returnsAbsoluteUrlWithStudentEntityType() {
         String expected = TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE
-                + "?key=" + SAMPLE_REG_KEY + "&entitytype=student";
+                + "?key=" + SAMPLE_REG_KEY + "&entityType=student";
         assertEquals(expected, LinksUtil.getStudentCourseJoinUrl(SAMPLE_REG_KEY));
     }
 
     @Test
     public void getInstructorCourseJoinUrl_instructorUser_returnsAbsoluteUrlWithInstructorEntityType() {
         String expected = TEST_BASE_URL + Const.WebPageURIs.JOIN_PAGE
-                + "?key=" + SAMPLE_REG_KEY + "&entitytype=instructor";
+                + "?key=" + SAMPLE_REG_KEY + "&entityType=instructor";
         assertEquals(expected, LinksUtil.getInstructorCourseJoinUrl(SAMPLE_REG_KEY));
     }
 
     @Test
     public void getInstructorWelcomeUrl_accountVerificationRequest_returnsAbsoluteUrlWithAccountVerificationRequestId() {
         UUID sampleAccountVerificationRequestId = UUID.fromString("33333333-3333-3333-3333-333333333333");
-        String expected = TEST_BASE_URL + Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE
-                + "/" + sampleAccountVerificationRequestId;
+        String expected = TEST_BASE_URL + "/web/instructor-welcome/" + sampleAccountVerificationRequestId;
         assertEquals(expected, LinksUtil.getInstructorWelcomeUrl(sampleAccountVerificationRequestId));
     }
 

@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -18,25 +17,19 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [LoadingRetryComponent, LoadingSpinnerDirective, CourseRelatedInfoComponent],
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private statusMessageService = inject(StatusMessageService);
   private studentService = inject(StudentService);
 
   student?: Student;
 
-  courseId = '';
-  studentId = '';
+  @Input({ required: true }) courseId!: string;
+  @Input({ required: true }) userId!: string;
 
   isStudentLoading = false;
   hasStudentLoadingFailed = false;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
-      this.studentId = queryParams['userid'];
-
-      this.loadStudentDetails(this.studentId);
-    });
+    this.loadStudentDetails(this.userId);
   }
 
   /**
