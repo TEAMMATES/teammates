@@ -153,12 +153,12 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Logs in to a page using the given credentials.
      */
-    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userId) {
+    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userEmail) {
         // In order for the cookie injection to work, we need to be in the domain.
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
-        String cookieValue = BACKDOOR.getUserCookie(userId);
+        String cookieValue = BACKDOOR.getUserCookie(userEmail);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
         return getNewPageInstance(url, typeOfPage);

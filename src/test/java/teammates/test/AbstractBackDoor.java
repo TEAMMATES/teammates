@@ -255,10 +255,14 @@ public abstract class AbstractBackDoor {
     /**
      * Gets the cookie format for the given user ID.
      */
-    public String getUserCookie(String userId) {
+    public String getUserCookie(String userEmail) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER_ID, userId);
+        params.put(Const.ParamsNames.ACCOUNT_EMAIL, userEmail);
         ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
+        if (response.responseCode != HttpStatus.SC_OK) {
+            throw new RuntimeException("Failed to get user cookie: [" + response.responseCode + "] "
+                    + response.responseBody);
+        }
 
         MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
         return output.getMessage();

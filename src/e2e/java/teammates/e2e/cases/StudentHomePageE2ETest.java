@@ -27,7 +27,8 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     public void testAll() {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
-        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
+        String studentEmail = testData.accounts.get("SHome.student").getEmail();
+        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, studentEmail);
 
         ______TS("courses visible to student are shown");
         List<String> courseIds = getAllVisibleCourseIds();

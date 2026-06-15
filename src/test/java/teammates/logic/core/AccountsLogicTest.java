@@ -44,33 +44,17 @@ public class AccountsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateOrGetAccountForEmail_accountExists_success() {
-        Account account = getTypicalAccount();
-        String email = account.getEmail();
-        Provider provider = account.getProvider();
-        String subject = account.getSubject();
-        String tenantId = account.getTenantId();
-
-        when(accountsDb.getAccountByGoogleId(email)).thenReturn(account);
-
-        Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
-
-        assertEquals(result, account);
-    }
-
-    @Test
     public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
         String email = "nonexistent@example.com";
         Provider provider = Provider.TEAMMATES_DEV;
         String subject = "nonexistentSubject";
         String tenantId = "nonexistentTenantId";
 
-        when(accountsDb.getAccountByGoogleId(email)).thenReturn(null);
-        when(accountsDb.persistAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(accountsDb.upsertAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
 
         Account result = accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
 
-        verify(accountsDb, times(1)).persistAccount(result);
+        verify(accountsDb, times(1)).upsertAccount(result);
         assertNotNull(result);
         assertEquals(result.getEmail(), email);
     }

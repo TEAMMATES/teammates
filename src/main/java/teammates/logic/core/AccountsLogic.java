@@ -63,6 +63,16 @@ public final class AccountsLogic {
     }
 
     /**
+     * Gets an account by auth identity.
+     */
+    public Account getAccountForAuthIdentity(Provider provider, String subject, @Nullable String tenantId) {
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
+
+        return accountsDb.getAccountByAuthIdentity(provider, subject, tenantId);
+    }
+
+    /**
      * Creates and returns an account for the given email if it does not exist,
      * otherwise just return the existing account.
      *
@@ -78,17 +88,11 @@ public final class AccountsLogic {
         Objects.requireNonNull(email);
 
         String googleId = email;
-        // TODO: Fetch account by provider, subject and tenantId.
-        Account account = getAccountForGoogleId(googleId);
-        if (account != null) {
-            return account;
-        }
+        Account account = new Account(googleId, provider, subject, tenantId, "User", email);
 
         try {
-            return createAccount(provider, subject, tenantId, email, googleId);
-        } catch (EntityAlreadyExistsException e) {
-            // This should not happen.
-            throw new IllegalStateException("Failed to create existing account for email: " + email, e);
+            validateAccount(account);
+            return accountsDb.upsertAccount(account);
         } catch (InvalidParametersException e) {
             throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
         }
@@ -120,7 +124,7 @@ public final class AccountsLogic {
 
         validateAccount(account);
 
-        if (getAccountForGoogleId(account.getGoogleId()) != null) {
+        if (getAccountForAuthIdentity(account.getProvider(), account.getSubject(), account.getTenantId()) != null) {
             throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
         }
 

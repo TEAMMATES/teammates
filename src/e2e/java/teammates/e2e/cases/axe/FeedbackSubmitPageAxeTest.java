@@ -25,7 +25,7 @@ public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
                 .withFeedbackSessionId(testData.feedbackSessions.get("Open Session").getId());
 
         FeedbackSubmitPage feedbackSubmitPage = loginToPage(url, FeedbackSubmitPage.class,
-                testData.students.get("alice.tmms@FSubmit.CS2104").getGoogleId());
+                testData.students.get("alice.tmms@FSubmit.CS2104").getEmail());
 
         Results results = getAxeBuilder("aria-valuenow").analyze(feedbackSubmitPage.getBrowser().getDriver());
         formatViolations(results);

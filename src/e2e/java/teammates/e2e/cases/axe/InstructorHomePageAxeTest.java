@@ -24,7 +24,7 @@ public class InstructorHomePageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
         InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class,
-                testData.instructors.get("IHome.instr.CS2104").getGoogleId());
+                testData.instructors.get("IHome.instr.CS2104").getEmail());
 
         Results results = getAxeBuilder().analyze(homePage.getBrowser().getDriver());
         formatViolations(results);

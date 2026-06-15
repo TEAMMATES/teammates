@@ -24,7 +24,8 @@ public class StudentHomePageAxeTest extends BaseAxeTestCase {
     public void testAll() {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE);
-        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, "tm.e2e.SHome.student");
+        String studentEmail = testData.accounts.get("SHome.student").getEmail();
+        StudentHomePage homePage = loginToPage(url, StudentHomePage.class, studentEmail);
 
         Results results = getAxeBuilder().analyze(homePage.getBrowser().getDriver());
         formatViolations(results);
