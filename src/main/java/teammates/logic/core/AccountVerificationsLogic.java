@@ -130,6 +130,13 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Returns true if the given account has at least one approved account verification request.
+     */
+    public boolean hasAnyApprovedVerificationRequest(UUID accountId) {
+        return !accountVerificationRequestDb.getApprovedRequestsByAccountId(accountId).isEmpty();
+    }
+
+    /**
      * Returns the institutes for which the given account has an approved account verification request.
      */
     public List<Institute> getApprovedInstitutesForAccount(UUID accountId) {

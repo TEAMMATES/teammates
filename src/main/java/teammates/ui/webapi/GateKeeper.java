@@ -74,7 +74,8 @@ final class GateKeeper {
      */
     void verifyInstructorInAnyCourse(RequestContext requestContext) throws UnauthorizedAccessException {
         if (requestContext.getAccount() != null
-                && !usersLogic.getInstructorsByAccountId(requestContext.getAccount().getId()).isEmpty()) {
+                && (!usersLogic.getInstructorsByAccountId(requestContext.getAccount().getId()).isEmpty()
+                        || logic.hasAnyApprovedVerificationRequest(requestContext.getAccount().getId()))) {
             return;
         }
 
