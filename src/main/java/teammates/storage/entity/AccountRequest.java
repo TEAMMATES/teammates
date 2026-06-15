@@ -200,7 +200,8 @@ public class AccountRequest extends BaseEntity {
         return "AccountRequest [id=" + id + ", name=" + name + ", email="
                 + email + ", instituteId=" + instituteId + ", accountId=" + accountId
                 + ", status=" + status + ", comments=" + comments
-                + ", createdDemoCourseAt=" + createdDemoCourseAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+                + ", createdDemoCourseAt=" + createdDemoCourseAt
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
 }
