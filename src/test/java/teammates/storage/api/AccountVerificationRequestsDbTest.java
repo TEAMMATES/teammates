@@ -1,8 +1,10 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -135,7 +137,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
                 () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
                         account.id(), institute.id()));
 
-        assertEquals(true, actual);
+        assertTrue(actual);
     }
 
     @Test(groups = GroupNames.DB)
@@ -150,7 +152,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
                 () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
                         account.id(), institute.id()));
 
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
 
     @Test(groups = GroupNames.DB)
@@ -166,7 +168,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
                 () -> accountVerificationRequestsDb.hasApprovedRequestForAccountAndInstitute(
                         account.id(), otherInstitute.id()));
 
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
 
     @Test(groups = GroupNames.DB)

@@ -30,7 +30,7 @@ public class GetInstitutesActionTest extends BaseActionTest<GetInstitutesAction,
         InstitutesData result = execute(testRequest);
 
         assertEquals(1, result.getInstitutes().size());
-        assertEquals(institute.id().toString(), result.getInstitutes().get(0).getId());
+        assertEquals(institute.id(), result.getInstitutes().get(0).getId());
     }
 
     @Test(groups = GroupNames.ACTION)

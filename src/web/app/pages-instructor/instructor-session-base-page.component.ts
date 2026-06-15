@@ -313,7 +313,16 @@ export abstract class InstructorSessionBasePageComponent {
           strB = '';
       }
 
-      return this.tableComparatorService.compare(by, order, strA, strB);
+      const result = this.tableComparatorService.compare(by, order, strA, strB);
+      if (result === 0 && by !== SortBy.SESSION_NAME) {
+        return this.tableComparatorService.compare(
+          SortBy.SESSION_NAME,
+          SortOrder.ASC,
+          a.feedbackSession.feedbackSessionName,
+          b.feedbackSession.feedbackSessionName,
+        );
+      }
+      return result;
     };
   }
 
