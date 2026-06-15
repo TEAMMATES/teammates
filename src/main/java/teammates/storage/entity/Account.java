@@ -29,7 +29,8 @@ import teammates.common.util.SanitizationHelper;
 @Entity
 @Table(name = "Accounts",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UniqueOidc", columnNames = {"provider", "subject", "tenantId"}),
+                @UniqueConstraint(name = "unique_provider_subject_tenant",
+                        columnNames = {"provider", "subject", "tenantId"}),
         }
 )
 public class Account extends BaseEntity {
