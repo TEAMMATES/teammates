@@ -29,10 +29,9 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             throw new EntityNotFoundException(errorMessage);
         }
 
-        if (accountRequest.getStatus() == AccountRequestStatus.APPROVED
-                || accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
+        if (accountRequest.getStatus() == AccountRequestStatus.APPROVED) {
             throw new InvalidOperationException(
-                    "Account request with id " + accountRequestId + " is already approved or registered.");
+                    "Account request with id " + accountRequestId + " is already approved.");
         }
 
         try {

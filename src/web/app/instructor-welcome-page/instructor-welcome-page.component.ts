@@ -42,7 +42,7 @@ export class InstructorWelcomePageComponent implements OnInit {
 
     this.accountService.getAccountRequest(accountRequestId).subscribe({
       next: (accountRequest: AccountRequest) => {
-        if (accountRequest.registeredAt) {
+        if (accountRequest.createdDemoCourseAt) {
           this.navigationService.navigateByURL('/web/instructor/home');
           return;
         }

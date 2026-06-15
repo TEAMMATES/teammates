@@ -61,9 +61,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         AccountRequest actualAccountRequest = dataBundle.accountRequests.get("instructor1");
         AccountRequest expectedAccountRequest = new AccountRequest("instr1@teammates.tmt", "Instructor 1",
-                AccountRequestStatus.REGISTERED, "These are some comments.");
+                AccountRequestStatus.APPROVED, "These are some comments.");
         expectedAccountRequest.setId(actualAccountRequest.getId());
-        expectedAccountRequest.setRegisteredAt(Instant.parse("2015-02-14T00:00:00Z"));
+        expectedAccountRequest.setCreatedDemoCourseAt(Instant.parse("2015-02-14T00:00:00Z"));
         assertEquals(expectedAccountRequest, actualAccountRequest);
 
         ______TS("verify accounts deserialized correctly");

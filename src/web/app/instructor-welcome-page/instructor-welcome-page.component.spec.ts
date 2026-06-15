@@ -116,10 +116,10 @@ describe('InstructorWelcomePageComponent', () => {
     expect(component.accountRequest()).toBeNull();
   });
 
-  it('should redirect to instructor home if account request is already registered', async () => {
+  it('should redirect to instructor home if demo course is already created', async () => {
     await setup();
-    const registeredRequest: AccountRequest = { ...mockAccountRequest, registeredAt: 2000000 };
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(registeredRequest));
+    const request: AccountRequest = { ...mockAccountRequest, createdDemoCourseAt: 2000000 };
+    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(request));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();

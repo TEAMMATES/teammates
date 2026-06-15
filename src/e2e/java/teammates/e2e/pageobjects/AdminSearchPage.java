@@ -38,7 +38,7 @@ public class AdminSearchPage extends AppPage {
     private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
     private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
     private static final int ACCOUNT_REQUEST_COL_CREATED_AT = 6;
-    private static final int ACCOUNT_REQUEST_COL_REGISTERED_AT = 7;
+    private static final int ACCOUNT_REQUEST_COL_CREATED_DEMO_COURSE_AT = 7;
 
     private static final String EXPANDED_ROWS_HEADER_ACCOUNT_REGISTRATION_LINK = "Account Registration Link";
 
@@ -235,8 +235,8 @@ public class AdminSearchPage extends AppPage {
         return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_CREATED_AT);
     }
 
-    public String getAccountRequestRegisteredAt(WebElement accountRequestRow) {
-        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_REGISTERED_AT);
+    public String getAccountRequestCreatedDemoCourseAt(WebElement accountRequestRow) {
+        return getColumnText(accountRequestRow, ACCOUNT_REQUEST_COL_CREATED_DEMO_COURSE_AT);
     }
 
     public String getAccountRequestRegistrationLink(WebElement accountRequestRow) {
@@ -448,16 +448,16 @@ public class AdminSearchPage extends AppPage {
         String actualEmail = getAccountRequestEmail(accountRequestRow);
         String actualInstitute = getAccountRequestInstitute(accountRequestRow);
         String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
-        String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
+        String actualCreatedDemoCourseAt = getAccountRequestCreatedDemoCourseAt(accountRequestRow);
 
         assertEquals(accountRequest.getName(), actualName);
         assertEquals(accountRequest.getEmail(), actualEmail);
         assertEquals(accountRequest.getInstitute().getName(), actualInstitute);
         assertFalse(actualCreatedAt.isBlank());
-        if (accountRequest.getRegisteredAt() == null) {
-            assertEquals("Not Registered Yet", actualRegisteredAt);
+        if (accountRequest.getCreatedDemoCourseAt() == null) {
+            assertEquals("Not Created Yet", actualCreatedDemoCourseAt);
         } else {
-            assertFalse(actualRegisteredAt.isBlank());
+            assertFalse(actualCreatedDemoCourseAt.isBlank());
         }
     }
 

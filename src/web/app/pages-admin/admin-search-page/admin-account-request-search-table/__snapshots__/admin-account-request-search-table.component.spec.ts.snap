@@ -70,7 +70,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               Created At
             </th>
             <th>
-              Registered At
+              Demo Course Created At
             </th>
             <th>
               Comments
@@ -120,7 +120,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Created Yet
             </td>
             <td>
               <div
@@ -274,7 +274,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Created Yet
             </td>
             <td>
               <div
@@ -466,7 +466,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               Created At
             </th>
             <th>
-              Registered At
+              Demo Course Created At
             </th>
             <th>
               Comments
@@ -516,7 +516,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Created Yet
             </td>
             <td>
               <div
@@ -656,7 +656,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               email
             </td>
             <td>
-              REGISTERED
+              APPROVED
             </td>
             <td>
               institute
@@ -672,7 +672,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Created Yet
             </td>
             <td>
               <div
@@ -866,7 +866,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
               Created At
             </th>
             <th>
-              Registered At
+              Demo Course Created At
             </th>
             <th>
               Comments
@@ -916,7 +916,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
             <td
               id="timestamp-box"
             >
-              Not Registered Yet
+              Not Created Yet
             </td>
             <td>
               <div

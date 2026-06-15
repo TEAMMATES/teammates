@@ -18,7 +18,7 @@ export interface AccountRequest extends ApiOutput {
   country: string;
   status: AccountRequestStatus;
   comments?: string;
-  registeredAt?: number;
+  createdDemoCourseAt?: number;
   createdAt: number;
 }
 
@@ -609,7 +609,6 @@ export enum AccountRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-  REGISTERED = "REGISTERED",
 }
 
 export enum CommentVisibilityType {

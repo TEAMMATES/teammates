@@ -11,7 +11,7 @@ export interface AccountRequestTableRowModel {
   institute: string;
   country: string;
   createdAtText: string;
-  registeredAtText: string;
+  createdDemoCourseAtText: string;
   comments: string;
   registrationLink: string;
   showLinks: boolean;

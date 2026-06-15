@@ -60,7 +60,7 @@ public class AccountRequest extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String comments;
 
-    private Instant registeredAt;
+    private Instant createdDemoCourseAt;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -76,7 +76,7 @@ public class AccountRequest extends BaseEntity {
         this.setStatus(status);
         this.setComments(comments);
         this.setCreatedAt(Instant.now());
-        this.setRegisteredAt(null);
+        this.setCreatedDemoCourseAt(null);
     }
 
     @Override
@@ -161,12 +161,12 @@ public class AccountRequest extends BaseEntity {
         this.comments = comments;
     }
 
-    public Instant getRegisteredAt() {
-        return this.registeredAt;
+    public Instant getCreatedDemoCourseAt() {
+        return this.createdDemoCourseAt;
     }
 
-    public void setRegisteredAt(Instant registeredAt) {
-        this.registeredAt = registeredAt;
+    public void setCreatedDemoCourseAt(Instant createdDemoCourseAt) {
+        this.createdDemoCourseAt = createdDemoCourseAt;
     }
 
     public Instant getUpdatedAt() {
@@ -200,7 +200,7 @@ public class AccountRequest extends BaseEntity {
         return "AccountRequest [id=" + id + ", name=" + name + ", email="
                 + email + ", instituteId=" + instituteId + ", accountId=" + accountId
                 + ", status=" + status + ", comments=" + comments
-                + ", registeredAt=" + registeredAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
+                + ", createdDemoCourseAt=" + createdDemoCourseAt + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt + "]";
     }
 
 }
