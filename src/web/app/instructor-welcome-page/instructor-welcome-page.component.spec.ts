@@ -23,7 +23,7 @@ const mockAccountVerificationRequest: AccountVerificationRequest = {
 function createActivatedRoute(accountVerificationRequestId: string | null) {
   return {
     snapshot: {
-      queryParamMap: {
+      paramMap: {
         get: (key: string) => (key === 'accountVerificationRequestId' ? accountVerificationRequestId : null),
       },
     },

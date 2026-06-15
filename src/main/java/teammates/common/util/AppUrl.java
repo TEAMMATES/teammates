@@ -68,6 +68,13 @@ public class AppUrl {
         return baseUrl;
     }
 
+    public AppUrl withPathSegment(String segment) {
+        if (segment == null || segment.isEmpty()) {
+            return this;
+        }
+        return new AppUrl(baseUrl, relativeUrl + "/" + segment, initialQuery, additionalParams);
+    }
+
     public AppUrl withParam(String paramName, String paramValue) {
         if (paramName == null || paramName.isEmpty() || paramValue == null || paramValue.isEmpty()) {
             return this;
