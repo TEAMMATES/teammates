@@ -1,4 +1,4 @@
-package teammates.ui.devserverstartuperrorhandlers;
+package teammates.ui.errorhandlers;
 
 import org.hibernate.tool.schema.spi.SchemaManagementException;
 

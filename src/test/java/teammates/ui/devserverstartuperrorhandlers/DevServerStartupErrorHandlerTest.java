@@ -8,6 +8,8 @@ import org.hibernate.tool.schema.spi.SchemaManagementException;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
+import teammates.ui.errorhandlers.DevServerStartupErrorHandler;
+import teammates.ui.errorhandlers.SchemaValidationStartupErrorHandler;
 import teammates.ui.exception.DevServerStartupException;
 
 /**

@@ -10,7 +10,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
-import teammates.ui.devserverstartuperrorhandlers.DevServerStartupErrorHandler;
+import teammates.ui.errorhandlers.DevServerStartupErrorHandler;
 import teammates.ui.servlets.DevServerLoginServlet;
 
 /**

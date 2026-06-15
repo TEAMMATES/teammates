@@ -1,4 +1,4 @@
-package teammates.ui.devserverstartuperrorhandlers;
+package teammates.ui.errorhandlers;
 
 /**
  * Handles startup errors that can be formatted with dev-server-friendly messages.

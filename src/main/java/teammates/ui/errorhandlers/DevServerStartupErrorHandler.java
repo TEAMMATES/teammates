@@ -1,4 +1,4 @@
-package teammates.ui.devserverstartuperrorhandlers;
+package teammates.ui.errorhandlers;
 
 import java.util.Optional;
 
