@@ -3,8 +3,8 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import { AccountRequestTableRowModel } from './account-request-table-model';
-import { AccountRequestTableComponent } from './account-request-table.component';
+import { AccountVerificationRequestTableRowModel } from './account-verification-request-table-model';
+import { AccountVerificationRequestTableComponent } from './account-verification-request-table.component';
 import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
 import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
@@ -12,35 +12,35 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
+import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../../types/api-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
-describe('AccountRequestTableComponent', () => {
-  let component: AccountRequestTableComponent;
-  let fixture: ComponentFixture<AccountRequestTableComponent>;
+describe('AccountVerificationRequestTableComponent', () => {
+  let component: AccountVerificationRequestTableComponent;
+  let fixture: ComponentFixture<AccountVerificationRequestTableComponent>;
   let accountService: AccountService;
   let statusMessageService: StatusMessageService;
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
-  const accountRequestDetailsBuilder = createBuilder<AccountRequestTableRowModel>({
+  const accountVerificationRequestDetailsBuilder = createBuilder<AccountVerificationRequestTableRowModel>({
     id: '',
     email: '',
     name: '',
     institute: '',
     country: '',
     registrationLink: '',
-    status: AccountRequestStatus.PENDING,
+    status: AccountVerificationRequestStatus.PENDING,
     comments: '',
     createdDemoCourseAtText: '',
     createdAtText: '',
     showLinks: false,
   });
 
-  const DEFAULT_ACCOUNT_REQUEST = accountRequestDetailsBuilder
+  const DEFAULT_ACCOUNT_REQUEST = accountVerificationRequestDetailsBuilder
     .email('email')
     .name('name')
-    .status(AccountRequestStatus.PENDING)
+    .status(AccountVerificationRequestStatus.PENDING)
     .institute('institute')
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
@@ -55,7 +55,7 @@ describe('AccountRequestTableComponent', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AccountRequestTableComponent);
+    fixture = TestBed.createComponent(AccountVerificationRequestTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -69,33 +69,33 @@ describe('AccountRequestTableComponent', () => {
   });
 
   it('should snap with an account requests table', () => {
-    const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
-    component.accountRequests = [accountRequestResult];
+    const accountVerificationRequestResult: AccountVerificationRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    component.accountVerificationRequests = [accountVerificationRequestResult];
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should display account requests table', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
       { ...DEFAULT_ACCOUNT_REQUEST.build(), id: 'id-1' },
       { ...DEFAULT_ACCOUNT_REQUEST.build(), id: 'id-2' },
     ];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show success message when deleting account request is successful', () => {
-    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
+    component.accountVerificationRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
     fixture.detectChanges();
 
     const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
       return createMockNgbModalRef({});
     });
 
-    vi.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'deleteAccountVerificationRequest').mockReturnValue(
       of({
         message: 'Account request successfully deleted.',
       }),
@@ -107,7 +107,7 @@ describe('AccountRequestTableComponent', () => {
         expect(args).toEqual('Account request successfully deleted.');
       });
 
-    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-verification-request-0');
     deleteButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -116,7 +116,7 @@ describe('AccountRequestTableComponent', () => {
   });
 
   it('should show error message when deleting account request is unsuccessful', () => {
-    component.accountRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
+    component.accountVerificationRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     fixture.detectChanges();
 
@@ -124,7 +124,7 @@ describe('AccountRequestTableComponent', () => {
       return createMockNgbModalRef({});
     });
 
-    vi.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'deleteAccountVerificationRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -138,7 +138,7 @@ describe('AccountRequestTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-request-0');
+    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-verification-request-0');
     deleteButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -147,14 +147,14 @@ describe('AccountRequestTableComponent', () => {
   });
 
   it('should display comment modal', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    const viewCommentButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-account-request-0');
+    const viewCommentButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-account-verification-request-0');
     viewCommentButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(
@@ -165,57 +165,57 @@ describe('AccountRequestTableComponent', () => {
   });
 
   it('should display edit modal when edit button is clicked', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const resultData = {
-      accountRequestName: 'name',
-      accountRequestEmail: 'email',
-      accountRequestInstitution: 'institute',
-      accountRequestComment: 'comment',
+      accountVerificationRequestName: 'name',
+      accountVerificationRequestEmail: 'email',
+      accountVerificationRequestInstitution: 'institute',
+      accountVerificationRequestComment: 'comment',
     };
-    const mockAccountRequest: AccountRequest = {
-      accountRequestId: '',
+    const mockAccountVerificationRequest: AccountVerificationRequest = {
+      accountVerificationRequestId: '',
       email: 'email',
       name: 'name',
       institute: 'institute',
       country: '',
-      status: AccountRequestStatus.PENDING,
+      status: AccountVerificationRequestStatus.PENDING,
       createdAt: 0,
       comments: 'comment',
     };
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
-    vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(mockAccountRequest));
+    vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
 
-    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-verification-request-0');
     editButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
   });
 
   it('should display reject modal when reject button is clicked', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const resultData = {
       rejectionReasonTitle: 'Title',
       rejectionReasonBody: 'Body',
     };
-    const mockAccountRequest: AccountRequest = {
-      accountRequestId: '',
+    const mockAccountVerificationRequest: AccountVerificationRequest = {
+      accountVerificationRequestId: '',
       email: 'email',
       name: 'name',
       institute: 'institute',
       country: '',
-      status: AccountRequestStatus.REJECTED,
+      status: AccountVerificationRequestStatus.REJECTED,
       createdAt: 0,
     };
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
-    vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(mockAccountRequest));
+    vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
 
     const rejectButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
@@ -225,9 +225,9 @@ describe('AccountRequestTableComponent', () => {
   });
 
   it('should display error message when rejection was unsuccessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const resultData = {
@@ -236,7 +236,7 @@ describe('AccountRequestTableComponent', () => {
     };
     vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
 
-    vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -257,12 +257,12 @@ describe('AccountRequestTableComponent', () => {
   });
 
   it('should display error message when approval was unsuccessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
-    vi.spyOn(accountService, 'approveAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'approveAccountVerificationRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -276,27 +276,27 @@ describe('AccountRequestTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
+    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-verification-request-0');
     approveButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
   it('should display error message when edit was unsuccessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const resultData = {
-      accountRequestName: 'name',
-      accountRequestEmail: 'email',
-      accountRequestInstitution: 'institute',
-      accountRequestComment: 'comment',
+      accountVerificationRequestName: 'name',
+      accountVerificationRequestEmail: 'email',
+      accountVerificationRequestInstitution: 'institute',
+      accountVerificationRequestComment: 'comment',
     };
     vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
 
-    vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -310,28 +310,28 @@ describe('AccountRequestTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const editButton = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+    const editButton = fixture.debugElement.nativeElement.querySelector('#edit-account-verification-request-0');
     editButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
   it('should update request when edit is succcessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const resultData = {
-      accountRequestName: 'name',
-      accountRequestEmail: 'new email',
-      accountRequestInstitution: 'new institute',
-      accountRequestComment: 'new comment',
+      accountVerificationRequestName: 'name',
+      accountVerificationRequestEmail: 'new email',
+      accountVerificationRequestInstitution: 'new institute',
+      accountVerificationRequestComment: 'new comment',
     };
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
 
-    const editedAccountRequest: AccountRequest = {
-      accountRequestId: 'id',
+    const editedAccountVerificationRequest: AccountVerificationRequest = {
+      accountVerificationRequestId: 'id',
       comments: 'new comment',
       email: 'new email',
       institute: 'new institute',
@@ -339,74 +339,74 @@ describe('AccountRequestTableComponent', () => {
 
       name: 'new name',
       createdAt: 1,
-      status: AccountRequestStatus.PENDING,
+      status: AccountVerificationRequestStatus.PENDING,
     };
 
-    vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(editedAccountRequest));
+    vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(of(editedAccountVerificationRequest));
 
-    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
+    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-verification-request-0');
     editButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
 
     fixture.detectChanges();
-    expect(component.accountRequests[0].comments).toEqual('new comment');
-    expect(component.accountRequests[0].email).toEqual('new email');
-    expect(component.accountRequests[0].institute).toEqual('new institute');
-    expect(component.accountRequests[0].name).toEqual('new name');
+    expect(component.accountVerificationRequests[0].comments).toEqual('new comment');
+    expect(component.accountVerificationRequests[0].email).toEqual('new email');
+    expect(component.accountVerificationRequests[0].institute).toEqual('new institute');
+    expect(component.accountVerificationRequests[0].name).toEqual('new name');
   });
 
   it('should update status when approval is succcessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
-    const approvedRequest: AccountRequest = {
-      accountRequestId: component.accountRequests[0].id,
-      comments: component.accountRequests[0].comments,
-      email: component.accountRequests[0].email,
-      institute: component.accountRequests[0].institute,
+    const approvedRequest: AccountVerificationRequest = {
+      accountVerificationRequestId: component.accountVerificationRequests[0].id,
+      comments: component.accountVerificationRequests[0].comments,
+      email: component.accountVerificationRequests[0].email,
+      institute: component.accountVerificationRequests[0].institute,
       country: '',
 
-      name: component.accountRequests[0].name,
+      name: component.accountVerificationRequests[0].name,
       createdAt: 1,
-      status: AccountRequestStatus.APPROVED,
+      status: AccountVerificationRequestStatus.APPROVED,
     };
 
-    vi.spyOn(accountService, 'approveAccountRequest').mockReturnValue(of(approvedRequest));
+    vi.spyOn(accountService, 'approveAccountVerificationRequest').mockReturnValue(of(approvedRequest));
 
-    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
+    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-verification-request-0');
     approveButton.click();
 
     fixture.detectChanges();
-    expect(component.accountRequests[0].status).toEqual(AccountRequestStatus.APPROVED);
+    expect(component.accountVerificationRequests[0].status).toEqual(AccountVerificationRequestStatus.APPROVED);
   });
 
   it('should update status when rejection is succcessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
-    component.accountRequests = accountRequestResults;
+    component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
-    const rejectedRequest: AccountRequest = {
-      accountRequestId: component.accountRequests[0].id,
-      comments: component.accountRequests[0].comments,
-      email: component.accountRequests[0].email,
-      institute: component.accountRequests[0].institute,
+    const rejectedRequest: AccountVerificationRequest = {
+      accountVerificationRequestId: component.accountVerificationRequests[0].id,
+      comments: component.accountVerificationRequests[0].comments,
+      email: component.accountVerificationRequests[0].email,
+      institute: component.accountVerificationRequests[0].institute,
       country: '',
 
-      name: component.accountRequests[0].name,
+      name: component.accountVerificationRequests[0].name,
       createdAt: 1,
-      status: AccountRequestStatus.REJECTED,
+      status: AccountVerificationRequestStatus.REJECTED,
     };
 
-    vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
+    vi.spyOn(accountService, 'rejectAccountVerificationRequest').mockReturnValue(of(rejectedRequest));
 
     const rejectButton = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
     rejectButton.click();
 
     fixture.detectChanges();
-    expect(component.accountRequests[0].status).toEqual(AccountRequestStatus.REJECTED);
+    expect(component.accountVerificationRequests[0].status).toEqual(AccountVerificationRequestStatus.REJECTED);
   });
 });

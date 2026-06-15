@@ -1,3 +1,7 @@
+::ng-deep .highlighted-text {
+  background-color: yellow;
+}
+
 /* stylelint-disable declaration-block-no-redundant-longhand-properties */
 .table-responsive {
   overflow-y: visible;
@@ -21,12 +25,12 @@
   box-shadow: 0 0 1px rgb(255 255 255 / 50%);
 }
 
-#search-table-account-request {
+#search-table-account-verification-request {
   border-collapse: collapse;
 }
 
-#search-table-account-request th:last-child,
-#search-table-account-request td:last-child {
+#search-table-account-verification-request th:last-child,
+#search-table-account-verification-request td:last-child {
   min-width: 10vw;
   position: sticky;
   right: 0;
@@ -34,8 +38,8 @@
   background-color: #f8f9fa;
 }
 
-#search-table-account-request th:last-child::after,
-#search-table-account-request td:last-child::after {
+#search-table-account-verification-request th:last-child::after,
+#search-table-account-verification-request td:last-child::after {
   content: '';
   position: absolute;
   left: -1px;

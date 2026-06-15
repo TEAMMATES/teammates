@@ -177,7 +177,7 @@ export class UsageStatisticsPageComponent implements OnInit {
           this.itemName = 'instructors';
           break;
         case StatisticsType.NUM_ACCOUNT_REQUESTS:
-          value = statisticsObj.numAccountRequests;
+          value = statisticsObj.numAccountVerificationRequests;
           this.itemName = 'account requests';
           break;
         default:

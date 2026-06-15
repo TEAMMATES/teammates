@@ -1,11 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminAccountRequestSearchTableComponent > should display account requests with no reset or expand links button 1`] = `
-<tm-admin-account-request-search-table
-  accountRequests={[Function Array]}
+exports[`AdminAccountVerificationRequestSearchTableComponent > should display account requests with no reset or expand links button 1`] = `
+<tm-admin-account-verification-request-search-table
   accountService={[Function _AccountService]}
-  isApprovingAccountRequest={[Function Array]}
-  isRejectingAccountRequest={[Function Array]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -27,7 +27,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
       >
         <button
           class="btn btn-light btn-sm"
-          id="show-account-request-links"
+          id="show-account-verification-request-links"
           style="margin-right: 10px;"
           type="button"
         >
@@ -35,7 +35,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
         </button>
         <button
           class="btn btn-light btn-sm"
-          id="hide-account-request-links"
+          id="hide-account-verification-request-links"
           type="button"
         >
            Collapse All 
@@ -47,7 +47,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
     >
       <table
         class="table table-striped data-table"
-        id="search-table-account-request"
+        id="search-table-account-verification-request"
       >
         <thead>
           <tr>
@@ -139,7 +139,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-0"
+                    id="edit-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -154,7 +154,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-0"
+                    id="delete-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -166,7 +166,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-0"
+                    id="view-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -176,7 +176,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                 </div>
                 <button
                   class="btn btn-success"
-                  id="approve-account-request-0"
+                  id="approve-account-verification-request-0"
                 >
                    Approve 
                 </button>
@@ -187,7 +187,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    id="reject-account-request-0"
+                    id="reject-account-verification-request-0"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -293,7 +293,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-1"
+                    id="edit-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -308,7 +308,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-1"
+                    id="delete-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -320,7 +320,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-1"
+                    id="view-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -330,7 +330,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                 </div>
                 <button
                   class="btn btn-success"
-                  id="approve-account-request-1"
+                  id="approve-account-verification-request-1"
                 >
                    Approve 
                 </button>
@@ -341,7 +341,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    id="reject-account-request-1"
+                    id="reject-account-verification-request-1"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -393,15 +393,15 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
       </table>
     </div>
   </div>
-</tm-admin-account-request-search-table>
+</tm-admin-account-verification-request-search-table>
 `;
 
-exports[`AdminAccountRequestSearchTableComponent > should display account requests with reset button and expandable links buttons 1`] = `
-<tm-admin-account-request-search-table
-  accountRequests={[Function Array]}
+exports[`AdminAccountVerificationRequestSearchTableComponent > should display account requests with reset button and expandable links buttons 1`] = `
+<tm-admin-account-verification-request-search-table
   accountService={[Function _AccountService]}
-  isApprovingAccountRequest={[Function Array]}
-  isRejectingAccountRequest={[Function Array]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function _SimpleModalService]}
@@ -423,7 +423,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
       >
         <button
           class="btn btn-light btn-sm"
-          id="show-account-request-links"
+          id="show-account-verification-request-links"
           style="margin-right: 10px;"
           type="button"
         >
@@ -431,7 +431,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
         </button>
         <button
           class="btn btn-light btn-sm"
-          id="hide-account-request-links"
+          id="hide-account-verification-request-links"
           type="button"
         >
            Collapse All 
@@ -443,7 +443,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
     >
       <table
         class="table table-striped data-table"
-        id="search-table-account-request"
+        id="search-table-account-verification-request"
       >
         <thead>
           <tr>
@@ -535,7 +535,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-0"
+                    id="edit-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -550,7 +550,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-0"
+                    id="delete-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -562,7 +562,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-0"
+                    id="view-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -573,7 +573,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                 <button
                   class="btn btn-success"
                   disabled=""
-                  id="approve-account-request-0"
+                  id="approve-account-verification-request-0"
                 >
                    Approve 
                 </button>
@@ -585,7 +585,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
                     disabled=""
-                    id="reject-account-request-0"
+                    id="reject-account-verification-request-0"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -691,7 +691,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-1"
+                    id="edit-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -706,7 +706,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-1"
+                    id="delete-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -718,7 +718,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-1"
+                    id="view-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -729,7 +729,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                 <button
                   class="btn btn-success"
                   disabled=""
-                  id="approve-account-request-1"
+                  id="approve-account-verification-request-1"
                 >
                    Approve 
                 </button>
@@ -741,7 +741,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
                     disabled=""
-                    id="reject-account-request-1"
+                    id="reject-account-verification-request-1"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -793,15 +793,15 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
       </table>
     </div>
   </div>
-</tm-admin-account-request-search-table>
+</tm-admin-account-verification-request-search-table>
 `;
 
-exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded account requests table 1`] = `
-<tm-admin-account-request-search-table
-  accountRequests={[Function Array]}
+exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with an expanded account requests table 1`] = `
+<tm-admin-account-verification-request-search-table
   accountService={[Function _AccountService]}
-  isApprovingAccountRequest={[Function Array]}
-  isRejectingAccountRequest={[Function Array]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
@@ -823,7 +823,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
       >
         <button
           class="btn btn-light btn-sm"
-          id="show-account-request-links"
+          id="show-account-verification-request-links"
           style="margin-right: 10px;"
           type="button"
         >
@@ -831,7 +831,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
         </button>
         <button
           class="btn btn-light btn-sm"
-          id="hide-account-request-links"
+          id="hide-account-verification-request-links"
           type="button"
         >
            Collapse All 
@@ -843,7 +843,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
     >
       <table
         class="table table-striped data-table"
-        id="search-table-account-request"
+        id="search-table-account-verification-request"
       >
         <thead>
           <tr>
@@ -935,7 +935,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-0"
+                    id="edit-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -950,7 +950,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-0"
+                    id="delete-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -962,7 +962,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-0"
+                    id="view-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -972,7 +972,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
                 </div>
                 <button
                   class="btn btn-success"
-                  id="approve-account-request-0"
+                  id="approve-account-verification-request-0"
                 >
                    Approve 
                 </button>
@@ -983,7 +983,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    id="reject-account-request-0"
+                    id="reject-account-verification-request-0"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -1035,5 +1035,5 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
       </table>
     </div>
   </div>
-</tm-admin-account-request-search-table>
+</tm-admin-account-verification-request-search-table>
 `;

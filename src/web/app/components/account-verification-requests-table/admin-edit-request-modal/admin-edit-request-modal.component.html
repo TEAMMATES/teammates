@@ -1,10 +1,10 @@
 <div class="modal-header bg-primary">
   <h5 class="modal-title text-white">
-    <div>Edit Account Request for {{ accountRequestName }}</div>
+    <div>Edit Account Request for {{ accountVerificationRequestName }}</div>
   </h5>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
-<div id="reject-account-request-modal" class="modal-body">
+<div id="reject-account-verification-request-modal" class="modal-body">
   <div>
     <label><b>Name:</b></label>
     <input
@@ -12,8 +12,8 @@
       id="request-name"
       type="text"
       class="form-control"
-      [value]="accountRequestName"
-      (input)="accountRequestName = requestNameInput.value"
+      [value]="accountVerificationRequestName"
+      (input)="accountVerificationRequestName = requestNameInput.value"
     />
   </div>
   <div>
@@ -23,8 +23,8 @@
       id="request-email"
       type="text"
       class="form-control"
-      [value]="accountRequestEmail"
-      (input)="accountRequestEmail = requestEmailInput.value"
+      [value]="accountVerificationRequestEmail"
+      (input)="accountVerificationRequestEmail = requestEmailInput.value"
     />
   </div>
   <div>
@@ -34,8 +34,8 @@
       id="request-institution"
       type="text"
       class="form-control"
-      [value]="accountRequestInstitution"
-      (input)="accountRequestInstitution = requestInstitutionInput.value"
+      [value]="accountVerificationRequestInstitution"
+      (input)="accountVerificationRequestInstitution = requestInstitutionInput.value"
     />
   </div>
   <div>
@@ -58,8 +58,8 @@
           id="request-comments"
           class="form-control"
           [rows]="5"
-          [value]="accountRequestComments"
-          (input)="accountRequestComments = requestComments.value"
+          [value]="accountVerificationRequestComments"
+          (input)="accountVerificationRequestComments = requestComments.value"
         ></textarea>
       </div>
     </div>

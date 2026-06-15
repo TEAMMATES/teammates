@@ -28,18 +28,18 @@ export class EditRequestModalComponent implements OnInit {
   country = new FormControl('');
 
   @Input()
-  accountRequestName = '';
+  accountVerificationRequestName = '';
   @Input()
-  accountRequestEmail = '';
+  accountVerificationRequestEmail = '';
   @Input()
-  accountRequestInstitution = '';
+  accountVerificationRequestInstitution = '';
   @Input()
-  accountRequestCountry = '';
+  accountVerificationRequestCountry = '';
   @Input()
-  accountRequestComments = '';
+  accountVerificationRequestComments = '';
 
   ngOnInit(): void {
-    this.country.setValue(this.accountRequestCountry);
+    this.country.setValue(this.accountVerificationRequestCountry);
   }
 
   /**
@@ -47,11 +47,11 @@ export class EditRequestModalComponent implements OnInit {
    */
   edit(): void {
     const result: EditRequestModalComponentResult = {
-      accountRequestName: this.accountRequestName,
-      accountRequestEmail: this.accountRequestEmail,
-      accountRequestInstitution: this.accountRequestInstitution,
-      accountRequestCountry: this.country.value ?? '',
-      accountRequestComment: this.accountRequestComments,
+      accountVerificationRequestName: this.accountVerificationRequestName,
+      accountVerificationRequestEmail: this.accountVerificationRequestEmail,
+      accountVerificationRequestInstitution: this.accountVerificationRequestInstitution,
+      accountVerificationRequestCountry: this.country.value ?? '',
+      accountVerificationRequestComment: this.accountVerificationRequestComments,
     };
 
     this.activeModal.close(result);

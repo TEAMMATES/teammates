@@ -19,10 +19,10 @@ export class RejectWithReasonModalComponent implements OnInit {
   statusMessageService = inject(StatusMessageService);
 
   @Input()
-  accountRequestName = '';
+  accountVerificationRequestName = '';
 
   @Input()
-  accountRequestEmail = '';
+  accountVerificationRequestEmail = '';
 
   existingAccount: InstructorAccountSearchResult = {
     userId: '',
@@ -36,7 +36,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   };
 
   rejectionReasonBody: string =
-    '<p>Hi, {accountRequestName} </p>\n\n' +
+    '<p>Hi, {accountVerificationRequestName} </p>\n\n' +
     '<p>Thanks for your interest in using TEAMMATES. ' +
     'We are unable to create a TEAMMATES instructor account for you.</p>' +
     '<p><strong>Reason:</strong> The email address you provided is not an &#39;official&#39; ' +
@@ -57,7 +57,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   rejectionReasonTitle = 'We are Unable to Create an Account for you';
 
   ngOnInit(): void {
-    this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountRequestName}', this.accountRequestName);
+    this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountVerificationRequestName}', this.accountVerificationRequestName);
     this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
   }
 

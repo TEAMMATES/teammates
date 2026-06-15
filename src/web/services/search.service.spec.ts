@@ -5,7 +5,7 @@ import { provideRouter } from '@angular/router';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import {
-  AccountRequestSearchResult,
+  AccountVerificationRequestSearchResult,
   InstructorAccountSearchResult,
   SearchService,
   StudentAccountSearchResult,
@@ -13,8 +13,8 @@ import {
 import { TimezoneService } from './timezone.service';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  AccountRequest,
-  AccountRequestStatus,
+  AccountVerificationRequest,
+  AccountVerificationRequestStatus,
   Course,
   Instructor,
   InstructorPermissionRole,
@@ -149,15 +149,15 @@ describe('SearchService', () => {
     deletionTimestamp: 0,
   };
 
-  const mockAccountRequest: AccountRequest = {
-    accountRequestId: '132efa02-b208-4195-a262-a8eae25ceb95',
+  const mockAccountVerificationRequest: AccountVerificationRequest = {
+    accountVerificationRequestId: '132efa02-b208-4195-a262-a8eae25ceb95',
     createdAt: 1585487897502,
     name: 'Jordan Tan',
     institute: 'National University of Singapore',
     country: 'SG',
     email: 'jordan.tan@example.edu',
     comments: 'Account request used for search service tests',
-    status: AccountRequestStatus.APPROVED,
+    status: AccountVerificationRequestStatus.APPROVED,
   };
 
   beforeEach(() => {
@@ -196,11 +196,11 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for account requests', () => {
-    service.searchAccountRequests('Account Request');
+    service.searchAccountVerificationRequests('Account Request');
     const paramMap: { [key: string]: string } = {
       searchkey: 'Account Request',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   });
 
   it('should join students accurately when calling as admin', () => {
@@ -253,27 +253,27 @@ describe('SearchService', () => {
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
-    const accountRequest: AccountRequest = {
-      ...mockAccountRequest,
+    const accountVerificationRequest: AccountVerificationRequest = {
+      ...mockAccountVerificationRequest,
       createdDemoCourseAt: 1685487897502,
-      status: AccountRequestStatus.APPROVED,
+      status: AccountVerificationRequestStatus.APPROVED,
     };
-    const result: AccountRequestSearchResult = service.joinAdminAccountRequest(accountRequest);
+    const result: AccountVerificationRequestSearchResult = service.joinAdminAccountVerificationRequest(accountVerificationRequest);
 
-    expect(result.accountRequestId).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
+    expect(result.accountVerificationRequestId).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
     expect(result.email).toBe('jordan.tan@example.edu');
     expect(result.institute).toBe('National University of Singapore');
     expect(result.name).toBe('Jordan Tan');
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
     expect(result.createdDemoCourseAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
     expect(result.registrationLink).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome?accountRequestId=132efa02-b208-4195-a262-a8eae25ceb95`,
+      `${globalThis.location.origin}/web/instructor-welcome?accountVerificationRequestId=132efa02-b208-4195-a262-a8eae25ceb95`,
     );
   });
 
   it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('');
-    const result: AccountRequestSearchResult = service.joinAdminAccountRequest(mockAccountRequest);
+    const result: AccountVerificationRequestSearchResult = service.joinAdminAccountVerificationRequest(mockAccountVerificationRequest);
 
     expect(result.email).toBe('jordan.tan@example.edu');
     expect(result.institute).toBe('National University of Singapore');
@@ -281,7 +281,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
     expect(result.createdDemoCourseAtText).toBe(null);
     expect(result.registrationLink).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome?accountRequestId=132efa02-b208-4195-a262-a8eae25ceb95`,
+      `${globalThis.location.origin}/web/instructor-welcome?accountVerificationRequestId=132efa02-b208-4195-a262-a8eae25ceb95`,
     );
   });
 });

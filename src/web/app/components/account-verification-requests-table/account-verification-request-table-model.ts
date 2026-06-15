@@ -1,13 +1,13 @@
-import { AccountRequestStatus } from '../../../types/api-output';
+import { AccountVerificationRequestStatus } from '../../../types/api-output';
 
 /**
  * Model for the row entries in the account requests table.
  */
-export interface AccountRequestTableRowModel {
+export interface AccountVerificationRequestTableRowModel {
   id: string;
   name: string;
   email: string;
-  status: AccountRequestStatus;
+  status: AccountVerificationRequestStatus;
   institute: string;
   country: string;
   createdAtText: string;

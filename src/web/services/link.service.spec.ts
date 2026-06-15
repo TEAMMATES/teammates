@@ -32,7 +32,7 @@ describe('Link Service', () => {
 
   it('should generate the account registration link of the instructor', () => {
     expect(service.generateAccountRegistrationLink('student-key-001')).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome?accountRequestId=student-key-001`,
+      `${globalThis.location.origin}/web/instructor-welcome?accountVerificationRequestId=student-key-001`,
     );
   });
 

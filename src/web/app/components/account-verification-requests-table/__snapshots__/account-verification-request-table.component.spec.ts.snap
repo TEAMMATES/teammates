@@ -1,11 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AccountRequestTableComponent > should display account requests table 1`] = `
-<tm-account-request-table
-  accountRequests={[Function Array]}
+exports[`AccountVerificationRequestTableComponent > should display account requests table 1`] = `
+<tm-account-verification-request-table
   accountService={[Function _AccountService]}
-  isApprovingAccountRequest={[Function Array]}
-  isRejectingAccountRequest={[Function Array]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -25,7 +25,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
     >
       <table
         class="table table-striped data-table"
-        id="search-table-account-request"
+        id="search-table-account-verification-request"
       >
         <thead>
           <tr>
@@ -93,7 +93,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-0"
+                    id="edit-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -108,7 +108,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-0"
+                    id="delete-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -120,7 +120,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-0"
+                    id="view-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -130,7 +130,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                 </div>
                 <button
                   class="btn btn-success"
-                  id="approve-account-request-0"
+                  id="approve-account-verification-request-0"
                 >
                    Approve 
                 </button>
@@ -141,7 +141,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    id="reject-account-request-0"
+                    id="reject-account-verification-request-0"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -205,7 +205,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-1"
+                    id="edit-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -220,7 +220,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-1"
+                    id="delete-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -232,7 +232,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-1"
+                    id="view-account-verification-request-1"
                     type="button"
                   >
                     <i
@@ -242,7 +242,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                 </div>
                 <button
                   class="btn btn-success"
-                  id="approve-account-request-1"
+                  id="approve-account-verification-request-1"
                 >
                    Approve 
                 </button>
@@ -253,7 +253,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    id="reject-account-request-1"
+                    id="reject-account-verification-request-1"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -284,15 +284,15 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
       </table>
     </div>
   </div>
-</tm-account-request-table>
+</tm-account-verification-request-table>
 `;
 
-exports[`AccountRequestTableComponent > should snap with an account requests table 1`] = `
-<tm-account-request-table
-  accountRequests={[Function Array]}
+exports[`AccountVerificationRequestTableComponent > should snap with an account requests table 1`] = `
+<tm-account-verification-request-table
   accountService={[Function _AccountService]}
-  isApprovingAccountRequest={[Function Array]}
-  isRejectingAccountRequest={[Function Array]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
   ngbModal={[Function NgbModal]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
@@ -312,7 +312,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
     >
       <table
         class="table table-striped data-table"
-        id="search-table-account-request"
+        id="search-table-account-verification-request"
       >
         <thead>
           <tr>
@@ -380,7 +380,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
                   <button
                     aria-label="Edit account request"
                     class="btn btn-link p-0"
-                    id="edit-account-request-0"
+                    id="edit-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -395,7 +395,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
                   <button
                     aria-label="Delete account request"
                     class="btn btn-link p-0"
-                    id="delete-account-request-0"
+                    id="delete-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -407,7 +407,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
                   <button
                     aria-label="View account request"
                     class="btn btn-link p-0"
-                    id="view-account-request-0"
+                    id="view-account-verification-request-0"
                     type="button"
                   >
                     <i
@@ -417,7 +417,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
                 </div>
                 <button
                   class="btn btn-success"
-                  id="approve-account-request-0"
+                  id="approve-account-verification-request-0"
                 >
                    Approve 
                 </button>
@@ -428,7 +428,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
                   <button
                     aria-expanded="false"
                     class="dropdown-toggle btn btn-warning"
-                    id="reject-account-request-0"
+                    id="reject-account-verification-request-0"
                     ngbdropdowntoggle=""
                     type="button"
                   >
@@ -459,5 +459,5 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
       </table>
     </div>
   </div>
-</tm-account-request-table>
+</tm-account-verification-request-table>
 `;

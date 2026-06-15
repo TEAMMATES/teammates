@@ -24,12 +24,12 @@ export class LinkService {
   /**
    * Generates instructor welcome link for an account request.
    */
-  generateAccountRegistrationLink(accountRequestId: string): string {
+  generateAccountRegistrationLink(accountVerificationRequestId: string): string {
     const frontendUrl: string = globalThis.location.origin;
     const params: {
       [key: string]: string;
     } = {
-      accountRequestId,
+      accountVerificationRequestId,
     };
 
     const encodedParams: string = this.navigationService.encodeParams(params);

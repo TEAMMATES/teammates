@@ -2,11 +2,11 @@
 
 exports[`RejectWithReasonModal > should show empty fields 1`] = `
 <tm-edit-request-modal
-  accountRequestComments=""
-  accountRequestCountry=""
-  accountRequestEmail=""
-  accountRequestInstitution=""
-  accountRequestName=""
+  accountVerificationRequestComments=""
+  accountVerificationRequestCountry=""
+  accountVerificationRequestEmail=""
+  accountVerificationRequestInstitution=""
+  accountVerificationRequestName=""
   activeModal={[Function NgbActiveModal]}
   country={[Function FormControl]}
   countryOptions={[Function Array]}
@@ -29,7 +29,7 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
     />
   </div><div
     class="modal-body"
-    id="reject-account-request-modal"
+    id="reject-account-verification-request-modal"
   >
     <div>
       <label>
@@ -157,11 +157,11 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
 
 exports[`RejectWithReasonModal > should show populated data 1`] = `
 <tm-edit-request-modal
-  accountRequestComments={[Function String]}
-  accountRequestCountry=""
-  accountRequestEmail={[Function String]}
-  accountRequestInstitution={[Function String]}
-  accountRequestName={[Function String]}
+  accountVerificationRequestComments={[Function String]}
+  accountVerificationRequestCountry=""
+  accountVerificationRequestEmail={[Function String]}
+  accountVerificationRequestInstitution={[Function String]}
+  accountVerificationRequestName={[Function String]}
   activeModal={[Function NgbActiveModal]}
   country={[Function FormControl]}
   countryOptions={[Function Array]}
@@ -184,7 +184,7 @@ exports[`RejectWithReasonModal > should show populated data 1`] = `
     />
   </div><div
     class="modal-body"
-    id="reject-account-request-modal"
+    id="reject-account-verification-request-modal"
   >
     <div>
       <label>

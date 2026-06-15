@@ -8,23 +8,23 @@ import { AccountService } from '../../services/account.service';
 import { CourseService } from '../../services/course.service';
 import { NavigationService } from '../../services/navigation.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { AccountRequest, AccountRequestStatus } from '../../types/api-output';
+import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../types/api-output';
 
-const mockAccountRequest: AccountRequest = {
-  accountRequestId: 'test-id-123',
+const mockAccountVerificationRequest: AccountVerificationRequest = {
+  accountVerificationRequestId: 'test-id-123',
   email: 'test@example.com',
   name: 'Test Instructor',
   institute: 'Test University',
   country: 'Singapore',
-  status: AccountRequestStatus.APPROVED,
+  status: AccountVerificationRequestStatus.APPROVED,
   createdAt: 1000000,
 };
 
-function createActivatedRoute(accountRequestId: string | null) {
+function createActivatedRoute(accountVerificationRequestId: string | null) {
   return {
     snapshot: {
       queryParamMap: {
-        get: (key: string) => (key === 'accountRequestId' ? accountRequestId : null),
+        get: (key: string) => (key === 'accountVerificationRequestId' ? accountVerificationRequestId : null),
       },
     },
   };
@@ -38,13 +38,13 @@ describe('InstructorWelcomePageComponent', () => {
   let navService: NavigationService;
   let timezoneService: TimezoneService;
 
-  async function setup(accountRequestId: string | null = 'test-id-123') {
+  async function setup(accountVerificationRequestId: string | null = 'test-id-123') {
     await TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         {
           provide: ActivatedRoute,
-          useValue: createActivatedRoute(accountRequestId),
+          useValue: createActivatedRoute(accountVerificationRequestId),
         },
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -59,18 +59,18 @@ describe('InstructorWelcomePageComponent', () => {
     timezoneService = TestBed.inject(TimezoneService);
   }
 
-  it('should show invalid link when accountRequestId param is missing', async () => {
+  it('should show invalid link when accountVerificationRequestId param is missing', async () => {
     await setup(null);
     fixture.detectChanges();
 
     expect(component.isInvalidLink()).toBe(true);
     expect(component.isLoading()).toBe(false);
-    expect(component.accountRequest()).toBeNull();
+    expect(component.accountVerificationRequest()).toBeNull();
   });
 
   it('should show invalid link when account request API call fails', async () => {
     await setup();
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(
       throwError(() => ({ error: { message: 'Not found' }, status: 404 })),
     );
 
@@ -78,59 +78,59 @@ describe('InstructorWelcomePageComponent', () => {
 
     expect(component.isInvalidLink()).toBe(true);
     expect(component.isLoading()).toBe(false);
-    expect(component.accountRequest()).toBeNull();
+    expect(component.accountVerificationRequest()).toBeNull();
   });
 
   it('should load account request and show welcome card', async () => {
     await setup();
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(mockAccountRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
 
     fixture.detectChanges();
 
     expect(component.isInvalidLink()).toBe(false);
     expect(component.isLoading()).toBe(false);
-    expect(component.accountRequest()).toEqual(mockAccountRequest);
+    expect(component.accountVerificationRequest()).toEqual(mockAccountVerificationRequest);
   });
 
   it('should show invalid link if account request status is pending', async () => {
     await setup();
-    const pendingRequest: AccountRequest = { ...mockAccountRequest, status: AccountRequestStatus.PENDING };
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(pendingRequest));
+    const pendingRequest: AccountVerificationRequest = { ...mockAccountVerificationRequest, status: AccountVerificationRequestStatus.PENDING };
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(pendingRequest));
 
     fixture.detectChanges();
 
     expect(component.isInvalidLink()).toBe(true);
     expect(component.isLoading()).toBe(false);
-    expect(component.accountRequest()).toBeNull();
+    expect(component.accountVerificationRequest()).toBeNull();
   });
 
   it('should show invalid link if account request status is rejected', async () => {
     await setup();
-    const rejectedRequest: AccountRequest = { ...mockAccountRequest, status: AccountRequestStatus.REJECTED };
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(rejectedRequest));
+    const rejectedRequest: AccountVerificationRequest = { ...mockAccountVerificationRequest, status: AccountVerificationRequestStatus.REJECTED };
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(rejectedRequest));
 
     fixture.detectChanges();
 
     expect(component.isInvalidLink()).toBe(true);
     expect(component.isLoading()).toBe(false);
-    expect(component.accountRequest()).toBeNull();
+    expect(component.accountVerificationRequest()).toBeNull();
   });
 
   it('should redirect to instructor home if demo course is already created', async () => {
     await setup();
-    const request: AccountRequest = { ...mockAccountRequest, createdDemoCourseAt: 2000000 };
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(request));
+    const request: AccountVerificationRequest = { ...mockAccountVerificationRequest, createdDemoCourseAt: 2000000 };
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(request));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
 
     expect(navSpy).toHaveBeenCalledWith('/web/instructor/home');
-    expect(component.accountRequest()).toBeNull();
+    expect(component.accountVerificationRequest()).toBeNull();
   });
 
   it('should navigate to instructor home on successful get started', async () => {
     await setup();
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(mockAccountRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     vi.spyOn(courseService, 'createDemoCourse').mockReturnValue(of({ message: 'Success' }));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
@@ -139,7 +139,7 @@ describe('InstructorWelcomePageComponent', () => {
     component.getStarted();
 
     expect(courseService.createDemoCourse).toHaveBeenCalledWith({
-      accountRequestId: 'test-id-123',
+      accountVerificationRequestId: 'test-id-123',
       timezone: 'Asia/Singapore',
     });
     expect(navSpy).toHaveBeenCalledWith('/web/instructor/home');
@@ -147,7 +147,7 @@ describe('InstructorWelcomePageComponent', () => {
 
   it('should show invalid link if createDemoCourse fails', async () => {
     await setup();
-    vi.spyOn(accountService, 'getAccountRequest').mockReturnValue(of(mockAccountRequest));
+    vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
     vi.spyOn(courseService, 'createDemoCourse').mockReturnValue(
       throwError(() => ({ error: { message: 'Server error' }, status: 500 })),
     );
@@ -156,7 +156,7 @@ describe('InstructorWelcomePageComponent', () => {
     component.getStarted();
 
     expect(component.isInvalidLink()).toBe(true);
-    expect(component.accountRequest()).toBeNull();
+    expect(component.accountVerificationRequest()).toBeNull();
     expect(component.isCreatingCourse()).toBe(false);
   });
 });

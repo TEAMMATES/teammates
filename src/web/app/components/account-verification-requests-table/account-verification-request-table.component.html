@@ -3,7 +3,7 @@
     <strong>Pending Account Requests</strong>
   </div>
   <div class="table-responsive">
-    <table class="table table-striped data-table" id="search-table-account-request">
+    <table class="table table-striped data-table" id="search-table-account-verification-request">
       <thead>
         <tr>
           <th>Name</th>
@@ -17,27 +17,27 @@
         </tr>
       </thead>
       <tbody>
-        @for (accountRequest of accountRequests; track accountRequest.id; let i = $index) {
+        @for (accountVerificationRequest of accountVerificationRequests; track accountVerificationRequest.id; let i = $index) {
           <tr>
-            <td>{{ accountRequest.name }}</td>
-            <td>{{ accountRequest.email }}</td>
-            <td>{{ accountRequest.status }}</td>
-            <td>{{ accountRequest.institute }}</td>
-            <td>{{ accountRequest.country | countryName }}</td>
-            <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
+            <td>{{ accountVerificationRequest.name }}</td>
+            <td>{{ accountVerificationRequest.email }}</td>
+            <td>{{ accountVerificationRequest.status }}</td>
+            <td>{{ accountVerificationRequest.institute }}</td>
+            <td>{{ accountVerificationRequest.country | countryName }}</td>
+            <td id="timestamp-box">{{ accountVerificationRequest.createdAtText }}</td>
             <td>
               <div id="comment-box">
-                {{ accountRequest.comments }}
+                {{ accountVerificationRequest.comments }}
               </div>
             </td>
             <td class="align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center gap-2">
                 <div>
                   <button
-                    id="edit-account-request-{{ i }}"
+                    id="edit-account-verification-request-{{ i }}"
                     type="button"
                     class="btn btn-link p-0"
-                    (click)="$event.stopPropagation(); editAccountRequest(accountRequest)"
+                    (click)="$event.stopPropagation(); editAccountVerificationRequest(accountVerificationRequest)"
                     aria-label="Edit account request"
                   >
                     <i class="fa-solid fa-pen"></i>
@@ -46,16 +46,16 @@
                 <div
                   class="ngb-tooltip-class"
                   [ngbTooltip]="
-                    accountRequest.createdDemoCourseAtText &&
+                    accountVerificationRequest.createdDemoCourseAtText &&
                     'Account requests of registered instructors cannot be deleted'
                   "
                   placement="top"
                 >
                   <button
-                    id="delete-account-request-{{ i }}"
+                    id="delete-account-verification-request-{{ i }}"
                     type="button"
                     class="btn btn-link p-0"
-                    (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)"
+                    (click)="$event.stopPropagation(); deleteAccountVerificationRequest(accountVerificationRequest)"
                     aria-label="Delete account request"
                   >
                     <i class="fa-solid fa-trash"></i>
@@ -63,42 +63,42 @@
                 </div>
                 <div>
                   <button
-                    id="view-account-request-{{ i }}"
+                    id="view-account-verification-request-{{ i }}"
                     type="button"
                     class="btn btn-link p-0"
-                    (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)"
+                    (click)="$event.stopPropagation(); viewAccountVerificationRequest(accountVerificationRequest)"
                     aria-label="View account request"
                   >
                     <i class="fa-solid fa-eye"></i>
                   </button>
                 </div>
                 <button
-                  id="approve-account-request-{{ i }}"
+                  id="approve-account-verification-request-{{ i }}"
                   class="btn btn-success"
                   [disabled]="
-                    !accountRequest.status || accountRequest.status === 'APPROVED' || isApprovingAccountRequest[i]
+                    !accountVerificationRequest.status || accountVerificationRequest.status === 'APPROVED' || isApprovingAccountVerificationRequest[i]
                   "
-                  (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"
+                  (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
                 >
-                  @if (isApprovingAccountRequest[i]) {
+                  @if (isApprovingAccountVerificationRequest[i]) {
                     <tm-ajax-loading></tm-ajax-loading>
                   }
                   Approve
                 </button>
                 <span ngbDropdown container="body">
                   <button
-                    id="reject-account-request-{{ i }}"
+                    id="reject-account-verification-request-{{ i }}"
                     type="button"
                     class="btn btn-warning"
                     [disabled]="
-                      !accountRequest.status ||
-                      accountRequest.status === 'APPROVED' ||
-                      accountRequest.status === 'REJECTED' ||
-                      isRejectingAccountRequest[i]
+                      !accountVerificationRequest.status ||
+                      accountVerificationRequest.status === 'APPROVED' ||
+                      accountVerificationRequest.status === 'REJECTED' ||
+                      isRejectingAccountVerificationRequest[i]
                     "
                     ngbDropdownToggle
                   >
-                    @if (isRejectingAccountRequest[i]) {
+                    @if (isRejectingAccountVerificationRequest[i]) {
                       <tm-ajax-loading></tm-ajax-loading>
                     }
                     Reject
@@ -107,14 +107,14 @@
                     <button
                       id="reject-request-{{ i }}"
                       class="btn btn-light btn-sm dropdown-item"
-                      (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest, i)"
+                      (click)="$event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)"
                     >
                       Reject
                     </button>
                     <button
                       id="reject-request-with-reason-{{ i }}"
                       class="btn btn-light btn-sm dropdown-item"
-                      (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest, i)"
+                      (click)="$event.stopPropagation(); rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)"
                     >
                       Reject With Reason
                     </button>

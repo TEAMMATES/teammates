@@ -5,8 +5,8 @@ import { AccountService } from './account.service';
 import { HttpRequestService } from './http-request.service';
 import { createMockHttpRequestService, type MockHttpRequestService } from '../test-helpers/mock-http-request';
 import { ResourceEndpoints } from '../types/api-const';
-import { AccountRequestStatus } from '../types/api-output';
-import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-request';
+import { AccountVerificationRequestStatus } from '../types/api-output';
+import { AccountCreateRequest, AccountVerificationRequestUpdateRequest } from '../types/api-request';
 
 describe('AccountService', () => {
   let spyHttpRequestService: MockHttpRequestService;
@@ -38,11 +38,11 @@ describe('AccountService', () => {
   });
 
   it('should execute GET on account request endpoint', () => {
-    service.getAccountRequest(id);
+    service.getAccountVerificationRequest(id);
     const paramMap: Record<string, string> = {
       id,
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, paramMap);
   });
 
   it('should execute POST on account request endpoint', () => {
@@ -52,8 +52,8 @@ describe('AccountService', () => {
       instructorCountry: 'SG',
       instructorName: 'testName',
     };
-    service.createAccountRequest(testRequest);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, {}, testRequest);
+    service.createAccountVerificationRequest(testRequest);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, {}, testRequest);
   });
 
   it('should execute DELETE on account endpoint', () => {
@@ -65,11 +65,11 @@ describe('AccountService', () => {
   });
 
   it('should execute DELETE on account request endpoint', () => {
-    service.deleteAccountRequest('testId');
+    service.deleteAccountVerificationRequest('testId');
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap);
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, paramMap);
   });
 
   it('should execute PUT on account/unlink endpoint', () => {
@@ -81,23 +81,23 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account request approval endpoint', () => {
-    service.approveAccountRequest('testId');
+    service.approveAccountVerificationRequest('testId');
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_APPROVE, paramMap);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_APPROVE, paramMap);
   });
 
   it('should execute POST on account request rejection endpoint without reason', () => {
-    service.rejectAccountRequest('testId');
+    service.rejectAccountVerificationRequest('testId');
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, {});
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT, paramMap, {});
   });
 
   it('should execute POST on account request rejection endpoint with reason', () => {
-    service.rejectAccountRequest('testId', 'Title', 'Body');
+    service.rejectAccountVerificationRequest('testId', 'Title', 'Body');
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
@@ -106,25 +106,25 @@ describe('AccountService', () => {
       reasonBody: 'Body',
     };
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(
-      ResourceEndpoints.ACCOUNT_REQUEST_REJECT,
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
       paramMap,
       requestBody,
     );
   });
 
   it('should execute PUT on account request endpoint for edit', () => {
-    const updateRequest: AccountRequestUpdateRequest = {
+    const updateRequest: AccountVerificationRequestUpdateRequest = {
       name: 'name',
       email: 'email@email.com',
       institute: 'institute',
       country: 'SG',
-      status: AccountRequestStatus.PENDING,
+      status: AccountVerificationRequestStatus.PENDING,
       comments: 'comments',
     };
-    service.editAccountRequest('testId', updateRequest);
+    service.editAccountVerificationRequest('testId', updateRequest);
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, updateRequest);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, paramMap, updateRequest);
   });
 });

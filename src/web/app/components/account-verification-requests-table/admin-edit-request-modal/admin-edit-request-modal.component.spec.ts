@@ -27,29 +27,29 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('should show populated data', () => {
-    component.accountRequestName = 'John Doe';
-    component.accountRequestEmail = 'johndoe@email.com';
-    component.accountRequestInstitution = 'NUS';
-    component.accountRequestComments = 'Comments';
+    component.accountVerificationRequestName = 'John Doe';
+    component.accountVerificationRequestEmail = 'johndoe@email.com';
+    component.accountVerificationRequestInstitution = 'NUS';
+    component.accountVerificationRequestComments = 'Comments';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should close modal with data', () => {
     const spyActiveModal = vi.spyOn(component.activeModal, 'close');
-    component.accountRequestName = 'John Doe';
-    component.accountRequestEmail = 'johndoe@email.com';
-    component.accountRequestInstitution = 'NUS';
-    component.accountRequestComments = 'Comments';
+    component.accountVerificationRequestName = 'John Doe';
+    component.accountVerificationRequestEmail = 'johndoe@email.com';
+    component.accountVerificationRequestInstitution = 'NUS';
+    component.accountVerificationRequestComments = 'Comments';
     fixture.detectChanges();
     component.edit();
     expect(spyActiveModal).toHaveBeenCalled();
     expect(spyActiveModal).toHaveBeenCalledWith({
-      accountRequestName: 'John Doe',
-      accountRequestEmail: 'johndoe@email.com',
-      accountRequestInstitution: 'NUS',
-      accountRequestCountry: '',
-      accountRequestComment: 'Comments',
+      accountVerificationRequestName: 'John Doe',
+      accountVerificationRequestEmail: 'johndoe@email.com',
+      accountVerificationRequestInstitution: 'NUS',
+      accountVerificationRequestCountry: '',
+      accountVerificationRequestComment: 'Comments',
     });
   });
 });

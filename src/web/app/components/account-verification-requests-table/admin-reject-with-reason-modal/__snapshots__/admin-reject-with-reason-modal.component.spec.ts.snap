@@ -2,8 +2,8 @@
 
 exports[`RejectWithReasonModal > should show empty title and body 1`] = `
 <tm-reject-with-reason-modal
-  accountRequestEmail=""
-  accountRequestName=""
+  accountVerificationRequestEmail=""
+  accountVerificationRequestName=""
   activeModal={[Function NgbActiveModal]}
   existingAccount={[Function Object]}
   rejectionReasonBody={[Function String]}
@@ -27,7 +27,7 @@ exports[`RejectWithReasonModal > should show empty title and body 1`] = `
     />
   </div><div
     class="modal-body"
-    id="reject-account-request-modal"
+    id="reject-account-verification-request-modal"
   >
     <div
       class="row"
