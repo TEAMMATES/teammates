@@ -69,7 +69,7 @@ public final class AccountsDb {
     }
 
     /**
-     * Atomically inserts or updates an Account by auth identity and returns the persisted row.
+     * Atomically creates or gets an Account by auth identity and returns the persisted row.
      */
     public Account upsertAccount(Account account) {
         String sql = """
@@ -77,10 +77,7 @@ public final class AccountsDb {
                 VALUES (:id, CURRENT_TIMESTAMP, :email, :googleId, :name, :provider, :subject, :tenantId,
                         CURRENT_TIMESTAMP)
                 ON CONFLICT (provider, subject, tenant_id)
-                DO UPDATE SET email = EXCLUDED.email,
-                              google_id = EXCLUDED.google_id,
-                              name = EXCLUDED.name,
-                              updated_at = CURRENT_TIMESTAMP
+                DO UPDATE SET updated_at = accounts.updated_at
                 RETURNING *
                 """;
 

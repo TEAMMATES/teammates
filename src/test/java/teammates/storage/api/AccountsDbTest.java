@@ -1,6 +1,7 @@
 package teammates.storage.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -100,19 +101,19 @@ public class AccountsDbTest extends BaseDbTestcase {
         persistGivenData(given);
 
         Account updatedAccount = new Account(
-                "updated-google-id",
+                "should-not-update-google-id",
                 Provider.TEAMMATES_DEV,
                 "shared-subject",
                 null,
-                "Updated Name",
-                "updated@example.com");
+                "Should Not Update Name",
+                "should-not-update@example.com");
 
         Account actual = inTransaction(() -> accountsDb.upsertAccount(updatedAccount));
 
         assertEquals(existingAccount.id(), actual.getId());
-        assertEquals("updated-google-id", actual.getGoogleId());
-        assertEquals("updated@example.com", actual.getEmail());
-        assertEquals("Updated Name", actual.getName());
+        assertEquals("original-google-id", actual.getGoogleId());
+        assertEquals("original@example.com", actual.getEmail());
+        assertNotEquals("Should Not Update Name", actual.getName());
         assertEquals(Account.NO_TENANT, actual.getTenantId());
     }
 
