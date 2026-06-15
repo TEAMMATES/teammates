@@ -281,6 +281,13 @@ public class Logic {
     }
 
     /**
+     * Returns true if the given account has at least one approved account verification request.
+     */
+    public boolean hasAnyApprovedVerificationRequest(UUID accountId) {
+        return accountVerificationsLogic.hasAnyApprovedVerificationRequest(accountId);
+    }
+
+    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {

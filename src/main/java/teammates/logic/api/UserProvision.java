@@ -11,6 +11,7 @@ import teammates.common.util.AutomatedRequestAuth;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
@@ -42,6 +43,8 @@ public class UserProvision {
     private final UsersLogic usersLogic = UsersLogic.inst();
 
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
+
+    private final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
 
     UserProvision() {
         // prevent initialization
@@ -84,7 +87,8 @@ public class UserProvision {
 
         UserInfo userInfo = new UserInfo(account.getGoogleId(), account.getId(), account.getEmail());
         userInfo.isAdmin = authContext.isAdmin();
-        userInfo.isInstructor = !usersLogic.getInstructorsByAccountId(account.getId()).isEmpty();
+        userInfo.isInstructor = !usersLogic.getInstructorsByAccountId(account.getId()).isEmpty()
+                || accountVerificationsLogic.hasAnyApprovedVerificationRequest(account.getId());
         userInfo.isStudent = !usersLogic.getStudentsByAccountId(account.getId()).isEmpty();
         userInfo.isMaintainer = authContext.isMaintainer();
         return userInfo;
