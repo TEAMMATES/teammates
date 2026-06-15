@@ -18,10 +18,13 @@ describe('SessionEditFormComponent', () => {
   // A fixed reference timestamp: 2024-07-12 10:00 UTC.
   const startTimestamp: number = Date.UTC(2024, 6, 12, 10, 0);
 
-  // Tolerance (ms) to absorb clock drift between the component's `now()` and the test's `now()`.
-  const CLOSE_DELTA = 2000;
+  // Frozen "now" for all time-sensitive tests: 2024-07-12 15:30 UTC (mid-minute, not near a boundary).
+  const FROZEN_NOW = new Date('2024-07-12T15:30:00.000Z');
 
   beforeEach(async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(FROZEN_NOW);
+
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
@@ -31,6 +34,10 @@ describe('SessionEditFormComponent', () => {
     component = fixture.componentInstance;
     component.model.timeZone = 'UTC';
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('should create', () => {
@@ -74,12 +81,12 @@ describe('SessionEditFormComponent', () => {
 
   it('should return the minimum submission opening timestamp as 2 hours before now', () => {
     const expected = moment().tz('UTC').subtract(2, 'hours').second(0).millisecond(0).valueOf();
-    expect(Math.abs(component.minTimestampForSubmissionStart - expected)).toBeLessThan(CLOSE_DELTA);
+    expect(component.minTimestampForSubmissionStart).toEqual(expected);
   });
 
   it('should return the maximum submission opening timestamp as 23:59 of the day 12 months from now', () => {
     const expected = moment().tz('UTC').add(12, 'months').hour(23).minute(59).second(0).millisecond(0).valueOf();
-    expect(Math.abs(component.maxTimestampForSubmissionStart - expected)).toBeLessThan(CLOSE_DELTA);
+    expect(component.maxTimestampForSubmissionStart).toEqual(expected);
   });
 
   it('should return the submission opening timestamp as the minimum closing time when it is later than now', () => {
@@ -90,7 +97,7 @@ describe('SessionEditFormComponent', () => {
   it('should return one hour before now as the minimum closing time when the opening time is in the past', () => {
     component.model.submissionStartTimestamp = moment().tz('UTC').subtract(1, 'year').valueOf();
     const expected = moment().tz('UTC').subtract(1, 'hour').second(0).millisecond(0).valueOf();
-    expect(Math.abs(component.minTimestampForSubmissionEnd - expected)).toBeLessThan(CLOSE_DELTA);
+    expect(component.minTimestampForSubmissionEnd).toEqual(expected);
   });
 
   it('should return the minimum session visible timestamp as 30 days before the submission opening time', () => {
