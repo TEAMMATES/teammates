@@ -28,7 +28,7 @@ exports[`LoginPageComponent snapshot > should match snapshot with login methods 
               Sign in
             </h1>
             <p
-              class="text-muted mb-4"
+              class="text-secondary mb-4"
             >
               Choose a login method to continue.
             </p>
