@@ -4,13 +4,13 @@ import { AccountService } from '../../services/account.service';
 import { CourseService } from '../../services/course.service';
 import { NavigationService } from '../../services/navigation.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { AccountRequest, AccountRequestStatus } from '../../types/api-output';
+import { AccountVerificationRequest, AccountVerificationRequestStatus } from '../../types/api-output';
 import { ErrorMessageOutput } from '../error-message-output';
 import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-spinner.directive';
 import { AuthService } from '../../services/auth.service';
 
 /**
- * Instructor welcome page component shown after an account request is approved.
+ * Instructor welcome page component shown after an account verification request is approved.
  */
 @Component({
   selector: 'tm-instructor-welcome-page',
@@ -27,31 +27,31 @@ export class InstructorWelcomePageComponent implements OnInit {
   private readonly timezoneService = inject(TimezoneService);
 
   readonly isLoading = signal(true);
-  readonly accountRequest = signal<AccountRequest | null>(null);
+  readonly accountVerificationRequest = signal<AccountVerificationRequest | null>(null);
   readonly isInvalidLink = signal(false);
   readonly isCreatingCourse = signal(false);
 
   ngOnInit(): void {
-    const accountRequestId = this.route.snapshot.queryParamMap.get('accountRequestId');
+    const accountVerificationRequestId = this.route.snapshot.queryParamMap.get('accountVerificationRequestId');
 
-    if (!accountRequestId) {
+    if (!accountVerificationRequestId) {
       this.isInvalidLink.set(true);
       this.isLoading.set(false);
       return;
     }
 
-    this.accountService.getAccountRequest(accountRequestId).subscribe({
-      next: (accountRequest: AccountRequest) => {
-        if (accountRequest.createdDemoCourseAt) {
+    this.accountService.getAccountVerificationRequest(accountVerificationRequestId).subscribe({
+      next: (accountVerificationRequest: AccountVerificationRequest) => {
+        if (accountVerificationRequest.createdDemoCourseAt) {
           this.navigationService.navigateByURL('/web/instructor/home');
           return;
         }
-        if (accountRequest.status !== AccountRequestStatus.APPROVED) {
+        if (accountVerificationRequest.status !== AccountVerificationRequestStatus.APPROVED) {
           this.isInvalidLink.set(true);
           this.isLoading.set(false);
           return;
         }
-        this.accountRequest.set(accountRequest);
+        this.accountVerificationRequest.set(accountVerificationRequest);
         this.isLoading.set(false);
       },
       error: (_resp: ErrorMessageOutput) => {
@@ -62,15 +62,15 @@ export class InstructorWelcomePageComponent implements OnInit {
   }
 
   getStarted(): void {
-    const accountRequest = this.accountRequest();
-    if (!accountRequest) {
+    const accountVerificationRequest = this.accountVerificationRequest();
+    if (!accountVerificationRequest) {
       return;
     }
 
     this.isCreatingCourse.set(true);
     this.courseService
       .createDemoCourse({
-        accountRequestId: accountRequest.accountRequestId,
+        accountVerificationRequestId: accountVerificationRequest.accountVerificationRequestId,
         timezone: this.timezoneService.guessTimezone(),
       })
       .subscribe({
@@ -81,7 +81,7 @@ export class InstructorWelcomePageComponent implements OnInit {
         error: (_resp: ErrorMessageOutput) => {
           this.isCreatingCourse.set(false);
           this.isInvalidLink.set(true);
-          this.accountRequest.set(null);
+          this.accountVerificationRequest.set(null);
         },
       });
   }

@@ -17,7 +17,7 @@ const generateData = (startTime: number, iterations: number): UsageStatistics[] 
       numCourses: 0,
       numStudents: 0,
       numInstructors: 0,
-      numAccountRequests: 0,
+      numAccountVerificationRequests: 0,
     });
     time += Milliseconds.IN_ONE_HOUR;
   }
@@ -66,7 +66,7 @@ describe('UsageStatisticsPageComponent', () => {
         numCourses: 3,
         numStudents: 2,
         numInstructors: 2,
-        numAccountRequests: 1,
+        numAccountVerificationRequests: 1,
       },
       {
         startTime: new Date('2022-03-28T00:00:00Z').getTime(),
@@ -74,7 +74,7 @@ describe('UsageStatisticsPageComponent', () => {
         numCourses: 1,
         numStudents: 1,
         numInstructors: 5,
-        numAccountRequests: 2,
+        numAccountVerificationRequests: 2,
       },
     ];
 

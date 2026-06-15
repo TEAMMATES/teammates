@@ -51,7 +51,7 @@ public final class SeedDatabase {
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
     private static final Pattern SEED_DATE_TOKEN = Pattern.compile("seed\\.d\\(([+-]?\\d+)\\)");
     private static final String TRUNCATE_SQL =
-            "TRUNCATE TABLE account_requests, accounts, courses, deadline_extensions, "
+            "TRUNCATE TABLE account_verification_requests, accounts, courses, deadline_extensions, "
                     + "feedback_questions, feedback_response_comments, feedback_responses, "
                     + "feedback_session_logs, feedback_sessions, instructors, notifications, "
                     + "read_notifications, sections, students, teams,  users, institutes "

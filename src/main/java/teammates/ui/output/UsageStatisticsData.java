@@ -10,17 +10,17 @@ public class UsageStatisticsData implements ApiOutput {
     private final int numCourses;
     private final int numStudents;
     private final int numInstructors;
-    private final int numAccountRequests;
+    private final int numAccountVerificationRequests;
 
     public UsageStatisticsData(
             long startTime, int numResponses, int numCourses,
-            int numStudents, int numInstructors, int numAccountRequests) {
+            int numStudents, int numInstructors, int numAccountVerificationRequests) {
         this.startTime = startTime;
         this.numResponses = numResponses;
         this.numCourses = numCourses;
         this.numStudents = numStudents;
         this.numInstructors = numInstructors;
-        this.numAccountRequests = numAccountRequests;
+        this.numAccountVerificationRequests = numAccountVerificationRequests;
     }
 
     public long getStartTime() {
@@ -43,8 +43,8 @@ public class UsageStatisticsData implements ApiOutput {
         return numInstructors;
     }
 
-    public int getNumAccountRequests() {
-        return numAccountRequests;
+    public int getNumAccountVerificationRequests() {
+        return numAccountVerificationRequests;
     }
 
 }

@@ -56,7 +56,7 @@
       "subject": "tm.e2e.IFSessionPage.instr1"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "IFSessionPage.CS2104": {
       "id": "tm.e2e.CS2104",

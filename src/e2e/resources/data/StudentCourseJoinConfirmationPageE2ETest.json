@@ -24,7 +24,7 @@
       "subject": "tm.e2e.SCJoinConf.alice"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "SCJoinConf.CS2104": {
       "id": "tm.e2e.SCJoinConf.CS2104",

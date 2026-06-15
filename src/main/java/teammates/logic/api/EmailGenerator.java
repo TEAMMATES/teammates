@@ -23,7 +23,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
@@ -852,40 +852,43 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the email to alert the admin of the new {@code accountRequest}.
+     * Generates the email to alert the admin of the new {@code accountVerificationRequest}.
      */
-    public EmailWrapper generateNewAccountRequestAdminAlertEmail(AccountRequest accountRequest) {
-        String name = accountRequest.getName();
-        String institute = accountRequest.getInstitute().getName();
-        String emailAddress = accountRequest.getEmail();
-        String comments = accountRequest.getComments();
+    public EmailWrapper generateNewAccountVerificationRequestAdminAlertEmail(
+            AccountVerificationRequest accountVerificationRequest) {
+        String name = accountVerificationRequest.getName();
+        String institute = accountVerificationRequest.getInstitute().getName();
+        String emailAddress = accountVerificationRequest.getEmail();
+        String comments = accountVerificationRequest.getComments();
         if (comments == null) {
             comments = "";
         }
-        String adminAccountRequestsPageUrl = LinksUtil.getAdminHomePageUrl();
+        String adminAccountVerificationRequestsPageUrl = LinksUtil.getAdminHomePageUrl();
         String[] templateKeyValuePairs = new String[] {
                 "${name}", name,
                 "${institute}", institute,
                 "${emailAddress}", emailAddress,
                 "${comments}", comments,
-                "${adminAccountRequestsPageUrl}", adminAccountRequestsPageUrl,
+                "${adminAccountVerificationRequestsPageUrl}", adminAccountVerificationRequestsPageUrl,
         };
-        String content = Templates.populateTemplate(EmailTemplates.ADMIN_NEW_ACCOUNT_REQUEST_ALERT, templateKeyValuePairs);
+        String content = Templates.populateTemplate(
+                EmailTemplates.ADMIN_NEW_ACCOUNT_VERIFICATION_REQUEST_ALERT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
-        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT);
+        email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT);
         email.setSubjectFromType();
         email.setContent(content);
         return email;
     }
 
     /**
-     * Generates the acknowledgement email to be sent to the person who submitted {@code accountRequest}.
+     * Generates the acknowledgement email to be sent to the person who submitted {@code accountVerificationRequest}.
      */
-    public EmailWrapper generateNewAccountRequestAcknowledgementEmail(AccountRequest accountRequest) {
-        String name = SanitizationHelper.sanitizeForHtml(accountRequest.getName());
-        String institute = SanitizationHelper.sanitizeForHtml(accountRequest.getInstitute().getName());
-        String emailAddress = SanitizationHelper.sanitizeForHtml(accountRequest.getEmail());
-        String comments = SanitizationHelper.sanitizeForHtml(accountRequest.getComments());
+    public EmailWrapper generateNewAccountVerificationRequestAcknowledgementEmail(
+            AccountVerificationRequest accountVerificationRequest) {
+        String name = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getName());
+        String institute = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getInstitute().getName());
+        String emailAddress = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getEmail());
+        String comments = SanitizationHelper.sanitizeForHtml(accountVerificationRequest.getComments());
         if (comments == null) {
             comments = "";
         }
@@ -897,20 +900,21 @@ public final class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL,
         };
         String content = Templates.populateTemplate(
-                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
+                EmailTemplates.INSTRUCTOR_NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, templateKeyValuePairs);
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
-        email.setType(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT);
+        email.setType(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT);
         email.setSubjectFromType();
         email.setContent(content);
         return email;
     }
 
     /**
-     * Generates the email to be sent to instructor when their account request has been rejected by admin.
+     * Generates the email to be sent to instructor when their account verification request has been rejected by admin.
      */
-    public EmailWrapper generateAccountRequestRejectionEmail(AccountRequest accountRequest, String title, String content) {
-        EmailWrapper email = getEmptyEmailAddressedToEmail(accountRequest.getEmail());
-        email.setType(EmailType.ACCOUNT_REQUEST_REJECTION);
+    public EmailWrapper generateAccountVerificationRequestRejectionEmail(
+            AccountVerificationRequest accountVerificationRequest, String title, String content) {
+        EmailWrapper email = getEmptyEmailAddressedToEmail(accountVerificationRequest.getEmail());
+        email.setType(EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION);
         email.setBcc(Config.SUPPORT_EMAIL);
         email.setSubjectFromType(SanitizationHelper.sanitizeTitle(title));
         email.setContent(SanitizationHelper.sanitizeForRichText(content));

@@ -24,7 +24,7 @@
       "subject": "tm.e2e.FNumScaleQn.alice.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "course": {
       "id": "tm.e2e.FNumScaleQn.CS2104",

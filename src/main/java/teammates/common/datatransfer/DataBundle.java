@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
@@ -29,7 +29,7 @@ import teammates.storage.entity.Team;
 public class DataBundle {
     public Map<String, Institute> institutes = new LinkedHashMap<>();
     public Map<String, Account> accounts = new LinkedHashMap<>();
-    public Map<String, AccountRequest> accountRequests = new LinkedHashMap<>();
+    public Map<String, AccountVerificationRequest> accountVerificationRequests = new LinkedHashMap<>();
     public Map<String, Course> courses = new LinkedHashMap<>();
     public Map<String, Section> sections = new LinkedHashMap<>();
     public Map<String, Team> teams = new LinkedHashMap<>();

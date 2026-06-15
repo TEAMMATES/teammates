@@ -72,7 +72,7 @@
       "subject": "tm.e2e.IFRep.fred.g"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "tm.e2e.IFRep.CS2104": {
       "id": "tm.e2e.IFRep.CS2104",

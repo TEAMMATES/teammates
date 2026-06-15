@@ -1,0 +1,71 @@
+<div class="modal-header bg-primary">
+  <h5 class="modal-title text-white">
+    <div>Edit Account Verification Request for {{ accountVerificationRequestName }}</div>
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div id="reject-account-verification-request-modal" class="modal-body">
+  <div>
+    <label><b>Name:</b></label>
+    <input
+      #requestNameInput
+      id="request-name"
+      type="text"
+      class="form-control"
+      [value]="accountVerificationRequestName"
+      (input)="accountVerificationRequestName = requestNameInput.value"
+    />
+  </div>
+  <div>
+    <label><b>Email:</b></label>
+    <input
+      #requestEmailInput
+      id="request-email"
+      type="text"
+      class="form-control"
+      [value]="accountVerificationRequestEmail"
+      (input)="accountVerificationRequestEmail = requestEmailInput.value"
+    />
+  </div>
+  <div>
+    <label><b>Institution:</b></label>
+    <input
+      #requestInstitutionInput
+      id="request-institution"
+      type="text"
+      class="form-control"
+      [value]="accountVerificationRequestInstitution"
+      (input)="accountVerificationRequestInstitution = requestInstitutionInput.value"
+    />
+  </div>
+  <div>
+    <label><b>Country:</b></label>
+    <tm-searchable-combobox
+      inputId="request-country"
+      placeholder="Search for a country or region..."
+      [options]="countryOptions"
+      [formControl]="country"
+    />
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div>
+        <label><b>Comments:</b></label>
+      </div>
+      <div class="form-group">
+        <textarea
+          #requestComments
+          id="request-comments"
+          class="form-control"
+          [rows]="5"
+          [value]="accountVerificationRequestComments"
+          (input)="accountVerificationRequestComments = requestComments.value"
+        ></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+      <button id="btn-confirm-edit-request" type="button" class="btn btn-primary" (click)="edit()">Save</button>
+    </div>
+  </div>
+</div>

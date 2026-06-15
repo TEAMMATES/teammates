@@ -24,7 +24,7 @@
       "subject": "tm.e2e.ISRecords.benny.c.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "CS2104": {
       "id": "tm.e2e.ISRecords.CS2104",

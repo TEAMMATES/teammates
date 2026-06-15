@@ -30,9 +30,9 @@ describe('Link Service', () => {
     sectionId: 'section-1',
   };
 
-  it('should generate the account registration link of the instructor', () => {
-    expect(service.generateAccountRegistrationLink('student-key-001')).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome?accountRequestId=student-key-001`,
+  it('should generate the instructor welcome link', () => {
+    expect(service.generateInstructorWelcomeLink('student-key-001')).toBe(
+      `${globalThis.location.origin}/web/instructor-welcome?accountVerificationRequestId=student-key-001`,
     );
   });
 

@@ -165,7 +165,7 @@ describe('CourseService', () => {
       id: testId,
       timezone: testTimezone,
     };
-    service.createDemoCourse({ accountRequestId: testId, timezone: testTimezone });
+    service.createDemoCourse({ accountVerificationRequestId: testId, timezone: testTimezone });
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.DEMO_COURSE, paramMap);
   });
 });

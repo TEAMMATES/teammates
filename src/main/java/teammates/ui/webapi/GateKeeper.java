@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -182,22 +182,25 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the user can view the specified account request.
+     * Verifies that the user can view the specified account verification request.
      *
-     * <p>Admins can view all account requests. Non-admins can only view account requests that they own.
+     * <p>Admins can view all account verification requests. Non-admins can only view account verification requests
+     * that they created.
      */
-    void verifyCanViewAccountRequest(RequestContext requestContext, UUID accountRequestId)
+    void verifyCanViewAccountVerificationRequest(RequestContext requestContext, UUID accountVerificationRequestId)
             throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {
             return;
         }
 
-        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
-        verifyNotNull(accountRequest, "account request");
+        AccountVerificationRequest accountVerificationRequest =
+                logic.getAccountVerificationRequest(accountVerificationRequestId);
+        verifyNotNull(accountVerificationRequest, "account verification request");
 
         if (requestContext.getAccount() == null
-                || !requestContext.getAccount().getId().equals(accountRequest.getAccountId())) {
-            throw new UnauthorizedAccessException("Account request [" + accountRequestId + "] is not accessible to user");
+                || !requestContext.getAccount().getId().equals(accountVerificationRequest.getAccountId())) {
+            throw new UnauthorizedAccessException("Account verification request ["
+                    + accountVerificationRequestId + "] is not accessible to user");
         }
     }
 

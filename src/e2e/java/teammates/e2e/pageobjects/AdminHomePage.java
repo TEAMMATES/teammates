@@ -13,9 +13,9 @@ import teammates.test.ThreadHelper;
  * Represents the admin home page of the website.
  */
 public class AdminHomePage extends AppPage {
-    private static final int ACCOUNT_REQUEST_COL_NAME = 1;
-    private static final int ACCOUNT_REQUEST_COL_EMAIL = 2;
-    private static final int ACCOUNT_REQUEST_COL_INSTITUTE = 4;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_NAME = 1;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL = 2;
+    private static final int ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE = 4;
 
     public AdminHomePage(Browser browser) {
         super(browser);
@@ -34,7 +34,7 @@ public class AdminHomePage extends AppPage {
         waitForElementVisibility(By.id("reset-account-request-link"));
     }
 
-    public void clickResetAccountRequestLink() {
+    public void clickResetAccountVerificationRequestLink() {
         By by = By.id("reset-account-request-link");
         WebElement element = browser.driver.findElement(by);
         click(element);
@@ -47,15 +47,15 @@ public class AdminHomePage extends AppPage {
         return text.replace("<span class=\"highlighted-text\">", "").replace("</span>", "");
     }
 
-    public WebElement getAccountRequestRow(String name, String email, String institute) {
+    public WebElement getAccountVerificationRequestRow(String name, String email, String institute) {
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
-            if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_NAME - 1)
+            if (removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_NAME - 1)
                     .getAttribute("innerHTML")).contains(name)
-                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)
+                    && removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_EMAIL - 1)
                     .getAttribute("innerHTML")).contains(email)
-                    && removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_INSTITUTE - 1)
+                    && removeSpanFromText(columns.get(ACCOUNT_VERIFICATION_REQUEST_COL_INSTITUTE - 1)
                     .getAttribute("innerHTML")).contains(institute)) {
                 return row;
             }
@@ -63,8 +63,8 @@ public class AdminHomePage extends AppPage {
         return null;
     }
 
-    public void verifyInstructorInAccountRequestTable(String name, String email, String institute) {
-        WebElement row = getAccountRequestRow(name, email, institute);
+    public void verifyInstructorInAccountVerificationRequestTable(String name, String email, String institute) {
+        WebElement row = getAccountVerificationRequestRow(name, email, institute);
         assertNotNull(row);
     }
 }

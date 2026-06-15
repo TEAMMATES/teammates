@@ -1,0 +1,131 @@
+package teammates.logic.core;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
+import teammates.common.exception.InvalidParametersException;
+import teammates.storage.api.AccountVerificationRequestsDb;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountVerificationRequest;
+import teammates.storage.entity.Institute;
+
+/**
+ * Handles operations related to account verifications, including account
+ * verification requests and determining if an account is verified for a particular institute.
+ *
+ * @see AccountVerificationRequest
+ * @see AccountVerificationRequestsDb
+ */
+public final class AccountVerificationsLogic {
+
+    private static final AccountVerificationsLogic instance = new AccountVerificationsLogic();
+
+    private AccountVerificationRequestsDb accountVerificationRequestDb;
+    private AccountsLogic accountsLogic;
+    private InstitutesLogic institutesLogic;
+
+    private AccountVerificationsLogic() {
+        // prevent notification
+    }
+
+    public static AccountVerificationsLogic inst() {
+        return instance;
+    }
+
+    /**
+     * Initialise dependencies for {@code AccountVerificationRequestLogic} object.
+     */
+    public void initLogicDependencies(AccountVerificationRequestsDb accountVerificationRequestDb,
+            AccountsLogic accountsLogic, InstitutesLogic institutesLogic) {
+        this.accountVerificationRequestDb = accountVerificationRequestDb;
+        this.accountsLogic = accountsLogic;
+        this.institutesLogic = institutesLogic;
+    }
+
+    /**
+     * Creates an account verification request.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
+        validateAccountVerificationRequest(accountVerificationRequest);
+        return accountVerificationRequestDb.persistAccountVerificationRequest(accountVerificationRequest);
+    }
+
+    /**
+     * Creates an account verification request, resolving (or creating) the shared institute for the given
+     * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
+     */
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String instituteName, String country,
+            AccountVerificationRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
+        Institute institute = institutesLogic.getOrCreateInstitute(instituteName, country);
+        Account account = accountsLogic.getAccount(accountId);
+        AccountVerificationRequest toCreate = new AccountVerificationRequest(email, name, status, comments);
+        institute.addAccountVerificationRequest(toCreate);
+        account.addAccountVerificationRequest(toCreate);
+
+        return createAccountVerificationRequest(toCreate);
+    }
+
+    /**
+     * Gets the account verification request associated with the {@code id}.
+     */
+    public AccountVerificationRequest getAccountVerificationRequest(UUID id) {
+        return accountVerificationRequestDb.getAccountVerificationRequest(id);
+    }
+
+    /**
+     * Updates an account verification request.
+     */
+    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
+            throws InvalidParametersException {
+        validateAccountVerificationRequest(accountVerificationRequest);
+        return accountVerificationRequest;
+    }
+
+    /**
+     * Gets all pending account verification requests.
+     */
+    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
+        return accountVerificationRequestDb.getPendingAccountVerificationRequests();
+    }
+
+    /**
+     * Deletes account verification request associated with the {@code id}.
+     *
+     * <p>
+     * Fails silently if no account verification requests with the given id to delete can be
+     * found.
+     * </p>
+     */
+    public void deleteAccountVerificationRequest(UUID id) {
+        AccountVerificationRequest toDelete = accountVerificationRequestDb.getAccountVerificationRequest(id);
+
+        accountVerificationRequestDb.removeAccountVerificationRequest(toDelete);
+    }
+
+    /**
+     * Searches for account verification requests in the whole system.
+     *
+     * @return A list of {@link AccountVerificationRequest}, or an empty list if no match is found.
+     */
+    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
+        return accountVerificationRequestDb.searchAccountVerificationRequestsInWholeSystem(queryString);
+    }
+
+    private void validateAccountVerificationRequest(
+            AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
+        if (!accountVerificationRequest.isValid()) {
+            throw new InvalidParametersException(accountVerificationRequest.getInvalidityInfo());
+        }
+    }
+
+    /**
+     * Gets createdAt timestamps of account verification requests created within the given time range.
+     */
+    public List<Instant> getAccountVerificationRequestCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
+        return accountVerificationRequestDb.getCreatedAtTimestampsForTimeRange(startTime, endTime);
+    }
+}

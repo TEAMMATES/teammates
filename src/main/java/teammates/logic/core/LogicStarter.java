@@ -4,7 +4,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
-import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.api.AccountVerificationRequestsDb;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.DeadlineExtensionsDb;
@@ -31,7 +31,7 @@ public class LogicStarter implements ServletContextListener {
     public static void initializeDependencies() {
         AuthLogic authLogic = AuthLogic.inst();
         AccountsLogic accountsLogic = AccountsLogic.inst();
-        AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
+        AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
         InstitutesLogic institutesLogic = InstitutesLogic.inst();
         DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
@@ -48,7 +48,8 @@ public class LogicStarter implements ServletContextListener {
 
         authLogic.initLogicDependencies(usersLogic);
         institutesLogic.initLogicDependencies(InstitutesDb.inst());
-        accountRequestsLogic.initLogicDependencies(AccountRequestsDb.inst(), accountsLogic, institutesLogic);
+        accountVerificationsLogic.initLogicDependencies(
+                AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic);
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, notificationsLogic, institutesLogic);
@@ -61,7 +62,7 @@ public class LogicStarter implements ServletContextListener {
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic,
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
-        usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountRequestsLogic);
+        usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
         usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
         log.info("Initialized dependencies between logic classes");

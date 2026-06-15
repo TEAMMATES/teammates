@@ -22,14 +22,14 @@ export class LinkService {
   SESSIONS_RESULT_PAGE = '/sessions/result';
 
   /**
-   * Generates instructor welcome link for an account request.
+   * Generates instructor welcome link.
    */
-  generateAccountRegistrationLink(accountRequestId: string): string {
+  generateInstructorWelcomeLink(accountVerificationRequestId: string): string {
     const frontendUrl: string = globalThis.location.origin;
     const params: {
       [key: string]: string;
     } = {
-      accountRequestId,
+      accountVerificationRequestId,
     };
 
     const encodedParams: string = this.navigationService.encodeParams(params);

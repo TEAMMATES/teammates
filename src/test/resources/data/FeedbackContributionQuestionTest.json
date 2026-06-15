@@ -131,7 +131,7 @@
       "email": "normal@sanitization.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "typicalCourse1": {
       "id": "idOfTypicalCourse1",

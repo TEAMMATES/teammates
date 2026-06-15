@@ -22,7 +22,7 @@ public final class UsageStatisticsLogic {
     private FeedbackResponsesLogic feedbackResponsesLogic;
     private CoursesLogic coursesLogic;
     private UsersLogic usersLogic;
-    private AccountRequestsLogic accountRequestsLogic;
+    private AccountVerificationsLogic accountVerificationsLogic;
 
     private UsageStatisticsLogic() {
         // prevent initialization
@@ -37,11 +37,11 @@ public final class UsageStatisticsLogic {
      */
     public void initLogicDependencies(FeedbackResponsesLogic feedbackResponsesLogic,
             CoursesLogic coursesLogic, UsersLogic usersLogic,
-            AccountRequestsLogic accountRequestsLogic) {
+            AccountVerificationsLogic accountVerificationRequestsLogic) {
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.coursesLogic = coursesLogic;
         this.usersLogic = usersLogic;
-        this.accountRequestsLogic = accountRequestsLogic;
+        this.accountVerificationsLogic = accountVerificationRequestsLogic;
     }
 
     /**
@@ -67,8 +67,9 @@ public final class UsageStatisticsLogic {
                 usersLogic.getStudentCreatedAtTimestampsForTimeRange(startTime, endTime);
         List<Instant> instructorTimes =
                 usersLogic.getInstructorCreatedAtTimestampsForTimeRange(startTime, endTime);
-        List<Instant> accountRequestTimes =
-                accountRequestsLogic.getAccountRequestCreatedAtTimestampsForTimeRange(startTime, endTime);
+        List<Instant> accountVerificationRequestTimes =
+                accountVerificationsLogic
+                        .getAccountVerificationRequestCreatedAtTimestampsForTimeRange(startTime, endTime);
 
         List<UsageStatisticsData> stats = new ArrayList<>();
         Instant bucketStart = startTime;
@@ -80,7 +81,7 @@ public final class UsageStatisticsLogic {
                     countInBucket(courseTimes, bucketStart, bucketEnd),
                     countInBucket(studentTimes, bucketStart, bucketEnd),
                     countInBucket(instructorTimes, bucketStart, bucketEnd),
-                    countInBucket(accountRequestTimes, bucketStart, bucketEnd)));
+                    countInBucket(accountVerificationRequestTimes, bucketStart, bucketEnd)));
             bucketStart = bucketEnd;
         }
         return stats;

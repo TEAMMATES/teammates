@@ -29,7 +29,7 @@
       "subject": "tm.e2e.ISList.charlie.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "course1": {
       "id": "tm.e2e.ISList.course1",

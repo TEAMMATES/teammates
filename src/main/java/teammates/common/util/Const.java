@@ -121,8 +121,8 @@ public final class Const {
 
         public static final String FEEDBACK_SESSION_ID = "fsid";
 
-        public static final String ACCOUNT_REQUEST_ID = "id";
-        public static final String ACCOUNT_REQUEST_STATUS = "status";
+        public static final String ACCOUNT_VERIFICATION_REQUEST_ID = "id";
+        public static final String ACCOUNT_VERIFICATION_REQUEST_STATUS = "status";
 
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -283,7 +283,7 @@ public final class Const {
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
 
-        public static final String ACCOUNT_REQUEST_PAGE = FRONT_PAGE + "/request";
+        public static final String ACCOUNT_VERIFICATION_REQUEST_PAGE = FRONT_PAGE + "/request";
 
         public static final String INSTRUCTOR_WELCOME_PAGE = URI_PREFIX + "/instructor-welcome";
     }
@@ -300,10 +300,10 @@ public final class Const {
         public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_UNLINK = URI_PREFIX + "/account/unlink";
-        public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
-        public static final String ACCOUNT_REQUESTS = URI_PREFIX + "/account/requests";
-        public static final String ACCOUNT_REQUEST_REJECTION = ACCOUNT_REQUEST + "/rejection";
-        public static final String ACCOUNT_REQUEST_APPROVAL = ACCOUNT_REQUEST + "/approval";
+        public static final String ACCOUNT_VERIFICATION_REQUEST = URI_PREFIX + "/account/request";
+        public static final String ACCOUNT_VERIFICATION_REQUESTS = URI_PREFIX + "/account/requests";
+        public static final String ACCOUNT_VERIFICATION_REQUEST_REJECTION = ACCOUNT_VERIFICATION_REQUEST + "/rejection";
+        public static final String ACCOUNT_VERIFICATION_REQUEST_APPROVAL = ACCOUNT_VERIFICATION_REQUEST + "/approval";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String RESPONSE_GIVER_COMMENT = URI_PREFIX + "/response/givercomment";
         public static final String COURSE = URI_PREFIX + "/course";
@@ -336,7 +336,7 @@ public final class Const {
         public static final String SESSION_SUBMISSION = URI_PREFIX + "/session/submission";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
-        public static final String SEARCH_ACCOUNT_REQUESTS = URI_PREFIX + "/search/accountrequests";
+        public static final String SEARCH_ACCOUNT_VERIFICATION_REQUESTS = URI_PREFIX + "/search/accountrequests";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";

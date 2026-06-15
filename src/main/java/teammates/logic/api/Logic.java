@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
@@ -34,7 +34,7 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
-import teammates.logic.core.AccountRequestsLogic;
+import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.CoursesLogic;
@@ -51,7 +51,7 @@ import teammates.logic.core.ResponseInstructorCommentsLogic;
 import teammates.logic.core.UsageStatisticsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
@@ -94,7 +94,7 @@ public class Logic {
 
     final AuthLogic authLogic = AuthLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
-    final AccountRequestsLogic accountRequestLogic = AccountRequestsLogic.inst();
+    final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
@@ -206,17 +206,20 @@ public class Logic {
     }
 
     /**
-     * Creates an account request.
+     * Creates an account verification request.
      *
-     * @return newly created account request.
-     * @throws InvalidParametersException   if the account request details are
+     * @return newly created account verification request.
+     * @throws InvalidParametersException   if the account verification request details are
      *                                      invalid.
-     * @throws EntityAlreadyExistsException if the account request already exists.
+     * @throws EntityAlreadyExistsException if the account verification request already exists.
      */
-    public AccountRequest createAccountRequest(String name, String email, String institute, String country,
-            AccountRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
+    public AccountVerificationRequest createAccountVerificationRequest(
+            String name, String email, String institute, String country,
+            AccountVerificationRequestStatus status, String comments, UUID accountId)
+            throws InvalidParametersException {
 
-        return accountRequestLogic.createAccountRequest(name, email, institute, country, status, comments, accountId);
+        return accountVerificationsLogic.createAccountVerificationRequest(
+                name, email, institute, country, status, comments, accountId);
     }
 
     /**
@@ -227,45 +230,40 @@ public class Logic {
     }
 
     /**
-     * Gets the account request with the given {@code id}.
+     * Gets the account verification request with the given {@code id}.
      *
-     * @return account request with the given {@code id}.
+     * @return account verification request with the given {@code id}.
      */
-    public AccountRequest getAccountRequest(UUID id) {
-        return accountRequestLogic.getAccountRequest(id);
+    public AccountVerificationRequest getAccountVerificationRequest(UUID id) {
+        return accountVerificationsLogic.getAccountVerificationRequest(id);
     }
 
     /**
-     * Updates the given account request.
+     * Updates the given account verification request.
      *
-     * @return the updated account request.
+     * @return the updated account verification request.
      */
-    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
+    public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
             throws InvalidParametersException {
-        return accountRequestLogic.updateAccountRequest(accountRequest);
+        return accountVerificationsLogic.updateAccountVerificationRequest(accountVerificationRequest);
     }
 
     /**
-     * Deletes account request by id.
+     * Deletes account verification request by id.
      *
      * <ul>
-     * <li>Fails silently if no such account request.</li>
+     * <li>Fails silently if no such account verification request.</li>
      * </ul>
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * All parameters are non-null.
      */
-    public void deleteAccountRequest(UUID id) {
-        accountRequestLogic.deleteAccountRequest(id);
+    public void deleteAccountVerificationRequest(UUID id) {
+        accountVerificationsLogic.deleteAccountVerificationRequest(id);
     }
 
     /**
-     * Gets all pending account requests.
+     * Gets all pending account verification requests.
      */
-    public List<AccountRequest> getPendingAccountRequests() {
-        return accountRequestLogic.getPendingAccountRequests();
+    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
+        return accountVerificationsLogic.getPendingAccountVerificationRequests();
     }
 
     /**
@@ -1467,12 +1465,12 @@ public class Logic {
     }
 
     /**
-     * This is used by admin to search account requests in the whole system.
+     * This is used by admin to search account verification requests in the whole system.
      *
-     * @return A list of matching {@link AccountRequest}s, or an empty list if no match is found.
+     * @return A list of matching {@link AccountVerificationRequest}s, or an empty list if no match is found.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
-        return accountRequestLogic.searchAccountRequestsInWholeSystem(queryString);
+    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
+        return accountVerificationsLogic.searchAccountVerificationRequestsInWholeSystem(queryString);
     }
 
     /**

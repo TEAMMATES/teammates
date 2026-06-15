@@ -16,7 +16,7 @@
       "subject": "tm.e2e.FRubricQn.instructor"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "course": {
       "id": "tm.e2e.FRubricQn.CS2104",

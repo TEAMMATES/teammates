@@ -159,7 +159,7 @@
       "subject": "instructor2OfCourse3"
     }
   },
-  "accountRequests": {
+  "accountVerificationRequests": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "name": "Instructor 1",
@@ -176,7 +176,7 @@
       "email": "instr2@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
       "status": "APPROVED",
-      "comments": "Comments for account request from instructor2",
+      "comments": "Comments for account verification request from instructor2",
       "createdDemoCourseAt": "2015-02-14T00:00:00Z",
       "accountId": "00000000-0000-4000-8000-000000000002"
     },

@@ -189,8 +189,11 @@ export class CourseService {
   /**
    * Creates a demo course.
    */
-  createDemoCourse(queryParams: { accountRequestId: string; timezone: string }): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = { id: queryParams.accountRequestId, timezone: queryParams.timezone };
+  createDemoCourse(queryParams: { accountVerificationRequestId: string; timezone: string }): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = {
+      id: queryParams.accountVerificationRequestId,
+      timezone: queryParams.timezone,
+    };
 
     return this.httpRequestService.post(ResourceEndpoints.DEMO_COURSE, paramMap);
   }
