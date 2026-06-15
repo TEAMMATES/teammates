@@ -175,29 +175,30 @@ public class AppUrlTest extends BaseTestCase {
     }
 
     @Test
-    public void withAccountId_addsAccountIdParameter() {
-        AppUrl url = new AppUrl("http://www.teammates.tmt/page");
+    public void withAccountId_substitutesAccountIdInPath() {
+        AppUrl url = AppUrl.fromParts("http://www.teammates.tmt", "/admin/accounts/{accountId}");
         UUID accountId = UUID.fromString("12345678-1234-5678-1234-567812345678");
         AppUrl urlWithId = url.withAccountId(accountId);
         assertEquals(
-                "/page?accountid=12345678-1234-5678-1234-567812345678",
+                "/admin/accounts/12345678-1234-5678-1234-567812345678",
                 urlWithId.toString());
     }
 
     @Test
-    public void withCourseId_addsCourseIdParameter() {
-        AppUrl url = new AppUrl("http://www.teammates.tmt/page");
+    public void withCourseId_substitutesCourseIdInPath() {
+        AppUrl url = AppUrl.fromParts("http://www.teammates.tmt", "/instructor/courses/{courseId}/details");
         AppUrl urlWithCourseId = url.withCourseId("CS101");
-        assertEquals("/page?courseid=CS101", urlWithCourseId.toString());
+        assertEquals("/instructor/courses/CS101/details", urlWithCourseId.toString());
     }
 
     @Test
-    public void withUserId_addsUserIdParameter() {
-        AppUrl url = new AppUrl("http://www.teammates.tmt/page");
+    public void withUserId_substitutesUserIdInPath() {
+        AppUrl url = AppUrl.fromParts("http://www.teammates.tmt",
+                "/instructor/courses/{courseId}/students/{userId}/details");
         UUID userId = UUID.fromString("87654321-4321-8765-4321-876543218765");
         AppUrl urlWithUserId = url.withUserId(userId);
         assertEquals(
-                "/page?userid=87654321-4321-8765-4321-876543218765",
+                "/instructor/courses/{courseId}/students/87654321-4321-8765-4321-876543218765/details",
                 urlWithUserId.toString());
     }
 

@@ -256,27 +256,34 @@ public final class Const {
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";
         public static final String INSTRUCTOR_SESSIONS_PAGE = INSTRUCTOR_PAGE + "/sessions";
-        public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/{feedbackSessionId}/submission";
+        public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE
+                + "/sessions/{feedbackSessionId}/submission";
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/{feedbackSessionId}/edit";
         public static final String INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE = INSTRUCTOR_PAGE
                 + "/sessions/{feedbackSessionId}/individual-extension";
-        public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE + "/sessions/{feedbackSessionId}/result";
-        public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE + "/sessions/{feedbackSessionId}/report";
+        public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE
+                + "/sessions/{feedbackSessionId}/result";
+        public static final String INSTRUCTOR_SESSION_REPORT_PAGE = INSTRUCTOR_PAGE
+                + "/sessions/{feedbackSessionId}/report";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = INSTRUCTOR_PAGE + "/courses/{courseId}/details";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/{courseId}/edit";
         public static final String INSTRUCTOR_COURSE_ENROLL_PAGE = INSTRUCTOR_PAGE + "/courses/{courseId}/enroll";
-        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = INSTRUCTOR_PAGE + "/courses/{courseId}/students/{userId}/details";
-        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/{courseId}/students/{userId}/edit";
+        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = INSTRUCTOR_PAGE
+                + "/courses/{courseId}/students/{userId}/details";
+        public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE = INSTRUCTOR_PAGE
+                + "/courses/{courseId}/students/{userId}/edit";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = INSTRUCTOR_PAGE + "/students";
-        public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE + "/students/{courseId}/{userId}/records";
+        public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE
+                + "/students/{courseId}/{userId}/records";
         public static final String INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE = INSTRUCTOR_PAGE
                 + "/courses/{courseId}/student-activity-logs";
         public static final String INSTRUCTOR_NOTIFICATIONS_PAGE = INSTRUCTOR_PAGE + "/notifications";
 
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/courses/{courseId}";
-        public static final String STUDENT_SESSION_SUBMISSION_PAGE = STUDENT_PAGE + "/sessions/{feedbackSessionId}/submission";
+        public static final String STUDENT_SESSION_SUBMISSION_PAGE = STUDENT_PAGE
+                + "/sessions/{feedbackSessionId}/submission";
         public static final String STUDENT_SESSION_RESULTS_PAGE = STUDENT_PAGE + "/sessions/{feedbackSessionId}/result";
         public static final String STUDENT_NOTIFICATIONS_PAGE = STUDENT_PAGE + "/notifications";
 
@@ -286,7 +293,8 @@ public final class Const {
 
         public static final String ACCOUNT_VERIFICATION_REQUEST_PAGE = FRONT_PAGE + "/request";
 
-        public static final String INSTRUCTOR_WELCOME_PAGE = URI_PREFIX + "/instructor-welcome/{accountVerificationRequestId}";
+        public static final String INSTRUCTOR_WELCOME_PAGE = URI_PREFIX
+                + "/instructor-welcome/{accountVerificationRequestId}";
     }
 
     /**

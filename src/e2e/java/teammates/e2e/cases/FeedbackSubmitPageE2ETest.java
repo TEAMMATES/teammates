@@ -181,8 +181,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("moderating instructor cannot see questions without instructor visibility");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(gracePeriodSession.getId())
-                .withParam("moderatedperson", student.getId().toString())
-                .withParam("moderatedquestionId", question.getId().toString());
+                .withParam("moderatedPerson", student.getId().toString())
+                .withParam("moderatedQuestionId", question.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
         submitPage.verifyFeedbackSessionDetails(gracePeriodSession, course);

@@ -406,7 +406,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     public static AppUrl getFrontEndAppUrl(String relativeUrl) {
-        return new AppUrl(APP_FRONTEND_URL + relativeUrl);
+        return AppUrl.fromParts(APP_FRONTEND_URL, relativeUrl);
     }
 
     /**

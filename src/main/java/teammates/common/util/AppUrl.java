@@ -54,6 +54,15 @@ public class AppUrl {
     }
 
     /**
+     * Creates an AppUrl from a base URL and a relative URL template that may contain path placeholders
+     * (e.g. {@code {feedbackSessionId}}). Skips URI validation so placeholders are preserved for
+     * later substitution via {@code with*()} methods.
+     */
+    static AppUrl fromParts(String baseUrl, String relativeUrl) {
+        return new AppUrl(baseUrl, relativeUrl, "", Collections.emptyList());
+    }
+
+    /**
      * Returns the first part of the URL, including the protocol and
      * authority (host name + port number if specified) but not the path.<br>
      * Example:
@@ -116,7 +125,7 @@ public class AppUrl {
     }
 
     public AppUrl withEntityType(String entityType) {
-        return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
+        return withParam("entityType", entityType);
     }
 
     public AppUrl withPreviewAs(String previewAs) {

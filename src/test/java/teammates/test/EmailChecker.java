@@ -82,9 +82,9 @@ public final class EmailChecker {
         return emailContent // regkey in URLs
                            .replaceAll(Const.ParamsNames.REGKEY + "=" + REGEX_REGKEY,
                                        Const.ParamsNames.REGKEY + "=\\${regkey\\.enc}")
-                           // feedbackSessionId (UUID) in URLs
-                           .replaceAll(Const.ParamsNames.FEEDBACK_SESSION_ID + "=" + REGEX_UUID,
-                                       Const.ParamsNames.FEEDBACK_SESSION_ID + "=\\${fsid}");
+                           // feedbackSessionId (UUID) in path-based URLs e.g. /sessions/{uuid}/submission
+                           .replaceAll("(/sessions/)" + REGEX_UUID + "(/)",
+                                       "$1\\${fsid}$2");
 
     }
 
