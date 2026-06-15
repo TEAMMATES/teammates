@@ -123,6 +123,13 @@ public final class AccountVerificationsLogic {
     }
 
     /**
+     * Returns true if the given account has an approved account verification request for the given institute.
+     */
+    public boolean isAccountVerifiedForInstitute(UUID accountId, UUID instituteId) {
+        return accountVerificationRequestDb.hasApprovedRequestForAccountAndInstitute(accountId, instituteId);
+    }
+
+    /**
      * Gets createdAt timestamps of account verification requests created within the given time range.
      */
     public List<Instant> getAccountVerificationRequestCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {

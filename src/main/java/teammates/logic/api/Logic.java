@@ -267,6 +267,13 @@ public class Logic {
     }
 
     /**
+     * Returns true if the given account has an approved account verification request for the given institute.
+     */
+    public boolean isAccountVerifiedForInstitute(UUID accountId, UUID instituteId) {
+        return accountVerificationsLogic.isAccountVerifiedForInstitute(accountId, instituteId);
+    }
+
+    /**
      * Gets an account.
      */
     public Account getAccount(UUID id) {

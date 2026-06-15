@@ -351,6 +351,17 @@ final class GateKeeper {
         }
     }
 
+    /**
+     * Verifies that the account has an approved account verification request for the given institute.
+     */
+    void verifyAccountVerifiedForInstitute(RequestContext requestContext, UUID instituteId)
+            throws UnauthorizedAccessException {
+        boolean isVerified = logic.isAccountVerifiedForInstitute(requestContext.getAccount().getId(), instituteId);
+        if (!isVerified) {
+            throw new UnauthorizedAccessException("Account is not verified for institute [" + instituteId + "]");
+        }
+    }
+
     private void verifyNotNull(Object object, String typeName)
             throws UnauthorizedAccessException {
         if (object == null) {
