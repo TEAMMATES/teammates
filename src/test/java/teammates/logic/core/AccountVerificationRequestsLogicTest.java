@@ -24,17 +24,17 @@ import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link AccountVerificationRequestsLogic}.
+ * SUT: {@link AccountVerificationsLogic}.
  */
 public class AccountVerificationRequestsLogicTest extends BaseTestCase {
 
-    private AccountVerificationRequestsLogic accountVerificationRequestsLogic = AccountVerificationRequestsLogic.inst();
+    private AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
     private AccountVerificationRequestsDb accountVerificationRequestsDb;
 
     @BeforeMethod
     public void setUpMethod() {
         accountVerificationRequestsDb = mock(AccountVerificationRequestsDb.class);
-        accountVerificationRequestsLogic.initLogicDependencies(accountVerificationRequestsDb, mock(AccountsLogic.class),
+        accountVerificationsLogic.initLogicDependencies(accountVerificationRequestsDb, mock(AccountsLogic.class),
                 mock(InstitutesLogic.class));
     }
 
@@ -44,7 +44,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         when(accountVerificationRequestsDb.persistAccountVerificationRequest(accountVerificationRequest))
                 .thenReturn(accountVerificationRequest);
         AccountVerificationRequest createdAccountVerificationRequest =
-                accountVerificationRequestsLogic.createAccountVerificationRequest(accountVerificationRequest);
+                accountVerificationsLogic.createAccountVerificationRequest(accountVerificationRequest);
 
         assertEquals(accountVerificationRequest, createdAccountVerificationRequest);
         verify(accountVerificationRequestsDb, times(1)).persistAccountVerificationRequest(accountVerificationRequest);
@@ -59,8 +59,8 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         when(accountVerificationRequestsDb.persistAccountVerificationRequest(accountVerificationRequest2))
                         .thenReturn(accountVerificationRequest2);
 
-        accountVerificationRequestsLogic.createAccountVerificationRequest(accountVerificationRequest1);
-        accountVerificationRequestsLogic.createAccountVerificationRequest(accountVerificationRequest2);
+        accountVerificationsLogic.createAccountVerificationRequest(accountVerificationRequest1);
+        accountVerificationsLogic.createAccountVerificationRequest(accountVerificationRequest2);
         verify(accountVerificationRequestsDb, times(1)).persistAccountVerificationRequest(accountVerificationRequest1);
         verify(accountVerificationRequestsDb, times(1)).persistAccountVerificationRequest(accountVerificationRequest2);
     }
@@ -71,7 +71,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         invalidEmailAccountVerificationRequest.setEmail("invalid email");
 
         assertThrows(InvalidParametersException.class, () -> {
-            accountVerificationRequestsLogic.createAccountVerificationRequest(invalidEmailAccountVerificationRequest);
+            accountVerificationsLogic.createAccountVerificationRequest(invalidEmailAccountVerificationRequest);
         });
         verify(accountVerificationRequestsDb, never())
                 .persistAccountVerificationRequest(invalidEmailAccountVerificationRequest);
@@ -81,7 +81,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     public void testUpdateAccountVerificationRequest_typicalRequest_success()
             throws InvalidParametersException {
         AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
-        AccountVerificationRequest updatedAr = accountVerificationRequestsLogic.updateAccountVerificationRequest(ar);
+        AccountVerificationRequest updatedAr = accountVerificationsLogic.updateAccountVerificationRequest(ar);
 
         assertEquals(ar, updatedAr);
     }
@@ -90,7 +90,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     public void testUpdateAccountVerificationRequest_requestNotFound_failure()
             throws InvalidParametersException {
         AccountVerificationRequest arNotFound = getTypicalAccountVerificationRequest();
-        AccountVerificationRequest updated = accountVerificationRequestsLogic.updateAccountVerificationRequest(arNotFound);
+        AccountVerificationRequest updated = accountVerificationsLogic.updateAccountVerificationRequest(arNotFound);
         assertEquals(updated, arNotFound);
     }
 
@@ -98,7 +98,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     public void testDeleteAccountVerificationRequest_typicalRequest_success() {
         AccountVerificationRequest ar = getTypicalAccountVerificationRequest();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(ar.getId())).thenReturn(ar);
-        accountVerificationRequestsLogic.deleteAccountVerificationRequest(ar.getId());
+        accountVerificationsLogic.deleteAccountVerificationRequest(ar.getId());
 
         verify(accountVerificationRequestsDb, times(1))
                 .removeAccountVerificationRequest(any(AccountVerificationRequest.class));
@@ -107,7 +107,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
     @Test
     public void testDeleteAccountVerificationRequest_nonexistentRequest_shouldSilentlyDelete() {
         UUID nonexistentUuid = UUID.fromString("00000000-0000-4000-8000-000000000100");
-        accountVerificationRequestsLogic.deleteAccountVerificationRequest(nonexistentUuid);
+        accountVerificationsLogic.deleteAccountVerificationRequest(nonexistentUuid);
 
         verify(accountVerificationRequestsDb, times(1))
                 .removeAccountVerificationRequest(nullable(AccountVerificationRequest.class));
@@ -118,7 +118,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         UUID id = UUID.randomUUID();
         when(accountVerificationRequestsDb.getAccountVerificationRequest(id)).thenReturn(null);
         AccountVerificationRequest actualAccountVerificationRequest =
-                accountVerificationRequestsLogic.getAccountVerificationRequest(id);
+                accountVerificationsLogic.getAccountVerificationRequest(id);
         verify(accountVerificationRequestsDb).getAccountVerificationRequest(id);
         assertNull(actualAccountVerificationRequest);
     }
@@ -133,7 +133,7 @@ public class AccountVerificationRequestsLogicTest extends BaseTestCase {
         when(accountVerificationRequestsDb.getAccountVerificationRequest(id))
                 .thenReturn(expectedAccountVerificationRequest);
         AccountVerificationRequest actualAccountVerificationRequest =
-                accountVerificationRequestsLogic.getAccountVerificationRequest(id);
+                accountVerificationsLogic.getAccountVerificationRequest(id);
         verify(accountVerificationRequestsDb).getAccountVerificationRequest(id);
         assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
     }

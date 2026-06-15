@@ -17,17 +17,17 @@ import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.GroupNames;
 
 /**
- * SUT: {@link AccountVerificationRequestsLogic}.
+ * SUT: {@link AccountVerificationsLogic}.
  */
 public class AccountVerificationRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
-    private AccountVerificationRequestsLogic accountVerificationRequestsLogic = AccountVerificationRequestsLogic.inst();
+    private AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testGetAccountVerificationRequest_nonExistentAccountVerificationRequest_returnsNull() {
         UUID id = UUID.randomUUID();
         AccountVerificationRequest actualAccountVerificationRequest =
-                inTransaction(() -> accountVerificationRequestsLogic.getAccountVerificationRequest(id));
+                inTransaction(() -> accountVerificationsLogic.getAccountVerificationRequest(id));
         assertNull(actualAccountVerificationRequest);
     }
 
@@ -44,10 +44,10 @@ public class AccountVerificationRequestsLogicIT extends BaseTestCaseWithDatabase
         inTransaction(() -> {
             HibernateUtil.persist(expectedAccountVerificationRequest.getInstitute());
             HibernateUtil.persist(account);
-            return accountVerificationRequestsLogic.createAccountVerificationRequest(expectedAccountVerificationRequest);
+            return accountVerificationsLogic.createAccountVerificationRequest(expectedAccountVerificationRequest);
         });
         AccountVerificationRequest actualAccountVerificationRequest =
-                inTransaction(() -> accountVerificationRequestsLogic.getAccountVerificationRequest(id));
+                inTransaction(() -> accountVerificationsLogic.getAccountVerificationRequest(id));
         assertEquals(expectedAccountVerificationRequest, actualAccountVerificationRequest);
     }
 }

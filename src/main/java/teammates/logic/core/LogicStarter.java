@@ -31,7 +31,7 @@ public class LogicStarter implements ServletContextListener {
     public static void initializeDependencies() {
         AuthLogic authLogic = AuthLogic.inst();
         AccountsLogic accountsLogic = AccountsLogic.inst();
-        AccountVerificationRequestsLogic accountVerificationRequestsLogic = AccountVerificationRequestsLogic.inst();
+        AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
         InstitutesLogic institutesLogic = InstitutesLogic.inst();
         DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
@@ -48,7 +48,7 @@ public class LogicStarter implements ServletContextListener {
 
         authLogic.initLogicDependencies(usersLogic);
         institutesLogic.initLogicDependencies(InstitutesDb.inst());
-        accountVerificationRequestsLogic.initLogicDependencies(
+        accountVerificationsLogic.initLogicDependencies(
                 AccountVerificationRequestsDb.inst(), accountsLogic, institutesLogic);
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), usersLogic, institutesLogic);
@@ -62,7 +62,7 @@ public class LogicStarter implements ServletContextListener {
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic,
                 instructorPermissionsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
-        usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationRequestsLogic);
+        usageStatisticsLogic.initLogicDependencies(frLogic, coursesLogic, usersLogic, accountVerificationsLogic);
         usersLogic.initLogicDependencies(UsersDb.inst(), coursesLogic, frLogic, instructorPermissionsLogic);
         instructorPermissionsLogic.initLogicDependencies(InstructorPermissionsDb.inst());
         log.info("Initialized dependencies between logic classes");

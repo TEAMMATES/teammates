@@ -22,7 +22,7 @@ public final class UsageStatisticsLogic {
     private FeedbackResponsesLogic feedbackResponsesLogic;
     private CoursesLogic coursesLogic;
     private UsersLogic usersLogic;
-    private AccountVerificationRequestsLogic accountVerificationRequestsLogic;
+    private AccountVerificationsLogic accountVerificationsLogic;
 
     private UsageStatisticsLogic() {
         // prevent initialization
@@ -37,11 +37,11 @@ public final class UsageStatisticsLogic {
      */
     public void initLogicDependencies(FeedbackResponsesLogic feedbackResponsesLogic,
             CoursesLogic coursesLogic, UsersLogic usersLogic,
-            AccountVerificationRequestsLogic accountVerificationRequestsLogic) {
+            AccountVerificationsLogic accountVerificationRequestsLogic) {
         this.feedbackResponsesLogic = feedbackResponsesLogic;
         this.coursesLogic = coursesLogic;
         this.usersLogic = usersLogic;
-        this.accountVerificationRequestsLogic = accountVerificationRequestsLogic;
+        this.accountVerificationsLogic = accountVerificationRequestsLogic;
     }
 
     /**
@@ -68,7 +68,7 @@ public final class UsageStatisticsLogic {
         List<Instant> instructorTimes =
                 usersLogic.getInstructorCreatedAtTimestampsForTimeRange(startTime, endTime);
         List<Instant> accountVerificationRequestTimes =
-                accountVerificationRequestsLogic
+                accountVerificationsLogic
                         .getAccountVerificationRequestCreatedAtTimestampsForTimeRange(startTime, endTime);
 
         List<UsageStatisticsData> stats = new ArrayList<>();

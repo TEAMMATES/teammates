@@ -12,24 +12,24 @@ import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
 
 /**
- * Handles operations related to account verification requests.
+ * Handles operations related to account verifications.
  *
  * @see AccountVerificationRequest
  * @see AccountVerificationRequestsDb
  */
-public final class AccountVerificationRequestsLogic {
+public final class AccountVerificationsLogic {
 
-    private static final AccountVerificationRequestsLogic instance = new AccountVerificationRequestsLogic();
+    private static final AccountVerificationsLogic instance = new AccountVerificationsLogic();
 
     private AccountVerificationRequestsDb accountVerificationRequestDb;
     private AccountsLogic accountsLogic;
     private InstitutesLogic institutesLogic;
 
-    private AccountVerificationRequestsLogic() {
+    private AccountVerificationsLogic() {
         // prevent notification
     }
 
-    public static AccountVerificationRequestsLogic inst() {
+    public static AccountVerificationsLogic inst() {
         return instance;
     }
 

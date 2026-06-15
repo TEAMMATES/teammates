@@ -34,7 +34,7 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
-import teammates.logic.core.AccountVerificationRequestsLogic;
+import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.CoursesLogic;
@@ -94,7 +94,7 @@ public class Logic {
 
     final AuthLogic authLogic = AuthLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
-    final AccountVerificationRequestsLogic accountVerificationRequestLogic = AccountVerificationRequestsLogic.inst();
+    final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
@@ -218,7 +218,7 @@ public class Logic {
             AccountVerificationRequestStatus status, String comments, UUID accountId)
             throws InvalidParametersException {
 
-        return accountVerificationRequestLogic.createAccountVerificationRequest(
+        return accountVerificationsLogic.createAccountVerificationRequest(
                 name, email, institute, country, status, comments, accountId);
     }
 
@@ -235,7 +235,7 @@ public class Logic {
      * @return account verification request with the given {@code id}.
      */
     public AccountVerificationRequest getAccountVerificationRequest(UUID id) {
-        return accountVerificationRequestLogic.getAccountVerificationRequest(id);
+        return accountVerificationsLogic.getAccountVerificationRequest(id);
     }
 
     /**
@@ -245,7 +245,7 @@ public class Logic {
      */
     public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
             throws InvalidParametersException {
-        return accountVerificationRequestLogic.updateAccountVerificationRequest(accountVerificationRequest);
+        return accountVerificationsLogic.updateAccountVerificationRequest(accountVerificationRequest);
     }
 
     /**
@@ -256,14 +256,14 @@ public class Logic {
      * </ul>
      */
     public void deleteAccountVerificationRequest(UUID id) {
-        accountVerificationRequestLogic.deleteAccountVerificationRequest(id);
+        accountVerificationsLogic.deleteAccountVerificationRequest(id);
     }
 
     /**
      * Gets all pending account verification requests.
      */
     public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
-        return accountVerificationRequestLogic.getPendingAccountVerificationRequests();
+        return accountVerificationsLogic.getPendingAccountVerificationRequests();
     }
 
     /**
@@ -1470,7 +1470,7 @@ public class Logic {
      * @return A list of matching {@link AccountVerificationRequest}s, or an empty list if no match is found.
      */
     public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
-        return accountVerificationRequestLogic.searchAccountVerificationRequestsInWholeSystem(queryString);
+        return accountVerificationsLogic.searchAccountVerificationRequestsInWholeSystem(queryString);
     }
 
     /**
