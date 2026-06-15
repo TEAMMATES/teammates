@@ -32,7 +32,7 @@ export class InstructorWelcomePageComponent implements OnInit {
   readonly isCreatingCourse = signal(false);
 
   ngOnInit(): void {
-    const accountVerificationRequestId = this.route.snapshot.queryParamMap.get('accountVerificationRequestId');
+    const accountVerificationRequestId = this.route.snapshot.paramMap.get('accountVerificationRequestId');
 
     if (!accountVerificationRequestId) {
       this.isInvalidLink.set(true);

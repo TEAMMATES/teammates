@@ -34,7 +34,7 @@ const routes: Routes = [
         component: PageComponent,
         children: [
           {
-            path: '',
+            path: ':accountVerificationRequestId',
             loadComponent: () =>
               import('./instructor-welcome-page/instructor-welcome-page.component').then(
                 (m) => m.InstructorWelcomePageComponent,
