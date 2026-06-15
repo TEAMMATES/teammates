@@ -118,6 +118,8 @@ export class SessionResultPageComponent implements OnInit {
     if (this.entityType === 'instructor') {
       this.intent = Intent.INSTRUCTOR_RESULT;
     }
+    // withComponentInputBinding() can reset @Input() defaults to undefined; restore the 'student' default
+    this.entityType ||= 'student';
 
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
     this.authService.getAuthUser(nextUrl).subscribe({

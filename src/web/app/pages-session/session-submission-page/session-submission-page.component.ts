@@ -162,6 +162,8 @@ export class SessionSubmissionPageComponent implements OnInit {
     if (this.entityType === 'instructor') {
       this.intent = Intent.INSTRUCTOR_SUBMISSION;
     }
+    // withComponentInputBinding() can reset @Input() defaults to undefined; restore the 'student' default
+    this.entityType ||= 'student';
     if (this.previewAs) {
       // disable submission in the preview mode
       this.isSubmissionFormsDisabled = true;

@@ -43,7 +43,9 @@ describe('Link Service', () => {
   });
 
   it('should generate the manage account link', () => {
-    expect(service.generateManageAccountLink('account 123', '/manage-account')).toBe('/web/admin/accounts/account 123');
+    expect(service.generateManageAccountLink('00000000-0000-4000-8000-000000000001', '/manage-account')).toBe(
+      '/web/admin/accounts/00000000-0000-4000-8000-000000000001',
+    );
   });
 
   it('should generate the student profile page link', () => {
