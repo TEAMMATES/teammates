@@ -15,7 +15,7 @@ import teammates.storage.entity.Student;
 public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
 
     private Student newStudent;
-    private String newStudentGoogleId;
+    private String newStudentEmail;
 
     @Override
     protected void prepareTestData() {
@@ -23,7 +23,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
                 loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json"));
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudentGoogleId = testData.accounts.get("alice.tmms").getGoogleId();
+        newStudentEmail = testData.accounts.get("alice.tmms").getEmail();
     }
 
     @Test
@@ -34,7 +34,7 @@ public class StudentCourseJoinConfirmationPageAxeTest extends BaseAxeTestCase {
                 .withCourseId(testData.courses.get("SCJoinConf.CS2104").getId())
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = loginToPage(
-                joinLink, CourseJoinConfirmationPage.class, newStudentGoogleId);
+                joinLink, CourseJoinConfirmationPage.class, newStudentEmail);
 
         Results results = getAxeBuilder().analyze(confirmationPage.getBrowser().getDriver());
         assertViolationFree(results);

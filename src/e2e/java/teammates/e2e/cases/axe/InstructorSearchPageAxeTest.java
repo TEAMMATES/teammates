@@ -25,7 +25,7 @@ public class InstructorSearchPageAxeTest extends BaseAxeTestCase {
         AppUrl searchPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
         InstructorSearchPage searchPage = loginToPage(searchPageUrl, InstructorSearchPage.class,
-                testData.accounts.get("instructor1OfCourse1").getGoogleId());
+                testData.accounts.get("instructor1OfCourse1").getEmail());
 
         searchPage.search("student2");
 

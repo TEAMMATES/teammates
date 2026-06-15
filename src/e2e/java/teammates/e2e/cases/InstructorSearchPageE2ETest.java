@@ -28,10 +28,10 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        String instructorId = testData.accounts.get("instructor1OfCourse1").getGoogleId();
+        String instructorEmail = testData.accounts.get("instructor1OfCourse1").getEmail();
         AppUrl searchPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
-        InstructorSearchPage searchPage = loginToPage(searchPageUrl, InstructorSearchPage.class, instructorId);
+        InstructorSearchPage searchPage = loginToPage(searchPageUrl, InstructorSearchPage.class, instructorEmail);
 
         ______TS("cannot click search button if no search term is entered");
 

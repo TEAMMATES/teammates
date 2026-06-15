@@ -11,9 +11,33 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.FRubricQn.instructor",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "frubricqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FRubricQn.instructor"
+      "subject": "frubricqn.instructor@gmail.tmt"
+    },
+    "tm.e2e.FRubricQn.alice.tmms": {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "googleId": "tm.e2e.FRubricQn.alice.tmms",
+      "name": "Alice Betsy",
+      "email": "frubricqn.alice.tmms@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "frubricqn.alice.tmms@gmail.tmt"
+    },
+    "tm.e2e.FRubricQn.benny.tmms": {
+      "id": "00000000-0000-4000-8000-000000000003",
+      "googleId": "tm.e2e.FRubricQn.benny.tmms",
+      "name": "Benny Charles",
+      "email": "frubricqn.benny.tmms@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "frubricqn.benny.tmms@gmail.tmt"
+    },
+    "tm.e2e.FRubricQn.charlie.tmms": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "tm.e2e.FRubricQn.charlie.tmms",
+      "name": "Charlie Davis",
+      "email": "frubricqn.charlie.tmms@gmail.tmt",
+      "provider": "TEAMMATES_DEV",
+      "subject": "frubricqn.charlie.tmms@gmail.tmt"
     }
   },
   "accountVerificationRequests": {},
@@ -64,7 +88,7 @@
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FRubricQn.CS2104",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "frubricqn.instructor@gmail.tmt",
       "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FE498879D5EDC75B130B1D4316641CEEE7AA53CA47CAAE91920644B3AC4DC6D66F",
       "accountId": "00000000-0000-4000-8000-000000000001"
     },
@@ -75,7 +99,7 @@
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.FRubricQn.CS1101",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "frubricqn.instructor@gmail.tmt",
       "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FEA097E915F0B418903EA5756DB26891F20E0D47726D1FAA6CE0C29EAF17D950CD",
       "accountId": "00000000-0000-4000-8000-000000000001"
     }
@@ -86,9 +110,9 @@
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.FRubricQn.CS2104",
       "name": "Alice Betsy",
-      "email": "alice.b.tmms@gmail.tmt",
+      "email": "frubricqn.alice.tmms@gmail.tmt",
       "regKey": "EBE50B16D49CF8511F63AC64F55EEE9A9BBF979EDD08808B815CB748176E61CBBD7364C6F112325851C21A8237FE3F2B9D157BBE8E0A82BFC8695990DDDB8DDB",
-      "accountId": "00000000-0000-4000-8000-000000000001",
+      "accountId": "00000000-0000-4000-8000-000000000002",
       "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "benny.tmms@FRubricQn.CS2104": {
@@ -96,9 +120,9 @@
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.FRubricQn.CS2104",
       "name": "Benny Charles",
-      "email": "benny.tmms@gmail.tmt",
+      "email": "frubricqn.benny.tmms@gmail.tmt",
       "regKey": "4E89CF58E1263D114A5A352555BDEF24FE9EBA55575B73F1FCDE2A30FF8DF1C8A04289CB0E187D938973732E18082EBF82A64E5B2EC66152A7A50EBB4790F91F",
-      "accountId": "00000000-0000-4000-8000-000000000001",
+      "accountId": "00000000-0000-4000-8000-000000000003",
       "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "charlie.tmms@FRubricQn.CS2104": {
@@ -108,7 +132,7 @@
       "name": "Charlie Davis",
       "email": "frubricqn.charlie.tmms@gmail.tmt",
       "regKey": "067D131524890778C6BBB57B778D4F2FBCF1FA17123302BA4FBBC6705321C17311B2393495AFC68170567B84EB749F9C59DB034E6B00DC113C1D97A09171A55F438B4CED8016561F1425C109373DEA8C",
-      "accountId": "00000000-0000-4000-8000-000000000001",
+      "accountId": "00000000-0000-4000-8000-000000000004",
       "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "danny.tmms@FRubricQn.CS1101": {

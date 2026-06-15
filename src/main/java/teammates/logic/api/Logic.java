@@ -294,6 +294,14 @@ public class Logic {
     }
 
     /**
+     * Creates and returns an account for the given identity if it does not exist,
+     * otherwise returns the existing account.
+     */
+    public Account createOrGetAccount(Provider provider, String subject, String tenantId, String email) {
+        return accountsLogic.createOrGetAccount(provider, subject, tenantId, email);
+    }
+
+    /**
      * Deletes account associated with the {@code accountId}.
      *
      * <p>Fails silently if the account doesn't exist.</p>

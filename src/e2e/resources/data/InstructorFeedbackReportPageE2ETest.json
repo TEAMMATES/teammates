@@ -13,7 +13,7 @@
       "name": "Teammates Test 1",
       "email": "ifrep.instr1@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.instr"
+      "subject": "ifrep.instr1@gmail.tmt"
     },
     "tm.e2e.IFRep.instr2": {
       "id": "00000000-0000-4000-8000-000000000002",
@@ -21,7 +21,7 @@
       "name": "Teammates Test 2",
       "email": "ifrep.instr2@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.instr2"
+      "subject": "ifrep.instr2@gmail.tmt"
     },
     "tm.e2e.IFRep.alice.b": {
       "id": "00000000-0000-4000-8000-000000000003",
@@ -29,7 +29,7 @@
       "name": "Alice Betsy",
       "email": "ifrep.alice.b@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.alice.b"
+      "subject": "ifrep.alice.b@gmail.tmt"
     },
     "tm.e2e.IFRep.benny.c": {
       "id": "00000000-0000-4000-8000-000000000004",
@@ -37,7 +37,7 @@
       "name": "Benny Charles",
       "email": "ifrep.benny.c@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.benny.c"
+      "subject": "ifrep.benny.c@gmail.tmt"
     },
     "tm.e2e.IFRep.charlie.d": {
       "id": "00000000-0000-4000-8000-000000000005",
@@ -45,7 +45,7 @@
       "name": "Charlie Davis",
       "email": "ifrep.charlie.d@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.charlie.d"
+      "subject": "ifrep.charlie.d@gmail.tmt"
     },
     "tm.e2e.IFRep.danny.e": {
       "id": "00000000-0000-4000-8000-000000000006",
@@ -53,7 +53,7 @@
       "name": "Danny Engrid",
       "email": "ifrep.danny.e@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.danny.e"
+      "subject": "ifrep.danny.e@gmail.tmt"
     },
     "tm.e2e.IFRep.emily.f": {
       "id": "00000000-0000-4000-8000-000000000007",
@@ -61,7 +61,7 @@
       "name": "Emily F.",
       "email": "ifrep.emily.f@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.emily.f"
+      "subject": "ifrep.emily.f@gmail.tmt"
     },
     "tm.e2e.IFRep.fred.g": {
       "id": "00000000-0000-4000-8000-000000000008",
@@ -69,7 +69,7 @@
       "name": "Fred G.",
       "email": "ifrep.fred.g@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.IFRep.fred.g"
+      "subject": "ifrep.fred.g@gmail.tmt"
     }
   },
   "accountVerificationRequests": {},

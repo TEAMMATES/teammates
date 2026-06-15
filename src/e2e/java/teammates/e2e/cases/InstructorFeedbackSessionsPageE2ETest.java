@@ -84,7 +84,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPage feedbackSessionsPage =
-                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
+                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getEmail());
 
         ______TS("verify loaded data");
         FeedbackSession[] loadedSessions = { closedSession, openSession };
