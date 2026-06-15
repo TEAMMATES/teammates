@@ -58,7 +58,7 @@ public class AppUrl {
      * (e.g. {@code {feedbackSessionId}}). Skips URI validation so placeholders are preserved for
      * later substitution via {@code with*()} methods.
      */
-    static AppUrl fromParts(String baseUrl, String relativeUrl) {
+    public static AppUrl fromParts(String baseUrl, String relativeUrl) {
         return new AppUrl(baseUrl, relativeUrl, "", Collections.emptyList());
     }
 
