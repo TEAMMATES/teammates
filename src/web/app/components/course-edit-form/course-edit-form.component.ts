@@ -235,6 +235,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.isCopyFromOtherSession = true;
       modalRef.componentInstance.allCourses = this.addModel.allCourses;
       modalRef.componentInstance.activeCourses = this.addModel.activeCourses;
+      modalRef.componentInstance.institutes = this.addModel.institutes;
 
       modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe(
         (courseId: string) => {

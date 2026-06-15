@@ -136,6 +136,7 @@ public final class AccountVerificationsLogic {
         return accountVerificationRequestDb.getApprovedRequestsByAccountId(accountId)
                 .stream()
                 .map(AccountVerificationRequest::getInstitute)
+                .distinct()
                 .toList();
     }
 
