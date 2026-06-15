@@ -419,7 +419,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel.isSavingInstructorEdit = true;
     const reqBody: InstructorUpdateRequest = {
-      id: panelDetail.originalInstructor.userId,
       name: panelDetail.editPanel.name,
       email:
         panelDetail.originalInstructor.joinState === JoinState.JOINED
@@ -436,7 +435,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.instructorService
       .updateInstructor({
-        courseId: panelDetail.originalInstructor.courseId,
+        instructorId: panelDetail.originalInstructor.userId,
         requestBody: reqBody,
       })
       .pipe(

@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
@@ -17,23 +19,19 @@ import teammates.ui.request.InstructorUpdateRequest;
  */
 public class UpdateInstructorAction extends LoggedInAction {
     @Override
-    void checkSpecificAccessControl() throws InvalidHttpRequestBodyException, UnauthorizedAccessException {
-        Instructor instructorToEdit = getInstructorToEditFromRequestBody();
-        if (instructorToEdit == null) {
-            throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
-        }
-
-        gateKeeper.verifyInstructorHasPrivilege(requestContext, instructorToEdit.getCourseId(),
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        UUID instructorId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        gateKeeper.verifyCanModifyInstructor(requestContext, instructorId);
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+        UUID instructorId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         InstructorUpdateRequest instructorRequest = getAndValidateRequestBody(InstructorUpdateRequest.class);
 
         Instructor updatedInstructor;
         try {
-            updatedInstructor = logic.updateInstructorCascade(instructorRequest);
+            updatedInstructor = logic.updateInstructorCascade(instructorId, instructorRequest);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (InstructorUpdateException e) {
@@ -42,16 +40,9 @@ public class UpdateInstructorAction extends LoggedInAction {
             throw new EntityNotFoundException(ednee);
         }
 
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(updatedInstructor);
-
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
 
         return new JsonResult(newInstructorData);
-    }
-
-    private Instructor getInstructorToEditFromRequestBody() throws InvalidHttpRequestBodyException {
-        InstructorUpdateRequest instructorRequest = getAndValidateRequestBody(InstructorUpdateRequest.class);
-        return logic.getInstructor(instructorRequest.getId());
     }
 
 }

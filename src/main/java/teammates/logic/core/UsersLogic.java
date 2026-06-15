@@ -183,9 +183,9 @@ public final class UsersLogic {
      * @throws InstructorUpdateException if the update violates instructor validity
      * @throws EntityDoesNotExistException if the instructor does not exist in the database
      */
-    public Instructor updateInstructorCascade(InstructorUpdateRequest instructorRequest) throws
+    public Instructor updateInstructorCascade(UUID id, InstructorUpdateRequest instructorRequest) throws
             InvalidParametersException, InstructorUpdateException, EntityDoesNotExistException {
-        Instructor instructor = getInstructor(instructorRequest.getId());
+        Instructor instructor = getInstructor(id);
 
         if (instructor == null) {
             throw new EntityDoesNotExistException("Trying to update an instructor that does not exist.");
@@ -211,6 +211,8 @@ public final class UsersLogic {
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
         validateUser(instructor);
+
+        updateToEnsureValidityOfInstructorsForTheCourse(instructor);
 
         return instructor;
     }

@@ -204,7 +204,6 @@ export interface InstructorPrivileges {
 }
 
 export interface InstructorUpdateRequest extends BasicRequest {
-  id: string;
   name: string;
   email: string;
   role: InstructorPermissionRole;

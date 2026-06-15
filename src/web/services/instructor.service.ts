@@ -67,9 +67,9 @@ export class InstructorService {
   /**
    * Updates an instructor in a course by calling API.
    */
-  updateInstructor(queryParams: { courseId: string; requestBody: InstructorUpdateRequest }): Observable<Instructor> {
+  updateInstructor(queryParams: { instructorId: string; requestBody: InstructorUpdateRequest }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
+      userid: queryParams.instructorId,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR, paramMap, queryParams.requestBody);
   }

@@ -18,7 +18,6 @@ const defaultRequestBody: InstructorCreateRequest = {
 };
 
 const defaultUpdateRequestBody: InstructorUpdateRequest = {
-  id: '00000000-0000-4000-8000-000000000001',
   name: 'John Doe',
   email: 'johndoe@gmail.com',
   role: InstructorPermissionRole.COOWNER,
@@ -112,9 +111,9 @@ describe('InstructorService', () => {
   });
 
   it('should execute PUT when updating an instructor for a course', () => {
-    service.updateInstructor({ courseId: 'CS3281', requestBody: defaultUpdateRequestBody });
+    service.updateInstructor({ instructorId: '00000000-0000-4000-8000-000000000001', requestBody: defaultUpdateRequestBody });
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
+      userid: '00000000-0000-4000-8000-000000000001',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.INSTRUCTOR,
