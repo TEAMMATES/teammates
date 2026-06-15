@@ -1,19 +1,19 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.output.AccountRequestData;
+import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.request.AccountCreateRequest;
 
 /**
  * Creates a new account request.
  */
-public class CreateAccountRequestAction extends LoggedInAction {
+public class CreateAccountVerificationRequestAction extends LoggedInAction {
 
     @Override
     void checkSpecificAccessControl() {
@@ -34,25 +34,25 @@ public class CreateAccountRequestAction extends LoggedInAction {
             comments = comments.trim();
         }
         Account account = getCurrentAccount();
-        AccountRequest accountRequest;
+        AccountVerificationRequest accountVerificationRequest;
 
         try {
-            accountRequest = logic.createAccountRequest(instructorName, instructorEmail,
-                    instructorInstitution, instructorCountry, AccountRequestStatus.PENDING, comments,
+            accountVerificationRequest = logic.createAccountVerificationRequest(instructorName, instructorEmail,
+                    instructorInstitution, instructorCountry, AccountVerificationRequestStatus.PENDING, comments,
                     account.getId());
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
 
-        assert accountRequest != null;
+        assert accountVerificationRequest != null;
 
-        EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
         EmailWrapper userAcknowledgementEmail = emailGenerator
-                .generateNewAccountRequestAcknowledgementEmail(accountRequest);
+                .generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
         emailSender.sendEmail(adminAlertEmail);
         emailSender.sendEmail(userAcknowledgementEmail);
 
-        AccountRequestData output = new AccountRequestData(accountRequest);
+        AccountVerificationRequestData output = new AccountVerificationRequestData(accountVerificationRequest);
         return new JsonResult(output);
     }
 

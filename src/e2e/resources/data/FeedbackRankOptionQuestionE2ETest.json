@@ -48,7 +48,7 @@
       "subject": "tm.e2e.FRankOptQn.danny.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "course": {
       "id": "tm.e2e.FRankOptQn.CS2104",

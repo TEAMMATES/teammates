@@ -24,7 +24,7 @@
       "subject": "tm.e2e.ICSDet.jose.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "ICSDet.CS2104": {
       "id": "tm.e2e.ICSDet.CS2104",

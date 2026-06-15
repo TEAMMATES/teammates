@@ -16,7 +16,7 @@ import org.hibernate.query.MutationQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -62,7 +62,7 @@ import teammates.storage.entity.responses.FeedbackTextResponse;
  */
 public final class HibernateUtil {
     public static final List<Class<? extends BaseEntity>> ANNOTATED_CLASSES = List.of(
-            AccountRequest.class,
+            AccountVerificationRequest.class,
             Course.class,
             FeedbackSession.class,
             Account.class,

@@ -24,7 +24,7 @@
       "subject": "tm.e2e.SHome.student"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "SHome.CS2104": {
       "id": "tm.e2e.SHome.CS2104",

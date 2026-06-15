@@ -7,26 +7,26 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
-import teammates.ui.output.AccountRequestData;
-import teammates.ui.request.AccountRequestUpdateRequest;
+import teammates.ui.output.AccountVerificationRequestData;
+import teammates.ui.request.AccountVerificationRequestUpdateRequest;
 
 /**
- * SUT: {@link UpdateAccountRequestAction}.
+ * SUT: {@link UpdateAccountVerificationRequestAction}.
  */
-public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequestAction> {
+public class UpdateAccountVerificationRequestActionIT extends BaseActionIT<UpdateAccountVerificationRequestAction> {
     private DataBundle typicalBundle;
 
     @BeforeMethod(alwaysRun = true)
@@ -36,7 +36,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.ACCOUNT_REQUEST;
+        return Const.ResourceURIs.ACCOUNT_VERIFICATION_REQUEST;
     }
 
     @Override
@@ -49,25 +49,25 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
     public void testExecute() throws Exception {
         ______TS("edit fields of an account request");
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountRequest accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
-                "institute", "SG", AccountRequestStatus.PENDING, "comments", accountId));
-        UUID id = accountRequest.getId();
+        AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "email@email.com",
+                "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
+        UUID id = accountVerificationRequest.getId();
         String name = "newName";
         String email = "newemail@email.com";
         String institute = "newInstitute";
         String country = "SG";
         String comments = "newComments";
-        AccountRequestStatus status = accountRequest.getStatus();
+        AccountVerificationRequestStatus status = accountVerificationRequest.getStatus();
 
-        AccountRequestUpdateRequest requestBody =
-                new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
-        String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        AccountVerificationRequestUpdateRequest requestBody =
+                new AccountVerificationRequestUpdateRequest(name, email, institute, country, status, comments);
+        String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
-        UpdateAccountRequestAction action = getAction(requestBody, params);
+        UpdateAccountVerificationRequestAction action = getAction(requestBody, params);
         JsonResult result = getJsonResult(action);
 
         assertEquals(result.getStatusCode(), 200);
-        AccountRequestData data = (AccountRequestData) result.getOutput();
+        AccountVerificationRequestData data = (AccountVerificationRequestData) result.getOutput();
 
         assertEquals(name, data.getName());
         assertEquals(email, data.getEmail());
@@ -77,33 +77,33 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         verifyNoEmailsSent();
 
         ______TS("non-existent but valid uuid");
-        requestBody = new AccountRequestUpdateRequest("name", "email",
-                "institute", "SG", AccountRequestStatus.PENDING, "comments");
+        requestBody = new AccountVerificationRequestUpdateRequest("name", "email",
+                "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments");
         String validUuid = UUID.randomUUID().toString();
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, validUuid};
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, validUuid};
 
         EntityNotFoundException enfe = verifyEntityNotFound(requestBody, params);
 
         assertEquals(String.format("Account request with id = %s not found", validUuid), enfe.getMessage());
 
         ______TS("invalid uuid");
-        requestBody = new AccountRequestUpdateRequest("name", "email",
-                "institute", "SG", AccountRequestStatus.PENDING, "comments");
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
+        requestBody = new AccountVerificationRequestUpdateRequest("name", "email",
+                "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments");
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, "invalid"};
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(requestBody, params);
 
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
 
         ______TS("invalid email");
-        accountRequest = inTransaction(() -> logic.createAccountRequest("name", "email@email.com",
-                "institute", "SG", AccountRequestStatus.PENDING, "comments", accountId));
-        id = accountRequest.getId();
+        accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "email@email.com",
+                "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
+        id = accountVerificationRequest.getId();
         email = "newemail";
-        status = accountRequest.getStatus();
+        status = accountVerificationRequest.getStatus();
 
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, email, institute, country, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
@@ -115,8 +115,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         name = "@$@#$#@#@$#@$";
         email = "newemail@email.com";
 
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, email, institute, country, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
@@ -127,8 +127,8 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ______TS("invalid name too long");
         name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, email, institute, country, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
@@ -139,44 +139,44 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         ______TS("null email value");
         name = "newName";
 
-        requestBody = new AccountRequestUpdateRequest(name, null, institute, country, status, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, null, institute, country, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("email cannot be null", ihrbe.getMessage());
 
         ______TS("null name value");
-        requestBody = new AccountRequestUpdateRequest(null, email, institute, country, status, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(null, email, institute, country, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("name cannot be null", ihrbe.getMessage());
 
         ______TS("null status value");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, null, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, email, institute, country, null, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("status cannot be null", ihrbe.getMessage());
 
         ______TS("null institute value");
-        requestBody = new AccountRequestUpdateRequest(name, email, null, country, status, comments);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, email, null, country, status, comments);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
         assertEquals("institute cannot be null", ihrbe.getMessage());
 
         ______TS("allow null comments in request");
-        requestBody = new AccountRequestUpdateRequest(name, email, institute, country, status, null);
-        params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
+        requestBody = new AccountVerificationRequestUpdateRequest(name, email, institute, country, status, null);
+        params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         action = getAction(requestBody, params);
         result = getJsonResult(action, 200);
-        data = (AccountRequestData) result.getOutput();
+        data = (AccountVerificationRequestData) result.getOutput();
 
         assertEquals(name, data.getName());
         assertEquals(email, data.getEmail());

@@ -9,21 +9,21 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.test.GroupNames;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
-import teammates.ui.output.AccountRequestData;
+import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.request.AccountCreateRequest;
 
 /**
- * SUT: {@link CreateAccountRequestAction}.
+ * SUT: {@link CreateAccountVerificationRequestAction}.
  */
-public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequestAction> {
+public class CreateAccountVerificationRequestActionIT extends BaseActionIT<CreateAccountVerificationRequestAction> {
     private DataBundle typicalBundle;
 
     @BeforeMethod(alwaysRun = true)
@@ -34,7 +34,7 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
 
     @Override
     String getActionUri() {
-        return Const.ResourceURIs.ACCOUNT_REQUEST;
+        return Const.ResourceURIs.ACCOUNT_VERIFICATION_REQUEST;
     }
 
     @Override
@@ -127,28 +127,28 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorInstitution("House Atreides");
         request.setInstructorCountry("SG");
         request.setInstructorComments("My road leads into the desert. I can see it.");
-        CreateAccountRequestAction action = getAction(request);
+        CreateAccountVerificationRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
-        AccountRequestData output = (AccountRequestData) result.getOutput();
+        AccountVerificationRequestData output = (AccountVerificationRequestData) result.getOutput();
         assertEquals("kwisatz.haderach@atreides.org", output.getEmail());
         assertEquals("Paul Atreides", output.getName());
         assertEquals("House Atreides", output.getInstitute());
-        assertEquals(AccountRequestStatus.PENDING, output.getStatus());
+        assertEquals(AccountVerificationRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getCreatedDemoCourseAt());
-        AccountRequest accountRequest =
-                inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
-        assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
-        assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute().getName());
-        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
-        assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
-        assertNull(accountRequest.getCreatedDemoCourseAt());
+        AccountVerificationRequest accountVerificationRequest =
+                inTransaction(() -> logic.getAccountVerificationRequest(output.getAccountVerificationRequestId()));
+        assertEquals("kwisatz.haderach@atreides.org", accountVerificationRequest.getEmail());
+        assertEquals("Paul Atreides", accountVerificationRequest.getName());
+        assertEquals("House Atreides", accountVerificationRequest.getInstitute().getName());
+        assertEquals(AccountVerificationRequestStatus.PENDING, accountVerificationRequest.getStatus());
+        assertEquals("My road leads into the desert. I can see it.", accountVerificationRequest.getComments());
+        assertNull(accountVerificationRequest.getCreatedDemoCourseAt());
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
-        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
-        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -158,36 +158,36 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorName("  Paul Atreides ");
         request.setInstructorInstitution("   House Atreides  ");
         request.setInstructorCountry("SG");
-        CreateAccountRequestAction action = getAction(request);
+        CreateAccountVerificationRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
-        AccountRequestData output = (AccountRequestData) result.getOutput();
+        AccountVerificationRequestData output = (AccountVerificationRequestData) result.getOutput();
         assertEquals("kwisatz.haderach@atreides.org", output.getEmail());
         assertEquals("Paul Atreides", output.getName());
         assertEquals("House Atreides", output.getInstitute());
-        assertEquals(AccountRequestStatus.PENDING, output.getStatus());
+        assertEquals(AccountVerificationRequestStatus.PENDING, output.getStatus());
         assertNull(output.getComments());
         assertNull(output.getCreatedDemoCourseAt());
-        AccountRequest accountRequest =
-                inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
-        assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
-        assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute().getName());
-        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
-        assertNull(accountRequest.getComments());
-        assertNull(accountRequest.getCreatedDemoCourseAt());
+        AccountVerificationRequest accountVerificationRequest =
+                inTransaction(() -> logic.getAccountVerificationRequest(output.getAccountVerificationRequestId()));
+        assertEquals("kwisatz.haderach@atreides.org", accountVerificationRequest.getEmail());
+        assertEquals("Paul Atreides", accountVerificationRequest.getName());
+        assertEquals("House Atreides", accountVerificationRequest.getInstitute().getName());
+        assertEquals(AccountVerificationRequestStatus.PENDING, accountVerificationRequest.getStatus());
+        assertNull(accountVerificationRequest.getComments());
+        assertNull(accountVerificationRequest.getCreatedDemoCourseAt());
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
-        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
-        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
     @Test(groups = GroupNames.INTEGRATION)
-    void testExecute_accountRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
+    void testExecute_accountVerificationRequestWithSameEmailAddressAndInstituteAlreadyExists_createsSuccessfully() {
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
-        AccountRequest existingAccountRequest = inTransaction(() -> logic.createAccountRequest("Paul Atreides",
+        AccountVerificationRequest existingAccountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("Paul Atreides",
                 "kwisatz.haderach@atreides.org",
-                "House Atreides", "SG", AccountRequestStatus.PENDING, "My road leads into the desert. I can see it.",
+                "House Atreides", "SG", AccountVerificationRequestStatus.PENDING, "My road leads into the desert. I can see it.",
                 accountId));
         AccountCreateRequest request = new AccountCreateRequest();
         request.setInstructorEmail("kwisatz.haderach@atreides.org");
@@ -195,29 +195,29 @@ public class CreateAccountRequestActionIT extends BaseActionIT<CreateAccountRequ
         request.setInstructorInstitution("House Atreides");
         request.setInstructorCountry("SG");
         request.setInstructorComments("My road leads into the desert. I can see it.");
-        CreateAccountRequestAction action = getAction(request);
+        CreateAccountVerificationRequestAction action = getAction(request);
         JsonResult result = getJsonResult(action);
-        AccountRequestData output = (AccountRequestData) result.getOutput();
+        AccountVerificationRequestData output = (AccountVerificationRequestData) result.getOutput();
         assertEquals("kwisatz.haderach@atreides.org", output.getEmail());
         assertEquals("Paul Atreides", output.getName());
         assertEquals("House Atreides", output.getInstitute());
-        assertEquals(AccountRequestStatus.PENDING, output.getStatus());
+        assertEquals(AccountVerificationRequestStatus.PENDING, output.getStatus());
         assertEquals("My road leads into the desert. I can see it.", output.getComments());
         assertNull(output.getCreatedDemoCourseAt());
-        assertNotEquals(output.getAccountRequestId(), existingAccountRequest.getId());
-        AccountRequest accountRequest =
-                inTransaction(() -> logic.getAccountRequest(output.getAccountRequestId()));
-        assertEquals("kwisatz.haderach@atreides.org", accountRequest.getEmail());
-        assertEquals("Paul Atreides", accountRequest.getName());
-        assertEquals("House Atreides", accountRequest.getInstitute().getName());
-        assertEquals(AccountRequestStatus.PENDING, accountRequest.getStatus());
-        assertEquals("My road leads into the desert. I can see it.", accountRequest.getComments());
-        assertNull(accountRequest.getCreatedDemoCourseAt());
+        assertNotEquals(output.getAccountVerificationRequestId(), existingAccountVerificationRequest.getId());
+        AccountVerificationRequest accountVerificationRequest =
+                inTransaction(() -> logic.getAccountVerificationRequest(output.getAccountVerificationRequestId()));
+        assertEquals("kwisatz.haderach@atreides.org", accountVerificationRequest.getEmail());
+        assertEquals("Paul Atreides", accountVerificationRequest.getName());
+        assertEquals("House Atreides", accountVerificationRequest.getInstitute().getName());
+        assertEquals(AccountVerificationRequestStatus.PENDING, accountVerificationRequest.getStatus());
+        assertEquals("My road leads into the desert. I can see it.", accountVerificationRequest.getComments());
+        assertNull(accountVerificationRequest.getCreatedDemoCourseAt());
         verifyNumberOfEmailsSent(2);
         EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
         EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
-        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
-        assertEquals(EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
+        assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
 
     @Override

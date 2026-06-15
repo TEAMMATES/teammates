@@ -24,7 +24,7 @@
       "subject": "tm.e2e.InstFEP.jose.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "InstFEP.CS2104": {
       "id": "tm.e2e.InstFEP.CS2104",

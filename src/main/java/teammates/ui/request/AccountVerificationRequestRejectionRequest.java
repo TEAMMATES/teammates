@@ -10,18 +10,18 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
 /**
  * The request reasonBody for rejecting an account request.
  */
-public class AccountRequestRejectionRequest extends BasicRequest {
+public class AccountVerificationRequestRejectionRequest extends BasicRequest {
     @Nullable
     private String reasonTitle;
 
     @Nullable
     private String reasonBody;
 
-    private AccountRequestRejectionRequest() {
+    private AccountVerificationRequestRejectionRequest() {
         // for Jackson deserialization
     }
 
-    public AccountRequestRejectionRequest(String reasonTitle, String reasonBody) {
+    public AccountVerificationRequestRejectionRequest(String reasonTitle, String reasonBody) {
         this.reasonTitle = SanitizationHelper.sanitizeTitle(reasonTitle);
         this.reasonBody = SanitizationHelper.sanitizeForRichText(reasonBody);
     }

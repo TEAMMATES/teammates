@@ -97,7 +97,7 @@
       "subject": "asearch.unregisteredinstructor5"
     }
   },
-  "accountRequests": {
+  "accountVerificationRequests": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000101",
       "name": "Instructor1 of Course1",

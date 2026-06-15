@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -186,18 +186,18 @@ final class GateKeeper {
      *
      * <p>Admins can view all account requests. Non-admins can only view account requests that they own.
      */
-    void verifyCanViewAccountRequest(RequestContext requestContext, UUID accountRequestId)
+    void verifyCanViewAccountVerificationRequest(RequestContext requestContext, UUID accountVerificationRequestId)
             throws UnauthorizedAccessException {
         if (requestContext.isAdmin()) {
             return;
         }
 
-        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
-        verifyNotNull(accountRequest, "account request");
+        AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
+        verifyNotNull(accountVerificationRequest, "account request");
 
         if (requestContext.getAccount() == null
-                || !requestContext.getAccount().getId().equals(accountRequest.getAccountId())) {
-            throw new UnauthorizedAccessException("Account request [" + accountRequestId + "] is not accessible to user");
+                || !requestContext.getAccount().getId().equals(accountVerificationRequest.getAccountId())) {
+            throw new UnauthorizedAccessException("Account request [" + accountVerificationRequestId + "] is not accessible to user");
         }
     }
 

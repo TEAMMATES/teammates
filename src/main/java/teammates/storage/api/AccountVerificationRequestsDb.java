@@ -12,25 +12,25 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
 
 /**
- * Generates CRUD operations for AccountRequest.
+ * Generates CRUD operations for AccountVerificationRequest.
  *
- * @see AccountRequest
+ * @see AccountVerificationRequest
  */
-public final class AccountRequestsDb {
-    private static final AccountRequestsDb instance = new AccountRequestsDb();
+public final class AccountVerificationRequestsDb {
+    private static final AccountVerificationRequestsDb instance = new AccountVerificationRequestsDb();
 
-    private AccountRequestsDb() {
+    private AccountVerificationRequestsDb() {
         // prevent instantiation
     }
 
-    public static AccountRequestsDb inst() {
+    public static AccountVerificationRequestsDb inst() {
         return instance;
     }
 
@@ -46,41 +46,41 @@ public final class AccountRequestsDb {
     }
 
     /**
-     * Persists an AccountRequest in the database.
+     * Persists an AccountVerificationRequest in the database.
      */
-    public AccountRequest persistAccountRequest(AccountRequest accountRequest) {
-        HibernateUtil.persist(accountRequest);
-        return accountRequest;
+    public AccountVerificationRequest persistAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
+        HibernateUtil.persist(accountVerificationRequest);
+        return accountVerificationRequest;
     }
 
     /**
-     * Get AccountRequest by {@code id} from the database.
+     * Get AccountVerificationRequest by {@code id} from the database.
      */
-    public AccountRequest getAccountRequest(UUID id) {
-        return HibernateUtil.get(AccountRequest.class, id);
+    public AccountVerificationRequest getAccountVerificationRequest(UUID id) {
+        return HibernateUtil.get(AccountVerificationRequest.class, id);
     }
 
     /**
      * Get all Account Requests with {@code status} of 'pending'.
      */
-    public List<AccountRequest> getPendingAccountRequests() {
+    public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        CriteriaQuery<AccountVerificationRequest> cr = cb.createQuery(AccountVerificationRequest.class);
+        Root<AccountVerificationRequest> root = cr.from(AccountVerificationRequest.class);
         cr.select(root)
-                .where(cb.equal(root.get("status"), AccountRequestStatus.PENDING))
+                .where(cb.equal(root.get("status"), AccountVerificationRequestStatus.PENDING))
                 .orderBy(cb.desc(root.get("createdAt")));
 
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        TypedQuery<AccountVerificationRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();
     }
 
     /**
-     * Removes an AccountRequest.
+     * Removes an AccountVerificationRequest.
      */
-    public void removeAccountRequest(AccountRequest accountRequest) {
-        if (accountRequest != null) {
-            HibernateUtil.remove(accountRequest);
+    public void removeAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
+        if (accountVerificationRequest != null) {
+            HibernateUtil.remove(accountVerificationRequest);
         }
     }
 
@@ -89,7 +89,7 @@ public final class AccountRequestsDb {
      *
      * <p>This is used by admin to search account requests in the whole system.
      */
-    public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
+    public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
 
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
@@ -100,9 +100,9 @@ public final class AccountRequestsDb {
         String wildcardQuery = "%" + escapedQuery + "%";
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<AccountRequest> cr = cb.createQuery(AccountRequest.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
-        Join<AccountRequest, Institute> instituteJoin = root.join("institute");
+        CriteriaQuery<AccountVerificationRequest> cr = cb.createQuery(AccountVerificationRequest.class);
+        Root<AccountVerificationRequest> root = cr.from(AccountVerificationRequest.class);
+        Join<AccountVerificationRequest, Institute> instituteJoin = root.join("institute");
 
         Predicate searchPredicate = cb.or(
                 cb.like(cb.lower(root.get("name")), wildcardQuery, escapeChar),
@@ -115,7 +115,7 @@ public final class AccountRequestsDb {
                 .where(searchPredicate)
                 .orderBy(cb.desc(root.get("createdAt")));
 
-        TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
+        TypedQuery<AccountVerificationRequest> query = HibernateUtil.createQuery(cr);
         query.setMaxResults(Const.SEARCH_QUERY_SIZE_LIMIT);
         return query.getResultList();
     }
@@ -126,7 +126,7 @@ public final class AccountRequestsDb {
     public List<Instant> getCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<Instant> cr = cb.createQuery(Instant.class);
-        Root<AccountRequest> root = cr.from(AccountRequest.class);
+        Root<AccountVerificationRequest> root = cr.from(AccountVerificationRequest.class);
         cr.select(root.get("createdAt")).where(cb.and(
                 cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
                 cb.lessThan(root.get("createdAt"), endTime)));

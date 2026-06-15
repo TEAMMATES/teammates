@@ -19,7 +19,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.logic.api.Logic;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -221,8 +221,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {
             return logic.getNotification(((Notification) entity).getId());
-        } else if (entity instanceof AccountRequest) {
-            return logic.getAccountRequest(((AccountRequest) entity).getId());
+        } else if (entity instanceof AccountVerificationRequest) {
+            return logic.getAccountVerificationRequest(((AccountVerificationRequest) entity).getId());
         } else if (entity instanceof Instructor) {
             return logic.getInstructor(((Instructor) entity).getId());
         } else if (entity instanceof Student) {

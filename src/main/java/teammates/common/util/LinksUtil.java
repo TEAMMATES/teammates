@@ -142,9 +142,9 @@ public final class LinksUtil {
     /**
      * Returns the absolute URL for the instructor welcome page for the given account request.
      */
-    public static String getInstructorWelcomeUrl(UUID accountRequestId) {
+    public static String getInstructorWelcomeUrl(UUID accountVerificationRequestId) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE)
-                .withParam("accountRequestId", accountRequestId.toString())
+                .withParam("accountVerificationRequestId", accountVerificationRequestId.toString())
                 .toAbsoluteString();
     }
 

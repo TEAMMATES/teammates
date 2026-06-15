@@ -18,16 +18,16 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 
 /**
- * Entity for AccountRequests.
+ * Entity for AccountVerificationRequests.
  */
 @Entity
-@Table(name = "AccountRequests")
-public class AccountRequest extends BaseEntity {
+@Table(name = "AccountVerificationRequests")
+public class AccountVerificationRequest extends BaseEntity {
     @Id
     private UUID id;
 
@@ -55,7 +55,7 @@ public class AccountRequest extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AccountRequestStatus status;
+    private AccountVerificationRequestStatus status;
 
     @Column(columnDefinition = "TEXT")
     private String comments;
@@ -65,11 +65,11 @@ public class AccountRequest extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    protected AccountRequest() {
+    protected AccountVerificationRequest() {
         // required by Hibernate
     }
 
-    public AccountRequest(String email, String name, AccountRequestStatus status, String comments) {
+    public AccountVerificationRequest(String email, String name, AccountVerificationRequestStatus status, String comments) {
         this.setId(UUID.randomUUID());
         this.setEmail(email);
         this.setName(name);
@@ -145,11 +145,11 @@ public class AccountRequest extends BaseEntity {
         return this.accountId;
     }
 
-    public AccountRequestStatus getStatus() {
+    public AccountVerificationRequestStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(AccountRequestStatus status) {
+    public void setStatus(AccountVerificationRequestStatus status) {
         this.status = status;
     }
 
@@ -183,7 +183,7 @@ public class AccountRequest extends BaseEntity {
             return true;
         }
 
-        if (!(o instanceof AccountRequest other)) {
+        if (!(o instanceof AccountVerificationRequest other)) {
             return false;
         }
 
@@ -197,7 +197,7 @@ public class AccountRequest extends BaseEntity {
 
     @Override
     public String toString() {
-        return "AccountRequest [id=" + id + ", name=" + name + ", email="
+        return "AccountVerificationRequest [id=" + id + ", name=" + name + ", email="
                 + email + ", instituteId=" + instituteId + ", accountId=" + accountId
                 + ", status=" + status + ", comments=" + comments
                 + ", createdDemoCourseAt=" + createdDemoCourseAt

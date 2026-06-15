@@ -12,7 +12,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.NotificationStyle;
@@ -29,7 +29,7 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelperExtension;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -227,12 +227,12 @@ public class BaseTestCase {
         return new FeedbackTextResponseDetails();
     }
 
-    protected AccountRequest getTypicalAccountRequest() {
-        AccountRequest accountRequest = new AccountRequest("valid@test.com", "Test Name",
-                AccountRequestStatus.PENDING, "");
-        getTypicalInstitute().addAccountRequest(accountRequest);
-        getTypicalAccount().addAccountRequest(accountRequest);
-        return accountRequest;
+    protected AccountVerificationRequest getTypicalAccountVerificationRequest() {
+        AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest("valid@test.com", "Test Name",
+                AccountVerificationRequestStatus.PENDING, "");
+        getTypicalInstitute().addAccountVerificationRequest(accountVerificationRequest);
+        getTypicalAccount().addAccountVerificationRequest(accountVerificationRequest);
+        return accountVerificationRequest;
     }
 
     /**

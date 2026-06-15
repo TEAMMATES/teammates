@@ -2,29 +2,29 @@ package teammates.ui.request;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
  * The create request for an account request update request.
  */
-public class AccountRequestUpdateRequest extends BasicRequest {
+public class AccountVerificationRequestUpdateRequest extends BasicRequest {
     private String name;
     private String email;
     private String institute;
     private String country;
-    private AccountRequestStatus status;
+    private AccountVerificationRequestStatus status;
 
     @Nullable
     private String comments;
 
-    private AccountRequestUpdateRequest() {
+    private AccountVerificationRequestUpdateRequest() {
         // for Jackson deserialization
     }
 
-    public AccountRequestUpdateRequest(String name, String email, String institute, String country,
-                                       AccountRequestStatus status, String comments) {
+    public AccountVerificationRequestUpdateRequest(String name, String email, String institute, String country,
+                                       AccountVerificationRequestStatus status, String comments) {
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeName(institute);
@@ -42,9 +42,9 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         validateTrue(institute != null, "institute cannot be null");
         validateTrue(country != null, "country cannot be null");
         validateTrue(status != null, "status cannot be null");
-        validateTrue(status == AccountRequestStatus.APPROVED
-                || status == AccountRequestStatus.REJECTED
-                || status == AccountRequestStatus.PENDING,
+        validateTrue(status == AccountVerificationRequestStatus.APPROVED
+                || status == AccountVerificationRequestStatus.REJECTED
+                || status == AccountVerificationRequestStatus.PENDING,
                 "status must be one of the following: APPROVED, REJECTED, PENDING");
     }
 
@@ -64,7 +64,7 @@ public class AccountRequestUpdateRequest extends BasicRequest {
         return this.country;
     }
 
-    public AccountRequestStatus getStatus() {
+    public AccountVerificationRequestStatus getStatus() {
         return this.status;
     }
 

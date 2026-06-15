@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.e2e.pageobjects.AdminSearchPage;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -35,7 +35,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         Course course = testData.courses.get("typicalCourse1");
         Student student = testData.students.get("student1InCourse1");
         Instructor instructor = testData.instructors.get("instructor1OfCourse1");
-        AccountRequest accountRequest = testData.accountRequests.get("instructor1OfCourse1");
+        AccountVerificationRequest accountVerificationRequest = testData.accountVerificationRequests.get("instructor1OfCourse1");
 
         ______TS("Typical case: Search student email");
         String searchContent = student.getEmail();
@@ -64,61 +64,61 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Typical case: Search for account request by email");
         searchPage.clearSearchBox();
-        searchContent = accountRequest.getEmail();
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyAccountRequestRowContent(accountRequest);
-        searchPage.verifyAccountRequestExpandedLinks(accountRequest);
+        searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
+        searchPage.verifyAccountVerificationRequestExpandedLinks(accountVerificationRequest);
 
         ______TS("Typical case: Search common search key");
         searchPage.clearSearchBox();
         searchContent = "Course1";
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
         ______TS("Typical case: Delete account request successful");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor1");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor1");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickDeleteAccountRequestButton(accountRequest);
-        assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()));
+        searchPage.clickDeleteAccountVerificationRequestButton(accountVerificationRequest);
+        assertNull(BACKDOOR.getAccountVerificationRequest(accountVerificationRequest.getId()));
 
         ______TS("Typical case: Edit account request successful");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickEditAccountRequestButton(accountRequest);
-        searchPage.fillInEditModalFields("Different name", accountRequest.getEmail(),
-                accountRequest.getInstitute().getName(), "New comment");
-        searchPage.clickSaveEditAccountRequestButton();
-        accountRequest.setName("Different name");
-        accountRequest.setComments("New comment");
-        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.clickEditAccountVerificationRequestButton(accountVerificationRequest);
+        searchPage.fillInEditModalFields("Different name", accountVerificationRequest.getEmail(),
+                accountVerificationRequest.getInstitute().getName(), "New comment");
+        searchPage.clickSaveEditAccountVerificationRequestButton();
+        accountVerificationRequest.setName("Different name");
+        accountVerificationRequest.setComments("New comment");
+        searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
         ______TS("Typical case: View comment of account request");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickViewAccountRequestAndVerifyCommentsButton(accountRequest, "New comment");
+        searchPage.clickViewAccountVerificationRequestAndVerifyCommentsButton(accountVerificationRequest, "New comment");
 
         ______TS("Edit account request with invalid details");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickEditAccountRequestButton(accountRequest);
-        searchPage.fillInEditModalFields(accountRequest.getName(), "invalid",
-                accountRequest.getInstitute().getName(), "New comment");
+        searchPage.clickEditAccountVerificationRequestButton(accountVerificationRequest);
+        searchPage.fillInEditModalFields(accountVerificationRequest.getName(), "invalid",
+                accountVerificationRequest.getInstitute().getName(), "New comment");
         searchPage.closeToastsIfPresent();
-        searchPage.clickSaveEditAccountRequestButton();
+        searchPage.clickSaveEditAccountVerificationRequestButton();
         String formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
                 + "An email address contains some text followed by one '@' sign followed by some more text, "
                 + "and should end with a top level domain address like .com. It cannot be longer than %d characters, "
@@ -129,10 +129,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         String name = StringHelperExtension.generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
 
-        searchPage.clickEditAccountRequestButton(accountRequest);
-        searchPage.fillInEditModalFields(name, accountRequest.getEmail(),
-                accountRequest.getInstitute().getName(), "New comment");
-        searchPage.clickSaveEditAccountRequestButton();
+        searchPage.clickEditAccountVerificationRequestButton(accountVerificationRequest);
+        searchPage.fillInEditModalFields(name, accountVerificationRequest.getEmail(),
+                accountVerificationRequest.getInstitute().getName(), "New comment");
+        searchPage.clickSaveEditAccountVerificationRequestButton();
         formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
                 + "The value of a/an %s should be no longer than %d characters. It should not be empty.",
                 name, FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
@@ -140,46 +140,46 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyStatusMessage(formattedErrorMessage);
 
         ______TS("Typical case: Approve account request successful");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor2");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickApproveAccountRequestButton(accountRequest);
-        accountRequest.setStatus(AccountRequestStatus.APPROVED);
-        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.clickApproveAccountVerificationRequestButton(accountVerificationRequest);
+        accountVerificationRequest.setStatus(AccountVerificationRequestStatus.APPROVED);
+        searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
         ______TS("Typical case: Reject account request successfully");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor3");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor3");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickRejectAccountRequestButton(accountRequest);
-        accountRequest.setStatus(AccountRequestStatus.REJECTED);
-        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.clickRejectAccountVerificationRequestButton(accountVerificationRequest);
+        accountVerificationRequest.setStatus(AccountVerificationRequestStatus.REJECTED);
+        searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
         ______TS("Reject account request with empty body");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor5");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor5");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickRejectAccountRequestWithReasonButton(accountRequest);
+        searchPage.clickRejectAccountVerificationRequestWithReasonButton(accountVerificationRequest);
         searchPage.fillInRejectionModalBody("");
-        searchPage.clickConfirmRejectAccountRequest();
+        searchPage.clickConfirmRejectAccountVerificationRequest();
         searchPage.verifyStatusMessage("Please provide an email body for the rejection email.");
         searchPage.closeRejectionModal();
 
         ______TS("Typical case: Reject account request with reason successfully");
-        accountRequest = testData.accountRequests.get("unregisteredInstructor4");
-        searchContent = accountRequest.getEmail();
+        accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor4");
+        searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
-        searchPage.clickRejectAccountRequestWithReasonButton(accountRequest);
-        accountRequest.setStatus(AccountRequestStatus.REJECTED);
-        searchPage.verifyAccountRequestRowContent(accountRequest);
+        searchPage.clickRejectAccountVerificationRequestWithReasonButton(accountVerificationRequest);
+        accountVerificationRequest.setStatus(AccountVerificationRequestStatus.REJECTED);
+        searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
     }
 
     private String getExpectedStudentDetails(Student student) {
@@ -204,8 +204,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @AfterClass
     public void classTeardown() {
         if (testData != null) {
-            for (AccountRequest request : testData.accountRequests.values()) {
-                BACKDOOR.deleteAccountRequest(request.getId());
+            for (AccountVerificationRequest request : testData.accountVerificationRequests.values()) {
+                BACKDOOR.deleteAccountVerificationRequest(request.getId());
             }
         }
     }

@@ -3,19 +3,19 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.InvalidOperationException;
 
 /**
  * Deletes an existing account request.
  */
-public class DeleteAccountRequestAction extends AdminOnlyAction {
+public class DeleteAccountVerificationRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() throws InvalidOperationException {
-        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
 
-        AccountRequest toDelete = logic.getAccountRequest(id);
+        AccountVerificationRequest toDelete = logic.getAccountVerificationRequest(id);
 
         if (toDelete != null && toDelete.getCreatedDemoCourseAt() != null) {
             // TODO: remove this check
@@ -23,7 +23,7 @@ public class DeleteAccountRequestAction extends AdminOnlyAction {
             throw new InvalidOperationException("Account request of a registered instructor cannot be deleted.");
         }
 
-        logic.deleteAccountRequest(id);
+        logic.deleteAccountVerificationRequest(id);
 
         return new JsonResult("Account request successfully deleted.");
     }

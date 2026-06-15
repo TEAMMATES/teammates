@@ -18,7 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -52,7 +52,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
         loginAsUnregistered(instructor1.getGoogleId());
 
-        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest accReq = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         String email = accReq.getEmail();
         String institute = accReq.getInstitute().getName();
         String name = accReq.getName();
@@ -63,7 +63,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
 
         ______TS("Null parameters");
 
-        String[] nullParams = new String[] { Const.ParamsNames.ACCOUNT_REQUEST_ID, null, };
+        String[] nullParams = new String[] { Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, null, };
         InvalidHttpParameterException ex = verifyHttpParameterFailure(nullParams);
         assertEquals("The [id] HTTP parameter is null.", ex.getMessage());
 
@@ -74,7 +74,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         final UUID firstAccReqId = accReq.getId();
 
         String[] params = new String[] {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, firstAccReqId.toString(),
+                Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, firstAccReqId.toString(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
         CreateDemoCourseAction a = getAction(params);
@@ -110,14 +110,14 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         Account instructor2 = typicalBundle.accounts.get("unregisteredInstructor2");
         loginAsUnregistered(instructor2.getGoogleId());
 
-        accReq = typicalBundle.accountRequests.get("unregisteredInstructor2");
+        accReq = typicalBundle.accountVerificationRequests.get("unregisteredInstructor2");
         email = accReq.getEmail();
         timezone = "InvalidTimezone";
 
         final UUID secondAccReqId = accReq.getId();
 
         params = new String[] {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, secondAccReqId.toString(),
+                Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, secondAccReqId.toString(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
 
@@ -146,7 +146,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
 
         ______TS("Error: account request not found");
 
-        params = new String[] { Const.ParamsNames.ACCOUNT_REQUEST_ID, "00000000-0000-0000-0000-000000000000", };
+        params = new String[] { Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, "00000000-0000-0000-0000-000000000000", };
         verifyEntityNotFound(params);
         verifyNoTasksAdded();
     }
@@ -154,9 +154,9 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() {
-        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest accReq = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         String[] params = new String[] {
-                Const.ParamsNames.ACCOUNT_REQUEST_ID, accReq.getId().toString(),
+                Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accReq.getId().toString(),
         };
         verifyInaccessibleWithoutLogin(params);
         Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");

@@ -48,7 +48,7 @@
       "subject": "tm.e2e.ISearch.student3"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "typicalCourse1": {
       "id": "tm.e2e.ISearch.course1",

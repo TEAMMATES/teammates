@@ -7,11 +7,11 @@ import java.io.IOException;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
@@ -23,56 +23,56 @@ public class EmailGeneratorTest extends BaseTestCase {
     private final EmailGenerator emailGenerator = EmailGenerator.inst();
 
     @Test
-    void testGenerateNewAccountRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("chosen-one@jedi.org", "Anakin Skywalker",
-                AccountRequestStatus.PENDING,
+    void testGenerateNewAccountVerificationRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {
+        AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest("chosen-one@jedi.org", "Anakin Skywalker",
+                AccountVerificationRequestStatus.PENDING,
                 "I don't like sand. It's coarse and rough and irritating... and it gets everywhere.");
-        new Institute("Jedi Order", "SG").addAccountRequest(accountRequest);
-        EmailWrapper email = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+        new Institute("Jedi Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT,
                 "TEAMMATES (Action Needed): New Account Request Received",
-                "/adminNewAccountRequestAlertEmailWithComments.html");
+                "/adminNewAccountVerificationRequestAlertEmailWithComments.html");
     }
 
     @Test
-    void testGenerateNewAccountRequestAdminAlertEmail_withNoComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul",
-                AccountRequestStatus.PENDING, null);
-        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
-        EmailWrapper email = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
+    void testGenerateNewAccountVerificationRequestAdminAlertEmail_withNoComments_generatesSuccessfully() throws IOException {
+        AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest("maul@sith.org", "Maul",
+                AccountVerificationRequestStatus.PENDING, null);
+        new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
+        verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT,
                 "TEAMMATES (Action Needed): New Account Request Received",
-                "/adminNewAccountRequestAlertEmailWithNoComments.html");
+                "/adminNewAccountVerificationRequestAlertEmailWithNoComments.html");
     }
 
     @Test
-    void testGenerateNewAccountRequestAcknowledgementEmail_withComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader",
-                AccountRequestStatus.PENDING,
+    void testGenerateNewAccountVerificationRequestAcknowledgementEmail_withComments_generatesSuccessfully() throws IOException {
+        AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest("darth-vader@sith.org", "Darth Vader",
+                AccountVerificationRequestStatus.PENDING,
                 "I Am Your Father");
-        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
-        EmailWrapper email = emailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
-        verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
+        new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
+        verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
-                "/instructorNewAccountRequestAcknowledgementEmailWithComments.html");
+                "/instructorNewAccountVerificationRequestAcknowledgementEmailWithComments.html");
     }
 
     @Test
-    void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul",
-                AccountRequestStatus.PENDING, null);
-        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
-        EmailWrapper email = emailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
-        verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
+    void testGenerateNewAccountVerificationRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
+        AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest("maul@sith.org", "Maul",
+                AccountVerificationRequestStatus.PENDING, null);
+        new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
+        verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
-                "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
+                "/instructorNewAccountVerificationRequestAcknowledgementEmailWithNoComments.html");
     }
 
     @Test
-    void testGenerateAccountRequestRejectionEmail_withDefaultReason_generatesSuccessfully() throws IOException {
-        AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul",
-                AccountRequestStatus.PENDING, null);
-        new Institute("Sith Order", "SG").addAccountRequest(accountRequest);
+    void testGenerateAccountVerificationRequestRejectionEmail_withDefaultReason_generatesSuccessfully() throws IOException {
+        AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest("maul@sith.org", "Maul",
+                AccountVerificationRequestStatus.PENDING, null);
+        new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
         String title = "We are Unable to Create an Account for you";
         String content = new StringBuilder()
                             .append("<p>Hi, Maul</p>\n")
@@ -89,11 +89,11 @@ public class EmailGeneratorTest extends BaseTestCase {
                             .append("<p>Regards,<br />TEAMMATES Team.</p>\n")
                             .toString();
 
-        EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(accountRequest, title, content);
-        verifyEmail(email, "maul@sith.org", EmailType.ACCOUNT_REQUEST_REJECTION,
+        EmailWrapper email = emailGenerator.generateAccountVerificationRequestRejectionEmail(accountVerificationRequest, title, content);
+        verifyEmail(email, "maul@sith.org", EmailType.ACCOUNT_VERIFICATION_REQUEST_REJECTION,
                 "TEAMMATES: " + title,
                 Config.SUPPORT_EMAIL,
-                "/instructorAccountRequestRejectionEmail.html");
+                "/instructorAccountVerificationRequestRejectionEmail.html");
     }
 
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,

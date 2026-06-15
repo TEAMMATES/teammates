@@ -16,7 +16,7 @@
       "subject": "tm.e2e.IHome.instructor.tmms"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "IHome.CS2104": {
       "id": "tm.e2e.IHome.CS2104",

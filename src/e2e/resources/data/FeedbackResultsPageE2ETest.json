@@ -64,7 +64,7 @@
       "subject": "tm.e2e.FRes.emily.f"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "FRes.CS2104": {
       "id": "tm.e2e.FRes.CS2104",

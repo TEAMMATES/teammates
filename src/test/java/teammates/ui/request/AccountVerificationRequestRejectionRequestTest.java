@@ -8,9 +8,9 @@ import teammates.test.BaseTestCase;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
- * SUT: {@link AccountRequestRejectionRequest}.
+ * SUT: {@link AccountVerificationRequestRejectionRequest}.
  */
-public class AccountRequestRejectionRequestTest extends BaseTestCase {
+public class AccountVerificationRequestRejectionRequestTest extends BaseTestCase {
 
     private static final String TYPICAL_TITLE = "We are Unable to Create an Account for you";
     private static final String TYPICAL_BODY = new StringBuilder()
@@ -30,25 +30,25 @@ public class AccountRequestRejectionRequestTest extends BaseTestCase {
 
     @Test
     public void testValidate_withNonNullBodyAndNonNullTitle_shouldPass() throws Exception {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
+        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, TYPICAL_BODY);
         request.validate();
     }
 
     @Test
     public void testValidate_withNullBodyAndNullTitle_shouldPass() throws Exception {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(null, null);
+        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(null, null);
         request.validate();
     }
 
     @Test
     public void testValidate_withNonNullBodyAndNullTitle_shouldFail() {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
+        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(null, TYPICAL_BODY);
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 
     @Test
     public void testValidate_withNullBodyAndNonNullTitle_shouldFail() {
-        AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);
+        AccountVerificationRequestRejectionRequest request = new AccountVerificationRequestRejectionRequest(TYPICAL_TITLE, null);
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 }

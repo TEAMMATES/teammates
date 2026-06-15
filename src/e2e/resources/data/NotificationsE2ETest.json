@@ -24,7 +24,7 @@
       "subject": "tm.e2e.notif.student"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "typicalCourse1": {
       "id": "tm.e2e.notif.course1",
