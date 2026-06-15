@@ -1,4 +1,16 @@
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 142px);
+}
+
 .card {
-  max-width: 500px;
+  max-width: 640px;
+  width: 100%;
+}
+
+.login-card-content {
+  max-width: 520px;
   width: 100%;
 }

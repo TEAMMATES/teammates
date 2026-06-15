@@ -2,10 +2,14 @@
   <div class="container py-5">
     <div class="card mx-auto shadow-sm rounded-4">
       <div class="card-body p-5">
-        <tm-login-method-buttons-list
-          [nextUrl]="nextUrl"
-          [supportedLoginMethods]="loginMethods"
-        ></tm-login-method-buttons-list>
+        <div class="login-card-content mx-auto">
+          <h1 class="h2 fw-bold mb-2">Sign in</h1>
+          <p class="text-secondary mb-4">Choose a login method to continue.</p>
+          <tm-login-method-buttons-list
+            [nextUrl]="nextUrl"
+            [supportedLoginMethods]="loginMethods"
+          ></tm-login-method-buttons-list>
+        </div>
       </div>
     </div>
   </div>
