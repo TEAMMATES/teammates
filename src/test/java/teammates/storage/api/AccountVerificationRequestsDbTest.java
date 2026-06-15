@@ -108,7 +108,7 @@ public class AccountVerificationRequestsDbTest extends BaseDbTestcase {
     private static AccountVerificationRequest buildDefaultAccountVerificationRequest(UUID accountVerificationRequestId) {
         AccountVerificationRequest accountVerificationRequest = new AccountVerificationRequest(
                 "account-request@example.com",
-                "Account Request",
+                "Account Verification Request",
                 AccountVerificationRequestStatus.PENDING,
                 "");
         accountVerificationRequest.setId(accountVerificationRequestId);

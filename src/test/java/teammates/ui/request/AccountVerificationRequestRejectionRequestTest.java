@@ -21,7 +21,7 @@ public class AccountVerificationRequestRejectionRequestTest extends BaseTestCase
             .append("  <strong>Reason:</strong> The email address you provided ")
             .append("is not an 'official' email address provided by your institution.<br />\n")
             .append("  <strong>Remedy:</strong> ")
-            .append("Please re-submit an account request with your 'official' institution email address.\n")
+            .append("Please re-submit an account verification request with your 'official' institution email address.\n")
             .append("</p>\n\n")
             .append("<p>If you need further clarification or would like to appeal this decision, ")
             .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")

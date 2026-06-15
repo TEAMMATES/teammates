@@ -1,7 +1,7 @@
 import { AccountVerificationRequestStatus } from '../../../types/api-output';
 
 /**
- * Model for the row entries in the account requests table.
+ * Model for the row entries in the account verification requests table.
  */
 export interface AccountVerificationRequestTableRowModel {
   id: string;

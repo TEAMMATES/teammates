@@ -81,7 +81,7 @@ export class AdminSearchPageComponent {
             limitsReached.push(`${limit} instructor results`);
           }
           if (this.accountVerificationRequests.length >= limit) {
-            limitsReached.push(`${limit} account request results`);
+            limitsReached.push(`${limit} account verification request results`);
           }
           if (limitsReached.length) {
             this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page

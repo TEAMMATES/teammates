@@ -140,11 +140,11 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
-        ______TS("Error: account request already registered");
+        ______TS("Error: account verification request already registered");
         verifyInvalidOperation(params);
         verifyNoTasksAdded();
 
-        ______TS("Error: account request not found");
+        ______TS("Error: account verification request not found");
 
         params = new String[] { Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, "00000000-0000-0000-0000-000000000000", };
         verifyEntityNotFound(params);

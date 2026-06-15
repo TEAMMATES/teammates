@@ -2,7 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { AccountVerificationRequest, AccountVerificationRequests, MessageOutput, AccountVerificationRequestStatus, Account } from '../types/api-output';
+import {
+  AccountVerificationRequest,
+  AccountVerificationRequests,
+  MessageOutput,
+  AccountVerificationRequestStatus,
+  Account,
+} from '../types/api-output';
 import {
   AccountCreateRequest,
   AccountVerificationRequestUpdateRequest,
@@ -19,7 +25,7 @@ export class AccountService {
   private httpRequestService = inject(HttpRequestService);
 
   /**
-   * Creates an account request by calling API.
+   * Creates an account verification request by calling API.
    */
   createAccountVerificationRequest(request: AccountCreateRequest): Observable<AccountVerificationRequest> {
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, {}, request);
@@ -36,7 +42,7 @@ export class AccountService {
   }
 
   /**
-   * Deletes an account request by calling API.
+   * Deletes an account verification request by calling API.
    */
   deleteAccountVerificationRequest(id: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
@@ -56,7 +62,7 @@ export class AccountService {
   }
 
   /**
-   * Approves account request by calling API
+   * Approves account verification request by calling API
    */
   approveAccountVerificationRequest(id: string): Observable<AccountVerificationRequest> {
     const paramMap: Record<string, string> = {
@@ -67,17 +73,24 @@ export class AccountService {
   }
 
   /**
-   * Edits an account request by calling API.
+   * Edits an account verification request by calling API.
    */
-  editAccountVerificationRequest(id: string, accountReqUpdateRequest: AccountVerificationRequestUpdateRequest): Observable<AccountVerificationRequest> {
+  editAccountVerificationRequest(
+    id: string,
+    accountReqUpdateRequest: AccountVerificationRequestUpdateRequest,
+  ): Observable<AccountVerificationRequest> {
     const paramMap: Record<string, string> = {
       id,
     };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, paramMap, accountReqUpdateRequest);
+    return this.httpRequestService.put(
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST,
+      paramMap,
+      accountReqUpdateRequest,
+    );
   }
 
   /**
-   * Gets an account request by calling API.
+   * Gets an account verification request by calling API.
    */
   getAccountVerificationRequest(id: string): Observable<AccountVerificationRequest> {
     const paramMap: Record<string, string> = { id };
@@ -95,7 +108,7 @@ export class AccountService {
   }
 
   /**
-   * Gets account requests by calling API.
+   * Gets pending account verification requests by calling API.
    */
   getPendingAccountVerificationRequests(): Observable<AccountVerificationRequests> {
     const paramMap = {
@@ -106,7 +119,7 @@ export class AccountService {
   }
 
   /**
-   * Rejects an account request by calling API.
+   * Rejects an account verification request by calling API.
    */
   rejectAccountVerificationRequest(id: string, title?: string, body?: string): Observable<AccountVerificationRequest> {
     let accountReqRejectRequest: AccountVerificationRequestRejectionRequest = {};
@@ -122,6 +135,10 @@ export class AccountService {
       id,
     };
 
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT, paramMap, accountReqRejectRequest);
+    return this.httpRequestService.post(
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
+      paramMap,
+      accountReqRejectRequest,
+    );
   }
 }

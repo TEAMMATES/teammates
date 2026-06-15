@@ -182,9 +182,9 @@ final class GateKeeper {
     }
 
     /**
-     * Verifies that the user can view the specified account request.
+     * Verifies that the user can view the specified account verification request.
      *
-     * <p>Admins can view all account requests. Non-admins can only view account requests that they own.
+     * <p>Admins can view all account verification requests. Non-admins can only view account verification requests that they own.
      */
     void verifyCanViewAccountVerificationRequest(RequestContext requestContext, UUID accountVerificationRequestId)
             throws UnauthorizedAccessException {
@@ -193,11 +193,11 @@ final class GateKeeper {
         }
 
         AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
-        verifyNotNull(accountVerificationRequest, "account request");
+        verifyNotNull(accountVerificationRequest, "account verification request");
 
         if (requestContext.getAccount() == null
                 || !requestContext.getAccount().getId().equals(accountVerificationRequest.getAccountId())) {
-            throw new UnauthorizedAccessException("Account request [" + accountVerificationRequestId + "] is not accessible to user");
+            throw new UnauthorizedAccessException("Account verification request [" + accountVerificationRequestId + "] is not accessible to user");
         }
     }
 

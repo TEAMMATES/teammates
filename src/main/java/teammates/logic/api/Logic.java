@@ -206,12 +206,12 @@ public class Logic {
     }
 
     /**
-     * Creates an account request.
+     * Creates an account verification request.
      *
-     * @return newly created account request.
-     * @throws InvalidParametersException   if the account request details are
+     * @return newly created account verification request.
+     * @throws InvalidParametersException   if the account verification request details are
      *                                      invalid.
-     * @throws EntityAlreadyExistsException if the account request already exists.
+     * @throws EntityAlreadyExistsException if the account verification request already exists.
      */
     public AccountVerificationRequest createAccountVerificationRequest(String name, String email, String institute, String country,
             AccountVerificationRequestStatus status, String comments, UUID accountId) throws InvalidParametersException {
@@ -227,18 +227,18 @@ public class Logic {
     }
 
     /**
-     * Gets the account request with the given {@code id}.
+     * Gets the account verification request with the given {@code id}.
      *
-     * @return account request with the given {@code id}.
+     * @return account verification request with the given {@code id}.
      */
     public AccountVerificationRequest getAccountVerificationRequest(UUID id) {
         return accountVerificationRequestLogic.getAccountVerificationRequest(id);
     }
 
     /**
-     * Updates the given account request.
+     * Updates the given account verification request.
      *
-     * @return the updated account request.
+     * @return the updated account verification request.
      */
     public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
             throws InvalidParametersException {
@@ -246,23 +246,18 @@ public class Logic {
     }
 
     /**
-     * Deletes account request by id.
+     * Deletes account verification request by id.
      *
      * <ul>
-     * <li>Fails silently if no such account request.</li>
+     * <li>Fails silently if no such account verification request.</li>
      * </ul>
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * All parameters are non-null.
      */
     public void deleteAccountVerificationRequest(UUID id) {
         accountVerificationRequestLogic.deleteAccountVerificationRequest(id);
     }
 
     /**
-     * Gets all pending account requests.
+     * Gets all pending account verification requests.
      */
     public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
         return accountVerificationRequestLogic.getPendingAccountVerificationRequests();
@@ -1467,7 +1462,7 @@ public class Logic {
     }
 
     /**
-     * This is used by admin to search account requests in the whole system.
+     * This is used by admin to search account verification requests in the whole system.
      *
      * @return A list of matching {@link AccountVerificationRequest}s, or an empty list if no match is found.
      */

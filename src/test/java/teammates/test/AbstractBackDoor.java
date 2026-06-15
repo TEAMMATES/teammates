@@ -469,7 +469,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account request from the database.
+     * Gets an account verification request from the database.
      */
     public AccountVerificationRequestData getAccountVerificationRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
@@ -484,7 +484,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Deletes an account request from the database.
+     * Deletes an account verification request from the database.
      */
     public void deleteAccountVerificationRequest(UUID id) {
         Map<String, String> params = new HashMap<>();

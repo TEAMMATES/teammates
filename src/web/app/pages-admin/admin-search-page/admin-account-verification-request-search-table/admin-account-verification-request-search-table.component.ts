@@ -19,7 +19,7 @@ import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-load
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
 /**
- * Account requests table component for admin search.
+ * Account verification requests table component for admin search.
  */
 @Component({
   selector: 'tm-admin-account-verification-request-search-table',
@@ -59,7 +59,7 @@ export class AdminAccountVerificationRequestSearchTableComponent implements OnCh
   }
 
   /**
-   * Shows all account requests' links in the page.
+   * Shows all account verification requests' links in the page.
    */
   showAllAccountVerificationRequestsLinks(): void {
     for (const accountVerificationRequest of this.accountVerificationRequests) {
@@ -68,7 +68,7 @@ export class AdminAccountVerificationRequestSearchTableComponent implements OnCh
   }
 
   /**
-   * Hides all account requests' links in the page.
+   * Hides all account verification requests' links in the page.
    */
   hideAllAccountVerificationRequestsLinks(): void {
     for (const accountVerificationRequest of this.accountVerificationRequests) {
@@ -106,7 +106,7 @@ export class AdminAccountVerificationRequestSearchTableComponent implements OnCh
               accountVerificationRequest.email = resp.email;
               accountVerificationRequest.institute = resp.institute;
               accountVerificationRequest.country = resp.country;
-              this.statusMessageService.showSuccessToast('Account request was successfully updated.');
+              this.statusMessageService.showSuccessToast('Account verification request was successfully updated.');
             },
             error: (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(resp.error.message);
@@ -117,44 +117,53 @@ export class AdminAccountVerificationRequestSearchTableComponent implements OnCh
     );
   }
 
-  approveAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestSearchResult, index: number): void {
+  approveAccountVerificationRequest(
+    accountVerificationRequest: AccountVerificationRequestSearchResult,
+    index: number,
+  ): void {
     this.isApprovingAccountVerificationRequest[index] = true;
-    this.accountService.approveAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId).subscribe({
-      next: (resp: AccountVerificationRequest) => {
-        accountVerificationRequest.status = resp.status;
-        this.statusMessageService.showSuccessToast(
-          `Account request was successfully approved. Email has been sent to ${accountVerificationRequest.email}.`,
-        );
-        this.isApprovingAccountVerificationRequest[index] = false;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.isApprovingAccountVerificationRequest[index] = false;
-      },
-    });
+    this.accountService
+      .approveAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
+      .subscribe({
+        next: (resp: AccountVerificationRequest) => {
+          accountVerificationRequest.status = resp.status;
+          this.statusMessageService.showSuccessToast(
+            `Account verification request was successfully approved. Email has been sent to ${accountVerificationRequest.email}.`,
+          );
+          this.isApprovingAccountVerificationRequest[index] = false;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.isApprovingAccountVerificationRequest[index] = false;
+        },
+      });
   }
 
   deleteAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestSearchResult): void {
-    const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
+    const modalContent = `Are you sure you want to <strong>delete</strong> the account verification request for
         <strong>${accountVerificationRequest.name}</strong> with email <strong>${accountVerificationRequest.email}</strong> from
         <strong>${accountVerificationRequest.institute}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Delete account request for <strong>${accountVerificationRequest.name}</strong>?`,
+      `Delete account verification request for <strong>${accountVerificationRequest.name}</strong>?`,
       SimpleModalType.DANGER,
       modalContent,
     );
 
     modalRef.result.then(
       () => {
-        this.accountService.deleteAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId).subscribe({
-          next: (resp: MessageOutput) => {
-            this.statusMessageService.showSuccessToast(resp.message);
-            this.accountVerificationRequests = this.accountVerificationRequests.filter((x: AccountVerificationRequestSearchResult) => x !== accountVerificationRequest);
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        this.accountService
+          .deleteAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
+          .subscribe({
+            next: (resp: MessageOutput) => {
+              this.statusMessageService.showSuccessToast(resp.message);
+              this.accountVerificationRequests = this.accountVerificationRequests.filter(
+                (x: AccountVerificationRequestSearchResult) => x !== accountVerificationRequest,
+              );
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
       },
       () => {},
     );
@@ -174,22 +183,30 @@ export class AdminAccountVerificationRequestSearchTableComponent implements OnCh
     );
   }
 
-  rejectAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestSearchResult, index: number): void {
+  rejectAccountVerificationRequest(
+    accountVerificationRequest: AccountVerificationRequestSearchResult,
+    index: number,
+  ): void {
     this.isRejectingAccountVerificationRequest[index] = true;
-    this.accountService.rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId).subscribe({
-      next: (resp: AccountVerificationRequest) => {
-        accountVerificationRequest.status = resp.status;
-        this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
-        this.isRejectingAccountVerificationRequest[index] = false;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.isRejectingAccountVerificationRequest[index] = false;
-      },
-    });
+    this.accountService
+      .rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId)
+      .subscribe({
+        next: (resp: AccountVerificationRequest) => {
+          accountVerificationRequest.status = resp.status;
+          this.statusMessageService.showSuccessToast('Account verification request was successfully rejected.');
+          this.isRejectingAccountVerificationRequest[index] = false;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.isRejectingAccountVerificationRequest[index] = false;
+        },
+      });
   }
 
-  rejectAccountVerificationRequestWithReason(accountVerificationRequest: AccountVerificationRequestSearchResult, index: number): void {
+  rejectAccountVerificationRequestWithReason(
+    accountVerificationRequest: AccountVerificationRequestSearchResult,
+    index: number,
+  ): void {
     this.isRejectingAccountVerificationRequest[index] = true;
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountVerificationRequestName = accountVerificationRequest.name;
@@ -202,12 +219,16 @@ export class AdminAccountVerificationRequestSearchTableComponent implements OnCh
     modalRef.result.then(
       (res: RejectWithReasonModalComponentResult) => {
         this.accountService
-          .rejectAccountVerificationRequest(accountVerificationRequest.accountVerificationRequestId, res.rejectionReasonTitle, res.rejectionReasonBody)
+          .rejectAccountVerificationRequest(
+            accountVerificationRequest.accountVerificationRequestId,
+            res.rejectionReasonTitle,
+            res.rejectionReasonBody,
+          )
           .subscribe({
             next: (resp: AccountVerificationRequest) => {
               accountVerificationRequest.status = resp.status;
               this.statusMessageService.showSuccessToast(
-                `Account request was successfully rejected. Email has been sent to ${accountVerificationRequest.email}.`,
+                `Account verification request was successfully rejected. Email has been sent to ${accountVerificationRequest.email}.`,
               );
               this.isRejectingAccountVerificationRequest[index] = false;
             },

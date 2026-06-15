@@ -2,7 +2,7 @@
   <div class="card bg-light top-padded">
     <div class="card-header bg-primary text-white">
       <div>
-        <strong>Account Requests Found</strong>
+        <strong>Account Verification Requests Found</strong>
       </div>
       <div class="card-header-btn-toolbar">
         <button
@@ -40,14 +40,20 @@
           </tr>
         </thead>
         <tbody>
-          @for (accountVerificationRequest of accountVerificationRequests; track accountVerificationRequest.accountVerificationRequestId; let i = $index) {
+          @for (
+            accountVerificationRequest of accountVerificationRequests;
+            track accountVerificationRequest.accountVerificationRequestId;
+            let i = $index
+          ) {
             <tr (click)="toggleAccountVerificationRequestLinks(accountVerificationRequest)">
               <td>
                 <div class="d-flex align-items-center gap-2">
                   <button
                     class="btn p-0"
                     aria-label="Toggle expansion"
-                    (click)="$event.stopPropagation(); toggleAccountVerificationRequestLinks(accountVerificationRequest)"
+                    (click)="
+                      $event.stopPropagation(); toggleAccountVerificationRequestLinks(accountVerificationRequest)
+                    "
                   >
                     @if (!accountVerificationRequest.showLinks) {
                       <i class="fas fa-circle-chevron-down" style="color: blue"></i>
@@ -66,7 +72,10 @@
               <td id="timestamp-box">{{ accountVerificationRequest.createdAtText }}</td>
               <td id="timestamp-box">{{ accountVerificationRequest.createdDemoCourseAtText || 'Not Created Yet' }}</td>
               <td>
-                <div id="comment-box" [innerHtml]="accountVerificationRequest.comments | highlighter: searchString : true"></div>
+                <div
+                  id="comment-box"
+                  [innerHtml]="accountVerificationRequest.comments | highlighter: searchString : true"
+                ></div>
               </td>
               <td class="align-middle">
                 <div class="d-flex flex-row align-items-center justify-content-center gap-2">
@@ -76,7 +85,7 @@
                       type="button"
                       class="btn btn-link p-0"
                       (click)="$event.stopPropagation(); editAccountVerificationRequest(accountVerificationRequest)"
-                      aria-label="Edit account request"
+                      aria-label="Edit account verification request"
                     >
                       <i class="fa-solid fa-pen"></i>
                     </button>
@@ -85,7 +94,7 @@
                     class="ngb-tooltip-class"
                     [ngbTooltip]="
                       accountVerificationRequest.createdDemoCourseAtText &&
-                      'Account requests of registered instructors cannot be deleted'
+                      'Account verification requests of registered instructors cannot be deleted'
                     "
                     placement="top"
                   >
@@ -94,7 +103,7 @@
                       type="button"
                       class="btn btn-link p-0"
                       (click)="$event.stopPropagation(); deleteAccountVerificationRequest(accountVerificationRequest)"
-                      aria-label="Delete account request"
+                      aria-label="Delete account verification request"
                     >
                       <i class="fa-solid fa-trash"></i>
                     </button>
@@ -105,7 +114,7 @@
                       type="button"
                       class="btn btn-link p-0"
                       (click)="$event.stopPropagation(); viewAccountVerificationRequest(accountVerificationRequest)"
-                      aria-label="View account request"
+                      aria-label="View account verification request"
                     >
                       <i class="fa-solid fa-eye"></i>
                     </button>
@@ -114,7 +123,9 @@
                     id="approve-account-verification-request-{{ i }}"
                     class="btn btn-success"
                     [disabled]="
-                      !accountVerificationRequest.status || accountVerificationRequest.status === 'APPROVED' || isApprovingAccountVerificationRequest[i]
+                      !accountVerificationRequest.status ||
+                      accountVerificationRequest.status === 'APPROVED' ||
+                      isApprovingAccountVerificationRequest[i]
                     "
                     (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
                   >
@@ -145,14 +156,19 @@
                       <button
                         id="reject-request-{{ i }}"
                         class="btn btn-light btn-sm dropdown-item"
-                        (click)="$event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)"
+                        (click)="
+                          $event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)
+                        "
                       >
                         Reject
                       </button>
                       <button
                         id="reject-request-with-reason-{{ i }}"
                         class="btn btn-light btn-sm dropdown-item"
-                        (click)="$event.stopPropagation(); rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)"
+                        (click)="
+                          $event.stopPropagation();
+                          rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)
+                        "
                       >
                         Reject With Reason
                       </button>

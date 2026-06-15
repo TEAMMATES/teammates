@@ -14,7 +14,7 @@ import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.request.AccountVerificationRequestRejectionRequest;
 
 /**
- * Rejects an account request.
+ * Rejects an account verification request.
  */
 public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
     @Override
@@ -24,13 +24,13 @@ public class RejectAccountVerificationRequestAction extends AdminOnlyAction {
         AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
 
         if (accountVerificationRequest == null) {
-            String errorMessage = String.format("Account request with id = %s not found", accountVerificationRequestId.toString());
+            String errorMessage = String.format("Account verification request with id = %s not found", accountVerificationRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
         if (accountVerificationRequest.getStatus() != AccountVerificationRequestStatus.PENDING) {
             throw new InvalidOperationException(
-                    "Account request with id " + accountVerificationRequestId + " is not in pending state and cannot be rejected.");
+                    "Account verification request with id " + accountVerificationRequestId + " is not in pending state and cannot be rejected.");
         }
 
         AccountVerificationRequestRejectionRequest accountVerificationRequestRejectionRequest =

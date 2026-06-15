@@ -74,7 +74,7 @@ public class Institute extends BaseEntity {
     }
 
     /**
-     * Adds an account request to the Institute.
+     * Adds an account verification request to the Institute.
      */
     public void addAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
         this.accountVerificationRequests.add(accountVerificationRequest);

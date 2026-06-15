@@ -19,7 +19,7 @@ exports[`RejectWithReasonModal > should show empty fields 1`] = `
       class="modal-title text-white"
     >
       <div>
-        Edit Account Request for 
+        Edit Account Verification Request for 
       </div>
     </h5>
     <button
@@ -174,7 +174,7 @@ exports[`RejectWithReasonModal > should show populated data 1`] = `
       class="modal-title text-white"
     >
       <div>
-        Edit Account Request for John Doe
+        Edit Account Verification Request for John Doe
       </div>
     </h5>
     <button

@@ -18,7 +18,7 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Sets the email for the account request.
+     * Sets the email for the account verification request.
      */
     public GivenAccountVerificationRequest email(String email) {
         entity.setEmail(email);
@@ -26,7 +26,7 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Sets the name for the account request.
+     * Sets the name for the account verification request.
      */
     public GivenAccountVerificationRequest name(String name) {
         entity.setName(name);
@@ -34,7 +34,7 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Sets the institute for the account request, referenced by its alias.
+     * Sets the institute for the account verification request, referenced by its alias.
      */
     public GivenAccountVerificationRequest institute(String instituteAlias) {
         Institute institute = given.getOrCreate(instituteAlias, given.dataBundle.institutes, given::institute);
@@ -43,17 +43,17 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Sets the account for the account request.
+     * Sets the account for the account verification request.
      */
     public GivenAccountVerificationRequest account(String accountAlias) {
-        assert entity.getAccount() == null : "Account has already been set for this account request";
+        assert entity.getAccount() == null : "Account has already been set for this account verification request";
         Account account = given.getOrCreate(accountAlias, given.dataBundle.accounts, given::account);
         account.addAccountVerificationRequest(entity);
         return this;
     }
 
     /**
-     * Sets the status for the account request.
+     * Sets the status for the account verification request.
      */
     public GivenAccountVerificationRequest status(AccountVerificationRequestStatus status) {
         entity.setStatus(status);
@@ -61,28 +61,28 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Marks the account request as pending.
+     * Marks the account verification request as pending.
      */
     public GivenAccountVerificationRequest pending() {
         return status(AccountVerificationRequestStatus.PENDING);
     }
 
     /**
-     * Marks the account request as approved.
+     * Marks the account verification request as approved.
      */
     public GivenAccountVerificationRequest approved() {
         return status(AccountVerificationRequestStatus.APPROVED);
     }
 
     /**
-     * Marks the account request as rejected.
+     * Marks the account verification request as rejected.
      */
     public GivenAccountVerificationRequest rejected() {
         return status(AccountVerificationRequestStatus.REJECTED);
     }
 
     /**
-     * Sets the comments for the account request.
+     * Sets the comments for the account verification request.
      */
     public GivenAccountVerificationRequest comments(String comments) {
         entity.setComments(comments);
@@ -90,7 +90,7 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Sets the time when the demo course was created for the account request.
+     * Sets the time when the demo course was created for the account verification request.
      */
     public GivenAccountVerificationRequest createdDemoCourseAt(Instant createdDemoCourseAt) {
         entity.setCreatedDemoCourseAt(createdDemoCourseAt);
@@ -98,7 +98,7 @@ public final class GivenAccountVerificationRequest extends GivenBase<AccountVeri
     }
 
     /**
-     * Sets the created time for the account request.
+     * Sets the created time for the account verification request.
      */
     public GivenAccountVerificationRequest createdAt(Instant createdAt) {
         entity.setCreatedAt(createdAt);

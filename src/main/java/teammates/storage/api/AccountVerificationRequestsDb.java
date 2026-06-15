@@ -61,7 +61,7 @@ public final class AccountVerificationRequestsDb {
     }
 
     /**
-     * Get all Account Requests with {@code status} of 'pending'.
+     * Get all Account Verification Requests with {@code status} of 'pending'.
      */
     public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
@@ -85,9 +85,9 @@ public final class AccountVerificationRequestsDb {
     }
 
     /**
-     * Searches all account requests in the system.
+     * Searches all account verification requests in the system.
      *
-     * <p>This is used by admin to search account requests in the whole system.
+     * <p>This is used by admin to search account verification requests in the whole system.
      */
     public List<AccountVerificationRequest> searchAccountVerificationRequestsInWholeSystem(String queryString) {
 
@@ -121,7 +121,7 @@ public final class AccountVerificationRequestsDb {
     }
 
     /**
-     * Gets createdAt timestamps of account requests created within the given time range.
+     * Gets createdAt timestamps of account verification requests created within the given time range.
      */
     public List<Instant> getCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();

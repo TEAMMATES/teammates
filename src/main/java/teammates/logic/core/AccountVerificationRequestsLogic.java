@@ -12,7 +12,7 @@ import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Institute;
 
 /**
- * Handles operations related to account requests.
+ * Handles operations related to account verification requests.
  *
  * @see AccountVerificationRequest
  * @see AccountVerificationRequestsDb
@@ -44,7 +44,7 @@ public final class AccountVerificationRequestsLogic {
     }
 
     /**
-     * Creates an account request.
+     * Creates an account verification request.
      */
     public AccountVerificationRequest createAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) throws InvalidParametersException {
         validateAccountVerificationRequest(accountVerificationRequest);
@@ -52,7 +52,7 @@ public final class AccountVerificationRequestsLogic {
     }
 
     /**
-     * Creates an account request, resolving (or creating) the shared institute for the given
+     * Creates an account verification request, resolving (or creating) the shared institute for the given
      * {@code instituteName} and {@code country}, and associating it with the given {@code accountId}.
      */
     public AccountVerificationRequest createAccountVerificationRequest(String name, String email, String instituteName, String country,
@@ -67,14 +67,14 @@ public final class AccountVerificationRequestsLogic {
     }
 
     /**
-     * Gets the account request associated with the {@code id}.
+     * Gets the account verification request associated with the {@code id}.
      */
     public AccountVerificationRequest getAccountVerificationRequest(UUID id) {
         return accountVerificationRequestDb.getAccountVerificationRequest(id);
     }
 
     /**
-     * Updates an account request.
+     * Updates an account verification request.
      */
     public AccountVerificationRequest updateAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest)
             throws InvalidParametersException {
@@ -83,20 +83,19 @@ public final class AccountVerificationRequestsLogic {
     }
 
     /**
-     * Gets all pending account requests.
+     * Gets all pending account verification requests.
      */
     public List<AccountVerificationRequest> getPendingAccountVerificationRequests() {
         return accountVerificationRequestDb.getPendingAccountVerificationRequests();
     }
 
     /**
-     * Deletes account request associated with the {@code id}.
+     * Deletes account verification request associated with the {@code id}.
      *
      * <p>
-     * Fails silently if no account requests with the given id to delete can be
+     * Fails silently if no account verification requests with the given id to delete can be
      * found.
      * </p>
-     *
      */
     public void deleteAccountVerificationRequest(UUID id) {
         AccountVerificationRequest toDelete = accountVerificationRequestDb.getAccountVerificationRequest(id);
@@ -105,7 +104,7 @@ public final class AccountVerificationRequestsLogic {
     }
 
     /**
-     * Searches for account requests in the whole system.
+     * Searches for account verification requests in the whole system.
      *
      * @return A list of {@link AccountVerificationRequest}, or an empty list if no match is found.
      */
@@ -120,7 +119,7 @@ public final class AccountVerificationRequestsLogic {
     }
 
     /**
-     * Gets createdAt timestamps of account requests created within the given time range.
+     * Gets createdAt timestamps of account verification requests created within the given time range.
      */
     public List<Instant> getAccountVerificationRequestCreatedAtTimestampsForTimeRange(Instant startTime, Instant endTime) {
         return accountVerificationRequestDb.getCreatedAtTimestampsForTimeRange(startTime, endTime);

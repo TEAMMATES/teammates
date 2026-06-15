@@ -7,7 +7,7 @@ import teammates.storage.entity.AccountVerificationRequest;
 import teammates.ui.exception.InvalidOperationException;
 
 /**
- * Deletes an existing account request.
+ * Deletes an existing account verification request.
  */
 public class DeleteAccountVerificationRequestAction extends AdminOnlyAction {
 
@@ -20,12 +20,12 @@ public class DeleteAccountVerificationRequestAction extends AdminOnlyAction {
         if (toDelete != null && toDelete.getCreatedDemoCourseAt() != null) {
             // TODO: remove this check
             // instructor is already registered and cannot be deleted
-            throw new InvalidOperationException("Account request of a registered instructor cannot be deleted.");
+            throw new InvalidOperationException("Account verification request of a registered instructor cannot be deleted.");
         }
 
         logic.deleteAccountVerificationRequest(id);
 
-        return new JsonResult("Account request successfully deleted.");
+        return new JsonResult("Account verification request successfully deleted.");
     }
 
 }

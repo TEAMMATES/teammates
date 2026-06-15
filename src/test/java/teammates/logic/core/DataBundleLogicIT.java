@@ -57,7 +57,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         String jsonString = FileHelper.readFile(pathToJsonFile);
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(jsonString);
 
-        ______TS("verify account requests deserialized correctly");
+        ______TS("verify account verification requests deserialized correctly");
 
         AccountVerificationRequest actualAccountVerificationRequest = dataBundle.accountVerificationRequests.get("instructor1");
         AccountVerificationRequest expectedAccountVerificationRequest = new AccountVerificationRequest("instr1@teammates.tmt", "Instructor 1",
@@ -270,7 +270,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         verifyPresentInDatabase(instructor1Account);
         verifyPresentInDatabase(student1Account);
 
-        ______TS("verify account request persisted correctly");
+        ______TS("verify account verification request persisted correctly");
         AccountVerificationRequest accountVerificationRequest = dataBundle.accountVerificationRequests.get("instructor1");
 
         verifyPresentInDatabase(accountVerificationRequest);
@@ -320,7 +320,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         verifyAbsentInDatabase(instructor1Account);
         verifyAbsentInDatabase(student1Account);
 
-        ______TS("verify account request removed correctly");
+        ______TS("verify account verification request removed correctly");
 
         verifyAbsentInDatabase(accountVerificationRequest);
     }

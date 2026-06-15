@@ -118,7 +118,7 @@ public class AccountVerificationRequest extends BaseEntity {
     }
 
     /**
-     * Sets the institute of the account request.
+     * Sets the institute of the account verification request.
      */
     public void setInstitute(Institute institute) {
         this.institute = institute;
@@ -134,7 +134,7 @@ public class AccountVerificationRequest extends BaseEntity {
     }
 
     /**
-     * Sets the account associated with this account request.
+     * Sets the account associated with this account verification request.
      */
     public void setAccount(Account account) {
         this.account = account;

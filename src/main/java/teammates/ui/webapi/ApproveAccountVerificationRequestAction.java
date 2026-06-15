@@ -14,7 +14,7 @@ import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountVerificationRequestData;
 
 /**
- * Approves an account request.
+ * Approves an account verification request.
  */
 public class ApproveAccountVerificationRequestAction extends AdminOnlyAction {
 
@@ -25,13 +25,13 @@ public class ApproveAccountVerificationRequestAction extends AdminOnlyAction {
         AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
 
         if (accountVerificationRequest == null) {
-            String errorMessage = String.format("Account request with id = %s not found", accountVerificationRequestId.toString());
+            String errorMessage = String.format("Account verification request with id = %s not found", accountVerificationRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
         if (accountVerificationRequest.getStatus() == AccountVerificationRequestStatus.APPROVED) {
             throw new InvalidOperationException(
-                    "Account request with id " + accountVerificationRequestId + " is already approved.");
+                    "Account verification request with id " + accountVerificationRequestId + " is already approved.");
         }
 
         try {

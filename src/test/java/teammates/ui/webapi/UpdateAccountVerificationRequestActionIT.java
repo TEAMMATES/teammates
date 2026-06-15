@@ -47,7 +47,7 @@ public class UpdateAccountVerificationRequestActionIT extends BaseActionIT<Updat
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     public void testExecute() throws Exception {
-        ______TS("edit fields of an account request");
+        ______TS("edit fields of an account verification request");
         UUID accountId = typicalBundle.accounts.get("instructor1").getId();
         AccountVerificationRequest accountVerificationRequest = inTransaction(() -> logic.createAccountVerificationRequest("name", "email@email.com",
                 "institute", "SG", AccountVerificationRequestStatus.PENDING, "comments", accountId));
@@ -84,7 +84,7 @@ public class UpdateAccountVerificationRequestActionIT extends BaseActionIT<Updat
 
         EntityNotFoundException enfe = verifyEntityNotFound(requestBody, params);
 
-        assertEquals(String.format("Account request with id = %s not found", validUuid), enfe.getMessage());
+        assertEquals(String.format("Account verification request with id = %s not found", validUuid), enfe.getMessage());
 
         ______TS("invalid uuid");
         requestBody = new AccountVerificationRequestUpdateRequest("name", "email",

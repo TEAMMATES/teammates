@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminAccountVerificationRequestSearchTableComponent > should display account requests with no reset or expand links button 1`] = `
+exports[`AdminAccountVerificationRequestSearchTableComponent > should display account verification requests with no reset or expand links button 1`] = `
 <tm-admin-account-verification-request-search-table
   accountService={[Function _AccountService]}
   accountVerificationRequests={[Function Array]}
@@ -19,7 +19,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
     >
       <div>
         <strong>
-          Account Requests Found
+          Account Verification Requests Found
         </strong>
       </div>
       <div
@@ -137,7 +137,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
               >
                 <div>
                   <button
-                    aria-label="Edit account request"
+                    aria-label="Edit account verification request"
                     class="btn btn-link p-0"
                     id="edit-account-verification-request-0"
                     type="button"
@@ -152,7 +152,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                   placement="top"
                 >
                   <button
-                    aria-label="Delete account request"
+                    aria-label="Delete account verification request"
                     class="btn btn-link p-0"
                     id="delete-account-verification-request-0"
                     type="button"
@@ -164,7 +164,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                 </div>
                 <div>
                   <button
-                    aria-label="View account request"
+                    aria-label="View account verification request"
                     class="btn btn-link p-0"
                     id="view-account-verification-request-0"
                     type="button"
@@ -291,7 +291,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
               >
                 <div>
                   <button
-                    aria-label="Edit account request"
+                    aria-label="Edit account verification request"
                     class="btn btn-link p-0"
                     id="edit-account-verification-request-1"
                     type="button"
@@ -306,7 +306,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                   placement="top"
                 >
                   <button
-                    aria-label="Delete account request"
+                    aria-label="Delete account verification request"
                     class="btn btn-link p-0"
                     id="delete-account-verification-request-1"
                     type="button"
@@ -318,7 +318,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                 </div>
                 <div>
                   <button
-                    aria-label="View account request"
+                    aria-label="View account verification request"
                     class="btn btn-link p-0"
                     id="view-account-verification-request-1"
                     type="button"
@@ -396,7 +396,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
 </tm-admin-account-verification-request-search-table>
 `;
 
-exports[`AdminAccountVerificationRequestSearchTableComponent > should display account requests with reset button and expandable links buttons 1`] = `
+exports[`AdminAccountVerificationRequestSearchTableComponent > should display account verification requests with reset button and expandable links buttons 1`] = `
 <tm-admin-account-verification-request-search-table
   accountService={[Function _AccountService]}
   accountVerificationRequests={[Function Array]}
@@ -415,7 +415,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
     >
       <div>
         <strong>
-          Account Requests Found
+          Account Verification Requests Found
         </strong>
       </div>
       <div
@@ -533,7 +533,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
               >
                 <div>
                   <button
-                    aria-label="Edit account request"
+                    aria-label="Edit account verification request"
                     class="btn btn-link p-0"
                     id="edit-account-verification-request-0"
                     type="button"
@@ -548,7 +548,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                   placement="top"
                 >
                   <button
-                    aria-label="Delete account request"
+                    aria-label="Delete account verification request"
                     class="btn btn-link p-0"
                     id="delete-account-verification-request-0"
                     type="button"
@@ -560,7 +560,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                 </div>
                 <div>
                   <button
-                    aria-label="View account request"
+                    aria-label="View account verification request"
                     class="btn btn-link p-0"
                     id="view-account-verification-request-0"
                     type="button"
@@ -689,7 +689,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
               >
                 <div>
                   <button
-                    aria-label="Edit account request"
+                    aria-label="Edit account verification request"
                     class="btn btn-link p-0"
                     id="edit-account-verification-request-1"
                     type="button"
@@ -704,7 +704,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                   placement="top"
                 >
                   <button
-                    aria-label="Delete account request"
+                    aria-label="Delete account verification request"
                     class="btn btn-link p-0"
                     id="delete-account-verification-request-1"
                     type="button"
@@ -716,7 +716,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
                 </div>
                 <div>
                   <button
-                    aria-label="View account request"
+                    aria-label="View account verification request"
                     class="btn btn-link p-0"
                     id="view-account-verification-request-1"
                     type="button"
@@ -796,7 +796,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should display ac
 </tm-admin-account-verification-request-search-table>
 `;
 
-exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with an expanded account requests table 1`] = `
+exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with an expanded account verification requests table 1`] = `
 <tm-admin-account-verification-request-search-table
   accountService={[Function _AccountService]}
   accountVerificationRequests={[Function Array]}
@@ -815,7 +815,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with 
     >
       <div>
         <strong>
-          Account Requests Found
+          Account Verification Requests Found
         </strong>
       </div>
       <div
@@ -933,7 +933,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with 
               >
                 <div>
                   <button
-                    aria-label="Edit account request"
+                    aria-label="Edit account verification request"
                     class="btn btn-link p-0"
                     id="edit-account-verification-request-0"
                     type="button"
@@ -948,7 +948,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with 
                   placement="top"
                 >
                   <button
-                    aria-label="Delete account request"
+                    aria-label="Delete account verification request"
                     class="btn btn-link p-0"
                     id="delete-account-verification-request-0"
                     type="button"
@@ -960,7 +960,7 @@ exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with 
                 </div>
                 <div>
                   <button
-                    aria-label="View account request"
+                    aria-label="View account verification request"
                     class="btn btn-link p-0"
                     id="view-account-verification-request-0"
                     type="button"

@@ -30,7 +30,7 @@ public class EmailGeneratorTest extends BaseTestCase {
         new Institute("Jedi Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
         EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT,
-                "TEAMMATES (Action Needed): New Account Request Received",
+                "TEAMMATES (Action Needed): New Account Verification Request Received",
                 "/adminNewAccountVerificationRequestAlertEmailWithComments.html");
     }
 
@@ -41,7 +41,7 @@ public class EmailGeneratorTest extends BaseTestCase {
         new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
         EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAdminAlertEmail(accountVerificationRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT,
-                "TEAMMATES (Action Needed): New Account Request Received",
+                "TEAMMATES (Action Needed): New Account Verification Request Received",
                 "/adminNewAccountVerificationRequestAlertEmailWithNoComments.html");
     }
 
@@ -53,7 +53,7 @@ public class EmailGeneratorTest extends BaseTestCase {
         new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
         EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
         verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
-                "TEAMMATES: Acknowledgement of Instructor Account Request",
+                "TEAMMATES: Acknowledgement of Instructor Account Verification Request",
                 "/instructorNewAccountVerificationRequestAcknowledgementEmailWithComments.html");
     }
 
@@ -64,7 +64,7 @@ public class EmailGeneratorTest extends BaseTestCase {
         new Institute("Sith Order", "SG").addAccountVerificationRequest(accountVerificationRequest);
         EmailWrapper email = emailGenerator.generateNewAccountVerificationRequestAcknowledgementEmail(accountVerificationRequest);
         verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT,
-                "TEAMMATES: Acknowledgement of Instructor Account Request",
+                "TEAMMATES: Acknowledgement of Instructor Account Verification Request",
                 "/instructorNewAccountVerificationRequestAcknowledgementEmailWithNoComments.html");
     }
 
@@ -82,7 +82,7 @@ public class EmailGeneratorTest extends BaseTestCase {
                             .append("  <strong>Reason:</strong> The email address you provided ")
                             .append("is not an 'official' email address provided by your institution.<br />\n")
                             .append("  <strong>Remedy:</strong> ")
-                            .append("Please re-submit an account request with your 'official' institution email address.\n")
+                            .append("Please re-submit an account verification request with your 'official' institution email address.\n")
                             .append("</p>\n\n")
                             .append("<p>If you need further clarification or would like to appeal this decision, ")
                             .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")

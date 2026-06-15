@@ -906,7 +906,7 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates the email to be sent to instructor when their account request has been rejected by admin.
+     * Generates the email to be sent to instructor when their account verification request has been rejected by admin.
      */
     public EmailWrapper generateAccountVerificationRequestRejectionEmail(AccountVerificationRequest accountVerificationRequest, String title, String content) {
         EmailWrapper email = getEmptyEmailAddressedToEmail(accountVerificationRequest.getEmail());

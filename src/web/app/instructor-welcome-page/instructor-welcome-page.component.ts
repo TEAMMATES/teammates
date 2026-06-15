@@ -10,7 +10,7 @@ import { LoadingSpinnerDirective } from '../components/loading-spinner/loading-s
 import { AuthService } from '../../services/auth.service';
 
 /**
- * Instructor welcome page component shown after an account request is approved.
+ * Instructor welcome page component shown after an account verification request is approved.
  */
 @Component({
   selector: 'tm-instructor-welcome-page',

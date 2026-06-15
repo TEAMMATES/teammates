@@ -141,7 +141,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 dataBundle.accountVerificationRequests.forEach((id, accountVerificationRequest) -> {
                     if (!isValidTestEmail(accountVerificationRequest.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account request email: " + accountVerificationRequest.getEmail());
+                                .add("Invalid account verification request email: " + accountVerificationRequest.getEmail());
                     }
                 });
 

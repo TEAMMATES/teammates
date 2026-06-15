@@ -57,11 +57,11 @@ public class CreateDemoCourseAction extends LoggedInAction {
         AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(id);
 
         if (accountVerificationRequest == null) {
-            throw new EntityNotFoundException("Account request with id " + id + " could not be found");
+            throw new EntityNotFoundException("Account verification request with id " + id + " could not be found");
         }
 
         if (accountVerificationRequest.getCreatedDemoCourseAt() != null) {
-            throw new InvalidOperationException("Account request with id " + id + " has already created a demo course.");
+            throw new InvalidOperationException("Account verification request with id " + id + " has already created a demo course.");
         }
 
         String instructorEmail = accountVerificationRequest.getEmail();
@@ -164,7 +164,7 @@ public class CreateDemoCourseAction extends LoggedInAction {
 
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
-        // The demo course is created under the institute associated with the account request.
+        // The demo course is created under the institute associated with the account verification request.
         for (Course course : dataBundle.courses.values()) {
             institute.addCourse(course);
         }

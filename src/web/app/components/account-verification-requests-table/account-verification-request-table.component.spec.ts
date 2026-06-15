@@ -45,10 +45,10 @@ describe('AccountVerificationRequestTableComponent', () => {
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 
-  const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account request for
+  const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account verification request for
         <strong>name</strong> with email <strong>email</strong> from
         <strong>institute</strong>?`;
-  const deleteModalTitle = 'Delete account request for <strong>name</strong>?';
+  const deleteModalTitle = 'Delete account verification request for <strong>name</strong>?';
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -68,7 +68,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with an account requests table', () => {
+  it('should snap with an account verification requests table', () => {
     const accountVerificationRequestResult: AccountVerificationRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
     component.accountVerificationRequests = [accountVerificationRequestResult];
 
@@ -76,7 +76,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display account requests table', () => {
+  it('should display account verification requests table', () => {
     const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
       { ...DEFAULT_ACCOUNT_REQUEST.build(), id: 'id-1' },
       { ...DEFAULT_ACCOUNT_REQUEST.build(), id: 'id-2' },
@@ -87,7 +87,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show success message when deleting account request is successful', () => {
+  it('should show success message when deleting account verification request is successful', () => {
     component.accountVerificationRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
     fixture.detectChanges();
 
@@ -97,17 +97,19 @@ describe('AccountVerificationRequestTableComponent', () => {
 
     vi.spyOn(accountService, 'deleteAccountVerificationRequest').mockReturnValue(
       of({
-        message: 'Account request successfully deleted.',
+        message: 'Account verification request successfully deleted.',
       }),
     );
 
     const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
-        expect(args).toEqual('Account request successfully deleted.');
+        expect(args).toEqual('Account verification request successfully deleted.');
       });
 
-    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-verification-request-0');
+    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#delete-account-verification-request-0',
+    );
     deleteButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -115,7 +117,7 @@ describe('AccountVerificationRequestTableComponent', () => {
     expect(modalSpy).toHaveBeenCalledWith(deleteModalTitle, SimpleModalType.DANGER, deleteModalContent);
   });
 
-  it('should show error message when deleting account request is unsuccessful', () => {
+  it('should show error message when deleting account verification request is unsuccessful', () => {
     component.accountVerificationRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     fixture.detectChanges();
@@ -138,7 +140,9 @@ describe('AccountVerificationRequestTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#delete-account-verification-request-0');
+    const deleteButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#delete-account-verification-request-0',
+    );
     deleteButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
@@ -147,14 +151,18 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should display comment modal', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
 
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
-    const viewCommentButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#view-account-verification-request-0');
+    const viewCommentButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#view-account-verification-request-0',
+    );
     viewCommentButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(
@@ -165,7 +173,9 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should display edit modal when edit button is clicked', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -189,14 +199,18 @@ describe('AccountVerificationRequestTableComponent', () => {
     const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, Promise.resolve(resultData)));
     vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
 
-    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-verification-request-0');
+    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#edit-account-verification-request-0',
+    );
     editButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
   });
 
   it('should display reject modal when reject button is clicked', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -225,7 +239,9 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should display error message when rejection was unsuccessful', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -257,7 +273,9 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should display error message when approval was unsuccessful', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -276,14 +294,18 @@ describe('AccountVerificationRequestTableComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-verification-request-0');
+    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#approve-account-verification-request-0',
+    );
     approveButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
   });
 
   it('should display error message when edit was unsuccessful', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -317,7 +339,9 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should update request when edit is succcessful', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -344,7 +368,9 @@ describe('AccountVerificationRequestTableComponent', () => {
 
     vi.spyOn(accountService, 'editAccountVerificationRequest').mockReturnValue(of(editedAccountVerificationRequest));
 
-    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#edit-account-verification-request-0');
+    const editButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#edit-account-verification-request-0',
+    );
     editButton.click();
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenCalledWith(EditRequestModalComponent);
@@ -357,7 +383,9 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should update status when approval is succcessful', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();
@@ -376,7 +404,9 @@ describe('AccountVerificationRequestTableComponent', () => {
 
     vi.spyOn(accountService, 'approveAccountVerificationRequest').mockReturnValue(of(approvedRequest));
 
-    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector('#approve-account-verification-request-0');
+    const approveButton: HTMLElement = fixture.debugElement.nativeElement.querySelector(
+      '#approve-account-verification-request-0',
+    );
     approveButton.click();
 
     fixture.detectChanges();
@@ -384,7 +414,9 @@ describe('AccountVerificationRequestTableComponent', () => {
   });
 
   it('should update status when rejection is succcessful', () => {
-    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountVerificationRequestResults: AccountVerificationRequestTableRowModel[] = [
+      DEFAULT_ACCOUNT_REQUEST.build(),
+    ];
 
     component.accountVerificationRequests = accountVerificationRequestResults;
     fixture.detectChanges();

@@ -156,7 +156,7 @@ describe('SearchService', () => {
     institute: 'National University of Singapore',
     country: 'SG',
     email: 'jordan.tan@example.edu',
-    comments: 'Account request used for search service tests',
+    comments: 'Account verification request used for search service tests',
     status: AccountVerificationRequestStatus.APPROVED,
   };
 
@@ -195,12 +195,15 @@ describe('SearchService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   });
 
-  it('should execute GET when searching for account requests', () => {
-    service.searchAccountVerificationRequests('Account Request');
+  it('should execute GET when searching for account verification requests', () => {
+    service.searchAccountVerificationRequests('Account Verification Request');
     const paramMap: { [key: string]: string } = {
-      searchkey: 'Account Request',
+      searchkey: 'Account Verification Request',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, paramMap);
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
+      ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS,
+      paramMap,
+    );
   });
 
   it('should join students accurately when calling as admin', () => {
@@ -251,14 +254,15 @@ describe('SearchService', () => {
     expect(result.manageAccountLink).toBe('/web/admin/accounts?accountid=00000000-0000-4000-8000-000000000001');
   });
 
-  it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
+  it('should join account verification requests accurately when timezone can be guessed and instructor is registered', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     const accountVerificationRequest: AccountVerificationRequest = {
       ...mockAccountVerificationRequest,
       createdDemoCourseAt: 1685487897502,
       status: AccountVerificationRequestStatus.APPROVED,
     };
-    const result: AccountVerificationRequestSearchResult = service.joinAdminAccountVerificationRequest(accountVerificationRequest);
+    const result: AccountVerificationRequestSearchResult =
+      service.joinAdminAccountVerificationRequest(accountVerificationRequest);
 
     expect(result.accountVerificationRequestId).toBe('132efa02-b208-4195-a262-a8eae25ceb95');
     expect(result.email).toBe('jordan.tan@example.edu');
@@ -271,9 +275,10 @@ describe('SearchService', () => {
     );
   });
 
-  it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
+  it('should join account verification requests accurately when timezone cannot be guessed and instructor is not registered', () => {
     vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('');
-    const result: AccountVerificationRequestSearchResult = service.joinAdminAccountVerificationRequest(mockAccountVerificationRequest);
+    const result: AccountVerificationRequestSearchResult =
+      service.joinAdminAccountVerificationRequest(mockAccountVerificationRequest);
 
     expect(result.email).toBe('jordan.tan@example.edu');
     expect(result.institute).toBe('National University of Singapore');

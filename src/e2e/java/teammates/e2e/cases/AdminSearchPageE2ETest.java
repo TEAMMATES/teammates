@@ -62,7 +62,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.regenerateInstructorKey(instructor);
         searchPage.verifyRegenerateInstructorKey();
 
-        ______TS("Typical case: Search for account request by email");
+        ______TS("Typical case: Search for account verification request by email");
         searchPage.clearSearchBox();
         searchContent = accountVerificationRequest.getEmail();
         searchPage.inputSearchContent(searchContent);
@@ -77,7 +77,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
-        ______TS("Typical case: Delete account request successful");
+        ______TS("Typical case: Delete account verification request successful");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor1");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -86,7 +86,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickDeleteAccountVerificationRequestButton(accountVerificationRequest);
         assertNull(BACKDOOR.getAccountVerificationRequest(accountVerificationRequest.getId()));
 
-        ______TS("Typical case: Edit account request successful");
+        ______TS("Typical case: Edit account verification request successful");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -100,7 +100,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         accountVerificationRequest.setComments("New comment");
         searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
-        ______TS("Typical case: View comment of account request");
+        ______TS("Typical case: View comment of account verification request");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -108,7 +108,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickSearchButton();
         searchPage.clickViewAccountVerificationRequestAndVerifyCommentsButton(accountVerificationRequest, "New comment");
 
-        ______TS("Edit account request with invalid details");
+        ______TS("Edit account verification request with invalid details");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -139,7 +139,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH);
         searchPage.verifyStatusMessage(formattedErrorMessage);
 
-        ______TS("Typical case: Approve account request successful");
+        ______TS("Typical case: Approve account verification request successful");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor2");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -149,7 +149,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         accountVerificationRequest.setStatus(AccountVerificationRequestStatus.APPROVED);
         searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
-        ______TS("Typical case: Reject account request successfully");
+        ______TS("Typical case: Reject account verification request successfully");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor3");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -159,7 +159,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         accountVerificationRequest.setStatus(AccountVerificationRequestStatus.REJECTED);
         searchPage.verifyAccountVerificationRequestRowContent(accountVerificationRequest);
 
-        ______TS("Reject account request with empty body");
+        ______TS("Reject account verification request with empty body");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor5");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();
@@ -171,7 +171,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyStatusMessage("Please provide an email body for the rejection email.");
         searchPage.closeRejectionModal();
 
-        ______TS("Typical case: Reject account request with reason successfully");
+        ______TS("Typical case: Reject account verification request with reason successfully");
         accountVerificationRequest = testData.accountVerificationRequests.get("unregisteredInstructor4");
         searchContent = accountVerificationRequest.getEmail();
         searchPage.clearSearchBox();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The API output format of a list of account requests.
+ * The API output format of a list of account verification requests.
  */
 public class AccountVerificationRequestsData implements ApiOutput {
 

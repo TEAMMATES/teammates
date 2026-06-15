@@ -52,13 +52,21 @@ export class SearchService {
       this.searchInstructors(searchKey),
       this.searchAccountVerificationRequests(searchKey),
     ]).pipe(
-      map((value: [Students, Instructors, AccountVerificationRequests]): [Student[], Instructor[], AccountVerificationRequest[]] => [
-        value[0].students,
-        value[1].instructors,
-        value[2].accountVerificationRequests,
-      ]),
+      map(
+        (
+          value: [Students, Instructors, AccountVerificationRequests],
+        ): [Student[], Instructor[], AccountVerificationRequest[]] => [
+          value[0].students,
+          value[1].instructors,
+          value[2].accountVerificationRequests,
+        ],
+      ),
       mergeMap((value: [Student[], Instructor[], AccountVerificationRequest[]]) => {
-        const [students, instructors, accountVerificationRequests]: [Student[], Instructor[], AccountVerificationRequest[]] = value;
+        const [students, instructors, accountVerificationRequests]: [
+          Student[],
+          Instructor[],
+          AccountVerificationRequest[],
+        ] = value;
         return forkJoin([
           of(students),
           of(instructors),
@@ -212,11 +220,17 @@ export class SearchService {
     return instructorResult;
   }
 
-  createAccountVerificationRequestSearchResults(accountVerificationRequests: AccountVerificationRequest[]): AccountVerificationRequestSearchResult[] {
-    return accountVerificationRequests.map((accountVerificationRequest: AccountVerificationRequest) => this.joinAdminAccountVerificationRequest(accountVerificationRequest));
+  createAccountVerificationRequestSearchResults(
+    accountVerificationRequests: AccountVerificationRequest[],
+  ): AccountVerificationRequestSearchResult[] {
+    return accountVerificationRequests.map((accountVerificationRequest: AccountVerificationRequest) =>
+      this.joinAdminAccountVerificationRequest(accountVerificationRequest),
+    );
   }
 
-  joinAdminAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequest): AccountVerificationRequestSearchResult {
+  joinAdminAccountVerificationRequest(
+    accountVerificationRequest: AccountVerificationRequest,
+  ): AccountVerificationRequestSearchResult {
     let accountVerificationRequestResult: AccountVerificationRequestSearchResult = {
       accountVerificationRequestId: '',
       name: '',
@@ -250,7 +264,7 @@ export class SearchService {
       : null;
     accountVerificationRequestResult.comments = comments ?? '';
 
-    const registrationLink: string = this.linkService.generateAccountRegistrationLink(accountVerificationRequestId);
+    const registrationLink: string = this.linkService.generateInstructorWelcomeLink(accountVerificationRequestId);
     accountVerificationRequestResult = {
       ...accountVerificationRequestResult,
       accountVerificationRequestId,
@@ -363,7 +377,7 @@ export interface AdminSearchResult {
 }
 
 /**
- * Search results for account requests from the admin endpoint.
+ * Search results for account verification requests from the admin endpoint.
  */
 export interface AccountVerificationRequestSearchResult {
   accountVerificationRequestId: string;

@@ -37,7 +37,7 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
-  it('should execute GET on account request endpoint', () => {
+  it('should execute GET on account verification request endpoint', () => {
     service.getAccountVerificationRequest(id);
     const paramMap: Record<string, string> = {
       id,
@@ -45,7 +45,7 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, paramMap);
   });
 
-  it('should execute POST on account request endpoint', () => {
+  it('should execute POST on account verification request endpoint', () => {
     const testRequest: AccountCreateRequest = {
       instructorEmail: 'testEmail',
       instructorInstitution: 'testInstitution',
@@ -53,7 +53,11 @@ describe('AccountService', () => {
       instructorName: 'testName',
     };
     service.createAccountVerificationRequest(testRequest);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, {}, testRequest);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST,
+      {},
+      testRequest,
+    );
   });
 
   it('should execute DELETE on account endpoint', () => {
@@ -64,7 +68,7 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
-  it('should execute DELETE on account request endpoint', () => {
+  it('should execute DELETE on account verification request endpoint', () => {
     service.deleteAccountVerificationRequest('testId');
     const paramMap: Record<string, string> = {
       id: 'testId',
@@ -80,23 +84,30 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_UNLINK, paramMap);
   });
 
-  it('should execute POST on account request approval endpoint', () => {
+  it('should execute POST on account verification request approval endpoint', () => {
     service.approveAccountVerificationRequest('testId');
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_APPROVE, paramMap);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_APPROVE,
+      paramMap,
+    );
   });
 
-  it('should execute POST on account request rejection endpoint without reason', () => {
+  it('should execute POST on account verification request rejection endpoint without reason', () => {
     service.rejectAccountVerificationRequest('testId');
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT, paramMap, {});
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST_REJECT,
+      paramMap,
+      {},
+    );
   });
 
-  it('should execute POST on account request rejection endpoint with reason', () => {
+  it('should execute POST on account verification request rejection endpoint with reason', () => {
     service.rejectAccountVerificationRequest('testId', 'Title', 'Body');
     const paramMap: Record<string, string> = {
       id: 'testId',
@@ -112,7 +123,7 @@ describe('AccountService', () => {
     );
   });
 
-  it('should execute PUT on account request endpoint for edit', () => {
+  it('should execute PUT on account verification request endpoint for edit', () => {
     const updateRequest: AccountVerificationRequestUpdateRequest = {
       name: 'name',
       email: 'email@email.com',
@@ -125,6 +136,10 @@ describe('AccountService', () => {
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST, paramMap, updateRequest);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_VERIFICATION_REQUEST,
+      paramMap,
+      updateRequest,
+    );
   });
 });

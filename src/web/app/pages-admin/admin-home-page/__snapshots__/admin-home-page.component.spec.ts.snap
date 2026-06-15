@@ -16,7 +16,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
         class="card-header bg-primary text-white"
       >
         <strong>
-          Pending Account Requests
+          Pending Account Verification Requests
         </strong>
       </div>
       <div
@@ -60,7 +60,7 @@ exports[`AdminHomePageComponent > should snap with default view 1`] = `
                 class="text-center"
                 colspan="8"
               >
-                No pending account requests
+                No pending account verification requests
               </td>
             </tr>
           </tbody>

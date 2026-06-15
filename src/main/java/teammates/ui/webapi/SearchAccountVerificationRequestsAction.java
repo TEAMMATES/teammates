@@ -9,7 +9,7 @@ import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.output.AccountVerificationRequestsData;
 
 /**
- * Searches for account requests.
+ * Searches for account verification requests.
  */
 public class SearchAccountVerificationRequestsAction extends AdminOnlyAction {
 

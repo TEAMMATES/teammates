@@ -136,7 +136,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         String uuid = UUID.randomUUID().toString();
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, uuid};
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
+        assertEquals(String.format("Account verification request with id = %s not found", uuid), enfe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -148,7 +148,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accountVerificationRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
-        assertEquals("Account request with id " + accountVerificationRequest.getId()
+        assertEquals("Account verification request with id " + accountVerificationRequest.getId()
                 + " is already approved.", ipe.getMessage());
         verifyNoEmailsSent();
     }

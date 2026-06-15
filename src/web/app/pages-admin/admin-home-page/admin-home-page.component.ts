@@ -29,7 +29,9 @@ export class AdminHomePageComponent implements OnInit {
     this.fetchAccountVerificationRequests();
   }
 
-  private formatAccountVerificationRequests(requests: AccountVerificationRequests): AccountVerificationRequestTableRowModel[] {
+  private formatAccountVerificationRequests(
+    requests: AccountVerificationRequests,
+  ): AccountVerificationRequestTableRowModel[] {
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
     return requests.accountVerificationRequests.map((request) => {
       return {

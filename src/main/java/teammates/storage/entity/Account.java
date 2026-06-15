@@ -165,7 +165,7 @@ public class Account extends BaseEntity {
     }
 
     /**
-     * Add an account request to this account.
+     * Add an account verification request to this account.
      */
     public void addAccountVerificationRequest(AccountVerificationRequest accountVerificationRequest) {
         accountVerificationRequests.add(accountVerificationRequest);

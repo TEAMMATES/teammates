@@ -130,7 +130,7 @@ public final class GivenData {
     }
 
     /**
-     * Creates an account request with default values.
+     * Creates an account verification request with default values.
      */
     public AccountVerificationRequestRef accountVerificationRequest(String alias) {
         return accountVerificationRequest(alias, ar -> {
@@ -138,7 +138,7 @@ public final class GivenData {
     }
 
     /**
-     * Creates an account request and applies the provided options to customize it.
+     * Creates an account verification request and applies the provided options to customize it.
      */
     public AccountVerificationRequestRef accountVerificationRequest(String alias, Consumer<GivenAccountVerificationRequest> options) {
         GivenAccountVerificationRequest accountVerificationRequestData = new GivenAccountVerificationRequest(this, uuid(alias));
@@ -467,7 +467,7 @@ public final class GivenData {
     public record InstituteRef(UUID id, String alias) {}
 
     /**
-     * Reference to an account request created by GivenData.
+     * Reference to an account verification request created by GivenData.
      *
      * @param id generated entity ID
      * @param alias GivenData alias

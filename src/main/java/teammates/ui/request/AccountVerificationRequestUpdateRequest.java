@@ -7,7 +7,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
- * The create request for an account request update request.
+ * The create request for an account verification request update request.
  */
 public class AccountVerificationRequestUpdateRequest extends BasicRequest {
     private String name;

@@ -9,7 +9,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.AccountVerificationRequestData;
 
 /**
- * Gets account request information.
+ * Gets account verification request information.
  */
 public class GetAccountVerificationRequestAction extends LoggedInAction {
 
@@ -26,7 +26,7 @@ public class GetAccountVerificationRequestAction extends LoggedInAction {
         AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(id);
 
         if (accountVerificationRequest == null) {
-            throw new EntityNotFoundException("Account request with id: " + id.toString() + " does not exist.");
+            throw new EntityNotFoundException("Account verification request with id: " + id.toString() + " does not exist.");
         }
 
         AccountVerificationRequestData output = new AccountVerificationRequestData(accountVerificationRequest);

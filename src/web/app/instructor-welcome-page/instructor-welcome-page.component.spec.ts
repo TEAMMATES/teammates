@@ -68,7 +68,7 @@ describe('InstructorWelcomePageComponent', () => {
     expect(component.accountVerificationRequest()).toBeNull();
   });
 
-  it('should show invalid link when account request API call fails', async () => {
+  it('should show invalid link when account verification request API call fails', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(
       throwError(() => ({ error: { message: 'Not found' }, status: 404 })),
@@ -81,7 +81,7 @@ describe('InstructorWelcomePageComponent', () => {
     expect(component.accountVerificationRequest()).toBeNull();
   });
 
-  it('should load account request and show welcome card', async () => {
+  it('should load account verification request and show welcome card', async () => {
     await setup();
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(mockAccountVerificationRequest));
 
@@ -92,9 +92,12 @@ describe('InstructorWelcomePageComponent', () => {
     expect(component.accountVerificationRequest()).toEqual(mockAccountVerificationRequest);
   });
 
-  it('should show invalid link if account request status is pending', async () => {
+  it('should show invalid link if account verification request status is pending', async () => {
     await setup();
-    const pendingRequest: AccountVerificationRequest = { ...mockAccountVerificationRequest, status: AccountVerificationRequestStatus.PENDING };
+    const pendingRequest: AccountVerificationRequest = {
+      ...mockAccountVerificationRequest,
+      status: AccountVerificationRequestStatus.PENDING,
+    };
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(pendingRequest));
 
     fixture.detectChanges();
@@ -104,9 +107,12 @@ describe('InstructorWelcomePageComponent', () => {
     expect(component.accountVerificationRequest()).toBeNull();
   });
 
-  it('should show invalid link if account request status is rejected', async () => {
+  it('should show invalid link if account verification request status is rejected', async () => {
     await setup();
-    const rejectedRequest: AccountVerificationRequest = { ...mockAccountVerificationRequest, status: AccountVerificationRequestStatus.REJECTED };
+    const rejectedRequest: AccountVerificationRequest = {
+      ...mockAccountVerificationRequest,
+      status: AccountVerificationRequestStatus.REJECTED,
+    };
     vi.spyOn(accountService, 'getAccountVerificationRequest').mockReturnValue(of(rejectedRequest));
 
     fixture.detectChanges();

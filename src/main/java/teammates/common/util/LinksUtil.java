@@ -140,7 +140,7 @@ public final class LinksUtil {
     }
 
     /**
-     * Returns the absolute URL for the instructor welcome page for the given account request.
+     * Returns the absolute URL for the instructor welcome page for the given account verification request.
      */
     public static String getInstructorWelcomeUrl(UUID accountVerificationRequestId) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE)

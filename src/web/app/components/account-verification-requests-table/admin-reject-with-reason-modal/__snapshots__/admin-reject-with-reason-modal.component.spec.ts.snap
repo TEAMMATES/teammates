@@ -17,7 +17,7 @@ exports[`RejectWithReasonModal > should show empty title and body 1`] = `
       class="modal-title"
     >
       <div>
-        Reject Account Request for  With Reason
+        Reject Account Verification Request for  With Reason
       </div>
     </h5>
     <button

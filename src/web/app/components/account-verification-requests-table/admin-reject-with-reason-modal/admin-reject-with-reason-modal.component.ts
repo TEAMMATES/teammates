@@ -7,7 +7,7 @@ import { StatusMessageService } from '../../../../services/status-message.servic
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 
 /**
- * Modal to select reject account requests with reason.
+ * Modal to select reject account verification requests with reason.
  */
 @Component({
   selector: 'tm-reject-with-reason-modal',
@@ -41,7 +41,7 @@ export class RejectWithReasonModalComponent implements OnInit {
     'We are unable to create a TEAMMATES instructor account for you.</p>' +
     '<p><strong>Reason:</strong> The email address you provided is not an &#39;official&#39; ' +
     'email address provided by your institution.<br />' +
-    '<strong>Remedy:</strong> Please re-submit an account request with your &#39;official&#39; ' +
+    '<strong>Remedy:</strong> Please re-submit an account verification request with your &#39;official&#39; ' +
     'institution email address.</p>\n\n' +
     '<p><strong>Reason:</strong> The email address you have provided seems like it belongs to a student ' +
     '(i.e., not a staff member) of your institution.<br />' +
@@ -57,7 +57,10 @@ export class RejectWithReasonModalComponent implements OnInit {
   rejectionReasonTitle = 'We are Unable to Create an Account for you';
 
   ngOnInit(): void {
-    this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountVerificationRequestName}', this.accountVerificationRequestName);
+    this.rejectionReasonBody = this.rejectionReasonBody.replace(
+      '{accountVerificationRequestName}',
+      this.accountVerificationRequestName,
+    );
     this.rejectionReasonBody = this.rejectionReasonBody.replaceAll('{supportEmail}', environment.supportEmail);
   }
 

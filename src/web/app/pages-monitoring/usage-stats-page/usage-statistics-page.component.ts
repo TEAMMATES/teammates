@@ -178,7 +178,7 @@ export class UsageStatisticsPageComponent implements OnInit {
           break;
         case StatisticsType.NUM_ACCOUNT_REQUESTS:
           value = statisticsObj.numAccountVerificationRequests;
-          this.itemName = 'account requests';
+          this.itemName = 'account verification requests';
           break;
         default:
           throw new Error('Unexpected statsType');

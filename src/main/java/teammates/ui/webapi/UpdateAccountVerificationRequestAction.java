@@ -13,7 +13,7 @@ import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.request.AccountVerificationRequestUpdateRequest;
 
 /**
- * Updates an account request.
+ * Updates an account verification request.
  */
 public class UpdateAccountVerificationRequestAction extends AdminOnlyAction {
     @Override
@@ -23,7 +23,7 @@ public class UpdateAccountVerificationRequestAction extends AdminOnlyAction {
         AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(accountVerificationRequestId);
 
         if (accountVerificationRequest == null) {
-            String errorMessage = String.format("Account request with id = %s not found", accountVerificationRequestId.toString());
+            String errorMessage = String.format("Account verification request with id = %s not found", accountVerificationRequestId.toString());
             throw new EntityNotFoundException(errorMessage);
         }
 
@@ -36,7 +36,7 @@ public class UpdateAccountVerificationRequestAction extends AdminOnlyAction {
             accountVerificationRequest.setName(accountVerificationRequestUpdateRequest.getName());
             accountVerificationRequest.setEmail(accountVerificationRequestUpdateRequest.getEmail());
             accountVerificationRequest.setInstitute(institute);
-            // This action is for updating the account request details.
+            // This action is for updating the account verification request details.
             // Approval or rejection are handled in their respective actions, so status should not be updated here.
             accountVerificationRequest.setStatus(accountVerificationRequest.getStatus());
             accountVerificationRequest.setComments(accountVerificationRequestUpdateRequest.getComments());

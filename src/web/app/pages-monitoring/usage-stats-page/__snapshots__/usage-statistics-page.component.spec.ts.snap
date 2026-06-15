@@ -233,7 +233,7 @@ exports[`UsageStatisticsPageComponent > should snap with default fields 1`] = `
             <option
               value="4"
             >
-              # of account requests
+              # of account verification requests
             </option>
           </select>
         </div>

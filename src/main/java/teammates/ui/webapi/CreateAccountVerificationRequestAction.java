@@ -11,13 +11,13 @@ import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.request.AccountCreateRequest;
 
 /**
- * Creates a new account request.
+ * Creates a new account verification request.
  */
 public class CreateAccountVerificationRequestAction extends LoggedInAction {
 
     @Override
     void checkSpecificAccessControl() {
-        // Any logged in user can create an account request.
+        // Any logged in user can create an account verification request.
     }
 
     @Override

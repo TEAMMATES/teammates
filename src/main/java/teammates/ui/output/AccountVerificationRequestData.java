@@ -10,7 +10,7 @@ import teammates.common.datatransfer.AccountVerificationRequestStatus;
 import teammates.storage.entity.AccountVerificationRequest;
 
 /**
- * Output format of account request data.
+ * Output format of account verification request data.
  */
 public class AccountVerificationRequestData implements ApiOutput {
     private final UUID accountVerificationRequestId;

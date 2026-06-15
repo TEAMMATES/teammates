@@ -17,7 +17,7 @@ import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
 /**
- * Pending account requests table component for approval workflow.
+ * Pending account verification requests table component for approval workflow.
  */
 @Component({
   selector: 'tm-account-verification-request-table',
@@ -63,7 +63,7 @@ export class AccountVerificationRequestTableComponent {
               accountVerificationRequest.email = resp.email;
               accountVerificationRequest.institute = resp.institute;
               accountVerificationRequest.country = resp.country;
-              this.statusMessageService.showSuccessToast('Account request was successfully updated.');
+              this.statusMessageService.showSuccessToast('Account verification request was successfully updated.');
             },
             error: (resp: ErrorMessageOutput) => {
               this.statusMessageService.showErrorToast(resp.error.message);
@@ -74,13 +74,16 @@ export class AccountVerificationRequestTableComponent {
     );
   }
 
-  approveAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestTableRowModel, index: number): void {
+  approveAccountVerificationRequest(
+    accountVerificationRequest: AccountVerificationRequestTableRowModel,
+    index: number,
+  ): void {
     this.isApprovingAccountVerificationRequest[index] = true;
     this.accountService.approveAccountVerificationRequest(accountVerificationRequest.id).subscribe({
       next: (resp: AccountVerificationRequest) => {
         accountVerificationRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
-          `Account request was successfully approved. Email has been sent to ${accountVerificationRequest.email}.`,
+          `Account verification request was successfully approved. Email has been sent to ${accountVerificationRequest.email}.`,
         );
         this.isApprovingAccountVerificationRequest[index] = false;
       },
@@ -92,11 +95,11 @@ export class AccountVerificationRequestTableComponent {
   }
 
   deleteAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestTableRowModel): void {
-    const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
+    const modalContent = `Are you sure you want to <strong>delete</strong> the account verification request for
         <strong>${accountVerificationRequest.name}</strong> with email <strong>${accountVerificationRequest.email}</strong> from
         <strong>${accountVerificationRequest.institute}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Delete account request for <strong>${accountVerificationRequest.name}</strong>?`,
+      `Delete account verification request for <strong>${accountVerificationRequest.name}</strong>?`,
       SimpleModalType.DANGER,
       modalContent,
     );
@@ -133,12 +136,15 @@ export class AccountVerificationRequestTableComponent {
     );
   }
 
-  rejectAccountVerificationRequest(accountVerificationRequest: AccountVerificationRequestTableRowModel, index: number): void {
+  rejectAccountVerificationRequest(
+    accountVerificationRequest: AccountVerificationRequestTableRowModel,
+    index: number,
+  ): void {
     this.isRejectingAccountVerificationRequest[index] = true;
     this.accountService.rejectAccountVerificationRequest(accountVerificationRequest.id).subscribe({
       next: (resp: AccountVerificationRequest) => {
         accountVerificationRequest.status = resp.status;
-        this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
+        this.statusMessageService.showSuccessToast('Account verification request was successfully rejected.');
         this.isRejectingAccountVerificationRequest[index] = false;
       },
       error: (resp: ErrorMessageOutput) => {
@@ -148,7 +154,10 @@ export class AccountVerificationRequestTableComponent {
     });
   }
 
-  rejectAccountVerificationRequestWithReason(accountVerificationRequest: AccountVerificationRequestTableRowModel, index: number): void {
+  rejectAccountVerificationRequestWithReason(
+    accountVerificationRequest: AccountVerificationRequestTableRowModel,
+    index: number,
+  ): void {
     this.isRejectingAccountVerificationRequest[index] = true;
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountVerificationRequestName = accountVerificationRequest.name;
@@ -161,12 +170,16 @@ export class AccountVerificationRequestTableComponent {
     modalRef.result.then(
       (res: RejectWithReasonModalComponentResult) => {
         this.accountService
-          .rejectAccountVerificationRequest(accountVerificationRequest.id, res.rejectionReasonTitle, res.rejectionReasonBody)
+          .rejectAccountVerificationRequest(
+            accountVerificationRequest.id,
+            res.rejectionReasonTitle,
+            res.rejectionReasonBody,
+          )
           .subscribe({
             next: (resp: AccountVerificationRequest) => {
               accountVerificationRequest.status = resp.status;
               this.statusMessageService.showSuccessToast(
-                `Account request was successfully rejected. Email has been sent to ${accountVerificationRequest.email}.`,
+                `Account verification request was successfully rejected. Email has been sent to ${accountVerificationRequest.email}.`,
               );
               this.isRejectingAccountVerificationRequest[index] = false;
             },

@@ -1,6 +1,6 @@
 <div class="card bg-light top-padded">
   <div class="card-header bg-primary text-white">
-    <strong>Pending Account Requests</strong>
+    <strong>Pending Account Verification Requests</strong>
   </div>
   <div class="table-responsive">
     <table class="table table-striped data-table" id="search-table-account-verification-request">
@@ -17,7 +17,11 @@
         </tr>
       </thead>
       <tbody>
-        @for (accountVerificationRequest of accountVerificationRequests; track accountVerificationRequest.id; let i = $index) {
+        @for (
+          accountVerificationRequest of accountVerificationRequests;
+          track accountVerificationRequest.id;
+          let i = $index
+        ) {
           <tr>
             <td>{{ accountVerificationRequest.name }}</td>
             <td>{{ accountVerificationRequest.email }}</td>
@@ -38,7 +42,7 @@
                     type="button"
                     class="btn btn-link p-0"
                     (click)="$event.stopPropagation(); editAccountVerificationRequest(accountVerificationRequest)"
-                    aria-label="Edit account request"
+                    aria-label="Edit account verification request"
                   >
                     <i class="fa-solid fa-pen"></i>
                   </button>
@@ -47,7 +51,7 @@
                   class="ngb-tooltip-class"
                   [ngbTooltip]="
                     accountVerificationRequest.createdDemoCourseAtText &&
-                    'Account requests of registered instructors cannot be deleted'
+                    'Account verification requests of registered instructors cannot be deleted'
                   "
                   placement="top"
                 >
@@ -56,7 +60,7 @@
                     type="button"
                     class="btn btn-link p-0"
                     (click)="$event.stopPropagation(); deleteAccountVerificationRequest(accountVerificationRequest)"
-                    aria-label="Delete account request"
+                    aria-label="Delete account verification request"
                   >
                     <i class="fa-solid fa-trash"></i>
                   </button>
@@ -67,7 +71,7 @@
                     type="button"
                     class="btn btn-link p-0"
                     (click)="$event.stopPropagation(); viewAccountVerificationRequest(accountVerificationRequest)"
-                    aria-label="View account request"
+                    aria-label="View account verification request"
                   >
                     <i class="fa-solid fa-eye"></i>
                   </button>
@@ -76,7 +80,9 @@
                   id="approve-account-verification-request-{{ i }}"
                   class="btn btn-success"
                   [disabled]="
-                    !accountVerificationRequest.status || accountVerificationRequest.status === 'APPROVED' || isApprovingAccountVerificationRequest[i]
+                    !accountVerificationRequest.status ||
+                    accountVerificationRequest.status === 'APPROVED' ||
+                    isApprovingAccountVerificationRequest[i]
                   "
                   (click)="$event.stopPropagation(); approveAccountVerificationRequest(accountVerificationRequest, i)"
                 >
@@ -107,14 +113,19 @@
                     <button
                       id="reject-request-{{ i }}"
                       class="btn btn-light btn-sm dropdown-item"
-                      (click)="$event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)"
+                      (click)="
+                        $event.stopPropagation(); rejectAccountVerificationRequest(accountVerificationRequest, i)
+                      "
                     >
                       Reject
                     </button>
                     <button
                       id="reject-request-with-reason-{{ i }}"
                       class="btn btn-light btn-sm dropdown-item"
-                      (click)="$event.stopPropagation(); rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)"
+                      (click)="
+                        $event.stopPropagation();
+                        rejectAccountVerificationRequestWithReason(accountVerificationRequest, i)
+                      "
                     >
                       Reject With Reason
                     </button>
@@ -125,7 +136,7 @@
           </tr>
         } @empty {
           <tr>
-            <td colspan="8" class="text-center">No pending account requests</td>
+            <td colspan="8" class="text-center">No pending account verification requests</td>
           </tr>
         }
       </tbody>

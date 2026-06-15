@@ -39,7 +39,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
             .append("  <strong>Reason:</strong> The email address you provided ")
             .append("is not an 'official' email address provided by your institution.<br />\n")
             .append("  <strong>Remedy:</strong> ")
-            .append("Please re-submit an account request with your 'official' institution email address.\n")
+            .append("Please re-submit an account verification request with your 'official' institution email address.\n")
             .append("</p>\n\n")
             .append("<p>If you need further clarification or would like to appeal this decision, ")
             .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")
@@ -180,7 +180,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString()};
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        assertEquals("Account request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
+        assertEquals("Account verification request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
 
         verifyNoEmailsSent();
     }
@@ -202,7 +202,7 @@ public class RejectAccountVerificationRequestActionIT extends BaseActionIT<Rejec
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, uuid};
 
         EntityNotFoundException enfe = verifyEntityNotFound(requestBody, params);
-        assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
+        assertEquals(String.format("Account verification request with id = %s not found", uuid), enfe.getMessage());
         verifyNoEmailsSent();
     }
 

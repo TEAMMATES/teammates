@@ -8,7 +8,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 
 /**
- * The request reasonBody for rejecting an account request.
+ * The request reasonBody for rejecting an account verification request.
  */
 public class AccountVerificationRequestRejectionRequest extends BasicRequest {
     @Nullable

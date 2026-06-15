@@ -9,7 +9,7 @@ import {
 } from '../../../components/searchable-combobox/searchable-combobox.component';
 
 /**
- * Modal to edit account requests.
+ * Modal to edit account verification requests.
  */
 @Component({
   selector: 'tm-edit-request-modal',

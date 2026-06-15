@@ -120,6 +120,8 @@ describe('InstructorRequestFormComponent', () => {
     component.onSubmit();
 
     expect(accountService.createAccountVerificationRequest).toHaveBeenCalledTimes(1);
-    expect(accountService.createAccountVerificationRequest).toHaveBeenCalledWith(expect.objectContaining(typicalCreateRequest));
+    expect(accountService.createAccountVerificationRequest).toHaveBeenCalledWith(
+      expect.objectContaining(typicalCreateRequest),
+    );
   });
 });
