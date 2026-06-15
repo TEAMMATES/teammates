@@ -45,7 +45,7 @@ exports[`AccountRequestTableComponent > should display account requests table 1`
               Country
             </th>
             <th>
-              Created At
+              Submitted At
             </th>
             <th>
               Comments
@@ -332,7 +332,7 @@ exports[`AccountRequestTableComponent > should snap with an account requests tab
               Country
             </th>
             <th>
-              Created At
+              Submitted At
             </th>
             <th>
               Comments

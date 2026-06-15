@@ -67,7 +67,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               Country
             </th>
             <th>
-              Created At
+              Submitted At
             </th>
             <th>
               Demo Course Created At
@@ -463,7 +463,7 @@ exports[`AdminAccountRequestSearchTableComponent > should display account reques
               Country
             </th>
             <th>
-              Created At
+              Submitted At
             </th>
             <th>
               Demo Course Created At
@@ -863,7 +863,7 @@ exports[`AdminAccountRequestSearchTableComponent > should snap with an expanded 
               Country
             </th>
             <th>
-              Created At
+              Submitted At
             </th>
             <th>
               Demo Course Created At
