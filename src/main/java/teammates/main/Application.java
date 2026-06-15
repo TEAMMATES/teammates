@@ -10,6 +10,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
+import teammates.ui.devserverstartuperrorhandlers.DevServerStartupErrorHandler;
 import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
@@ -75,28 +76,28 @@ public final class Application {
         server.setHandler(webapp);
         server.setStopAtShutdown(true);
         server.addEventListener(customLifeCycleListener);
+        webapp.setThrowUnavailableOnStartupException(true);
 
-        server.start();
-        failIfWebAppDidNotStart(server, webapp);
+        try {
+            server.start();
+        } catch (Throwable t) {
+            stopServer(server);
+            DevServerStartupErrorHandler.throwIfHandled(t);
+            // Re-throw if the exception is not recognized as a dev server startup failure.
+            throw t;
+        }
 
         // By using the server.join() the server thread will join with the current thread.
         // See https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#join-- for more details.
         server.join();
     }
 
-    private static void failIfWebAppDidNotStart(Server server, WebAppContext webapp) {
-        if (webapp.isAvailable()) {
-            return;
-        }
-
-        Throwable unavailableException = webapp.getUnavailableException();
+    private static void stopServer(Server server) {
         try {
             server.stop();
         } catch (Exception e) {
             throw new IllegalStateException("Failed to stop server after web application startup failure.", e);
         }
-
-        throw new IllegalStateException("Web application failed to start.", unavailableException);
     }
 
 }

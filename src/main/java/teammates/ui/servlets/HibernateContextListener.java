@@ -14,15 +14,7 @@ public class HibernateContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Invoked by Jetty at application startup.
-        try {
-            HibernateUtil.buildSessionFactory(Config.getDbConnectionUrl(), Config.POSTGRES_USERNAME,
-                    Config.POSTGRES_PASSWORD);
-        } catch (RuntimeException e) {
-            if (Config.IS_DEV_SERVER && SchemaValidationStartupError.isSchemaValidationFailure(e)) {
-                throw SchemaValidationStartupError.handleDevServerStartupFailure(e);
-            }
-            throw e;
-        }
+        HibernateUtil.buildSessionFactory(Config.getDbConnectionUrl(), Config.POSTGRES_USERNAME, Config.POSTGRES_PASSWORD);
     }
 
     @Override
