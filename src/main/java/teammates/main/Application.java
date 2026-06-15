@@ -77,10 +77,26 @@ public final class Application {
         server.addEventListener(customLifeCycleListener);
 
         server.start();
+        failIfWebAppDidNotStart(server, webapp);
 
         // By using the server.join() the server thread will join with the current thread.
         // See https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#join-- for more details.
         server.join();
+    }
+
+    private static void failIfWebAppDidNotStart(Server server, WebAppContext webapp) {
+        if (webapp.isAvailable()) {
+            return;
+        }
+
+        Throwable unavailableException = webapp.getUnavailableException();
+        try {
+            server.stop();
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to stop server after web application startup failure.", e);
+        }
+
+        throw new IllegalStateException("Web application failed to start.", unavailableException);
     }
 
 }
