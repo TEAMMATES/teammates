@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import teammates.common.util.LinksUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 
@@ -17,7 +16,7 @@ public class OngoingSession {
 
     private final UUID feedbackSessionId;
     private final String sessionStatus;
-    private final String instructorHomePageLink;
+    private final UUID accountId;
     private final long startTime;
     private final long endTime;
     private final String creatorEmail;
@@ -27,13 +26,7 @@ public class OngoingSession {
     public OngoingSession(FeedbackSession fs, UUID accountId) {
         this.feedbackSessionId = fs.getId();
         this.sessionStatus = getSessionStatusForShow(fs);
-        String instructorHomePageLinkNullable;
-        if (accountId == null) {
-            instructorHomePageLinkNullable = null;
-        } else {
-            instructorHomePageLinkNullable = LinksUtil.getInstructorHomePageRelativeUrl(accountId);
-        }
-        this.instructorHomePageLink = instructorHomePageLinkNullable;
+        this.accountId = accountId;
         Course course = fs.getCourse();
         this.startTime = fs.getStartTime().toEpochMilli();
         this.endTime = fs.getEndTime().toEpochMilli();
@@ -74,8 +67,8 @@ public class OngoingSession {
         return sessionStatus;
     }
 
-    public String getInstructorHomePageLink() {
-        return instructorHomePageLink;
+    public UUID getAccountId() {
+        return accountId;
     }
 
     public long getStartTime() {

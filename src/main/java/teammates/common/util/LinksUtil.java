@@ -148,19 +148,4 @@ public final class LinksUtil {
                 .toAbsoluteString();
     }
 
-    // -------------------------------------------------------------------------
-    // Relative URLs
-    // -------------------------------------------------------------------------
-
-    /**
-     * Returns a relative URL for the instructor home page with a masquerade account parameter.
-     *
-     * <p>Returns a relative URL (not absolute) for embedding in response objects where
-     * the frontend router expects a path-only value.
-     */
-    public static String getInstructorHomePageRelativeUrl(UUID masqueradeAccountId) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withMasqueradeAccount(masqueradeAccountId)
-                .toString();
-    }
 }
