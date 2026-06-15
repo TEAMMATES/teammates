@@ -66,8 +66,8 @@ public final class AccountsLogic {
      * Gets an account by auth identity.
      */
     public Account getAccountForAuthIdentity(Provider provider, String subject, @Nullable String tenantId) {
-        assert provider != null;
-        assert subject != null;
+        Objects.requireNonNull(provider);
+        Objects.requireNonNull(subject);
 
         return accountsDb.getAccountByAuthIdentity(provider, subject, tenantId);
     }
