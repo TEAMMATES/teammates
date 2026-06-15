@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 public final class DevServerStartupErrorHandlerFactory {
 
-    static final List<Class<? extends StartupErrorHandler>> ERROR_HANDLER_MAPPINGS = new ArrayList<>();
+    private static final List<Class<? extends StartupErrorHandler>> ERROR_HANDLERS = new ArrayList<>();
 
     static {
         map(SchemaValidationStartupErrorHandler.class);
@@ -20,14 +20,14 @@ public final class DevServerStartupErrorHandlerFactory {
     }
 
     private static void map(Class<? extends StartupErrorHandler> errorHandlerClass) {
-        ERROR_HANDLER_MAPPINGS.add(errorHandlerClass);
+        ERROR_HANDLERS.add(errorHandlerClass);
     }
 
     /**
      * Returns the matching {@link StartupErrorHandler} for the startup error.
      */
     public static Optional<StartupErrorHandler> getHandler(Throwable t) {
-        return ERROR_HANDLER_MAPPINGS.stream()
+        return ERROR_HANDLERS.stream()
                 .map(DevServerStartupErrorHandlerFactory::instantiate)
                 .filter(handler -> handler.canHandle(t))
                 .findFirst();
