@@ -16,7 +16,16 @@
       "subject": "ihome.instructor.tmms@gmail.tmt"
     }
   },
-  "accountVerificationRequests": {},
+  "accountVerificationRequests": {
+    "IHome.instr.avr": {
+      "id": "00000000-0000-4000-8000-000000001001",
+      "name": "Teammates Test",
+      "email": "ihome.instructor.tmms@gmail.tmt",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
+      "status": "APPROVED",
+      "accountId": "00000000-0000-4000-8000-000000000001"
+    }
+  },
   "courses": {
     "IHome.CS2104": {
       "id": "tm.e2e.IHome.CS2104",

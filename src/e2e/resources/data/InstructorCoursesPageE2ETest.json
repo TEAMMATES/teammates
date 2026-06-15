@@ -32,6 +32,16 @@
       "subject": "ics.student2@gmail.tmt"
     }
   },
+  "accountVerificationRequests": {
+    "ICs.instructor.avr": {
+      "id": "00000000-0000-4000-8000-000000000701",
+      "name": "Teammates Demo Instr",
+      "email": "ics.instructor@gmail.tmt",
+      "instituteId": "00000000-0000-4000-9000-000000000001",
+      "status": "APPROVED",
+      "accountId": "00000000-0000-4000-8000-000000000001"
+    }
+  },
   "courses": {
     "ICs.CS2105": {
       "id": "tm.e2e.ICs.CS2105",

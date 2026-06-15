@@ -128,29 +128,18 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should set newCourseInstitute if institutes array is not empty', () => {
-    const testCourses: Course[] = [
+    component.institutes = [
       {
-        courseId: 'testId1',
-        courseName: 'testCourse1',
-        timeZone: 'Asia/Singapore',
-        institute: 'Institute 1',
+        id: 'institute-id-1',
+        name: 'Institute 1',
         country: 'SG',
-        instituteId: 'institute-id-1',
-        creationTimestamp: 1000000000000,
-        deletionTimestamp: 1500000000000,
       },
       {
-        courseId: 'testId2',
-        courseName: 'testCourse2',
-        timeZone: 'Asia/Singapore',
-        institute: 'Institute 2',
+        id: 'institute-id-2',
+        name: 'Institute 2',
         country: 'SG',
-        instituteId: 'institute-id-2',
-        creationTimestamp: 1000000000000,
-        deletionTimestamp: 1500000000000,
       },
     ];
-    component.allCourses = testCourses;
     component.ngOnInit();
 
     expect(component.newCourseInstituteId).toBe('institute-id-1');

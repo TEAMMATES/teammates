@@ -6,6 +6,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -17,6 +18,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -39,6 +41,7 @@ exports[`InstructorHomePageComponent > should snap when courses are still loadin
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -85,6 +88,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -96,6 +100,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -118,6 +123,7 @@ exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -164,6 +170,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -175,6 +182,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -197,6 +205,7 @@ exports[`InstructorHomePageComponent > should snap with one course with error lo
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -310,6 +319,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -321,6 +331,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -343,6 +354,7 @@ exports[`InstructorHomePageComponent > should snap with one course with one feed
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -902,6 +914,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -913,6 +926,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -935,6 +949,7 @@ exports[`InstructorHomePageComponent > should snap with one course with two feed
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -1651,6 +1666,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -1662,6 +1678,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -1684,6 +1701,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unexpand
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -1937,6 +1955,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -1948,6 +1967,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -1970,6 +1990,7 @@ exports[`InstructorHomePageComponent > should snap with one course with unpopula
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home
@@ -2223,6 +2244,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   copyProgressPercentage="0"
   courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
@@ -2234,6 +2256,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
+  instituteService={[Function _InstituteService]}
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function _InstructorService]}
   isCopyLoading="false"
@@ -2256,6 +2279,7 @@ exports[`InstructorHomePageComponent > should snap with one course without feedb
   tableComparatorService={[Function _TableComparatorService]}
   timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
+  verifiedInstitutes={[Function Array]}
 >
   <h1>
     Home

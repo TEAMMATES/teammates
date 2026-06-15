@@ -10,6 +10,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -21,6 +22,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
   deletedTableSortOrder={[Function Number]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
+  instituteService={[Function _InstituteService]}
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
   isLoadingCourses={[Function Boolean]}
@@ -172,7 +174,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
               >
                 <span
                   class="ngb-tooltip-class"
-                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  ngbtooltip="Your account must be verified for an institution before you can create courses for it."
                 >
                    Course institute: 
                 </span>
@@ -3279,6 +3281,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   canDeleteAll="false"
   canRestoreAll="false"
   copyProgressPercentage="0"
@@ -3290,6 +3293,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
   deletedTableSortOrder={[Function Number]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
+  instituteService={[Function _InstituteService]}
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
   isLoadingCourses="false"
@@ -3440,7 +3444,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
               >
                 <span
                   class="ngb-tooltip-class"
-                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  ngbtooltip="Your account must be verified for an institution before you can create courses for it."
                 >
                    Course institute: 
                 </span>
@@ -7032,6 +7036,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -7043,6 +7048,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
   deletedTableSortOrder={[Function Number]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
+  instituteService={[Function _InstituteService]}
   isAddNewCourseFormExpanded={[Function Boolean]}
   isCopyingCourse="false"
   isLoadingCourses="false"
@@ -7195,7 +7201,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
               >
                 <span
                   class="ngb-tooltip-class"
-                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  ngbtooltip="Your account must be verified for an institution before you can create courses for it."
                 >
                    Course institute: 
                 </span>
@@ -10288,6 +10294,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -10299,6 +10306,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
   deletedTableSortOrder={[Function Number]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
+  instituteService={[Function _InstituteService]}
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
   isLoadingCourses="false"
@@ -10449,7 +10457,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
               >
                 <span
                   class="ngb-tooltip-class"
-                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  ngbtooltip="Your account must be verified for an institution before you can create courses for it."
                 >
                    Course institute: 
                 </span>
@@ -14045,6 +14053,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -14056,6 +14065,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
   deletedTableSortOrder={[Function Number]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
+  instituteService={[Function _InstituteService]}
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
   isLoadingCourses={[Function Boolean]}
@@ -14207,7 +14217,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
               >
                 <span
                   class="ngb-tooltip-class"
-                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  ngbtooltip="Your account must be verified for an institution before you can create courses for it."
                 >
                    Course institute: 
                 </span>
@@ -17314,6 +17324,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
   activeTableSortBy={[Function Number]}
   activeTableSortOrder={[Function Number]}
   allCoursesList={[Function Array]}
+  authService={[Function _AuthService]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   copyProgressPercentage="0"
@@ -17325,6 +17336,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
   deletedTableSortOrder={[Function Number]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
+  instituteService={[Function _InstituteService]}
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
   isLoadingCourses="false"
@@ -17475,7 +17487,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
               >
                 <span
                   class="ngb-tooltip-class"
-                  ngbtooltip="Note that you can only create a new course under an institute in which you are already a course co-owner."
+                  ngbtooltip="Your account must be verified for an institution before you can create courses for it."
                 >
                    Course institute: 
                 </span>
