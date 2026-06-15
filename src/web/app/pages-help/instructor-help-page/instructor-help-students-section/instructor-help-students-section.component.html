@@ -89,7 +89,11 @@
       team in all existing sessions in the course.
     </p>
     <tm-example-box [ngbCollapse]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]">
-      <tm-instructor-course-student-edit-page [isEnabled]="false"></tm-instructor-course-student-edit-page>
+      <tm-instructor-course-student-edit-page
+        [isEnabled]="false"
+        courseId=""
+        userId=""
+      ></tm-instructor-course-student-edit-page>
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->

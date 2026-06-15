@@ -1,5 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
@@ -51,17 +50,16 @@ interface SessionTab {
   providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
   private tableComparatorService = inject(TableComparatorService);
   private statusMessageService = inject(StatusMessageService);
   private commentService = inject(InstructorCommentService);
 
-  courseId = '';
+  @Input({ required: true }) courseId!: string;
+  @Input({ required: true }) userId!: string;
   studentName = '';
   studentEmail = '';
-  studentId = '';
   studentTeam = '';
 
   sessionTabs: SessionTab[] = [];
@@ -71,17 +69,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe({
-      next: (queryParams: Params) => {
-        this.courseId = queryParams['courseid'];
-        this.studentId = queryParams['userid'];
-
-        this.loadStudentResults(this.courseId, this.studentId);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.loadStudentResults(this.courseId, this.userId);
   }
 
   /**

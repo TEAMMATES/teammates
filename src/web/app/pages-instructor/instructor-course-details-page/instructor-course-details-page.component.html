@@ -102,9 +102,7 @@
       <div class="alert alert-warning">
         <i class="fa fa-exclamation-circle text-muted"></i>
         There are no students in this course. Click
-        <a tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{ courseid: courseDetails.course.courseId }"
-          >here</a
-        >
+        <a [tmRouterLink]="['/web/instructor/courses', courseDetails.course.courseId, 'enroll']">here</a>
         to enroll students.
       </div>
     } @else {

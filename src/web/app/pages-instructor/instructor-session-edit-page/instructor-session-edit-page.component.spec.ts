@@ -744,9 +744,8 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2View.course);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith(
-      '/web/instructor/sessions/edit',
+      '/web/instructor/sessions/fbd91470-8378-4b43-9f82-0b81fb2e9f1b/edit',
       'The feedback session has been copied. Please modify settings/questions as necessary.',
-      { fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b' },
     );
   });
 

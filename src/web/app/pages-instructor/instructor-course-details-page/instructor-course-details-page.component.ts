@@ -1,5 +1,4 @@
-import { Component, OnInit, TemplateRef, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -58,7 +57,6 @@ interface StudentIndexedData {
   ],
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private statusMessageService = inject(StatusMessageService);
   private courseService = inject(CourseService);
   private fileSaveService = inject(FileSaveService);
@@ -94,13 +92,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   hasLoadingStudentsFailed = false;
   isDeleting = false;
 
+  @Input({ required: true }) courseId!: string;
+
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.loadCourseDetails(queryParams['courseid']);
-    });
+    this.loadCourseDetails(this.courseId);
   }
 
   /**

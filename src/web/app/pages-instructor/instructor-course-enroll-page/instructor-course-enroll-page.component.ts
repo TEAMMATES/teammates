@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, inject, viewChild } from '@angular/core';
 import { type CellValue } from 'handsontable/common';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
@@ -49,7 +48,6 @@ interface EnrollResultPanel {
   ],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly statusMessageService = inject(StatusMessageService);
   private readonly feedbackSessionService = inject(FeedbackSessionsService);
   private readonly studentService = inject(StudentService);
@@ -72,7 +70,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus!: typeof EnrollStatus;
-  courseId = '';
+  @Input({ required: true }) courseId!: string;
   coursePresent?: boolean;
   isLoadingCourseEnrollPage = false;
   showEnrollResults?: boolean = false;
@@ -103,10 +101,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
-      this.getCourseEnrollPageData(queryParams['courseid']);
-    });
+    this.getCourseEnrollPageData(this.courseId);
   }
 
   private mapStudentsToRows(students: Student[] | undefined): string[][] {
@@ -571,7 +566,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.feedbackSessionService.hasResponsesForAllFeedbackSessionsInCourse(courseid, 'instructor').subscribe({
       next: (resp: HasResponses) => {
         this.coursePresent = true;
-        this.courseId = courseid;
         if (resp.hasResponsesBySession === undefined) {
           return;
         }

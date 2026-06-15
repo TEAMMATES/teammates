@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -91,7 +90,6 @@ interface InstructorEditPanelDetail {
   ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly navigationService = inject(NavigationService);
   private readonly studentService = inject(StudentService);
   private readonly instructorService = inject(InstructorService);
@@ -108,7 +106,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   Sections!: typeof Sections;
   CourseEditFormMode!: typeof CourseEditFormMode;
 
-  courseId = '';
+  @Input({ required: true }) courseId!: string;
   authInfo: AuthInfo | null = null;
   currInstructorCoursePrivilege?: InstructorCoursePermissions;
 
@@ -141,30 +139,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
+    this.loadCourseInfo();
+    this.loadCurrInstructorInfo();
 
-      this.loadCourseInfo();
-      this.loadCurrInstructorInfo();
+    // load all section and session name
+    forkJoin([
+      this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
+      this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+    ]).subscribe((vals) => {
+      const students: Students = vals[0];
+      const sessions: FeedbackSessions = vals[1];
 
-      // load all section and session name
-      forkJoin([
-        this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
-        this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ]).subscribe((vals) => {
-        const students: Students = vals[0];
-        const sessions: FeedbackSessions = vals[1];
+      this.allSections = Array.from(
+        new Map(students.students.map((s: Student) => [s.sectionId, s.sectionName])).entries(),
+      ).map(([id, name]) => ({ id, name }));
+      this.allSessions = sessions.feedbackSessions.map((sv: FeedbackSessionView) => ({
+        id: sv.feedbackSession.feedbackSessionId,
+        name: sv.feedbackSession.feedbackSessionName,
+      }));
 
-        this.allSections = Array.from(
-          new Map(students.students.map((s: Student) => [s.sectionId, s.sectionName])).entries(),
-        ).map(([id, name]) => ({ id, name }));
-        this.allSessions = sessions.feedbackSessions.map((sv: FeedbackSessionView) => ({
-          id: sv.feedbackSession.feedbackSessionId,
-          name: sv.feedbackSession.feedbackSessionName,
-        }));
-
-        this.loadCourseInstructors();
-      });
+      this.loadCourseInstructors();
     });
   }
 

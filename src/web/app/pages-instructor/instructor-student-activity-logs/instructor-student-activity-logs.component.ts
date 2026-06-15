@@ -1,7 +1,6 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
 import moment from 'moment-timezone';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -78,7 +77,6 @@ interface FeedbackSessionLogModel {
   ],
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly courseService = inject(CourseService);
   private readonly feedbackSessionsService = inject(FeedbackSessionsService);
   private readonly studentService = inject(StudentService);
@@ -128,11 +126,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     this.SortBy = SortBy;
   }
 
+  @Input({ required: true }) courseId!: string;
+
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      const courseId = queryParams['courseid'];
-      this.loadData(courseId);
-    });
+    this.loadData(this.courseId);
   }
 
   /**

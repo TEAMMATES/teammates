@@ -17,7 +17,7 @@
             </a>
           }
           @if (!isDisplayOnly) {
-            <a tmRouterLink="/web/instructor/courses/details" [queryParams]="{ courseid: student?.courseId }">
+            <a [tmRouterLink]="['/web/instructor/courses', student?.courseId, 'details']">
               <span>{{ student?.courseId }}</span>
             </a>
           }

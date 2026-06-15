@@ -10,7 +10,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'accounts',
+    path: 'accounts/:accountId',
     loadComponent: () =>
       import('./admin-accounts-page/admin-accounts-page.component').then((m) => m.AdminAccountsPageComponent),
     data: {

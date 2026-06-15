@@ -1,5 +1,5 @@
 <h1>Feedback Session Results</h1>
-@if (previewAsPerson) {
+@if (previewAs) {
   <div class="bg-light">
     <div class="col-12 text-center text-break">
       <h4>
@@ -31,7 +31,7 @@
     </div>
   </div>
 }
-@if (regKey) {
+@if (key) {
   <div class="row">
     <div class="col-12">
       <div class="alert alert-primary" role="alert">
@@ -130,8 +130,8 @@
         [questions]="questions"
         [session]="session"
         [intent]="intent"
-        [regKey]="regKey"
-        [previewAsPerson]="previewAsPerson"
+        [regKey]="key"
+        [previewAsPerson]="previewAs"
       ></tm-question-response-panel>
     </div>
   </tm-loading-retry>

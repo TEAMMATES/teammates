@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -33,7 +32,6 @@ import { noWhitespaceValidator } from '../../validators/no-whitespace.validator'
   imports: [LoadingRetryComponent, LoadingSpinnerDirective, FormsModule, ReactiveFormsModule, NgClass],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
   private statusMessageService = inject(StatusMessageService);
   private studentService = inject(StudentService);
   private navigationService = inject(NavigationService);
@@ -46,8 +44,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   readonly EMAIL_MAX_LENGTH!: number;
 
   @Input() isEnabled = true;
-  courseId = '';
-  studentId = '';
+  @Input({ required: true }) courseId!: string;
+  @Input({ required: true }) userId!: string;
   student!: Student;
 
   isTeamnameFieldChanged = false;
@@ -87,11 +85,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       return;
     }
 
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.courseId = queryParams['courseid'];
-      this.studentId = queryParams['userid'];
-      this.loadStudentEditDetails(queryParams['userid']);
-    });
+    this.loadStudentEditDetails(this.userId);
   }
 
   ngOnDestroy(): void {
@@ -247,9 +241,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       )
       .subscribe({
         next: (resp: MessageOutput) => {
-          this.navigationService.navigateWithSuccessMessage('/web/instructor/courses/details', resp.message, {
-            courseid: this.courseId,
-          });
+          this.navigationService.navigateWithSuccessMessage(
+            `/web/instructor/courses/${this.courseId}/details`,
+            resp.message,
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

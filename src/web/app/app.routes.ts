@@ -30,7 +30,7 @@ const routes: Routes = [
         canActivateChild: [RoleGuard],
       },
       {
-        path: 'instructor-welcome',
+        path: 'instructor-welcome/:accountVerificationRequestId',
         component: PageComponent,
         children: [
           {
@@ -49,7 +49,7 @@ const routes: Routes = [
         component: PageComponent,
         children: [
           {
-            path: 'result',
+            path: ':feedbackSessionId/result',
             loadComponent: () =>
               import('./pages-session/session-result-page/session-result-page.component').then(
                 (m) => m.SessionResultPageComponent,
@@ -59,7 +59,7 @@ const routes: Routes = [
             },
           },
           {
-            path: 'submission',
+            path: ':feedbackSessionId/submission',
             loadComponent: () =>
               import('./pages-session/session-submission-page/session-submission-page.component').then(
                 (m) => m.SessionSubmissionPageComponent,

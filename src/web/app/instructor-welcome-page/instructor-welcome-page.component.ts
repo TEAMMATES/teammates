@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject, signal } from '@angular/core';
 import { AccountService } from '../../services/account.service';
 import { CourseService } from '../../services/course.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -19,12 +18,13 @@ import { AuthService } from '../../services/auth.service';
   imports: [LoadingSpinnerDirective],
 })
 export class InstructorWelcomePageComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
   private readonly accountService = inject(AccountService);
   private readonly courseService = inject(CourseService);
   private readonly navigationService = inject(NavigationService);
   private readonly timezoneService = inject(TimezoneService);
+
+  @Input({ required: true }) accountVerificationRequestId!: string;
 
   readonly isLoading = signal(true);
   readonly accountVerificationRequest = signal<AccountVerificationRequest | null>(null);
@@ -32,7 +32,7 @@ export class InstructorWelcomePageComponent implements OnInit {
   readonly isCreatingCourse = signal(false);
 
   ngOnInit(): void {
-    const accountVerificationRequestId = this.route.snapshot.queryParamMap.get('accountVerificationRequestId');
+    const accountVerificationRequestId: string = this.accountVerificationRequestId;
 
     if (!accountVerificationRequestId) {
       this.isInvalidLink.set(true);

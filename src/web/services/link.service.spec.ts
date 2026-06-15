@@ -32,7 +32,7 @@ describe('Link Service', () => {
 
   it('should generate the instructor welcome link', () => {
     expect(service.generateInstructorWelcomeLink('student-key-001')).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome?accountVerificationRequestId=student-key-001`,
+      `${globalThis.location.origin}/web/instructor-welcome/student-key-001`,
     );
   });
 
@@ -43,15 +43,12 @@ describe('Link Service', () => {
   });
 
   it('should generate the manage account link', () => {
-    expect(service.generateManageAccountLink('account 123', '/manage-account')).toBe(
-      '/web/manage-account?accountid=account%20123',
-    );
+    expect(service.generateManageAccountLink('account 123', '/manage-account')).toBe('/web/admin/accounts/account 123');
   });
 
   it('should generate the student profile page link', () => {
     expect(service.generateProfilePageLink(mockStudent, 'account-admin-01')).toBe(
-      '/web/instructor/courses/student/details?courseid=cs1010-demo&userid=student-alice' +
-        '&masqueradeaccountid=account-admin-01',
+      '/web/instructor/courses/cs1010-demo/students/student-alice/details?masqueradeaccountid=account-admin-01',
     );
   });
 

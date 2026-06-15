@@ -79,7 +79,8 @@ public class AppUrl {
     }
 
     public AppUrl withAccountId(UUID accountId) {
-        return withParam(Const.ParamsNames.ACCOUNT_ID, accountId.toString());
+        String newPath = relativeUrl.replace("{accountId}", accountId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withMasqueradeAccount(UUID accountId) {
@@ -95,15 +96,23 @@ public class AppUrl {
     }
 
     public AppUrl withCourseId(String courseId) {
-        return withParam(Const.ParamsNames.COURSE_ID, courseId);
+        String newPath = relativeUrl.replace("{courseId}", courseId);
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withFeedbackSessionId(UUID feedbackSessionId) {
-        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId.toString());
+        String newPath = relativeUrl.replace("{feedbackSessionId}", feedbackSessionId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withUserId(UUID userId) {
-        return withParam(Const.ParamsNames.USER_ID, userId.toString());
+        String newPath = relativeUrl.replace("{userId}", userId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
+    }
+
+    public AppUrl withAccountVerificationRequestId(UUID accountVerificationRequestId) {
+        String newPath = relativeUrl.replace("{accountVerificationRequestId}", accountVerificationRequestId.toString());
+        return new AppUrl(baseUrl, newPath, initialQuery, additionalParams);
     }
 
     public AppUrl withEntityType(String entityType) {
