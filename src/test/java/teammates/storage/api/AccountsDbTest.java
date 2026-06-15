@@ -81,6 +81,42 @@ public class AccountsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
+    public void upsertAccount_accountDoesNotExist_accountIsInserted() {
+        var accountId = given.uuid("account");
+        Account account = buildDefaultAccount(accountId);
+
+        Account actual = inTransaction(() -> accountsDb.upsertAccount(account));
+
+        assertEquals(accountId, actual.getId());
+        verifyPresentInDatabase(Account.class, accountId);
+    }
+
+    @Test(groups = GroupNames.DB)
+    public void upsertAccount_accountExists_returnsExistingAccount() {
+        var existingAccount = given.account("account", a -> a
+                .googleId("original-google-id")
+                .email("original@example.com")
+                .authIdentity(Provider.TEAMMATES_DEV, "shared-subject", null));
+        persistGivenData(given);
+
+        Account updatedAccount = new Account(
+                "updated-google-id",
+                Provider.TEAMMATES_DEV,
+                "shared-subject",
+                null,
+                "Updated Name",
+                "updated@example.com");
+
+        Account actual = inTransaction(() -> accountsDb.upsertAccount(updatedAccount));
+
+        assertEquals(existingAccount.id(), actual.getId());
+        assertEquals("updated-google-id", actual.getGoogleId());
+        assertEquals("updated@example.com", actual.getEmail());
+        assertEquals("Updated Name", actual.getName());
+        assertEquals(Account.NO_TENANT, actual.getTenantId());
+    }
+
+    @Test(groups = GroupNames.DB)
     public void persistAccount_accountIsNew_accountIsPersisted() {
         var accountId = given.uuid("account");
         Account account = buildDefaultAccount(accountId);

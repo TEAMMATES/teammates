@@ -33,6 +33,8 @@ import teammates.common.util.SanitizationHelper;
         }
 )
 public class Account extends BaseEntity {
+    public static final String NO_TENANT = "__NO_TENANT__";
+
     @Id
     private UUID id;
 
@@ -43,7 +45,7 @@ public class Account extends BaseEntity {
     @Column(nullable = false)
     private String subject;
 
-    @Column
+    @Column(nullable = false)
     private String tenantId;
 
     @NaturalId
@@ -121,7 +123,12 @@ public class Account extends BaseEntity {
     }
 
     public void setTenantId(String tenantId) {
-        this.tenantId = SanitizationHelper.sanitizeTenantId(tenantId);
+        this.tenantId = normalizeTenantId(tenantId);
+    }
+
+    public static String normalizeTenantId(String tenantId) {
+        String sanitizedTenantId = SanitizationHelper.sanitizeTenantId(tenantId);
+        return sanitizedTenantId == null ? NO_TENANT : sanitizedTenantId;
     }
 
     public String getGoogleId() {
