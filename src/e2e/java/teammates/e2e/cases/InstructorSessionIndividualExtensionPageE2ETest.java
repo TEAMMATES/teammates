@@ -26,6 +26,9 @@ import teammates.ui.output.DeadlineExtensionsData;
  */
 public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETestCase {
     private Instructor instructor;
+    private Instructor instructorWithExtension;
+    private Student alice;
+    private Student charlie;
     private FeedbackSession feedbackSession;
     private Map<String, User> users;
     private Collection<Student> students;
@@ -37,6 +40,9 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
                 loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json"));
 
         instructor = testData.instructors.get("ISesIe.instructor1");
+        instructorWithExtension = testData.instructors.get("ISesIe.instructor1");
+        alice = testData.students.get("alice.tmms@ISesIe.CS2104");
+        charlie = testData.students.get("charlie.tmms@ISesIe.CS2104");
         feedbackSession = testData.feedbackSessions.get("firstSession");
         students = testData.students.values();
         instructors = testData.instructors.values();
@@ -74,8 +80,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         Map<UUID, Long> updatedDeadlines = updatedExtensionsData.getUserDeadlines();
         Instant expectedDeadline = feedbackSession.getEndTime().plus(Duration.ofHours(12));
 
-        verifyUpdatedDeadlinesMap(updatedDeadlines, "alice.tmms@gmail.tmt",
-                "charlie.tmms@gmail.tmt", "instructor1.tmms@gmail.tmt");
+        verifyUpdatedDeadlinesMap(updatedDeadlines, alice.getEmail(),
+                charlie.getEmail(), instructorWithExtension.getEmail());
         verifyDeadlineExtensionsUpdated(updatedDeadlines, expectedDeadline);
 
         ______TS("verify updated some deadlines, notifyUsers enabled");
@@ -92,8 +98,8 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
                 getDeadlineExtensions(feedbackSession.getId());
         updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        verifyUpdatedDeadlinesMap(updatedDeadlines, "alice.tmms@gmail.tmt",
-                "charlie.tmms@gmail.tmt", "instructor1.tmms@gmail.tmt");
+        verifyUpdatedDeadlinesMap(updatedDeadlines, alice.getEmail(),
+                charlie.getEmail(), instructorWithExtension.getEmail());
         verifyDeadlineExtensionsUpdated(updatedDeadlines, expectedDeadline);
 
         ______TS("verify delete some deadlines, notifyUsers enabled");
