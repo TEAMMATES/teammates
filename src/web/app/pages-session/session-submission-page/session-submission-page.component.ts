@@ -352,10 +352,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
         key: this.regKey,
-        moderatedPerson: this.moderatedPerson,
-        previewAs: this.previewAsPerson,
       })
       .pipe(
         tap((feedbackSessionView) => {

@@ -191,7 +191,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackSessionView: FeedbackSessionView) => {

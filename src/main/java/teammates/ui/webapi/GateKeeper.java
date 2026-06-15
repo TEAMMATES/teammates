@@ -95,6 +95,22 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the user is a member (student or instructor) of the specified course.
+     */
+    void verifyUserInCourse(RequestContext requestContext, String courseId)
+            throws UnauthorizedAccessException {
+        Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
+        if (student != null && student.getCourseId().equals(courseId)) {
+            return;
+        }
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        if (instructor != null && instructor.getCourseId().equals(courseId)) {
+            return;
+        }
+        throw new UnauthorizedAccessException("User is not a member of course [" + courseId + "]");
+    }
+
+    /**
      * Verifies that the user has instructor privileges in the specified course.
      */
     void verifyInstructorInCourse(RequestContext requestContext, String courseId)
@@ -213,6 +229,39 @@ final class GateKeeper {
         FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         verifyNotNull(feedbackQuestion, "feedback question");
         verifyInstructorInCourse(requestContext, feedbackQuestion.getCourseId());
+    }
+
+    /**
+     * Verifies that the user can access the specified feedback session.
+     *
+     * <p>The user must be a course member (student or instructor) or admin. Instructors with CAN_VIEW_SESSION
+     * privilege may access regardless of session visibility; all others require the session to be visible.
+     */
+    void verifyFeedbackSessionAccessible(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        String courseId = feedbackSession.getCourseId();
+
+        verifyUserInCourse(requestContext, courseId);
+
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        if (instructor != null) {
+            boolean canViewSession = logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION)
+                    || !logic.getSectionsWithInstructorPermission(instructor,
+                            Const.InstructorPermissions.CAN_VIEW_SESSION).isEmpty();
+            if (canViewSession) {
+                return;
+            }
+        }
+
+        if (!feedbackSession.isVisible()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+        }
     }
 
     /**

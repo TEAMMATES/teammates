@@ -278,9 +278,7 @@ export class SessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: this.intent,
         key: this.regKey,
-        previewAs: this.previewAsPerson,
       })
       .pipe(
         finalize(() => {
