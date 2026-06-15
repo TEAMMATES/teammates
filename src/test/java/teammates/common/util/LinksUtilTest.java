@@ -21,7 +21,6 @@ public class LinksUtilTest extends BaseTestCase {
 
     private static final String TEST_BASE_URL = "http://teammates.tmt";
     private static final UUID SAMPLE_SESSION_ID = UUID.fromString("11111111-1111-1111-1111-111111111111");
-    private static final UUID SAMPLE_MASQUERADE_ID = UUID.fromString("22222222-2222-2222-2222-222222222222");
     private static final String SAMPLE_REG_KEY = "sampleRegKey";
 
     private MockedStatic<Config> mockConfig;
@@ -141,14 +140,4 @@ public class LinksUtilTest extends BaseTestCase {
         assertEquals(expected, LinksUtil.getInstructorWelcomeUrl(sampleAccountVerificationRequestId));
     }
 
-    // -------------------------------------------------------------------------
-    // Relative URLs
-    // -------------------------------------------------------------------------
-
-    @Test
-    public void getInstructorHomePageRelativeUrl_withMasqueradeId_returnsRelativeUrl() {
-        String expected = Const.WebPageURIs.INSTRUCTOR_HOME_PAGE
-                + "?masqueradeaccountid=" + SAMPLE_MASQUERADE_ID;
-        assertEquals(expected, LinksUtil.getInstructorHomePageRelativeUrl(SAMPLE_MASQUERADE_ID));
-    }
 }

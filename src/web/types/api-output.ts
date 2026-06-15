@@ -433,7 +433,7 @@ export interface Notifications extends ApiOutput {
 export interface OngoingSession {
   feedbackSessionId: string;
   sessionStatus: string;
-  instructorHomePageLink: string;
+  accountId: string;
   startTime: number;
   endTime: number;
   creatorEmail: string;
