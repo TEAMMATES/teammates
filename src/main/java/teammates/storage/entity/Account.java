@@ -128,11 +128,11 @@ public class Account extends BaseEntity {
     }
 
     /**
-     * Normalizes the tenant ID, returning a default value if the input is null.
+     * Normalizes the tenant ID, returning a default value if the input is null or empty.
      */
     public static String normalizeTenantId(String tenantId) {
         String sanitizedTenantId = SanitizationHelper.sanitizeTenantId(tenantId);
-        return sanitizedTenantId == null ? NO_TENANT : sanitizedTenantId;
+        return (sanitizedTenantId == null || sanitizedTenantId.isEmpty()) ? NO_TENANT : sanitizedTenantId;
     }
 
     public String getGoogleId() {
