@@ -10,20 +10,20 @@ export interface Account extends ApiOutput {
   students: Student[];
 }
 
-export interface AccountRequest extends ApiOutput {
-  accountRequestId: string;
+export interface AccountVerificationRequest extends ApiOutput {
+  accountVerificationRequestId: string;
   email: string;
   name: string;
   institute: string;
   country: string;
-  status: AccountRequestStatus;
+  status: AccountVerificationRequestStatus;
   comments?: string;
   createdDemoCourseAt?: number;
   createdAt: number;
 }
 
-export interface AccountRequests extends ApiOutput {
-  accountRequests: AccountRequest[];
+export interface AccountVerificationRequests extends ApiOutput {
+  accountVerificationRequests: AccountVerificationRequest[];
 }
 
 export interface ApiOutput {
@@ -581,7 +581,7 @@ export interface UsageStatistics extends ApiOutput {
   numCourses: number;
   numStudents: number;
   numInstructors: number;
-  numAccountRequests: number;
+  numAccountVerificationRequests: number;
 }
 
 export interface UsageStatisticsRange extends ApiOutput {
@@ -605,7 +605,7 @@ export interface UserInfo {
   isMaintainer: boolean;
 }
 
-export enum AccountRequestStatus {
+export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
