@@ -12,6 +12,7 @@ import java.util.UUID;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.Provider;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -161,6 +162,9 @@ public final class DataBundleLogic {
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
             account.setId(generateId(placeholderId, seed));
+            if (account.getProvider() == Provider.TEAMMATES_DEV) {
+                account.setTenantId(Account.NO_TENANT);
+            }
             accountsMap.put(placeholderId, account);
         }
 
