@@ -41,7 +41,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals("New Name", result.getName());
         assertEquals("new@example.com", result.getEmail());
 
-        Instructor updated = getEntity(Instructor.class, target.id());
+        Instructor updated = getEntityInTransaction(Instructor.class, target.id());
         assertEquals("New Name", updated.getName());
         assertEquals("new@example.com", updated.getEmail());
     }
