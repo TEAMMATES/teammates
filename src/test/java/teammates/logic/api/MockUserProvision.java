@@ -25,7 +25,6 @@ public class MockUserProvision extends UserProvision {
 
     private Logic logic = Logic.inst();
     private Account loggedInAccount;
-    private boolean createMissingAccounts;
     private boolean isLoggedIn;
     private boolean loggedInUserIsAdmin;
     private boolean isAutomatedServiceMode;
@@ -34,10 +33,6 @@ public class MockUserProvision extends UserProvision {
 
     public void setLogic(Logic logic) {
         this.logic = logic;
-    }
-
-    public void setCreateMissingAccounts(boolean createMissingAccounts) {
-        this.createMissingAccounts = createMissingAccounts;
     }
 
     private AuthContext loginUser(Account account, boolean isAdmin, boolean isMaintainer) {
@@ -146,8 +141,7 @@ public class MockUserProvision extends UserProvision {
 
     private AuthContext createAccountAuthContext(
             AuthType authType, Account account, boolean isAdmin, boolean isMaintainer) {
-        Account authAccount = createMissingAccounts ? account : logic.getAccount(account.getId());
-        return new AuthContext(authType, authAccount, null, isAdmin, isMaintainer);
+        return new AuthContext(authType, account, null, isAdmin, isMaintainer);
     }
 
 }
