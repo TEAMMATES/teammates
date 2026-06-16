@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, computed, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
 
 /**
@@ -11,21 +12,19 @@ import { TeammatesRouterDirective } from '../components/teammates-router/teammat
   templateUrl: './unauthorized-warning-page.component.html',
   imports: [TeammatesRouterDirective],
 })
-export class UnauthorizedWarningPageComponent implements OnInit {
+export class UnauthorizedWarningPageComponent {
   private readonly route = inject(ActivatedRoute);
 
-  role = '';
-  reason = '';
+  private readonly queryParams = toSignal(this.route.queryParams, {
+    initialValue: { role: '' },
+  });
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.role = queryParams['role'];
-      this.reason = this.getUnauthorizedReason();
-    });
-  }
+  readonly role = computed(() => this.queryParams().role ?? '');
 
-  getUnauthorizedReason(): string {
-    switch (this.role) {
+  readonly reason = computed(() => {
+    const role = this.role();
+
+    switch (role) {
       case 'instructor':
         return 'You are not an instructor of any course.';
       case 'student':
@@ -37,5 +36,5 @@ export class UnauthorizedWarningPageComponent implements OnInit {
       default:
         return 'You do not have the required role to access this page.';
     }
-  }
+  });
 }

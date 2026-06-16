@@ -29,26 +29,21 @@ describe('UnauthorizedWarningPageComponent', () => {
   });
 
   it('should return correct reason for instructor role', () => {
-    component.role = 'instructor';
-    expect(component.getUnauthorizedReason()).toBe('You are not an instructor of any course.');
+    queryParams$.next({ role: 'instructor' });
+
+    expect(component.role()).toBe('instructor');
+    expect(component.reason()).toBe('You are not an instructor of any course.');
   });
 
   it('should return correct reason for student role', () => {
-    component.role = 'student';
-    expect(component.getUnauthorizedReason()).toBe('You are not enrolled as a student in any course.');
-  });
+    queryParams$.next({ role: 'student' });
 
-  it('should extract correct query parameters on initialization', () => {
-    const mockQueryParams = { role: 'admin' };
-    component.ngOnInit();
-    queryParams$.next(mockQueryParams);
-    expect(component.role).toBe('admin');
-    expect(component.reason).toBe('You need to be an admin to access this page.');
+    expect(component.role()).toBe('student');
+    expect(component.reason()).toBe('You are not enrolled as a student in any course.');
   });
 });
 
 describe('UnauthorizedWarningPageComponent snapshot', () => {
-  let component: UnauthorizedWarningPageComponent;
   let fixture: ComponentFixture<UnauthorizedWarningPageComponent>;
   let queryParams$: Subject<Params>;
 
@@ -66,18 +61,15 @@ describe('UnauthorizedWarningPageComponent snapshot', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(UnauthorizedWarningPageComponent);
-    component = fixture.componentInstance;
   });
 
   it('should match snapshot when student role is set', () => {
-    component.ngOnInit();
     queryParams$.next({ role: 'student' });
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should match snapshot when admin role is set', () => {
-    component.ngOnInit();
     queryParams$.next({ role: 'admin' });
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
