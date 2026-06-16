@@ -296,7 +296,10 @@ public class Logic {
 
     /**
      * Gets an account by googleId.
+     *
+     * @deprecated Use {@link #getAccount(UUID)} instead.
      */
+    @Deprecated(forRemoval = false)
     public Account getAccountForGoogleId(String googleId) {
         return accountsLogic.getAccountForGoogleId(googleId);
     }

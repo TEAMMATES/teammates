@@ -26,6 +26,7 @@ public class MockUserProvision extends UserProvision {
 
     private Logic logic = Logic.inst();
     private String loggedInGoogleId;
+    private Account loggedInAccount;
     private boolean createMissingAccounts;
     private boolean isLoggedIn;
     private boolean loggedInUserIsAdmin;
@@ -42,12 +43,22 @@ public class MockUserProvision extends UserProvision {
     }
 
     private AuthContext loginUser(String userId, boolean isAdmin, boolean isMaintainer) {
+        Account account = createAccountForLogin(userId);
+        if (!createMissingAccounts) {
+            account = logic.createOrGetAccount(
+                    account.getProvider(), account.getSubject(), account.getTenantId(), account.getEmail());
+        }
+        return loginUser(account, isAdmin, isMaintainer);
+    }
+
+    private AuthContext loginUser(Account account, boolean isAdmin, boolean isMaintainer) {
         this.isLoggedIn = true;
-        this.loggedInGoogleId = userId;
+        this.loggedInAccount = account;
+        this.loggedInGoogleId = account.getGoogleId();
         this.loggedInUserIsAdmin = isAdmin;
         this.isAdmin = isAdmin;
         this.isMaintainer = isMaintainer;
-        return createAccountAuthContext(AuthType.LOGGED_IN, userId, isAdmin, isMaintainer);
+        return createAccountAuthContext(AuthType.LOGGED_IN, account, isAdmin, isMaintainer);
     }
 
     /**
@@ -60,6 +71,15 @@ public class MockUserProvision extends UserProvision {
     }
 
     /**
+     * Login as a user without admin rights.
+     *
+     * @return The auth context after login process
+     */
+    public AuthContext loginUser(Account account) {
+        return loginUser(account, false, false);
+    }
+
+    /**
      * Login as a user with admin rights.
      *
      * @return The auth context after login process
@@ -69,12 +89,30 @@ public class MockUserProvision extends UserProvision {
     }
 
     /**
+     * Login as a user with admin rights.
+     *
+     * @return The auth context after login process
+     */
+    public AuthContext loginAsAdmin(Account account) {
+        return loginUser(account, true, false);
+    }
+
+    /**
      * Login as a user with maintainer rights.
      *
      * @return The auth context after login process
      */
     public AuthContext loginAsMaintainer(String userId) {
         return loginUser(userId, false, true);
+    }
+
+    /**
+     * Login as a user with maintainer rights.
+     *
+     * @return The auth context after login process
+     */
+    public AuthContext loginAsMaintainer(Account account) {
+        return loginUser(account, false, true);
     }
 
     /**
@@ -96,6 +134,7 @@ public class MockUserProvision extends UserProvision {
         loggedInUserIsAdmin = false;
         isAutomatedServiceMode = false;
         loggedInGoogleId = null;
+        loggedInAccount = null;
     }
 
     @Override
@@ -128,7 +167,7 @@ public class MockUserProvision extends UserProvision {
             return new AuthContext(AuthType.MASQUERADE, masqueradeAccount, null, isAdmin, isMaintainer);
         }
 
-        return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);
+        return createAccountAuthContext(AuthType.LOGGED_IN, loggedInAccount, isAdmin, isMaintainer);
     }
 
     @Override
@@ -145,13 +184,16 @@ public class MockUserProvision extends UserProvision {
     }
 
     private AuthContext createAccountAuthContext(
-            AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
-        Account account = createMissingAccounts
-                ? new Account(
-                        googleId, Provider.TEAMMATES_DEV, googleId, "tenant-id",
-                        "Test User", googleId + "@example.com")
-                : logic.getAccountForGoogleId(googleId);
-        return new AuthContext(authType, account, null, isAdmin, isMaintainer);
+            AuthType authType, Account account, boolean isAdmin, boolean isMaintainer) {
+        Account authAccount = createMissingAccounts ? account : logic.getAccount(account.getId());
+        return new AuthContext(authType, authAccount, null, isAdmin, isMaintainer);
+    }
+
+    private Account createAccountForLogin(String googleId) {
+        String email = googleId.contains("@") ? googleId : googleId + "@example.com";
+        return new Account(
+                googleId, Provider.TEAMMATES_DEV, googleId, "tenant-id",
+                "Test User", email);
     }
 
 }

@@ -168,8 +168,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsAdmin() {
         inTransaction(() -> {
-            ensureAccountExists(Config.APP_ADMINS.get(0));
-            mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
+            Account account = ensureAccountExists(Config.APP_ADMINS.get(0));
+            mockUserProvision.loginAsAdmin(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -180,8 +180,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsUnregistered(String userId) {
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(userId);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -192,8 +192,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsInstructor(String userId) {
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(userId);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -204,8 +204,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsStudent(String userId) {
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(userId);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -216,8 +216,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsStudentInstructor(String userId) {
         inTransaction(() -> {
-            ensureAccountExists(userId);
-            mockUserProvision.loginUser(userId);
+            Account account = ensureAccountExists(userId);
+            mockUserProvision.loginUser(account);
             mockUserProvision.setLogic(logic);
         });
     }
@@ -227,24 +227,17 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void loginAsMaintainer() {
         inTransaction(() -> {
-            ensureAccountExists(Config.APP_MAINTAINERS.get(0));
-            mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+            Account account = ensureAccountExists(Config.APP_MAINTAINERS.get(0));
+            mockUserProvision.loginAsMaintainer(account);
             mockUserProvision.setLogic(logic);
         });
     }
 
-    private void ensureAccountExists(String googleId) {
-        // TODO: Get account should be by issuer and subject.
-        if (logic.getAccountForGoogleId(googleId) == null) {
-            String email = googleId.contains("@") ? googleId : googleId + "@example.com";
-            String subject = googleId;
-            String tenantId = "tenant-id";
-            try {
-                logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
-            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                throw new RuntimeException(e);
-            }
-        }
+    private Account ensureAccountExists(String googleId) {
+        String email = googleId.contains("@") ? googleId : googleId + "@example.com";
+        String subject = googleId;
+        String tenantId = "tenant-id";
+        return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, tenantId, email);
     }
 
     /**

@@ -28,7 +28,7 @@ public class MarkNotificationAsReadAction extends LoggedInAction {
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
 
-        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
+        Account account = getCurrentAccount();
         if (account == null) {
             // This should not happen as the user is authenticated
             throw new UnexpectedServerException("Account not found");

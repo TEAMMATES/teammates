@@ -55,6 +55,8 @@ public final class AccountsLogic {
 
     /**
      * Gets an account by googleId.
+     *
+     * @deprecated Use {@link #getAccount(UUID)} instead.
      */
     @Deprecated(forRemoval = false)
     public Account getAccountForGoogleId(String googleId) {

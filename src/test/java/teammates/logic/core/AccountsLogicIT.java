@@ -54,8 +54,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("failure: googleID belongs to an existing student in the course");
 
-        Account studentInCourseAccount = inTransaction(() -> accountsLogic.getAccountForGoogleId(
-                studentInCourse.getGoogleId()));
+        Account studentInCourseAccount = inTransaction(() -> accountsLogic.getAccount(studentInCourse.getAccountId()));
         EntityAlreadyExistsException eaee = assertThrowsInTransaction(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(student2YetToJoinCourse.getRegKey(),
                 studentInCourseAccount));
@@ -89,7 +88,6 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     @Test(groups = GroupNames.INTEGRATION)
     public void testJoinCourseForInstructor() {
-        String instructorIdAlreadyJoinedCourse = "instructor1";
         Instructor instructor2YetToJoinCourse = typicalDataBundle.instructors.get("instructor2YetToJoinCourse4");
         Instructor instructor3YetToJoinCourse = typicalDataBundle.instructors.get("instructor3YetToJoinCourse4");
 
@@ -106,8 +104,8 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
-        Account instructor1Account = inTransaction(() -> accountsLogic.getAccountForGoogleId(
-                instructorIdAlreadyJoinedCourse));
+        Account instructor1Account = inTransaction(() -> accountsLogic.getAccount(
+                typicalDataBundle.accounts.get("instructor1").getId()));
         EntityAlreadyExistsException eaee = assertThrowsInTransaction(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(
                         key[0], instructor1Account));
