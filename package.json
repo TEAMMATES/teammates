@@ -7,7 +7,7 @@
     "test": "ng test",
     "coverage": "rimraf coverage && ng test --coverage",
     "format": "prettier . --write --log-level warn",
-    "format:check": "prettier . --check",
+    "format:check": "node scripts/check-format.mjs",
     "lint:eslint": "ng lint --cache",
     "lint:eslint:fix": "ng lint --fix --cache",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" --ignore-pattern \"src/web/dist/**/*\" --cache",
