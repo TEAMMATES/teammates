@@ -7,6 +7,16 @@ import { DatetimepickerComponent } from '../../../components/datetimepicker/date
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { DateFormatService } from '../../../../services/date-format.service';
 
+const DEADLINE_OPTIONS = [
+  { label: '12 hours', hours: Hours.TWELVE },
+  { label: '1 day', hours: Hours.IN_ONE_DAY },
+  { label: '3 days', hours: Hours.IN_THREE_DAYS },
+  { label: '1 week', hours: Hours.IN_ONE_WEEK },
+  { label: 'Custom', hours: Hours.ZERO },
+] as const;
+
+type DeadlineLabel = (typeof DEADLINE_OPTIONS)[number]['label'];
+
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
@@ -25,15 +35,9 @@ export class IndividualExtensionDateModalComponent implements OnInit {
 
   @Output() confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
 
-  readonly DEADLINE_OPTIONS = [
-    { label: '12 hours', hours: Hours.TWELVE },
-    { label: '1 day', hours: Hours.IN_ONE_DAY },
-    { label: '3 days', hours: Hours.IN_THREE_DAYS },
-    { label: '1 week', hours: Hours.IN_ONE_WEEK },
-    { label: 'Custom', hours: Hours.ZERO },
-  ] as const;
+  readonly DEADLINE_OPTIONS = DEADLINE_OPTIONS;
 
-  readonly selectedPreset = signal('');
+  readonly selectedPreset = signal<DeadlineLabel>(DEADLINE_OPTIONS[0].label);
   readonly customTimestamp = signal(0);
 
   ngOnInit(): void {
@@ -71,8 +75,7 @@ export class IndividualExtensionDateModalComponent implements OnInit {
     if (this.isCustom()) {
       return this.customTimestamp();
     }
-    const opt = this.DEADLINE_OPTIONS.find((o) => o.label === this.selectedPreset());
-    const hours = opt ? opt.hours : 0;
+    const { hours } = this.DEADLINE_OPTIONS.find((o) => o.label === this.selectedPreset())!;
     return this.feedbackSessionEndingTimestamp + hours * Milliseconds.IN_ONE_HOUR;
   }
 

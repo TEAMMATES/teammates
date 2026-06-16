@@ -521,7 +521,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
     </button>
     <button
       class="btn btn-success modal-btn-ok"
-      disabled=""
       type="button"
     >
        Save Changes 
@@ -642,7 +641,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
     </button>
     <button
       class="btn btn-success modal-btn-ok"
-      disabled=""
       type="button"
     >
        Save Changes 
