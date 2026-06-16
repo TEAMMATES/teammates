@@ -231,9 +231,9 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         });
     }
 
-    private Account ensureAccountExists(String googleId) {
-        String email = googleId.contains("@") ? googleId : googleId + "@example.com";
-        String subject = googleId;
+    private Account ensureAccountExists(String userId) {
+        String email = userId.contains("@") ? userId : userId + "@example.com";
+        String subject = userId;
         String tenantId = "tenant-id";
         return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, tenantId, email);
     }

@@ -5,7 +5,6 @@ import java.util.UUID;
 import jakarta.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AuthContext;
-import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
@@ -25,7 +24,6 @@ public class MockUserProvision extends UserProvision {
             new AuthContext(AuthType.AUTOMATED_SERVICE, null, null, false, false);
 
     private Logic logic = Logic.inst();
-    private String loggedInGoogleId;
     private Account loggedInAccount;
     private boolean createMissingAccounts;
     private boolean isLoggedIn;
@@ -42,32 +40,13 @@ public class MockUserProvision extends UserProvision {
         this.createMissingAccounts = createMissingAccounts;
     }
 
-    private AuthContext loginUser(String userId, boolean isAdmin, boolean isMaintainer) {
-        Account account = createAccountForLogin(userId);
-        if (!createMissingAccounts) {
-            account = logic.createOrGetAccount(
-                    account.getProvider(), account.getSubject(), account.getTenantId(), account.getEmail());
-        }
-        return loginUser(account, isAdmin, isMaintainer);
-    }
-
     private AuthContext loginUser(Account account, boolean isAdmin, boolean isMaintainer) {
         this.isLoggedIn = true;
         this.loggedInAccount = account;
-        this.loggedInGoogleId = account.getGoogleId();
         this.loggedInUserIsAdmin = isAdmin;
         this.isAdmin = isAdmin;
         this.isMaintainer = isMaintainer;
         return createAccountAuthContext(AuthType.LOGGED_IN, account, isAdmin, isMaintainer);
-    }
-
-    /**
-     * Login as a user without admin rights.
-     *
-     * @return The auth context after login process
-     */
-    public AuthContext loginUser(String userId) {
-        return loginUser(userId, false, false);
     }
 
     /**
@@ -84,26 +63,8 @@ public class MockUserProvision extends UserProvision {
      *
      * @return The auth context after login process
      */
-    public AuthContext loginAsAdmin(String userId) {
-        return loginUser(userId, true, false);
-    }
-
-    /**
-     * Login as a user with admin rights.
-     *
-     * @return The auth context after login process
-     */
     public AuthContext loginAsAdmin(Account account) {
         return loginUser(account, true, false);
-    }
-
-    /**
-     * Login as a user with maintainer rights.
-     *
-     * @return The auth context after login process
-     */
-    public AuthContext loginAsMaintainer(String userId) {
-        return loginUser(userId, false, true);
     }
 
     /**
@@ -133,7 +94,6 @@ public class MockUserProvision extends UserProvision {
         isLoggedIn = false;
         loggedInUserIsAdmin = false;
         isAutomatedServiceMode = false;
-        loggedInGoogleId = null;
         loggedInAccount = null;
     }
 
@@ -155,7 +115,8 @@ public class MockUserProvision extends UserProvision {
         if (isMasqueradeRequest(req)) {
             if (!loggedInUserIsAdmin) {
                 throw new UnauthorizedAccessException(
-                        String.format("Masquerade failed: user %s does not have admin privilege", loggedInGoogleId));
+                        String.format("Masquerade failed: user %s does not have admin privilege",
+                                loggedInAccount.getEmail()));
             }
 
             UUID masqueradeAccountUuid = getValidMasqueradeAccountId(req);
@@ -187,13 +148,6 @@ public class MockUserProvision extends UserProvision {
             AuthType authType, Account account, boolean isAdmin, boolean isMaintainer) {
         Account authAccount = createMissingAccounts ? account : logic.getAccount(account.getId());
         return new AuthContext(authType, authAccount, null, isAdmin, isMaintainer);
-    }
-
-    private Account createAccountForLogin(String googleId) {
-        String email = googleId.contains("@") ? googleId : googleId + "@example.com";
-        return new Account(
-                googleId, Provider.TEAMMATES_DEV, googleId, "tenant-id",
-                "Test User", email);
     }
 
 }
