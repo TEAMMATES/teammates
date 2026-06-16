@@ -4,6 +4,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const fg = require('fast-glob');
 const prettier = require('prettier');
+const { createProgressBar } = require('./progress-bar');
 
 const repoRoot = path.resolve(__dirname, '..');
 const ignorePaths = ['.prettierignore', '.gitignore'].map((ignorePath) => path.join(repoRoot, ignorePath));
@@ -52,12 +53,16 @@ function printFailureMessage() {
 }
 
 async function main() {
-  console.log('Checking formatting...');
+  console.log('Gathering files...');
 
   const files = await getPrettierFiles();
   const unformattedFiles = [];
+  const progressBar = createProgressBar();
 
-  for (const filePath of files) {
+  console.log('Checking formatting...');
+  progressBar.render(0, files.length);
+
+  for (const [index, filePath] of files.entries()) {
     const options = (await prettier.resolveConfig(filePath)) ?? {};
     const fileContent = await fs.readFile(filePath, 'utf8');
     const isFormatted = await prettier.check(fileContent, {
@@ -68,7 +73,11 @@ async function main() {
     if (!isFormatted) {
       unformattedFiles.push(path.relative(repoRoot, filePath));
     }
+
+    progressBar.render(index + 1, files.length);
   }
+
+  progressBar.clear();
 
   if (unformattedFiles.length === 0) {
     console.log('All matched files use Prettier code style!');
