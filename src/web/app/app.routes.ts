@@ -100,7 +100,7 @@ const routes: Routes = [
         component: PageComponent,
         children: [
           {
-            path: '',
+            path: ':role',
             loadComponent: () =>
               import('./page-unauthorized-warning/unauthorized-warning-page.component').then(
                 (m) => m.UnauthorizedWarningPageComponent,

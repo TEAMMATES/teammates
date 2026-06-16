@@ -4,13 +4,13 @@
       <img src="assets/images/angry.png" alt="" />
       <div class="align-left">
         <h5>You are not authorized to view this page.</h5>
-        <p class="mb-0"><b>Reason:</b> {{ reason() }}</p>
+        <p class="mb-0"><b>Reason:</b> {{ reason }}</p>
       </div>
     </div>
-    @if (role() === 'student' || role() === 'instructor') {
+    @if (role === 'student' || role === 'instructor') {
       <hr />
       <div class="align-left">
-        @if (role() === 'student') {
+        @if (role === 'student') {
           <p class="text-center">
             To access student pages on TEAMMATES, you need to wait until an instructor adds you to a course.
             <br />
@@ -18,7 +18,7 @@
           </p>
         }
 
-        @if (role() === 'instructor') {
+        @if (role === 'instructor') {
           <p class="text-center">
             To access instructor pages on TEAMMATES, you need to be an instructor of at least one course.
             <br />

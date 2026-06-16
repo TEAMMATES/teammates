@@ -1,7 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { TeammatesRouterDirective } from '../components/teammates-router/teammates-router.directive';
+import { Component, Input } from '@angular/core';
 
 /**
  * Component for unauthorized warning page based on user role.
@@ -10,21 +7,12 @@ import { TeammatesRouterDirective } from '../components/teammates-router/teammat
   selector: 'tm-unauthorized-warning-page',
   styleUrls: ['./unauthorized-warning-page.component.scss'],
   templateUrl: './unauthorized-warning-page.component.html',
-  imports: [TeammatesRouterDirective],
 })
 export class UnauthorizedWarningPageComponent {
-  private readonly route = inject(ActivatedRoute);
+  @Input() role: string = '';
 
-  private readonly queryParams = toSignal(this.route.queryParams, {
-    initialValue: { role: '' },
-  });
-
-  readonly role = computed(() => this.queryParams().role ?? '');
-
-  readonly reason = computed(() => {
-    const role = this.role();
-
-    switch (role) {
+  get reason(): string {
+    switch (this.role) {
       case 'instructor':
         return 'You are not an instructor of any course.';
       case 'student':
@@ -36,5 +24,5 @@ export class UnauthorizedWarningPageComponent {
       default:
         return 'You do not have the required role to access this page.';
     }
-  });
+  }
 }

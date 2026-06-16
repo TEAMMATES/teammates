@@ -2,10 +2,7 @@
 
 exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when admin role is set 1`] = `
 <tm-unauthorized-warning-page
-  queryParams={[Function Function]}
-  reason={[Function Function]}
-  role={[Function Function]}
-  route={[Function Object]}
+  role={[Function String]}
 >
   <div
     class="text-center"
@@ -51,10 +48,7 @@ exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when 
 
 exports[`UnauthorizedWarningPageComponent snapshot > should match snapshot when student role is set 1`] = `
 <tm-unauthorized-warning-page
-  queryParams={[Function Function]}
-  reason={[Function Function]}
-  role={[Function Function]}
-  route={[Function Object]}
+  role={[Function String]}
 >
   <div
     class="text-center"
