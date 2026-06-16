@@ -39,6 +39,7 @@ import teammates.logic.core.AuthLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
+import teammates.logic.core.DemoCourseLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionLogsLogic;
@@ -92,6 +93,7 @@ public class Logic {
     final AuthLogic authLogic = AuthLogic.inst();
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final AccountVerificationsLogic accountVerificationsLogic = AccountVerificationsLogic.inst();
+    final DemoCourseLogic demoCourseLogic = DemoCourseLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
     final InstitutesLogic institutesLogic = InstitutesLogic.inst();
     final DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
@@ -245,6 +247,16 @@ public class Logic {
      */
     public void deleteAccountVerificationRequest(UUID id) {
         accountVerificationsLogic.deleteAccountVerificationRequest(id);
+    }
+
+    /**
+     * Creates a demo course for the instructor associated with the given account verification request.
+     *
+     * @see DemoCourseLogic#createDemoCourse
+     */
+    public void createDemoCourse(UUID id, String timezone, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
+        demoCourseLogic.createDemoCourse(id, timezone, account);
     }
 
     /**
