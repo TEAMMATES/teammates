@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.security.SecureRandom;
 import java.util.regex.Pattern;
 
 import teammates.common.util.Const;
@@ -16,6 +17,7 @@ import teammates.common.util.TimeHelper;
  * Utility class for generating demo course data.
  */
 public final class DemoCourseGenerator {
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private DemoCourseGenerator() {
         // Utility class
@@ -59,24 +61,31 @@ public final class DemoCourseGenerator {
         return dataBundleString;
     }
 
+    static final int RANDOM_SUFFIX_LENGTH = 6;
+    private static final String SUFFIX_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
+
     /**
-     * Generates the nth candidate course ID for a demo course derived from the given instructor email.
+     * Generates a demo course ID with a random {@value #RANDOM_SUFFIX_LENGTH}-character lowercase alphanumeric suffix
+     * appended to the base ID derived from the instructor's email.
      *
-     * <p>Attempt 0 produces the base ID (e.g. {@code john.exa-demo}).
-     * Attempt 1 produces the base ID with suffix {@code 0} (e.g. {@code john.exa-demo0}).
-     * Subsequent attempts increment the suffix ({@code 1}, {@code 2}, …).
-     *
-     * <p>If the candidate exceeds {@code maximumIdLength}, its head is truncated so that it fits.
+     * <p>If the result exceeds {@code maximumIdLength}, its head is truncated so that the suffix is preserved.
      *
      * @param instructorEmail the instructor's email address
-     * @param attempt zero-based attempt number
      * @param maximumIdLength the maximum allowed length for the resulting ID
-     * @return the candidate course ID for the given attempt
+     * @return the course ID with a random suffix (e.g. {@code john.exa-demo-a3bx9z})
      */
-    public static String generateDemoCourseIdCandidate(String instructorEmail, int attempt, int maximumIdLength) {
+    public static String generateDemoCourseIdWithRandomSuffix(String instructorEmail, int maximumIdLength) {
         String root = getDemoCourseIdRoot(instructorEmail);
-        String suffix = attempt == 0 ? "" : String.valueOf(attempt - 1);
+        String suffix = generateBase62String(RANDOM_SUFFIX_LENGTH);
         return StringHelper.truncateHead(root + suffix, maximumIdLength);
+    }
+
+    private static String generateBase62String(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(SUFFIX_CHARS.charAt(SECURE_RANDOM.nextInt(SUFFIX_CHARS.length())));
+        }
+        return sb.toString();
     }
 
     /**
@@ -95,7 +104,7 @@ public final class DemoCourseGenerator {
         String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
         String hostAbbreviation = host.substring(0, Math.min(host.length(), 3));
 
-        return head + "." + hostAbbreviation + "-demo";
+        return head + "." + hostAbbreviation + "-demo-";
     }
 
     static String getDateString(Instant instant) {

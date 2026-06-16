@@ -111,8 +111,8 @@ public final class DemoCourseLogic {
 
     private String generateUniqueCourseId(String instructorEmail) throws InvalidParametersException {
         for (int attempt = 0; attempt < MAX_DEMO_COURSE_ID_ATTEMPTS; attempt++) {
-            String proposedCourseId = DemoCourseGenerator.generateDemoCourseIdCandidate(
-                    instructorEmail, attempt, FieldValidator.COURSE_ID_MAX_LENGTH);
+            String proposedCourseId = DemoCourseGenerator.generateDemoCourseIdWithRandomSuffix(
+                    instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
             if (coursesLogic.getCourse(proposedCourseId) == null) {
                 return proposedCourseId;
             }
