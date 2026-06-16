@@ -11,7 +11,6 @@ skinparam arrowColor #000000
 component Storage {
     package "storage::entity" as Entity {
         rectangle Account
-        rectangle AccountRequest
         rectangle CourseStudent
         rectangle Instructor
         rectangle FeedbackResponse

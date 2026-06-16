@@ -43,7 +43,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseEditPage editPage =
-                loginToPage(url, InstructorCourseEditPage.class, instructors[2].getGoogleId());
+                loginToPage(url, InstructorCourseEditPage.class, instructors[2].getEmail());
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -55,7 +55,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getGoogleId());
+        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getEmail());
 
         // The helper (instructors[0]) has a custom role; track its name-keyed privileges for verification.
         InstructorPermissionSet helperCourseLevel = new InstructorPermissionSet();

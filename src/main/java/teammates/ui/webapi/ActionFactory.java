@@ -42,13 +42,13 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_UNLINK, PUT, UnlinkAccountAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST, PUT, UpdateAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUESTS, GET, GetAccountRequestsAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST_REJECTION, POST, RejectAccountRequestAction.class);
-        map(ResourceURIs.ACCOUNT_REQUEST_APPROVAL, POST, ApproveAccountRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, GET, GetAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, POST, CreateAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, DELETE, DeleteAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, PUT, UpdateAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUESTS, GET, GetAccountVerificationRequestsAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST_REJECTION, POST, RejectAccountVerificationRequestAction.class);
+        map(ResourceURIs.ACCOUNT_VERIFICATION_REQUEST_APPROVAL, POST, ApproveAccountVerificationRequestAction.class);
         map(ResourceURIs.COURSE, GET, GetCourseAction.class);
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
@@ -58,6 +58,7 @@ public final class ActionFactory {
         map(ResourceURIs.DEMO_COURSE, POST, CreateDemoCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
         map(ResourceURIs.COURSE_SECTIONS, GET, GetCourseSectionsAction.class);
+        map(ResourceURIs.INSTITUTES, GET, GetInstitutesAction.class);
         map(ResourceURIs.INSTRUCTORS, GET, GetInstructorsAction.class);
         map(ResourceURIs.INSTRUCTOR, GET, GetInstructorAction.class);
         map(ResourceURIs.OWN_INSTRUCTOR, GET, GetOwnInstructorAction.class);
@@ -97,7 +98,7 @@ public final class ActionFactory {
         //SEARCH APIs
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
-        map(ResourceURIs.SEARCH_ACCOUNT_REQUESTS, GET, SearchAccountRequestsAction.class);
+        map(ResourceURIs.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, GET, SearchAccountVerificationRequestsAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
@@ -106,6 +107,7 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSION, GET, GetDeadlineExtensionAction.class);
         map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);

@@ -18,7 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
@@ -52,7 +52,7 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
         loginAsUnregistered(instructor1.getGoogleId());
 
-        AccountRequest accReq = typicalBundle.accountRequests.get("unregisteredInstructor1");
+        AccountVerificationRequest accReq = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
         String email = accReq.getEmail();
         String institute = accReq.getInstitute().getName();
         String name = accReq.getName();
@@ -63,19 +63,18 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
 
         ______TS("Null parameters");
 
-        String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
+        String[] nullParams = new String[] { Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, null, };
         InvalidHttpParameterException ex = verifyHttpParameterFailure(nullParams);
-        assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
+        assertEquals("The [id] HTTP parameter is null.", ex.getMessage());
 
         verifyNoTasksAdded();
 
         ______TS("Normal case with valid timezone");
         String timezone = "Asia/Singapore";
         final UUID firstAccReqId = accReq.getId();
-        AccountRequest accountRequest = inTransaction(() -> logic.getAccountRequest(firstAccReqId));
 
         String[] params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, firstAccReqId.toString(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
         CreateDemoCourseAction a = getAction(params);
@@ -111,15 +110,14 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
         Account instructor2 = typicalBundle.accounts.get("unregisteredInstructor2");
         loginAsUnregistered(instructor2.getGoogleId());
 
-        accReq = typicalBundle.accountRequests.get("unregisteredInstructor2");
+        accReq = typicalBundle.accountVerificationRequests.get("unregisteredInstructor2");
         email = accReq.getEmail();
         timezone = "InvalidTimezone";
 
         final UUID secondAccReqId = accReq.getId();
-        accountRequest = inTransaction(() -> logic.getAccountRequest(secondAccReqId));
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(),
+                Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, secondAccReqId.toString(),
                 Const.ParamsNames.TIMEZONE, timezone,
         };
 
@@ -142,13 +140,13 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
             assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
-        ______TS("Error: registration key already used");
+        ______TS("Error: account verification request already registered");
         verifyInvalidOperation(params);
         verifyNoTasksAdded();
 
-        ______TS("Error: account request not found");
+        ______TS("Error: account verification request not found");
 
-        params = new String[] { Const.ParamsNames.REGKEY, "unknownregkey", };
+        params = new String[] { Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, "00000000-0000-0000-0000-000000000000", };
         verifyEntityNotFound(params);
         verifyNoTasksAdded();
     }
@@ -156,7 +154,14 @@ public class CreateDemoCourseActionIT extends BaseActionIT<CreateDemoCourseActio
     @Override
     @Test(groups = GroupNames.INTEGRATION)
     protected void testAccessControl() {
-        verifyAnyLoggedInUserCanAccess();
+        AccountVerificationRequest accReq = typicalBundle.accountVerificationRequests.get("unregisteredInstructor1");
+        String[] params = new String[] {
+                Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, accReq.getId().toString(),
+        };
+        verifyInaccessibleWithoutLogin(params);
+        Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
+        loginAsUnregistered(instructor1.getGoogleId());
+        verifyCanAccess(params);
     }
 
     @Test(groups = GroupNames.INTEGRATION)

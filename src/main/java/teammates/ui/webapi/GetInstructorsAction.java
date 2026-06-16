@@ -78,9 +78,6 @@ public class GetInstructorsAction extends LoggedInAction {
 
                 for (Instructor instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
-                    if (requestContext.isAdmin()) {
-                        instructorData.setKey(instructor.getRegKey());
-                    }
                     data.getInstructors().add(instructorData);
                 }
             } else {

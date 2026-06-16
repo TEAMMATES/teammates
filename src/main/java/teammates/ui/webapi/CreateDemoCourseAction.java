@@ -4,11 +4,11 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -20,7 +20,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.DataBundleLogic;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
@@ -28,6 +28,7 @@ import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.exception.UnexpectedServerException;
 
 /**
@@ -38,13 +39,14 @@ public class CreateDemoCourseAction extends LoggedInAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    void checkSpecificAccessControl() {
-        // Any user can create a demo course as long as the registration key is valid.
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
+        gateKeeper.verifyCanViewAccountVerificationRequest(requestContext, id);
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID);
         String timezone = getRequestParamValue(Const.ParamsNames.TIMEZONE);
 
         if (timezone == null || !FieldValidator.getInvalidityInfoForTimeZone(timezone).isEmpty()) {
@@ -52,20 +54,20 @@ public class CreateDemoCourseAction extends LoggedInAction {
             timezone = Const.DEFAULT_TIME_ZONE;
         }
 
-        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(registrationKey);
+        AccountVerificationRequest accountVerificationRequest = logic.getAccountVerificationRequest(id);
 
-        if (accountRequest == null) {
-            throw new EntityNotFoundException("Account request with registration key "
-                    + registrationKey + " could not be found");
+        if (accountVerificationRequest == null) {
+            throw new EntityNotFoundException("Account verification request with id " + id + " could not be found");
         }
 
-        if (accountRequest.getRegisteredAt() != null) {
-            throw new InvalidOperationException("The registration key " + registrationKey + " has already been used.");
+        if (accountVerificationRequest.getCreatedDemoCourseAt() != null) {
+            throw new InvalidOperationException(
+                    "Account verification request with id " + id + " has already created a demo course.");
         }
 
-        String instructorEmail = accountRequest.getEmail();
-        String instructorName = accountRequest.getName();
-        Institute institute = accountRequest.getInstitute();
+        String instructorEmail = accountVerificationRequest.getEmail();
+        String instructorName = accountVerificationRequest.getName();
+        Institute institute = accountVerificationRequest.getInstitute();
         DataBundle dataBundle;
 
         try {
@@ -95,7 +97,7 @@ public class CreateDemoCourseAction extends LoggedInAction {
         }
 
         try {
-            setAccountRequestAsRegistered(accountRequest);
+            markDemoCourseCreated(accountVerificationRequest);
         } catch (InvalidParametersException e) {
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
@@ -105,17 +107,11 @@ public class CreateDemoCourseAction extends LoggedInAction {
         return new JsonResult("Demo course successfully created", HttpStatus.SC_OK);
     }
 
-    /**
-     * Abstracts the logic of updating an account request to be registered.
-     *
-     * @return the updated account request
-     */
-    private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest)
+    private AccountVerificationRequest markDemoCourseCreated(AccountVerificationRequest accountVerificationRequest)
             throws InvalidParametersException {
-        accountRequest.setStatus(AccountRequestStatus.REGISTERED);
-        accountRequest.setRegisteredAt(Instant.now());
-        logic.updateAccountRequest(accountRequest);
-        return accountRequest;
+        accountVerificationRequest.setCreatedDemoCourseAt(Instant.now());
+        logic.updateAccountVerificationRequest(accountVerificationRequest);
+        return accountVerificationRequest;
     }
 
     private static String getDateString(Instant instant) {
@@ -169,7 +165,7 @@ public class CreateDemoCourseAction extends LoggedInAction {
 
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
-        // The demo course is created under the institute associated with the account request.
+        // The demo course is created under the institute associated with the account verification request.
         for (Course course : dataBundle.courses.values()) {
             institute.addCourse(course);
         }

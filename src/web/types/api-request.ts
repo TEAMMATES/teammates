@@ -7,20 +7,19 @@ export interface AccountCreateRequest extends BasicRequest {
   instructorInstitution: string;
   instructorCountry: string;
   instructorComments?: string;
-  captchaResponse?: string;
 }
 
-export interface AccountRequestRejectionRequest extends BasicRequest {
+export interface AccountVerificationRequestRejectionRequest extends BasicRequest {
   reasonTitle?: string;
   reasonBody?: string;
 }
 
-export interface AccountRequestUpdateRequest extends BasicRequest {
+export interface AccountVerificationRequestUpdateRequest extends BasicRequest {
   name: string;
   email: string;
   institute: string;
   country: string;
-  status: AccountRequestStatus;
+  status: AccountVerificationRequestStatus;
   comments?: string;
 }
 
@@ -153,8 +152,7 @@ export interface FeedbackSessionBasicRequest extends BasicRequest {
 
 export interface FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
   feedbackSessionName: string;
-  toCopyCourseId?: string;
-  toCopySessionName?: string;
+  toCopySessionId?: string;
 }
 
 export interface FeedbackSessionRemindRequest extends BasicRequest {
@@ -205,7 +203,6 @@ export interface InstructorPrivileges {
 }
 
 export interface InstructorUpdateRequest extends BasicRequest {
-  id: string;
   name: string;
   email: string;
   role: InstructorPermissionRole;
@@ -274,11 +271,10 @@ export interface StudentUpdateRequest extends BasicRequest {
   isSessionSummarySendEmail: boolean;
 }
 
-export enum AccountRequestStatus {
+export enum AccountVerificationRequestStatus {
   PENDING = "PENDING",
   REJECTED = "REJECTED",
   APPROVED = "APPROVED",
-  REGISTERED = "REGISTERED",
 }
 
 export enum CommentVisibilityType {
@@ -307,9 +303,9 @@ export enum EmailType {
   NEW_INSTRUCTOR_ACCOUNT = "NEW_INSTRUCTOR_ACCOUNT",
   STUDENT_COURSE_JOIN = "STUDENT_COURSE_JOIN",
   STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT = "STUDENT_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT",
-  NEW_ACCOUNT_REQUEST_ADMIN_ALERT = "NEW_ACCOUNT_REQUEST_ADMIN_ALERT",
-  NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT = "NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT",
-  ACCOUNT_REQUEST_REJECTION = "ACCOUNT_REQUEST_REJECTION",
+  NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT = "NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT",
+  NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT = "NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT",
+  ACCOUNT_VERIFICATION_REQUEST_REJECTION = "ACCOUNT_VERIFICATION_REQUEST_REJECTION",
   INSTRUCTOR_COURSE_JOIN = "INSTRUCTOR_COURSE_JOIN",
   INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT = "INSTRUCTOR_COURSE_REJOIN_AFTER_UNLINK_ACCOUNT",
   USER_COURSE_REGISTER = "USER_COURSE_REGISTER",

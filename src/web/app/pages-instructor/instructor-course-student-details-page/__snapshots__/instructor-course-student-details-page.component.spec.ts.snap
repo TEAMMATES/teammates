@@ -5,11 +5,10 @@ exports[`InstructorCourseStudentDetailsPageComponent > should snap with default 
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student="undefined"
-  studentId="undefined"
   studentService={[Function _StudentService]}
+  userId="undefined"
 >
   <tm-loading-retry>
     <div
@@ -39,11 +38,10 @@ exports[`InstructorCourseStudentDetailsPageComponent > should snap with populate
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentId="undefined"
   studentService={[Function _StudentService]}
+  userId="undefined"
 >
   <tm-loading-retry>
     <div

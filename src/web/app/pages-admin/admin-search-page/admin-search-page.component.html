@@ -32,9 +32,9 @@
   ></tm-admin-student-search-table>
 }
 
-@if (accountRequests.length) {
-  <tm-admin-account-request-search-table
-    [accountRequests]="accountRequests"
+@if (accountVerificationRequests.length) {
+  <tm-admin-account-verification-request-search-table
+    [accountVerificationRequests]="accountVerificationRequests"
     [searchString]="searchString"
-  ></tm-admin-account-request-search-table>
+  ></tm-admin-account-verification-request-search-table>
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="e2e-tests" parallel="tests" thread-count="2">
+<suite name="e2e-tests" parallel="tests" thread-count="4">
     <test name="e2e-tests" parallel="classes">
         <packages>
             <package name="teammates.e2e.util" />

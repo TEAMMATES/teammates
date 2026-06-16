@@ -138,7 +138,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * {@code relativeUrl} must start with a "/".
      */
     protected static AppUrl createFrontendUrl(String relativeUrl) {
-        return new AppUrl(TestProperties.TEAMMATES_FRONTEND_URL + relativeUrl);
+        return AppUrl.fromParts(TestProperties.TEAMMATES_FRONTEND_URL, relativeUrl);
     }
 
     /**
@@ -153,12 +153,12 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Logs in to a page using the given credentials.
      */
-    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userId) {
+    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userEmail) {
         // In order for the cookie injection to work, we need to be in the domain.
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
-        String cookieValue = BACKDOOR.getUserCookie(userId);
+        String cookieValue = BACKDOOR.getUserCookie(userEmail);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
         return getNewPageInstance(url, typeOfPage);
@@ -299,8 +299,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
             assertEquals(expectedInstructor.getName(), actualInstructor.getName());
             assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
-            // Cannot compare keys as actualInstructor's key is only generated before storing into the database.
-            assertNotNull(actualInstructor.getKey());
             assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
             assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
             assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());
@@ -319,7 +317,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
             assertEquals(expectedStudent.getName(), actualStudent.getName());
             assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
-            // assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
             assertEquals(expectedStudent.getComments(), actualStudent.getComments());
             // TODO: A student might not have a team or section.
             // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
@@ -498,13 +495,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      */
     protected InstructorData getInstructor(Instructor instructor) {
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
-    }
-
-    /**
-     * Gets registration key for a given instructor.
-     */
-    protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return getInstructor(courseId, instructorEmail).getKey();
     }
 
     /**

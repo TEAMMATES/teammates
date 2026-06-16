@@ -48,7 +48,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE)
                 .withCourseId("tm.e2e.ISActLogs.CS2104");
         InstructorStudentActivityLogsPage studentActivityLogsPage =
-                loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getGoogleId());
+                loginToPage(url, InstructorStudentActivityLogsPage.class, instructor.getEmail());
 
         ______TS("verify default datetime");
         String currentLogsFromDate = studentActivityLogsPage.getLogsFromDate();
@@ -71,7 +71,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         AppUrl studentSubmissionPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId());
         FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                FeedbackSubmitPage.class, student.getGoogleId());
+                FeedbackSubmitPage.class, student.getEmail());
 
         Student receiver = testData.students.get("benny.tmms@ISActLogs.CS2104");
 
@@ -86,12 +86,12 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         logout();
         studentActivityLogsPage = loginToPage(url, InstructorStudentActivityLogsPage.class,
-                instructor.getGoogleId());
+                instructor.getEmail());
         studentActivityLogsPage.setActivityType("session access and submission");
         studentActivityLogsPage.setSessionDropdown(feedbackSession.getName());
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
 
-        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSession().getName()));
     }
 }

@@ -101,7 +101,7 @@
       "subject": "student1InTestingSanitizationCourse"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "typicalCourse1": {
       "createdAt": "2012-04-01T23:58:00Z",

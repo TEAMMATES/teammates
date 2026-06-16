@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap/alert';
-import { NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
-import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../../services/account.service';
 import { CountryService } from '../../../../services/country.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
@@ -25,7 +23,7 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, SearchableComboboxComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgbAlert, SearchableComboboxComponent],
 })
 export class InstructorRequestFormComponent {
   private readonly accountService = inject(AccountService);
@@ -40,13 +38,6 @@ export class InstructorRequestFormComponent {
     value: o.code,
     label: o.name,
   }));
-
-  // Captcha
-  captchaSiteKey: string = environment.captchaSiteKey;
-  isCaptchaSuccessful = false;
-  captchaResponse?: string;
-  size: 'compact' | 'normal' = 'normal';
-  lang = 'en';
 
   arf = new FormGroup({
     name: new FormControl('', [
@@ -66,7 +57,6 @@ export class InstructorRequestFormComponent {
       Validators.maxLength(EMAIL_MAX_LENGTH),
     ]),
     comments: new FormControl(''),
-    recaptcha: new FormControl(''),
   });
 
   // Create members for easier access of arf controls
@@ -104,16 +94,6 @@ export class InstructorRequestFormComponent {
   }
 
   /**
-   * Handles successful completion of reCAPTCHA challenge.
-   *
-   * @param captchaResponse user's reCAPTCHA response token.
-   */
-  handleCaptchaSuccess(captchaResponse: string): void {
-    this.isCaptchaSuccessful = true;
-    this.captchaResponse = captchaResponse;
-  }
-
-  /**
    * Handles form submission.
    */
   onSubmit(): void {
@@ -121,7 +101,7 @@ export class InstructorRequestFormComponent {
     this.isLoading = true;
     this.serverErrorMessage = '';
 
-    if (this.arf.invalid || (this.captchaSiteKey && !this.captchaResponse)) {
+    if (this.arf.invalid) {
       this.isLoading = false;
       // Do not submit form
       return;
@@ -139,7 +119,6 @@ export class InstructorRequestFormComponent {
       instructorName: name,
       instructorInstitution: institution,
       instructorCountry: countryCode,
-      captchaResponse: this.captchaSiteKey ? this.captchaResponse! : '',
     };
 
     if (comments) {
@@ -147,7 +126,7 @@ export class InstructorRequestFormComponent {
     }
 
     this.accountService
-      .createAccountRequest(requestData)
+      .createAccountVerificationRequest(requestData)
       .pipe(
         finalize(() => {
           this.isLoading = false;

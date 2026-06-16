@@ -253,15 +253,16 @@
       "subject": "jian.li@teammates.tmt"
     }
   },
-  "accountRequests": {
+  "accountVerificationRequests": {
     "instructor1": {
       "id": "00000000-0000-4000-8000-000000002001",
       "name": "Alice",
       "email": "alice@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-06-15T09:00:00Z",
-      "status": "REGISTERED",
-      "registeredAt": "2024-07-01T10:30:00Z"
+      "status": "APPROVED",
+      "createdDemoCourseAt": "2024-07-01T10:30:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000002002",
@@ -269,9 +270,10 @@
       "email": "tanaka@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-08-01T08:00:00Z",
-      "status": "REGISTERED",
-      "registeredAt": "2024-08-10T14:00:00Z",
-      "comments": "Visiting researcher from Kyoto University"
+      "status": "APPROVED",
+      "createdDemoCourseAt": "2024-08-10T14:00:00Z",
+      "comments": "Visiting researcher from Kyoto University",
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "instructor3": {
       "id": "00000000-0000-4000-8000-000000002003",
@@ -279,8 +281,9 @@
       "email": "elena@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-07-20T11:00:00Z",
-      "status": "REGISTERED",
-      "registeredAt": "2024-08-01T09:00:00Z"
+      "status": "APPROVED",
+      "createdDemoCourseAt": "2024-08-01T09:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "instructor4": {
       "id": "00000000-0000-4000-8000-000000002004",
@@ -288,8 +291,9 @@
       "email": "marcus.okonkwo@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000001",
       "createdAt": "2024-09-01T10:00:00Z",
-      "status": "REGISTERED",
-      "registeredAt": "2024-09-05T16:00:00Z"
+      "status": "APPROVED",
+      "createdDemoCourseAt": "2024-09-05T16:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "instructor5": {
       "id": "00000000-0000-4000-8000-000000002005",
@@ -298,7 +302,8 @@
       "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2025-01-10T08:00:00Z",
       "status": "APPROVED",
-      "comments": "New faculty hire, starting Spring 2025"
+      "comments": "New faculty hire, starting Spring 2025",
+      "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "instructor6": {
       "id": "00000000-0000-4000-8000-000000002006",
@@ -306,8 +311,9 @@
       "email": "lars.eriksson@teammates.tmt",
       "instituteId": "00000000-0000-4000-9000-000000000002",
       "createdAt": "2024-10-15T12:00:00Z",
-      "status": "REGISTERED",
-      "registeredAt": "2024-11-01T08:30:00Z"
+      "status": "APPROVED",
+      "createdDemoCourseAt": "2024-11-01T08:30:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000006"
     }
   },
   "courses": {

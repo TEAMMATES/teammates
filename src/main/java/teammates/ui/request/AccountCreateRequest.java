@@ -20,8 +20,6 @@ public class AccountCreateRequest extends BasicRequest {
     private String instructorCountry;
     @Nullable
     private String instructorComments;
-    @Nullable
-    private String captchaResponse;
 
     public String getInstructorEmail() {
         return instructorEmail;
@@ -43,10 +41,6 @@ public class AccountCreateRequest extends BasicRequest {
         return this.instructorComments;
     }
 
-    public String getCaptchaResponse() {
-        return this.captchaResponse;
-    }
-
     public void setInstructorName(String name) {
         this.instructorName = name;
     }
@@ -65,10 +59,6 @@ public class AccountCreateRequest extends BasicRequest {
 
     public void setInstructorComments(String instructorComments) {
         this.instructorComments = instructorComments;
-    }
-
-    public void setCaptchaResponse(String captchaResponse) {
-        this.captchaResponse = captchaResponse;
     }
 
     @Override

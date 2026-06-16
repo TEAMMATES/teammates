@@ -26,7 +26,7 @@ public class InstructorFeedbackEditPageAxeTest extends BaseAxeTestCase {
                 .withFeedbackSessionId(testData.feedbackSessions.get("openSession").getId());
 
         InstructorFeedbackEditPage feedbackEditPage = loginToPage(url, InstructorFeedbackEditPage.class,
-                testData.instructors.get("InstFEP.instr").getGoogleId());
+                testData.instructors.get("InstFEP.instr").getEmail());
 
         // landmark-unique, aria-valuenow might be caused by tinymce
         // aria-prohibited-attr is caused by https://github.com/tinymce/tinymce/issues/7346

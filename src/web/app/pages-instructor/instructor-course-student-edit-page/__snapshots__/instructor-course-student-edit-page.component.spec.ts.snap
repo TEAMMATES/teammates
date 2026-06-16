@@ -17,13 +17,12 @@ exports[`InstructorCourseStudentEditPageComponent > should snap when student is 
   isTeamnameFieldChanged="false"
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   student="undefined"
-  studentId="undefined"
   studentService={[Function _StudentService]}
   teamFieldSubscription="undefined"
+  userId="undefined"
 >
   <tm-loading-retry>
     <div
@@ -65,13 +64,12 @@ exports[`InstructorCourseStudentEditPageComponent > should snap with default fie
   isTeamnameFieldChanged="false"
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   student="undefined"
-  studentId="undefined"
   studentService={[Function _StudentService]}
   teamFieldSubscription="undefined"
+  userId="undefined"
 >
   <tm-loading-retry>
     <div
@@ -113,13 +111,12 @@ exports[`InstructorCourseStudentEditPageComponent > should snap with student det
   isTeamnameFieldChanged="false"
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentId="undefined"
   studentService={[Function _StudentService]}
   teamFieldSubscription="undefined"
+  userId="undefined"
 >
   <tm-loading-retry>
     <div

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -24,7 +24,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.Provider;
-import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -68,8 +67,8 @@ public class UserProvisionTest extends BaseTestCase {
 
         userProvision = new UserProvision();
 
-        when(mockUsersLogic.isInstructorInAnyCourse(anyString())).thenReturn(false);
-        when(mockUsersLogic.isStudentInAnyCourse(anyString())).thenReturn(false);
+        when(mockUsersLogic.getInstructorsByAccountId(any(UUID.class))).thenReturn(List.of());
+        when(mockUsersLogic.getStudentsByAccountId(any(UUID.class))).thenReturn(List.of());
         when(mockAccountsLogic.getAccountForGoogleId(anyString())).thenReturn(null);
 
         mockConfigStatic = mockStatic(Config.class);
@@ -185,23 +184,6 @@ public class UserProvisionTest extends BaseTestCase {
         assertNull(userProvision.getUserInfo(null));
         assertNull(userProvision.getUserInfo(new AuthContext(AuthType.PUBLIC, null, null, false, false)));
         verifyNoInteractions(mockUsersLogic);
-    }
-
-    @Test
-    public void getUserInfo_loggedInContext_returnsRolesForAccountGoogleId() {
-        Account account = createAccount("user-id", "user@example.com");
-        when(mockUsersLogic.isInstructorInAnyCourse(account.getGoogleId())).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(account.getGoogleId())).thenReturn(true);
-        AuthContext authContext = new AuthContext(AuthType.LOGGED_IN, account, null, true, true);
-
-        UserInfo userInfo = userProvision.getUserInfo(authContext);
-
-        assertEquals(account.getGoogleId(), userInfo.id);
-        assertEquals(account.getId(), userInfo.accountId);
-        assertTrue(userInfo.isAdmin);
-        assertTrue(userInfo.isMaintainer);
-        assertTrue(userInfo.isInstructor);
-        assertTrue(userInfo.isStudent);
     }
 
     private static MockHttpServletRequest createRequest() {

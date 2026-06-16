@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { of } from 'rxjs';
@@ -98,7 +97,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
   private readonly fileSaveService = inject(FileSaveService);
   private readonly studentService = inject(StudentService);
   private readonly instructorService = inject(InstructorService);
-  private readonly route = inject(ActivatedRoute);
   private readonly timezoneService = inject(TimezoneService);
   private readonly simpleModalService = inject(SimpleModalService);
   private readonly navigationService = inject(NavigationService);
@@ -115,7 +113,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   courseId = '';
   fsName = '';
-  feedbackSessionId = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -169,6 +166,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
     createdAtTimestamp: 0,
   };
 
+  @Input({ required: true }) feedbackSessionId!: string;
+
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?: InstructorSessionNoResponsePanelComponent;
 
   constructor() {
@@ -179,10 +178,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.feedbackSessionId = queryParams['fsid'];
-      this.loadFeedbackSessionResults(this.feedbackSessionId);
-    });
+    this.loadFeedbackSessionResults(this.feedbackSessionId);
   }
 
   loadFeedbackSessionResults(feedbackSessionId: string): void {
@@ -193,7 +189,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .subscribe({
         next: (feedbackSessionView: FeedbackSessionView) => {
@@ -782,8 +777,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
   }
 
   navigateToIndividualSessionResultPage(): void {
-    this.navigationService.navigateByURL('/web/instructor/sessions/result', {
-      fsid: this.feedbackSessionId,
-    });
+    this.navigationService.navigateByURL(`/web/instructor/sessions/${this.feedbackSessionId}/result`);
   }
 }

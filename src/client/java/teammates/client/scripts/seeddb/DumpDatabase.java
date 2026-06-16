@@ -17,7 +17,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackQuestion;
@@ -102,8 +102,8 @@ public final class DumpDatabase {
         for (Account e : queryAll(cb, Account.class)) {
             bundle.accounts.put(e.getId().toString(), e);
         }
-        for (AccountRequest e : queryAll(cb, AccountRequest.class)) {
-            bundle.accountRequests.put(e.getId().toString(), e);
+        for (AccountVerificationRequest e : queryAll(cb, AccountVerificationRequest.class)) {
+            bundle.accountVerificationRequests.put(e.getId().toString(), e);
         }
         for (Course e : queryAll(cb, Course.class)) {
             bundle.courses.put(e.getId(), e);

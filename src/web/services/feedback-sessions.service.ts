@@ -8,6 +8,7 @@ import { InstructorSessionResultSectionType } from '../app/pages-instructor/inst
 import { TemplateSession, templateSessions } from '../data/template-sessions';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  DeadlineExtension,
   DeadlineExtensions,
   FeedbackSession,
   FeedbackSessionView,
@@ -54,28 +55,13 @@ export class FeedbackSessionsService {
   /**
    * Retrieves a feedback session by calling API.
    */
-  getFeedbackSession(queryParams: {
-    feedbackSessionId: string;
-    intent: Intent;
-    key?: string;
-    moderatedPerson?: string;
-    previewAs?: string;
-  }): Observable<FeedbackSessionView> {
+  getFeedbackSession(queryParams: { feedbackSessionId: string; key?: string }): Observable<FeedbackSessionView> {
     const paramMap: Record<string, string> = {
-      intent: queryParams.intent,
       fsid: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;
-    }
-
-    if (queryParams.moderatedPerson) {
-      paramMap['moderatedperson'] = queryParams.moderatedPerson;
-    }
-
-    if (queryParams.previewAs) {
-      paramMap['previewas'] = queryParams.previewAs;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION, paramMap);
@@ -127,6 +113,24 @@ export class FeedbackSessionsService {
       fsid: feedbackSessionId,
     };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
+  }
+
+  /**
+   * Gets the deadline extension for a specific user in a feedback session by calling API.
+   */
+  getDeadlineExtension(queryParams: {
+    feedbackSessionId: string;
+    userId: string;
+    key?: string;
+  }): Observable<DeadlineExtension> {
+    const paramMap: Record<string, string> = {
+      fsid: queryParams.feedbackSessionId,
+      userid: queryParams.userId,
+    };
+    if (queryParams.key) {
+      paramMap['key'] = queryParams.key;
+    }
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_DEADLINE_EXTENSION, paramMap);
   }
 
   /**

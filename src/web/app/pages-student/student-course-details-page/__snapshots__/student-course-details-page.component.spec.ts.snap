@@ -13,7 +13,6 @@ exports[`StudentCourseDetailsPageComponent > should snap when all data are still
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
   isLoadingTeammates={[Function Boolean]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentService={[Function _StudentService]}
@@ -56,7 +55,6 @@ exports[`StudentCourseDetailsPageComponent > should snap when it fails to load 1
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
   isLoadingTeammates="false"
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentService={[Function _StudentService]}
@@ -100,7 +98,6 @@ exports[`StudentCourseDetailsPageComponent > should snap with default fields 1`]
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
   isLoadingTeammates="false"
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentService={[Function _StudentService]}
@@ -144,7 +141,6 @@ exports[`StudentCourseDetailsPageComponent > should snap with populated fields 1
   isLoadingInstructor="false"
   isLoadingStudent="false"
   isLoadingTeammates="false"
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentService={[Function _StudentService]}

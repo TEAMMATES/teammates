@@ -2,7 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { StudentExtensionTableColumnModel } from './extension-table-column-model';
 import { InstructorSessionIndividualExtensionPageComponent } from './instructor-session-individual-extension-page.component';
@@ -158,25 +158,13 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of({
-              courseid: testCourse.courseId,
-              feedbackSessionName: testFeedbackSession.feedbackSessionName,
-              preselectnonsubmitters: 'false',
-            }),
-          },
-        },
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
     component = fixture.componentInstance;
+    component.feedbackSessionId = testFeedbackSession.feedbackSessionId;
+    component.preselectNonSubmitters = 'false';
     studentService = TestBed.inject(StudentService);
     instructorService = TestBed.inject(InstructorService);
     courseService = TestBed.inject(CourseService);
@@ -595,12 +583,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   });
 
   it('should automatically select students that have not submitted yet if preselectnonsubmitters is true', () => {
-    const activatedRoute = TestBed.inject(ActivatedRoute);
-    activatedRoute.queryParams = of({
-      courseid: testCourse.courseId,
-      feedbackSessionName: testFeedbackSession.feedbackSessionName,
-      preselectnonsubmitters: 'true',
-    });
+    component.preselectNonSubmitters = 'true';
 
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourseView));

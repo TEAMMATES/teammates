@@ -238,40 +238,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets all instructors by {@code googleId}.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Instructor> getAllInstructorsByGoogleId(String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> instructorsCr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorsRoot = instructorsCr.from(Instructor.class);
-        Join<Instructor, Account> accountsJoin = instructorsRoot.join("account");
-
-        instructorsCr.select(instructorsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
-
-        return HibernateUtil.createQuery(instructorsCr).getResultList();
-    }
-
-    /**
-     * Gets all students by {@code googleId}.
-     *
-     * @deprecated moving away from googleId based retrieval
-     */
-    @Deprecated(forRemoval = false)
-    public List<Student> getAllStudentsByGoogleId(String googleId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> studentsCr = cb.createQuery(Student.class);
-        Root<Student> studentsRoot = studentsCr.from(Student.class);
-        Join<Student, Account> accountsJoin = studentsRoot.join("account");
-
-        studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
-
-        return HibernateUtil.createQuery(studentsCr).getResultList();
-    }
-
-    /**
      * Escapes LIKE pattern metacharacters so user input is treated literally.
      */
     private static String escapeLikePattern(String pattern, char escapeChar) {

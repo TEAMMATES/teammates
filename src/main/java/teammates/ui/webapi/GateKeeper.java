@@ -7,10 +7,12 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.AuthLogic;
 import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.AccountVerificationRequest;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -72,7 +74,8 @@ final class GateKeeper {
      */
     void verifyInstructorInAnyCourse(RequestContext requestContext) throws UnauthorizedAccessException {
         if (requestContext.getAccount() != null
-                && !usersLogic.getInstructorsByAccountId(requestContext.getAccount().getId()).isEmpty()) {
+                && (!usersLogic.getInstructorsByAccountId(requestContext.getAccount().getId()).isEmpty()
+                        || logic.hasAnyApprovedVerificationRequest(requestContext.getAccount().getId()))) {
             return;
         }
 
@@ -90,6 +93,22 @@ final class GateKeeper {
             throw new UnauthorizedAccessException("Course [" + courseId + "] is not accessible to student ["
                     + student.getEmail() + "]");
         }
+    }
+
+    /**
+     * Verifies that the user is a member (student or instructor) of the specified course.
+     */
+    void verifyUserInCourse(RequestContext requestContext, String courseId)
+            throws UnauthorizedAccessException {
+        Student student = requestContext.getStudentForCourse(courseId, authLogic::getStudentFromAuthContext);
+        if (student != null && student.getCourseId().equals(courseId)) {
+            return;
+        }
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        if (instructor != null && instructor.getCourseId().equals(courseId)) {
+            return;
+        }
+        throw new UnauthorizedAccessException("User is not a member of course [" + courseId + "]");
     }
 
     /**
@@ -128,6 +147,65 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the user can view the deadline extension for the given user in the given feedback session.
+     *
+     * <p>Admins, the user themselves (via regkey or account), and instructors with CAN_MODIFY_SESSION
+     * are allowed to access.
+     */
+    void verifyCanViewDeadlineExtension(RequestContext requestContext, UUID feedbackSessionId, UUID userId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        User regKeyUser = requestContext.getRegKeyUser();
+        if (regKeyUser != null && regKeyUser.getId().equals(userId)) {
+            return;
+        }
+
+        if (requestContext.getAccount() != null) {
+            User targetUser = logic.getUser(userId);
+            if (targetUser != null && requestContext.getAccount().getId().equals(targetUser.getAccountId())) {
+                return;
+            }
+
+            FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+            verifyNotNull(feedbackSession, "feedback session");
+            Instructor instructor = requestContext.getInstructorForCourse(feedbackSession.getCourseId(),
+                    authLogic::getInstructorFromAuthContext);
+            if (instructor != null && logic.hasInstructorPermissions(instructor,
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION)) {
+                return;
+            }
+        }
+
+        throw new UnauthorizedAccessException("Not authorized to view this deadline extension.");
+    }
+
+    /**
+     * Verifies that the user can view the specified account verification request.
+     *
+     * <p>Admins can view all account verification requests. Non-admins can only view account verification requests
+     * that they created.
+     */
+    void verifyCanViewAccountVerificationRequest(RequestContext requestContext, UUID accountVerificationRequestId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        AccountVerificationRequest accountVerificationRequest =
+                logic.getAccountVerificationRequest(accountVerificationRequestId);
+        verifyNotNull(accountVerificationRequest, "account verification request");
+
+        if (requestContext.getAccount() == null
+                || !requestContext.getAccount().getId().equals(accountVerificationRequest.getAccountId())) {
+            throw new UnauthorizedAccessException("Account verification request ["
+                    + accountVerificationRequestId + "] is not accessible to user");
+        }
+    }
+
+    /**
      * Verifies that the user has student privileges in the course of the specified feedback session.
      */
     void verifyStudentInFeedbackSession(RequestContext requestContext, UUID feedbackSessionId)
@@ -158,6 +236,39 @@ final class GateKeeper {
     }
 
     /**
+     * Verifies that the user can access the specified feedback session.
+     *
+     * <p>The user must be a course member (student or instructor) or admin. Instructors with CAN_VIEW_SESSION
+     * privilege may access regardless of session visibility; all others require the session to be visible.
+     */
+    void verifyFeedbackSessionAccessible(RequestContext requestContext, UUID feedbackSessionId)
+            throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
+        verifyNotNull(feedbackSession, "feedback session");
+        String courseId = feedbackSession.getCourseId();
+
+        verifyUserInCourse(requestContext, courseId);
+
+        Instructor instructor = requestContext.getInstructorForCourse(courseId, authLogic::getInstructorFromAuthContext);
+        if (instructor != null) {
+            boolean canViewSession = logic.hasInstructorPermissions(instructor, Const.InstructorPermissions.CAN_VIEW_SESSION)
+                    || !logic.getSectionsWithInstructorPermission(instructor,
+                            Const.InstructorPermissions.CAN_VIEW_SESSION).isEmpty();
+            if (canViewSession) {
+                return;
+            }
+        }
+
+        if (!feedbackSession.isVisible()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
+        }
+    }
+
+    /**
      * Verifies the instructor has the privileges specified by privilegeNames for the course
      * of the specified feedback session.
      */
@@ -177,6 +288,17 @@ final class GateKeeper {
         FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         verifyNotNull(feedbackQuestion, "feedback question");
         verifyInstructorHasPrivilege(requestContext, feedbackQuestion.getCourseId(), privilegeNames);
+    }
+
+    /**
+     * Verifies the logged-in user has privilege to modify the specified instructor.
+     */
+    void verifyCanModifyInstructor(RequestContext requestContext, UUID instructorId)
+            throws UnauthorizedAccessException {
+        Instructor instructor = logic.getInstructor(instructorId);
+        verifyNotNull(instructor, "instructor");
+        verifyInstructorHasPrivilege(requestContext, instructor.getCourseId(),
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     /**
@@ -227,6 +349,30 @@ final class GateKeeper {
                 throw new UnauthorizedAccessException("Instructor does not have privilege [" + privilegeName
                                                       + "] on section [" + sectionId + "]");
             }
+        }
+    }
+
+    /**
+     * Verifies that the current user is an admin or is accessing their own account.
+     */
+    void verifyAdminOrOwnAccount(RequestContext requestContext, UUID accountId) throws UnauthorizedAccessException {
+        if (requestContext.isAdmin()) {
+            return;
+        }
+        if (requestContext.getAccount() != null && requestContext.getAccount().getId().equals(accountId)) {
+            return;
+        }
+        throw new UnauthorizedAccessException("Not authorized to access account [" + accountId + "]");
+    }
+
+    /**
+     * Verifies that the account has an approved account verification request for the given institute.
+     */
+    void verifyAccountVerifiedForInstitute(RequestContext requestContext, UUID instituteId)
+            throws UnauthorizedAccessException {
+        boolean isVerified = logic.isAccountVerifiedForInstitute(requestContext.getAccount().getId(), instituteId);
+        if (!isVerified) {
+            throw new UnauthorizedAccessException("Account is not verified for institute [" + instituteId + "]");
         }
     }
 

@@ -60,8 +60,7 @@
                 <strong class="text-break">[{{ course.courseId }}]: {{ course.courseName }}</strong>
                 <div class="card-header-btn-toolbar">
                   <a
-                    tmRouterLink="/web/student/course"
-                    [queryParams]="{ courseid: course.courseId }"
+                    [tmRouterLink]="['/web/student/courses', course.courseId]"
                     id="view-team-btn-{{ i }}"
                     class="btn btn-primary btn-sm button text-nowrap me-2"
                   >
@@ -120,10 +119,11 @@
                               <td class="text-center">
                                 <a
                                   [ngClass]="{ disabled: !session.isPublished }"
-                                  tmRouterLink="/web/student/sessions/result"
-                                  [queryParams]="{
-                                    fsid: session.session.feedbackSessionId,
-                                  }"
+                                  [tmRouterLink]="[
+                                    '/web/student/sessions',
+                                    session.session.feedbackSessionId,
+                                    'result',
+                                  ]"
                                   id="view-responses-btn-{{ i }}"
                                   class="btn btn-light btn-sm btn-margin-right custom-button"
                                 >
@@ -136,10 +136,11 @@
                                 }
                                 @if (session.isOpened && !session.isSubmitted) {
                                   <a
-                                    tmRouterLink="/web/student/sessions/submission"
-                                    [queryParams]="{
-                                      fsid: session.session.feedbackSessionId,
-                                    }"
+                                    [tmRouterLink]="[
+                                      '/web/student/sessions',
+                                      session.session.feedbackSessionId,
+                                      'submission',
+                                    ]"
                                     id="start-submit-btn-{{ i }}"
                                     class="btn btn-light btn-sm custom-button"
                                   >
@@ -148,10 +149,11 @@
                                 }
                                 @if (session.isOpened && session.isSubmitted) {
                                   <a
-                                    tmRouterLink="/web/student/sessions/submission"
-                                    [queryParams]="{
-                                      fsid: session.session.feedbackSessionId,
-                                    }"
+                                    [tmRouterLink]="[
+                                      '/web/student/sessions',
+                                      session.session.feedbackSessionId,
+                                      'submission',
+                                    ]"
                                     id="edit-submit-btn-{{ i }}"
                                     class="btn btn-light btn-sm custom-button"
                                   >
@@ -160,10 +162,11 @@
                                 }
                                 @if (!session.isOpened && !session.isWaitingToOpen) {
                                   <a
-                                    tmRouterLink="/web/student/sessions/submission"
-                                    [queryParams]="{
-                                      fsid: session.session.feedbackSessionId,
-                                    }"
+                                    [tmRouterLink]="[
+                                      '/web/student/sessions',
+                                      session.session.feedbackSessionId,
+                                      'submission',
+                                    ]"
                                     id="view-submit-btn-{{ i }}"
                                     class="btn btn-light btn-sm custom-button"
                                   >

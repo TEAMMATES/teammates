@@ -1,0 +1,1039 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AdminAccountVerificationRequestSearchTableComponent > should display account verification requests with no reset or expand links button 1`] = `
+<tm-admin-account-verification-request-search-table
+  accountService={[Function _AccountService]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
+  ngbModal={[Function NgbModal]}
+  searchString=""
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <div>
+        <strong>
+          Account Verification Requests Found
+        </strong>
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-verification-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+           Expand All 
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-verification-request-links"
+          type="button"
+        >
+           Collapse All 
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-verification-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Country
+            </th>
+            <th>
+              Submitted At
+            </th>
+            <th>
+              Demo Course Created At
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              PENDING
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              Singapore
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Created Yet
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                comment
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account verification request"
+                    class="btn btn-link p-0"
+                    id="edit-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account verification request"
+                    class="btn btn-link p-0"
+                    id="delete-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account verification request"
+                    class="btn btn-link p-0"
+                    id="view-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-verification-request-0"
+                >
+                   Approve 
+                </button>
+                <span
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    id="reject-account-verification-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              PENDING
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              Singapore
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Created Yet
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                comment
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account verification request"
+                    class="btn btn-link p-0"
+                    id="edit-account-verification-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account verification request"
+                    class="btn btn-link p-0"
+                    id="delete-account-verification-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account verification request"
+                    class="btn btn-link p-0"
+                    id="view-account-verification-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-verification-request-1"
+                >
+                   Approve 
+                </button>
+                <span
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    id="reject-account-verification-request-1"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-1"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-1"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-account-verification-request-search-table>
+`;
+
+exports[`AdminAccountVerificationRequestSearchTableComponent > should display account verification requests with reset button and expandable links buttons 1`] = `
+<tm-admin-account-verification-request-search-table
+  accountService={[Function _AccountService]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
+  ngbModal={[Function NgbModal]}
+  searchString={[Function String]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <div>
+        <strong>
+          Account Verification Requests Found
+        </strong>
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-verification-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+           Expand All 
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-verification-request-links"
+          type="button"
+        >
+           Collapse All 
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-verification-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Country
+            </th>
+            <th>
+              Submitted At
+            </th>
+            <th>
+              Demo Course Created At
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              APPROVED
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              Singapore
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Created Yet
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                comment
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account verification request"
+                    class="btn btn-link p-0"
+                    id="edit-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account verification request"
+                    class="btn btn-link p-0"
+                    id="delete-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account verification request"
+                    class="btn btn-link p-0"
+                    id="view-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="approve-account-verification-request-0"
+                >
+                   Approve 
+                </button>
+                <span
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-verification-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              APPROVED
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              Singapore
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Created Yet
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                comment
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account verification request"
+                    class="btn btn-link p-0"
+                    id="edit-account-verification-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account verification request"
+                    class="btn btn-link p-0"
+                    id="delete-account-verification-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account verification request"
+                    class="btn btn-link p-0"
+                    id="view-account-verification-request-1"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  disabled=""
+                  id="approve-account-verification-request-1"
+                >
+                   Approve 
+                </button>
+                <span
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    disabled=""
+                    id="reject-account-verification-request-1"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-1"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-1"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-account-verification-request-search-table>
+`;
+
+exports[`AdminAccountVerificationRequestSearchTableComponent > should snap with an expanded account verification requests table 1`] = `
+<tm-admin-account-verification-request-search-table
+  accountService={[Function _AccountService]}
+  accountVerificationRequests={[Function Array]}
+  isApprovingAccountVerificationRequest={[Function Array]}
+  isRejectingAccountVerificationRequest={[Function Array]}
+  ngbModal={[Function NgbModal]}
+  searchString=""
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <div>
+        <strong>
+          Account Verification Requests Found
+        </strong>
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-verification-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+           Expand All 
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-verification-request-links"
+          type="button"
+        >
+           Collapse All 
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-account-verification-request"
+      >
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>
+              Email
+            </th>
+            <th>
+              Status
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Country
+            </th>
+            <th>
+              Submitted At
+            </th>
+            <th>
+              Demo Course Created At
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
+            </td>
+            <td>
+              email
+            </td>
+            <td>
+              PENDING
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              Singapore
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Tue, 08 Feb 2022, 08:23 AM +00:00
+            </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Created Yet
+            </td>
+            <td>
+              <div
+                id="comment-box"
+              >
+                comment
+              </div>
+            </td>
+            <td
+              class="align-middle"
+            >
+              <div
+                class="d-flex flex-row align-items-center justify-content-center gap-2"
+              >
+                <div>
+                  <button
+                    aria-label="Edit account verification request"
+                    class="btn btn-link p-0"
+                    id="edit-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-pen"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    aria-label="Delete account verification request"
+                    class="btn btn-link p-0"
+                    id="delete-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-trash"
+                    />
+                  </button>
+                </div>
+                <div>
+                  <button
+                    aria-label="View account verification request"
+                    class="btn btn-link p-0"
+                    id="view-account-verification-request-0"
+                    type="button"
+                  >
+                    <i
+                      class="fa-solid fa-eye"
+                    />
+                  </button>
+                </div>
+                <button
+                  class="btn btn-success"
+                  id="approve-account-verification-request-0"
+                >
+                   Approve 
+                </button>
+                <span
+                  container="body"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    class="dropdown-toggle btn btn-warning"
+                    id="reject-account-verification-request-0"
+                    ngbdropdowntoggle=""
+                    type="button"
+                  >
+                     Reject 
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                  >
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-0"
+                    >
+                       Reject 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm dropdown-item"
+                      id="reject-request-with-reason-0"
+                    >
+                       Reject With Reason 
+                    </button>
+                  </div>
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="100"
+            >
+              <ul
+                class="list-group collapse"
+              >
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Account Registration Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-account-verification-request-search-table>
+`;

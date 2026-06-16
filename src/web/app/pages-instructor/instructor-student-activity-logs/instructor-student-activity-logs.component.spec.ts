@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
 import { CourseService } from '../../../services/course.service';
@@ -113,17 +113,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of({ courseid: testCourse1.courseId }),
-          },
-        },
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(InstructorStudentActivityLogsComponent);
@@ -144,6 +134,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
     );
 
     component = fixture.componentInstance;
+    component.courseId = testCourse1.courseId;
     fixture.detectChanges();
   });
 

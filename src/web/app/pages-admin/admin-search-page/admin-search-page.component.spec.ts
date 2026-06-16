@@ -69,7 +69,7 @@ describe('AdminSearchPageComponent', () => {
       of({
         students: [],
         instructors: [],
-        accountRequests: [],
+        accountVerificationRequests: [],
       }),
     );
 
@@ -113,7 +113,7 @@ describe('AdminSearchPageComponent', () => {
       of({
         students: [],
         instructors: instructorResults,
-        accountRequests: [],
+        accountVerificationRequests: [],
       }),
     );
 
@@ -123,7 +123,7 @@ describe('AdminSearchPageComponent', () => {
 
     expect(component.students.length).toEqual(0);
     expect(component.instructors.length).toEqual(2);
-    expect(component.accountRequests.length).toEqual(0);
+    expect(component.accountVerificationRequests.length).toEqual(0);
     expect(component.instructors).toEqual(instructorResults);
   });
 
@@ -163,7 +163,7 @@ describe('AdminSearchPageComponent', () => {
       of({
         students: studentResults,
         instructors: [],
-        accountRequests: [],
+        accountVerificationRequests: [],
       }),
     );
 
@@ -173,7 +173,7 @@ describe('AdminSearchPageComponent', () => {
 
     expect(component.students.length).toEqual(2);
     expect(component.instructors.length).toEqual(0);
-    expect(component.accountRequests.length).toEqual(0);
+    expect(component.accountVerificationRequests.length).toEqual(0);
     expect(component.students).toEqual(studentResults);
   });
 });

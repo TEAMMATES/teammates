@@ -5,8 +5,8 @@ import { Observable, first } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
-import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
-import { AccountRequest } from '../../../../types/api-output';
+import { AccountCreateRequest, AccountVerificationRequestStatus } from '../../../../types/api-request';
+import { AccountVerificationRequest } from '../../../../types/api-output';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
@@ -25,21 +25,20 @@ describe('InstructorRequestFormComponent', () => {
     instructorInstitution: typicalModel.institution,
     instructorCountry: typicalModel.country,
   };
-  const typicalAccountRequest: AccountRequest = {
-    accountRequestId: 'id',
+  const typicalAccountVerificationRequest: AccountVerificationRequest = {
+    accountVerificationRequestId: 'id',
     email: typicalModel.email,
     name: typicalModel.name,
     institute: typicalModel.institution,
     country: typicalModel.country,
-    registrationKey: 'registration-key',
-    status: AccountRequestStatus.PENDING,
+    status: AccountVerificationRequestStatus.PENDING,
     createdAt: 0,
   };
 
   const accountServiceStub: Partial<AccountService> = {
-    createAccountRequest: () =>
+    createAccountVerificationRequest: () =>
       new Observable((subscriber) => {
-        subscriber.next(typicalAccountRequest);
+        subscriber.next(typicalAccountVerificationRequest);
       }),
   };
 
@@ -64,13 +63,8 @@ describe('InstructorRequestFormComponent', () => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
     vi.clearAllMocks();
-  });
-
-  it('should have empty captcha key', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should create', () => {
@@ -92,9 +86,9 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
-    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountVerificationRequest').mockReturnValue(
       new Observable((subscriber) => {
-        subscriber.next(typicalAccountRequest);
+        subscriber.next(typicalAccountVerificationRequest);
       }),
     );
 
@@ -116,16 +110,18 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should send the correct request data when form is submitted', () => {
-    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountVerificationRequest').mockReturnValue(
       new Observable((subscriber) => {
-        subscriber.next(typicalAccountRequest);
+        subscriber.next(typicalAccountVerificationRequest);
       }),
     );
 
     fillFormWith(typicalModel);
     component.onSubmit();
 
-    expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
-    expect(accountService.createAccountRequest).toHaveBeenCalledWith(expect.objectContaining(typicalCreateRequest));
+    expect(accountService.createAccountVerificationRequest).toHaveBeenCalledTimes(1);
+    expect(accountService.createAccountVerificationRequest).toHaveBeenCalledWith(
+      expect.objectContaining(typicalCreateRequest),
+    );
   });
 });

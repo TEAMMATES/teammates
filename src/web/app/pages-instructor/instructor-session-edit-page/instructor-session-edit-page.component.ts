@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ChangeDetectorRef, Component, Input, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap } from 'rxjs/operators';
@@ -83,7 +82,6 @@ import {
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
   private readonly studentService = inject(StudentService);
   private readonly courseService = inject(CourseService);
-  private readonly route = inject(ActivatedRoute);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   // enum
@@ -95,7 +93,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId = '';
   feedbackSessionName = '';
-  feedbackSessionId = '';
+  @Input({ required: true }) feedbackSessionId!: string;
+  @Input() editingMode = '';
   isEditingMode = false;
 
   courseName = '';
@@ -173,13 +172,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: Params) => {
-      this.feedbackSessionId = queryParams['fsid'];
-      this.isEditingMode = queryParams['editingMode'] === 'true';
+    this.isEditingMode = this.editingMode === 'true';
 
-      this.loadFeedbackSession();
-      this.loadFeedbackQuestions();
-    });
+    this.loadFeedbackSession();
+    this.loadFeedbackQuestions();
   }
 
   /**
@@ -191,7 +187,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
-        intent: Intent.FULL_DETAIL,
       })
       .pipe(
         switchMap((feedbackSessionView: FeedbackSessionView) => {

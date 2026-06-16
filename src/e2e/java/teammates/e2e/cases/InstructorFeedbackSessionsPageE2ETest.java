@@ -84,7 +84,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPage feedbackSessionsPage =
-                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
+                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getEmail());
 
         ______TS("verify loaded data");
         FeedbackSession[] loadedSessions = { closedSession, openSession };
@@ -276,7 +276,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         String sessionName = session.getName();
         boolean hasQuestion = testData.feedbackQuestions.values()
                 .stream()
-                .anyMatch(q -> q.getFeedbackSessionName().equals(sessionName));
+                .anyMatch(q -> q.getFeedbackSession().getName().equals(sessionName));
 
         if (!hasQuestion) {
             return "0 / 0";
@@ -290,7 +290,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         Set<ResponseGiver> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
-                .filter(r -> r.getFeedbackQuestion().getFeedbackSessionName().equals(sessionName))
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getName().equals(sessionName))
                 .forEach(r -> uniqueGivers.add(r.getGiver()));
         int numResponses = uniqueGivers.size();
 

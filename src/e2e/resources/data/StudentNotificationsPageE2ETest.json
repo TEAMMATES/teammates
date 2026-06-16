@@ -13,10 +13,10 @@
       "name": "Alice B",
       "email": "snotifs.student@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.SNotifs.student"
+      "subject": "snotifs.student@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "typicalCourse1": {
       "id": "tm.e2e.SNotifs.course1",

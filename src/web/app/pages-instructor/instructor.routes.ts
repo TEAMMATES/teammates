@@ -22,7 +22,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'edit',
+        path: ':courseId/edit',
         loadComponent: () =>
           import('./instructor-course-edit-page/instructor-course-edit-page.component').then(
             (m) => m.InstructorCourseEditPageComponent,
@@ -32,47 +32,42 @@ const routes: Routes = [
         },
       },
       {
-        path: 'details',
+        path: ':courseId/details',
         loadComponent: () =>
           import('./instructor-course-details-page/instructor-course-details-page.component').then(
             (m) => m.InstructorCourseDetailsPageComponent,
           ),
       },
       {
-        path: 'enroll',
+        path: ':courseId/enroll',
         loadComponent: () =>
           import('./instructor-course-enroll-page/instructor-course-enroll-page.component').then(
             (m) => m.InstructorCourseEnrollPageComponent,
           ),
       },
       {
-        path: 'student-activity-logs',
+        path: ':courseId/student-activity-logs',
         loadComponent: () =>
           import('./instructor-student-activity-logs/instructor-student-activity-logs.component').then(
             (m) => m.InstructorStudentActivityLogsComponent,
           ),
       },
       {
-        path: 'student',
-        children: [
-          {
-            path: 'details',
-            loadComponent: () =>
-              import('./instructor-course-student-details-page/instructor-course-student-details-page.component').then(
-                (m) => m.InstructorCourseStudentDetailsPageComponent,
-              ),
-          },
-          {
-            path: 'edit',
-            loadComponent: () =>
-              import('./instructor-course-student-edit-page/instructor-course-student-edit-page.component').then(
-                (m) => m.InstructorCourseStudentEditPageComponent,
-              ),
-            data: {
-              pageTitle: 'Edit Student Details',
-            },
-          },
-        ],
+        path: ':courseId/students/:userId/details',
+        loadComponent: () =>
+          import('./instructor-course-student-details-page/instructor-course-student-details-page.component').then(
+            (m) => m.InstructorCourseStudentDetailsPageComponent,
+          ),
+      },
+      {
+        path: ':courseId/students/:userId/edit',
+        loadComponent: () =>
+          import('./instructor-course-student-edit-page/instructor-course-student-edit-page.component').then(
+            (m) => m.InstructorCourseStudentEditPageComponent,
+          ),
+        data: {
+          pageTitle: 'Edit Student Details',
+        },
       },
     ],
   },
@@ -90,7 +85,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'individual-extension',
+        path: ':feedbackSessionId/individual-extension',
         loadComponent: () =>
           import('./instructor-session-individual-extension-page/instructor-session-individual-extension-page.component').then(
             (m) => m.InstructorSessionIndividualExtensionPageComponent,
@@ -100,7 +95,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'edit',
+        path: ':feedbackSessionId/edit',
         loadComponent: () =>
           import('./instructor-session-edit-page/instructor-session-edit-page.component').then(
             (m) => m.InstructorSessionEditPageComponent,
@@ -110,7 +105,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'submission',
+        path: ':feedbackSessionId/submission',
         loadComponent: () =>
           import('../pages-session/session-submission-page/session-submission-page.component').then(
             (m) => m.SessionSubmissionPageComponent,
@@ -120,7 +115,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'result',
+        path: ':feedbackSessionId/result',
         loadComponent: () =>
           import('../pages-session/session-result-page/session-result-page.component').then(
             (m) => m.SessionResultPageComponent,
@@ -130,7 +125,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'report',
+        path: ':feedbackSessionId/report',
         loadComponent: () =>
           import('./instructor-session-result-page/instructor-session-result-page.component').then(
             (m) => m.InstructorSessionResultPageComponent,
@@ -149,7 +144,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'records',
+        path: ':courseId/:userId/records',
         loadComponent: () =>
           import('./instructor-student-records-page/instructor-student-records-page.component').then(
             (m) => m.InstructorStudentRecordsPageComponent,
@@ -191,6 +186,13 @@ const routes: Routes = [
     data: {
       instructorHelpPath: '/web/instructor/help',
     },
+  },
+  {
+    path: 'welcome/:accountVerificationRequestId',
+    loadComponent: () =>
+      import('../instructor-welcome-page/instructor-welcome-page.component').then(
+        (m) => m.InstructorWelcomePageComponent,
+      ),
   },
   {
     path: '',

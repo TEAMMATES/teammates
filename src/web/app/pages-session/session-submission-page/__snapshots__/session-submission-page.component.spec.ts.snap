@@ -32,6 +32,7 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -41,18 +42,17 @@ exports[`SessionSubmissionPageComponent > should snap when feedback session ques
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts="0"
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -205,6 +205,7 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   isQuestionCountOne="false"
   isSavingResponses={[Function Boolean]}
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -214,18 +215,17 @@ exports[`SessionSubmissionPageComponent > should snap when saving responses 1`] 
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -375,6 +375,7 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -384,18 +385,17 @@ exports[`SessionSubmissionPageComponent > should snap with default fields 1`] = 
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -545,6 +545,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -554,18 +555,17 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session and 
   pageScrollService={[Function _PageScrollService]}
   personEmail={[Function String]}
   personName={[Function String]}
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -778,6 +778,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -787,18 +788,17 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -3858,6 +3858,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled={[Function Boolean]}
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -3867,18 +3868,17 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName=""
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -6976,6 +6976,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser={[Function String]}
   moderatedPerson=""
@@ -6985,18 +6986,17 @@ exports[`SessionSubmissionPageComponent > should snap with user that is logged i
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"
@@ -7148,6 +7148,7 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   isQuestionCountOne="false"
   isSavingResponses="false"
   isSubmissionFormsDisabled="false"
+  key={[Function String]}
   logService={[Function _LogService]}
   loggedInUser=""
   moderatedPerson=""
@@ -7157,18 +7158,17 @@ exports[`SessionSubmissionPageComponent > should snap with user that is not logg
   pageScrollService={[Function _PageScrollService]}
   personEmail=""
   personName={[Function String]}
-  previewAsPerson=""
+  previewAs=""
   questionSubmissionForms={[Function Array]}
   recipientQuestionMap={[Function Map]}
-  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentService={[Function _StudentService]}
   submissionReceiptService={[Function _SubmissionReceiptService]}
   timezoneService={[Function _TimezoneService]}
   ungroupableQuestionsSorted={[Function Array]}
+  userDeadlineExtension="undefined"
 >
   <div
     class="alert alert-light border mb-3"

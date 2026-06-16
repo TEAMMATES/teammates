@@ -11,20 +11,20 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.FMsqQn.instructor",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "fmsqqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FMsqQn.instructor"
+      "subject": "fmsqqn.instructor@gmail.tmt"
     },
     "tm.e2e.FMsqQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.FMsqQn.alice.tmms",
       "name": "Alice Betsy",
-      "email": "alice.b.tmms@gmail.tmt",
+      "email": "fmsqqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FMsqQn.alice.tmms"
+      "subject": "fmsqqn.alice.tmms@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "course": {
       "id": "tm.e2e.FMsqQn.CS2104",
@@ -43,7 +43,7 @@
     "instructor": {
       "id": "00000000-0000-4000-8000-000000000501",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "fmsqqn.instructor@gmail.tmt",
       "role": "COOWNER",
       "isDisplayedToStudents": true,
       "courseId": "tm.e2e.FMsqQn.CS2104",
@@ -61,7 +61,7 @@
     },
     "instructor3": {
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "fmsqqn.instructor@gmail.tmt",
       "role": "COOWNER",
       "isDisplayedToStudents": true,
       "id": "00000000-0000-4000-8000-000000000503",
@@ -190,7 +190,7 @@
     "alice.tmms@FMsqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.FMsqQn.CS2104",
-      "email": "alice.b.tmm1s@gmail.tmt",
+      "email": "fmsqqn.alice.tmms@gmail.tmt",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "accountId": "00000000-0000-4000-8000-000000000002",

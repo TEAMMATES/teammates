@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
- * Page Object Model for account request form page.
+ * Page Object Model for account verification request form page.
  */
 public class RequestPage extends AppPage {
 

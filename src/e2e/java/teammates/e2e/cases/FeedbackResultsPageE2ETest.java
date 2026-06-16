@@ -65,7 +65,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Student student = testData.students.get("Alice");
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(openSession.getId());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getEmail());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -104,7 +104,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Instructor instructor = testData.instructors.get("FRes.instr");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withFeedbackSessionId(openSession.getId());
-        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getEmail());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 

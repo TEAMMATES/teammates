@@ -204,8 +204,7 @@
                           id="btn-enroll-{{ i }}"
                           class="btn btn-light btn-sm custom-button-active"
                           ngbTooltip="Enroll student into the course"
-                          tmRouterLink="/web/instructor/courses/enroll"
-                          [queryParams]="{ courseid: course.course.courseId }"
+                          [tmRouterLink]="['/web/instructor/courses', course.course.courseId, 'enroll']"
                         >
                           Enroll
                         </a>
@@ -224,15 +223,13 @@
                         <div ngbDropdownMenu>
                           <a
                             class="btn btn-primary btn-sm dropdown-item clickable"
-                            tmRouterLink="/web/instructor/courses/details"
-                            [queryParams]="{ courseid: course.course.courseId }"
+                            [tmRouterLink]="['/web/instructor/courses', course.course.courseId, 'details']"
                           >
                             View
                           </a>
                           <a
                             class="btn btn-primary btn-sm dropdown-item clickable"
-                            tmRouterLink="/web/instructor/courses/edit"
-                            [queryParams]="{ courseid: course.course.courseId }"
+                            [tmRouterLink]="['/web/instructor/courses', course.course.courseId, 'edit']"
                           >
                             Edit
                           </a>
@@ -252,8 +249,11 @@
                           @if (course.canModifyInstructor) {
                             <a
                               class="btn btn-primary btn-sm dropdown-item clickable"
-                              tmRouterLink="/web/instructor/courses/student-activity-logs"
-                              [queryParams]="{ courseid: course.course.courseId }"
+                              [tmRouterLink]="[
+                                '/web/instructor/courses',
+                                course.course.courseId,
+                                'student-activity-logs',
+                              ]"
                             >
                               View Logs
                             </a>

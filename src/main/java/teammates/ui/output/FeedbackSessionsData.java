@@ -29,7 +29,11 @@ public class FeedbackSessionsData implements ApiOutput {
 
     public FeedbackSessionsData(Map<FeedbackSession, Instant> feedbackSessionToDeadline) {
         this.feedbackSessions = feedbackSessionToDeadline.entrySet().stream()
-                .map(e -> new FeedbackSessionViewData(new FeedbackSessionData(e.getKey(), e.getValue())))
+                .map(e -> {
+                    FeedbackSessionViewData view = new FeedbackSessionViewData(new FeedbackSessionData(e.getKey()));
+                    view.setUserDeadlineExtension(e.getValue().toEpochMilli());
+                    return view;
+                })
                 .collect(Collectors.toList());
     }
 

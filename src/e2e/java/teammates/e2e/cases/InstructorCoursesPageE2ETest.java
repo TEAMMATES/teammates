@@ -115,9 +115,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        String instructorId = testData.accounts.get("ICs.instructor").getGoogleId();
+        String instructorEmail = testData.accounts.get("ICs.instructor").getEmail();
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
-        InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
+        InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorEmail);
 
         ______TS("verify loaded data");
         Course[] activeCourses = { courses[0], courses[1], courses[2] };

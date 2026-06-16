@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
-import { finalize } from 'rxjs/operators';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from './error-message-output';
@@ -10,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
 import { SimpleModalService } from '../services/simple-modal.service';
-import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { LoadingSpinnerDirective } from './components/loading-spinner/loading-spinner.directive';
 
@@ -28,11 +26,9 @@ export class UserJoinPageComponent implements OnInit {
   private navigationService = inject(NavigationService);
   private authService = inject(AuthService);
   private simpleModalService = inject(SimpleModalService);
-  private timezoneService = inject(TimezoneService);
   private ngbModal = inject(NgbModal);
 
   isLoading = true;
-  isCreatingAccount = false;
   hasJoined = false;
   validUrl = true;
   entityType = '';
@@ -43,14 +39,8 @@ export class UserJoinPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
-      this.entityType = queryParams['entitytype'];
+      this.entityType = queryParams['entityType'];
       this.key = queryParams['key'];
-      this.isCreatingAccount = queryParams['iscreatingaccount'] === 'true';
-
-      // Create account request can only come from instructor.
-      if (this.isCreatingAccount) {
-        this.entityType = 'instructor';
-      }
 
       const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
@@ -61,7 +51,7 @@ export class UserJoinPageComponent implements OnInit {
         }
         this.userId = auth.user.id;
 
-        this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
+        this.courseService.getJoinCourseStatus(this.key).subscribe({
           next: (resp: JoinStatus) => {
             this.hasJoined = resp.hasJoined;
             if (this.hasJoined) {
@@ -108,35 +98,5 @@ export class UserJoinPageComponent implements OnInit {
         }
       },
     });
-  }
-
-  /**
-   * Creates a demo course.
-   * Demo course is only created after instructor joins for the first time.
-   */
-  createDemoCourse(): void {
-    this.isLoading = true;
-    this.courseService
-      .createDemoCourse(this.key, this.timezoneService.guessTimezone())
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        }),
-      )
-      .subscribe({
-        next: () => {
-          this.authService.clearAuthCache();
-          this.navigationService.navigateByURL('/web/instructor');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          if (resp.status === 404) {
-            this.validUrl = false;
-          } else {
-            const modalRef: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
-            modalRef.componentInstance.requestId = resp.headers?.get('X-Request-Id');
-            modalRef.componentInstance.errorMessage = resp.error.message;
-          }
-        },
-      });
   }
 }

@@ -11,41 +11,41 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.FContrQn.instructor",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "fcontrqn.instructor@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FContrQn.instructor"
+      "subject": "fcontrqn.instructor@gmail.tmt"
     },
     "tm.e2e.FContrQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.FCContrQn.alice.tmms",
       "name": "Alice Betsy",
-      "email": "alice.b.tmms@gmail.tmt",
+      "email": "fccontrqn.alice.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FCContrQn.alice.tmms"
+      "subject": "fccontrqn.alice.tmms@gmail.tmt"
     },
     "tm.e2e.FContrQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
       "googleId": "tm.e2e.FCContrQn.benny.tmms",
       "name": "Benny Charles",
-      "email": "benny.c.tmms@gmail.tmt",
+      "email": "fccontrqn.benny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FCContrQn.benny.tmms"
+      "subject": "fccontrqn.benny.tmms@gmail.tmt"
     },
     "tm.e2e.FContrQn.charlie.tmms": {
       "id": "00000000-0000-4000-8000-000000000004",
       "googleId": "tm.e2e.FCContrQn.charlie.tmms",
       "name": "Charlie Davis",
-      "email": "charlie.d.tmms@gmail.tmt",
+      "email": "fccontrqn.charlie.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FCContrQn.charlie.tmms"
+      "subject": "fccontrqn.charlie.tmms@gmail.tmt"
     },
     "tm.e2e.FContrQn.danny.tmms": {
       "id": "00000000-0000-4000-8000-000000000005",
       "googleId": "tm.e2e.FCContrQn.danny.tmms",
       "name": "Danny Engrid",
-      "email": "danny.e.tmms@gmail.tmt",
+      "email": "fccontrqn.danny.tmms@gmail.tmt",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.FCContrQn.danny.tmms"
+      "subject": "fccontrqn.danny.tmms@gmail.tmt"
     }
   },
   "courses": {
@@ -66,7 +66,7 @@
     "instructor": {
       "courseId": "tm.e2e.FContrQn.CS2104",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "fcontrqn.instructor@gmail.tmt",
       "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
@@ -76,7 +76,7 @@
     "instructor2": {
       "courseId": "tm.e2e.FContrQn.CS1101",
       "name": "Teammates Test",
-      "email": "tmms.test@gmail.tmt",
+      "email": "fcontrqn.instructor@gmail.tmt",
       "role": "COOWNER",
       "isDisplayedToStudents": true,
       "displayName": "Co-owner",
@@ -88,7 +88,7 @@
     "alice.tmms@FContrQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.FContrQn.CS2104",
-      "email": "alice.b.tmms@gmail.tmt",
+      "email": "fccontrqn.alice.tmms@gmail.tmt",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "accountId": "00000000-0000-4000-8000-000000000002",
@@ -97,7 +97,7 @@
     "benny.tmms@FContrQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.FContrQn.CS2104",
-      "email": "benny.tmms@gmail.tmt",
+      "email": "fccontrqn.benny.tmms@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "accountId": "00000000-0000-4000-8000-000000000003",
@@ -106,7 +106,7 @@
     "charlie.tmms@FContrQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.FContrQn.CS2104",
-      "email": "fcontrqn.charlie.tmms@gmail.tmt",
+      "email": "fccontrqn.charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "accountId": "00000000-0000-4000-8000-000000000004",
@@ -115,7 +115,7 @@
     "danny.tmms@FContrQn.CS1101": {
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.FContrQn.CS1101",
-      "email": "fcontrqn.danny.tmms@gmail.tmt",
+      "email": "fccontrqn.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "accountId": "00000000-0000-4000-8000-000000000005",

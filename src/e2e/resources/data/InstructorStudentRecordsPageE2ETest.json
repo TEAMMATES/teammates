@@ -13,18 +13,18 @@
       "email": "teammates.test@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000001",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ISRecords.teammates.test"
+      "subject": "teammates.test@gmail.tmt"
     },
     "benny.c.tmms@ISR.CS2104": {
       "googleId": "tm.e2e.ISRecords.benny.c.tmms",
       "name": "Benny Charlés",
-      "email": "benny.c.tmms@gmail.tmt",
+      "email": "isrecords.benny.c.tmms@gmail.tmt",
       "id": "00000000-0000-4000-8000-000000000002",
       "provider": "TEAMMATES_DEV",
-      "subject": "tm.e2e.ISRecords.benny.c.tmms"
+      "subject": "isrecords.benny.c.tmms@gmail.tmt"
     }
   },
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "CS2104": {
       "id": "tm.e2e.ISRecords.CS2104",
@@ -66,7 +66,7 @@
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ISRecords.CS2104",
       "name": "Benny Charlés",
-      "email": "benny.c.tmms@gmail.tmt",
+      "email": "isrecords.benny.c.tmms@gmail.tmt",
       "accountId": "00000000-0000-4000-8000-000000000002",
       "teamId": "00000000-0000-4000-8000-000000000301"
     }

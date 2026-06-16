@@ -29,8 +29,7 @@
         isEnabled: instructorPrivileges.canViewStudent,
         tooltip: 'View the details of the student',
         name: 'View',
-        tmRouterLink: '/web/instructor/courses/student/details',
-        queryParams: { courseid: courseId, userid: userId },
+        tmRouterLink: ['/web/instructor/courses', courseId, 'students', userId, 'details'],
       }
     "
   >
@@ -46,8 +45,7 @@
           ' in one go, you can use the enroll page: ' +
           'Simply enroll students using the updated data and existing data will be updated accordingly',
         name: 'Edit',
-        tmRouterLink: '/web/instructor/courses/student/edit',
-        queryParams: { courseid: courseId, userid: userId },
+        tmRouterLink: ['/web/instructor/courses', courseId, 'students', userId, 'edit'],
       }
     "
   >
@@ -94,8 +92,7 @@
         isEnabled: instructorPrivileges.canModifyStudent,
         tooltip: 'View all data about this student',
         name: 'All Records',
-        tmRouterLink: '/web/instructor/students/records',
-        queryParams: { courseid: courseId, userid: userId },
+        tmRouterLink: ['/web/instructor/students', courseId, userId, 'records'],
       }
     "
   >

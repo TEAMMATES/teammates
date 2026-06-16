@@ -101,27 +101,31 @@ export class DeadlineExtensionHelper {
     return record;
   }
 
-  public static getOngoingUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
-    if (DeadlineExtensionHelper.hasUserOngoingExtension(feedbackSession)) {
-      return feedbackSession.submissionEndWithExtensionTimestamp!;
+  public static getOngoingUserFeedbackSessionEndingTimestamp(
+    feedbackSession: FeedbackSession,
+    userDeadlineExtension?: number,
+  ): number {
+    if (DeadlineExtensionHelper.hasUserOngoingExtension(feedbackSession, userDeadlineExtension)) {
+      return userDeadlineExtension!;
     }
     return feedbackSession.submissionEndTimestamp;
   }
 
-  public static hasUserOngoingExtension(feedbackSession: FeedbackSession): boolean {
-    const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
-    return this.hasUserExtension(feedbackSession) && extensionTimestamp! > Date.now();
+  public static hasUserOngoingExtension(feedbackSession: FeedbackSession, userDeadlineExtension?: number): boolean {
+    return this.hasUserExtension(feedbackSession, userDeadlineExtension) && userDeadlineExtension! > Date.now();
   }
 
-  public static getUserFeedbackSessionEndingTimestamp(feedbackSession: FeedbackSession): number {
-    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession)) {
-      return feedbackSession.submissionEndWithExtensionTimestamp!;
+  public static getUserFeedbackSessionEndingTimestamp(
+    feedbackSession: FeedbackSession,
+    userDeadlineExtension?: number,
+  ): number {
+    if (DeadlineExtensionHelper.hasUserExtension(feedbackSession, userDeadlineExtension)) {
+      return userDeadlineExtension!;
     }
     return feedbackSession.submissionEndTimestamp;
   }
 
-  public static hasUserExtension(feedbackSession: FeedbackSession): boolean {
-    const extensionTimestamp = feedbackSession.submissionEndWithExtensionTimestamp;
-    return extensionTimestamp !== undefined && extensionTimestamp > feedbackSession.submissionEndTimestamp;
+  public static hasUserExtension(feedbackSession: FeedbackSession, userDeadlineExtension?: number): boolean {
+    return userDeadlineExtension !== undefined && userDeadlineExtension > feedbackSession.submissionEndTimestamp;
   }
 }

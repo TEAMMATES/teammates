@@ -1,6 +1,6 @@
 {
   "accounts": {},
-  "accountRequests": {},
+  "accountVerificationRequests": {},
   "courses": {
     "DemoCourse": {
       "id": "demo.course",

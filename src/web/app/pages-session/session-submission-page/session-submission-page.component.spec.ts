@@ -1,12 +1,13 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
+import { CourseService } from '../../../services/course.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
@@ -14,8 +15,10 @@ import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
+  CourseView,
   FeedbackConstantSumRecipientsQuestionDetails,
   FeedbackConstantSumRecipientsResponseDetails,
   FeedbackContributionQuestionDetails,
@@ -47,6 +50,7 @@ import {
   ResponseVisibleSetting,
   SessionSubmission,
   SessionVisibleSetting,
+  Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
@@ -482,11 +486,8 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const getFeedbackSessionArgs = {
-    feedbackSessionId: '00000000-0000-4000-8000-000000000001',
-    intent: Intent.STUDENT_SUBMISSION,
+    feedbackSessionId: testQueryParams.fsid,
     key: testQueryParams.key,
-    moderatedPerson: '',
-    previewAs: '',
   };
 
   const getSessionSubmissionDataArgs = {
@@ -495,6 +496,32 @@ describe('SessionSubmissionPageComponent', () => {
     key: testQueryParams.key,
     moderatedPerson: '',
     previewAs: '',
+  };
+
+  const testStudent: Student = {
+    userId: '00000000-0000-4000-8000-000000000099',
+    name: 'Test Student',
+    email: 'student@test.com',
+    courseId: 'CS1231',
+    teamId: 'team-id',
+    teamName: 'Team 1',
+    sectionId: 'section-id',
+    sectionName: 'Section A',
+    institute: 'Test Institute',
+    courseName: 'Test Course',
+  };
+
+  const testCourseView: CourseView = {
+    course: {
+      courseId: 'CS1231',
+      courseName: 'Test Course',
+      timeZone: 'Asia/Singapore',
+      institute: 'Test Institute',
+      country: 'Singapore',
+      instituteId: 'inst-id',
+      creationTimestamp: 0,
+      deletionTimestamp: 0,
+    },
   };
 
   let component: SessionSubmissionPageComponent;
@@ -507,27 +534,12 @@ describe('SessionSubmissionPageComponent', () => {
   let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
   let logService: LogService;
+  let studentService: StudentService;
+  let courseService: CourseService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            data: {
-              intent: Intent.STUDENT_SUBMISSION,
-              pipe: () => {
-                return {
-                  subscribe: (fn: (_value: unknown) => void) => fn(testQueryParams),
-                };
-              },
-            },
-          },
-        },
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SessionSubmissionPageComponent);
@@ -539,7 +551,22 @@ describe('SessionSubmissionPageComponent', () => {
     statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
     logService = TestBed.inject(LogService);
+    studentService = TestBed.inject(StudentService);
+    courseService = TestBed.inject(CourseService);
     component = fixture.componentInstance;
+    component.feedbackSessionId = testQueryParams.fsid;
+    component.key = testQueryParams.key;
+    component.intent = Intent.STUDENT_SUBMISSION;
+
+    // Default stubs for all service calls in the loadFeedbackSession pipeline.
+    // Individual tests can override these with their own spies.
+    vi.spyOn(studentService, 'getOwnStudent').mockReturnValue(of(testStudent));
+    vi.spyOn(courseService, 'getCourseAsStudent').mockReturnValue(of(testCourseView));
+    vi.spyOn(feedbackSessionsService, 'getSessionSubmissionData').mockReturnValue(of({ questions: [] }));
+    vi.spyOn(feedbackSessionsService, 'getDeadlineExtension').mockReturnValue(
+      throwError(() => ({ status: 404, error: { message: 'Not found' } })),
+    );
+
     fixture.detectChanges();
   });
 
@@ -565,7 +592,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should snap with user that is logged in and using session link', () => {
-    component.regKey = 'reg-key';
+    component.key = 'reg-key';
     component.loggedInUser = 'alice';
     component.personName = 'alice';
     fixture.detectChanges();
@@ -573,7 +600,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should snap with user that is not logged in and using session link', () => {
-    component.regKey = 'reg-key';
+    component.key = 'reg-key';
     component.loggedInUser = '';
     component.personName = 'alice';
     fixture.detectChanges();
@@ -583,7 +610,7 @@ describe('SessionSubmissionPageComponent', () => {
   it('should snap with feedback session and user details', () => {
     component.courseId = 'test.exa-demo';
     component.feedbackSessionName = 'First team feedback session';
-    component.regKey = 'reg-key';
+    component.key = 'reg-key';
     component.loggedInUser = 'logged-in-user';
     component.personName = 'person name';
     component.personEmail = 'person@email.com';
@@ -641,7 +668,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.ngOnInit();
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
-    expect(component.regKey).toEqual(testQueryParams.key);
+    expect(component.key).toEqual(testQueryParams.key);
     expect(component.loggedInUser).toEqual(testInfo.user?.id);
   });
 
@@ -653,14 +680,12 @@ describe('SessionSubmissionPageComponent', () => {
     };
     vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = vi.spyOn(navService, 'navigateByURLWithParamEncoding').mockResolvedValue(true);
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/submission', {
-      fsid: '00000000-0000-4000-8000-000000000001',
-    });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/00000000-0000-4000-8000-000000000001/submission');
   });
 
   it('should deny unallowed access with valid reg key for logged in user', () => {
@@ -706,7 +731,7 @@ describe('SessionSubmissionPageComponent', () => {
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
     component.joinCourseForUnregisteredEntity();
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: testQueryParams.key });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entityType: 'student', key: testQueryParams.key });
   });
 
   it('should load an open feedback session', () => {

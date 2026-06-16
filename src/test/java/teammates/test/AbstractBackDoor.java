@@ -35,7 +35,7 @@ import teammates.common.util.JsonUtils;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.output.AccountData;
-import teammates.ui.output.AccountRequestData;
+import teammates.ui.output.AccountVerificationRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CourseViewData;
 import teammates.ui.output.DeadlineExtensionsData;
@@ -255,10 +255,14 @@ public abstract class AbstractBackDoor {
     /**
      * Gets the cookie format for the given user ID.
      */
-    public String getUserCookie(String userId) {
+    public String getUserCookie(String userEmail) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER_ID, userId);
+        params.put(Const.ParamsNames.ACCOUNT_EMAIL, userEmail);
         ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
+        if (response.responseCode != HttpStatus.SC_OK) {
+            throw new RuntimeException("Failed to get user cookie: [" + response.responseCode + "] "
+                    + response.responseBody);
+        }
 
         MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
         return output.getMessage();
@@ -469,42 +473,27 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account request from the database.
+     * Gets an account verification request from the database.
      */
-    public AccountRequestData getAccountRequest(UUID id) {
+    public AccountVerificationRequestData getAccountVerificationRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
+        params.put(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString());
 
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
 
-        return JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
+        return JsonUtils.fromJson(response.responseBody, AccountVerificationRequestData.class);
     }
 
     /**
-     * Gets registration key of an account request from the database.
+     * Deletes an account verification request from the database.
      */
-    public String getRegKeyForAccountRequest(UUID id) {
+    public void deleteAccountVerificationRequest(UUID id) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
-
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        return JsonUtils.fromJson(response.responseBody, AccountRequestData.class).getRegistrationKey();
-    }
-
-    /**
-     * Deletes an account request from the database.
-     */
-    public void deleteAccountRequest(UUID id) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString());
-        executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        params.put(Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, id.toString());
+        executeDeleteRequest(Const.ResourceURIs.ACCOUNT_VERIFICATION_REQUEST, params);
     }
 
     /**

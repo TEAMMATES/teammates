@@ -8,9 +8,9 @@ import { LinkService } from './link.service';
 import { TimezoneService } from './timezone.service';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  AccountRequest,
-  AccountRequests,
-  AccountRequestStatus,
+  AccountVerificationRequest,
+  AccountVerificationRequests,
+  AccountVerificationRequestStatus,
   Course,
   CourseView,
   Instructor,
@@ -50,27 +50,35 @@ export class SearchService {
     return forkJoin([
       this.searchStudents(searchKey, 'admin'),
       this.searchInstructors(searchKey),
-      this.searchAccountRequests(searchKey),
+      this.searchAccountVerificationRequests(searchKey),
     ]).pipe(
-      map((value: [Students, Instructors, AccountRequests]): [Student[], Instructor[], AccountRequest[]] => [
-        value[0].students,
-        value[1].instructors,
-        value[2].accountRequests,
-      ]),
-      mergeMap((value: [Student[], Instructor[], AccountRequest[]]) => {
-        const [students, instructors, accountRequests]: [Student[], Instructor[], AccountRequest[]] = value;
+      map(
+        (
+          value: [Students, Instructors, AccountVerificationRequests],
+        ): [Student[], Instructor[], AccountVerificationRequest[]] => [
+          value[0].students,
+          value[1].instructors,
+          value[2].accountVerificationRequests,
+        ],
+      ),
+      mergeMap((value: [Student[], Instructor[], AccountVerificationRequest[]]) => {
+        const [students, instructors, accountVerificationRequests]: [
+          Student[],
+          Instructor[],
+          AccountVerificationRequest[],
+        ] = value;
         return forkJoin([
           of(students),
           of(instructors),
-          of(accountRequests),
+          of(accountVerificationRequests),
           this.getDistinctFields(students, instructors),
         ]);
       }),
-      map((value: [Student[], Instructor[], AccountRequest[], DistinctFields]) => {
+      map((value: [Student[], Instructor[], AccountVerificationRequest[], DistinctFields]) => {
         return {
           students: this.createStudentAccountSearchResults(value[0], ...value[3]),
           instructors: this.createInstructorAccountSearchResults(value[1], value[3][1]),
-          accountRequests: this.createAccountRequestSearchResults(value[2]),
+          accountVerificationRequests: this.createAccountVerificationRequestSearchResults(value[2]),
         };
       }),
     );
@@ -91,11 +99,11 @@ export class SearchService {
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   }
 
-  searchAccountRequests(searchKey: string): Observable<AccountRequests> {
+  searchAccountVerificationRequests(searchKey: string): Observable<AccountVerificationRequests> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
     };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SEARCH_ACCOUNT_VERIFICATION_REQUESTS, paramMap);
   }
 
   createStudentAccountSearchResults(
@@ -212,47 +220,54 @@ export class SearchService {
     return instructorResult;
   }
 
-  createAccountRequestSearchResults(accountRequests: AccountRequest[]): AccountRequestSearchResult[] {
-    return accountRequests.map((accountRequest: AccountRequest) => this.joinAdminAccountRequest(accountRequest));
+  createAccountVerificationRequestSearchResults(
+    accountVerificationRequests: AccountVerificationRequest[],
+  ): AccountVerificationRequestSearchResult[] {
+    return accountVerificationRequests.map((accountVerificationRequest: AccountVerificationRequest) =>
+      this.joinAdminAccountVerificationRequest(accountVerificationRequest),
+    );
   }
 
-  joinAdminAccountRequest(accountRequest: AccountRequest): AccountRequestSearchResult {
-    let accountRequestResult: AccountRequestSearchResult = {
-      accountRequestId: '',
+  joinAdminAccountVerificationRequest(
+    accountVerificationRequest: AccountVerificationRequest,
+  ): AccountVerificationRequestSearchResult {
+    let accountVerificationRequestResult: AccountVerificationRequestSearchResult = {
+      accountVerificationRequestId: '',
       name: '',
       email: '',
       institute: '',
       country: '',
       createdAtText: '',
-      registeredAtText: '',
+      createdDemoCourseAtText: '',
       registrationLink: '',
       showLinks: false,
-      status: AccountRequestStatus.PENDING,
+      status: AccountVerificationRequestStatus.PENDING,
       comments: '',
     };
 
     const {
-      accountRequestId,
-      registrationKey,
+      accountVerificationRequestId,
       createdAt,
-      registeredAt,
+      createdDemoCourseAt,
       name,
       institute,
       country,
       email,
       status,
       comments,
-    }: AccountRequest = accountRequest;
+    }: AccountVerificationRequest = accountVerificationRequest;
 
     const timezone: string = this.timezoneService.guessTimezone() || 'UTC';
-    accountRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
-    accountRequestResult.registeredAtText = registeredAt ? this.formatTimestampAsString(registeredAt, timezone) : null;
-    accountRequestResult.comments = comments ?? '';
+    accountVerificationRequestResult.createdAtText = this.formatTimestampAsString(createdAt, timezone);
+    accountVerificationRequestResult.createdDemoCourseAtText = createdDemoCourseAt
+      ? this.formatTimestampAsString(createdDemoCourseAt, timezone)
+      : null;
+    accountVerificationRequestResult.comments = comments ?? '';
 
-    const registrationLink: string = this.linkService.generateAccountRegistrationLink(registrationKey);
-    accountRequestResult = {
-      ...accountRequestResult,
-      accountRequestId,
+    const registrationLink: string = this.linkService.generateInstructorWelcomeLink(accountVerificationRequestId);
+    accountVerificationRequestResult = {
+      ...accountVerificationRequestResult,
+      accountVerificationRequestId,
       name,
       email,
       institute,
@@ -261,7 +276,7 @@ export class SearchService {
       status,
     };
 
-    return accountRequestResult;
+    return accountVerificationRequestResult;
   }
 
   private getDistinctFields(students: Student[], instructors: Instructor[]): Observable<DistinctFields> {
@@ -358,21 +373,21 @@ export interface InstructorSearchResult {
 export interface AdminSearchResult {
   students: StudentAccountSearchResult[];
   instructors: InstructorAccountSearchResult[];
-  accountRequests: AccountRequestSearchResult[];
+  accountVerificationRequests: AccountVerificationRequestSearchResult[];
 }
 
 /**
- * Search results for account requests from the admin endpoint.
+ * Search results for account verification requests from the admin endpoint.
  */
-export interface AccountRequestSearchResult {
-  accountRequestId: string;
+export interface AccountVerificationRequestSearchResult {
+  accountVerificationRequestId: string;
   name: string;
   email: string;
-  status: AccountRequestStatus;
+  status: AccountVerificationRequestStatus;
   institute: string;
   country: string;
   createdAtText: string;
-  registeredAtText: string | null;
+  createdDemoCourseAtText: string | null;
   registrationLink: string;
   showLinks: boolean;
   comments: string;

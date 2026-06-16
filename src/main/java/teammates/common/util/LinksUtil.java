@@ -140,28 +140,12 @@ public final class LinksUtil {
     }
 
     /**
-     * Returns the absolute URL for an account request to create an account using the given registration key.
+     * Returns the absolute URL for the instructor welcome page for the given account verification request.
      */
-    public static String getAccountRequestJoinUrl(String regKey) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withIsCreatingAccount("true")
-                .withRegistrationKey(regKey)
+    public static String getInstructorWelcomeUrl(UUID accountVerificationRequestId) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_WELCOME_PAGE)
+                .withAccountVerificationRequestId(accountVerificationRequestId)
                 .toAbsoluteString();
     }
 
-    // -------------------------------------------------------------------------
-    // Relative URLs
-    // -------------------------------------------------------------------------
-
-    /**
-     * Returns a relative URL for the instructor home page with a masquerade account parameter.
-     *
-     * <p>Returns a relative URL (not absolute) for embedding in response objects where
-     * the frontend router expects a path-only value.
-     */
-    public static String getInstructorHomePageRelativeUrl(UUID masqueradeAccountId) {
-        return Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withMasqueradeAccount(masqueradeAccountId)
-                .toString();
-    }
 }

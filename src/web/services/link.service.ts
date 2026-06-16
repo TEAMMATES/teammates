@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import { NavigationService } from './navigation.service';
-import { Instructor, Student } from '../types/api-output';
+import { Student } from '../types/api-output';
 
 /**
  * Handles the logic for generating links on the client.
@@ -10,49 +10,23 @@ import { Instructor, Student } from '../types/api-output';
   providedIn: 'root',
 })
 export class LinkService {
-  private navigationService = inject(NavigationService);
+  private readonly navigationService = inject(NavigationService);
 
   URI_PREFIX = '/web';
   JOIN_PAGE = '/join';
   STUDENT_HOME_PAGE = '/student/home';
   INSTRUCTOR_HOME_PAGE = '/instructor/home';
   ADMIN_ACCOUNTS_PAGE = '/admin/accounts';
-  INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses/student/details';
-  SESSIONS_SUBMISSION_PAGE = '/sessions/submission';
-  SESSIONS_RESULT_PAGE = '/sessions/result';
+  INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses';
+  SESSIONS_SUBMISSION_PAGE = '/sessions/{feedbackSessionId}/submission';
+  SESSIONS_RESULT_PAGE = '/sessions/{feedbackSessionId}/result';
 
   /**
-   * Generates course join link for student/instructor.
+   * Generates instructor welcome link.
    */
-  generateCourseJoinLink(entity: Student | Instructor, entityType: string): string {
-    const frontendUrl: string = window.location.origin;
-    const key: string = entity.key ?? '';
-    const params: {
-      [key: string]: string;
-    } = {
-      key,
-      entitytype: entityType,
-    };
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
-  }
-
-  /**
-   * Generates account registration link for instructor.
-   */
-  generateAccountRegistrationLink(registrationKey: string): string {
-    const frontendUrl: string = window.location.origin;
-    const params: {
-      [key: string]: string;
-    } = {
-      iscreatingaccount: 'true',
-      key: registrationKey,
-    };
-
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.JOIN_PAGE}${encodedParams}`;
+  generateInstructorWelcomeLink(accountVerificationRequestId: string): string {
+    const frontendUrl: string = globalThis.location.origin;
+    return `${frontendUrl}${this.URI_PREFIX}/instructor/welcome/${accountVerificationRequestId}`;
   }
 
   /**
@@ -71,78 +45,19 @@ export class LinkService {
   /**
    * Generates manage account link.
    */
-  generateManageAccountLink(accountId: string, accountsPage: string): string {
-    const params: {
-      [key: string]: string;
-    } = {
-      accountid: accountId,
-    };
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${accountsPage}${encodedParams}`;
+  generateManageAccountLink(accountId: string, _accountsPage: string): string {
+    return `${this.URI_PREFIX}${this.ADMIN_ACCOUNTS_PAGE}/${accountId}`;
   }
 
   /**
    * Generates student profile page link.
    */
   generateProfilePageLink(student: Student, instructorAccountId: string): string {
-    const { courseId: courseid, userId: userid }: Student = student;
-    const params: {
-      [key: string]: string;
-    } = {
-      courseid,
-      userid,
-      masqueradeaccountid: instructorAccountId,
-    };
-
+    const { courseId, userId } = student;
+    const params: { [key: string]: string } = { masqueradeaccountid: instructorAccountId };
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}${encodedParams}`;
-  }
-
-  /**
-   * Generates submit url for a feedback session.
-   */
-  generateSubmitUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
-    const frontendUrl: string = window.location.origin;
-    const key: string = entity.key ?? '';
-    const params: {
-      [key: string]: string;
-    } = {
-      key,
-      fsid: feedbackSessionId,
-    };
-
-    if (isInstructor) {
-      params['entitytype'] = 'instructor';
-    }
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_SUBMISSION_PAGE}${encodedParams}`;
-  }
-
-  /**
-   * Generates a result url for a feedback session.
-   */
-  generateResultUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
-    const frontendUrl: string = window.location.origin;
-    const key: string = entity.key ?? '';
-    const params: {
-      [key: string]: string;
-    } = {
-      key,
-      fsid: feedbackSessionId,
-    };
-
-    if (isInstructor) {
-      params['entitytype'] = 'instructor';
-    }
-
-    this.filterEmptyParams(params);
-    const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${frontendUrl}${this.URI_PREFIX}${this.SESSIONS_RESULT_PAGE}${encodedParams}`;
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_STUDENT_PROFILE_PAGE}/${courseId}/students/${userId}/details${encodedParams}`;
   }
 
   /**
