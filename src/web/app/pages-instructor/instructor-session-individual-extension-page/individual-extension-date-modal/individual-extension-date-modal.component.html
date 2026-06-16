@@ -6,57 +6,32 @@
   Extending the feedback session for <b>{{ numStudents }}</b> student(s) and <b>{{ numInstructors }}</b> instructor(s):
 </div>
 
-<div class="container ms-1">
-  <div class="row ps-3">
-    <label class="me-2"
-      ><input
-        id="extend-deadline-by"
-        type="radio"
-        name="optradio"
-        [value]="RadioOptions.EXTEND_BY"
-        [(ngModel)]="radioOption"
-      />
-      Extend deadline by
-    </label>
-    <label
-      ><input
-        id="extend-deadline-to"
-        type="radio"
-        name="optradio"
-        [(ngModel)]="radioOption"
-        [value]="RadioOptions.EXTEND_TO"
-      />
-      Extend deadline to
-    </label>
+<div class="px-4">
+  <div class="d-flex flex-column">
+    @for (option of DEADLINE_OPTIONS; track option.label) {
+      <label class="me-3">
+        <input
+          type="radio"
+          name="deadlineOption"
+          [value]="option.label"
+          [checked]="selectedPreset() === option.label"
+          (change)="selectedPreset.set(option.label)"
+        />
+        {{ option.label }}
+        @if (option.label !== 'Custom') {
+          ({{ extendAndFormatEndTimeBy(option.hours) }})
+        }
+      </label>
+    }
   </div>
 
-  @if (isRadioExtendBy()) {
-    <div>
-      <small>Extend the feedback session by:</small>
-      <div id="submission-start-date">
-        <div class="input-group w-75">
-          <select id="extend-by-dropdown" class="form-control form-select" [(ngModel)]="extendByDeadlineKey">
-            @for (deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder; track deadlineOption) {
-              <option [value]="deadlineOption.key">
-                {{ deadlineOption.key }}
-                @if (deadlineOption.key !== 'Customize') {
-                  <div>({{ extendAndFormatEndTimeBy(deadlineOption.value, 0) }})</div>
-                }
-              </option>
-            }
-          </select>
-        </div>
-      </div>
-    </div>
-  }
-
-  @if (isRadioExtendTo()) {
-    <div>
+  @if (isCustom()) {
+    <div class="mt-2">
       <small>The new deadline of the feedback session will be:</small>
       <div id="submission-start-date">
         <tm-datetimepicker
           id="submission-end-datetime"
-          [timestamp]="extendToTimestamp"
+          [timestamp]="customTimestamp()"
           [minTimestamp]="feedbackSessionEndingTimestamp"
           [timeZone]="feedbackSessionTimeZone"
           (timestampChange)="onChangeDateTime($event)"
@@ -66,58 +41,11 @@
     </div>
   }
 
-  @if (isCustomize()) {
-    <div>
-      <form class="container">
-        <div class="row">
-          <div class="col-sm ps-0">
-            <small>Hours</small>
-            <input
-              class="form-control"
-              id="form-hours"
-              name="form-hours"
-              type="number"
-              placeholder="Hours"
-              [(ngModel)]="extendByDatePicker.hours"
-            />
-          </div>
-          <div class="col-sm">
-            <small>Days</small>
-            <input
-              class="form-control"
-              id="form-days"
-              name="form-days"
-              type="number"
-              placeholder="Days"
-              [(ngModel)]="extendByDatePicker.days"
-            />
-          </div>
-        </div>
-      </form>
-      <br />
-      @if (!isCustomizeDateTimeIntegers()) {
-        <p class="text-danger m-0"><span class="fa fa-times"></span> Please input only integers into both blanks.</p>
-      }
-      @if (!isDateSelectedLaterThanCurrentEndingTimestamp()) {
-        <p class="text-danger m-0">
-          <span class="fa fa-times"></span> Please input a date later than the current session ending date.
-        </p>
-      }
-      @if (!isCustomizeBeforeMaxDate()) {
-        <p class="text-danger m-0"><span class="fa fa-times"></span> Please input a valid date.</p>
-      }
-      <p class="mb-0">
-        The new extended deadline will be:
-        {{ extendAndFormatEndTimeBy(extendByDatePicker.hours, extendByDatePicker.days) }}
-      </p>
-    </div>
-  }
-
   <br />
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">
     Save Changes
   </button>
