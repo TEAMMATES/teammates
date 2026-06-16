@@ -23,8 +23,8 @@ public class CourseJoinConfirmationPage extends AppPage {
         return true;
     }
 
-    public void verifyJoiningUser(String displayedUserId) {
-        assertEquals(browser.driver.findElement(By.id("user-id")).getText(), displayedUserId);
+    public void verifyJoiningUser(String displayedAccountEmail) {
+        assertEquals(browser.driver.findElement(By.id("account-email")).getText(), displayedAccountEmail);
     }
 
     public <T extends AppPage> T confirmJoinCourse(Class<T> typeOfPage) {
