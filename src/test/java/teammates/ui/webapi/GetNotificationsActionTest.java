@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -22,8 +23,8 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     @Test(groups = GroupNames.ACTION)
     public void getNotificationsAction_adminFetchesAll_returnsAllNotifications() {
         var adminAccount = given.account("admin", a -> a.admin());
-        given.notification("active", n -> n.active().forGeneral());
-        given.notification("expired", n -> n.expired().forGeneral());
+        var activeNotification = given.notification("active", n -> n.active().forGeneral());
+        var expiredNotification = given.notification("expired", n -> n.expired().forGeneral());
         persistGivenData(given);
 
         RequestContext request = new RequestContext()
@@ -33,8 +34,12 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         NotificationsData result = execute(request);
 
-        List<NotificationData> notifications = result.getNotifications();
-        assertEquals(2, notifications.size());
+        List<UUID> returnedIds = result.getNotifications().stream()
+                .map(NotificationData::getNotificationId)
+                .toList();
+        assertEquals(2, returnedIds.size());
+        assertTrue(returnedIds.contains(activeNotification.id()));
+        assertTrue(returnedIds.contains(expiredNotification.id()));
     }
 
     @Test(groups = GroupNames.ACTION)
@@ -69,7 +74,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test(groups = GroupNames.ACTION)
-    public void getNotificationsAction_loggedInUserWithoutStudentRole_throwsUnauthorizedAccessException() {
+    public void getNotificationsAction_regularUserRequestingStudentNotifications_throwsUnauthorizedAccessException() {
         var account = given.account("account");
         persistGivenData(given);
 

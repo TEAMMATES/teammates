@@ -27,14 +27,10 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         var notification = given.notification("notification");
         persistGivenData(given);
 
-        NotificationUpdateRequest updateRequest = new NotificationUpdateRequest();
-        Instant now = Instant.now();
-        updateRequest.setStartTimestamp(now.minus(1, ChronoUnit.HOURS).toEpochMilli());
-        updateRequest.setEndTimestamp(now.plus(2, ChronoUnit.HOURS).toEpochMilli());
+        NotificationUpdateRequest updateRequest = buildDefaultUpdateRequest();
         updateRequest.setStyle(NotificationStyle.WARNING);
         updateRequest.setTargetUser(NotificationTargetUser.INSTRUCTOR);
         updateRequest.setTitle("Updated Title");
-        updateRequest.setMessage("<p>Updated message</p>");
 
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
@@ -54,19 +50,10 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         var adminAccount = given.account("admin", a -> a.admin());
         persistGivenData(given);
 
-        NotificationUpdateRequest updateRequest = new NotificationUpdateRequest();
-        Instant now = Instant.now();
-        updateRequest.setStartTimestamp(now.minus(1, ChronoUnit.HOURS).toEpochMilli());
-        updateRequest.setEndTimestamp(now.plus(1, ChronoUnit.HOURS).toEpochMilli());
-        updateRequest.setStyle(NotificationStyle.INFO);
-        updateRequest.setTargetUser(NotificationTargetUser.GENERAL);
-        updateRequest.setTitle("Title");
-        updateRequest.setMessage("<p>Message</p>");
-
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, given.uuid("nonexistent").toString())
                 .withCookie(getAuthCookie(adminAccount.id()))
-                .withRequest(updateRequest);
+                .withRequest(buildDefaultUpdateRequest());
 
         assertActionThrows(EntityNotFoundException.class, request);
     }
@@ -77,20 +64,23 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         var notification = given.notification("notification");
         persistGivenData(given);
 
-        NotificationUpdateRequest updateRequest = new NotificationUpdateRequest();
-        Instant now = Instant.now();
-        updateRequest.setStartTimestamp(now.minus(1, ChronoUnit.HOURS).toEpochMilli());
-        updateRequest.setEndTimestamp(now.plus(1, ChronoUnit.HOURS).toEpochMilli());
-        updateRequest.setStyle(NotificationStyle.INFO);
-        updateRequest.setTargetUser(NotificationTargetUser.GENERAL);
-        updateRequest.setTitle("Title");
-        updateRequest.setMessage("<p>Message</p>");
-
         RequestContext request = new RequestContext()
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
                 .withCookie(getAuthCookie(account.id()))
-                .withRequest(updateRequest);
+                .withRequest(buildDefaultUpdateRequest());
 
         assertActionThrows(UnauthorizedAccessException.class, request);
+    }
+
+    private NotificationUpdateRequest buildDefaultUpdateRequest() {
+        NotificationUpdateRequest request = new NotificationUpdateRequest();
+        Instant now = Instant.now();
+        request.setStartTimestamp(now.minus(1, ChronoUnit.HOURS).toEpochMilli());
+        request.setEndTimestamp(now.plus(1, ChronoUnit.HOURS).toEpochMilli());
+        request.setStyle(NotificationStyle.INFO);
+        request.setTargetUser(NotificationTargetUser.GENERAL);
+        request.setTitle("Default Title");
+        request.setMessage("<p>Default message</p>");
+        return request;
     }
 }

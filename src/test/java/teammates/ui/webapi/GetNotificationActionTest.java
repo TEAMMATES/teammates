@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.test.GroupNames;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.NotificationData;
 
 /**
@@ -51,6 +52,6 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
                 .withParam(Const.ParamsNames.NOTIFICATION_ID, notification.id().toString())
                 .withCookie(getAuthCookie(account.id()));
 
-        assertActionThrows(teammates.ui.exception.UnauthorizedAccessException.class, request);
+        assertActionThrows(UnauthorizedAccessException.class, request);
     }
 }
