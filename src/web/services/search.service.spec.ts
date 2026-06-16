@@ -271,7 +271,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 09:18 PM +08:00');
     expect(result.createdDemoCourseAtText).toBe('Wed, 31 May 2023, 07:04 AM +08:00');
     expect(result.registrationLink).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome/132efa02-b208-4195-a262-a8eae25ceb95`,
+      `${globalThis.location.origin}/web/instructor/welcome/132efa02-b208-4195-a262-a8eae25ceb95`,
     );
   });
 
@@ -286,7 +286,7 @@ describe('SearchService', () => {
     expect(result.createdAtText).toBe('Sun, 29 Mar 2020, 01:18 PM +00:00');
     expect(result.createdDemoCourseAtText).toBe(null);
     expect(result.registrationLink).toBe(
-      `${globalThis.location.origin}/web/instructor-welcome/132efa02-b208-4195-a262-a8eae25ceb95`,
+      `${globalThis.location.origin}/web/instructor/welcome/132efa02-b208-4195-a262-a8eae25ceb95`,
     );
   });
 });

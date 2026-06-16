@@ -294,7 +294,7 @@ public final class Const {
         public static final String ACCOUNT_VERIFICATION_REQUEST_PAGE = FRONT_PAGE + "/request";
 
         public static final String INSTRUCTOR_WELCOME_PAGE = URI_PREFIX
-                + "/instructor-welcome/{accountVerificationRequestId}";
+                + "/instructor/welcome/{accountVerificationRequestId}";
     }
 
     /**

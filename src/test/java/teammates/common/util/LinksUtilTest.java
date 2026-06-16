@@ -136,7 +136,7 @@ public class LinksUtilTest extends BaseTestCase {
     @Test
     public void getInstructorWelcomeUrl_accountVerificationRequest_returnsAbsoluteUrlWithAccountVerificationRequestId() {
         UUID sampleAccountVerificationRequestId = UUID.fromString("33333333-3333-3333-3333-333333333333");
-        String expected = TEST_BASE_URL + "/web/instructor-welcome/" + sampleAccountVerificationRequestId;
+        String expected = TEST_BASE_URL + "/web/instructor/welcome/" + sampleAccountVerificationRequestId;
         assertEquals(expected, LinksUtil.getInstructorWelcomeUrl(sampleAccountVerificationRequestId));
     }
 
