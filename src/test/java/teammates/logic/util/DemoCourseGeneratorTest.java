@@ -14,51 +14,55 @@ import teammates.test.BaseTestCase;
 public class DemoCourseGeneratorTest extends BaseTestCase {
 
     @Test
-    public void generateNextDemoCourseId_emailInput_returnsBaseId() {
-        assertEquals("lebron.gma-demo", DemoCourseGenerator.generateNextDemoCourseId("lebron@gmail.com", 40));
+    public void generateDemoCourseIdCandidate_attempt0_returnsBaseId() {
+        assertEquals("lebron.gma-demo",
+                DemoCourseGenerator.generateDemoCourseIdCandidate("lebron@gmail.com", 0, 40));
     }
 
     @Test
-    public void generateNextDemoCourseId_baseIdEndingInDemo_appendsZero() {
-        assertEquals("lebron.gma-demo0", DemoCourseGenerator.generateNextDemoCourseId("lebron.gma-demo", 40));
+    public void generateDemoCourseIdCandidate_attempt1_appendsZero() {
+        assertEquals("lebron.gma-demo0",
+                DemoCourseGenerator.generateDemoCourseIdCandidate("lebron@gmail.com", 1, 40));
     }
 
-    @Test(dataProvider = "incrementSuffixCases")
-    public void generateNextDemoCourseId_idWithNumericSuffix_incrementsSuffix(
-            String input, String expected) {
-        assertEquals(expected, DemoCourseGenerator.generateNextDemoCourseId(input, 40));
+    @Test(dataProvider = "subsequentAttemptCases")
+    public void generateDemoCourseIdCandidate_subsequentAttempt_appendsAttemptMinusOne(
+            int attempt, String expected) {
+        assertEquals(expected,
+                DemoCourseGenerator.generateDemoCourseIdCandidate("lebron@gmail.com", attempt, 40));
     }
 
     @DataProvider
-    public Object[][] incrementSuffixCases() {
+    public Object[][] subsequentAttemptCases() {
         return new Object[][] {
-                {"lebron.gma-demo0", "lebron.gma-demo1"},
-                {"lebron.gma-demo9", "lebron.gma-demo10"},
-                {"lebron.gma-demo99", "lebron.gma-demo100"},
+                {2, "lebron.gma-demo1"},
+                {10, "lebron.gma-demo9"},
+                {11, "lebron.gma-demo10"},
         };
     }
 
     @Test(dataProvider = "truncateHeadCases")
-    public void generateNextDemoCourseId_resultExceedsMaxLength_truncatesHead(
-            String input, int maxLength, String expected) {
-        assertEquals(expected, DemoCourseGenerator.generateNextDemoCourseId(input, maxLength));
+    public void generateDemoCourseIdCandidate_resultExceedsMaxLength_truncatesHead(
+            String email, int attempt, int maxLength, String expected) {
+        assertEquals(expected,
+                DemoCourseGenerator.generateDemoCourseIdCandidate(email, attempt, maxLength));
     }
 
     @DataProvider
     public Object[][] truncateHeadCases() {
         int maxLength = 20;
-        String suffix = ".gma-demo"; // length 9
+        String suffix = ".gma-demo"; // 9 chars
         String atEmail = "@gmail.tmt";
-        // maxLength - suffix.length() = 11 chars available for username prefix
+        // With maxLength=20 and suffix=9, the username can be at most 11 chars before truncation.
         String exactFit = StringHelperExtension.generateStringOfLength(maxLength - suffix.length());
         String oneLonger = StringHelperExtension.generateStringOfLength(maxLength - suffix.length() + 1);
         return new Object[][] {
-                // email whose base ID exactly fits
-                {exactFit + atEmail, maxLength, exactFit + suffix},
-                // email whose base ID is one char too long — head is truncated
-                {oneLonger + atEmail, maxLength, oneLonger.substring(1) + suffix},
-                // existing ID with two-digit suffix that would exceed max
-                {exactFit.substring(1) + suffix + "9", maxLength,
+                // base ID exactly fits — no truncation
+                {exactFit + atEmail, 0, maxLength, exactFit + suffix},
+                // base ID one char too long — head is truncated by one
+                {oneLonger + atEmail, 0, maxLength, oneLonger.substring(1) + suffix},
+                // attempt 11 (suffix "10") pushes a near-max ID over the limit
+                {exactFit.substring(1) + atEmail, 11, maxLength,
                         exactFit.substring(2) + suffix + "10"},
         };
     }

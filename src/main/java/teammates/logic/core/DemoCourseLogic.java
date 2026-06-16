@@ -19,6 +19,7 @@ import teammates.storage.entity.Student;
  * Handles the creation of demo courses for new instructors.
  */
 public final class DemoCourseLogic {
+    private static final int MAX_DEMO_COURSE_ID_ATTEMPTS = 1000;
 
     private static final DemoCourseLogic instance = new DemoCourseLogic();
 
@@ -57,7 +58,9 @@ public final class DemoCourseLogic {
      * @param account the account to join as instructor and student
      * @throws EntityDoesNotExistException if no account verification request with the given ID exists
      * @throws EntityAlreadyExistsException if a demo course has already been created for the request
-     * @throws InvalidParametersException if an unexpected parameter error occurs during data bundle persistence
+     * @throws InvalidParametersException if a unique course ID cannot be found within
+     *         {@value #MAX_DEMO_COURSE_ID_ATTEMPTS} attempts, or if an unexpected parameter error
+     *         occurs during data bundle persistence
      */
     public void createDemoCourse(UUID id, String timezone, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
@@ -106,13 +109,16 @@ public final class DemoCourseLogic {
         avr.setCreatedDemoCourseAt(now);
     }
 
-    private String generateUniqueCourseId(String instructorEmail) {
-        String proposedCourseId = DemoCourseGenerator.generateNextDemoCourseId(
-                instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while (coursesLogic.getCourse(proposedCourseId) != null) {
-            proposedCourseId = DemoCourseGenerator.generateNextDemoCourseId(
-                    proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
+    private String generateUniqueCourseId(String instructorEmail) throws InvalidParametersException {
+        for (int attempt = 0; attempt < MAX_DEMO_COURSE_ID_ATTEMPTS; attempt++) {
+            String proposedCourseId = DemoCourseGenerator.generateDemoCourseIdCandidate(
+                    instructorEmail, attempt, FieldValidator.COURSE_ID_MAX_LENGTH);
+            if (coursesLogic.getCourse(proposedCourseId) == null) {
+                return proposedCourseId;
+            }
         }
-        return proposedCourseId;
+        throw new InvalidParametersException(
+                "Could not generate a unique demo course ID for " + instructorEmail
+                + " after " + MAX_DEMO_COURSE_ID_ATTEMPTS + " attempts.");
     }
 }

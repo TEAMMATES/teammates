@@ -60,34 +60,23 @@ public final class DemoCourseGenerator {
     }
 
     /**
-     * Generates a course ID for a demo course from a given email or a previously generated course ID.
+     * Generates the nth candidate course ID for a demo course derived from the given instructor email.
      *
-     * <p>If the input contains "@", it is treated as an instructor email and the base course ID is generated.
-     * If it is a course ID already ending in "-demo", the suffix "0" is appended.
-     * Otherwise, the numeric suffix after "-demo" is incremented.
+     * <p>Attempt 0 produces the base ID (e.g. {@code john.exa-demo}).
+     * Attempt 1 produces the base ID with suffix {@code 0} (e.g. {@code john.exa-demo0}).
+     * Subsequent attempts increment the suffix ({@code 1}, {@code 2}, …).
      *
-     * <p>If the generated ID exceeds {@code maximumIdLength}, the head is truncated.
+     * <p>If the candidate exceeds {@code maximumIdLength}, its head is truncated so that it fits.
      *
-     * @param instructorEmailOrProposedCourseId the instructor email or a proposed course ID
+     * @param instructorEmail the instructor's email address
+     * @param attempt zero-based attempt number
      * @param maximumIdLength the maximum allowed length for the resulting ID
-     * @return the next candidate course ID
+     * @return the candidate course ID for the given attempt
      */
-    public static String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
-        boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
-        if (isFirstCourseId) {
-            return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId), maximumIdLength);
-        }
-
-        boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo");
-        if (isFirstTimeDuplicate) {
-            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0", maximumIdLength);
-        }
-
-        int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
-        String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
-        int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
-
-        return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
+    public static String generateDemoCourseIdCandidate(String instructorEmail, int attempt, int maximumIdLength) {
+        String root = getDemoCourseIdRoot(instructorEmail);
+        String suffix = attempt == 0 ? "" : String.valueOf(attempt - 1);
+        return StringHelper.truncateHead(root + suffix, maximumIdLength);
     }
 
     /**
