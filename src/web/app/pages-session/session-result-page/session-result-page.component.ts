@@ -92,7 +92,7 @@ export class SessionResultPageComponent implements OnInit {
   @Input() key = '';
   @Input() previewAs = '';
   @Input() entityType = 'student';
-  loggedInUser = '';
+  accountEmail = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   isPreviewHintExpanded = false;
@@ -126,7 +126,7 @@ export class SessionResultPageComponent implements OnInit {
       next: (auth: AuthInfo) => {
         const isPreview = !!(auth.user && this.previewAs);
         if (auth.user) {
-          this.loggedInUser = auth.user.id;
+          this.accountEmail = auth.user.accountEmail;
         }
         // prevent having both key and previewas parameters in URL
         if (this.key && isPreview) {
@@ -149,14 +149,14 @@ export class SessionResultPageComponent implements OnInit {
                 }
               } else if (resp.isValid) {
                 // At this point, registration key must already be used, otherwise access would be granted
-                if (this.loggedInUser) {
+                if (this.accountEmail) {
                   // Registration key belongs to another user who is not the logged in user
                   this.navigationService.navigateWithErrorMessage(
                     '/web/front',
-                    `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
-                        is not linked to this TEAMMATES account. If you used a different Google account to
-                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                        cannot remember which Google account you used before, please email us at
+                    `You are trying to access TEAMMATES using the account email ${this.accountEmail}, which
+                        is not linked to this TEAMMATES account. If you used a different account email to
+                        join/access TEAMMATES before, please use that account email to access TEAMMATES. If you
+                        cannot remember which account email you used before, please email us at
                         ${environment.supportEmail} for help.`,
                   );
                 } else {
@@ -178,7 +178,7 @@ export class SessionResultPageComponent implements OnInit {
               );
             },
           });
-        } else if (this.loggedInUser) {
+        } else if (this.accountEmail) {
           // Load information based on logged in user
           // This will also cover preview cases
           this.loadFeedbackSession();

@@ -203,7 +203,7 @@ exports[`SessionResultPageComponent > should snap when session results failed to
           <a
             href="#"
           >
-            log in using a Google account
+            log in using your account email
           </a>
            (recommended). 
         </div>
@@ -354,7 +354,7 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
           <a
             href="#"
           >
-            log in using a Google account
+            log in using your account email
           </a>
            (recommended). 
         </div>
@@ -502,7 +502,7 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
           <a
             href="#"
           >
-            log in using a Google account
+            log in using your account email
           </a>
            (recommended). 
         </div>
@@ -650,7 +650,7 @@ exports[`SessionResultPageComponent > should snap with session details and resul
           <a
             href="#"
           >
-            log in using a Google account
+            log in using your account email
           </a>
            (recommended). 
         </div>
@@ -730,7 +730,7 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
           <a
             href="#"
           >
-            log in using a Google account
+            log in using your account email
           </a>
            (recommended). 
         </div>
@@ -874,7 +874,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
         role="alert"
       >
         <div>
-           You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
+           You are viewing feedback results as alice. If you wish to link your account email (alice) with this user, 
           <a
             href="#"
             id="join-course-btn"
@@ -1027,7 +1027,7 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
           <a
             href="#"
           >
-            log in using a Google account
+            log in using your account email
           </a>
            (recommended). 
         </div>

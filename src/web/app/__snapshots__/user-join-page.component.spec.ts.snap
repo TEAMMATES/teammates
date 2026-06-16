@@ -2,6 +2,7 @@
 
 exports[`UserJoinPageComponent > should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
@@ -13,7 +14,6 @@ exports[`UserJoinPageComponent > should snap if user is not logged in and has a 
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  userId=""
   validUrl={[Function Boolean]}
 >
   <div>
@@ -42,6 +42,7 @@ exports[`UserJoinPageComponent > should snap if user is not logged in and has a 
 
 exports[`UserJoinPageComponent > should snap with default fields 1`] = `
 <tm-user-join-page
+  accountEmail=""
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
@@ -53,7 +54,6 @@ exports[`UserJoinPageComponent > should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  userId=""
   validUrl={[Function Boolean]}
 >
   <tm-loading-spinner>
@@ -76,6 +76,7 @@ exports[`UserJoinPageComponent > should snap with default fields 1`] = `
 
 exports[`UserJoinPageComponent > should snap with invalid course join link 1`] = `
 <tm-user-join-page
+  accountEmail={[Function String]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
@@ -87,7 +88,6 @@ exports[`UserJoinPageComponent > should snap with invalid course join link 1`] =
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  userId={[Function String]}
   validUrl="false"
 >
   <div>
@@ -116,6 +116,7 @@ exports[`UserJoinPageComponent > should snap with invalid course join link 1`] =
 
 exports[`UserJoinPageComponent > should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
+  accountEmail={[Function String]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
@@ -127,7 +128,6 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  userId={[Function String]}
   validUrl={[Function Boolean]}
 >
   <div>
@@ -156,6 +156,7 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
 
 exports[`UserJoinPageComponent > should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
+  accountEmail={[Function String]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
@@ -167,7 +168,6 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  userId={[Function String]}
   validUrl={[Function Boolean]}
 >
   <div>
@@ -181,7 +181,7 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
         <h1
           class="mb-0 h3"
         >
-          Confirm your Google account
+          Confirm your account email
         </h1>
       </div>
       <div
@@ -189,13 +189,13 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
       >
          You are currently logged in as 
         <strong
-          id="user-id"
+          id="account-email"
         >
-          user
+          user@teammates.tmt
         </strong>
         . 
         <br />
-        If this is not you, please log out and log in using your own Google account. 
+        If this is not you, please log out and log in using your own account email. 
         <br />
         If this is you, please confirm below to complete your registration.
         <br />

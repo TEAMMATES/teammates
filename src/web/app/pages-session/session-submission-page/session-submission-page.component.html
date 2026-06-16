@@ -39,10 +39,10 @@
     >.
   </div>
   @if (key) {
-    @if (loggedInUser) {
+    @if (accountEmail) {
       <div class="text-secondary">
         Link this submission to your account:
-        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ loggedInUser }}</a
+        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ accountEmail }}</a
         >.
       </div>
     } @else {

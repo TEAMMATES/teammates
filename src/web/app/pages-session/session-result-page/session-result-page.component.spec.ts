@@ -56,13 +56,12 @@ describe('SessionResultPageComponent', () => {
     loginUrl: '/login',
     masquerade: false,
     user: {
-      id: 'user-id',
-      email: 'user@teammates.tmt',
+      accountId: 'account-id',
+      accountEmail: 'user@teammates.tmt',
       isAdmin: false,
       isInstructor: true,
       isStudent: false,
       isMaintainer: false,
-      accountId: 'account-id',
     },
   };
 
@@ -165,7 +164,7 @@ describe('SessionResultPageComponent', () => {
 
   it('should snap with user that is logged in and using session link', () => {
     component.key = 'session-link-key';
-    component.loggedInUser = 'alice';
+    component.accountEmail = 'alice';
     component.personName = 'alice';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -173,7 +172,7 @@ describe('SessionResultPageComponent', () => {
 
   it('should snap with user that is not logged in and using session link', () => {
     component.key = 'session-link-key';
-    component.loggedInUser = '';
+    component.accountEmail = '';
     component.personName = 'alice';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -221,7 +220,7 @@ describe('SessionResultPageComponent', () => {
 
     expect(component.feedbackSessionId).toEqual('test-session-id');
     expect(component.key).toEqual('reg-key');
-    expect(component.loggedInUser).toEqual('user-id');
+    expect(component.accountEmail).toEqual('user@teammates.tmt');
   });
 
   it('should verify allowed access and used reg key', () => {
@@ -287,10 +286,10 @@ describe('SessionResultPageComponent', () => {
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/front',
-      `You are trying to access TEAMMATES using the Google account user-id, which
-                        is not linked to this TEAMMATES account. If you used a different Google account to
-                        join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
-                        cannot remember which Google account you used before, please email us at
+      `You are trying to access TEAMMATES using the account email user@teammates.tmt, which
+                        is not linked to this TEAMMATES account. If you used a different account email to
+                        join/access TEAMMATES before, please use that account email to access TEAMMATES. If you
+                        cannot remember which account email you used before, please email us at
                         ${environment.supportEmail} for help.`,
     );
   });
@@ -328,7 +327,7 @@ describe('SessionResultPageComponent', () => {
 
   it('should navigate to join course when user click on join course link', () => {
     component.key = 'reg-key';
-    component.loggedInUser = 'user';
+    component.accountEmail = 'user';
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();

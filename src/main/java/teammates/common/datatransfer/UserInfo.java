@@ -8,19 +8,14 @@ import java.util.UUID;
 public class UserInfo {
 
     /**
-     * The user's Google ID.
-     */
-    public String id;
-
-    /**
      * The user's account ID.
      */
     public UUID accountId;
 
     /**
-     * The user's email address.
+     * The user's account email.
      */
-    public String email;
+    public String accountEmail;
 
     /**
      * Indicates whether the user has admin privilege.
@@ -42,22 +37,17 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    public UserInfo(String googleId, UUID accountId, String email) {
-        this.id = googleId;
+    public UserInfo(UUID accountId, String accountEmail) {
         this.accountId = accountId;
-        this.email = email;
-    }
-
-    public String getId() {
-        return id;
+        this.accountEmail = accountEmail;
     }
 
     public UUID getAccountId() {
         return accountId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAccountEmail() {
+        return accountEmail;
     }
 
     public boolean getIsAdmin() {

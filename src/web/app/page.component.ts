@@ -154,7 +154,7 @@ export class PageComponent implements OnInit {
         next: (authInfo: AuthInfo) => {
           const user = authInfo.user;
           if (user) {
-            this.user = user.id;
+            this.user = user.accountEmail;
             if (authInfo.masquerade) {
               this.user += ' (M)';
             }

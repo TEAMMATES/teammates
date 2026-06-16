@@ -11,9 +11,8 @@ const loggedInAuthInfo: AuthInfo = {
   loginUrl: '/login',
   masquerade: false,
   user: {
-    id: 'test@example.com',
     accountId: 'acc1',
-    email: 'user@teammates.tmt',
+    accountEmail: 'test@example.com',
     isAdmin: false,
     isInstructor: false,
     isStudent: false,
