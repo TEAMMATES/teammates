@@ -383,7 +383,7 @@ export class InstructorCoursesPageComponent implements OnInit {
             }
 
             result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-              this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
+              this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone)
                 .pipe(
                   finalize(() => {
                     this.numberOfSessionsCopied += 1;
@@ -449,11 +449,10 @@ export class InstructorCoursesPageComponent implements OnInit {
     fromFeedbackSession: FeedbackSession,
     newCourseId: string,
     newTimeZone: string,
-    oldCourseId: string,
   ): Observable<FeedbackSession> {
     return this.feedbackSessionsService.createFeedbackSession(
       newCourseId,
-      this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId),
+      this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone),
     );
   }
 
@@ -463,7 +462,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   private toFbSessionCreationReqWithName(
     fromFeedbackSession: FeedbackSession,
     newTimeZone: string,
-    oldCourseId: string,
   ): FeedbackSessionCreateRequest {
     // Local constants
     const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours').valueOf();
@@ -581,8 +579,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-      toCopyCourseId: oldCourseId,
-      toCopySessionName: fromFeedbackSession.feedbackSessionName,
+      toCopySessionId: fromFeedbackSession.feedbackSessionId,
       instructions: fromFeedbackSession.instructions,
 
       submissionStartTimestamp: copiedSubmissionStartTimestamp,

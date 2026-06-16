@@ -18,11 +18,9 @@ import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
-import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
@@ -243,14 +241,6 @@ public abstract class Action {
      */
     public boolean hasDefinedRequestBody() {
         return requestBody != null;
-    }
-
-    FeedbackSession getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-        return feedbackSession;
     }
 
     /**

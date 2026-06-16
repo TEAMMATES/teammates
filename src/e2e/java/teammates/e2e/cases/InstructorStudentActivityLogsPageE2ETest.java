@@ -92,6 +92,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
 
-        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSession().getName()));
     }
 }
