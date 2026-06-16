@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.EmailRenderer;
@@ -35,7 +36,7 @@ public class FeedbackSessionsEmailsLogic {
                 : EmailRenderer.renderSessionLinksRecoveryNotFoundEmail(context.recoveryEmailAddress());
         EmailWrapper email = EmailWrapperBuilder.build(
                 context.recoveryEmailAddress(),
-                teammates.common.util.EmailType.SESSION_LINKS_RECOVERY,
+                EmailType.SESSION_LINKS_RECOVERY,
                 renderedEmail);
         emailQueueService.enqueuePriority(email);
     }

@@ -86,8 +86,7 @@ public final class EmailRenderer {
                 sessionRowsHtml.append(Templates.populateTemplate(
                         EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
                         "${sessionName}", SanitizationHelper.sanitizeForHtml(sessionLink.feedbackSessionName()),
-                        "${submitUrl}", linksHtml.toString(),
-                        "${reportUrl}", ""));
+                        "${links}", linksHtml.toString()));
             }
 
             String courseName = SanitizationHelper.sanitizeForHtml(courseSection.courseName()
