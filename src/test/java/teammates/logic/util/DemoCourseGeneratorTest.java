@@ -22,7 +22,7 @@ public class DemoCourseGeneratorTest extends BaseTestCase {
 
     @Test
     public void getDemoCourseIdRoot_hostShorterThanThreeChars_usesFullHost() {
-        assertEquals("john.ab-demo-", DemoCourseGenerator.getDemoCourseIdRoot("john@ab.com"));
+        assertEquals("john.ab-demo-", DemoCourseGenerator.getDemoCourseIdRoot("john@ab"));
     }
 
     @Test
