@@ -1,4 +1,4 @@
-package teammates.logic.external;
+package teammates.logic.external.email;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
@@ -26,22 +26,22 @@ import teammates.common.util.HtmlHelper;
 import teammates.common.util.StringHelper;
 
 /**
- * Jakarta mail-based SMTP email sender service.
+ * Jakarta mail-based SMTP email transport.
  *
  * @see <a href="https://javadoc.io/doc/com.sun.mail/jakarta.mail/2.0.1/jakarta.mail/com/sun/mail/smtp/package-summary.html">
  *          SMTP-related Session properties</a>
  */
-public class SmtpService implements EmailSenderService {
+public class SmtpTransport implements EmailTransport {
     private static final String DEFAULT_TIMEOUT_MS = "10000";
     private static final String TEXT_ENCODING_UTF8 = "UTF-8";
     private final Session session;
 
-    public SmtpService() {
+    public SmtpTransport() {
         this(Config.SMTP_HOST, Config.SMTP_PORT, Config.SMTP_SECURITY_PROTOCOL,
                 Config.SMTP_AUTH, Config.SMTP_USERNAME, Config.SMTP_PASSWORD);
     }
 
-    public SmtpService(String host, String port, String securityProtocol, String authEnabled,
+    public SmtpTransport(String host, String port, String securityProtocol, String authEnabled,
                        String username, String password) {
         boolean isAuthEnabled = Boolean.parseBoolean(authEnabled);
         boolean isAuthEnabledValid = "true".equalsIgnoreCase(authEnabled) || "false".equalsIgnoreCase(authEnabled);
@@ -97,7 +97,7 @@ public class SmtpService implements EmailSenderService {
     }
 
     @Override
-    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
+    public EmailSendingStatus deliver(EmailWrapper wrapper) throws EmailSendingException {
         try {
             MimeMessage message = parseToEmail(wrapper);
             sendMessageWithTransport(message);

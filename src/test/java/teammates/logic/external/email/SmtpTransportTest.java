@@ -1,4 +1,4 @@
-package teammates.logic.external;
+package teammates.logic.external.email;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,9 +21,9 @@ import teammates.common.util.HtmlHelper;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link SmtpService}.
+ * SUT: {@link SmtpTransport}.
  */
-public class SmtpServiceTest extends BaseTestCase {
+public class SmtpTransportTest extends BaseTestCase {
 
     private static EmailWrapper getTypicalEmailWrapper() {
         EmailWrapper wrapper = new EmailWrapper();
@@ -42,48 +42,48 @@ public class SmtpServiceTest extends BaseTestCase {
     }
 
     @Test
-    public void testSendEmail_noErrors_returnsOk() throws EmailSendingException {
-        SmtpServiceStub service = new SmtpServiceStub(null);
-        EmailSendingStatus status = service.sendEmail(getTypicalEmailWrapper());
+    public void testDeliver_noErrors_returnsOk() throws EmailSendingException {
+        SmtpTransportStub service = new SmtpTransportStub(null);
+        EmailSendingStatus status = service.deliver(getTypicalEmailWrapper());
         assertEquals(HttpStatus.SC_OK, status.getStatusCode());
     }
 
     @Test
-    public void testSendEmail_smtpError5xx_throwsBadRequest() {
+    public void testDeliver_smtpError5xx_throwsBadRequest() {
         for (int code : new int[] { 500, 550, 554 }) {
-            SmtpServiceStub service = new SmtpServiceStub(buildSmtpException(code));
+            SmtpTransportStub service = new SmtpTransportStub(buildSmtpException(code));
             EmailSendingException e = assertThrows(EmailSendingException.class,
-                    () -> service.sendEmail(getTypicalEmailWrapper()));
+                    () -> service.deliver(getTypicalEmailWrapper()));
             assertEquals(HttpStatus.SC_BAD_REQUEST, e.getStatusCode());
         }
     }
 
     @Test
-    public void testSendEmail_smtpError4xx_throwsBadGateway() {
+    public void testDeliver_smtpError4xx_throwsBadGateway() {
         for (int code : new int[] { 421, 450, 451, 452 }) {
-            SmtpServiceStub service = new SmtpServiceStub(buildSmtpException(code));
+            SmtpTransportStub service = new SmtpTransportStub(buildSmtpException(code));
             EmailSendingException e = assertThrows(EmailSendingException.class,
-                    () -> service.sendEmail(getTypicalEmailWrapper()));
+                    () -> service.deliver(getTypicalEmailWrapper()));
             assertEquals(HttpStatus.SC_BAD_GATEWAY, e.getStatusCode());
         }
     }
 
     @Test
-    public void testSendEmail_messagingException_throwsInternalServerError() {
-        SmtpServiceStub service = new SmtpServiceStub(new MessagingException("Connection refused"));
+    public void testDeliver_messagingException_throwsInternalServerError() {
+        SmtpTransportStub service = new SmtpTransportStub(new MessagingException("Connection refused"));
         EmailSendingException e = assertThrows(EmailSendingException.class,
-                () -> service.sendEmail(getTypicalEmailWrapper()));
+                () -> service.deliver(getTypicalEmailWrapper()));
         assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getStatusCode());
     }
 
     @Test
     public void testConstructor_validConfigs_constructsSuccessfully() {
         assertDoesNotThrow(() -> {
-            new SmtpService("smtp.example.invalid", "587", "starttls",
+            new SmtpTransport("smtp.example.invalid", "587", "starttls",
                     "true", "username", "password");
         });
         assertDoesNotThrow(() -> {
-            new SmtpService("smtp.example.invalid", "587", "ssl",
+            new SmtpTransport("smtp.example.invalid", "587", "ssl",
                     "false", "", "");
         });
     }
@@ -91,47 +91,47 @@ public class SmtpServiceTest extends BaseTestCase {
     @Test
     public void testConstructor_invalidSecurityProtocol_throwsIllegalArgument() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", null, "true",
+            new SmtpTransport("smtp.example.invalid", "587", null, "true",
                     "username", "password");
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", "", "true",
+            new SmtpTransport("smtp.example.invalid", "587", "", "true",
                     "username", "password");
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", "invalid_protocol", "true",
-                    "username", "password");
-        });
-    }
-
-    @Test
-    public void testSmtpService_invalidAuthEnabled_throwsIllegalArgument() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", null, "",
-                    "username", "password");
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", "ssl", null,
-                    "username", "password");
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", "starttls", "invalid_value",
+            new SmtpTransport("smtp.example.invalid", "587", "invalid_protocol", "true",
                     "username", "password");
         });
     }
 
     @Test
-    public void testSmtpService_authEnabledWithMissingCredentials_throwsIllegalArgument() {
+    public void testSmtpTransport_invalidAuthEnabled_throwsIllegalArgument() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", null, "true",
+            new SmtpTransport("smtp.example.invalid", "587", null, "",
+                    "username", "password");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SmtpTransport("smtp.example.invalid", "587", "ssl", null,
+                    "username", "password");
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SmtpTransport("smtp.example.invalid", "587", "starttls", "invalid_value",
+                    "username", "password");
+        });
+    }
+
+    @Test
+    public void testSmtpTransport_authEnabledWithMissingCredentials_throwsIllegalArgument() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SmtpTransport("smtp.example.invalid", "587", null, "true",
                     "username", "");
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", "ssl", "true",
+            new SmtpTransport("smtp.example.invalid", "587", "ssl", "true",
                     null, "password");
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            new SmtpService("smtp.example.invalid", "587", "starttls", "true",
+            new SmtpTransport("smtp.example.invalid", "587", "starttls", "true",
                     "", "");
         });
     }
@@ -139,7 +139,7 @@ public class SmtpServiceTest extends BaseTestCase {
     @Test
     public void testParseToEmail_returnsValidMessage() throws Exception {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        SmtpService smtpService = new SmtpService("smtp.example.invalid", "587", "starttls", "false",
+        SmtpTransport smtpService = new SmtpTransport("smtp.example.invalid", "587", "starttls", "false",
                 "", "");
         MimeMessage email = smtpService.parseToEmail(wrapper);
 
@@ -162,13 +162,13 @@ public class SmtpServiceTest extends BaseTestCase {
     }
 
     /**
-     * A subclass that overrides {@link SmtpService#sendMessageWithTransport} to mock SMTP transport sending behaviour.
+     * A subclass that overrides {@link SmtpTransport#sendMessageWithTransport} to mock SMTP transport sending behaviour.
      */
-    private static final class SmtpServiceStub extends SmtpService {
+    private static final class SmtpTransportStub extends SmtpTransport {
 
         private final MessagingException exceptionToThrow;
 
-        SmtpServiceStub(MessagingException exceptionToThrow) {
+        SmtpTransportStub(MessagingException exceptionToThrow) {
             super("localhost", "25", "ssl", "false", null, null);
             this.exceptionToThrow = exceptionToThrow;
         }
