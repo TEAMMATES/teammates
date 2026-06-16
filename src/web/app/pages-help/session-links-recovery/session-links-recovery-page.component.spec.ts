@@ -45,6 +45,8 @@ describe('SessionLinksRecoveryPageComponent', () => {
   let fixture: ComponentFixture<SessionLinksRecoveryPageComponent>;
 
   beforeEach(async () => {
+    environment.captchaSiteKey = '';
+
     await TestBed.configureTestingModule({
       imports: [SessionLinksRecoveryPageComponent],
       providers: [
