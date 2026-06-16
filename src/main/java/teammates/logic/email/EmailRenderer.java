@@ -3,36 +3,29 @@ package teammates.logic.email;
 import java.util.List;
 
 import teammates.common.util.Config;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.LinksUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
+import teammates.logic.email.model.RenderedEmail;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
 
 /**
- * Pure composition logic for outbound emails.
+ * Pure rendering logic for email templates.
  */
-public class EmailComposer {
+public final class EmailRenderer {
 
-    private static final EmailComposer instance = new EmailComposer();
-
-    EmailComposer() {
-        // prevent initialization
-    }
-
-    public static EmailComposer inst() {
-        return instance;
+    private EmailRenderer() {
+        // utility class
     }
 
     /**
-     * Composes the session links recovery email for a recipient with recoverable
-     * sessions.
+     * Renders the session links recovery email body for a recipient with
+     * recoverable sessions.
      */
-    public EmailWrapper composeSessionLinksRecoveryEmail(SessionLinksRecoveryContext context) {
+    public static RenderedEmail renderSessionLinksRecoveryEmail(SessionLinksRecoveryContext context) {
         String courseSectionsHtml = buildCourseSectionsHtml(context.recoverableCourseLinks());
         String emptyStateMessage = context.recoverableCourseLinks().isEmpty()
                 ? """
@@ -43,7 +36,7 @@ public class EmailComposer {
                   """
                 : "";
 
-        String emailBody = Templates.populateTemplate(
+        return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_FOUND,
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(context.recoveryEmailAddress()),
@@ -51,27 +44,23 @@ public class EmailComposer {
                 "${courseSections}", courseSectionsHtml,
                 "${emptyStateMessage}", emptyStateMessage,
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-
-        return createBaseEmail(context.recoveryEmailAddress(), EmailType.SESSION_LINKS_RECOVERY, emailBody);
+                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
     }
 
     /**
-     * Composes the session links recovery email for an email address with no
+     * Renders the session links recovery email body for an email address with no
      * matching student records.
      */
-    public EmailWrapper composeSessionLinksRecoveryNotFoundEmail(String recoveryEmailAddress) {
-        String emailBody = Templates.populateTemplate(
+    public static RenderedEmail renderSessionLinksRecoveryNotFoundEmail(String recoveryEmailAddress) {
+        return new RenderedEmail(Templates.populateTemplate(
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
                 "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
-                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl());
-
-        return createBaseEmail(recoveryEmailAddress, EmailType.SESSION_LINKS_RECOVERY, emailBody);
+                "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
     }
 
-    private String buildCourseSectionsHtml(List<RecoverableCourseLinks> courseSections) {
+    private static String buildCourseSectionsHtml(List<RecoverableCourseLinks> courseSections) {
         StringBuilder html = new StringBuilder();
         for (RecoverableCourseLinks courseSection : courseSections) {
             StringBuilder sessionRowsHtml = new StringBuilder();
@@ -109,17 +98,5 @@ public class EmailComposer {
                     "${courseName}", courseName));
         }
         return html.toString();
-    }
-
-    private EmailWrapper createBaseEmail(String recipientEmailAddress, EmailType emailType, String emailBody) {
-        EmailWrapper email = new EmailWrapper();
-        email.setRecipient(recipientEmailAddress);
-        email.setSenderEmail(Config.EMAIL_SENDEREMAIL);
-        email.setSenderName(Config.EMAIL_SENDERNAME);
-        email.setReplyTo(Config.EMAIL_REPLYTO);
-        email.setType(emailType);
-        email.setSubjectFromType();
-        email.setContent(emailBody);
-        return email;
     }
 }

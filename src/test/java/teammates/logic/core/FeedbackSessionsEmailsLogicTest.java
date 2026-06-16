@@ -1,10 +1,7 @@
 package teammates.logic.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -16,7 +13,6 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
-import teammates.logic.email.EmailComposer;
 import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.model.RecoverableCourseLinks;
 import teammates.logic.email.model.RecoverableSessionLink;
@@ -30,20 +26,17 @@ import teammates.ui.request.SendEmailRequest;
 public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
 
     private MockTaskQueuer taskQueuer;
-    private EmailComposer emailComposer;
     private FeedbackSessionsEmailsLogic feedbackSessionsEmailsLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         taskQueuer = new MockTaskQueuer();
-        emailComposer = mock(EmailComposer.class);
         feedbackSessionsEmailsLogic = new FeedbackSessionsEmailsLogic(
-                EmailQueueService.withTaskQueuer(taskQueuer),
-                emailComposer);
+                EmailQueueService.withTaskQueuer(taskQueuer));
     }
 
     @Test
-    public void enqueueSessionLinksRecoveryEmail_matchingStudentsExist_callsFoundComposerAndEnqueuesPriority() {
+    public void enqueueSessionLinksRecoveryEmail_matchingStudentsExist_enqueuesPriorityRecoveryEmail() {
         SessionLinksRecoveryContext context = new SessionLinksRecoveryContext(
                 "student@teammates.tmt",
                 "Student Name",
@@ -57,50 +50,42 @@ public class FeedbackSessionsEmailsLogicTest extends BaseTestCase {
                                                 "Midterm Feedback",
                                                 "https://example.com/submission",
                                                 "https://example.com/results")))));
-        EmailWrapper email = createEmail("student@teammates.tmt");
-        when(emailComposer.composeSessionLinksRecoveryEmail(context)).thenReturn(email);
 
         feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
 
-        verify(emailComposer).composeSessionLinksRecoveryEmail(context);
-        verifyNoMoreInteractions(emailComposer);
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
         assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, task.getQueueName());
 
         SendEmailRequest request = (SendEmailRequest) task.getRequestBody();
-        assertEquals(email, request.getEmail());
+        EmailWrapper email = request.getEmail();
+        assertEquals("student@teammates.tmt", email.getRecipient());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY, email.getType());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), email.getSubject());
+        assertTrue(email.getContent().contains("Hello Student Name"));
+        assertTrue(email.getContent().contains("Midterm Feedback"));
     }
 
     @Test
-    public void enqueueSessionLinksRecoveryEmail_matchingStudentsDoNotExist_callsNotFoundComposerAndEnqueuesPriority() {
+    public void enqueueSessionLinksRecoveryEmail_matchingStudentsDoNotExist_enqueuesPriorityNotFoundEmail() {
         SessionLinksRecoveryContext context = new SessionLinksRecoveryContext(
                 "missing@teammates.tmt",
                 null,
                 true,
                 List.of());
-        EmailWrapper email = createEmail("missing@teammates.tmt");
-        when(emailComposer.composeSessionLinksRecoveryNotFoundEmail("missing@teammates.tmt")).thenReturn(email);
 
         feedbackSessionsEmailsLogic.enqueueSessionLinksRecoveryEmail(context);
 
-        verify(emailComposer).composeSessionLinksRecoveryNotFoundEmail("missing@teammates.tmt");
-        verifyNoMoreInteractions(emailComposer);
         assertEquals(1, taskQueuer.getTasksAdded().size());
         TaskWrapper task = taskQueuer.getTasksAdded().get(0);
         assertEquals(TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, task.getQueueName());
 
         SendEmailRequest request = (SendEmailRequest) task.getRequestBody();
-        assertEquals(email, request.getEmail());
-    }
-
-    private static EmailWrapper createEmail(String recipientEmailAddress) {
-        EmailWrapper email = new EmailWrapper();
-        email.setRecipient(recipientEmailAddress);
-        email.setType(EmailType.SESSION_LINKS_RECOVERY);
-        email.setSubject("subject");
-        email.setContent("content");
-        return email;
+        EmailWrapper email = request.getEmail();
+        assertEquals("missing@teammates.tmt", email.getRecipient());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY, email.getType());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), email.getSubject());
+        assertTrue(email.getContent().contains("Sorry, we could not find any links"));
     }
 
 }
