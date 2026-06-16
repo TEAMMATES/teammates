@@ -159,8 +159,6 @@ public final class Const {
 
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
-        public static final String EMAIL_TYPE = "emailtype";
-
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
@@ -359,7 +357,6 @@ public final class Const {
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
-        public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
         public static final String CONFIG = URI_PREFIX + "/config";
