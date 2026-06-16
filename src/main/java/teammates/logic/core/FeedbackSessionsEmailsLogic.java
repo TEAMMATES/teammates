@@ -1,11 +1,9 @@
 package teammates.logic.core;
 
-import java.util.List;
-
 import teammates.common.util.EmailWrapper;
+import teammates.logic.email.EmailComposer;
 import teammates.logic.email.EmailQueueService;
 import teammates.logic.email.model.SessionLinksRecoveryContext;
-import teammates.logic.email.EmailComposer;
 
 /**
  * Handles email-specific orchestration for feedback session use cases.

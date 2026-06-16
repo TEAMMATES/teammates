@@ -11,9 +11,9 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.email.EmailComposer;

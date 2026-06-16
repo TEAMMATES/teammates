@@ -16,6 +16,9 @@ public record SessionLinksRecoveryContext(
         boolean noMatchingStudents,
         List<RecoverableCourseLinks> recoverableCourseLinks) {
 
+    /**
+     * Returns true if there are matching students for the recovery email address, false otherwise.
+     */
     public boolean hasMatchingStudents() {
         return !noMatchingStudents;
     }

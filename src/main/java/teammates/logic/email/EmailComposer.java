@@ -86,7 +86,7 @@ public class EmailComposer {
                             .append("\">submission link</a>]");
                 }
                 if (hasSubmitLink && hasResultsLink) {
-                    linksHtml.append(" ");
+                    linksHtml.append(' ');
                 }
                 if (hasResultsLink) {
                     linksHtml.append("[<a href=\"")

@@ -291,6 +291,7 @@ public final class FeedbackSessionsLogic {
 
         return getSubmittedGiverSet(feedbackSession);
     }
+
     private SubmittedGiverSetBundle getSubmittedGiverSet(FeedbackSession feedbackSession) {
         Set<FeedbackQuestion> questions = feedbackSession.getFeedbackQuestions();
         boolean hasQuestionsForStudents = fqLogic.hasFeedbackQuestionsForStudents(questions);
