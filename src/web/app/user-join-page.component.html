@@ -1,5 +1,5 @@
-<div *tmIsLoading="isLoading">
-  @if (!hasJoined && !accountEmail && validUrl) {
+<div *tmIsLoading="isLoading()">
+  @if (!hasJoined() && !accountEmail() && validUrl()) {
     <div class="card bg-light mx-auto" style="max-width: 800px">
       <div class="card-header bg-warning">
         <h1 class="mb-0 h3">Not logged in</h1>
@@ -7,29 +7,29 @@
       <div class="card-body">You are not logged in. Please log in first.</div>
     </div>
   }
-  @if (accountEmail && (!validUrl || hasJoined)) {
+  @if (accountEmail() && (!validUrl() || hasJoined())) {
     <div class="card bg-light mx-auto" style="max-width: 800px">
       <div class="card-header bg-warning">
         <h1 class="mb-0 h3">Invalid course join link</h1>
       </div>
-      @if (!validUrl) {
+      @if (!validUrl()) {
         <div class="card-body">
           The course join link is invalid. You may have entered the URL incorrectly or the URL may correspond to a/an
-          {{ entityType }} that does not exist.
+          {{ entityType() }} that does not exist.
         </div>
       }
-      @if (hasJoined && validUrl) {
+      @if (hasJoined() && validUrl()) {
         <div class="card-body">The course join link has been used and is no longer valid.</div>
       }
     </div>
   }
-  @if (!hasJoined && accountEmail && validUrl) {
+  @if (!hasJoined() && accountEmail() && validUrl()) {
     <div class="card bg-light mx-auto" style="max-width: 800px">
       <div class="card-header bg-primary text-white">
         <h1 class="mb-0 h3">Confirm your account email</h1>
       </div>
       <div class="card-body">
-        You are currently logged in as <strong id="account-email">{{ accountEmail }}</strong
+        You are currently logged in as <strong id="account-email">{{ accountEmail() }}</strong
         >. <br />If this is not you, please log out and log in using your own account email. <br />If this is you,
         please confirm below to complete your registration.<br />
         <div class="text-center" style="margin-top: 20px">

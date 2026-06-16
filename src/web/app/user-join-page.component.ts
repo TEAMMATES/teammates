@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
@@ -28,44 +28,44 @@ export class UserJoinPageComponent implements OnInit {
   private simpleModalService = inject(SimpleModalService);
   private ngbModal = inject(NgbModal);
 
-  isLoading = true;
-  hasJoined = false;
-  validUrl = true;
-  entityType = '';
-  key = '';
-  accountEmail = '';
+  readonly isLoading = signal(true);
+  readonly hasJoined = signal(false);
+  readonly validUrl = signal(true);
+  readonly entityType = signal('');
+  readonly key = signal('');
+  readonly accountEmail = signal('');
 
   private backendUrl: string = environment.backendUrl;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: Params) => {
-      this.entityType = queryParams['entityType'];
-      this.key = queryParams['key'];
+      this.entityType.set(queryParams['entityType']);
+      this.key.set(queryParams['key']);
 
       const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
-          this.isLoading = false;
+          this.isLoading.set(false);
           window.location.href = `${this.backendUrl}${auth.loginUrl}`;
           return;
         }
-        this.accountEmail = auth.user.accountEmail;
+        this.accountEmail.set(auth.user.accountEmail);
 
-        this.courseService.getJoinCourseStatus(this.key).subscribe({
+        this.courseService.getJoinCourseStatus(this.key()).subscribe({
           next: (resp: JoinStatus) => {
-            this.hasJoined = resp.hasJoined;
-            if (this.hasJoined) {
+            this.hasJoined.set(resp.hasJoined);
+            if (this.hasJoined()) {
               // The regkey has been used; simply redirect the user to their home page,
               // regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(`/web/${this.entityType}/home`);
+              this.navigationService.navigateByURL(`/web/${this.entityType()}/home`);
             } else {
-              this.isLoading = false;
+              this.isLoading.set(false);
             }
           },
           error: (resp: ErrorMessageOutput) => {
             if (resp.status === 404) {
-              this.validUrl = false;
-              this.isLoading = false;
+              this.validUrl.set(false);
+              this.isLoading.set(false);
               return;
             }
             const modalRef: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
@@ -81,10 +81,10 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-    this.courseService.joinCourse({ key: this.key }).subscribe({
+    this.courseService.joinCourse({ key: this.key() }).subscribe({
       next: () => {
         this.authService.clearAuthCache();
-        this.navigationService.navigateByURL(`/web/${this.entityType}`);
+        this.navigationService.navigateByURL(`/web/${this.entityType()}`);
       },
       error: (resp: ErrorMessageOutput) => {
         const errorMessage = resp.error.message;

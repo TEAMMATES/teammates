@@ -99,38 +99,41 @@ describe('InstructorCourseEditPageComponent', () => {
 
     component.loadCourseInfo();
 
-    expect(component.courseFormModel.course.courseId).toBe('exampleId');
-    expect(component.courseFormModel.course.courseName).toBe('Example Course');
-    expect(component.courseFormModel.course.timeZone).toBe('UTC (UTC)');
-    expect(component.courseFormModel.course.creationTimestamp).toBe(0);
-    expect(component.courseFormModel.course.deletionTimestamp).toBe(1000);
-    expect(component.hasCourseLoadingFailed).toBeFalsy();
+    expect(component.courseFormModel().course.courseId).toBe('exampleId');
+    expect(component.courseFormModel().course.courseName).toBe('Example Course');
+    expect(component.courseFormModel().course.timeZone).toBe('UTC (UTC)');
+    expect(component.courseFormModel().course.creationTimestamp).toBe(0);
+    expect(component.courseFormModel().course.deletionTimestamp).toBe(1000);
+    expect(component.hasCourseLoadingFailed()).toBeFalsy();
   });
 
   it('should not change course details if CANCEL is requested', () => {
-    component.courseFormModel.course = testCourse;
-    component.isCourseLoading = false;
-    component.courseFormModel.originalCourse = { ...component.courseFormModel.course };
+    component.courseFormModel.update((model) => ({
+      ...model,
+      course: testCourse,
+      originalCourse: { ...testCourse },
+    }));
+    component.isCourseLoading.set(false);
     fixture.detectChanges();
 
-    component.courseFormModel.isEditing = true;
-    component.courseFormModel.course.courseName = 'Example Course Changed';
+    component.courseFormModel().isEditing = true;
+    component.courseFormModel().course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
     const button = fixture.debugElement.nativeElement.querySelector('#btn-cancel-course');
     button.click();
 
-    expect(component.courseFormModel.isEditing).toBeFalsy();
-    expect(component.courseFormModel.course.courseName).toBe('Example Course');
+    expect(component.courseFormModel().isEditing).toBeFalsy();
+    expect(component.courseFormModel().course.courseName).toBe('Example Course');
   });
 
   it('should update course details if SAVE is requested', () => {
-    component.courseFormModel.course = testCourse;
-    component.isCourseLoading = false;
+    component.courseFormModel.update((model) => ({ ...model, course: testCourse }));
+    component.isCourseLoading.set(false);
     fixture.detectChanges();
 
-    component.courseFormModel.isEditing = true;
-    component.courseFormModel.course.courseName = 'Example Course Changed';
+    component.courseFormModel().isEditing = true;
+    component.courseFormModel().course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
     vi.spyOn(courseService, 'updateCourse').mockReturnValue(
@@ -149,8 +152,8 @@ describe('InstructorCourseEditPageComponent', () => {
     const button = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
     button.click();
 
-    expect(component.courseFormModel.isEditing).toBeFalsy();
-    expect(component.courseFormModel.course.courseName).toBe('Example Course Changed');
+    expect(component.courseFormModel().isEditing).toBeFalsy();
+    expect(component.courseFormModel().course.courseName).toBe('Example Course Changed');
   });
 
   it('should update instructor details if SAVE is requested', () => {
@@ -162,11 +165,11 @@ describe('InstructorCourseEditPageComponent', () => {
 
     component.loadCourseInstructors();
 
-    component.isInstructorsLoading = false;
+    component.isInstructorsLoading.set(false);
     fixture.detectChanges();
 
-    component.instructorDetailPanels[0].editPanel.isEditing = true;
-    component.instructorDetailPanels[0].editPanel.name = 'Example Instructor Changed';
+    component.instructorDetailPanels()[0].editPanel.isEditing = true;
+    component.instructorDetailPanels()[0].editPanel.name = 'Example Instructor Changed';
     fixture.detectChanges();
 
     vi.spyOn(instructorService, 'updateInstructor').mockReturnValue(
@@ -184,8 +187,8 @@ describe('InstructorCourseEditPageComponent', () => {
     const button = fixture.debugElement.nativeElement.querySelector('#btn-save-instructor-1');
     button.click();
 
-    expect(component.instructorDetailPanels[0].editPanel.isEditing).toBeFalsy();
-    expect(component.instructorDetailPanels[0].editPanel.name).toBe('Example Instructor Changed');
+    expect(component.instructorDetailPanels()[0].editPanel.isEditing).toBeFalsy();
+    expect(component.instructorDetailPanels()[0].editPanel.name).toBe('Example Instructor Changed');
   });
 
   it('should load correct instructors details for given API output', () => {
@@ -197,15 +200,15 @@ describe('InstructorCourseEditPageComponent', () => {
 
     component.loadCourseInstructors();
 
-    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor1);
-    expect(component.instructorDetailPanels[1].originalInstructor).toEqual(testInstructor2);
-    expect(component.isInstructorsLoading).toBeFalsy();
+    expect(component.instructorDetailPanels()[0].originalInstructor).toEqual(testInstructor1);
+    expect(component.instructorDetailPanels()[1].originalInstructor).toEqual(testInstructor2);
+    expect(component.isInstructorsLoading()).toBeFalsy();
   });
 
   it('should not add instructor if CANCEL is requested', () => {
-    component.courseFormModel.course = testCourse;
-    component.isCourseLoading = false;
-    component.instructorDetailPanels = [
+    component.courseFormModel.update((model) => ({ ...model, course: testCourse }));
+    component.isCourseLoading.set(false);
+    component.instructorDetailPanels.set([
       {
         originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
@@ -216,18 +219,18 @@ describe('InstructorCourseEditPageComponent', () => {
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
-    ];
-    component.isAddingNewInstructor = true;
-    component.newInstructorPanel = component.getInstructorEditPanelModel(testInstructor3);
-    component.newInstructorPanel.isEditing = true;
+    ]);
+    component.isAddingNewInstructor.set(true);
+    component.newInstructorPanel.set(component.getInstructorEditPanelModel(testInstructor3));
+    component.newInstructorPanel().isEditing = true;
     fixture.detectChanges();
 
     const button = fixture.debugElement.nativeElement.querySelector(
-      `#btn-cancel-instructor-${component.instructorDetailPanels.length + 1}`,
+      `#btn-cancel-instructor-${component.instructorDetailPanels().length + 1}`,
     );
     button.click();
 
-    expect(component.isAddingNewInstructor).toBeFalsy();
+    expect(component.isAddingNewInstructor()).toBeFalsy();
   });
 
   it('should add instructor details', () => {
@@ -244,10 +247,10 @@ describe('InstructorCourseEditPageComponent', () => {
         }),
     );
 
-    component.courseFormModel.course = testCourse;
+    component.courseFormModel.update((model) => ({ ...model, course: testCourse }));
     component.courseId = testCourse.courseId;
-    component.isCourseLoading = false;
-    component.instructorDetailPanels = [
+    component.isCourseLoading.set(false);
+    component.instructorDetailPanels.set([
       {
         originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
@@ -258,22 +261,22 @@ describe('InstructorCourseEditPageComponent', () => {
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
-    ];
-    component.isAddingNewInstructor = true;
-    component.newInstructorPanel = component.getInstructorEditPanelModel(testInstructor3);
-    component.newInstructorPanel.isEditing = true;
+    ]);
+    component.isAddingNewInstructor.set(true);
+    component.newInstructorPanel.set(component.getInstructorEditPanelModel(testInstructor3));
+    component.newInstructorPanel().isEditing = true;
     fixture.detectChanges();
 
     const button = fixture.debugElement.nativeElement.querySelector(
-      `#btn-save-instructor-${component.instructorDetailPanels.length + 1}`,
+      `#btn-save-instructor-${component.instructorDetailPanels().length + 1}`,
     );
     button.click();
 
-    expect(component.isAddingNewInstructor).toBeFalsy();
-    expect(component.isSavingNewInstructor).toBeFalsy();
-    expect(component.instructorDetailPanels.length).toBe(3);
-    expect(component.instructorDetailPanels[2].originalInstructor).toEqual(testInstructor3);
-    expect(component.newInstructorPanel).toEqual(emptyInstructorPanel);
+    expect(component.isAddingNewInstructor()).toBeFalsy();
+    expect(component.isSavingNewInstructor()).toBeFalsy();
+    expect(component.instructorDetailPanels().length).toBe(3);
+    expect(component.instructorDetailPanels()[2].originalInstructor).toEqual(testInstructor3);
+    expect(component.newInstructorPanel()).toEqual(emptyInstructorPanel);
   });
 
   it('should re-order if instructor is deleted', async () => {
@@ -281,9 +284,9 @@ describe('InstructorCourseEditPageComponent', () => {
 
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.courseFormModel.course = testCourse;
-    component.isCourseLoading = false;
-    component.instructorDetailPanels = [
+    component.courseFormModel.update((model) => ({ ...model, course: testCourse }));
+    component.isCourseLoading.set(false);
+    component.instructorDetailPanels.set([
       {
         originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
@@ -294,15 +297,15 @@ describe('InstructorCourseEditPageComponent', () => {
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
-    ];
+    ]);
 
     component.deleteInstructor(0);
     fixture.detectChanges();
 
     await Promise.resolve();
 
-    expect(component.instructorDetailPanels.length).toBe(1);
-    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+    expect(component.instructorDetailPanels().length).toBe(1);
+    expect(component.instructorDetailPanels()[0].originalInstructor).toEqual(testInstructor2);
   });
 
   it('should re-send reminder email for new instructors', () => {
@@ -315,15 +318,15 @@ describe('InstructorCourseEditPageComponent', () => {
 
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
-    component.courseFormModel.course = testCourse;
-    component.isCourseLoading = false;
-    component.currInstructorCoursePrivilege = {
+    component.courseFormModel.update((model) => ({ ...model, course: testCourse }));
+    component.isCourseLoading.set(false);
+    component.currInstructorCoursePrivilege.set({
       canModifyCourse: true,
       canModifyStudent: true,
       canModifyInstructor: true,
-    };
-    component.isInstructorsLoading = false;
-    component.instructorDetailPanels = [
+    });
+    component.isInstructorsLoading.set(false);
+    component.instructorDetailPanels.set([
       {
         originalInstructor: { ...testInstructor1 },
         originalPanel: component.getInstructorEditPanelModel(testInstructor1),
@@ -334,11 +337,11 @@ describe('InstructorCourseEditPageComponent', () => {
         originalPanel: component.getInstructorEditPanelModel(testInstructor2),
         editPanel: component.getInstructorEditPanelModel(testInstructor2),
       },
-    ];
+    ]);
     fixture.detectChanges();
 
     const button = fixture.debugElement.nativeElement.querySelector(
-      `#btn-resend-invite-${component.instructorDetailPanels.length}`,
+      `#btn-resend-invite-${component.instructorDetailPanels().length}`,
     );
     button.click();
 
@@ -350,7 +353,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap with course details', () => {
-    component.courseFormModel.course = testCourse;
+    component.courseFormModel.update((model) => ({ ...model, course: testCourse }));
 
     fixture.detectChanges();
 
@@ -358,7 +361,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap when editing course details', () => {
-    component.courseFormModel.isEditing = true;
+    component.courseFormModel().isEditing = true;
 
     fixture.detectChanges();
 
@@ -376,13 +379,13 @@ describe('InstructorCourseEditPageComponent', () => {
       joinState: JoinState.JOINED,
     };
 
-    component.instructorDetailPanels = [
+    component.instructorDetailPanels.set([
       {
         originalInstructor: instructor,
         originalPanel: component.getInstructorEditPanelModel(instructor),
         editPanel: component.getInstructorEditPanelModel(instructor),
       },
-    ];
+    ]);
 
     fixture.detectChanges();
 

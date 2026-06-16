@@ -122,9 +122,9 @@ describe('SessionResultPageComponent', () => {
     component.previewAs = testQueryParams['previewAs'];
     component.intent = Intent.STUDENT_RESULT;
     // Set both loading flags to false initially for testing purposes only
-    component.isCourseLoading = false;
-    component.isFeedbackSessionDetailsLoading = false;
-    component.isFeedbackSessionResultsLoading = false;
+    component.isCourseLoading.set(false);
+    component.isFeedbackSessionDetailsLoading.set(false);
+    component.isFeedbackSessionResultsLoading.set(false);
     vi.spyOn(feedbackSessionService, 'getUserSessionResults').mockReturnValue(of({ questions: [] }));
     fixture.detectChanges();
   });
@@ -138,48 +138,48 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should snap with session details and results are loading', () => {
-    component.isCourseLoading = true;
-    component.isFeedbackSessionDetailsLoading = true;
-    component.isFeedbackSessionResultsLoading = true;
+    component.isCourseLoading.set(true);
+    component.isFeedbackSessionDetailsLoading.set(true);
+    component.isFeedbackSessionResultsLoading.set(true);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with session details loaded and results are loading', () => {
-    component.isCourseLoading = false;
-    component.isFeedbackSessionDetailsLoading = false;
-    component.isFeedbackSessionResultsLoading = true;
+    component.isCourseLoading.set(false);
+    component.isFeedbackSessionDetailsLoading.set(false);
+    component.isFeedbackSessionResultsLoading.set(true);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when session results failed to load', () => {
-    component.isCourseLoading = false;
-    component.isFeedbackSessionDetailsLoading = false;
-    component.isFeedbackSessionResultsLoading = false;
-    component.hasFeedbackSessionResultsLoadingFailed = true;
+    component.isCourseLoading.set(false);
+    component.isFeedbackSessionDetailsLoading.set(false);
+    component.isFeedbackSessionResultsLoading.set(false);
+    component.hasFeedbackSessionResultsLoadingFailed.set(true);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with user that is logged in and using session link', () => {
     component.key = 'session-link-key';
-    component.accountEmail = 'alice';
-    component.personName = 'alice';
+    component.accountEmail.set('alice');
+    component.personName.set('alice');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with user that is not logged in and using session link', () => {
     component.key = 'session-link-key';
-    component.accountEmail = '';
-    component.personName = 'alice';
+    component.accountEmail.set('');
+    component.personName.set('alice');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with an open feedback session with no questions', () => {
-    component.session = {
+    component.session.set({
       feedbackSessionId: 'test-session-id',
       courseId: 'CS3281',
       timeZone: 'UTC',
@@ -195,8 +195,8 @@ describe('SessionResultPageComponent', () => {
       isClosingSoonEmailEnabled: true,
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 1555231400,
-    };
-    component.questions = [];
+    });
+    component.questions.set([]);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -205,10 +205,10 @@ describe('SessionResultPageComponent', () => {
     component.intent = Intent.STUDENT_RESULT;
     component.key = '';
     component.previewAs = 'alice2@tmt.tmt';
-    component.personName = 'Alice2';
-    component.personEmail = 'alice2@tmt.tmt';
-    component.session = testFeedbackSession;
-    component.questions = [];
+    component.personName.set('Alice2');
+    component.personEmail.set('alice2@tmt.tmt');
+    component.session.set(testFeedbackSession);
+    component.questions.set([]);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -220,7 +220,7 @@ describe('SessionResultPageComponent', () => {
 
     expect(component.feedbackSessionId).toEqual('test-session-id');
     expect(component.key).toEqual('reg-key');
-    expect(component.accountEmail).toEqual('user@teammates.tmt');
+    expect(component.accountEmail()).toEqual('user@teammates.tmt');
   });
 
   it('should verify allowed access and used reg key', () => {
@@ -266,8 +266,8 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.personName).toEqual('student-name');
-    expect(component.session.courseId).toEqual('CS1231');
+    expect(component.personName()).toEqual('student-name');
+    expect(component.session().courseId).toEqual('CS1231');
     expect(logSpy).toHaveBeenCalledTimes(1);
   });
 
@@ -327,7 +327,7 @@ describe('SessionResultPageComponent', () => {
 
   it('should navigate to join course when user click on join course link', () => {
     component.key = 'reg-key';
-    component.accountEmail = 'user';
+    component.accountEmail.set('user');
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
@@ -385,7 +385,7 @@ describe('SessionResultPageComponent', () => {
       key: testQueryParams['key'],
       previewAs: testQueryParams['previewAs'],
     });
-    expect(component.questions.length).toEqual(1);
-    expect(component.questions[0]).toEqual(testFeedbackQuestionModel);
+    expect(component.questions().length).toEqual(1);
+    expect(component.questions()[0]).toEqual(testFeedbackQuestionModel);
   });
 });

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -61,7 +61,7 @@ export class SessionResultPageComponent implements OnInit {
   // enum
   Intent!: typeof Intent;
 
-  session: FeedbackSession = {
+  readonly session = signal<FeedbackSession>({
     feedbackSessionId: '',
     courseId: '',
     timeZone: '',
@@ -77,32 +77,32 @@ export class SessionResultPageComponent implements OnInit {
     isClosingSoonEmailEnabled: true,
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
-  };
-  questions: FeedbackQuestionModel[] = [];
-  courseName = '';
-  courseInstitute = '';
-  formattedSessionOpeningTime = '';
-  formattedSessionClosingTime = '';
-  personName = '';
-  personEmail = '';
-  courseId = '';
-  feedbackSessionName = '';
+  });
+  readonly questions = signal<FeedbackQuestionModel[]>([]);
+  readonly courseName = signal('');
+  readonly courseInstitute = signal('');
+  readonly formattedSessionOpeningTime = signal('');
+  readonly formattedSessionClosingTime = signal('');
+  readonly personName = signal('');
+  readonly personEmail = signal('');
+  readonly courseId = signal('');
+  readonly feedbackSessionName = signal('');
+  readonly accountEmail = signal('');
+
   @Input({ required: true }) feedbackSessionId!: string;
   @Input() intent: Intent = Intent.STUDENT_RESULT;
   @Input() key = '';
   @Input() previewAs = '';
   @Input() entityType = 'student';
-  accountEmail = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
-  isPreviewHintExpanded = false;
+  readonly isPreviewHintExpanded = signal(false);
 
-  isCourseLoading = true;
-  isFeedbackSessionDetailsLoading = true;
-  isFeedbackSessionResultsLoading = true;
-  hasFeedbackSessionResultsLoadingFailed = false;
+  readonly isCourseLoading = signal(true);
+  readonly isFeedbackSessionDetailsLoading = signal(true);
+  readonly isFeedbackSessionResultsLoading = signal(true);
+  readonly hasFeedbackSessionResultsLoadingFailed = signal(false);
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
-  studentId: string | undefined = '';
 
   private readonly backendUrl: string = environment.backendUrl;
 
@@ -126,7 +126,7 @@ export class SessionResultPageComponent implements OnInit {
       next: (auth: AuthInfo) => {
         const isPreview = !!(auth.user && this.previewAs);
         if (auth.user) {
-          this.accountEmail = auth.user.accountEmail;
+          this.accountEmail.set(auth.user.accountEmail);
         }
         // prevent having both key and previewas parameters in URL
         if (this.key && isPreview) {
@@ -149,11 +149,11 @@ export class SessionResultPageComponent implements OnInit {
                 }
               } else if (resp.isValid) {
                 // At this point, registration key must already be used, otherwise access would be granted
-                if (this.accountEmail) {
+                if (this.accountEmail()) {
                   // Registration key belongs to another user who is not the logged in user
                   this.navigationService.navigateWithErrorMessage(
                     '/web/front',
-                    `You are trying to access TEAMMATES using the account email ${this.accountEmail}, which
+                    `You are trying to access TEAMMATES using the account email ${this.accountEmail()}, which
                         is not linked to this TEAMMATES account. If you used a different account email to
                         join/access TEAMMATES before, please use that account email to access TEAMMATES. If you
                         cannot remember which account email you used before, please email us at
@@ -178,7 +178,7 @@ export class SessionResultPageComponent implements OnInit {
               );
             },
           });
-        } else if (this.accountEmail) {
+        } else if (this.accountEmail()) {
           // Load information based on logged in user
           // This will also cover preview cases
           this.loadFeedbackSession();
@@ -193,31 +193,31 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadCourseInfo(): void {
-    this.isCourseLoading = true;
+    this.isCourseLoading.set(true);
     let request: Observable<CourseView>;
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
         if (this.previewAs) {
-          request = this.courseService.getCourseAsInstructor(this.courseId);
+          request = this.courseService.getCourseAsInstructor(this.courseId());
         } else {
-          request = this.courseService.getCourseAsStudent(this.courseId, this.key);
+          request = this.courseService.getCourseAsStudent(this.courseId(), this.key);
         }
         break;
       case Intent.INSTRUCTOR_RESULT:
-        request = this.courseService.getCourseAsInstructor(this.courseId, this.key);
+        request = this.courseService.getCourseAsInstructor(this.courseId(), this.key);
         break;
       default:
-        this.isCourseLoading = false;
+        this.isCourseLoading.set(false);
         return;
     }
     request.subscribe({
       next: (resp: CourseView) => {
-        this.courseName = resp.course.courseName;
-        this.courseInstitute = resp.course.institute;
-        this.isCourseLoading = false;
+        this.courseName.set(resp.course.courseName);
+        this.courseInstitute.set(resp.course.institute);
+        this.isCourseLoading.set(false);
       },
       error: () => {
-        this.isCourseLoading = false;
+        this.isCourseLoading.set(false);
       },
     });
   }
@@ -227,27 +227,25 @@ export class SessionResultPageComponent implements OnInit {
       case Intent.STUDENT_RESULT:
         if (this.previewAs) {
           this.studentService.getStudent({ userId: this.previewAs }).subscribe((student: Student) => {
-            this.studentId = student.userId;
-            this.personName = student.name;
-            this.personEmail = student.email;
+            this.personName.set(student.name);
+            this.personEmail.set(student.email);
           });
         } else {
           this.studentService
-            .getOwnStudent({ courseId: this.courseId, regKey: this.key })
+            .getOwnStudent({ courseId: this.courseId(), regKey: this.key })
             .subscribe((student: Student) => {
-              this.studentId = student.userId;
-              this.personName = student.name;
-              this.personEmail = student.email;
+              this.personName.set(student.name);
+              this.personEmail.set(student.email);
             });
         }
         break;
       case Intent.INSTRUCTOR_RESULT:
         (this.previewAs
           ? this.instructorService.getInstructor({ userId: this.previewAs })
-          : this.instructorService.getOwnInstructor({ courseId: this.courseId, key: this.key })
+          : this.instructorService.getOwnInstructor({ courseId: this.courseId(), key: this.key })
         ).subscribe((instructor: Instructor) => {
-          this.personName = instructor.name;
-          this.personEmail = instructor.email;
+          this.personName.set(instructor.name);
+          this.personEmail.set(instructor.email);
         });
         break;
       default:
@@ -255,8 +253,8 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadFeedbackSession(): void {
-    this.isFeedbackSessionDetailsLoading = true;
-    this.isFeedbackSessionResultsLoading = true;
+    this.isFeedbackSessionDetailsLoading.set(true);
+    this.isFeedbackSessionResultsLoading.set(true);
     this.feedbackSessionsService
       .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
@@ -264,26 +262,30 @@ export class SessionResultPageComponent implements OnInit {
       })
       .pipe(
         finalize(() => {
-          this.isFeedbackSessionDetailsLoading = false;
+          this.isFeedbackSessionDetailsLoading.set(false);
         }),
       )
       .subscribe({
         next: (feedbackSessionView: FeedbackSessionView) => {
           const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
           const feedbackSession = feedbackSessionView.feedbackSession;
-          this.session = feedbackSession;
+          this.session.set(feedbackSession);
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
-          this.courseId = feedbackSession.courseId;
-          this.feedbackSessionName = feedbackSession.feedbackSessionName;
-          this.formattedSessionOpeningTime = this.timezoneService.formatToString(
-            this.session.submissionStartTimestamp,
-            this.session.timeZone,
-            TIME_FORMAT,
+          this.courseId.set(feedbackSession.courseId);
+          this.feedbackSessionName.set(feedbackSession.feedbackSessionName);
+          this.formattedSessionOpeningTime.set(
+            this.timezoneService.formatToString(
+              feedbackSession.submissionStartTimestamp,
+              feedbackSession.timeZone,
+              TIME_FORMAT,
+            ),
           );
-          this.formattedSessionClosingTime = this.timezoneService.formatToString(
-            this.session.submissionEndTimestamp,
-            this.session.timeZone,
-            TIME_FORMAT,
+          this.formattedSessionClosingTime.set(
+            this.timezoneService.formatToString(
+              feedbackSession.submissionEndTimestamp,
+              feedbackSession.timeZone,
+              TIME_FORMAT,
+            ),
           );
 
           this.logStudentView();
@@ -292,14 +294,14 @@ export class SessionResultPageComponent implements OnInit {
           this.loadFeedbackSessionResults();
         },
         error: (resp: ErrorMessageOutput) => {
-          this.isFeedbackSessionResultsLoading = false;
+          this.isFeedbackSessionResultsLoading.set(false);
           this.handleError(resp);
         },
       });
   }
 
   private loadFeedbackSessionResults(): void {
-    this.isFeedbackSessionResultsLoading = true;
+    this.isFeedbackSessionResultsLoading.set(true);
     this.feedbackSessionsService
       .getUserSessionResults({
         feedbackSessionId: this.feedbackSessionId,
@@ -309,7 +311,7 @@ export class SessionResultPageComponent implements OnInit {
       })
       .pipe(
         finalize(() => {
-          this.isFeedbackSessionResultsLoading = false;
+          this.isFeedbackSessionResultsLoading.set(false);
         }),
       )
       .subscribe({
@@ -319,18 +321,20 @@ export class SessionResultPageComponent implements OnInit {
               a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
           );
 
-          this.questions = sessionResults.questions.map((question: QuestionOutput) => ({
-            feedbackQuestion: question.feedbackQuestion,
-            questionStatistics: question.questionStatistics,
-            allResponses: question.allResponses,
-            responsesToSelf: question.responsesToSelf,
-            responsesFromSelf: question.responsesFromSelf,
-            otherResponses: question.otherResponses,
-            isLoading: false,
-            isLoaded: true,
-            hasResponseButNotVisibleForPreview: question.hasResponseButNotVisibleForPreview,
-            hasCommentNotVisibleForPreview: question.hasCommentNotVisibleForPreview,
-          }));
+          this.questions.set(
+            sessionResults.questions.map((question: QuestionOutput) => ({
+              feedbackQuestion: question.feedbackQuestion,
+              questionStatistics: question.questionStatistics,
+              allResponses: question.allResponses,
+              responsesToSelf: question.responsesToSelf,
+              responsesFromSelf: question.responsesFromSelf,
+              otherResponses: question.otherResponses,
+              isLoading: false,
+              isLoaded: true,
+              hasResponseButNotVisibleForPreview: question.hasResponseButNotVisibleForPreview,
+              hasCommentNotVisibleForPreview: question.hasCommentNotVisibleForPreview,
+            })),
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.handleError(resp);
@@ -350,7 +354,7 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   retryLoadingFeedbackSessionResults(): void {
-    this.hasFeedbackSessionResultsLoadingFailed = false;
+    this.hasFeedbackSessionResultsLoadingFailed.set(false);
     if (this.retryAttempts >= 0) {
       this.retryAttempts -= 1;
     }
@@ -361,7 +365,7 @@ export class SessionResultPageComponent implements OnInit {
    * Handles error according to number of attempts at retry
    */
   handleError(resp: ErrorMessageOutput): void {
-    this.hasFeedbackSessionResultsLoadingFailed = true;
+    this.hasFeedbackSessionResultsLoadingFailed.set(true);
     if (this.retryAttempts < 0) {
       const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
       report.componentInstance.requestId = resp.headers?.get('X-Request-Id');
@@ -393,6 +397,6 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   protected isSessionPublished(): boolean {
-    return this.session.resultVisibleFromTimestamp !== Timestamps.TIME_REPRESENTS_LATER;
+    return this.session().resultVisibleFromTimestamp !== Timestamps.TIME_REPRESENTS_LATER;
   }
 }

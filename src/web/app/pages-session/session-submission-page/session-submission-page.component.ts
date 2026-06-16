@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -107,39 +107,41 @@ export class SessionSubmissionPageComponent implements OnInit {
   @Input() entityType = 'student';
   @Input() moderatedQuestionId = '';
 
-  courseId = '';
-  feedbackSessionName = '';
-  accountEmail = '';
+  readonly courseId = signal('');
+  readonly feedbackSessionName = signal('');
+  readonly accountEmail = signal('');
 
   // the name of the person involved
   // (e.g. the student name for unregistered student, the name of instructor being moderated)
-  personName = '';
-  personEmail = '';
+  readonly personName = signal('');
+  readonly personEmail = signal('');
 
-  courseName = '';
-  courseInstitute = '';
-  formattedSessionOpeningTime = '';
-  formattedSessionClosingTime = '';
-  feedbackSessionInstructions = '';
-  feedbackSessionTimezone = '';
-  feedbackSessionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.OPEN;
-  userDeadlineExtension: number | undefined = undefined;
+  readonly courseName = signal('');
+  readonly courseInstitute = signal('');
+  readonly formattedSessionOpeningTime = signal('');
+  readonly formattedSessionClosingTime = signal('');
+  readonly feedbackSessionInstructions = signal('');
+  readonly feedbackSessionTimezone = signal('');
+  readonly feedbackSessionSubmissionStatus = signal<FeedbackSessionSubmissionStatus>(
+    FeedbackSessionSubmissionStatus.OPEN,
+  );
+  readonly userDeadlineExtension = signal<number | undefined>(undefined);
 
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
 
-  isSavingResponses = false;
-  isDownloadingSubmissionReceipt = false;
-  isSubmissionFormsDisabled = false;
+  readonly isSavingResponses = signal(false);
+  readonly isDownloadingSubmissionReceipt = signal(false);
+  readonly isSubmissionFormsDisabled = signal(false);
 
-  isFeedbackSessionLoading = true;
-  isFeedbackSessionQuestionsLoading = true;
-  hasFeedbackSessionQuestionsLoadingFailed = false;
+  readonly isFeedbackSessionLoading = signal(true);
+  readonly isFeedbackSessionQuestionsLoading = signal(true);
+  readonly hasFeedbackSessionQuestionsLoadingFailed = signal(false);
   retryAttempts: number;
 
-  isQuestionCountOne = false;
+  readonly isQuestionCountOne = signal(false);
 
   allSessionViews!: typeof SessionView;
-  currentSelectedSessionView: SessionView = SessionView.DEFAULT;
+  readonly currentSelectedSessionView = signal<SessionView>(SessionView.DEFAULT);
   // Records the recipient to groupable questions mapping used in grouping questions by recipients view
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestionsSorted: number[] = [];
@@ -166,7 +168,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     this.entityType ||= 'student';
     if (this.previewAs) {
       // disable submission in the preview mode
-      this.isSubmissionFormsDisabled = true;
+      this.isSubmissionFormsDisabled.set(true);
     }
 
     const nextUrl = `${globalThis.location.pathname}${globalThis.location.search.replaceAll('&', '%26')}`;
@@ -174,7 +176,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       next: (auth: AuthInfo) => {
         const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAs));
         if (auth.user) {
-          this.accountEmail = auth.user.accountEmail;
+          this.accountEmail.set(auth.user.accountEmail);
         }
         if (this.key && !isPreviewOrModeration) {
           this.authService.getAuthRegkeyValidity(this.key, this.intent).subscribe({
@@ -191,11 +193,11 @@ export class SessionSubmissionPageComponent implements OnInit {
                 }
               } else if (resp.isValid) {
                 // At this point, registration key must already be used, otherwise access would be granted
-                if (this.accountEmail) {
+                if (this.accountEmail()) {
                   // Registration key belongs to another user who is not the logged in user
                   this.navigationService.navigateWithErrorMessage(
                     '/web/front',
-                    `You are trying to access TEAMMATES using the account email ${this.accountEmail}, which
+                    `You are trying to access TEAMMATES using the account email ${this.accountEmail()}, which
                         is not linked to this TEAMMATES account. If you used a different account email to
                         join/access TEAMMATES before, please use that account email to access TEAMMATES. If you
                         cannot remember which account email you used before, please email us at
@@ -219,7 +221,7 @@ export class SessionSubmissionPageComponent implements OnInit {
               );
             },
           });
-        } else if (this.accountEmail) {
+        } else if (this.accountEmail()) {
           // Load information based on logged in user
           // This will also cover moderation/preview cases
           this.loadFeedbackSession(false, auth);
@@ -238,13 +240,13 @@ export class SessionSubmissionPageComponent implements OnInit {
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAs) {
-          request = this.courseService.getCourseAsInstructor(this.courseId);
+          request = this.courseService.getCourseAsInstructor(this.courseId());
         } else {
-          request = this.courseService.getCourseAsStudent(this.courseId, this.key);
+          request = this.courseService.getCourseAsStudent(this.courseId(), this.key);
         }
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
-        request = this.courseService.getCourseAsInstructor(this.courseId, this.key);
+        request = this.courseService.getCourseAsInstructor(this.courseId(), this.key);
         break;
       default:
         return of(null);
@@ -252,8 +254,8 @@ export class SessionSubmissionPageComponent implements OnInit {
 
     return request.pipe(
       tap((resp: CourseView) => {
-        this.courseName = resp.course.courseName;
-        this.courseInstitute = resp.course.institute;
+        this.courseName.set(resp.course.courseName);
+        this.courseInstitute.set(resp.course.institute);
       }),
       catchError(() => of(null)),
     );
@@ -269,17 +271,17 @@ export class SessionSubmissionPageComponent implements OnInit {
           const userId = this.moderatedPerson || this.previewAs;
           return this.studentService.getStudent({ userId }).pipe(
             tap((student: Student) => {
-              this.personName = student.name;
-              this.personEmail = student.email;
+              this.personName.set(student.name);
+              this.personEmail.set(student.email);
               this.logStudentAccess();
             }),
             catchError(() => of(null)),
           );
         }
-        return this.studentService.getOwnStudent({ courseId: this.courseId, regKey: this.key }).pipe(
+        return this.studentService.getOwnStudent({ courseId: this.courseId(), regKey: this.key }).pipe(
           tap((student: Student) => {
-            this.personName = student.name;
-            this.personEmail = student.email;
+            this.personName.set(student.name);
+            this.personEmail.set(student.email);
             this.logStudentAccess();
           }),
           catchError(() => of(null)),
@@ -289,21 +291,21 @@ export class SessionSubmissionPageComponent implements OnInit {
           const userId = this.moderatedPerson || this.previewAs;
           return this.instructorService.getInstructor({ userId }).pipe(
             tap((instructor: Instructor) => {
-              this.personName = instructor.name;
-              this.personEmail = instructor.email;
+              this.personName.set(instructor.name);
+              this.personEmail.set(instructor.email);
             }),
             catchError(() => of(null)),
           );
         }
         return this.instructorService
           .getOwnInstructor({
-            courseId: this.courseId,
+            courseId: this.courseId(),
             key: this.key,
           })
           .pipe(
             tap((instructor: Instructor) => {
-              this.personName = instructor.name;
-              this.personEmail = instructor.email;
+              this.personName.set(instructor.name);
+              this.personEmail.set(instructor.email);
             }),
             catchError(() => of(null)),
           );
@@ -323,7 +325,7 @@ export class SessionSubmissionPageComponent implements OnInit {
    * Loads the feedback session information.
    */
   loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
-    this.isFeedbackSessionLoading = true;
+    this.isFeedbackSessionLoading.set(true);
     const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     let cachedFeedbackSession: FeedbackSession;
 
@@ -337,15 +339,17 @@ export class SessionSubmissionPageComponent implements OnInit {
           const feedbackSession = feedbackSessionView.feedbackSession;
           cachedFeedbackSession = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
-          this.courseId = feedbackSession.courseId;
-          this.feedbackSessionName = feedbackSession.feedbackSessionName;
-          this.feedbackSessionInstructions = feedbackSession.instructions;
-          this.formattedSessionOpeningTime = this.timezoneService.formatToString(
-            feedbackSession.submissionStartTimestamp,
-            feedbackSession.timeZone,
-            TIME_FORMAT,
+          this.courseId.set(feedbackSession.courseId);
+          this.feedbackSessionName.set(feedbackSession.feedbackSessionName);
+          this.feedbackSessionInstructions.set(feedbackSession.instructions);
+          this.formattedSessionOpeningTime.set(
+            this.timezoneService.formatToString(
+              feedbackSession.submissionStartTimestamp,
+              feedbackSession.timeZone,
+              TIME_FORMAT,
+            ),
           );
-          this.feedbackSessionTimezone = feedbackSession.timeZone;
+          this.feedbackSessionTimezone.set(feedbackSession.timeZone);
         }),
         switchMap(() =>
           forkJoin({
@@ -367,27 +371,25 @@ export class SessionSubmissionPageComponent implements OnInit {
             .pipe(catchError(() => of(null)));
         }),
         tap((deadlineExtension) => {
-          this.userDeadlineExtension = deadlineExtension?.userDeadlineExtension;
-          this.formattedSessionClosingTime = this.getFormattedSessionClosingTime(
-            cachedFeedbackSession,
-            TIME_FORMAT,
-            this.userDeadlineExtension,
+          this.userDeadlineExtension.set(deadlineExtension?.userDeadlineExtension);
+          this.formattedSessionClosingTime.set(
+            this.getFormattedSessionClosingTime(cachedFeedbackSession, TIME_FORMAT, this.userDeadlineExtension()),
           );
 
           // Override CLOSED status if user has an active deadline extension
           let effectiveStatus = cachedFeedbackSession.submissionStatus;
           if (
             effectiveStatus === FeedbackSessionSubmissionStatus.CLOSED &&
-            this.userDeadlineExtension !== undefined &&
-            this.userDeadlineExtension > Date.now()
+            this.userDeadlineExtension() !== undefined &&
+            this.userDeadlineExtension()! > Date.now()
           ) {
             effectiveStatus = FeedbackSessionSubmissionStatus.OPEN;
           }
-          this.feedbackSessionSubmissionStatus = effectiveStatus;
+          this.feedbackSessionSubmissionStatus.set(effectiveStatus);
           this.handleSubmissionStatusBanner({ ...cachedFeedbackSession, submissionStatus: effectiveStatus });
         }),
         finalize(() => {
-          this.isFeedbackSessionLoading = false;
+          this.isFeedbackSessionLoading.set(false);
         }),
       )
       .subscribe({
@@ -404,7 +406,7 @@ export class SessionSubmissionPageComponent implements OnInit {
               {
                 onClosed: () =>
                   this.navigationService.navigateByURL(
-                    this.accountEmail ? `/web/${this.entityType}/home` : '/web/front/home',
+                    this.accountEmail() ? `/web/${this.entityType}/home` : '/web/front/home',
                   ),
               },
               { backdrop: 'static' },
@@ -421,7 +423,7 @@ export class SessionSubmissionPageComponent implements OnInit {
                 {
                   onClosed: () =>
                     this.navigationService.navigateByURL(
-                      this.accountEmail ? `/web/${this.entityType}/home` : '/web/front/home',
+                      this.accountEmail() ? `/web/${this.entityType}/home` : '/web/front/home',
                     ),
                 },
                 { backdrop: 'static' },
@@ -442,7 +444,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   private loadFeedbackQuestionsData$(): Observable<QuestionSubmissionFormModel[]> {
-    this.isFeedbackSessionQuestionsLoading = true;
+    this.isFeedbackSessionQuestionsLoading.set(true);
     this.questionSubmissionForms = [];
     this.recipientQuestionMap = new Map<string, Set<number>>();
     this.ungroupableQuestionsSorted = [];
@@ -459,7 +461,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         tap((response: SessionSubmission) => this.buildSubmissionForms(response)),
         tap(() => {
           this.ungroupableQuestionsSorted.sort((a: number, b: number) => a - b);
-          this.isQuestionCountOne = this.questionSubmissionForms.length === 1;
+          this.isQuestionCountOne.set(this.questionSubmissionForms.length === 1);
           this.scrollToModeratedQuestion();
         }),
         map(() => this.questionSubmissionForms),
@@ -468,7 +470,7 @@ export class SessionSubmissionPageComponent implements OnInit {
           return of([]);
         }),
         finalize(() => {
-          this.isFeedbackSessionQuestionsLoading = false;
+          this.isFeedbackSessionQuestionsLoading.set(false);
         }),
       );
   }
@@ -574,7 +576,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     let modalContent: string;
     switch (feedbackSession.submissionStatus) {
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-        this.isSubmissionFormsDisabled = true;
+        this.isSubmissionFormsDisabled.set(true);
         modalContent = `<p><strong>The feedback session is currently not open for submissions.</strong></p>
                 <p>You can view the questions and any submitted responses
                 for this feedback session but cannot submit new responses.</p>`;
@@ -595,7 +597,7 @@ export class SessionSubmissionPageComponent implements OnInit {
         }
         break;
       case FeedbackSessionSubmissionStatus.CLOSED:
-        this.isSubmissionFormsDisabled = true;
+        this.isSubmissionFormsDisabled.set(true);
         modalContent = `<p><strong>Feedback Session is Closed</strong></p>
                 <p>You can view the questions and any submitted responses
                 for this feedback session but cannot submit new responses.</p>`;
@@ -806,7 +808,7 @@ export class SessionSubmissionPageComponent implements OnInit {
     notYetAnsweredQuestions: Set<number>,
     failToSaveQuestions: Record<number, string>,
   ) {
-    this.isSavingResponses = true;
+    this.isSavingResponses.set(true);
     this.feedbackResponsesService
       .submitFeedbackResponses(
         this.feedbackSessionId,
@@ -819,7 +821,7 @@ export class SessionSubmissionPageComponent implements OnInit {
       )
       .pipe(
         finalize(() => {
-          this.isSavingResponses = false;
+          this.isSavingResponses.set(false);
         }),
       )
       .subscribe({
@@ -913,23 +915,23 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   downloadSubmissionReceipt(): void {
-    this.isDownloadingSubmissionReceipt = true;
+    this.isDownloadingSubmissionReceipt.set(true);
     this.submissionReceiptService
       .downloadSubmissionReceipt({
         questionSubmissionForms: this.questionSubmissionForms,
         intent: this.intent,
         key: this.key,
         moderatedPerson: this.moderatedPerson,
-        feedbackSessionTimezone: this.feedbackSessionTimezone,
-        personName: this.personName,
-        personEmail: this.personEmail,
-        courseName: this.courseName,
-        courseId: this.courseId,
-        feedbackSessionName: this.feedbackSessionName,
+        feedbackSessionTimezone: this.feedbackSessionTimezone(),
+        personName: this.personName(),
+        personEmail: this.personEmail(),
+        courseName: this.courseName(),
+        courseId: this.courseId(),
+        feedbackSessionName: this.feedbackSessionName(),
       })
       .pipe(
         finalize(() => {
-          this.isDownloadingSubmissionReceipt = false;
+          this.isDownloadingSubmissionReceipt.set(false);
         }),
       )
       .subscribe({
@@ -977,7 +979,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   retryLoadingFeedbackSessionQuestions(): void {
-    this.hasFeedbackSessionQuestionsLoadingFailed = false;
+    this.hasFeedbackSessionQuestionsLoadingFailed.set(false);
     if (this.retryAttempts >= 0) {
       this.retryAttempts -= 1;
     }
@@ -985,7 +987,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   handleError(resp: ErrorMessageOutput): void {
-    this.hasFeedbackSessionQuestionsLoadingFailed = true;
+    this.hasFeedbackSessionQuestionsLoadingFailed.set(true);
     if (this.retryAttempts < 0) {
       const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
       report.componentInstance.requestId = resp.headers?.get('X-Request-Id');
@@ -1018,7 +1020,7 @@ export class SessionSubmissionPageComponent implements OnInit {
   private isFeedbackEndingLessThanFifteenMinutes(feedbackSession: FeedbackSession): boolean {
     const userSessionEndingTime = DeadlineExtensionHelper.getOngoingUserFeedbackSessionEndingTimestamp(
       feedbackSession,
-      this.userDeadlineExtension,
+      this.userDeadlineExtension(),
     );
     return userSessionEndingTime - Date.now() < Milliseconds.IN_FIFTEEN_MINUTES;
   }
@@ -1034,14 +1036,14 @@ export class SessionSubmissionPageComponent implements OnInit {
   }
 
   toggleViewChange(selectedView: string | SessionView): void {
-    if (selectedView === this.currentSelectedSessionView) {
+    if (selectedView === this.currentSelectedSessionView()) {
       return;
     }
 
     if (selectedView === SessionView.DEFAULT) {
-      this.currentSelectedSessionView = SessionView.DEFAULT;
+      this.currentSelectedSessionView.set(SessionView.DEFAULT);
     } else if (selectedView === SessionView.GROUP_RECIPIENTS) {
-      this.currentSelectedSessionView = SessionView.GROUP_RECIPIENTS;
+      this.currentSelectedSessionView.set(SessionView.GROUP_RECIPIENTS);
     }
   }
 

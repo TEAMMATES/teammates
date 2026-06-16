@@ -41,9 +41,9 @@
         }
       }
     </ul>
-    @if (!isFetchingAuthDetails) {
+    @if (!isFetchingAuthDetails()) {
       <ul class="nav navbar-nav pull-right">
-        @if (!user) {
+        @if (!user()) {
           <li class="nav-item dropdown" ngbDropdown placement="bottom-end">
             <button
               class="bg-transparent btn btn-link nav-link dropdown-toggle"
@@ -68,22 +68,22 @@
               tabindex="0"
               ngbDropdownToggle
             >
-              {{ user }}
+              {{ user() }}
             </button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
-              @if (isStudent) {
+              @if (isStudent()) {
                 <a class="dropdown-item" tmRouterLink="/web/student" (click)="closeModal()">To student pages</a>
               }
-              @if (isInstructor) {
+              @if (isInstructor()) {
                 <a class="dropdown-item" tmRouterLink="/web/instructor" (click)="closeModal()">To instructor pages</a>
               }
-              @if (isAdmin) {
+              @if (isAdmin()) {
                 <a class="dropdown-item" tmRouterLink="/web/admin" (click)="closeModal()">To admin pages</a>
               }
-              @if (isMaintainer) {
+              @if (isMaintainer()) {
                 <a class="dropdown-item" tmRouterLink="/web/maintainer" (click)="closeModal()">To maintainer pages</a>
               }
-              @if (isStudent || isInstructor || isAdmin || isMaintainer) {
+              @if (isStudent() || isInstructor() || isAdmin() || isMaintainer()) {
                 <div class="dropdown-divider"></div>
               }
               <a
@@ -104,10 +104,10 @@
 <tm-loader-bar></tm-loader-bar>
 <tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <main id="main-content" class="container main-content">
-  @if (isStudent || isInstructor) {
+  @if (isStudent() || isInstructor()) {
     <tm-notification-banner [url]="getUrl()" [notificationTargetUser]="notificationTargetUser"></tm-notification-banner>
   }
-  <div *tmIsLoading="isFetchingAuthDetails">
+  <div *tmIsLoading="isFetchingAuthDetails()">
     @if (!isNetworkOnline()) {
       <div>
         <div class="alert alert-danger" role="alert">

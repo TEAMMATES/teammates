@@ -58,10 +58,10 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap if user is not logged in and has a valid url', () => {
-    component.hasJoined = false;
-    component.accountEmail = '';
-    component.validUrl = true;
-    component.isLoading = false;
+    component.hasJoined.set(false);
+    component.accountEmail.set('');
+    component.validUrl.set(true);
+    component.isLoading.set(false);
 
     fixture.detectChanges();
 
@@ -69,9 +69,9 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with invalid course join link', () => {
-    component.accountEmail = 'user@teammates.tmt';
-    component.validUrl = false;
-    component.isLoading = false;
+    component.accountEmail.set('user@teammates.tmt');
+    component.validUrl.set(false);
+    component.isLoading.set(false);
 
     fixture.detectChanges();
 
@@ -79,10 +79,10 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with valid course join link that has been used', () => {
-    component.accountEmail = 'user@teammates.tmt';
-    component.validUrl = true;
-    component.hasJoined = true;
-    component.isLoading = false;
+    component.accountEmail.set('user@teammates.tmt');
+    component.validUrl.set(true);
+    component.hasJoined.set(true);
+    component.isLoading.set(false);
 
     fixture.detectChanges();
 
@@ -90,10 +90,10 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should snap with valid course join link that has not been used', () => {
-    component.validUrl = true;
-    component.accountEmail = 'user@teammates.tmt';
-    component.hasJoined = false;
-    component.isLoading = false;
+    component.validUrl.set(true);
+    component.accountEmail.set('user@teammates.tmt');
+    component.hasJoined.set(false);
+    component.isLoading.set(false);
 
     fixture.detectChanges();
 
@@ -152,12 +152,12 @@ describe('UserJoinPageComponent', () => {
   it('should join course when join course button is clicked on', () => {
     const key = 'key';
     const entityType = 'student';
-    component.isLoading = false;
-    component.hasJoined = false;
-    component.accountEmail = 'user@teammates.tmt';
-    component.key = key;
-    component.entityType = entityType;
-    component.validUrl = true;
+    component.isLoading.set(false);
+    component.hasJoined.set(false);
+    component.accountEmail.set('user@teammates.tmt');
+    component.key.set(key);
+    component.entityType.set(entityType);
+    component.validUrl.set(true);
 
     const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({ message: 'Joined course' }));
     const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
@@ -179,7 +179,6 @@ describe('UserJoinPageComponent', () => {
         loginUrl: '/login',
         user: {
           accountEmail: 'user@teammates.tmt',
-          email: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
@@ -198,8 +197,8 @@ describe('UserJoinPageComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.hasJoined).toBeTruthy();
-    expect(component.accountEmail).toEqual('user@teammates.tmt');
+    expect(component.hasJoined()).toBeTruthy();
+    expect(component.accountEmail()).toEqual('user@teammates.tmt');
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/student/home');
   });
@@ -210,7 +209,6 @@ describe('UserJoinPageComponent', () => {
         loginUrl: '/login',
         user: {
           accountEmail: 'user@teammates.tmt',
-          email: 'user@teammates.tmt',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
@@ -228,8 +226,8 @@ describe('UserJoinPageComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.isLoading).toBeFalsy();
-    expect(component.validUrl).toBeFalsy();
+    expect(component.isLoading()).toBeFalsy();
+    expect(component.validUrl()).toBeFalsy();
   });
 
   it('should stop loading and redirect if user is not logged in', () => {
@@ -247,6 +245,6 @@ describe('UserJoinPageComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.isLoading).toBeFalsy();
+    expect(component.isLoading()).toBeFalsy();
   });
 });

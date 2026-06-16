@@ -86,12 +86,12 @@ export class PageComponent implements OnInit {
   // enum
   NotificationTargetUser!: typeof NotificationTargetUser;
 
-  isFetchingAuthDetails = false;
-  user = '';
-  isStudent = false;
-  isInstructor = false;
-  isAdmin = false;
-  isMaintainer = false;
+  readonly isFetchingAuthDetails = signal(false);
+  readonly user = signal('');
+  readonly isStudent = signal(false);
+  readonly isInstructor = signal(false);
+  readonly isAdmin = signal(false);
+  readonly isMaintainer = signal(false);
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
   @Input() pageTitle = '';
   @Input() navItems: NavItem[] = [];
@@ -142,31 +142,33 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isFetchingAuthDetails = true;
+    this.isFetchingAuthDetails.set(true);
     this.authService
       .getAuthUser(this.router.url)
       .pipe(
         finalize(() => {
-          this.isFetchingAuthDetails = false;
+          this.isFetchingAuthDetails.set(false);
         }),
       )
       .subscribe({
         next: (authInfo: AuthInfo) => {
           const user = authInfo.user;
           if (user) {
-            this.user = user.accountEmail;
+            let accountEmail = user.accountEmail;
             if (authInfo.masquerade) {
-              this.user += ' (M)';
+              accountEmail += ' (M)';
             }
-            this.isStudent = user.isStudent;
-            this.isInstructor = user.isInstructor;
-            this.isAdmin = user.isAdmin;
-            this.isMaintainer = user.isMaintainer;
+            this.user.set(accountEmail);
+            this.isStudent.set(user.isStudent);
+            this.isInstructor.set(user.isInstructor);
+            this.isAdmin.set(user.isAdmin);
+            this.isMaintainer.set(user.isMaintainer);
           } else {
-            this.isStudent = false;
-            this.isInstructor = false;
-            this.isAdmin = false;
-            this.isMaintainer = false;
+            this.user.set('');
+            this.isStudent.set(false);
+            this.isInstructor.set(false);
+            this.isAdmin.set(false);
+            this.isMaintainer.set(false);
           }
         },
         error: () => {

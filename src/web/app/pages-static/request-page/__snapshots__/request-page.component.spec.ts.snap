@@ -134,7 +134,7 @@ exports[`RequestPageComponent > should render correctly before submission 1`] = 
         >
            Signed in as: 
           <strong>
-            user@teammates.tmt
+            test@example.com
           </strong>
         </div>
         <tm-instructor-request-form>

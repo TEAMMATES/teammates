@@ -10,17 +10,18 @@
         @if (intent === Intent.INSTRUCTOR_RESULT) {
           <span>instructor</span>
         }
-        {{ personName }} ({{ personEmail }})
-        @if (!isPreviewHintExpanded) {
-          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = true">[more]</button>
-        }
-        @if (isPreviewHintExpanded) {
-          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = false">[less]</button>
+        {{ personName() }} ({{ personEmail() }})
+        @if (isPreviewHintExpanded()) {
+          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded.set(false)">
+            [less]
+          </button>
+        } @else {
+          <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded.set(true)">[more]</button>
         }
       </h4>
-      @if (isPreviewHintExpanded) {
+      @if (isPreviewHintExpanded()) {
         <div class="text-start">
-          <p>The page below resembles the session results page as seen by {{ personName }} ({{ personEmail }}).</p>
+          <p>The page below resembles the session results page as seen by {{ personName() }} ({{ personEmail() }}).</p>
           <p>
             Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g.
             yourself) but can be seen by the respondent will not be shown in the page below. Instead, you will see a
@@ -35,19 +36,18 @@
   <div class="row">
     <div class="col-12">
       <div class="alert alert-primary" role="alert">
-        @if (accountEmail) {
+        @if (accountEmail()) {
           <div>
-            You are viewing feedback results as {{ personName }}. If you wish to link your account email ({{
-              accountEmail
+            You are viewing feedback results as {{ personName() }}. If you wish to link your account email ({{
+              accountEmail()
             }}) with this user,
             <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
               >click here</a
             >.
           </div>
-        }
-        @if (!accountEmail) {
+        } @else {
           <div>
-            You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are
+            You are viewing feedback results as {{ personName() }}. You may submit feedback for sessions that are
             currently open and view results without logging in. To access other features you need to
             <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
               >log in using your account email</a
@@ -59,40 +59,40 @@
     </div>
   </div>
 }
-<div *tmIsLoading="isCourseLoading || isFeedbackSessionDetailsLoading" class="card card-plain mt-3">
+<div *tmIsLoading="isCourseLoading() || isFeedbackSessionDetailsLoading()" class="card card-plain mt-3">
   <div class="card-body">
     <div class="row text-center">
       <label class="col-md-2 text-md-end">Course ID:</label>
-      <div id="course-id" class="col-md-7 text-md-start">{{ courseId }}</div>
+      <div id="course-id" class="col-md-7 text-md-start">{{ courseId() }}</div>
     </div>
-    @if (courseName) {
+    @if (courseName()) {
       <div class="row text-center">
         <label class="col-md-2 text-md-end">Course name:</label>
-        <div id="course-name" class="col-md-7 text-md-start">{{ courseName }}</div>
+        <div id="course-name" class="col-md-7 text-md-start">{{ courseName() }}</div>
       </div>
     }
-    @if (courseInstitute) {
+    @if (courseInstitute()) {
       <div class="row text-center">
         <label class="col-md-2 text-md-end">Course institute:</label>
-        <div id="course-institute" class="col-md-7 text-md-start">{{ courseInstitute }}</div>
+        <div id="course-institute" class="col-md-7 text-md-start">{{ courseInstitute() }}</div>
       </div>
     }
     <div class="row text-center">
       <label class="col-md-2 text-md-end">Session:</label>
-      <div id="session-name" class="col-md-7 text-md-start">{{ feedbackSessionName }}</div>
+      <div id="session-name" class="col-md-7 text-md-start">{{ feedbackSessionName() }}</div>
     </div>
     <div class="row text-center">
       <label class="col-md-2 text-md-end">Opening time:</label>
-      <div id="opening-time" class="col-md-7 text-md-start">{{ formattedSessionOpeningTime }}</div>
+      <div id="opening-time" class="col-md-7 text-md-start">{{ formattedSessionOpeningTime() }}</div>
     </div>
     <div class="row text-center">
       <label class="col-md-2 text-md-end">Closing time:</label>
-      <div id="closing-time" class="col-md-7 text-md-start">{{ formattedSessionClosingTime }}</div>
+      <div id="closing-time" class="col-md-7 text-md-start">{{ formattedSessionClosingTime() }}</div>
     </div>
   </div>
 </div>
 
-@if (intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading) {
+@if (intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading() && !isFeedbackSessionDetailsLoading()) {
   <div class="card bg-light" style="margin-bottom: 20px">
     <div class="card-body">
       If you wish to view the feedback results of the entire course,
@@ -101,21 +101,21 @@
   </div>
 }
 
-@if (!isFeedbackSessionDetailsLoading && !isSessionPublished()) {
+@if (!isFeedbackSessionDetailsLoading() && !isSessionPublished()) {
   <div class="alert alert-warning" role="alert">
     <i class="fas fa-exclamation-triangle"></i> This feedback session result has not been published yet. Responses will
     only be visible once the result is published.
   </div>
 }
 
-@if (!isFeedbackSessionDetailsLoading && isSessionPublished()) {
+@if (!isFeedbackSessionDetailsLoading() && isSessionPublished()) {
   <tm-loading-retry
-    [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed"
+    [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed()"
     [message]="'Failed to load results'"
     (retryEvent)="retryLoadingFeedbackSessionResults()"
   >
-    <div *tmIsLoading="isFeedbackSessionResultsLoading">
-      @if (questions.length === 0) {
+    <div *tmIsLoading="isFeedbackSessionResultsLoading()">
+      @if (questions().length === 0) {
         <div class="mt-4">
           <div
             class="alert alert-primary d-flex align-items-center justify-content-center"
@@ -127,8 +127,8 @@
         </div>
       }
       <tm-question-response-panel
-        [questions]="questions"
-        [session]="session"
+        [questions]="questions()"
+        [session]="session()"
         [intent]="intent"
         [regKey]="key"
         [previewAsPerson]="previewAs"

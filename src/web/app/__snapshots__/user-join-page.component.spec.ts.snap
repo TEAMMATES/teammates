@@ -2,19 +2,19 @@
 
 exports[`UserJoinPageComponent > should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
-  accountEmail=""
+  accountEmail={[Function Function]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
-  entityType={[Function String]}
-  hasJoined="false"
-  isLoading="false"
-  key={[Function String]}
+  entityType={[Function Function]}
+  hasJoined={[Function Function]}
+  isLoading={[Function Function]}
+  key={[Function Function]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  validUrl={[Function Boolean]}
+  validUrl={[Function Function]}
 >
   <div>
     <div
@@ -42,19 +42,19 @@ exports[`UserJoinPageComponent > should snap if user is not logged in and has a 
 
 exports[`UserJoinPageComponent > should snap with default fields 1`] = `
 <tm-user-join-page
-  accountEmail=""
+  accountEmail={[Function Function]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
-  entityType={[Function String]}
-  hasJoined="false"
-  isLoading={[Function Boolean]}
-  key={[Function String]}
+  entityType={[Function Function]}
+  hasJoined={[Function Function]}
+  isLoading={[Function Function]}
+  key={[Function Function]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  validUrl={[Function Boolean]}
+  validUrl={[Function Function]}
 >
   <tm-loading-spinner>
     <div
@@ -76,19 +76,19 @@ exports[`UserJoinPageComponent > should snap with default fields 1`] = `
 
 exports[`UserJoinPageComponent > should snap with invalid course join link 1`] = `
 <tm-user-join-page
-  accountEmail={[Function String]}
+  accountEmail={[Function Function]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
-  entityType={[Function String]}
-  hasJoined="false"
-  isLoading="false"
-  key={[Function String]}
+  entityType={[Function Function]}
+  hasJoined={[Function Function]}
+  isLoading={[Function Function]}
+  key={[Function Function]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  validUrl="false"
+  validUrl={[Function Function]}
 >
   <div>
     <div
@@ -116,19 +116,19 @@ exports[`UserJoinPageComponent > should snap with invalid course join link 1`] =
 
 exports[`UserJoinPageComponent > should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
-  accountEmail={[Function String]}
+  accountEmail={[Function Function]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
-  entityType={[Function String]}
-  hasJoined={[Function Boolean]}
-  isLoading="false"
-  key={[Function String]}
+  entityType={[Function Function]}
+  hasJoined={[Function Function]}
+  isLoading={[Function Function]}
+  key={[Function Function]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  validUrl={[Function Boolean]}
+  validUrl={[Function Function]}
 >
   <div>
     <div
@@ -156,19 +156,19 @@ exports[`UserJoinPageComponent > should snap with valid course join link that ha
 
 exports[`UserJoinPageComponent > should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
-  accountEmail={[Function String]}
+  accountEmail={[Function Function]}
   authService={[Function _AuthService]}
   backendUrl={[Function String]}
   courseService={[Function _CourseService]}
-  entityType={[Function String]}
-  hasJoined="false"
-  isLoading="false"
-  key={[Function String]}
+  entityType={[Function Function]}
+  hasJoined={[Function Function]}
+  isLoading={[Function Function]}
+  key={[Function Function]}
   navigationService={[Function _NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function Object]}
   simpleModalService={[Function _SimpleModalService]}
-  validUrl={[Function Boolean]}
+  validUrl={[Function Function]}
 >
   <div>
     <div

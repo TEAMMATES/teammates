@@ -8,7 +8,7 @@
       @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
         <span>instructor</span>
       }
-      {{ personName }} ({{ personEmail }}).
+      {{ personName() }} ({{ personEmail() }}).
     </div>
     <div>
       You can submit or modify responses on behalf of this person. Questions and responses hidden from instructors are
@@ -27,7 +27,7 @@
       @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
         <span>instructor</span>
       }
-      {{ personName }} ({{ personEmail }}).
+      {{ personName() }} ({{ personEmail() }}).
     </div>
     <div>Preview mode disables submission.</div>
   </div>
@@ -35,14 +35,14 @@
 
 <div class="alert alert-light border mb-3">
   <div class="mb-1">
-    You are submitting as <strong>{{ personName }}</strong
+    You are submitting as <strong>{{ personName() }}</strong
     >.
   </div>
   @if (key) {
-    @if (accountEmail) {
+    @if (accountEmail()) {
       <div class="text-secondary">
         Link this submission to your account:
-        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ accountEmail }}</a
+        <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">{{ accountEmail() }}</a
         >.
       </div>
     } @else {
@@ -54,25 +54,25 @@
   }
 </div>
 
-<div class="card border bg-body-secondary mb-3" *tmIsLoading="isFeedbackSessionLoading">
+<div class="card border bg-body-secondary mb-3" *tmIsLoading="isFeedbackSessionLoading()">
   <div class="card-body">
     <div class="flex-grow-1">
-      <h1 id="fs-name" class="fs-4 fw-semibold mb-2">{{ feedbackSessionName }}</h1>
+      <h1 id="fs-name" class="fs-4 fw-semibold mb-2">{{ feedbackSessionName() }}</h1>
       <div class="d-flex flex-wrap gap-3">
-        <span id="opening-time"><strong>Opening:</strong> {{ formattedSessionOpeningTime }}</span>
-        <span id="closing-time"><strong>Closing:</strong> {{ formattedSessionClosingTime }}</span>
+        <span id="opening-time"><strong>Opening:</strong> {{ formattedSessionOpeningTime() }}</span>
+        <span id="closing-time"><strong>Closing:</strong> {{ formattedSessionClosingTime() }}</span>
       </div>
       <div class="my-3">
-        <div id="instructions" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+        <div id="instructions" [innerHTML]="feedbackSessionInstructions() | safeHtml"></div>
       </div>
       <details class="d-inline-block mt-2">
         <summary class="text-secondary">Additional details</summary>
         <div class="d-flex flex-column gap-2 mt-2">
-          @if (courseName) {
-            <div id="course-name"><strong>Course:</strong> {{ courseName }}</div>
+          @if (courseName()) {
+            <div id="course-name"><strong>Course:</strong> {{ courseName() }}</div>
           }
-          @if (courseInstitute) {
-            <div id="course-institute"><strong>Institute:</strong> {{ courseInstitute }}</div>
+          @if (courseInstitute()) {
+            <div id="course-institute"><strong>Institute:</strong> {{ courseInstitute() }}</div>
           }
         </div>
       </details>
@@ -121,7 +121,7 @@
   </div>
 </div>
 
-@if (feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
+@if (feedbackSessionSubmissionStatus() === FeedbackSessionSubmissionStatus.OPEN) {
   <div class="my-3 text-secondary fw-semibold">
     <i class="fas fa-info-circle me-1"></i>
     You may edit and resubmit your responses any number of times before the session closes.
@@ -129,12 +129,12 @@
 }
 
 <tm-loading-retry
-  [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed"
+  [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed()"
   [message]="'Failed to load questions'"
   (retryEvent)="retryLoadingFeedbackSessionQuestions()"
 >
-  <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
-    @if (currentSelectedSessionView === allSessionViews.GROUP_RECIPIENTS) {
+  <div *tmIsLoading="isFeedbackSessionQuestionsLoading()">
+    @if (currentSelectedSessionView() === allSessionViews.GROUP_RECIPIENTS) {
       <div class="d-flex flex-column gap-3">
         @for (entry of recipientQuestionMap | keyvalue; track entry) {
           <section class="border rounded bg-body mb-3">
@@ -155,13 +155,13 @@
                     [attr.id]="questionSubmissionForm.feedbackQuestionId"
                     [(formModel)]="questionSubmissionForms[i]"
                     [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
-                    [isSubmissionDisabled]="isSubmissionFormsDisabled"
-                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAs"
-                    [isSavingResponses]="isSavingResponses"
+                    [isSubmissionDisabled]="isSubmissionFormsDisabled()"
+                    [isFormsDisabled]="isSubmissionFormsDisabled() && !this.previewAs"
+                    [isSavingResponses]="isSavingResponses()"
                     (responsesSave)="saveFeedbackResponses([$event])"
                     (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                    [isQuestionCountOne]="isQuestionCountOne"
-                    [currentSelectedSessionView]="currentSelectedSessionView"
+                    [isQuestionCountOne]="isQuestionCountOne()"
+                    [currentSelectedSessionView]="currentSelectedSessionView()"
                     [recipientId]="entry.key"
                   ></tm-question-submission-form>
                 }
@@ -188,12 +188,12 @@
                     [attr.id]="questionSubmissionForm.feedbackQuestionId"
                     [(formModel)]="questionSubmissionForms[i]"
                     [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
-                    [isSubmissionDisabled]="isSubmissionFormsDisabled"
-                    [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAs"
-                    [isSavingResponses]="isSavingResponses"
+                    [isSubmissionDisabled]="isSubmissionFormsDisabled()"
+                    [isFormsDisabled]="isSubmissionFormsDisabled() && !this.previewAs"
+                    [isSavingResponses]="isSavingResponses()"
                     (responsesSave)="saveFeedbackResponses([$event])"
                     (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                    [isQuestionCountOne]="isQuestionCountOne"
+                    [isQuestionCountOne]="isQuestionCountOne()"
                   ></tm-question-submission-form>
                 }
               }
@@ -202,7 +202,7 @@
         }
       </div>
     }
-    @if (currentSelectedSessionView === allSessionViews.DEFAULT) {
+    @if (currentSelectedSessionView() === allSessionViews.DEFAULT) {
       @for (
         questionSubmissionForm of questionSubmissionForms;
         track questionSubmissionForm.feedbackQuestionId;
@@ -212,13 +212,13 @@
           [attr.id]="questionSubmissionForm.feedbackQuestionId"
           [(formModel)]="questionSubmissionForms[i]"
           [formMode]="getQuestionSubmissionFormModeInDefaultView(questionSubmissionForm)"
-          [isSubmissionDisabled]="isSubmissionFormsDisabled"
-          [isFormsDisabled]="isSubmissionFormsDisabled && !this.previewAs"
-          [isSavingResponses]="isSavingResponses"
+          [isSubmissionDisabled]="isSubmissionFormsDisabled()"
+          [isFormsDisabled]="isSubmissionFormsDisabled() && !this.previewAs"
+          [isSavingResponses]="isSavingResponses()"
           (responsesSave)="saveFeedbackResponses([$event])"
           (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-          [isQuestionCountOne]="isQuestionCountOne"
-          [currentSelectedSessionView]="currentSelectedSessionView"
+          [isQuestionCountOne]="isQuestionCountOne()"
+          [currentSelectedSessionView]="currentSelectedSessionView()"
         ></tm-question-submission-form>
       }
     }
@@ -235,9 +235,9 @@
               type="button"
               class="btn btn-info"
               (click)="downloadSubmissionReceipt()"
-              [disabled]="isDownloadingSubmissionReceipt || isSavingResponses || isSubmissionFormsDisabled"
+              [disabled]="isDownloadingSubmissionReceipt() || isSavingResponses() || isSubmissionFormsDisabled()"
             >
-              @if (isDownloadingSubmissionReceipt) {
+              @if (isDownloadingSubmissionReceipt()) {
                 <tm-ajax-loading></tm-ajax-loading>
               }
               Download Submission Receipt
@@ -251,9 +251,9 @@
                 type="button"
                 class="btn btn-success"
                 (click)="saveFeedbackResponses(questionSubmissionForms)"
-                [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+                [disabled]="isSavingResponses() || isSubmissionFormsDisabled()"
               >
-                @if (isSavingResponses) {
+                @if (isSavingResponses()) {
                   <tm-ajax-loading></tm-ajax-loading>
                 }
                 Submit All Responses

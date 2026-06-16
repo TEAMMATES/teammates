@@ -579,46 +579,46 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap when feedback session questions have failed to load', () => {
     component.retryAttempts = 0;
-    component.hasFeedbackSessionQuestionsLoadingFailed = true;
+    component.hasFeedbackSessionQuestionsLoadingFailed.set(true);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when saving responses', () => {
-    component.isSavingResponses = true;
+    component.isSavingResponses.set(true);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with user that is logged in and using session link', () => {
     component.key = 'reg-key';
-    component.accountEmail = 'alice';
-    component.personName = 'alice';
+    component.accountEmail.set('alice');
+    component.personName.set('alice');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with user that is not logged in and using session link', () => {
     component.key = 'reg-key';
-    component.accountEmail = '';
-    component.personName = 'alice';
+    component.accountEmail.set('');
+    component.personName.set('alice');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with feedback session and user details', () => {
-    component.courseId = 'test.exa-demo';
-    component.feedbackSessionName = 'First team feedback session';
+    component.courseId.set('test.exa-demo');
+    component.feedbackSessionName.set('First team feedback session');
     component.key = 'reg-key';
-    component.accountEmail = 'logged-in-user';
-    component.personName = 'person name';
-    component.personEmail = 'person@email.com';
-    component.courseName = 'Course name';
-    component.courseInstitute = 'Test institute';
-    component.formattedSessionOpeningTime = 'Sun, 01 Apr, 2012, 11:59 PM +08';
-    component.formattedSessionClosingTime = 'Mon, 02 Apr, 2012, 11:59 PM +08';
-    component.feedbackSessionInstructions = 'Please give your feedback based on the following questions.';
-    component.isFeedbackSessionLoading = false;
+    component.accountEmail.set('logged-in-user');
+    component.personName.set('person name');
+    component.personEmail.set('person@email.com');
+    component.courseName.set('Course name');
+    component.courseInstitute.set('Test institute');
+    component.formattedSessionOpeningTime.set('Sun, 01 Apr, 2012, 11:59 PM +08');
+    component.formattedSessionClosingTime.set('Mon, 02 Apr, 2012, 11:59 PM +08');
+    component.feedbackSessionInstructions.set('Please give your feedback based on the following questions.');
+    component.isFeedbackSessionLoading.set(false);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -636,8 +636,8 @@ describe('SessionSubmissionPageComponent', () => {
       testRankOptionsQuestionSubmissionForm,
       testRankRecipientsQuestionSubmissionForm,
     ];
-    component.isFeedbackSessionLoading = false;
-    component.isFeedbackSessionQuestionsLoading = false;
+    component.isFeedbackSessionLoading.set(false);
+    component.isFeedbackSessionQuestionsLoading.set(false);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -655,9 +655,9 @@ describe('SessionSubmissionPageComponent', () => {
       testRankOptionsQuestionSubmissionForm,
       testRankRecipientsQuestionSubmissionForm,
     ];
-    component.isSubmissionFormsDisabled = true;
-    component.isFeedbackSessionLoading = false;
-    component.isFeedbackSessionQuestionsLoading = false;
+    component.isSubmissionFormsDisabled.set(true);
+    component.isFeedbackSessionLoading.set(false);
+    component.isFeedbackSessionQuestionsLoading.set(false);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -668,7 +668,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
     expect(component.key).toEqual(testQueryParams.key);
-    expect(component.accountEmail).toEqual(testInfo.user?.accountEmail);
+    expect(component.accountEmail()).toEqual(testInfo.user?.accountEmail);
   });
 
   it('should verify allowed access with used reg key', () => {
@@ -749,10 +749,10 @@ describe('SessionSubmissionPageComponent', () => {
       SimpleModalType.WARNING,
       'Warning: you have less than 15 minutes before the submission deadline expires!',
     );
-    expect(component.feedbackSessionInstructions).toEqual(testOpenFeedbackSession.instructions);
-    expect(component.feedbackSessionSubmissionStatus).toEqual(testOpenFeedbackSession.submissionStatus);
-    expect(component.feedbackSessionTimezone).toEqual(testOpenFeedbackSession.timeZone);
-    expect(component.isSubmissionFormsDisabled).toEqual(false);
+    expect(component.feedbackSessionInstructions()).toEqual(testOpenFeedbackSession.instructions);
+    expect(component.feedbackSessionSubmissionStatus()).toEqual(testOpenFeedbackSession.submissionStatus);
+    expect(component.feedbackSessionTimezone()).toEqual(testOpenFeedbackSession.timeZone);
+    expect(component.isSubmissionFormsDisabled()).toEqual(false);
   });
 
   it('should load a closed feedback session', () => {
@@ -769,10 +769,10 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Closed', SimpleModalType.WARNING, expect.anything());
-    expect(component.feedbackSessionInstructions).toEqual(testClosedFeedbackSession.instructions);
-    expect(component.feedbackSessionSubmissionStatus).toEqual(testClosedFeedbackSession.submissionStatus);
-    expect(component.feedbackSessionTimezone).toEqual(testClosedFeedbackSession.timeZone);
-    expect(component.isSubmissionFormsDisabled).toEqual(true);
+    expect(component.feedbackSessionInstructions()).toEqual(testClosedFeedbackSession.instructions);
+    expect(component.feedbackSessionSubmissionStatus()).toEqual(testClosedFeedbackSession.submissionStatus);
+    expect(component.feedbackSessionTimezone()).toEqual(testClosedFeedbackSession.timeZone);
+    expect(component.isSubmissionFormsDisabled()).toEqual(true);
   });
 
   it('should load a visible not open feedback session', () => {
@@ -789,10 +789,10 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fsSpy).toHaveBeenLastCalledWith(getFeedbackSessionArgs);
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Feedback Session Not Open', SimpleModalType.WARNING, expect.anything());
-    expect(component.feedbackSessionInstructions).toEqual(testVisibleNotOpenFeedbackSession.instructions);
-    expect(component.feedbackSessionSubmissionStatus).toEqual(testVisibleNotOpenFeedbackSession.submissionStatus);
-    expect(component.feedbackSessionTimezone).toEqual(testVisibleNotOpenFeedbackSession.timeZone);
-    expect(component.isSubmissionFormsDisabled).toEqual(true);
+    expect(component.feedbackSessionInstructions()).toEqual(testVisibleNotOpenFeedbackSession.instructions);
+    expect(component.feedbackSessionSubmissionStatus()).toEqual(testVisibleNotOpenFeedbackSession.submissionStatus);
+    expect(component.feedbackSessionTimezone()).toEqual(testVisibleNotOpenFeedbackSession.timeZone);
+    expect(component.isSubmissionFormsDisabled()).toEqual(true);
   });
 
   it('should show session not found modal when loading non-existent feedback session', () => {
@@ -1197,12 +1197,12 @@ describe('SessionSubmissionPageComponent', () => {
         });
       });
 
-    component.courseId = 'course-id';
-    component.courseName = 'Test Course';
-    component.feedbackSessionName = 'First Session';
-    component.feedbackSessionTimezone = 'Asia/Singapore';
-    component.personName = 'Alice Betsy';
-    component.personEmail = 'alice@tmms.com';
+    component.courseId.set('course-id');
+    component.courseName.set('Test Course');
+    component.feedbackSessionName.set('First Session');
+    component.feedbackSessionTimezone.set('Asia/Singapore');
+    component.personName.set('Alice Betsy');
+    component.personEmail.set('alice@tmms.com');
     component.questionSubmissionForms = [
       structuredClone(testMcqQuestionSubmissionForm),
       structuredClone(testTextQuestionSubmissionForm),
