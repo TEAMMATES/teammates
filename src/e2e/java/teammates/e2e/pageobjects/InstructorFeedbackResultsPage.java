@@ -1134,7 +1134,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     // Methods for manipulating responses information
 
     private boolean isMissingResponse(FeedbackResponse response) {
-        return response.getFeedbackQuestion() == null || response.getFeedbackQuestion().getFeedbackSession().getName() == null;
+        return response.getFeedbackQuestion() == null
+                || response.getFeedbackQuestion().getFeedbackSession().getName() == null;
     }
 
     private List<FeedbackResponse> filterMissingResponses(List<FeedbackResponse> responses) {
