@@ -31,10 +31,9 @@ exports[`SessionResultPageComponent > should snap when previewing results 1`] = 
   personName={[Function Function]}
   previewAs={[Function String]}
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -178,10 +177,9 @@ exports[`SessionResultPageComponent > should snap when session results failed to
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -329,10 +327,9 @@ exports[`SessionResultPageComponent > should snap with an open feedback session 
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -477,10 +474,9 @@ exports[`SessionResultPageComponent > should snap with default fields 1`] = `
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -625,10 +621,9 @@ exports[`SessionResultPageComponent > should snap with session details and resul
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -705,10 +700,9 @@ exports[`SessionResultPageComponent > should snap with session details loaded an
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -853,10 +847,9 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}
@@ -874,7 +867,7 @@ exports[`SessionResultPageComponent > should snap with user that is logged in an
         role="alert"
       >
         <div>
-           You are viewing feedback results as alice. If you wish to link your account email (alice) with this user, 
+           You are viewing feedback results as alice. If you wish to link your account email (alice@gmail.com) with this user, 
           <a
             href="#"
             id="join-course-btn"
@@ -1002,10 +995,9 @@ exports[`SessionResultPageComponent > should snap with user that is not logged i
   personName={[Function Function]}
   previewAs=""
   questions={[Function Function]}
-  retryAttempts="undefined"
+  retryAttempts={[Function Number]}
   session={[Function Function]}
   statusMessageService={[Function _StatusMessageService]}
-  studentId=""
   studentService={[Function _StudentService]}
   timezoneService={[Function _TimezoneService]}
   visibilityRecipient={[Function String]}

@@ -592,7 +592,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap with user that is logged in and using session link', () => {
     component.key = 'reg-key';
-    component.accountEmail.set('alice');
+    component.accountEmail.set('alice@gmail.com');
     component.personName.set('alice');
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
