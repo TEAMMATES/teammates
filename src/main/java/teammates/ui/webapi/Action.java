@@ -115,7 +115,6 @@ public abstract class Action {
 
         if (account != null) {
             user.setEmail(account.getEmail());
-            user.setGoogleId(account.getGoogleId());
         } else if (regKeyUser != null) {
             user.setEmail(regKeyUser.getEmail());
         }
