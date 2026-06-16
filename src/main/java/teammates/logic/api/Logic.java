@@ -332,13 +332,6 @@ public class Logic {
     }
 
     /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        return usersLogic.getStudentsByGoogleId(googleId);
-    }
-
-    /**
      * Gets all students by associated {@code accountId}.
      */
     public List<Student> getStudentsByAccountId(UUID accountId) {
@@ -876,20 +869,6 @@ public class Logic {
     }
 
     /**
-     * Gets an instructor by associated {@code googleId}.
-     */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        return usersLogic.getInstructorByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets list of instructors by {@code googleId}.
-     */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        return usersLogic.getInstructorsForGoogleId(googleId);
-    }
-
-    /**
      * Gets all instructors by associated {@code accountId}.
      */
     public List<Instructor> getInstructorsByAccountId(UUID accountId) {
@@ -1044,13 +1023,6 @@ public class Logic {
      */
     public Student getStudentByRegistrationKey(String regKey) {
         return usersLogic.getStudentByRegistrationKey(regKey);
-    }
-
-    /**
-     * Gets a student by associated {@code googleId}.
-     */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        return usersLogic.getStudentByGoogleId(courseId, googleId);
     }
 
     /**

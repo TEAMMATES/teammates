@@ -292,16 +292,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Gets an instructor by associated {@code googleId}.
-     */
-    public Instructor getInstructorByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
-        assert googleId != null;
-
-        return usersDb.getInstructorByGoogleId(courseId, googleId);
-    }
-
-    /**
      * Searches instructors in the whole system. Used by admin only.
      *
      * @return List of found instructors in the whole system. Returns an empty list if no results are found.
@@ -408,14 +398,6 @@ public final class UsersLogic {
             }
         }
         return true;
-    }
-
-    /**
-     * Gets all instructors associated with a googleId.
-     */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        assert googleId != null;
-        return usersDb.getInstructorsForGoogleId(googleId);
     }
 
     /**
@@ -622,34 +604,6 @@ public final class UsersLogic {
         Objects.requireNonNull(accountId);
 
         return usersDb.getInstructorsByAccountId(accountId);
-    }
-
-    /**
-     * Gets a student by associated {@code googleId}.
-     */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        assert courseId != null;
-        assert googleId != null;
-
-        return usersDb.getStudentByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets all students associated with a googleId.
-     */
-    public List<Student> getStudentsByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return usersDb.getStudentsByGoogleId(googleId);
-    }
-
-    /**
-     * Gets all instructors and students by {@code googleId}.
-     */
-    public List<User> getAllUsersByGoogleId(String googleId) {
-        assert googleId != null;
-
-        return usersDb.getAllUsersByGoogleId(googleId);
     }
 
     /**
