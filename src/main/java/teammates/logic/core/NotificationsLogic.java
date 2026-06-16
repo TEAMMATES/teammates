@@ -52,7 +52,6 @@ public final class NotificationsLogic {
      *
      * @return the created notification
      * @throws InvalidParametersException if the notification is not valid
-     * @throws EntityAlreadyExistsException if the notification already exists in the database.
      */
     public Notification createNotification(NotificationCreateRequest createRequest)
             throws InvalidParametersException {
