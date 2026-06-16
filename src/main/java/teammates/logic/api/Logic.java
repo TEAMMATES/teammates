@@ -1129,6 +1129,13 @@ public class Logic {
     }
 
     /**
+     * Enqueues a session links recovery email for the given email address.
+     */
+    public void enqueueSessionLinksRecoveryEmail(String recoveryEmailAddress) {
+        feedbackSessionsLogic.enqueueSessionLinksRecoveryEmail(recoveryEmailAddress);
+    }
+
+    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.

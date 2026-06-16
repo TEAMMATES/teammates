@@ -64,12 +64,10 @@ public final class Templates {
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksBySession.html");
         public static final String FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_COURSE =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplateFragment-sessionAccessLinksByCourse.html");
-        public static final String SESSION_LINKS_RECOVERY_ACCESS_LINKS =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-feedbackSessionAccessLinks.html");
-        public static final String SESSION_LINKS_RECOVERY_ACCESS_LINKS_NONE =
-                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-feedbackSessionAccessLinksNone.html");
         public static final String SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND =
                 FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-emailNotFound.html");
+        public static final String SESSION_LINKS_RECOVERY_EMAIL_FOUND =
+                FileHelper.readResourceFile("sessionLinksRecoveryEmailTemplate-found.html");
         public static final String USER_FEEDBACK_SESSION_UNPUBLISHED =
                 FileHelper.readResourceFile("userEmailTemplate-feedbackSessionUnpublished.html");
         public static final String FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS =

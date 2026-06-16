@@ -2,12 +2,8 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
-import java.util.List;
-
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
-import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 
@@ -30,12 +26,7 @@ public class SessionLinksRecoveryAction extends PublicAction {
                     + "Please try again.");
         }
 
-        List<Student> studentsForEmail = logic.getAllStudentsForEmail(recoveryEmailAddress);
-        EmailWrapper email = studentsForEmail.isEmpty()
-                ? emailGenerator.generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress)
-                : emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
-                        recoveryEmailAddress, studentsForEmail);
-        emailQueueService.enqueuePriority(List.of(email));
+        logic.enqueueSessionLinksRecoveryEmail(recoveryEmailAddress);
 
         return new JsonResult(new SessionLinksRecoveryResponseData(
                     "The recovery links for your feedback sessions have been sent to the "
