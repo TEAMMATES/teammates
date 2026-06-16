@@ -1,5 +1,7 @@
 // PR checks for TEAMMATES contribution guidelines; used by .github/workflows/pr.yml.
 
+const BOT_COMMENT_MARKER = '<!-- teammates-pr-checker -->';
+
 const getOrphanLockfiles = (changedPaths) => {
   const dirOf = (filePath) => {
     const idx = filePath.lastIndexOf('/');
@@ -25,7 +27,43 @@ const getOrphanLockfiles = (changedPaths) => {
     .map((dir) => (dir === '' ? 'package-lock.json' : `${dir}/package-lock.json`));
 };
 
-const checkPr = async ({ github, context }) => {
+const findBotComment = async ({ github, context }) => {
+  let page = 1;
+  while (true) {
+    const { data: comments } = await github.rest.issues.listComments({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      issue_number: context.issue.number,
+      per_page: 100,
+      page,
+    });
+    const botComment = comments.find((c) => c.body.includes(BOT_COMMENT_MARKER));
+    if (botComment) return botComment;
+    if (comments.length < 100) return null;
+    page += 1;
+  }
+};
+
+const upsertComment = async ({ github, context, body }) => {
+  const existingComment = await findBotComment({ github, context });
+  if (existingComment) {
+    await github.rest.issues.updateComment({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      comment_id: existingComment.id,
+      body,
+    });
+  } else {
+    await github.rest.issues.createComment({
+      issue_number: context.issue.number,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      body,
+    });
+  }
+};
+
+const checkPr = async ({ github, context, core }) => {
   const pr = await github.rest.pulls.get({
     owner: context.repo.owner,
     repo: context.repo.repo,
@@ -69,12 +107,26 @@ const checkPr = async ({ github, context }) => {
       issue_number: issueNumber,
     });
     isIssueOpen = issue.data.state === 'open';
-    if (isTitleValid && isDescriptionValid && isIssueOpen && isLockfileChangeValid) {
-      return;
-    }
   }
-  let body = `Hi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!
-              However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html):\n\n`;
+
+  const hasViolations = !isTitleValid || !isDescriptionValid || (issueNumber && !isIssueOpen) || !isLockfileChangeValid;
+
+  if (!hasViolations) {
+    // All checks passed — update existing comment to reflect resolution, if one exists.
+    const existingComment = await findBotComment({ github, context });
+    if (existingComment) {
+      await github.rest.issues.updateComment({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        comment_id: existingComment.id,
+        body: `${BOT_COMMENT_MARKER}\nHi @${pr.data.user.login}, all PR guideline checks have passed. Thank you for your contribution! :tada:`,
+      });
+    }
+    return;
+  }
+
+  let body = `${BOT_COMMENT_MARKER}\nHi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!\n`
+    + `However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html):\n\n`;
   if (!isTitleValid) {
     body += '- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n';
   }
@@ -89,12 +141,10 @@ const checkPr = async ({ github, context }) => {
     body += `- This PR contains changes to \`package-lock.json\` without corresponding \`package.json\` changes. Please revert the \`package-lock.json\` changes.\n`;
   }
   body += '\nPlease address the above before we proceed to review your PR.';
-  await github.rest.issues.createComment({
-    issue_number: context.issue.number,
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    body,
-  });
+
+  await upsertComment({ github, context, body });
+
+  core.setFailed('PR does not follow contribution guidelines. See the comment on the PR for details.');
 };
 
 module.exports = checkPr;
