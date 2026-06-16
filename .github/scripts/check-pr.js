@@ -37,7 +37,9 @@ const findBotComment = async ({ github, context }) => {
       per_page: 100,
       page,
     });
-    const botComment = comments.find((c) => c.body.includes(BOT_COMMENT_MARKER));
+    const botComment = comments.find(
+      (c) => c.user?.login === 'github-actions[bot]' && c.body.includes(BOT_COMMENT_MARKER),
+    );
     if (botComment) return botComment;
     if (comments.length < 100) return null;
     page += 1;
