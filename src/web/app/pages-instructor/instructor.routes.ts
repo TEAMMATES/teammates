@@ -188,6 +188,13 @@ const routes: Routes = [
     },
   },
   {
+    path: 'welcome/:accountVerificationRequestId',
+    loadComponent: () =>
+      import('../instructor-welcome-page/instructor-welcome-page.component').then(
+        (m) => m.InstructorWelcomePageComponent,
+      ),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',

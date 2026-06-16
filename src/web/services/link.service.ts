@@ -26,7 +26,7 @@ export class LinkService {
    */
   generateInstructorWelcomeLink(accountVerificationRequestId: string): string {
     const frontendUrl: string = globalThis.location.origin;
-    return `${frontendUrl}${this.URI_PREFIX}/instructor-welcome/${accountVerificationRequestId}`;
+    return `${frontendUrl}${this.URI_PREFIX}/instructor/welcome/${accountVerificationRequestId}`;
   }
 
   /**
