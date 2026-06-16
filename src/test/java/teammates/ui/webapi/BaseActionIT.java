@@ -234,8 +234,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     private Account ensureAccountExists(String userId) {
         String email = userId.contains("@") ? userId : userId + "@example.com";
         String subject = userId;
-        String tenantId = "tenant-id";
-        return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, tenantId, email);
+        return logic.createOrGetAccount(Provider.TEAMMATES_DEV, subject, null, email);
     }
 
     /**
@@ -712,8 +711,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             instructor = inTransaction(() -> {
                 String googleId = email;
                 String subject = email;
-                String tenantId = "tenant-id";
-                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email, googleId);
                 return logic.createInstructor(course, "instructor-name", email, true, "display-name",
                         InstructorPermissionRole.CUSTOM, account);
             });
@@ -742,8 +740,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
                 String googleId = email;
                 String subject = email;
-                String tenantId = "tenant-id";
-                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, tenantId, email, googleId);
+                Account account = logic.createAccount(Provider.TEAMMATES_DEV, subject, null, email, googleId);
                 createdStudent.setAccount(account);
                 return createdStudent;
             });
