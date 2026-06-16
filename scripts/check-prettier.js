@@ -7,6 +7,7 @@ const prettier = require('prettier');
 
 const repoRoot = path.resolve(__dirname, '..');
 const ignorePaths = ['.prettierignore', '.gitignore'].map((ignorePath) => path.join(repoRoot, ignorePath));
+const yellow = (text) => `\u001B[33m${text}\u001B[39m`;
 
 async function getPrettierFiles() {
   const entries = await fg('**/*', {
@@ -75,7 +76,7 @@ async function main() {
   }
 
   for (const file of unformattedFiles) {
-    console.warn(`[warn] ${file}`);
+    console.warn(`[${yellow('warn')}] ${file}`);
   }
 
   printFailureMessage();
