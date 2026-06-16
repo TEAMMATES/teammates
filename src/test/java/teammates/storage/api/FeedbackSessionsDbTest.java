@@ -48,22 +48,6 @@ public class FeedbackSessionsDbTest extends BaseDbTestcase {
     }
 
     @Test(groups = GroupNames.DB)
-    public void getFeedbackSessionByNameAndCourse_feedbackSessionExists_returnsFeedbackSession() {
-        var course = given.course("course");
-        var feedbackSession = given.feedbackSession("feedback-session",
-                fs -> fs.course(course.alias()).name("Feedback Session Name"));
-        given.feedbackSession("same-name-feedback-session-in-another-course",
-                fs -> fs.course("another-course").name("Feedback Session Name"));
-        persistGivenData(given);
-
-        FeedbackSession actual = inTransaction(() -> feedbackSessionsDb.getFeedbackSession(
-                "Feedback Session Name", course.id()));
-
-        assertNotNull(actual);
-        assertEquals(feedbackSession.id(), actual.getId());
-    }
-
-    @Test(groups = GroupNames.DB)
     public void persistFeedbackSession_feedbackSessionIsNew_feedbackSessionIsPersisted() {
         var courseRef = given.course("course");
         var creatorRef = given.instructor("creator", i -> i.course(courseRef.alias()));

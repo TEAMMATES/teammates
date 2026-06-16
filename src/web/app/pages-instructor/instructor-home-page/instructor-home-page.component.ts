@@ -227,7 +227,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             }
 
             result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-              this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId, result.oldCourseId)
+              this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId)
                 .pipe(
                   finalize(() => {
                     this.numberOfSessionsCopied += 1;

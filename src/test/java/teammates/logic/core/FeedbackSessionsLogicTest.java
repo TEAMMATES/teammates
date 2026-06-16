@@ -92,22 +92,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetFeedbackSessionByNameAndCourse_sessionExists_success() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        String sessionName = session.getName();
-        String courseId = course.getId();
-
-        when(fsDb.getFeedbackSession(sessionName, courseId)).thenReturn(session);
-
-        FeedbackSession result = fsLogic.getFeedbackSession(sessionName, courseId);
-
-        assertNotNull(result);
-        assertEquals(session, result);
-        verify(fsDb, times(1)).getFeedbackSession(sessionName, courseId);
-    }
-
-    @Test
     public void testGetFeedbackSessionsForCourse_hasSession_success() {
         Course course = getTypicalCourse();
         FeedbackSession session1 = getTypicalFeedbackSessionForCourse(course);

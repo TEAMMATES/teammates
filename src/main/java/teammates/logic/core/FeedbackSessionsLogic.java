@@ -89,18 +89,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
-     *
-     * @return null if not found.
-     */
-    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        return fsDb.getFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
@@ -352,19 +340,16 @@ public final class FeedbackSessionsLogic {
         validateFeedbackSession(feedbackSession);
         feedbackSession = fsDb.persistFeedbackSession(feedbackSession);
 
-        if (createRequest.getToCopyCourseId() != null) {
-            copyFeedbackQuestions(createRequest.getToCopyCourseId(), courseId,
-                    feedbackSessionName, createRequest.getToCopySessionName());
+        if (createRequest.getToCopySessionId() != null) {
+            copyFeedbackQuestions(createRequest.getToCopySessionId(), feedbackSession);
         }
 
         HibernateUtil.flushSession();
         return feedbackSession;
     }
 
-    private void copyFeedbackQuestions(String oldCourseId, String newCourseId,
-            String newFeedbackSessionName, String oldFeedbackSessionName) {
-        FeedbackSession oldFeedbackSession = getFeedbackSession(oldFeedbackSessionName, oldCourseId);
-        FeedbackSession newFeedbackSession = getFeedbackSession(newFeedbackSessionName, newCourseId);
+    private void copyFeedbackQuestions(UUID oldSessionId, FeedbackSession newFeedbackSession) {
+        FeedbackSession oldFeedbackSession = getFeedbackSession(oldSessionId);
         fqLogic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
             FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
             newFeedbackSession.addFeedbackQuestion(feedbackQuestion);

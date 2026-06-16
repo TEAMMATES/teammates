@@ -45,22 +45,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Gets a feedback session for {@code feedbackSessionName} and {@code courseId}.
-     *
-     * @return null if not found
-     */
-    public FeedbackSession getFeedbackSession(String feedbackSessionName, String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
-        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
-        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
-        cq.select(fsRoot).where(cb.and(
-                cb.equal(fsRoot.get("name"), feedbackSessionName),
-                cb.equal(fsJoin.get("id"), courseId)));
-        return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Gets all non-soft-deleted feedback sessions for the given course IDs, excluding sessions in deleted courses.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourses(List<String> courseIds) {

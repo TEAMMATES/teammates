@@ -182,11 +182,10 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        FeedbackSession retrievedFs = inTransaction(() -> fsLogic.getFeedbackSession(fs.getName(), fs.getCourseId()));
+        FeedbackSession retrievedFs = inTransaction(() -> fsLogic.getFeedbackSession(fs.getId()));
 
         assertNotNull(retrievedFs);
-        assertFalse(inTransaction(() -> fsLogic.getFeedbackSession(
-                fs.getName(), fs.getCourseId()).getFeedbackQuestions().isEmpty()));
+        assertFalse(inTransaction(() -> fsLogic.getFeedbackSession(fs.getId()).getFeedbackQuestions().isEmpty()));
         assertFalse(inTransaction(() -> fqLogic.getFeedbackQuestionsForSession(retrievedFs)).isEmpty());
 
         // delete existing feedback session directly

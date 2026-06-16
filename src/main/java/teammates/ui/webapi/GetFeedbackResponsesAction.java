@@ -28,9 +28,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException("Feedback Question not found");
         }
 
-        FeedbackSession feedbackSession =
-                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSession().getName(),
-                                                feedbackQuestion.getCourseId());
+        FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
 
