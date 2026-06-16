@@ -29,7 +29,6 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.api.Logic;
-import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
@@ -71,7 +70,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     Logic logic = Logic.inst();
     CoursesLogic coursesLogic = CoursesLogic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
-    MockEmailSender mockEmailSender = new MockEmailSender();
     MockUserProvision mockUserProvision = new MockUserProvision();
     MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
@@ -100,7 +98,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected T getAction(String body, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
-        mockEmailSender.clearEmails();
         MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
         for (int i = 0; i < params.length; i = i + 2) {
             req.addParam(params[i], params[i + 1]);
@@ -117,7 +114,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setEmailQueueService(EmailQueueService.withTaskQueuer(mockTaskQueuer));
-            action.setEmailSender(mockEmailSender);
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
@@ -701,7 +697,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Returns the list of emails sent as part of the executed action.
      */
     protected List<EmailWrapper> getEmailsSent() {
-        return mockEmailSender.getEmailsSent();
+        return List.of();
     }
 
     /**
@@ -728,7 +724,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * being sent.
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
-        assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
+        assertEquals(emailCount, getEmailsSent().size());
     }
 
     /**

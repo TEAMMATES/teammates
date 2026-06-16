@@ -12,7 +12,6 @@ import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.EmailGenerator;
-import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.UserProvision;
@@ -39,7 +38,6 @@ public abstract class Action {
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
     EmailQueueService emailQueueService = EmailQueueService.inst();
-    EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
 
     HttpServletRequest req;
@@ -66,10 +64,6 @@ public abstract class Action {
 
     public void setUserProvision(UserProvision userProvision) {
         this.userProvision = userProvision;
-    }
-
-    public void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
     }
 
     public void setEmailQueueService(EmailQueueService emailQueueService) {

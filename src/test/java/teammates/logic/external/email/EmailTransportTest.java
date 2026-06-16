@@ -1,4 +1,4 @@
-package teammates.logic.external;
+package teammates.logic.external.email;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,10 +15,10 @@ import teammates.common.util.HtmlHelper;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link SendgridService},
- *      {@link MailjetService}.
+ * SUT: {@link SendgridTransport},
+ *      {@link MailjetTransport}.
  */
-public class EmailSenderServiceTest extends BaseTestCase {
+public class EmailTransportTest extends BaseTestCase {
 
     private EmailWrapper getTypicalEmailWrapper() {
         String senderName = "Sender Name";
@@ -43,7 +43,7 @@ public class EmailSenderServiceTest extends BaseTestCase {
     @Test
     public void testConvertToSendgrid() {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        Mail email = new SendgridService().parseToEmail(wrapper);
+        Mail email = new SendgridTransport().parseToEmail(wrapper);
 
         assertEquals(wrapper.getSenderEmail(), email.getFrom().getEmail());
         assertEquals(wrapper.getSenderName(), email.getFrom().getName());
@@ -60,7 +60,7 @@ public class EmailSenderServiceTest extends BaseTestCase {
     @Test
     public void testConvertToMailjet() {
         EmailWrapper wrapper = getTypicalEmailWrapper();
-        MailjetRequest request = new MailjetService().parseToEmail(wrapper);
+        MailjetRequest request = new MailjetTransport().parseToEmail(wrapper);
         JSONObject email = new JSONObject(request.getBody());
 
         assertEquals(wrapper.getSenderEmail(), email.get(Email.FROMEMAIL));
