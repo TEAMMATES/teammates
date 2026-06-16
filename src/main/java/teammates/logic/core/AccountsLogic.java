@@ -56,6 +56,7 @@ public final class AccountsLogic {
     /**
      * Gets an account by googleId.
      */
+    @Deprecated(forRemoval = false)
     public Account getAccountForGoogleId(String googleId) {
         assert googleId != null;
 
@@ -153,13 +154,13 @@ public final class AccountsLogic {
         Objects.requireNonNull(account);
         Objects.requireNonNull(registrationKey);
 
-        User user = validateJoinRequest(registrationKey, account.getGoogleId());
+        User user = validateJoinRequest(registrationKey, account.getId());
         assert user.getAccount() == null;
         user.setAccount(account);
         return user;
     }
 
-    private User validateJoinRequest(String registrationKey, String googleId)
+    private User validateJoinRequest(String registrationKey, UUID accountId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
         User user = usersLogic.getUserByRegistrationKey(registrationKey);
 
@@ -172,7 +173,7 @@ public final class AccountsLogic {
                     "User has already joined course");
         }
 
-        validateNonExistingLinkedUserInCourse(user, googleId);
+        validateNonExistingLinkedUserInCourse(user, accountId);
 
         return user;
     }
@@ -183,13 +184,13 @@ public final class AccountsLogic {
         }
     }
 
-    private void validateNonExistingLinkedUserInCourse(User user, String googleId)
+    private void validateNonExistingLinkedUserInCourse(User user, UUID accountId)
             throws EntityAlreadyExistsException {
         User existingLinkedUser;
         if (user instanceof Student) {
-            existingLinkedUser = usersLogic.getStudentByGoogleId(user.getCourseId(), googleId);
+            existingLinkedUser = usersLogic.getStudentByAccountId(accountId, user.getCourseId());
         } else if (user instanceof Instructor) {
-            existingLinkedUser = usersLogic.getInstructorByGoogleId(user.getCourseId(), googleId);
+            existingLinkedUser = usersLogic.getInstructorByAccountId(accountId, user.getCourseId());
         } else {
             throw new IllegalStateException("Unknown user type: " + user.getClass().getName());
         }
