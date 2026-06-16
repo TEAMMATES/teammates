@@ -96,11 +96,11 @@ const routes: Routes = [
         },
       },
       {
-        path: 'unauthorized',
+        path: 'unauthorized/:role',
         component: PageComponent,
         children: [
           {
-            path: ':role',
+            path: '',
             loadComponent: () =>
               import('./page-unauthorized-warning/unauthorized-warning-page.component').then(
                 (m) => m.UnauthorizedWarningPageComponent,
