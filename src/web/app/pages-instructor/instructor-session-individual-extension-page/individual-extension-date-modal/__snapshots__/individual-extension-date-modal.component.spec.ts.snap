@@ -40,10 +40,10 @@ exports[`IndividualExtensionDateModalComponent > should snap with a preset selec
     </b>
      instructor(s):
   </div><div
-    class="px-3"
+    class="px-4"
   >
     <div
-      class="d-flex flex-column gap-1"
+      class="d-flex flex-column"
     >
       <label
         class="me-3"
@@ -98,7 +98,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with a preset selec
           value="Custom"
         />
          Custom 
-         (Sat, 5 Apr 2000 2:00 +08) 
       </label>
     </div>
     <br />
@@ -161,10 +160,10 @@ exports[`IndividualExtensionDateModalComponent > should snap with custom selecte
     </b>
      instructor(s):
   </div><div
-    class="px-3"
+    class="px-4"
   >
     <div
-      class="d-flex flex-column gap-1"
+      class="d-flex flex-column"
     >
       <label
         class="me-3"
@@ -219,7 +218,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with custom selecte
           value="Custom"
         />
          Custom 
-         (Sat, 5 Apr 2000 2:00 +08) 
       </label>
     </div>
     <div
@@ -451,10 +449,10 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
     </b>
      instructor(s):
   </div><div
-    class="px-3"
+    class="px-4"
   >
     <div
-      class="d-flex flex-column gap-1"
+      class="d-flex flex-column"
     >
       <label
         class="me-3"
@@ -509,7 +507,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the extended s
           value="Custom"
         />
          Custom 
-         (Sat, 5 Apr 2000 2:00 +08) 
       </label>
     </div>
     <br />
@@ -573,10 +570,10 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
     </b>
      instructor(s):
   </div><div
-    class="px-3"
+    class="px-4"
   >
     <div
-      class="d-flex flex-column gap-1"
+      class="d-flex flex-column"
     >
       <label
         class="me-3"
@@ -631,7 +628,6 @@ exports[`IndividualExtensionDateModalComponent > should snap with the warning mo
           value="Custom"
         />
          Custom 
-         (Sat, 5 Apr 2000 2:00 +08) 
       </label>
     </div>
     <br />

@@ -7,7 +7,7 @@
 </div>
 
 <div class="px-4">
-  <div class="d-flex flex-column gap-1">
+  <div class="d-flex flex-column">
     @for (option of DEADLINE_OPTIONS; track option.label) {
       <label class="me-3">
         <input
@@ -18,7 +18,7 @@
           (change)="selectedPreset.set(option.label)"
         />
         {{ option.label }}
-        @if (option.hours !== null) {
+        @if (option.label !== 'Custom') {
           ({{ extendAndFormatEndTimeBy(option.hours) }})
         }
       </label>
