@@ -75,11 +75,11 @@ public final class DemoCourseGenerator {
      */
     public static String generateDemoCourseIdWithRandomSuffix(String instructorEmail, int maximumIdLength) {
         String root = getDemoCourseIdRoot(instructorEmail);
-        String suffix = generateBase62String(RANDOM_SUFFIX_LENGTH);
+        String suffix = generateRandomString(RANDOM_SUFFIX_LENGTH);
         return StringHelper.truncateHead(root + suffix, maximumIdLength);
     }
 
-    private static String generateBase62String(int length) {
+    private static String generateRandomString(int length) {
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
             sb.append(SUFFIX_CHARS.charAt(SECURE_RANDOM.nextInt(SUFFIX_CHARS.length())));
