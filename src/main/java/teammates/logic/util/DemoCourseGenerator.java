@@ -1,10 +1,10 @@
 package teammates.logic.util;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.security.SecureRandom;
 import java.util.regex.Pattern;
 
 import teammates.common.util.Const;
@@ -17,6 +17,8 @@ import teammates.common.util.TimeHelper;
  * Utility class for generating demo course data.
  */
 public final class DemoCourseGenerator {
+    static final int RANDOM_SUFFIX_LENGTH = 6;
+    private static final String SUFFIX_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
     private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     private DemoCourseGenerator() {
@@ -60,9 +62,6 @@ public final class DemoCourseGenerator {
 
         return dataBundleString;
     }
-
-    static final int RANDOM_SUFFIX_LENGTH = 6;
-    private static final String SUFFIX_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz";
 
     /**
      * Generates a demo course ID with a random {@value #RANDOM_SUFFIX_LENGTH}-character lowercase alphanumeric suffix
