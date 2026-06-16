@@ -1,22 +1,40 @@
 #!/usr/bin/env node
 
-const { spawnSync } = require('node:child_process');
+const fs = require('node:fs/promises');
 const path = require('node:path');
+const fg = require('fast-glob');
+const prettier = require('prettier');
 
-const prettierBin = require.resolve('prettier/bin/prettier.cjs');
-const result = spawnSync(process.execPath, [prettierBin, '.', '--check'], {
-  cwd: path.resolve(__dirname, '..'),
-  stdio: 'inherit',
-});
+const repoRoot = path.resolve(__dirname, '..');
+const ignorePaths = ['.prettierignore', '.gitignore'].map((ignorePath) => path.join(repoRoot, ignorePath));
 
-if (result.error) {
-  console.error(`Unable to run Prettier: ${result.error.message}`);
-  process.exit(1);
+async function getPrettierFiles() {
+  const entries = await fg('**/*', {
+    cwd: repoRoot,
+    dot: true,
+    ignore: ['**/node_modules/**', '**/.git/**', '**/.hg/**', '**/.svn/**'],
+    onlyFiles: true,
+    unique: true,
+  });
+
+  const files = [];
+  for (const entry of entries) {
+    const filePath = path.join(repoRoot, entry);
+    const fileInfo = await prettier.getFileInfo(filePath, {
+      ignorePath: ignorePaths,
+      resolveConfig: true,
+      withNodeModules: false,
+    });
+
+    if (!fileInfo.ignored && fileInfo.inferredParser) {
+      files.push(filePath);
+    }
+  }
+
+  return files;
 }
 
-const exitCode = typeof result.status === 'number' ? result.status : 1;
-
-if (exitCode !== 0) {
+function printFailureMessage() {
   console.error(
     [
       '',
@@ -32,4 +50,39 @@ if (exitCode !== 0) {
   );
 }
 
-process.exit(exitCode);
+async function main() {
+  console.log('Checking formatting...');
+
+  const files = await getPrettierFiles();
+  const unformattedFiles = [];
+
+  for (const filePath of files) {
+    const options = (await prettier.resolveConfig(filePath)) ?? {};
+    const fileContent = await fs.readFile(filePath, 'utf8');
+    const isFormatted = await prettier.check(fileContent, {
+      ...options,
+      filepath: filePath,
+    });
+
+    if (!isFormatted) {
+      unformattedFiles.push(path.relative(repoRoot, filePath));
+    }
+  }
+
+  if (unformattedFiles.length === 0) {
+    console.log('All matched files use Prettier code style!');
+    return;
+  }
+
+  for (const file of unformattedFiles) {
+    console.warn(`[warn] ${file}`);
+  }
+
+  printFailureMessage();
+  process.exitCode = 1;
+}
+
+main().catch((error) => {
+  console.error(`Unable to run Prettier: ${error.message}`);
+  process.exit(1);
+});
