@@ -716,8 +716,8 @@ public final class UsersLogic {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.getGoogleId()
-                .equals(instructorToEdit.getGoogleId()));
+                || instrWithModifyInstructorPrivilege.getAccountId()
+                .equals(instructorToEdit.getAccountId()));
         if (isLastRegInstructorWithPrivilege) {
             InstructorPrivileges privileges = instructorPermissionsLogic.getInstructorPrivileges(instructorToEdit);
             privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);

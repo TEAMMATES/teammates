@@ -295,16 +295,6 @@ public class Logic {
     }
 
     /**
-     * Gets an account by googleId.
-     *
-     * @deprecated Use {@link #getAccount(UUID)} instead.
-     */
-    @Deprecated(forRemoval = false)
-    public Account getAccountForGoogleId(String googleId) {
-        return accountsLogic.getAccountForGoogleId(googleId);
-    }
-
-    /**
      * Creates an account.
      *
      * @return the created account
@@ -876,6 +866,13 @@ public class Logic {
      */
     public User getUserByRegistrationKey(String regKey) {
         return usersLogic.getUserByRegistrationKey(regKey);
+    }
+
+    /**
+     * Gets an instructor by associated {@code accountId} and {@code courseId}.
+     */
+    public Instructor getInstructorByAccountId(UUID accountId, String courseId) {
+        return usersLogic.getInstructorByAccountId(accountId, courseId);
     }
 
     /**
