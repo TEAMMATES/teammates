@@ -16,7 +16,6 @@ import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.Provider;
 import teammates.common.datatransfer.SessionLinksBundle;
@@ -76,6 +75,8 @@ import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InstructorUpdateRequest;
+import teammates.ui.request.NotificationCreateRequest;
+import teammates.ui.request.NotificationUpdateRequest;
 import teammates.ui.request.ResponseInstructorCommentUpdateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
@@ -753,9 +754,9 @@ public class Logic {
      * @throws EntityAlreadyExistsException if the notification exists in the
      *                                      database
      */
-    public Notification createNotification(Notification notification)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        return notificationsLogic.createNotification(notification);
+    public Notification createNotification(NotificationCreateRequest createRequest)
+            throws InvalidParametersException {
+        return notificationsLogic.createNotification(createRequest);
     }
 
     /**
@@ -785,11 +786,9 @@ public class Logic {
      * @throws EntityDoesNotExistException if the notification does not exist in the
      *                                     database
      */
-    public Notification updateNotification(UUID notificationId, Instant startTime, Instant endTime,
-            NotificationStyle style, NotificationTargetUser targetUser, String title,
-            String message) throws InvalidParametersException, EntityDoesNotExistException {
-        return notificationsLogic.updateNotification(notificationId, startTime, endTime, style, targetUser, title,
-                message);
+    public Notification updateNotification(UUID notificationId, NotificationUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return notificationsLogic.updateNotification(notificationId, updateRequest);
     }
 
     /**
