@@ -125,8 +125,9 @@ const checkPr = async ({ github, context, core }) => {
     return;
   }
 
-  let body = `${BOT_COMMENT_MARKER}\nHi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!\n`
-    + `However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html):\n\n`;
+  let body =
+    `${BOT_COMMENT_MARKER}\nHi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!\n` +
+    `However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html):\n\n`;
   if (!isTitleValid) {
     body += '- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n';
   }
