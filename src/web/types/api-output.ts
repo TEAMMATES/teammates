@@ -89,12 +89,6 @@ export interface DeadlineExtensions extends ApiOutput {
   userDeadlines: { [index: string]: number };
 }
 
-export interface Email extends ApiOutput {
-  recipient: string;
-  subject: string;
-  content: string;
-}
-
 export interface EnrollErrorResults {
   studentEmail: string;
   errorMessage: string;
