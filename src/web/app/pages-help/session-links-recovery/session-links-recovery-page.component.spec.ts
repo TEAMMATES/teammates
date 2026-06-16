@@ -35,11 +35,6 @@ function setCaptchaState(
   component.captchaSiteKey = 'fake-key';
 }
 
-/**
- * Test suite for SessionLinksRecoveryPageComponent.
- * Note: To prevent environment-dependent test failures when a recaptcha site key is configured
- * in the environment, the captchaSiteKey must be bypassed/reset during component setup.
- */
 describe('SessionLinksRecoveryPageComponent', () => {
   let component: SessionLinksRecoveryPageComponent;
   let fixture: ComponentFixture<SessionLinksRecoveryPageComponent>;
