@@ -56,10 +56,13 @@ async function main() {
   console.log('Gathering files...');
 
   const files = await getPrettierFiles();
+
+  console.log(`\nFound ${files.length} files.`);
+
   const unformattedFiles = [];
   const progressBar = createProgressBar();
 
-  console.log('Checking formatting...');
+  console.log('\nChecking formatting...');
   progressBar.render(0, files.length);
 
   for (const [index, filePath] of files.entries()) {
@@ -80,7 +83,7 @@ async function main() {
   progressBar.clear();
 
   if (unformattedFiles.length === 0) {
-    console.log('All matched files use Prettier code style!');
+    console.log('\nAll files use Prettier code style!');
     return;
   }
 
