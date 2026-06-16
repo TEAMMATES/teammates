@@ -27,12 +27,14 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.TaskWrapper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.logic.core.CoursesLogic;
+import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Institute;
@@ -49,6 +51,7 @@ import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
+import teammates.ui.request.SendEmailRequest;
 
 /**
  * Base class for all action tests.
@@ -113,7 +116,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         try {
             @SuppressWarnings("unchecked")
             T action = (T) ActionFactory.getAction(req, getRequestMethod());
-            action.setTaskQueuer(mockTaskQueuer);
+            action.setEmailQueueService(EmailQueueService.withTaskQueuer(mockTaskQueuer));
             action.setEmailSender(mockEmailSender);
             mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
@@ -688,10 +691,36 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     }
 
     /**
+     * Verifies that the executed action does not result in any email being queued.
+     */
+    protected void verifyNoEmailsQueued() {
+        assertTrue(getQueuedEmails().isEmpty());
+    }
+
+    /**
      * Returns the list of emails sent as part of the executed action.
      */
     protected List<EmailWrapper> getEmailsSent() {
         return mockEmailSender.getEmailsSent();
+    }
+
+    /**
+     * Returns the list of tasks added as part of the executed action.
+     */
+    protected List<TaskWrapper> getTasksAdded() {
+        return mockTaskQueuer.getTasksAdded();
+    }
+
+    /**
+     * Returns the list of emails queued as part of the executed action.
+     */
+    protected List<EmailWrapper> getQueuedEmails() {
+        List<EmailWrapper> queuedEmails = new ArrayList<>();
+        for (TaskWrapper task : getTasksAdded()) {
+            SendEmailRequest request = (SendEmailRequest) task.getRequestBody();
+            queuedEmails.add(request.getEmail());
+        }
+        return queuedEmails;
     }
 
     /**
@@ -700,6 +729,13 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
+    }
+
+    /**
+     * Verifies that the executed action results in the specified number of emails being queued.
+     */
+    protected void verifyNumberOfEmailsQueued(int emailCount) {
+        assertEquals(emailCount, getQueuedEmails().size());
     }
 
     // TODO: createXX methods should be deprecated and replaced with proper test data builders.

@@ -44,7 +44,7 @@ public class CreateInstructorAction extends LoggedInAction {
             EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
-            taskQueuer.scheduleEmailsForPrioritySending(emails);
+            emailQueueService.enqueuePriority(emails);
 
             return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {
