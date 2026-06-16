@@ -1,14 +1,8 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
-
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Logger;
-import teammates.storage.entity.Notification;
 import teammates.ui.exception.InvalidHttpRequestBodyException;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.exception.UnexpectedServerException;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.NotificationCreateRequest;
 
@@ -16,26 +10,15 @@ import teammates.ui.request.NotificationCreateRequest;
  * Action: Creates a new notification banner.
  */
 public class CreateNotificationAction extends AdminOnlyAction {
-    private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        NotificationCreateRequest notificationRequest = getAndValidateRequestBody(NotificationCreateRequest.class);
-
-        Instant startTime = Instant.ofEpochMilli(notificationRequest.getStartTimestamp());
-        Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
-
-        Notification newNotification = new Notification(startTime, endTime, notificationRequest.getStyle(),
-                notificationRequest.getTargetUser(), notificationRequest.getTitle(), notificationRequest.getMessage());
+        NotificationCreateRequest createRequest = getAndValidateRequestBody(NotificationCreateRequest.class);
 
         try {
-            return new JsonResult(new NotificationData(logic.createNotification(newNotification)));
+            return new JsonResult(new NotificationData(logic.createNotification(createRequest)));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityAlreadyExistsException e) {
-            // Should not happen since UUID is usually unique
-            log.severe("Unexpected error", e);
-            throw new UnexpectedServerException(e);
         }
     }
 }
