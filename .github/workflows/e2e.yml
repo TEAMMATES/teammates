@@ -4,18 +4,18 @@ on:
   push:
     branches:
       - master
-      - release
+      - 
   pull_request:
     branches:
       - master
-      - release
+      - 
   schedule:
     - cron: '0 0 * * *' #end of every day
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: 
 
 jobs:
   E2E-tests:
@@ -46,7 +46,7 @@ jobs:
       - name: Build Frontend Bundle
         run: npm run build
       - name: Run DB Migrations
-        run: ./gradlew liquibaseUpdate -PrunList=main
+        run: ./gradlew liquibaseUpdate -Prun
       - name: Start Server
         run: |
           ./gradlew serverRun &
