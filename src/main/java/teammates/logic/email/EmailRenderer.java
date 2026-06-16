@@ -40,7 +40,7 @@ public final class EmailRenderer {
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_FOUND,
                 "${userName}", SanitizationHelper.sanitizeForHtml(context.recipientName()),
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(context.recoveryEmailAddress()),
-                "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
+                "${homePageLink}", LinksUtil.getHomePageUrl(),
                 "${courseSections}", courseSectionsHtml,
                 "${emptyStateMessage}", emptyStateMessage,
                 "${supportEmail}", Config.SUPPORT_EMAIL,
@@ -56,7 +56,7 @@ public final class EmailRenderer {
                 EmailTemplates.SESSION_LINKS_RECOVERY_EMAIL_NOT_FOUND,
                 "${userEmail}", SanitizationHelper.sanitizeForHtml(recoveryEmailAddress),
                 "${supportEmail}", Config.SUPPORT_EMAIL,
-                "${teammateHomePageLink}", LinksUtil.getHomePageUrl(),
+                "${homePageLink}", LinksUtil.getHomePageUrl(),
                 "${sessionsRecoveryLink}", LinksUtil.getSessionLinkRecoveryUrl()));
     }
 
