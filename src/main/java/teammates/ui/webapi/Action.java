@@ -15,7 +15,6 @@ import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
 import teammates.logic.api.RecaptchaVerifier;
-import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.logic.email.EmailQueueService;
 import teammates.storage.entity.Account;
@@ -40,7 +39,6 @@ public abstract class Action {
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
     EmailQueueService emailQueueService = EmailQueueService.inst();
-    TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
 
@@ -68,14 +66,6 @@ public abstract class Action {
 
     public void setUserProvision(UserProvision userProvision) {
         this.userProvision = userProvision;
-    }
-
-    /**
-     * Injects TaskQueuer, used in tests.
-     */
-    public void setTaskQueuer(TaskQueuer taskQueuer) {
-        this.taskQueuer = taskQueuer;
-        this.emailQueueService = EmailQueueService.withTaskQueuer(taskQueuer);
     }
 
     public void setEmailSender(EmailSender emailSender) {

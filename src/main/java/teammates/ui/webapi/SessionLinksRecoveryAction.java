@@ -35,7 +35,7 @@ public class SessionLinksRecoveryAction extends PublicAction {
                 ? emailGenerator.generateSessionLinksRecoveryEmailForNonExistentStudent(recoveryEmailAddress)
                 : emailGenerator.generateSessionLinksRecoveryEmailForExistingStudent(
                         recoveryEmailAddress, studentsForEmail);
-        taskQueuer.scheduleEmailsForPrioritySending(List.of(email));
+        emailQueueService.enqueuePriority(List.of(email));
 
         return new JsonResult(new SessionLinksRecoveryResponseData(
                     "The recovery links for your feedback sessions have been sent to the "

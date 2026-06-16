@@ -38,14 +38,14 @@ public class UnlinkAccountAction extends AdminOnlyAction {
                     .generateStudentCourseRejoinEmailAfterUnlinkAccount(course, existingStudent);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
-            taskQueuer.scheduleEmailsForPrioritySending(emails);
+            emailQueueService.enqueuePriority(emails);
         } else if (existingUser instanceof Instructor existingInstructor) {
             // Generate and queue rejoin email to priority queue
             EmailWrapper email = emailGenerator
                     .generateInstructorCourseRejoinEmailAfterUnlinkAccount(existingInstructor, course);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
-            taskQueuer.scheduleEmailsForPrioritySending(emails);
+            emailQueueService.enqueuePriority(emails);
         }
 
         return new JsonResult("Account unlinked successfully.");
