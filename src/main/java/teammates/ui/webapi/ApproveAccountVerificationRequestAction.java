@@ -42,7 +42,7 @@ public class ApproveAccountVerificationRequestAction extends AdminOnlyAction {
             EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                     accountVerificationRequest.getEmail(), accountVerificationRequest.getName(),
                     LinksUtil.getInstructorWelcomeUrl(accountVerificationRequest.getId()));
-            emailSender.sendEmail(email);
+            emailQueueService.enqueuePriority(email);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }

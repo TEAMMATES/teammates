@@ -66,7 +66,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         assertEquals(accountVerificationRequest.getInstitute().getName(), data.getInstitute());
         assertEquals(AccountVerificationRequestStatus.APPROVED, data.getStatus());
         assertEquals(accountVerificationRequest.getComments(), data.getComments());
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsQueued(1);
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -84,7 +84,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         assertEquals(200, result.getStatusCode());
         AccountVerificationRequestData data = (AccountVerificationRequestData) result.getOutput();
         assertEquals(AccountVerificationRequestStatus.APPROVED, data.getStatus());
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsQueued(1);
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -108,7 +108,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         assertEquals(200, result.getStatusCode());
         AccountVerificationRequestData data = (AccountVerificationRequestData) result.getOutput();
         assertEquals(AccountVerificationRequestStatus.APPROVED, data.getStatus());
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsQueued(1);
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -128,7 +128,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         assertEquals(200, result.getStatusCode());
         AccountVerificationRequestData data = (AccountVerificationRequestData) result.getOutput();
         assertEquals(AccountVerificationRequestStatus.APPROVED, data.getStatus());
-        verifyNumberOfEmailsSent(1);
+        verifyNumberOfEmailsQueued(1);
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -136,7 +136,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, "invalid"};
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
         assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -145,7 +145,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_VERIFICATION_REQUEST_ID, uuid};
         EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals(String.format("Account verification request with id = %s not found", uuid), enfe.getMessage());
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Test(groups = GroupNames.INTEGRATION)
@@ -160,7 +160,7 @@ public class ApproveAccountVerificationRequestActionIT extends BaseActionIT<Appr
         InvalidOperationException ipe = verifyInvalidOperation(params);
         assertEquals("Account verification request with id " + accountVerificationRequest.getId()
                 + " is already approved.", ipe.getMessage());
-        verifyNoEmailsSent();
+        verifyNoEmailsQueued();
     }
 
     @Override

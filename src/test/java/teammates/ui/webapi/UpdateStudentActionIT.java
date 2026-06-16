@@ -81,15 +81,15 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         JsonResult actionOutput = getJsonResult(updateAction);
 
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
-        assertEquals("Student has been updated and email sent", msgOutput.getMessage());
-        verifyNumberOfEmailsSent(1);
+        assertEquals("Student has been updated and email queued", msgOutput.getMessage());
+        verifyNumberOfEmailsQueued(1);
 
         Student updatedStudent = inTransaction(() -> logic.getStudent(student1.getId()));
         assertEquals(updatedStudent.getEmail(), newStudentEmail);
         assertEquals(updatedStudent.getTeamName(), newStudentTeam);
         assertEquals(updatedStudent.getComments(), newStudentComments);
 
-        EmailWrapper email = getEmailsSent().get(0);
+        EmailWrapper email = getQueuedEmails().get(0);
         String courseName = inTransaction(() -> logic.getCourse(student1.getCourseId()).getName());
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 student1.getCourseId()), email.getSubject());
@@ -120,7 +120,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         JsonResult outputToBeTrimmed = getJsonResult(actionToBeTrimmed);
 
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
-        assertEquals("Student has been updated and email sent", msgTrimmedOutput.getMessage());
+        assertEquals("Student has been updated and email queued", msgTrimmedOutput.getMessage());
 
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }

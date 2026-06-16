@@ -144,9 +144,9 @@ public class CreateAccountVerificationRequestActionIT extends BaseActionIT<Creat
         assertEquals(AccountVerificationRequestStatus.PENDING, accountVerificationRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountVerificationRequest.getComments());
         assertNull(accountVerificationRequest.getCreatedDemoCourseAt());
-        verifyNumberOfEmailsSent(2);
-        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
-        EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
+        verifyNumberOfEmailsQueued(2);
+        EmailWrapper sentAdminAlertEmail = getQueuedEmails().get(0);
+        EmailWrapper sentAcknowledgementEmail = getQueuedEmails().get(1);
         assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
         assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
@@ -175,9 +175,9 @@ public class CreateAccountVerificationRequestActionIT extends BaseActionIT<Creat
         assertEquals(AccountVerificationRequestStatus.PENDING, accountVerificationRequest.getStatus());
         assertNull(accountVerificationRequest.getComments());
         assertNull(accountVerificationRequest.getCreatedDemoCourseAt());
-        verifyNumberOfEmailsSent(2);
-        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
-        EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
+        verifyNumberOfEmailsQueued(2);
+        EmailWrapper sentAdminAlertEmail = getQueuedEmails().get(0);
+        EmailWrapper sentAcknowledgementEmail = getQueuedEmails().get(1);
         assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
         assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
@@ -214,9 +214,9 @@ public class CreateAccountVerificationRequestActionIT extends BaseActionIT<Creat
         assertEquals(AccountVerificationRequestStatus.PENDING, accountVerificationRequest.getStatus());
         assertEquals("My road leads into the desert. I can see it.", accountVerificationRequest.getComments());
         assertNull(accountVerificationRequest.getCreatedDemoCourseAt());
-        verifyNumberOfEmailsSent(2);
-        EmailWrapper sentAdminAlertEmail = mockEmailSender.getEmailsSent().get(0);
-        EmailWrapper sentAcknowledgementEmail = mockEmailSender.getEmailsSent().get(1);
+        verifyNumberOfEmailsQueued(2);
+        EmailWrapper sentAdminAlertEmail = getQueuedEmails().get(0);
+        EmailWrapper sentAcknowledgementEmail = getQueuedEmails().get(1);
         assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ADMIN_ALERT, sentAdminAlertEmail.getType());
         assertEquals(EmailType.NEW_ACCOUNT_VERIFICATION_REQUEST_ACKNOWLEDGEMENT, sentAcknowledgementEmail.getType());
     }
