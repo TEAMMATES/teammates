@@ -29,7 +29,7 @@ public class UpdateStudentAction extends LoggedInAction {
      * Message indicating that the student information was successfully updated,
      * and email was queued to the student's new email address.
      */
-    public static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email queued";
+    public static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email sent";
     /**
      * Message indicating that the update operation failed because the requested new email address
      * for the student is already being used by another student in the system.

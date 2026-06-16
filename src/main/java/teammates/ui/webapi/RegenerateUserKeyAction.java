@@ -25,7 +25,7 @@ public class RegenerateUserKeyAction extends AdminOnlyAction {
 
     /** Message indicating that the key regeneration was successful, and corresponding email was sent. */
     public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_QUEUED =
-            SUCCESSFUL_REGENERATION + " and the email has been queued.";
+            SUCCESSFUL_REGENERATION + " and the email has been sent.";
 
     @Override
     public JsonResult execute() {
