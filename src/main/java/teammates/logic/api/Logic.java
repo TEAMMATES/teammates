@@ -33,7 +33,6 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
-import teammates.common.util.Const;
 import teammates.logic.core.AccountVerificationsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AuthLogic;
@@ -62,9 +61,7 @@ import teammates.storage.entity.Institute;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseInstructorComment;
-import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -158,15 +155,6 @@ public class Logic {
     public boolean hasInstructorPermissionsForSection(Instructor instructor, UUID sectionId,
             String... permissionNames) {
         return instructorPermissionsLogic.hasPermissionsForSection(instructor, sectionId, permissionNames);
-    }
-
-    /**
-     * Checks if the given instructor has the specified session-in-section-level permissions.
-     */
-    public boolean hasInstructorPermissionsForSessionInSection(Instructor instructor, UUID sectionId,
-            UUID feedbackSessionId, String... permissionNames) {
-        return instructorPermissionsLogic.hasPermissionsForSessionInSection(
-                instructor, sectionId, feedbackSessionId, permissionNames);
     }
 
     /**
@@ -874,13 +862,6 @@ public class Logic {
     }
 
     /**
-     * Gets list of instructors by {@code googleId}.
-     */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        return usersLogic.getInstructorsForGoogleId(googleId);
-    }
-
-    /**
      * Gets all instructors by associated {@code accountId}.
      */
     public List<Instructor> getInstructorsByAccountId(UUID accountId) {
@@ -989,20 +970,6 @@ public class Logic {
     }
 
     /**
-     * Check if the students with the provided emails exist in the course.
-     */
-    public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
-        return usersLogic.verifyStudentsExistInCourse(courseId, emails);
-    }
-
-    /**
-     * Check if the instructors with the provided emails exist in the course.
-     */
-    public boolean verifyInstructorsExistInCourse(String courseId, List<String> emails) {
-        return usersLogic.verifyInstructorsExistInCourse(courseId, emails);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      *
@@ -1038,32 +1005,10 @@ public class Logic {
     }
 
     /**
-     * Gets a student by associated {@code googleId}.
-     */
-    public Student getStudentByGoogleId(String courseId, String googleId) {
-        return usersLogic.getStudentByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets students by associated {@code teamName} and {@code courseId}.
-     */
-    public List<Student> getStudentsByTeamName(String teamName, String courseId) {
-        return usersLogic.getStudentsForTeam(teamName, courseId);
-    }
-
-    /**
      * Gets students by associated {@code teamId} and {@code courseId}.
      */
     public List<Student> getStudentsByTeamId(UUID teamId, String courseId) {
         return usersLogic.getStudentsForTeam(teamId, courseId);
-    }
-
-    /**
-     * Returns the default section.
-     * If it does not exist, create and return it.
-     */
-    public Section getDefaultSectionOrCreate(String courseId) {
-        return usersLogic.getSectionOrCreate(courseId, Const.NO_SPECIFIC_SECTION);
     }
 
     /**
@@ -1313,16 +1258,6 @@ public class Logic {
     }
 
     /**
-     * Gets the recipients of a feedback question.
-     *
-     * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
-     */
-    public Set<ResponseRecipient> getRecipientsOfQuestion(
-            FeedbackQuestion question, ResponseGiver responseGiver) {
-        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, responseGiver);
-    }
-
-    /**
      * Gets a list of students with the specified email.
      */
     public List<Student> getAllStudentsForEmail(String email) {
@@ -1343,15 +1278,6 @@ public class Logic {
      */
     public FeedbackResponse deleteFeedbackResponseGiverComment(UUID frId) throws EntityDoesNotExistException {
         return feedbackResponsesLogic.deleteFeedbackResponseGiverComment(frId);
-    }
-
-    /**
-     * Deletes a feedback response and its associated feedback response comments.
-     *
-     * <p>Fails silently if the feedback response doesn't exist.</p>
-     */
-    public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
-        feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
     }
 
     /**
